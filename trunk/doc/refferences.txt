@@ -1,0 +1,59 @@
+//************************************************************************//
+// Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+//                                                                        // 
+// This file is part of MolDS.                                            // 
+//                                                                        // 
+// MolDS is free software: you can redistribute it and/or modify          // 
+// it under the terms of the GNU General Public License as published by   // 
+// the Free Software Foundation, either version 3 of the License, or      // 
+// (at your option) any later version.                                    // 
+//                                                                        // 
+// MolDS is distributed in the hope that it will be useful,               // 
+// but WITHOUT ANY WARRANTY; without even the implied warranty of         // 
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the          // 
+// GNU General Public License for more details.                           // 
+//                                                                        // 
+// You should have received a copy of the GNU General Public License      // 
+// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
+//************************************************************************//
+[MN_1957] N. Mataga and K. Nishinoto, Z. Phys. Chem., 13, 140 (1957)
+[PSS_1965] J. A. Pople, D. P. Santry, and G. A. Segal, J. Chem. Phys., 43, S129 (1965)
+[PS_1965] J. A. Pople and G. A. Segal, J. Chem. Phys., 43, S136 (1965)
+[PS_1966] J. A. Pople and G. A. Segal, J. Chem. Phys., 44, 3289 (1966)
+[PB_1970] J. A. Pople and D. L. Beveridge, "Approximate Molecular Orbital Theory", ISBN-13:978-0070505124 (1970)
+[S_1970] R. F. Stewart, J. Chme. Phys., 52, 431 (1970)
+[GD_1972] G. P.-Guillouzo and D. G. ET J. Deschamps, J. Mol. Strct., 14, 81 (1972)
+[RZ_1973] J. Ridley and M. C. Zerner, Theort. Chim. Acta (Berl.) 32, 111 (1973)
+[BDL_1975] R. C. Bingham, M. J. S. Dewar, and W. Thiel, J. Am. Chem. Soc. 97, 1285 (1975)
+[RZ_1976] J. E. Ridley and M. C. Zerner, Theort. Chim. Acta (Berl.) 42, 223 (1976)
+[DY_1977] M. J. S. Dewar and Y. Yamaguchi, Computer & Chemistry 2, 25 (1977)
+[DT_1977] M. J. S. Dewar and W. Thiel, Theort. Chim. Acta (Berl.) 46, 89 (1977)
+[DT_1977-2] M. J. S. Dewar and W. Thiel, J. Am. Chem. Soc. 99, 4899 (1977)
+[DT_1977-3] M. J. S. Dewar and W. Thiel, J. Am. Chem. Soc. 99, 4907 (1977)
+[DMR_1978] M. J. S. Dewar, M. L. McKee, and H. S. Rzepa, J. Am. Chem. Soc. 100, 3607 (1978)
+[BZ_1979] A. D. Bacon and M. C. Zerner, Theort. Chim. Acta (Berl.) 53, 21 (1979)
+[P_1980] P. Pulay, Chem. Phys. Lett. 73, 393 (1980)
+[HKLWNZ_1982] Z. S. Herman, R. F. Kirachner, G. H. Loew, U. T. M.-WesterHoff, A. Nazzal, and M. C. Zerner, Inorg. Chem., 21, 46 (1982)
+[DZHS_1985] M. J. S. Dewar, E. G. Zoebisch, E. F. Healy, and J. J. P. Stewart, J. Am. Chem. Soc. 107, 3902 (1985)
+[DR_1986] M. J. S. Dewar and C. H. Reynolds, J. Comp. Chem. 7, 140 (1986)
+[AEZ_1986] W. P. Anderson, W. D. Edwards, and M. C. Zerner, Inorg. Chem. 25, 2728 (1986)
+[S_1989] J. J. P. Stewart, J. Comp. Chem. 10, 209 (1989)
+[S_1989-2] J. J. P. Stewart, J. Comp. Chem. 10, 221 (1989)
+[DY_1990] M. J. S. Dewar and Y.-C. Yuan, Inorg. Chem. 29, 3881 (1990)
+[S_1991] J. J. P. Stewart, J. Comp. Chem. 12, 320 (1991)
+[MOPAC_1990] J. J. P. Stewart, J. Computer-Aided Molecular Design 4, 1 (1990)
+[PT_1996] S. Patchkovskii and W. Thiel, Theor. Chim. Acta 93, 87 (1996)
+[PT_1997] S. Patchkovskii and W. Thiel, Theor. Chim. Acta 98, 1 (1997)
+[BFB_1997] M. A. Blanco, M. Fl{\'o}rez, and M. Bermejo, J. Mol. Struct. 419, 19 (1997)
+[I_1998] IWANAMI-SHOTEN "IWANAMI RIKAGAKUJITEN", ISBN4-00-080090-6 (1988)
+[RCJ_2002] M. P. Repasky, J. Chandrasekhar, and W. L. Jorgensen, J. Comp. Chem. 23, 1601 (2002)
+[BGRJ_2003] I. T.-Brohman, C. R. W. Guimar\~{a}es, M. P. Repasky, and W. L. Jorgensen, J. Comp. Chem. 25, 138 (2003)
+[S_2004] J. J. P. Stewart, J. Mol. Model. 10, 155 (2004)
+[G_2004] S. Grimme, J. Comp. Chem. 1463 (2004)
+[BGJ_2003] I. T.-Brohman, C. R. W. Guimar\~{a}es, and, W. L. Jorgensen, J. Comp. Theor. Chem. 1, 817 (2004)
+[G_2006] S. Grimme, J. Comp. Chem. 271787 (2006)
+[S_2007] J. J. P. Stewart, J. Mol. Model. 13, 1173 (2007)
+[MH_2007] J. P. McNamara and I. H. Hillier, Phys. Chem. Chem. Phys. 9, 2362 (2007)
+[MMHBV_2007] C. A. Morgado, J. P. McNamara, I. H. Hillier, N. A. Burton, and M. A. Vincent, J. Chem. Theory Comput. 3, 1656 (2007)
+
+

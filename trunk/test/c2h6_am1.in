@@ -1,0 +1,24 @@
+THEORY
+   am1
+THEORY_END
+
+SCF
+   max_iter 50
+   rms_density 0.000001
+   damping_thresh 1.0 
+   damping_weight 0.0
+   diis_num_error_vect 5
+   diis_start_error 0.1
+   diis_end_error 0.00000002
+SCF_END
+
+GEOMETRY
+   C                  0.0000     0.0200     0.0000
+   C                  1.4938    -0.0150     0.0020
+   H                 -0.3500     1.0411     0.0010
+   H                 -0.3681    -0.5205    -0.9200
+   H                 -0.3700    -0.5208     0.9016
+   H                  1.8519     0.5200    -0.9007
+   H                  1.8300     0.5240     0.9100
+   H                  1.8600    -1.0401     0.0000
+GEOMETRY_END

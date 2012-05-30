@@ -1,0 +1,22 @@
+THEORY
+   indo
+THEORY_END
+
+SCF
+   max_iter 50
+   rms_density 0.000001
+   damping_thresh 1.0
+   damping_weight 0.0
+   diis_num_error_vect 5
+   diis_start_error 0.1
+   diis_end_error 0.00000002
+SCF_END
+
+GEOMETRY
+ C                  0.64738871    0.82013076    0.00000000
+ H                  1.00404313   -0.18867924    0.00000000
+ H                  1.00406155    1.32452895    0.87365150
+ H                  1.00406155    1.32452895   -0.87365150
+ H                 -0.42261129    0.82014394    0.00000000i
+GEOMETRY_END
+
