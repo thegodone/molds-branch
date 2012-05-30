@@ -1,0 +1,655 @@
+
+
+     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:53  <<<<<
+
+
+**********  START: Parse input  **********
+	Total number of atoms: 8
+	Total number of valence AOs: 14
+	Total number of valence electrons: 14
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	0.000000e+00	3.779452e-02	0.000000e+00		0.000000e+00	2.000000e-02	0.000000e+00
+	Atom coordinates:	1	C	2.822873e+00	-2.834589e-02	3.779452e-03		1.493800e+00	-1.500000e-02	2.000000e-03
+	Atom coordinates:	2	H	-6.614042e-01	1.967394e+00	1.889726e-03		-3.500000e-01	1.041100e+00	1.000000e-03
+	Atom coordinates:	3	H	-6.956082e-01	-9.836025e-01	-1.738548e+00		-3.681000e-01	-5.205000e-01	-9.200000e-01
+	Atom coordinates:	4	H	-6.991987e-01	-9.841694e-01	1.703777e+00		-3.700000e-01	-5.208000e-01	9.016000e-01
+	Atom coordinates:	5	H	3.499584e+00	9.826576e-01	-1.702076e+00		1.851900e+00	5.200000e-01	-9.007000e-01
+	Atom coordinates:	6	H	3.458199e+00	9.902165e-01	1.719651e+00		1.830000e+00	5.240000e-01	9.100000e-01
+	Atom coordinates:	7	H	3.514891e+00	-1.965504e+00	0.000000e+00		1.860000e+00	-1.040100e+00	0.000000e+00
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.409688e+00	4.008514e-03	9.965583e-04		7.459748e-01	2.121214e-03	5.273559e-04
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+
+	SCF conditions:
+		Max iterations: 50
+		RMS density: 1.000000e-06
+		Damping threshold: 1.000000e+00
+		Damping weight: 0.000000e+00
+		DIIS number of error vectors: 5
+		DIIS starting error: 1.000000e-01
+		DIIS ending error: 2.000000e-08
+		van der Waals (vdW) correction: no
+
+	Memory conditions:
+		Heap limit: 2.560000e+02[MB]
+
+	MD conditions:
+		Electronic eigenstate: 0
+		Total steps: 5
+		Time width(dt): 0.050000[fs]
+
+Input terms:
+theory | pm3 | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
+damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.00000002 | scf_end | md | 
+total_steps | 5 | electronic_state | 0 | dt | 0.05 | md_end | geometry | c | 0.0000 | 
+0.0200 | 0.0000 | c | 1.4938 | -0.0150 | 0.0020 | h | -0.3500 | 1.0411 | 0.0010 | 
+h | -0.3681 | -0.5205 | -0.9200 | h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 
+0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | 
+geometry_end | 
+
+**********  DONE: Parse input  ***********
+
+
+**********  START: Molecular dynamics  **********
+**********  START: PM3-SCF  **********
+SCF iter=0: RMS density=5.291502622129181
+SCF iter=1: RMS density=1.910456125626946
+SCF iter=2: RMS density=1.044203238495392
+SCF iter=3: RMS density=0.569275110921828
+SCF iter=4: RMS density=0.308641545774631
+SCF iter=5: RMS density=0.166813060251973
+SCF iter=6: RMS density=0.000657312351884
+SCF iter=7: RMS density=0.000224796079740
+SCF iter=8: RMS density=0.000083564976808
+SCF iter=9: RMS density=0.000026986732830
+SCF iter=10: RMS density=0.000004938275856
+SCF iter=11: RMS density=0.000002003884715
+SCF iter=12: RMS density=0.000000169506348
+
+
+
+		PM3-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.267346e+00	-3.448652e+01
+	Energy of MO:	1	occ	-8.274441e-01	-2.251608e+01
+	Energy of MO:	2	occ	-5.676824e-01	-1.544755e+01
+	Energy of MO:	3	occ	-5.623207e-01	-1.530165e+01
+	Energy of MO:	4	occ	-4.990213e-01	-1.357917e+01
+	Energy of MO:	5	occ	-4.428109e-01	-1.204959e+01
+	Energy of MO:	6	occ	-4.364714e-01	-1.187709e+01
+	Energy of MO:	7	unocc	1.458240e-01	3.968105e+00
+	Energy of MO:	8	unocc	1.466732e-01	3.991212e+00
+	Energy of MO:	9	unocc	1.509549e-01	4.107724e+00
+	Energy of MO:	10	unocc	1.540652e-01	4.192361e+00
+	Energy of MO:	11	unocc	1.736394e-01	4.725006e+00
+	Energy of MO:	12	unocc	1.783151e-01	4.852239e+00
+	Energy of MO:	13	unocc	1.840269e-01	5.007668e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.212596e+01	-3.299667e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.185489e+01	5.947066e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.756074e-02	-3.270080e-02	-1.363454e-02	3.954266e-02		-4.463495e-02	-8.311715e-02	-3.465556e-02	1.005074e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.012618e-02	-2.136521e-02	5.098589e-04	2.364893e-02		2.573818e-02	-5.430496e-02	1.295932e-03	6.010958e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-1.174103e-01
+	Mulliken charge:	1	C	4.000000e+00	-1.159644e-01
+	Mulliken charge:	2	H	1.000000e+00	4.160389e-02
+	Mulliken charge:	3	H	1.000000e+00	3.677152e-02
+	Mulliken charge:	4	H	1.000000e+00	3.744893e-02
+	Mulliken charge:	5	H	1.000000e+00	3.752718e-02
+	Mulliken charge:	6	H	1.000000e+00	3.744313e-02
+	Mulliken charge:	7	H	1.000000e+00	4.258006e-02
+
+	Elapsed time(omp) for the SCF = 0.042148[s].
+**********  DONE: PM3-SCF  **********
+
+
+
+	========= Initial conditions 
+	Energies:
+		|	kind			| [a.u.] | [eV] | 
+		Core kinetic:     	0.000000e+00	0.000000e+00
+		Core repulsion:   	2.185489e+01	5.947066e+02
+		Electronic
+		(inc. core rep.):	-1.212596e+01	-3.299667e+02
+		Total:            	-1.212596e+01	-3.299667e+02
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	0.000000e+00	3.779452e-02	0.000000e+00		0.000000e+00	2.000000e-02	0.000000e+00
+	Atom coordinates:	1	C	2.822873e+00	-2.834589e-02	3.779452e-03		1.493800e+00	-1.500000e-02	2.000000e-03
+	Atom coordinates:	2	H	-6.614042e-01	1.967394e+00	1.889726e-03		-3.500000e-01	1.041100e+00	1.000000e-03
+	Atom coordinates:	3	H	-6.956082e-01	-9.836025e-01	-1.738548e+00		-3.681000e-01	-5.205000e-01	-9.200000e-01
+	Atom coordinates:	4	H	-6.991987e-01	-9.841694e-01	1.703777e+00		-3.700000e-01	-5.208000e-01	9.016000e-01
+	Atom coordinates:	5	H	3.499584e+00	9.826576e-01	-1.702076e+00		1.851900e+00	5.200000e-01	-9.007000e-01
+	Atom coordinates:	6	H	3.458199e+00	9.902165e-01	1.719651e+00		1.830000e+00	5.240000e-01	9.100000e-01
+	Atom coordinates:	7	H	3.514891e+00	-1.965504e+00	0.000000e+00		1.860000e+00	-1.040100e+00	0.000000e+00
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.409688e+00	4.008514e-03	9.965583e-04		7.459748e-01	2.121214e-03	5.273559e-04
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+
+			| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |		|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]
+	Atom momenta:	0	C	0.000000e+00	0.000000e+00	0.000000e+00		0.000000e+00	0.000000e+00	0.000000e+00
+	Atom momenta:	1	C	0.000000e+00	0.000000e+00	0.000000e+00		0.000000e+00	0.000000e+00	0.000000e+00
+	Atom momenta:	2	H	0.000000e+00	0.000000e+00	0.000000e+00		0.000000e+00	0.000000e+00	0.000000e+00
+	Atom momenta:	3	H	0.000000e+00	0.000000e+00	0.000000e+00		0.000000e+00	0.000000e+00	0.000000e+00
+	Atom momenta:	4	H	0.000000e+00	0.000000e+00	0.000000e+00		0.000000e+00	0.000000e+00	0.000000e+00
+	Atom momenta:	5	H	0.000000e+00	0.000000e+00	0.000000e+00		0.000000e+00	0.000000e+00	0.000000e+00
+	Atom momenta:	6	H	0.000000e+00	0.000000e+00	0.000000e+00		0.000000e+00	0.000000e+00	0.000000e+00
+	Atom momenta:	7	H	0.000000e+00	0.000000e+00	0.000000e+00		0.000000e+00	0.000000e+00	0.000000e+00
+
+
+	========== START: MD step 1
+**********  START: PM3-SCF  **********
+SCF iter=0: RMS density=0.000006941604621
+SCF iter=1: RMS density=0.000002089746326
+SCF iter=2: RMS density=0.000000729632414
+
+
+
+		PM3-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.267348e+00	-3.448656e+01
+	Energy of MO:	1	occ	-8.274465e-01	-2.251615e+01
+	Energy of MO:	2	occ	-5.676818e-01	-1.544753e+01
+	Energy of MO:	3	occ	-5.623215e-01	-1.530167e+01
+	Energy of MO:	4	occ	-4.990221e-01	-1.357919e+01
+	Energy of MO:	5	occ	-4.428107e-01	-1.204959e+01
+	Energy of MO:	6	occ	-4.364726e-01	-1.187712e+01
+	Energy of MO:	7	unocc	1.458246e-01	3.968122e+00
+	Energy of MO:	8	unocc	1.466743e-01	3.991244e+00
+	Energy of MO:	9	unocc	1.509549e-01	4.107724e+00
+	Energy of MO:	10	unocc	1.540661e-01	4.192387e+00
+	Energy of MO:	11	unocc	1.736397e-01	4.725015e+00
+	Energy of MO:	12	unocc	1.783163e-01	4.852272e+00
+	Energy of MO:	13	unocc	1.840264e-01	5.007654e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.212596e+01	-3.299668e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.185491e+01	5.947072e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.755075e-02	-3.269047e-02	-1.362938e-02	3.952792e-02		-4.460958e-02	-8.309092e-02	-3.464245e-02	1.004700e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.013231e-02	-2.136451e-02	5.097552e-04	2.365092e-02		2.575377e-02	-5.430319e-02	1.295669e-03	6.011466e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.768307e-02	-1.132596e-02	-1.413914e-02	3.308390e-02		-7.036335e-02	-2.878773e-02	-3.593811e-02	8.409092e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-1.174094e-01
+	Mulliken charge:	1	C	4.000000e+00	-1.159634e-01
+	Mulliken charge:	2	H	1.000000e+00	4.160362e-02
+	Mulliken charge:	3	H	1.000000e+00	3.677127e-02
+	Mulliken charge:	4	H	1.000000e+00	3.744864e-02
+	Mulliken charge:	5	H	1.000000e+00	3.752688e-02
+	Mulliken charge:	6	H	1.000000e+00	3.744282e-02
+	Mulliken charge:	7	H	1.000000e+00	4.257957e-02
+
+	Elapsed time(omp) for the SCF = 0.037761[s].
+**********  DONE: PM3-SCF  **********
+
+
+	Energies:
+		|	kind			| [a.u.] | [eV] | 
+		Core kinetic:     	1.281145e-06	3.486202e-05
+		Core repulsion:   	2.185491e+01	5.947072e+02
+		Electronic
+		(inc. core rep.):	-1.212596e+01	-3.299668e+02
+		Total:            	-1.212596e+01	-3.299667e+02
+		Error:            	1.925820e-10	5.240464e-09
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-4.640395e-07	3.779167e-02	-6.709492e-07		-2.455591e-07	1.999849e-02	-3.550510e-07
+	Atom coordinates:	1	C	2.822873e+00	-2.834425e-02	3.779459e-03		1.493800e+00	-1.499913e-02	2.000003e-03
+	Atom coordinates:	2	H	-6.614141e-01	1.967402e+00	1.889523e-03		-3.500052e-01	1.041104e+00	9.998925e-04
+	Atom coordinates:	3	H	-6.956087e-01	-9.835896e-01	-1.738528e+00		-3.681003e-01	-5.204932e-01	-9.199896e-01
+	Atom coordinates:	4	H	-6.992018e-01	-9.841608e-01	1.703765e+00		-3.700017e-01	-5.207955e-01	9.015934e-01
+	Atom coordinates:	5	H	3.499589e+00	9.826513e-01	-1.702067e+00		1.851903e+00	5.199966e-01	-9.006949e-01
+	Atom coordinates:	6	H	3.458206e+00	9.902095e-01	1.719641e+00		1.830004e+00	5.239963e-01	9.099951e-01
+	Atom coordinates:	7	H	3.514897e+00	-1.965506e+00	6.471314e-07		1.860003e+00	-1.040101e+00	3.424472e-07
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.409688e+00	4.008514e-03	9.965584e-04		7.459748e-01	2.121214e-03	5.273560e-04
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+
+			| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |		|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]
+	Atom momenta:	0	C	-1.179372e-04	-7.261047e-04	-1.705220e-04		-9.826960e-03	-6.050172e-02	-1.420852e-02
+	Atom momenta:	1	C	-5.510333e-06	4.173267e-04	1.677471e-06		-4.591413e-04	3.477320e-02	1.397731e-04
+	Atom momenta:	2	H	-2.114396e-04	1.669336e-04	-4.332013e-06		-1.761793e-02	1.390952e-02	-3.609593e-04
+	Atom momenta:	3	H	-1.064206e-05	2.738361e-04	4.206244e-04		-8.867360e-04	2.281704e-02	3.504797e-02
+	Atom momenta:	4	H	-6.685381e-05	1.831732e-04	-2.676625e-04		-5.570506e-03	1.526267e-02	-2.230263e-02
+	Atom momenta:	5	H	1.147074e-04	-1.353135e-04	2.053364e-04		9.557841e-03	-1.127482e-02	1.710939e-02
+	Atom momenta:	6	H	1.584100e-04	-1.487819e-04	-1.989204e-04		1.319931e-02	-1.239706e-02	-1.657478e-02
+	Atom momenta:	7	H	1.392657e-04	-3.106957e-05	1.379867e-05		1.160413e-02	-2.588831e-03	1.149756e-03
+
+	Time in [fs]: 0.050000
+	========== DONE: MD step 1
+
+	========== START: MD step 2
+**********  START: PM3-SCF  **********
+SCF iter=0: RMS density=0.000021046101622
+SCF iter=1: RMS density=0.000006380790340
+SCF iter=2: RMS density=0.000002247867459
+SCF iter=3: RMS density=0.000000900612188
+
+
+
+		PM3-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.267352e+00	-3.448667e+01
+	Energy of MO:	1	occ	-8.274537e-01	-2.251634e+01
+	Energy of MO:	2	occ	-5.676798e-01	-1.544748e+01
+	Energy of MO:	3	occ	-5.623240e-01	-1.530174e+01
+	Energy of MO:	4	occ	-4.990244e-01	-1.357925e+01
+	Energy of MO:	5	occ	-4.428101e-01	-1.204957e+01
+	Energy of MO:	6	occ	-4.364764e-01	-1.187722e+01
+	Energy of MO:	7	unocc	1.458265e-01	3.968174e+00
+	Energy of MO:	8	unocc	1.466778e-01	3.991338e+00
+	Energy of MO:	9	unocc	1.509549e-01	4.107725e+00
+	Energy of MO:	10	unocc	1.540689e-01	4.192463e+00
+	Energy of MO:	11	unocc	1.736408e-01	4.725044e+00
+	Energy of MO:	12	unocc	1.783200e-01	4.852373e+00
+	Energy of MO:	13	unocc	1.840249e-01	5.007613e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.212596e+01	-3.299669e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.185498e+01	5.947090e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.752101e-02	-3.265994e-02	-1.361422e-02	3.948424e-02		-4.453399e-02	-8.301331e-02	-3.460391e-02	1.003589e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.015051e-02	-2.136285e-02	5.091349e-04	2.365720e-02		2.580003e-02	-5.429895e-02	1.294092e-03	6.013063e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.767153e-02	-1.129710e-02	-1.412336e-02	3.305763e-02		-7.033402e-02	-2.871436e-02	-3.589800e-02	8.402413e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-1.174062e-01
+	Mulliken charge:	1	C	4.000000e+00	-1.159603e-01
+	Mulliken charge:	2	H	1.000000e+00	4.160236e-02
+	Mulliken charge:	3	H	1.000000e+00	3.677066e-02
+	Mulliken charge:	4	H	1.000000e+00	3.744775e-02
+	Mulliken charge:	5	H	1.000000e+00	3.752599e-02
+	Mulliken charge:	6	H	1.000000e+00	3.744189e-02
+	Mulliken charge:	7	H	1.000000e+00	4.257782e-02
+
+	Elapsed time(omp) for the SCF = 0.037895[s].
+**********  DONE: PM3-SCF  **********
+
+
+	Energies:
+		|	kind			| [a.u.] | [eV] | 
+		Core kinetic:     	5.121515e-06	1.393646e-04
+		Core repulsion:   	2.185498e+01	5.947090e+02
+		Electronic
+		(inc. core rep.):	-1.212596e+01	-3.299669e+02
+		Total:            	-1.212596e+01	-3.299667e+02
+		Error:            	7.696705e-10	2.094397e-08
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-1.855926e-06	3.778310e-02	-2.683430e-06		-9.821136e-07	1.999395e-02	-1.420010e-06
+	Atom coordinates:	1	C	2.822873e+00	-2.833933e-02	3.779479e-03		1.493800e+00	-1.499652e-02	2.000014e-03
+	Atom coordinates:	2	H	-6.614438e-01	1.967425e+00	1.888914e-03		-3.500210e-01	1.041117e+00	9.995700e-04
+	Atom coordinates:	3	H	-6.956102e-01	-9.835511e-01	-1.738469e+00		-3.681011e-01	-5.204728e-01	-9.199582e-01
+	Atom coordinates:	4	H	-6.992112e-01	-9.841350e-01	1.703727e+00		-3.700066e-01	-5.207818e-01	9.015734e-01
+	Atom coordinates:	5	H	3.499605e+00	9.826322e-01	-1.702038e+00		1.851911e+00	5.199866e-01	-9.006796e-01
+	Atom coordinates:	6	H	3.458229e+00	9.901886e-01	1.719613e+00		1.830016e+00	5.239852e-01	9.099803e-01
+	Atom coordinates:	7	H	3.514917e+00	-1.965510e+00	2.588439e-06		1.860014e+00	-1.040103e+00	1.369743e-06
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.409688e+00	4.008515e-03	9.965586e-04		7.459748e-01	2.121215e-03	5.273561e-04
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+
+			| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |		|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]
+	Atom momenta:	0	C	-2.358148e-04	-1.451734e-03	-3.409510e-04		-1.964896e-02	-1.209638e-01	-2.840930e-02
+	Atom momenta:	1	C	-1.103758e-05	8.344246e-04	3.359773e-06		-9.196921e-04	6.952734e-02	2.799487e-04
+	Atom momenta:	2	H	-4.227851e-04	3.336750e-04	-8.660621e-06		-3.522802e-02	2.780303e-02	-7.216349e-04
+	Atom momenta:	3	H	-2.136850e-05	5.475065e-04	8.409622e-04		-1.780502e-03	4.562026e-02	7.007207e-02
+	Atom momenta:	4	H	-1.337548e-04	3.662380e-04	-5.351334e-04		-1.114495e-02	3.051630e-02	-4.458929e-02
+	Atom momenta:	5	H	2.294389e-04	-2.705460e-04	4.105326e-04		1.911770e-02	-2.254289e-02	3.420709e-02
+	Atom momenta:	6	H	3.168336e-04	-2.974830e-04	-3.977050e-04		2.639975e-02	-2.478738e-02	-3.313825e-02
+	Atom momenta:	7	H	2.784884e-04	-6.208091e-05	2.759550e-05		2.320468e-02	-5.172810e-03	2.299358e-03
+
+	Time in [fs]: 0.100000
+	========== DONE: MD step 2
+
+	========== START: MD step 3
+**********  START: PM3-SCF  **********
+SCF iter=0: RMS density=0.000034948782918
+SCF iter=1: RMS density=0.000010593145635
+SCF iter=2: RMS density=0.000003732214205
+SCF iter=3: RMS density=0.000001495837114
+SCF iter=4: RMS density=0.000000657597544
+
+
+
+		PM3-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.267358e+00	-3.448685e+01
+	Energy of MO:	1	occ	-8.274656e-01	-2.251666e+01
+	Energy of MO:	2	occ	-5.676765e-01	-1.544739e+01
+	Energy of MO:	3	occ	-5.623283e-01	-1.530185e+01
+	Energy of MO:	4	occ	-4.990283e-01	-1.357936e+01
+	Energy of MO:	5	occ	-4.428092e-01	-1.204955e+01
+	Energy of MO:	6	occ	-4.364826e-01	-1.187739e+01
+	Energy of MO:	7	unocc	1.458297e-01	3.968260e+00
+	Energy of MO:	8	unocc	1.466836e-01	3.991497e+00
+	Energy of MO:	9	unocc	1.509550e-01	4.107726e+00
+	Energy of MO:	10	unocc	1.540736e-01	4.192589e+00
+	Energy of MO:	11	unocc	1.736426e-01	4.725093e+00
+	Energy of MO:	12	unocc	1.783262e-01	4.852542e+00
+	Energy of MO:	13	unocc	1.840224e-01	5.007545e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.212597e+01	-3.299671e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.185509e+01	5.947119e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.747155e-02	-3.260922e-02	-1.358907e-02	3.941166e-02		-4.440826e-02	-8.288439e-02	-3.453998e-02	1.001745e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.018075e-02	-2.136020e-02	5.079921e-04	2.366778e-02		2.587689e-02	-5.429223e-02	1.291187e-03	6.015751e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.765230e-02	-1.124902e-02	-1.409706e-02	3.301389e-02		-7.028515e-02	-2.859216e-02	-3.583116e-02	8.391296e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-1.174008e-01
+	Mulliken charge:	1	C	4.000000e+00	-1.159548e-01
+	Mulliken charge:	2	H	1.000000e+00	4.160007e-02
+	Mulliken charge:	3	H	1.000000e+00	3.676973e-02
+	Mulliken charge:	4	H	1.000000e+00	3.744629e-02
+	Mulliken charge:	5	H	1.000000e+00	3.752448e-02
+	Mulliken charge:	6	H	1.000000e+00	3.744032e-02
+	Mulliken charge:	7	H	1.000000e+00	4.257474e-02
+
+	Elapsed time(omp) for the SCF = 0.036811[s].
+**********  DONE: PM3-SCF  **********
+
+
+	Energies:
+		|	kind			| [a.u.] | [eV] | 
+		Core kinetic:     	1.151193e-05	3.132579e-04
+		Core repulsion:   	2.185509e+01	5.947119e+02
+		Electronic
+		(inc. core rep.):	-1.212597e+01	-3.299671e+02
+		Total:            	-1.212596e+01	-3.299667e+02
+		Error:            	1.729067e-09	4.705068e-08
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-4.174955e-06	3.776882e-02	-6.036347e-06		-2.209291e-06	1.998640e-02	-3.194297e-06
+	Atom coordinates:	1	C	2.822873e+00	-2.833112e-02	3.779512e-03		1.493800e+00	-1.499218e-02	2.000031e-03
+	Atom coordinates:	2	H	-6.614934e-01	1.967464e+00	1.887898e-03		-3.500472e-01	1.041137e+00	9.990328e-04
+	Atom coordinates:	3	H	-6.956127e-01	-9.834869e-01	-1.738371e+00		-3.681024e-01	-5.204389e-01	-9.199061e-01
+	Atom coordinates:	4	H	-6.992269e-01	-9.840921e-01	1.703664e+00		-3.700149e-01	-5.207591e-01	9.015402e-01
+	Atom coordinates:	5	H	3.499632e+00	9.826005e-01	-1.701990e+00		1.851926e+00	5.199698e-01	-9.006542e-01
+	Atom coordinates:	6	H	3.458266e+00	9.901537e-01	1.719567e+00		1.830035e+00	5.239668e-01	9.099556e-01
+	Atom coordinates:	7	H	3.514949e+00	-1.965517e+00	5.823663e-06		1.860031e+00	-1.040107e+00	3.081749e-06
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.409688e+00	4.008516e-03	9.965591e-04		7.459748e-01	2.121215e-03	5.273564e-04
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+
+			| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |		|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]
+	Atom momenta:	0	C	-3.535729e-04	-2.176415e-03	-5.111946e-04		-2.946100e-02	-1.813469e-01	-4.259462e-02
+	Atom momenta:	1	C	-1.659953e-05	1.251066e-03	5.051790e-06		-1.383134e-03	1.042435e-01	4.209338e-04
+	Atom momenta:	2	H	-6.339424e-04	5.000324e-04	-1.298231e-05		-5.282242e-02	4.166455e-02	-1.081734e-03
+	Atom momenta:	3	H	-3.226374e-05	8.208456e-04	1.260727e-03		-2.688333e-03	6.839588e-02	1.050484e-01
+	Atom momenta:	4	H	-2.007504e-04	5.490864e-04	-8.022209e-04		-1.672727e-02	4.575191e-02	-6.684401e-02
+	Atom momenta:	5	H	3.442190e-04	-4.056169e-04	6.154482e-04		2.868160e-02	-3.379750e-02	5.128141e-02
+	Atom momenta:	6	H	4.752849e-04	-4.460229e-04	-5.962181e-04		3.960249e-02	-3.716427e-02	-4.967909e-02
+	Atom momenta:	7	H	4.176251e-04	-9.297605e-05	4.138864e-05		3.479806e-02	-7.747108e-03	3.448654e-03
+
+	Time in [fs]: 0.150000
+	========== DONE: MD step 3
+
+	========== START: MD step 4
+**********  START: PM3-SCF  **********
+SCF iter=0: RMS density=0.000048719169623
+SCF iter=1: RMS density=0.000014736017800
+SCF iter=2: RMS density=0.000005178632954
+SCF iter=3: RMS density=0.000002070636311
+SCF iter=4: RMS density=0.000000908676307
+
+
+
+		PM3-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.267367e+00	-3.448710e+01
+	Energy of MO:	1	occ	-8.274822e-01	-2.251712e+01
+	Energy of MO:	2	occ	-5.676720e-01	-1.544726e+01
+	Energy of MO:	3	occ	-5.623342e-01	-1.530201e+01
+	Energy of MO:	4	occ	-4.990336e-01	-1.357951e+01
+	Energy of MO:	5	occ	-4.428078e-01	-1.204951e+01
+	Energy of MO:	6	occ	-4.364914e-01	-1.187763e+01
+	Energy of MO:	7	unocc	1.458340e-01	3.968378e+00
+	Energy of MO:	8	unocc	1.466918e-01	3.991719e+00
+	Energy of MO:	9	unocc	1.509550e-01	4.107728e+00
+	Energy of MO:	10	unocc	1.540801e-01	4.192767e+00
+	Energy of MO:	11	unocc	1.736451e-01	4.725160e+00
+	Energy of MO:	12	unocc	1.783348e-01	4.852777e+00
+	Energy of MO:	13	unocc	1.840189e-01	5.007450e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.212598e+01	-3.299673e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.185524e+01	5.947161e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.740228e-02	-3.253819e-02	-1.355382e-02	3.931004e-02		-4.423220e-02	-8.270385e-02	-3.445037e-02	9.991618e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.022311e-02	-2.135643e-02	5.064541e-04	2.368260e-02		2.598455e-02	-5.428264e-02	1.287278e-03	6.019517e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.762539e-02	-1.118176e-02	-1.406027e-02	3.295277e-02		-7.021675e-02	-2.842121e-02	-3.573765e-02	8.375761e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-1.173933e-01
+	Mulliken charge:	1	C	4.000000e+00	-1.159473e-01
+	Mulliken charge:	2	H	1.000000e+00	4.159698e-02
+	Mulliken charge:	3	H	1.000000e+00	3.676838e-02
+	Mulliken charge:	4	H	1.000000e+00	3.744422e-02
+	Mulliken charge:	5	H	1.000000e+00	3.752239e-02
+	Mulliken charge:	6	H	1.000000e+00	3.743813e-02
+	Mulliken charge:	7	H	1.000000e+00	4.257054e-02
+
+	Elapsed time(omp) for the SCF = 0.036944[s].
+**********  DONE: PM3-SCF  **********
+
+
+	Energies:
+		|	kind			| [a.u.] | [eV] | 
+		Core kinetic:     	2.043709e-05	5.561261e-04
+		Core repulsion:   	2.185524e+01	5.947161e+02
+		Electronic
+		(inc. core rep.):	-1.212598e+01	-3.299673e+02
+		Total:            	-1.212596e+01	-3.299667e+02
+		Error:            	3.068886e-09	8.350930e-08
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-7.419948e-06	3.774885e-02	-1.072788e-05		-3.926468e-06	1.997583e-02	-5.676947e-06
+	Atom coordinates:	1	C	2.822873e+00	-2.831964e-02	3.779558e-03		1.493800e+00	-1.498611e-02	2.000056e-03
+	Atom coordinates:	2	H	-6.615627e-01	1.967519e+00	1.886478e-03		-3.500839e-01	1.041166e+00	9.982813e-04
+	Atom coordinates:	3	H	-6.956162e-01	-9.833971e-01	-1.738233e+00		-3.681043e-01	-5.203913e-01	-9.198331e-01
+	Atom coordinates:	4	H	-6.992489e-01	-9.840320e-01	1.703576e+00		-3.700266e-01	-5.207273e-01	9.014938e-01
+	Atom coordinates:	5	H	3.499670e+00	9.825561e-01	-1.701922e+00		1.851946e+00	5.199463e-01	-9.006185e-01
+	Atom coordinates:	6	H	3.458318e+00	9.901049e-01	1.719502e+00		1.830063e+00	5.239410e-01	9.099211e-01
+	Atom coordinates:	7	H	3.514995e+00	-1.965527e+00	1.035237e-05		1.860055e+00	-1.040112e+00	5.478239e-06
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.409688e+00	4.008517e-03	9.965598e-04		7.459748e-01	2.121216e-03	5.273567e-04
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+
+			| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |		|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]
+	Atom momenta:	0	C	-4.711516e-04	-2.899673e-03	-6.811597e-04		-3.925809e-02	-2.416115e-01	-5.675674e-02
+	Atom momenta:	1	C	-2.221340e-05	1.667024e-03	6.758366e-06		-1.850902e-03	1.389026e-01	5.631320e-04
+	Atom momenta:	2	H	-8.448177e-04	6.658146e-04	-1.729362e-05		-7.039332e-02	5.547813e-02	-1.440968e-03
+	Atom momenta:	3	H	-4.341213e-05	1.093688e-03	1.679633e-03		-3.617259e-03	9.113012e-02	1.399532e-01
+	Atom momenta:	4	H	-2.678877e-04	7.316104e-04	-1.068734e-03		-2.232139e-02	6.096048e-02	-8.905082e-02
+	Atom momenta:	5	H	4.590720e-04	-5.404457e-04	8.199432e-04		3.825157e-02	-4.503193e-02	6.832069e-02
+	Atom momenta:	6	H	6.337776e-04	-5.943211e-04	-7.943242e-04		5.280869e-02	-4.952103e-02	-6.618602e-02
+	Atom momenta:	7	H	5.566329e-04	-1.236971e-04	5.517627e-05		4.638071e-02	-1.030690e-02	4.597490e-03
+
+	Time in [fs]: 0.200000
+	========== DONE: MD step 4
+
+	========== START: MD step 5
+**********  START: PM3-SCF  **********
+SCF iter=0: RMS density=0.000062607770553
+SCF iter=1: RMS density=0.000018943591287
+SCF iter=2: RMS density=0.000006660018087
+SCF iter=3: RMS density=0.000002663946545
+SCF iter=4: RMS density=0.000001169374475
+SCF iter=5: RMS density=0.000000544380517
+
+
+
+		PM3-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.267379e+00	-3.448742e+01
+	Energy of MO:	1	occ	-8.275037e-01	-2.251770e+01
+	Energy of MO:	2	occ	-5.676661e-01	-1.544710e+01
+	Energy of MO:	3	occ	-5.623418e-01	-1.530222e+01
+	Energy of MO:	4	occ	-4.990406e-01	-1.357969e+01
+	Energy of MO:	5	occ	-4.428061e-01	-1.204946e+01
+	Energy of MO:	6	occ	-4.365026e-01	-1.187794e+01
+	Energy of MO:	7	unocc	1.458396e-01	3.968528e+00
+	Energy of MO:	8	unocc	1.467023e-01	3.992005e+00
+	Energy of MO:	9	unocc	1.509551e-01	4.107729e+00
+	Energy of MO:	10	unocc	1.540885e-01	4.192995e+00
+	Energy of MO:	11	unocc	1.736483e-01	4.725248e+00
+	Energy of MO:	12	unocc	1.783459e-01	4.853079e+00
+	Energy of MO:	13	unocc	1.840144e-01	5.007328e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.212599e+01	-3.299676e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.185543e+01	5.947214e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.731337e-02	-3.244709e-02	-1.350864e-02	3.917971e-02		-4.400620e-02	-8.247230e-02	-3.433554e-02	9.958491e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.027744e-02	-2.135171e-02	5.043654e-04	2.370181e-02		2.612265e-02	-5.427065e-02	1.281969e-03	6.024400e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.759081e-02	-1.109538e-02	-1.401300e-02	3.287437e-02		-7.012885e-02	-2.820165e-02	-3.561751e-02	8.355834e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-1.173836e-01
+	Mulliken charge:	1	C	4.000000e+00	-1.159375e-01
+	Mulliken charge:	2	H	1.000000e+00	4.159283e-02
+	Mulliken charge:	3	H	1.000000e+00	3.676672e-02
+	Mulliken charge:	4	H	1.000000e+00	3.744159e-02
+	Mulliken charge:	5	H	1.000000e+00	3.751967e-02
+	Mulliken charge:	6	H	1.000000e+00	3.743528e-02
+	Mulliken charge:	7	H	1.000000e+00	4.256496e-02
+
+	Elapsed time(omp) for the SCF = 0.036879[s].
+**********  DONE: PM3-SCF  **********
+
+
+	Energies:
+		|	kind			| [a.u.] | [eV] | 
+		Core kinetic:     	3.187568e-05	8.673883e-04
+		Core repulsion:   	2.185543e+01	5.947214e+02
+		Electronic
+		(inc. core rep.):	-1.212599e+01	-3.299676e+02
+		Total:            	-1.212596e+01	-3.299667e+02
+		Error:            	4.784559e-09	1.301955e-07
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-1.158926e-05	3.772319e-02	-1.675546e-05		-6.132773e-06	1.996225e-02	-8.866607e-06
+	Atom coordinates:	1	C	2.822872e+00	-2.830489e-02	3.779618e-03		1.493800e+00	-1.497830e-02	2.000088e-03
+	Atom coordinates:	2	H	-6.616519e-01	1.967589e+00	1.884654e-03		-3.501311e-01	1.041203e+00	9.973161e-04
+	Atom coordinates:	3	H	-6.956209e-01	-9.832818e-01	-1.738056e+00		-3.681067e-01	-5.203303e-01	-9.197393e-01
+	Atom coordinates:	4	H	-6.992772e-01	-9.839549e-01	1.703464e+00		-3.700415e-01	-5.206865e-01	9.014341e-01
+	Atom coordinates:	5	H	3.499718e+00	9.824991e-01	-1.701836e+00		1.851971e+00	5.199161e-01	-9.005728e-01
+	Atom coordinates:	6	H	3.458385e+00	9.900422e-01	1.719418e+00		1.830098e+00	5.239078e-01	9.098767e-01
+	Atom coordinates:	7	H	3.515054e+00	-1.965540e+00	1.617396e-05		1.860086e+00	-1.040119e+00	8.558892e-06
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.409688e+00	4.008519e-03	9.965607e-04		7.459748e-01	2.121217e-03	5.273572e-04
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+
+			| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |		|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]
+	Atom momenta:	0	C	-5.884909e-04	-3.621037e-03	-8.507536e-04		-4.903523e-02	-3.017181e-01	-7.088793e-02
+	Atom momenta:	1	C	-2.789647e-05	2.082071e-03	8.484346e-06		-2.324437e-03	1.734858e-01	7.069470e-04
+	Atom momenta:	2	H	-1.055317e-03	8.308308e-04	-2.159108e-05		-8.793292e-02	6.922788e-02	-1.799049e-03
+	Atom momenta:	3	H	-5.489798e-05	1.365869e-03	2.097394e-03		-4.574302e-03	1.138092e-01	1.747626e-01
+	Atom momenta:	4	H	-3.352139e-04	9.137022e-04	-1.334480e-03		-2.793126e-02	7.613303e-02	-1.111938e-01
+	Atom momenta:	5	H	5.740219e-04	-6.749518e-04	1.023878e-03		4.782962e-02	-5.623947e-02	8.531328e-02
+	Atom momenta:	6	H	7.923256e-04	-7.422974e-04	-9.918879e-04		6.601949e-02	-6.185096e-02	-8.264776e-02
+	Atom momenta:	7	H	6.954690e-04	-1.541862e-04	6.895653e-05		5.794904e-02	-1.284736e-02	5.745712e-03
+
+	Time in [fs]: 0.250000
+	========== DONE: MD step 5
+**********  DONE: Molecular dynamics  **********
+	Summary for memory usage:
+		Max Heap: 0.163680[MB].
+		Current Heap(Leaked): 0.000000[MB].
+
+
+     >>>>>  The MolDS finished normally!  <<<<<
+     >>>>>  CPU time: 5.47[s].  <<<<<
+     >>>>>  Elapsed time: 6[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 5.47967[s].  <<<<<
+     >>>>>  See you.  <<<<<
+
+

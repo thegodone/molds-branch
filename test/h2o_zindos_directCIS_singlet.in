@@ -1,0 +1,26 @@
+THEORY
+   zindo/s
+THEORY_END
+
+SCF
+   max_iter 50
+   rms_density 0.000001
+   damping_thresh 1.0 
+   damping_weight 0.0
+   diis_num_error_vect 5
+   diis_start_error 0.1
+   diis_end_error 0.00000002
+SCF_END
+
+CIS
+   davidson no
+   active_occ 4
+   active_vir 2
+   nstates 8
+CIS_END
+
+GEOMETRY
+ O 0.869272 0.760000 0.020109
+ H 1.829272 0.767931 0.025109
+ H 0.548818 1.672867 0.015109
+GEOMETRY_END

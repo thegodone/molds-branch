@@ -1,0 +1,108 @@
+
+
+     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:9  <<<<<
+
+
+**********  START: Parse input  **********
+	Total number of atoms: 3
+	Total number of valence AOs: 11
+	Total number of valence electrons: 8
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	S	-1.056922e+00	8.913801e-01	5.669178e-01		-5.592990e-01	4.716980e-01	3.000000e-01
+	Atom coordinates:	1	H	1.418619e+00	8.913801e-01	0.000000e+00		7.507010e-01	4.716980e-01	0.000000e+00
+	Atom coordinates:	2	H	-1.883275e+00	3.224927e+00	-3.779452e-01		-9.965860e-01	1.706558e+00	-2.000000e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	-1.008149e+00	9.603925e-01	5.222083e-01		-5.334893e-01	5.082178e-01	2.763407e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	-1.008169e+00	9.603639e-01	5.222269e-01		-5.335000e-01	5.082027e-01	2.763506e-01
+
+	SCF conditions:
+		Max iterations: 50
+		RMS density: 1.000000e-06
+		Damping threshold: 1.000000e+00
+		Damping weight: 0.000000e+00
+		DIIS number of error vectors: 5
+		DIIS starting error: 1.000000e-01
+		DIIS ending error: 2.000000e-08
+		van der Waals (vdW) correction: no
+
+	Memory conditions:
+		Heap limit: 2.560000e+02[MB]
+
+Input terms:
+theory | cndo/2 | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
+damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.00000002 | scf_end | geometry | 
+s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -0.996586 | 
+1.706558 | -0.200000 | geometry_end | 
+
+**********  DONE: Parse input  ***********
+
+
+**********  START: CNDO/2-SCF  **********
+SCF iter=0: RMS density=3.999999999999999
+SCF iter=1: RMS density=0.004357636108853
+SCF iter=2: RMS density=0.000849439366198
+SCF iter=3: RMS density=0.000329969077287
+SCF iter=4: RMS density=0.000174134515761
+SCF iter=5: RMS density=0.000098690640918
+SCF iter=6: RMS density=0.000002020855255
+SCF iter=7: RMS density=0.000000473889781
+
+
+
+		CNDO/2-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-9.853370e-01	-2.681260e+01
+	Energy of MO:	1	occ	-6.480906e-01	-1.763558e+01
+	Energy of MO:	2	occ	-5.696289e-01	-1.550052e+01
+	Energy of MO:	3	occ	-4.903856e-01	-1.334418e+01
+	Energy of MO:	4	unocc	7.347055e-02	1.999252e+00
+	Energy of MO:	5	unocc	8.208076e-02	2.233549e+00
+	Energy of MO:	6	unocc	2.092021e-01	5.692723e+00
+	Energy of MO:	7	unocc	2.092021e-01	5.692723e+00
+	Energy of MO:	8	unocc	2.092021e-01	5.692723e+00
+	Energy of MO:	9	unocc	2.473123e-01	6.729765e+00
+	Energy of MO:	10	unocc	2.959981e-01	8.054582e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.234141e+01	-3.358296e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	4.873186e+00	1.326072e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.711264e+00	-2.200484e+00	1.461296e+00	3.147370e+00		-4.349599e+00	-5.593074e+00	3.714246e+00	7.999819e+00
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-2.970428e+00	-3.982161e+00	2.615550e+00	5.614459e+00		-7.550078e+00	-1.012165e+01	6.648066e+00	1.427053e+01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		1.259165e+00	1.781677e+00	-1.154253e+00	2.468232e+00		3.200479e+00	4.528571e+00	-2.933820e+00	6.273621e+00
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	S	6.000000e+00	-8.506759e-03
+	Mulliken charge:	1	H	1.000000e+00	5.963133e-03
+	Mulliken charge:	2	H	1.000000e+00	2.543626e-03
+
+	Elapsed time(omp) for the SCF = 0.012563[s].
+**********  DONE: CNDO/2-SCF  **********
+
+
+	Summary for memory usage:
+		Max Heap: 0.020144[MB].
+		Current Heap(Leaked): 0.000000[MB].
+
+
+     >>>>>  The MolDS finished normally!  <<<<<
+     >>>>>  CPU time: 0.01[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0136998[s].  <<<<<
+     >>>>>  See you.  <<<<<
+
+

@@ -1,0 +1,22 @@
+THEORY
+   pm3
+THEORY_END
+
+SCF
+   max_iter 50
+   rms_density 0.000001
+   damping_thresh 1.0
+   damping_weight 0.0
+   diis_num_error_vect 5
+   diis_start_error 0.1
+   diis_end_error 0.00000002
+SCF_END
+
+GEOMETRY
+ C                 -0.29836427    2.57616749    0.00000000
+ H                  0.05829015    1.56735749    0.00000000
+ H                  0.05830857    3.08056568    0.87365150
+ H                  0.05830857    3.08056568   -0.87365150
+ H                 -1.36836427    2.57618068    0.00000000
+GEOMETRY_END
+
