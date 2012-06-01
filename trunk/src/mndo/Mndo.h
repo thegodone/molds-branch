@@ -221,7 +221,7 @@ private:
         double***** matrix, 
         double const* const* const* const* twoElecTwoCoreDiatomic,
         double const* const* rotatingMatrix,
-        double const* const* const* rMatDeri) const;
+        double const* const* const* rotMatFirstDerivatives) const;
    double GetSemiEmpiricalMultipoleInteraction(MolDS_base::MultipoleType multipoleA,
                                                MolDS_base::MultipoleType multipoleB,
                                                double rhoA,
