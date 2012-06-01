@@ -4632,6 +4632,157 @@ void Cndo2::CalcRotatingMatrixFirstDerivatives(double*** rotMatFirstDerivatives,
 
 }
 
+// Second derivative of rotating matirx. 
+// Both derivatives are related to a coordinate of atom A.
+// This method can not calculate d-orbital yet.
+// For rotating matirxi, see J. Mol. Struc. (Theochem), 419, 19 (1997) (ref. [BFB_1997])
+// we set gamma=0 always.
+void Cndo2::CalcRotatingMatrixSecondDerivatives(double**** rotMatSecondDerivatives, 
+                                                const Atom& atomA, 
+                                                const Atom& atomB) const{
+
+   MallocerFreer::GetInstance()->Initialize<double>(
+                                 rotMatSecondDerivatives,  
+                                 OrbitalType_end, 
+                                 OrbitalType_end,
+                                 CartesianType_end,
+                                 CartesianType_end);
+
+   double x = atomB.GetXyz()[0] - atomA.GetXyz()[0];
+   double y = atomB.GetXyz()[1] - atomA.GetXyz()[1];
+   double z = atomB.GetXyz()[2] - atomA.GetXyz()[2];
+   double r = sqrt( pow(x,2.0) + pow(y,2.0) );
+   double R = sqrt( pow(x,2.0) + pow(y,2.0) + pow(z,2.0) );
+
+   // for s-function
+   rotMatSecondDerivatives[s][s][XAxis][XAxis] = 0.0;
+   rotMatSecondDerivatives[s][s][XAxis][YAxis] = 0.0;
+   rotMatSecondDerivatives[s][s][XAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[s][s][YAxis][XAxis] = 0.0;
+   rotMatSecondDerivatives[s][s][YAxis][YAxis] = 0.0;
+   rotMatSecondDerivatives[s][s][YAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[s][s][ZAxis][XAxis] = 0.0;
+   rotMatSecondDerivatives[s][s][ZAxis][YAxis] = 0.0;
+   rotMatSecondDerivatives[s][s][ZAxis][ZAxis] = 0.0;
+
+   // for p-function, xx-derivatives
+   rotMatSecondDerivatives[py][py][XAxis][XAxis] = -3.0*x*pow(r,-3.0) + 3.0*pow(x,3.0)*pow(r,-5.0);
+   rotMatSecondDerivatives[py][pz][XAxis][XAxis] = -1.0*y*pow(R,-3.0) + 3.0*pow(x,2.0)*y*pow(R,-5.0);
+   rotMatSecondDerivatives[py][px][XAxis][XAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*y*z
+                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(x,2.0)*y*z;
+                                                
+   rotMatSecondDerivatives[pz][py][XAxis][XAxis] = 0.0;
+   rotMatSecondDerivatives[pz][pz][XAxis][XAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(x,2.0)*z*pow(R,-5.0);
+   rotMatSecondDerivatives[pz][px][XAxis][XAxis] = -1.0*pow(r*R,-1.0) + (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(x,2.0)
+                                                   +r*pow(R,-3.0) - 3.0*pow(x,2.0)*r*pow(R,-5.0) + pow(x,2.0)*pow(r,-1.0)*pow(R,-3.0);
+                                                
+   rotMatSecondDerivatives[px][py][XAxis][XAxis] = y*pow(r,-3.0) - 3.0*pow(x,2.0)*y*pow(r,-5.0);
+   rotMatSecondDerivatives[px][pz][XAxis][XAxis] = -3.0*x*pow(R,-3.0) + 3.0*pow(x,3.0)*pow(R,-5.0);
+   rotMatSecondDerivatives[px][px][XAxis][XAxis] = -3.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
+                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(x,3.0)*z;
+
+   // for p-function, xy-derivatives
+   rotMatSecondDerivatives[py][py][XAxis][YAxis] = -1.0*y*pow(r,-3.0) + 3.0*pow(x,2.0)*y*pow(r,-5.0);
+   rotMatSecondDerivatives[py][pz][XAxis][YAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(y,2.0)*pow(R,-5.0);  
+   rotMatSecondDerivatives[py][px][XAxis][YAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
+                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*x*pow(y,2.0)*z;
+                                                
+   rotMatSecondDerivatives[pz][py][XAxis][YAxis] = 0.0;
+   rotMatSecondDerivatives[pz][pz][XAxis][YAxis] = 3.0*x*y*z*pow(R,-5.0);
+   rotMatSecondDerivatives[pz][px][XAxis][YAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y + x*y*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*y*r*pow(R,-5.0);
+                                                
+   rotMatSecondDerivatives[px][py][XAxis][YAxis] = x*pow(r,-3.0) - 3.0*x*pow(y,2.0)*pow(R,-5.0);
+   rotMatSecondDerivatives[px][pz][XAxis][YAxis] = rotMatSecondDerivatives[py][pz][XAxis][XAxis];
+   rotMatSecondDerivatives[px][px][XAxis][YAxis] = rotMatSecondDerivatives[py][px][XAxis][XAxis];
+
+   // for p-function, yx-derivatives
+   for(int i=py; i<=px; i++){
+      for(int j=py; j<=px; j++){
+         rotMatSecondDerivatives[i][j][YAxis][XAxis] = rotMatSecondDerivatives[i][j][XAxis][YAxis];
+      }
+   }
+
+   // for p-function, xz-derivatives
+   rotMatSecondDerivatives[py][py][XAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[py][pz][XAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][XAxis][YAxis];
+   rotMatSecondDerivatives[py][px][XAxis][ZAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y 
+                                                   +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*x*y*pow(z,2.0);
+                                                
+   rotMatSecondDerivatives[pz][py][XAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[pz][pz][XAxis][ZAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(z,2.0)*pow(R,-5.0); 
+   rotMatSecondDerivatives[pz][px][XAxis][ZAxis] = x*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*z*r*pow(R,-5.0);
+                                                
+   rotMatSecondDerivatives[px][py][XAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[px][pz][XAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][XAxis][XAxis];
+   rotMatSecondDerivatives[px][px][XAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
+                                                   -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(x,2.0)
+                                                   +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*pow(x*z,2.0);
+
+
+   // for p-function, zx-derivatives
+   for(int i=py; i<=px; i++){
+      for(int j=py; j<=px; j++){
+         rotMatSecondDerivatives[i][j][ZAxis][XAxis] = rotMatSecondDerivatives[i][j][XAxis][ZAxis];
+      }
+   }
+
+   // for p-function, yy-derivatives
+   rotMatSecondDerivatives[py][py][YAxis][YAxis] = -1.0*x*pow(r,-3.0) + 3.0*x*pow(y,2.0)*pow(r,-5.0); 
+   rotMatSecondDerivatives[py][pz][YAxis][YAxis] = -3.0*y*pow(R,-3.0) + 3.0*pow(y,3.0)*pow(R,-5.0);
+   rotMatSecondDerivatives[py][px][YAxis][YAxis] = -3.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*y*z
+                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(y,3.0)*z;
+                                                
+   rotMatSecondDerivatives[pz][py][YAxis][YAxis] = 0.0;
+   rotMatSecondDerivatives[pz][pz][YAxis][YAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(y,2.0)*z*pow(R,-5.0);
+   rotMatSecondDerivatives[pz][px][YAxis][YAxis] = -1.0*pow(r*R,-1.0) + (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(y,2.0)
+                                                   +r*pow(R,-3.0) - 3.0*pow(y,2.0)*r*pow(R,-5.0) + pow(y,2.0)*pow(r,-1.0)*pow(R,-3.0);
+                                                
+   rotMatSecondDerivatives[px][py][YAxis][YAxis] = 3.0*y*pow(r,-3.0) - 3.0*pow(y,3.0)*pow(r,-5.0);
+   rotMatSecondDerivatives[px][pz][YAxis][YAxis] = rotMatSecondDerivatives[py][pz][XAxis][YAxis];
+   rotMatSecondDerivatives[px][px][YAxis][YAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
+                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*x*pow(y,2.0)*z;
+               
+   // for p-function, yz-derivatives
+   rotMatSecondDerivatives[py][py][YAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[py][pz][YAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][YAxis][YAxis];
+   rotMatSecondDerivatives[py][px][YAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
+                                                   -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(y,2.0)
+                                                   +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*pow(y*z,2.0);
+                                                
+   rotMatSecondDerivatives[pz][py][YAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[pz][pz][YAxis][ZAxis] = -1.0*y*pow(R,-3.0) + 3.0*y*pow(z,2.0)*pow(R,-5.0);
+   rotMatSecondDerivatives[pz][px][YAxis][ZAxis] = y*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*y*z*r*pow(R,-5.0);
+                                                
+   rotMatSecondDerivatives[px][py][YAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[px][pz][YAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][XAxis][YAxis];
+   rotMatSecondDerivatives[px][px][YAxis][ZAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y
+                                                   +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*x*y*pow(z,2.0);
+                                          
+               
+   // for p-function, zy-derivatives
+   for(int i=py; i<=px; i++){
+      for(int j=py; j<=px; j++){
+         rotMatSecondDerivatives[i][j][ZAxis][YAxis] = rotMatSecondDerivatives[i][j][YAxis][ZAxis];
+      }
+   }
+
+   // for p-function, zz-derivatives
+   rotMatSecondDerivatives[py][py][ZAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[py][pz][ZAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][YAxis][ZAxis];
+   rotMatSecondDerivatives[py][px][ZAxis][ZAxis] = -3.0*y*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*y*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
+                                                
+   rotMatSecondDerivatives[pz][py][ZAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[pz][pz][ZAxis][ZAxis] = -3.0*z*pow(R,-3.0) + 3.0*pow(z,3.0)*pow(R,-5.0); 
+   rotMatSecondDerivatives[pz][px][ZAxis][ZAxis] = -3.0*pow(z,2.0)*r*pow(R,-5.0) + r*pow(R,-3.0);
+                                                
+   rotMatSecondDerivatives[px][py][ZAxis][ZAxis] = 0.0;
+   rotMatSecondDerivatives[px][pz][ZAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][XAxis][ZAxis];
+   rotMatSecondDerivatives[px][px][ZAxis][ZAxis] = -3.0*x*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*x*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
+
+   // for d-function
+   // ToDo: Second derivative of rotating matrix for d-orbital...
+}
+
 // see (B.40) in J. A. Pople book.
 void Cndo2::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap, 
                                                const Atom& atomA, 
