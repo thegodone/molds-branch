@@ -3361,7 +3361,7 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
 // First derivative of diatomic overlap integrals between AOs in space fixed flame.
 // The Overlap matrix is S_{\mu\nu} in (3.74) in J. A. Pople book.
 // Note that this methoc can not treat d-obitals 
-// because CalcRotatingMatrixFirstDerivatives can not treat d-orbitals.
+// because CalcRotatingMatrixFirstDerivative can not treat d-orbitals.
 void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri, 
                                                const Atom& atomA, 
                                                const Atom& atomB) const{
@@ -3392,7 +3392,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
       this->CalcDiatomicOverlapInDiatomicFrame(diatomicOverlap, atomA, atomB);
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
       this->CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(diaOverlapDeriR, atomA, atomB);
-      this->CalcRotatingMatrixFirstDerivatives(rMatDeri, atomA, atomB);
+      this->CalcRotatingMatrixFirstDerivative(rMatDeri, atomA, atomB);
 
       // rotate
       for(int i=0; i<OrbitalType_end; i++){
@@ -4567,9 +4567,9 @@ void Cndo2::CalcRotatingMatrix(double** rotatingMatrix,
 // This method can not calculate d-orbital yet.
 // For rotating matirxi, see J. Mol. Struc. (Theochem), 419, 19 (1997) (ref. [BFB_1997])
 // we set gamma=0 always.
-void Cndo2::CalcRotatingMatrixFirstDerivatives(double*** rMatFirstDeri, 
-                                               const Atom& atomA, 
-                                               const Atom& atomB) const{
+void Cndo2::CalcRotatingMatrixFirstDerivative(double*** rMatFirstDeri, 
+                                              const Atom& atomA, 
+                                              const Atom& atomB) const{
 
    MallocerFreer::GetInstance()->Initialize<double>(
                                  rMatFirstDeri,  

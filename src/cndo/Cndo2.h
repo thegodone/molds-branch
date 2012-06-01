@@ -177,9 +177,9 @@ protected:
    virtual void CalcTwoElecTwoCore(double****** twoElecTwoCore, 
                                    const MolDS_base::Molecule& molecule) const;
    virtual void CalcForce(const std::vector<int>& elecStates);
-   void CalcRotatingMatrixFirstDerivatives(double*** rMatFirstDeri, 
-                                           const MolDS_base_atoms::Atom& atomA,
-                                           const MolDS_base_atoms::Atom& atomB) const;
+   void CalcRotatingMatrixFirstDerivative(double*** rMatFirstDeri, 
+                                          const MolDS_base_atoms::Atom& atomA,
+                                          const MolDS_base_atoms::Atom& atomB) const;
    struct MoEnergyGap{
       double energyGap;
       int occIndex;
