@@ -3375,7 +3375,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
    double** diatomicOverlap = NULL;
    double** rotatingMatrix = NULL;
    double** diaOverlapDeriR = NULL;
-   double*** rMatDeri = NULL;
+   double*** rotMatFirstDerivatives = NULL;
 
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlap, 
@@ -3385,14 +3385,14 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
                                                    OrbitalType_end, 
                                                    OrbitalType_end);
       MallocerFreer::GetInstance()->Malloc<double>(&diaOverlapDeriR, OrbitalType_end, OrbitalType_end);
-      MallocerFreer::GetInstance()->Malloc<double>(&rMatDeri, 
+      MallocerFreer::GetInstance()->Malloc<double>(&rotMatFirstDerivatives, 
                                                    OrbitalType_end, 
                                                    OrbitalType_end, 
                                                    CartesianType_end);
       this->CalcDiatomicOverlapInDiatomicFrame(diatomicOverlap, atomA, atomB);
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
       this->CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(diaOverlapDeriR, atomA, atomB);
-      this->CalcRotatingMatrixFirstDerivatives(rMatDeri, atomA, atomB);
+      this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivatives, atomA, atomB);
 
       // rotate
       for(int i=0; i<OrbitalType_end; i++){
@@ -3409,11 +3409,11 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
                              *rotatingMatrix[j][l]
                              *(Cartesian[c]/R)
                              *diaOverlapDeriR[k][l];
-                     temp2 += rMatDeri[i][k][c] 
+                     temp2 += rotMatFirstDerivatives[i][k][c] 
                              *rotatingMatrix[j][l]
                              *diatomicOverlap[k][l];
                      temp3 += rotatingMatrix[i][k] 
-                             *rMatDeri[j][l][c]
+                             *rotMatFirstDerivatives[j][l][c]
                              *diatomicOverlap[k][l];
                   }
                }
@@ -3426,24 +3426,24 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
       this->FreeDiatomicOverlapDeriTemps(&diatomicOverlap,
                                          &rotatingMatrix,
                                          &diaOverlapDeriR,
-                                         &rMatDeri);
+                                         &rotMatFirstDerivatives);
       throw ex;
    }
    // free
    this->FreeDiatomicOverlapDeriTemps(&diatomicOverlap,
                                       &rotatingMatrix,
                                       &diaOverlapDeriR,
-                                      &rMatDeri);
+                                      &rotMatFirstDerivatives);
 }
 
 void Cndo2::FreeDiatomicOverlapDeriTemps(double*** diatomicOverlap, 
                                          double*** rotatingMatrix,
                                          double*** diaOverlapDeriR,
-                                         double**** rMatDeri) const{
+                                         double**** rotMatFirstDerivatives) const{
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlap, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(rotatingMatrix, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(diaOverlapDeriR, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(rMatDeri, OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(rotMatFirstDerivatives, OrbitalType_end, OrbitalType_end, CartesianType_end);
 }
 
 // calculate Overlap matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book by GTO expansion.

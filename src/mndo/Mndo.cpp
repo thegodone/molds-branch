@@ -2432,12 +2432,12 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
    } 
 
    double** rotatingMatrix = NULL;
-   double*** rMatDeri = NULL;
+   double*** rotMatFirstDerivatives = NULL;
    double**** twoElecTwoCoreDiatomic = NULL;
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&rotatingMatrix,
                                                    OrbitalType_end, OrbitalType_end);
-      MallocerFreer::GetInstance()->Malloc<double>(&rMatDeri, 
+      MallocerFreer::GetInstance()->Malloc<double>(&rotMatFirstDerivatives, 
                                                    OrbitalType_end, 
                                                    OrbitalType_end, 
                                                    CartesianType_end);
@@ -2473,15 +2473,15 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
 
       // rotate matirix into the space frame
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
-      this->CalcRotatingMatrixFirstDerivatives(rMatDeri, atomA, atomB);
+      this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivatives, atomA, atomB);
       this->RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(matrix, 
                                                                        twoElecTwoCoreDiatomic,
                                                                        rotatingMatrix,
-                                                                       rMatDeri);
+                                                                       rotMatFirstDerivatives);
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&rotatingMatrix, OrbitalType_end, OrbitalType_end);
-      MallocerFreer::GetInstance()->Free<double>(&rMatDeri, 
+      MallocerFreer::GetInstance()->Free<double>(&rotMatFirstDerivatives, 
                                                  OrbitalType_end,
                                                  OrbitalType_end,
                                                  CartesianType_end);
@@ -2489,7 +2489,7 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
       throw ex;
    }
    MallocerFreer::GetInstance()->Free<double>(&rotatingMatrix, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(&rMatDeri, 
+   MallocerFreer::GetInstance()->Free<double>(&rotMatFirstDerivatives, 
                                               OrbitalType_end,
                                               OrbitalType_end,
                                               CartesianType_end);
@@ -2542,7 +2542,7 @@ void Mndo::RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(
            double***** matrix, 
            double const* const* const* const* twoElecTwoCoreDiatomic,
            double const* const* rotatingMatrix,
-           double const* const* const* rMatDeri) const{
+           double const* const* const* rotMatFirstDerivatives) const{
    double oldMatrix[dxy][dxy][dxy][dxy][CartesianType_end];
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
@@ -2575,28 +2575,28 @@ void Mndo::RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(
                                    *rotatingMatrix[sigma][l];
                               matrix[mu][nu][lambda][sigma][c] 
                                  += twoElecTwoCoreDiatomic[i][j][k][l]
-                                   *rMatDeri[mu][i][c]
+                                   *rotMatFirstDerivatives[mu][i][c]
                                    *rotatingMatrix[nu][j] 
                                    *rotatingMatrix[lambda][k] 
                                    *rotatingMatrix[sigma][l];
                               matrix[mu][nu][lambda][sigma][c] 
                                  += twoElecTwoCoreDiatomic[i][j][k][l]
                                    *rotatingMatrix[mu][i] 
-                                   *rMatDeri[nu][j][c]
+                                   *rotMatFirstDerivatives[nu][j][c]
                                    *rotatingMatrix[lambda][k] 
                                    *rotatingMatrix[sigma][l];
                               matrix[mu][nu][lambda][sigma][c] 
                                  += twoElecTwoCoreDiatomic[i][j][k][l]
                                    *rotatingMatrix[mu][i] 
                                    *rotatingMatrix[nu][j] 
-                                   *rMatDeri[lambda][k][c]
+                                   *rotMatFirstDerivatives[lambda][k][c]
                                    *rotatingMatrix[sigma][l];
                               matrix[mu][nu][lambda][sigma][c] 
                                  += twoElecTwoCoreDiatomic[i][j][k][l]
                                    *rotatingMatrix[mu][i] 
                                    *rotatingMatrix[nu][j] 
                                    *rotatingMatrix[lambda][k] 
-                                   *rMatDeri[sigma][l][c];
+                                   *rotMatFirstDerivatives[sigma][l][c];
                            }
                         }
                      }
