@@ -3423,23 +3423,23 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
       }
    }
    catch(MolDSException ex){
-      this->FreeDiatomicOverlapDeriTemps(&diatomicOverlap,
-                                         &rotatingMatrix,
-                                         &diaOverlapDeriR,
-                                         &rotMatFirstDerivatives);
+      this->FreeDiatomicOverlapFirstDeriTemps(&diatomicOverlap,
+                                              &rotatingMatrix,
+                                              &diaOverlapDeriR,
+                                              &rotMatFirstDerivatives);
       throw ex;
    }
    // free
-   this->FreeDiatomicOverlapDeriTemps(&diatomicOverlap,
-                                      &rotatingMatrix,
-                                      &diaOverlapDeriR,
-                                      &rotMatFirstDerivatives);
+   this->FreeDiatomicOverlapFirstDeriTemps(&diatomicOverlap,
+                                           &rotatingMatrix,
+                                           &diaOverlapDeriR,
+                                           &rotMatFirstDerivatives);
 }
 
-void Cndo2::FreeDiatomicOverlapDeriTemps(double*** diatomicOverlap, 
-                                         double*** rotatingMatrix,
-                                         double*** diaOverlapDeriR,
-                                         double**** rotMatFirstDerivatives) const{
+void Cndo2::FreeDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
+                                              double*** rotatingMatrix,
+                                              double*** diaOverlapDeriR,
+                                              double**** rotMatFirstDerivatives) const{
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlap, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(rotatingMatrix, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(diaOverlapDeriR, OrbitalType_end, OrbitalType_end);
