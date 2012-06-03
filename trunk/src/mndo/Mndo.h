@@ -32,6 +32,7 @@ public:
 protected:
    std::string errorMessageGetSemiEmpiricalMultipoleInteractionBadMultipoles;
    std::string errorMessageGetSemiEmpiricalMultipoleInteractionFirstDeriBadMultipoles;
+   std::string errorMessageGetSemiEmpiricalMultipoleInteractionSecondDeriBadMultipoles;
    std::string errorMessageGetNddoRepulsionIntegral;
    std::string errorMessageGetNddoRepulsionIntegralFirstDerivative;
    std::string errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix;
@@ -230,6 +231,14 @@ private:
                                                double DB,
                                                double Rab) const;
    double GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                                               MolDS_base::MultipoleType multipoleA,
+                                               MolDS_base::MultipoleType multipoleB,
+                                               double rhoA,
+                                               double rhoB,
+                                               double DA,
+                                               double DB,
+                                               double Rab) const;
+   double GetSemiEmpiricalMultipoleInteractionSecondDerivative(
                                                MolDS_base::MultipoleType multipoleA,
                                                MolDS_base::MultipoleType multipoleB,
                                                double rhoA,
