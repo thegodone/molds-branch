@@ -166,7 +166,7 @@ protected:
    void CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri, 
                                            const MolDS_base_atoms::Atom& atomA, 
                                            const MolDS_base_atoms::Atom& atomB) const;
-   void CalcDiatomicOverlapSecondDerivative(double*** overlapSecondDeri, 
+   void CalcDiatomicOverlapSecondDerivative(double**** overlapSecondDeri, 
                                             const MolDS_base_atoms::Atom& atomA, 
                                             const MolDS_base_atoms::Atom& atomB) const;
    void FreeDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
@@ -179,6 +179,7 @@ protected:
                                            double*** rotatingMatrix,
                                            double**** rotMatFirstDerivatives,
                                            double***** rotMatSecondDerivatives,
+                                           double**** tempOverlapFirstDeri,
                                            double***** tempOverlapSecondDeri) const;
    virtual double GetMolecularIntegralElement(int moI, int moJ, int moK, int moL, 
                                               const MolDS_base::Molecule& molecule, 
