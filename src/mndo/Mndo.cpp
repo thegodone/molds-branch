@@ -4039,9 +4039,11 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
    double value = 0.0;
    double a = rhoA + rhoB;
 
+   // Eq. (52) in [DT_1977]
    if(multipoleA == sQ && multipoleB == sQ){
       value = pow(pow(Rab,2.0) + pow(a,2.0), -0.5);
    }
+   // Eq. (53) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == muz){
       double temp1 = pow(Rab+DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab-DB,2.0) + pow(a,2.0);
@@ -4052,6 +4054,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                          rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,1.0);
    }
+   // Eq. (54) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == Qxx){
       double temp1 = pow(Rab,2.0) + pow(2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + pow(a,2.0);
@@ -4071,6 +4074,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                          rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,2.0);
    }
+   // Eq. (55) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == Qzz){
       double temp1 = pow(Rab+2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + pow(a,2.0);
@@ -4082,6 +4086,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                          rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,2.0);
    }
+   // Eq. (56) in [DT_1977]
    else if(multipoleA == mux && multipoleB == mux){
       double temp1 = pow(Rab,2.0) + pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + pow(DA+DB,2.0) + pow(a,2.0);
@@ -4091,6 +4096,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
       value = this->GetSemiEmpiricalMultipoleInteraction(mux, mux, 
                                                          rhoA, rhoB, DA, DB, Rab);
    }
+   // Eq. (57) in [DT_1977]
    else if(multipoleA == muz && multipoleB == muz){
       double temp1 = pow(Rab+DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab+DA+DB,2.0) + pow(a,2.0);
@@ -4099,6 +4105,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
       value = pow(temp1,-0.5)/4.0 - pow(temp2,-0.5)/4.0 
              -pow(temp3,-0.5)/4.0 + pow(temp4,-0.5)/4.0;
    }
+   // Eq. (58) in [DT_1977]
    else if(multipoleA == mux && multipoleB == Qxz){
       double temp1 = pow(Rab-DB,2.0) + pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab-DB,2.0) + pow(DA+DB,2.0) + pow(a,2.0);
@@ -4121,6 +4128,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                          rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,3.0);
    }
+   // Eq. (59) in [DT_1977]
    else if(multipoleA == muz && multipoleB == Qxx){
       double temp1 = pow(Rab+DA,2.0) + pow(2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab-DA,2.0) + pow(2.0*DB,2.0) + pow(a,2.0);
@@ -4143,6 +4151,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                          rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,3.0);
    }
+   // Eq. (60) in [DT_1977]
    else if(multipoleA == muz && multipoleB == Qzz){
       double temp1 = pow(Rab+DA-2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab-DA-2.0*DB,2.0) + pow(a,2.0);
@@ -4159,6 +4168,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                          rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,3.0);
    }
+   // Eq. (61) in [DT_1977]
    else if(multipoleA == Qxx && multipoleB == Qxx){
       double temp1 = pow(Rab,2.0) + 4.0*pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + 4.0*pow(DA+DB,2.0) + pow(a,2.0);
@@ -4173,6 +4183,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
       value = this->GetSemiEmpiricalMultipoleInteraction(Qxx, Qxx, 
                                                          rhoA, rhoB, DA, DB, Rab);
    }
+   // Eq. (62) in [DT_1977]
    else if(multipoleA == Qxx && multipoleB == Qyy){
       double temp1 = pow(Rab,2.0) + pow(2.0*DA,2.0) + pow(2.0*DB,2.0)+ pow(a,2.0);
       double temp2 = pow(Rab,2.0) + pow(2.0*DA,2.0) + pow(a,2.0);
@@ -4186,6 +4197,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                          rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,4.0);
    }
+   // Eq. (63) in [DT_1977]
    else if(multipoleA == Qxx && multipoleB == Qzz){
       double temp1 = pow(Rab-2.0*DB,2.0) + pow(2.0*DA,2.0) + pow(a,2.0);
       double temp2 = pow(Rab+2.0*DB,2.0) + pow(2.0*DA,2.0) + pow(a,2.0);
@@ -4211,6 +4223,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                          rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,4.0);
    }
+   // Eq. (64) in [DT_1977]
    else if(multipoleA == Qzz && multipoleB == Qzz){
       double temp1 = pow(Rab+2.0*DA-2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab+2.0*DA+2.0*DB,2.0) + pow(a,2.0);
@@ -4227,6 +4240,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
              -pow(temp7,-0.5)/8.0 - pow(temp8,-0.5)/8.0
              +pow(temp9,-0.5)/4.0;
    }
+   // Eq. (65) in [DT_1977]
    else if(multipoleA == Qxz && multipoleB == Qxz){
       double temp1 = pow(Rab+DA-DB,2.0) + pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab+DA-DB,2.0) + pow(DA+DB,2.0) + pow(a,2.0);
@@ -4245,6 +4259,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
       value = this->GetSemiEmpiricalMultipoleInteraction(Qxz, Qxz, 
                                                          rhoA, rhoB, DA, DB, Rab);
    }
+   // Eq. (66) in [DT_1977]
    else if(multipoleA == Qxy && multipoleB == Qxy){
       double temp1 = pow(Rab,2.0) + 2.0*pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + 2.0*pow(DA+DB,2.0) + pow(a,2.0);
@@ -4276,9 +4291,11 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
    double value = 0.0;
    double a = rhoA + rhoB;
 
+   // Eq. (52) in [DT_1977]
    if(multipoleA == sQ && multipoleB == sQ){
       value = -1.0*Rab*pow(pow(Rab,2.0) + pow(a,2.0), -1.5);
    }
+   // Eq. (53) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == muz){
       double temp1 = pow(Rab+DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab-DB,2.0) + pow(a,2.0);
@@ -4291,6 +4308,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,1.0);
    }
+   // Eq. (54) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == Qxx){
       double temp1 = pow(Rab,2.0) + pow(2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + pow(a,2.0);
@@ -4312,6 +4330,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,2.0);
    }
+   // Eq. (55) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == Qzz){
       double temp1 = pow(Rab+2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + pow(a,2.0);
@@ -4326,6 +4345,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,2.0);
    }
+   // Eq. (56) in [DT_1977]
    else if(multipoleA == mux && multipoleB == mux){
       double temp1 = pow(Rab,2.0) + pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + pow(DA+DB,2.0) + pow(a,2.0);
@@ -4337,6 +4357,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
       value = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     mux, mux, rhoA, rhoB, DA, DB, Rab);
    }
+   // Eq. (57) in [DT_1977]
    else if(multipoleA == muz && multipoleB == muz){
       double temp1 = pow(Rab+DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab+DA+DB,2.0) + pow(a,2.0);
@@ -4348,6 +4369,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
              +(Rab-DA+DB)*pow(temp4,-1.5)/4.0;
       value *= -1.0;
    }
+   // Eq. (58) in [DT_1977]
    else if(multipoleA == mux && multipoleB == Qxz){
       double temp1 = pow(Rab-DB,2.0) + pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab-DB,2.0) + pow(DA+DB,2.0) + pow(a,2.0);
@@ -4373,6 +4395,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,3.0);
    }
+   // Eq. (59) in [DT_1977]
    else if(multipoleA == muz && multipoleB == Qxx){
       double temp1 = pow(Rab+DA,2.0) + pow(2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab-DA,2.0) + pow(2.0*DB,2.0) + pow(a,2.0);
@@ -4398,6 +4421,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,3.0);
    }
+   // Eq. (60) in [DT_1977]
    else if(multipoleA == muz && multipoleB == Qzz){
       double temp1 = pow(Rab+DA-2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab-DA-2.0*DB,2.0) + pow(a,2.0);
@@ -4418,6 +4442,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,3.0);
    }
+   // Eq. (61) in [DT_1977]
    else if(multipoleA == Qxx && multipoleB == Qxx){
       double temp1 = pow(Rab,2.0) + 4.0*pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + 4.0*pow(DA+DB,2.0) + pow(a,2.0);
@@ -4435,6 +4460,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
       value = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     Qxx, Qxx, rhoA, rhoB, DA, DB, Rab);
    }
+   // Eq. (62) in [DT_1977]
    else if(multipoleA == Qxx && multipoleB == Qyy){
       double temp1 = pow(Rab,2.0) + pow(2.0*DA,2.0) + pow(2.0*DB,2.0)+ pow(a,2.0);
       double temp2 = pow(Rab,2.0) + pow(2.0*DA,2.0) + pow(a,2.0);
@@ -4451,6 +4477,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,4.0);
    }
+   // Eq. (63) in [DT_1977]
    else if(multipoleA == Qxx && multipoleB == Qzz){
       double temp1 = pow(Rab-2.0*DB,2.0) + pow(2.0*DA,2.0) + pow(a,2.0);
       double temp2 = pow(Rab+2.0*DB,2.0) + pow(2.0*DA,2.0) + pow(a,2.0);
@@ -4480,6 +4507,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
       value *= pow(-1.0,4.0);
    }
+   // Eq. (64) in [DT_1977]
    else if(multipoleA == Qzz && multipoleB == Qzz){
       double temp1 = pow(Rab+2.0*DA-2.0*DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab+2.0*DA+2.0*DB,2.0) + pow(a,2.0);
@@ -4501,6 +4529,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
              +(Rab)*pow(temp9,-1.5)/4.0;
       value *= -1.0;
    }
+   // Eq. (65) in [DT_1977]
    else if(multipoleA == Qxz && multipoleB == Qxz){
       double temp1 = pow(Rab+DA-DB,2.0) + pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab+DA-DB,2.0) + pow(DA+DB,2.0) + pow(a,2.0);
@@ -4524,6 +4553,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
       value = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
                     Qxz, Qxz, rhoA, rhoB, DA, DB, Rab);
    }
+   // Eq. (66) in [DT_1977]
    else if(multipoleA == Qxy && multipoleB == Qxy){
       double temp1 = pow(Rab,2.0) + 2.0*pow(DA-DB,2.0) + pow(a,2.0);
       double temp2 = pow(Rab,2.0) + 2.0*pow(DA+DB,2.0) + pow(a,2.0);
