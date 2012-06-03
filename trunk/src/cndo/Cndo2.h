@@ -170,8 +170,8 @@ protected:
                                             const MolDS_base_atoms::Atom& atomA, 
                                             const MolDS_base_atoms::Atom& atomB) const;
    void FreeDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
-                                          double*** rotatingMatrix,
                                           double*** diaOverlapFirstDeri,
+                                          double*** rotatingMatrix,
                                           double**** rotMatFirstDerivatives) const;
    virtual double GetMolecularIntegralElement(int moI, int moJ, int moK, int moL, 
                                               const MolDS_base::Molecule& molecule, 
