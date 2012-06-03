@@ -82,6 +82,8 @@ void Pm3D::SetMessages(){
       = "Error in pm3::Pm3D::GetSemiEmpiricalMultipoleInteraction: Bad multipole combintaion is set\n";
    this->errorMessageGetSemiEmpiricalMultipoleInteractionFirstDeriBadMultipoles
       = "Error in pm3::Pm3D::GetSemiEmpiricalMultipoleInteractionFirstDerivative: Bad multipole combintaion is set\n";
+   this->errorMessageGetSemiEmpiricalMultipoleInteractionSecondDeriBadMultipoles
+      = "Error in pm3::Pm3D::GetSemiEmpiricalMultipoleInteractionSecondDerivative: Bad multipole combintaion is set\n";
    this->errorMessageGetNddoRepulsionIntegral 
       = "Error in pm3::Pm3D::GetNddoRepulsionIntegral: Bad orbital is set.\n";
    this->errorMessageGetNddoRepulsionIntegralFirstDerivative 

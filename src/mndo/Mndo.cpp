@@ -110,6 +110,8 @@ void Mndo::SetMessages(){
       = "Error in mndo:: Mndo::GetSemiEmpiricalMultipoleInteraction: Bad multipole combintaion is set\n";
    this->errorMessageGetSemiEmpiricalMultipoleInteractionFirstDeriBadMultipoles
       = "Error in mndo:: Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative: Bad multipole combintaion is set\n";
+   this->errorMessageGetSemiEmpiricalMultipoleInteractionSecondDeriBadMultipoles
+      = "Error in mndo:: Mndo::GetSemiEmpiricalMultipoleInteractionSecondDerivative: Bad multipole combintaion is set\n";
    this->errorMessageMultipoleA = "Multipole A is: ";
    this->errorMessageMultipoleB = "Multipole B is: ";
    this->errorMessageGetNddoRepulsionIntegral 
@@ -4572,6 +4574,415 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
    }
    return value;
 }
+// Second derivative of semiempirical multipole-multipole interactions.
+// This derivativ is related to the nuclear distance Rab.
+// See Apendix in [DT_1977]
+double Mndo::GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                                                  MultipoleType multipoleA,
+                                                  MultipoleType multipoleB,
+                                                  double rhoA,
+                                                  double rhoB,
+                                                  double DA,
+                                                  double DB,
+                                                  double Rab) const{
+   double value = 0.0;
+   double a = rhoA + rhoB;
+
+   // Eq. (52) in [DT_1977]
+   if(multipoleA == sQ && multipoleB == sQ){
+      double c1 = 1.0;
+      double f1 = pow(Rab,2.0);
+      double a1 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+   }
+   // Eq. (53) in [DT_1977]
+   else if(multipoleA == sQ && multipoleB == muz){
+      double c1 = 0.5;
+      double c2 = -0.5;
+      double f1 = pow(Rab+DB,2.0);
+      double f2 = pow(Rab-DB,2.0);
+      double a1 = pow(a,2.0);
+      double a2 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+   }
+   else if(multipoleA == muz && multipoleB == sQ){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,1.0);
+   }
+   // Eq. (54) in [DT_1977]
+   else if(multipoleA == sQ && multipoleB == Qxx){
+      double c1 = 0.5;
+      double c2 = -0.5;
+      double f1 = pow(Rab,2.0);
+      double f2 = pow(Rab,2.0);
+      double a1 = pow(2.0*DB,2.0) + pow(a,2.0);
+      double a2 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+   }
+   else if(multipoleA == Qxx && multipoleB == sQ){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,2.0);
+   }
+   else if(multipoleA == sQ && multipoleB == Qyy){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleA, Qxx, rhoA, rhoB, DA, DB, Rab);
+   }
+   else if(multipoleA == Qyy && multipoleB == sQ){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,2.0);
+   }
+   // Eq. (55) in [DT_1977]
+   else if(multipoleA == sQ && multipoleB == Qzz){
+      double c1 = 0.25;
+      double c2 = -0.50;
+      double c3 = 0.25;
+      double f1 = pow(Rab+2.0*DB,2.0);
+      double f2 = pow(Rab,2.0);
+      double f3 = pow(Rab-2.0*DB,2.0);
+      double a1 = pow(a,2.0);
+      double a2 = pow(a,2.0);
+      double a3 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+   }
+   else if(multipoleA == Qzz && multipoleB == sQ){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,2.0);
+   }
+   // Eq. (56) in [DT_1977]
+   else if(multipoleA == mux && multipoleB == mux){
+      double c1 = 0.50;
+      double c2 = -0.50;
+      double f1 = pow(Rab,2.0);
+      double f2 = pow(Rab,2.0);
+      double a1 = pow(DA-DB,2.0) + pow(a,2.0);
+      double a2 = pow(DA+DB,2.0) + pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+   }
+   else if(multipoleA == muy && multipoleB == muy){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    mux, mux, rhoA, rhoB, DA, DB, Rab);
+   }
+   // Eq. (57) in [DT_1977]
+   else if(multipoleA == muz && multipoleB == muz){
+      double c1 =  0.25;
+      double c2 = -0.25;
+      double c3 = -0.25;
+      double c4 =  0.25;
+      double f1 = pow(Rab+DA-DB,2.0);
+      double f2 = pow(Rab+DA+DB,2.0);
+      double f3 = pow(Rab-DA-DB,2.0);
+      double f4 = pow(Rab-DA+DB,2.0);
+      double a1 = pow(a,2.0);
+      double a2 = pow(a,2.0);
+      double a3 = pow(a,2.0);
+      double a4 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+   }
+   // Eq. (58) in [DT_1977]
+   else if(multipoleA == mux && multipoleB == Qxz){
+      double c1 = -0.25;
+      double c2 = 0.25;
+      double c3 = 0.25;
+      double c4 = -0.25;
+      double f1 = pow(Rab-DB,2.0);
+      double f2 = pow(Rab-DB,2.0);
+      double f3 = pow(Rab+DB,2.0);
+      double f4 = pow(Rab+DB,2.0);
+      double a1 = pow(DA-DB,2.0) + pow(a,2.0);
+      double a2 = pow(DA+DB,2.0) + pow(a,2.0);
+      double a3 = pow(DA-DB,2.0) + pow(a,2.0);
+      double a4 = pow(DA+DB,2.0) + pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+   }
+   else if(multipoleA == Qxz && multipoleB == mux){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,3.0);
+   }
+   else if(multipoleA == muy && multipoleB == Qyz){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    mux, Qxz, rhoA, rhoB, DA, DB, Rab);
+   }
+   else if(multipoleA == Qyz && multipoleB == muy){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,3.0);
+   }
+   // Eq. (59) in [DT_1977]
+   else if(multipoleA == muz && multipoleB == Qxx){
+      double c1 = -0.25;
+      double c2 = 0.25;
+      double c3 = 0.25;
+      double c4 = -0.25;
+      double f1 = pow(Rab+DA,2.0);
+      double f2 = pow(Rab-DA,2.0);
+      double f3 = pow(Rab+DA,2.0);
+      double f4 = pow(Rab-DA,2.0);
+      double a1 = pow(2.0*DB,2.0) + pow(a,2.0);
+      double a2 = pow(2.0*DB,2.0) + pow(a,2.0);
+      double a3 = pow(a,2.0);
+      double a4 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+   }
+   else if(multipoleA == Qxx && multipoleB == muz){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,3.0);
+   }
+   else if(multipoleA == muz && multipoleB == Qyy){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    muz, Qxx, rhoA, rhoB, DA, DB, Rab);
+   }
+   else if(multipoleA == Qyy && multipoleB == muz){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,3.0);
+   }
+   // Eq. (60) in [DT_1977]
+   else if(multipoleA == muz && multipoleB == Qzz){
+      double c1 = -0.125;
+      double c2 =  0.125;
+      double c3 = -0.125;
+      double c4 =  0.125;
+      double c5 =  0.25;
+      double c6 = -0.25;
+      double f1 = pow(Rab+DA-2.0*DB,2.0);
+      double f2 = pow(Rab-DA-2.0*DB,2.0);
+      double f3 = pow(Rab+DA+2.0*DB,2.0);
+      double f4 = pow(Rab-DA+2.0*DB,2.0);
+      double f5 = pow(Rab+DA,2.0);
+      double f6 = pow(Rab-DA,2.0);
+      double a1 = pow(a,2.0);
+      double a2 = pow(a,2.0);
+      double a3 = pow(a,2.0);
+      double a4 = pow(a,2.0);
+      double a5 = pow(a,2.0);
+      double a6 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
+      value += c6*(3.0*f6*pow(f6+a6,-2.5) - pow(f6+a6,-1.5));
+   }
+   else if(multipoleA == Qzz && multipoleB == muz){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,3.0);
+   }
+   // Eq. (61) in [DT_1977]
+   else if(multipoleA == Qxx && multipoleB == Qxx){
+      double c1 =  0.125;
+      double c2 =  0.125;
+      double c3 = -0.25;
+      double c4 = -0.25;
+      double c5 =  0.25;
+      double f1 = pow(Rab,2.0);
+      double f2 = pow(Rab,2.0);
+      double f3 = pow(Rab,2.0);
+      double f4 = pow(Rab,2.0);
+      double f5 = pow(Rab,2.0);
+      double a1 = 4.0*pow(DA-DB,2.0) + pow(a,2.0);
+      double a2 = 4.0*pow(DA+DB,2.0) + pow(a,2.0);
+      double a3 = pow(2.0*DA,2.0)    + pow(a,2.0);
+      double a4 = pow(2.0*DB,2.0)    + pow(a,2.0);
+      double a5 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
+   }
+   else if(multipoleA == Qyy && multipoleB == Qyy){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    Qxx, Qxx, rhoA, rhoB, DA, DB, Rab);
+   }
+   // Eq. (62) in [DT_1977]
+   else if(multipoleA == Qxx && multipoleB == Qyy){
+      double c1 =  0.25;
+      double c2 = -0.25;
+      double c3 = -0.25;
+      double c4 =  0.25;
+      double f1 = pow(Rab,2.0);
+      double f2 = pow(Rab,2.0);
+      double f3 = pow(Rab,2.0);
+      double f4 = pow(Rab,2.0);
+      double a1 = pow(2.0*DA,2.0) + pow(2.0*DB,2.0) + pow(a,2.0);
+      double a2 = pow(2.0*DA,2.0) +                   pow(a,2.0);
+      double a3 = pow(2.0*DB,2.0) +                   pow(a,2.0);
+      double a4 =                                     pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+   }
+   else if(multipoleA == Qyy && multipoleB == Qxx){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,4.0);
+   }
+   // Eq. (63) in [DT_1977]
+   else if(multipoleA == Qxx && multipoleB == Qzz){
+      double c1 =  0.125;
+      double c2 =  0.125;
+      double c3 = -0.125;
+      double c4 = -0.125;
+      double c5 = -0.25;
+      double c6 =  0.25;
+      double f1 = pow(Rab-2.0*DB,2.0);
+      double f2 = pow(Rab+2.0*DB,2.0);
+      double f3 = pow(Rab-2.0*DB,2.0);
+      double f4 = pow(Rab+2.0*DB,2.0);
+      double f5 = pow(Rab       ,2.0);
+      double f6 = pow(Rab       ,2.0);
+      double a1 = pow(2.0*DA,2.0) + pow(a,2.0);
+      double a2 = pow(2.0*DA,2.0) + pow(a,2.0);
+      double a3 =                   pow(a,2.0);
+      double a4 =                   pow(a,2.0);
+      double a5 = pow(2.0*DA,2.0) + pow(a,2.0);
+      double a6 =                   pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
+      value += c6*(3.0*f6*pow(f6+a6,-2.5) - pow(f6+a6,-1.5));
+   }
+   else if(multipoleA == Qzz && multipoleB == Qxx){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,4.0);
+   }
+   else if(multipoleA == Qyy && multipoleB == Qzz){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    Qxx, multipoleB, rhoA, rhoB, DA, DB, Rab);
+   }
+   else if(multipoleA == Qzz && multipoleB == Qyy){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    multipoleB, multipoleA, rhoB, rhoA, DB, DA, Rab);
+      value *= pow(-1.0,4.0);
+   }
+   // Eq. (64) in [DT_1977]
+   else if(multipoleA == Qzz && multipoleB == Qzz){
+      double c1 =  0.0625;
+      double c2 =  0.0625;
+      double c3 =  0.0625;
+      double c4 =  0.0625;
+      double c5 = -0.125;
+      double c6 = -0.125;
+      double c7 = -0.125;
+      double c8 = -0.125;
+      double c9 =  0.25;
+      double f1 = pow(Rab+2.0*DA-2.0*DB,2.0);
+      double f2 = pow(Rab+2.0*DA+2.0*DB,2.0);
+      double f3 = pow(Rab-2.0*DA-2.0*DB,2.0);
+      double f4 = pow(Rab-2.0*DA+2.0*DB,2.0);
+      double f5 = pow(Rab+2.0*DA       ,2.0);
+      double f6 = pow(Rab-2.0*DA       ,2.0);
+      double f7 = pow(Rab+2.0*DB       ,2.0);
+      double f8 = pow(Rab-2.0*DB       ,2.0);
+      double f9 = pow(Rab              ,2.0);
+      double a1 = pow(a,2.0);
+      double a2 = pow(a,2.0);
+      double a3 = pow(a,2.0);
+      double a4 = pow(a,2.0);
+      double a5 = pow(a,2.0);
+      double a6 = pow(a,2.0);
+      double a7 = pow(a,2.0);
+      double a8 = pow(a,2.0);
+      double a9 = pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
+      value += c6*(3.0*f6*pow(f6+a6,-2.5) - pow(f6+a6,-1.5));
+      value += c7*(3.0*f7*pow(f7+a7,-2.5) - pow(f7+a7,-1.5));
+      value += c8*(3.0*f8*pow(f8+a8,-2.5) - pow(f8+a8,-1.5));
+      value += c9*(3.0*f9*pow(f9+a9,-2.5) - pow(f9+a9,-1.5));
+   }
+   // Eq. (65) in [DT_1977]
+   else if(multipoleA == Qxz && multipoleB == Qxz){
+      double c1 =  0.125;
+      double c2 = -0.125;
+      double c3 = -0.125;
+      double c4 =  0.125;
+      double c5 = -0.125;
+      double c6 =  0.125;
+      double c7 =  0.125;
+      double c8 = -0.125;
+      double f1 = pow(Rab+DA-DB,2.0);
+      double f2 = pow(Rab+DA-DB,2.0);
+      double f3 = pow(Rab+DA+DB,2.0);
+      double f4 = pow(Rab+DA+DB,2.0);
+      double f5 = pow(Rab-DA-DB,2.0);
+      double f6 = pow(Rab-DA-DB,2.0);
+      double f7 = pow(Rab-DA+DB,2.0);
+      double f8 = pow(Rab-DA+DB,2.0);
+      double a1 = pow(DA-DB,2.0) + pow(a,2.0);
+      double a2 = pow(DA+DB,2.0) + pow(a,2.0);
+      double a3 = pow(DA-DB,2.0) + pow(a,2.0);
+      double a4 = pow(DA+DB,2.0) + pow(a,2.0);
+      double a5 = pow(DA-DB,2.0) + pow(a,2.0);
+      double a6 = pow(DA+DB,2.0) + pow(a,2.0);
+      double a7 = pow(DA-DB,2.0) + pow(a,2.0);
+      double a8 = pow(DA+DB,2.0) + pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
+      value += c6*(3.0*f6*pow(f6+a6,-2.5) - pow(f6+a6,-1.5));
+      value += c7*(3.0*f7*pow(f7+a7,-2.5) - pow(f7+a7,-1.5));
+      value += c8*(3.0*f8*pow(f8+a8,-2.5) - pow(f8+a8,-1.5));
+   }
+   else if(multipoleA == Qyz && multipoleB == Qyz){
+      value = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                    Qxz, Qxz, rhoA, rhoB, DA, DB, Rab);
+   }
+   // Eq. (66) in [DT_1977]
+   else if(multipoleA == Qxy && multipoleB == Qxy){
+      double c1 =  0.25;
+      double c2 =  0.25;
+      double c3 = -0.50;
+      double f1 = pow(Rab,2.0);
+      double f2 = pow(Rab,2.0);
+      double f3 = pow(Rab,2.0);
+      double a1 = 2.0*pow(DA-DB,2.0) + pow(a,2.0);
+      double a2 = 2.0*pow(DA+DB,2.0) + pow(a,2.0);
+      double a3 = 2.0*pow(DA,2.0) + 2.0*pow(DB,2.0) + pow(a,2.0);
+      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+   }
+   else{
+      stringstream ss;
+      ss << this->errorMessageGetSemiEmpiricalMultipoleInteractionSecondDeriBadMultipoles;
+      ss << this->errorMessageMultipoleA << MultipoleTypeStr(multipoleA) << endl;
+      ss << this->errorMessageMultipoleB << MultipoleTypeStr(multipoleB) << endl;
+      throw MolDSException(ss.str());
+   }
+   return value;
+}
+
 }
 
 
