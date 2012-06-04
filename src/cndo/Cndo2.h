@@ -169,6 +169,20 @@ protected:
    void CalcDiatomicOverlapSecondDerivative(double**** overlapSecondDeri, 
                                             const MolDS_base_atoms::Atom& atomA, 
                                             const MolDS_base_atoms::Atom& atomB) const;
+   double GetSecondDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
+                                                            double secondDistanceDeri,
+                                                            MolDS_base::CartesianType axisA1,
+                                                            MolDS_base::CartesianType axisA2,
+                                                            double* cartesian,
+                                                            double Rab) const;
+   void MallocDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
+                                             double*** diaOverlapFirstDeri,
+                                             double*** diaOverlapSecondDeri,
+                                             double*** rotatingMatrix,
+                                             double**** rotMatFirstDerivatives,
+                                             double***** rotMatSecondDerivatives,
+                                             double**** tempOverlapFirstDeri,
+                                             double***** tempOverlapSecondDeri) const;
    void FreeDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
                                           double*** diaOverlapFirstDeri,
                                           double*** rotatingMatrix,
