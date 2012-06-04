@@ -175,30 +175,6 @@ protected:
                                                             MolDS_base::CartesianType axisA2,
                                                             double* cartesian,
                                                             double Rab) const;
-   void MallocDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
-                                            double*** diaOverlapFirstDeri,
-                                            double*** rotatingMatrix,
-                                            double**** rotMatFirstDerivatives) const;
-   void MallocDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
-                                             double*** diaOverlapFirstDeri,
-                                             double*** diaOverlapSecondDeri,
-                                             double*** rotatingMatrix,
-                                             double**** rotMatFirstDerivatives,
-                                             double***** rotMatSecondDerivatives,
-                                             double**** tempOverlapFirstDeri,
-                                             double***** tempOverlapSecondDeri) const;
-   void FreeDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
-                                          double*** diaOverlapFirstDeri,
-                                          double*** rotatingMatrix,
-                                          double**** rotMatFirstDerivatives) const;
-   void FreeDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
-                                           double*** diaOverlapFirstDeri,
-                                           double*** diaOverlapSecondDeri,
-                                           double*** rotatingMatrix,
-                                           double**** rotMatFirstDerivatives,
-                                           double***** rotMatSecondDerivatives,
-                                           double**** tempOverlapFirstDeri,
-                                           double***** tempOverlapSecondDeri) const;
    virtual double GetMolecularIntegralElement(int moI, int moJ, int moK, int moL, 
                                               const MolDS_base::Molecule& molecule, 
                                               double const* const* fockMatrix, 
@@ -415,6 +391,30 @@ private:
                                    double**** diisStoredErrorVect,
                                    double*** diisErrorProducts,
                                    double** diisErrorCoefficients);
+   void MallocDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
+                                            double*** diaOverlapFirstDeri,
+                                            double*** rotatingMatrix,
+                                            double**** rotMatFirstDerivatives) const;
+   void MallocDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
+                                             double*** diaOverlapFirstDeri,
+                                             double*** diaOverlapSecondDeri,
+                                             double*** rotatingMatrix,
+                                             double**** rotMatFirstDerivatives,
+                                             double***** rotMatSecondDerivatives,
+                                             double**** tempOverlapFirstDeri,
+                                             double***** tempOverlapSecondDeri) const;
+   void FreeDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
+                                          double*** diaOverlapFirstDeri,
+                                          double*** rotatingMatrix,
+                                          double**** rotMatFirstDerivatives) const;
+   void FreeDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
+                                           double*** diaOverlapFirstDeri,
+                                           double*** diaOverlapSecondDeri,
+                                           double*** rotatingMatrix,
+                                           double**** rotMatFirstDerivatives,
+                                           double***** rotMatSecondDerivatives,
+                                           double**** tempOverlapFirstDeri,
+                                           double***** tempOverlapSecondDeri) const;
 };
 
 
