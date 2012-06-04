@@ -3365,12 +3365,12 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
 void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri, 
                                                const Atom& atomA, 
                                                const Atom& atomB) const{
-   double Cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
+   double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
                                           atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
                                           atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
-   double R = sqrt( pow(Cartesian[XAxis],2.0) + 
-                    pow(Cartesian[YAxis],2.0) + 
-                    pow(Cartesian[ZAxis],2.0) );
+   double R = sqrt( pow(cartesian[XAxis],2.0) + 
+                    pow(cartesian[YAxis],2.0) + 
+                    pow(cartesian[ZAxis],2.0) );
    
    double** diatomicOverlap = NULL;
    double** diaOverlapFirstDeri = NULL;
@@ -3378,17 +3378,10 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
    double*** rotMatFirstDerivatives = NULL;
 
    try{
-      MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlap, 
-                                                   OrbitalType_end, 
-                                                   OrbitalType_end);
-      MallocerFreer::GetInstance()->Malloc<double>(&diaOverlapFirstDeri, OrbitalType_end, OrbitalType_end);
-      MallocerFreer::GetInstance()->Malloc<double>(&rotatingMatrix, 
-                                                   OrbitalType_end, 
-                                                   OrbitalType_end);
-      MallocerFreer::GetInstance()->Malloc<double>(&rotMatFirstDerivatives, 
-                                                   OrbitalType_end, 
-                                                   OrbitalType_end, 
-                                                   CartesianType_end);
+      this->MallocDiatomicOverlapFirstDeriTemps(&diatomicOverlap,
+                                                &diaOverlapFirstDeri,
+                                                &rotatingMatrix,
+                                                &rotMatFirstDerivatives);
       this->CalcDiatomicOverlapInDiatomicFrame(diatomicOverlap, atomA, atomB);
       this->CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(diaOverlapFirstDeri, atomA, atomB);
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
@@ -3407,7 +3400,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
                   for(int l=0; l<OrbitalType_end; l++){
                      temp1 += rotatingMatrix[i][k] 
                              *rotatingMatrix[j][l]
-                             *(Cartesian[c]/R)
+                             *(cartesian[c]/R)
                              *diaOverlapFirstDeri[k][l];
                      temp2 += rotMatFirstDerivatives[i][k][c] 
                              *rotatingMatrix[j][l]
@@ -3607,6 +3600,16 @@ double Cndo2::GetSecondDerivativeElementFromDistanceDerivatives(double firstDist
       value += pow(cartesian[axisA1]/Rab, 2.0)*secondDistanceDeri;
    }
    return value;
+}
+
+void Cndo2::MallocDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
+                                                double*** diaOverlapFirstDeri,
+                                                double*** rotatingMatrix,
+                                                double**** rotMatFirstDerivatives) const{
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlap, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapFirstDeri, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotatingMatrix, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMatFirstDerivatives, OrbitalType_end, OrbitalType_end, CartesianType_end);
 }
 
 void Cndo2::MallocDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 

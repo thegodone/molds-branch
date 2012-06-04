@@ -175,6 +175,10 @@ protected:
                                                             MolDS_base::CartesianType axisA2,
                                                             double* cartesian,
                                                             double Rab) const;
+   void MallocDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
+                                            double*** diaOverlapFirstDeri,
+                                            double*** rotatingMatrix,
+                                            double**** rotMatFirstDerivatives) const;
    void MallocDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
                                              double*** diaOverlapFirstDeri,
                                              double*** diaOverlapSecondDeri,
