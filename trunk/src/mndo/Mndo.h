@@ -94,19 +94,6 @@ protected:
                                               double const* const* fockMatrix, 
                                               double const* const* gammaAB) const;
    virtual void CalcCISMatrix(double** matrixCIS) const;
-   double GetNddoRepulsionIntegral(const MolDS_base_atoms::Atom& atomA, 
-                                   MolDS_base::OrbitalType mu, 
-                                   MolDS_base::OrbitalType nu,
-                                   const MolDS_base_atoms::Atom& atomB, 
-                                   MolDS_base::OrbitalType lambda, 
-                                   MolDS_base::OrbitalType sigma) const;
-   double GetNddoRepulsionIntegralFirstDerivative(const MolDS_base_atoms::Atom& atomA, 
-                                                  MolDS_base::OrbitalType mu, 
-                                                  MolDS_base::OrbitalType nu,
-                                                  const MolDS_base_atoms::Atom& atomB, 
-                                                  MolDS_base::OrbitalType lambda, 
-                                                  MolDS_base::OrbitalType sigma,
-                                                  MolDS_base::CartesianType axisA) const;
 private:
    std::string errorMessageMultipoleA;
    std::string errorMessageMultipoleB;
@@ -223,6 +210,19 @@ private:
         double const* const* const* const* twoElecTwoCoreDiatomic,
         double const* const* rotatingMatrix,
         double const* const* const* rotMatFirstDerivatives) const;
+   double GetNddoRepulsionIntegral(const MolDS_base_atoms::Atom& atomA, 
+                                   MolDS_base::OrbitalType mu, 
+                                   MolDS_base::OrbitalType nu,
+                                   const MolDS_base_atoms::Atom& atomB, 
+                                   MolDS_base::OrbitalType lambda, 
+                                   MolDS_base::OrbitalType sigma) const;
+   double GetNddoRepulsionIntegralFirstDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                  MolDS_base::OrbitalType mu, 
+                                                  MolDS_base::OrbitalType nu,
+                                                  const MolDS_base_atoms::Atom& atomB, 
+                                                  MolDS_base::OrbitalType lambda, 
+                                                  MolDS_base::OrbitalType sigma,
+                                                  MolDS_base::CartesianType axisA) const;
    double GetSemiEmpiricalMultipoleInteraction(MolDS_base::MultipoleType multipoleA,
                                                MolDS_base::MultipoleType multipoleB,
                                                double rhoA,
