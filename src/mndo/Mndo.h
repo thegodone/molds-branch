@@ -35,6 +35,7 @@ protected:
    std::string errorMessageGetSemiEmpiricalMultipoleInteractionSecondDeriBadMultipoles;
    std::string errorMessageGetNddoRepulsionIntegral;
    std::string errorMessageGetNddoRepulsionIntegralFirstDerivative;
+   std::string errorMessageGetNddoRepulsionIntegralSecondDerivative;
    std::string errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix;
    std::string errorMessageCalcTwoElecTwoCoreNullMatrix;
    std::string errorMessageCalcTwoElecTwoCoreDiatomicSameAtoms;

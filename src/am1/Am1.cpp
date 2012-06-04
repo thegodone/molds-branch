@@ -85,6 +85,8 @@ void Am1::SetMessages(){
       = "Error in am1::Am1::GetNddoRepulsionIntegral: Bad orbital is set.\n";
    this->errorMessageGetNddoRepulsionIntegralFirstDerivative 
       = "Error in am1::Am1::GetNddoRepulsionIntegralFirstDerivative: Bad orbital is set.\n";
+   this->errorMessageGetNddoRepulsionIntegralSecondDerivative 
+      = "Error in am1::Am1::GetNddoRepulsionIntegralSecondDerivative: Bad orbital is set.\n";
    this->errorMessageCalcTwoElecTwoCoreNullMatrix 
       = "Error in am1::Am1::CalcTwoElecTwoCore: The two elec two core matrix is NULL.\n"; 
    this->errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix 

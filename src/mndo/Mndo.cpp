@@ -118,6 +118,8 @@ void Mndo::SetMessages(){
       = "Error in mndo::Mndo::GetNddoRepulsionIntegral: Bad orbital is set.\n";
    this->errorMessageGetNddoRepulsionIntegralFirstDerivative 
       = "Error in mndo::Mndo::GetNddoRepulsionIntegralFirstDerivative: Bad orbital is set.\n";
+   this->errorMessageGetNddoRepulsionIntegralSecondDerivative 
+      = "Error in mndo::Mndo::GetNddoRepulsionIntegralSecondDerivative: Bad orbital is set.\n";
    this->errorMessageCalcTwoElecTwoCoreNullMatrix 
       = "Error in mndo::Mndo::CalcTwoElecTwoCore: The two elec two core matrix is NULL.\n"; 
    this->errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix 
