@@ -4032,6 +4032,1377 @@ double Mndo::GetNddoRepulsionIntegralFirstDerivative(
    return value;
 }
 
+// Second derivative of NDDO repulsion integral.
+// Both derivation are related to the coordinate of atomA
+// See Apendix in [DT_1977]
+// Orbital mu and nu belong atom A, 
+// orbital lambda and sigma belong atomB.
+double Mndo::GetNddoRepulsionIntegralSecondDerivative(
+                                       const Atom& atomA, OrbitalType mu, OrbitalType nu,
+                                       const Atom& atomB, OrbitalType lambda, OrbitalType sigma,
+                                       CartesianType axisA1,
+                                       CartesianType axisA2) const{
+   double value = 0.0;
+   double DA=0.0;
+   double DB=0.0;
+   double rhoA = 0.0;
+   double rhoB = 0.0;
+   double Rab = this->molecule->GetDistanceAtoms(atomA, atomB);
+   double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
+                                          atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
+                                          atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
+   double firstDeri=0.0;
+   double secondDeri=0.0;
+   int lA = 0;
+   int lB = 0;
+   // (28) in [DT_1977]
+   if(mu == s && nu == s && lambda == s && sigma == s){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      value = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                      secondDeri,
+                                                                      axisA1,
+                                                                      axisA2,
+                                                                      cartesian,
+                                                                      Rab);
+   }
+   // (29) in [DT_1977]
+   else if(mu == s && nu == s && lambda == px && sigma == px){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qxx, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qxx, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   else if(mu == s && nu == s && lambda == py && sigma == py){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qyy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qyy, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   // (30) in [DT_1977]
+   else if(mu == s && nu == s && lambda == pz && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qzz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qzz, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   // (31) in [DT_1977]
+   else if(mu == px && nu == px && lambda == s && sigma == s){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxx, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxx, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   else if(mu == py && nu == py && lambda == s && sigma == s){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyy, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyy, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   // (32) in [DT_1977]
+   else if(mu == pz && nu == pz && lambda == s && sigma == s){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qzz, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qzz, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   // (33) in [DT_1977]
+   else if(mu == px && nu == px && lambda == px && sigma == px){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qxx, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qxx, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxx, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxx, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxx, Qxx, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxx, Qxx, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   else if(mu == py && nu == py && lambda == py && sigma == py){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qyy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qyy, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyy, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyy, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyy, Qyy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyy, Qyy, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   // (34) in [DT_1977]
+   else if(mu == px && nu == px && lambda == py && sigma == py){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qyy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qyy, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxx, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxx, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxx, Qyy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxx, Qyy, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   else if(mu == py && nu == py && lambda == px && sigma == px){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qxx, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qxx, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyy, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyy, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyy, Qxx, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyy, Qxx, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   // (35) in [DT_1977]
+   else if(mu == px && nu == px && lambda == pz && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qzz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qzz, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxx, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxx, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxx, Qzz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxx, Qzz, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   else if(mu == py && nu == py && lambda == pz && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qzz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qzz, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyy, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyy, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyy, Qzz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyy, Qzz, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   // (36) in [DT_1977]
+   else if(mu == pz && nu == pz && lambda == px && sigma == px){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qxx, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qxx, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qzz, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qzz, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qzz, Qxx, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qzz, Qxx, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   else if(mu == pz && nu == pz && lambda == py && sigma == py){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qyy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qyy, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qzz, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qzz, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qzz, Qyy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qzz, Qyy, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   // (37) in [DT_1977]
+   else if(mu == pz && nu == pz && lambda == pz && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, Qzz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, Qzz, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qzz, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qzz, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp3 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qzz, Qzz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qzz, Qzz, rhoA, rhoB, DA, DB, Rab);
+      double temp4 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      value = temp1 + temp2 + temp3 + temp4;
+   }
+   // (38) in [DT_1977]
+   else if(mu == s && nu == pz && lambda == s && sigma == s){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muz, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muz, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == pz && nu == s && lambda == s && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   // (39) in [DT_1977]
+   else if(mu == s && nu == pz && lambda == px && sigma == px){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muz, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muz, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muz, Qxx, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muz, Qxx, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   else if(mu == pz && nu == s && lambda == px && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == s && nu == pz && lambda == py && sigma == py){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muz, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muz, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muz, Qyy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muz, Qyy, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   else if(mu == pz && nu == s && lambda == py && sigma == py){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   // (40) in [DT_1977]
+   else if(mu == s && nu == pz && lambda == pz && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 0);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 0);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muz, sQ, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muz, sQ, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muz, Qzz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muz, Qzz, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   else if(mu == pz && nu == s && lambda == pz && sigma == pz){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   // (41) in [DT_1977]
+   else if(mu == s && nu == s && lambda == s && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, muz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, muz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == s && nu == s && lambda == pz && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // (42) in [DT_1977]
+   else if(mu == px && nu == px && lambda == s && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, muz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, muz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxx, muz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxx, muz, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   else if(mu == px && nu == px && lambda == pz && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == py && nu == py && lambda == s && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, muz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, muz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyy, muz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyy, muz, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   else if(mu == py && nu == py && lambda == pz && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // (43) in [DT_1977]
+   else if(mu == pz && nu == pz && lambda == s && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 0);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 0);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        sQ, muz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         sQ, muz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qzz, muz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qzz, muz, rhoA, rhoB, DA, DB, Rab);
+      double temp2 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1 + temp2;
+   }
+   else if(mu == pz && nu == pz && lambda == pz && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // (44) in [DT_1977]
+   else if(mu == s && nu == px && lambda == s && sigma == px){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        mux, mux, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         mux, mux, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == px && nu == s && lambda == s && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == s && nu == px && lambda == px && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == px && nu == s && lambda == px && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == s && nu == py && lambda == s && sigma == py){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muy, muy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muy, muy, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == py && nu == s && lambda == s && sigma == py){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == s && nu == py && lambda == py && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == py && nu == s && lambda == py && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // (45) in [DT_1977]
+   else if(mu == s && nu == pz && lambda == s && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muz, muz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muz, muz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == pz && nu == s && lambda == s && sigma == pz){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == s && nu == pz && lambda == pz && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == pz && nu == s && lambda == pz && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // (46) in [DT_1977]
+   else if(mu == s && nu == px && lambda == px && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        mux, Qxz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         mux, Qxz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == px && nu == s && lambda == px && sigma == pz){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == s && nu == px && lambda == pz && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == px && nu == s && lambda == pz && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == s && nu == py && lambda == py && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 1);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 1);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        muy, Qyz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         muy, Qyz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == py && nu == s && lambda == py && sigma == pz){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == s && nu == py && lambda == pz && sigma == py){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == py && nu == s && lambda == pz && sigma == py){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // (47) in [DT_1977]
+   else if(mu == px && nu == pz && lambda == s && sigma == px){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxz, mux, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxz, mux, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == pz && nu == px && lambda == s && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == px && nu == pz && lambda == px && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == pz && nu == px && lambda == px && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == py && nu == pz && lambda == s && sigma == py){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 1);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 1);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyz, muy, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyz, muy, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == pz && nu == py && lambda == s && sigma == py){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == py && nu == pz && lambda == py && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == pz && nu == py && lambda == py && sigma == s){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // (48) in [DT_1977]
+   else if(mu == px && nu == pz && lambda == px && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qxz, Qxz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qxz, Qxz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == pz && nu == px && lambda == px && sigma == pz){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == px && nu == pz && lambda == pz && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == pz && nu == px && lambda == pz && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == py && nu == pz && lambda == py && sigma == pz){
+      DA = atomA.GetNddoDerivedParameterD(this->theory, 2);
+      DB = atomB.GetNddoDerivedParameterD(this->theory, 2);
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, 2);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, 2);
+      firstDeri = this->GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+                        Qyz, Qyz, rhoA, rhoB, DA, DB, Rab);
+      secondDeri = this->GetSemiEmpiricalMultipoleInteractionSecondDerivative(
+                         Qyz, Qyz, rhoA, rhoB, DA, DB, Rab);
+      double temp1 = this->GetSecondDerivativeElementFromDistanceDerivatives(firstDeri,
+                                                                             secondDeri,
+                                                                             axisA1,
+                                                                             axisA2,
+                                                                             cartesian,
+                                                                             Rab);
+      value = temp1;
+   }
+   else if(mu == pz && nu == py && lambda == py && sigma == pz){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == py && nu == pz && lambda == pz && sigma == py){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == pz && nu == py && lambda == pz && sigma == py){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // (49) in [DT_1977] and p19 in [MOPAC_1990]
+   else if(mu == px && nu == py && lambda == px && sigma == py){
+      value = 0.5*(this->GetNddoRepulsionIntegralSecondDerivative(
+                         atomA, mu, mu, atomB, mu, mu, axisA1, axisA2)
+                  -this->GetNddoRepulsionIntegralSecondDerivative(
+                         atomA, mu, mu, atomB, nu, nu, axisA1, axisA2));
+   }
+   else if(mu == py && nu == px && lambda == px && sigma == py){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, lambda, sigma, axisA1, axisA2);
+   }
+   else if(mu == px && nu == py && lambda == py && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, mu, nu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   else if(mu == py && nu == px && lambda == py && sigma == px){
+      value = this->GetNddoRepulsionIntegralSecondDerivative(
+                    atomA, nu, mu, atomB, sigma, lambda, axisA1, axisA2);
+   }
+   // d-orbitals
+   else if(mu == dxy || mu == dyz || mu == dzz || mu == dzx || mu == dxxyy ||
+           nu == dxy || nu == dyz || nu == dzz || nu == dzx || nu == dxxyy ||
+           lambda == dxy || lambda == dyz || lambda == dzz || lambda  == dzx || lambda == dxxyy ||
+           sigma == dxy || sigma == dyz || sigma == dzz || sigma  == dzx || sigma == dxxyy){
+
+      stringstream ss;
+      ss << this->errorMessageGetNddoRepulsionIntegralSecondDerivative;
+      ss << this->errorMessageAtomA << AtomTypeStr(atomA.GetAtomType()) << endl;
+      ss << "\t" << this->errorMessageOrbitalType << OrbitalTypeStr(mu) << endl;
+      ss << "\t" << this->errorMessageOrbitalType << OrbitalTypeStr(nu) << endl;
+      ss << this->errorMessageAtomB << AtomTypeStr(atomB.GetAtomType()) << endl;
+      ss << "\t" << this->errorMessageOrbitalType << OrbitalTypeStr(lambda) << endl;
+      ss << "\t" << this->errorMessageOrbitalType << OrbitalTypeStr(sigma) << endl;
+      throw MolDSException(ss.str());
+   }
+   else{
+      value = 0.0;
+   }
+   return value;
+}
+
 // See Apendix in [DT_1977]
 double Mndo::GetSemiEmpiricalMultipoleInteraction(MultipoleType multipoleA,
                                                   MultipoleType multipoleB,
@@ -4576,6 +5947,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteractionFirstDerivative(
    }
    return value;
 }
+
 // Second derivative of semiempirical multipole-multipole interactions.
 // This derivativ is related to the nuclear distance Rab.
 // See Apendix in [DT_1977]
