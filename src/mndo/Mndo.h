@@ -224,6 +224,14 @@ private:
                                                   MolDS_base::OrbitalType lambda, 
                                                   MolDS_base::OrbitalType sigma,
                                                   MolDS_base::CartesianType axisA) const;
+   double GetNddoRepulsionIntegralSecondDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                   MolDS_base::OrbitalType mu, 
+                                                   MolDS_base::OrbitalType nu,
+                                                   const MolDS_base_atoms::Atom& atomB, 
+                                                   MolDS_base::OrbitalType lambda, 
+                                                   MolDS_base::OrbitalType sigma,
+                                                   MolDS_base::CartesianType axisA1,
+                                                   MolDS_base::CartesianType axisA2) const;
    double GetSemiEmpiricalMultipoleInteraction(MolDS_base::MultipoleType multipoleA,
                                                MolDS_base::MultipoleType multipoleB,
                                                double rhoA,
