@@ -33,9 +33,9 @@ ALL_OBJ_FILES = obj/Main.o obj/MolDSException.o obj/Lapack.o obj/Utilities.o obj
 
 $(EXENAME): depend $(ALL_OBJ_FILES)
 ifeq ($(INTEL), 64)
-	$(CC) -o $@ -Wl,-rpath=$(BOOST_LIB_DIR) $(ALL_OBJ_FILES) -L$(BOOST_LIB_DIR) $(LIBS64) $(CFLAGS) $(BOOST_LIBS)
+	$(CC) -o $@ -Wl,-rpath=$(BOOST_LIB_DIR) $(ALL_OBJ_FILES) -L$(BOOST_LIB_DIR) $(LIBS64) $(BOOST_LIBS)
 else
-	$(CC) -o $@ -Wl,-rpath=$(BOOST_LIB_DIR) $(ALL_OBJ_FILES) -L$(BOOST_LIB_DIR) $(LIBS32) $(CFLAGS) $(BOOST_LIBS)
+	$(CC) -o $@ -Wl,-rpath=$(BOOST_LIB_DIR) $(ALL_OBJ_FILES) -L$(BOOST_LIB_DIR) $(LIBS32) $(BOOST_LIBS) 
 endif
 
 ifeq ($(wildcard $(DEPFILE)), $(DEPFILE))
@@ -44,9 +44,9 @@ endif
 
 depend: $(ALL_HEAD_FILES) $(ALL_CPP_FILES)
 ifeq ($(INTEL), 64)
-	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -L$$(BOOST_LIB_DIR) -o $$@ $$< $$(LIBS64) $$(CFLAGS) $$(BOOST_LIBS) -c /g' > $(DEPFILE)
+	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS) -c /g' > $(DEPFILE)
 else
-	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -L$$(BOOST_LIB_DIR) -o $$@ $$< $$(LIBS32) $$(CFLAGS) $$(BOOST_LIBS) -c /g' > $(DEPFILE)
+	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS) -c /g' > $(DEPFILE)
 endif
 
 .PHONY: clean
