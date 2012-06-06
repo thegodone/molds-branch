@@ -20,34 +20,43 @@
 
 ==============================================================================
 REQUIREMENTS:
-   MolDS requires intel-c++-compliler(icpc), mkl, and boost-libraries.
-   GNU c++-compiler is not supported for MolDS.
-   To get the boost-libraries, see the HP of the boost: http://www.boost.org/
+   MolDS requires c/c++ compiler of Intel (icpc) or GNU (g++) and boost-libraries. 
+   Valid versions of these compiler are icpc 11.0, g++ 4.4, or later because the
+   MolDS is implemented with openMP 3.0. To compile MolDS with g++, furthermore, 
+   openBLAS is also required. The default compiler is set as icpc. 
+
+   To get the boost-libraries, see the HP: http://www.boost.org/
+   To get the openBLAS-libraries, see the HP: http://xianyi.github.com/OpenBLAS/
 
 ==============================================================================
 COMPILE(using GNUmake): 
    In the "src" directory in the MolDS package.
-   Change the "BOOST_TOP_DIR" to the top directory of the boost-libraries 
-   in your systems.
 
-   To compile MolDS on 32 bit archtecture,
-   $ make depend INTEL=32
-   $ make INTEL=32
+   Case i) Use Intel c/c++ compiler (icpc)
+      Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
+      boost-libraries in your systems.
 
-   To compile MolDS on 64 bit archtecture,
-   $ make depend INTEL=64
-   $ make INTEL=64
+      To compile MolDS on 32 bit archtecture,
+      $ make depend INTEL=32
+      $ make INTEL=32
 
-   The compile succeeded if you could fine "MolDS.out" in the "src" directory. 
-   Use "$ make clean" when you wanna clean the compilation.
+      To compile MolDS on 64 bit archtecture,
+      $ make depend INTEL=64
+      $ make INTEL=64
 
-COMPILE(primitive method): 
-   In the "src" directory in the MolDS package.
-   for 32 bit
-   $ icc <MolDS.cpp and all cpp-files> -lmkl_intel -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -O3 -openmp -openmp-report2
+   Case ii) Use GNU c/c++ compiler (g++)
+      Rename "Makefile_GNU" to "Makefile".
+      Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
+      boost-libraries in your systems.
+      Change the "OPENBLAS_TOP_DIR" in Makefile to the top directory of the 
+      boost-libraries in your systems.
+      
+      Then, just type: 
+      $ make depend
+      $ make 
 
-   for 64 bit
-   $ icc <MolDS.cpp and all cpp-files> -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -O3 -openmp -openmp-report2
+   For both case, the compile succeeded if you could fine "MolDS.out" in the "src" directory. 
+   Type "$ make clean" when you wanna clean the compilation.
 
 ==============================================================================
 CARRY OUT MolDS:
