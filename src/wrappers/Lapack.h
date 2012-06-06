@@ -18,7 +18,6 @@
 //************************************************************************//
 #ifndef INCLUDED_LAPACK
 #define INCLUDED_LAPACK
-#include"mkl.h"
 namespace MolDS_wrappers{
 // Lapacke is singleton
 class Lapack: public MolDS_base::PrintController, private MolDS_base::Uncopyable{
