@@ -101,7 +101,9 @@ void Optimizer::SetEnableTheoryTypes(){
    this->enableTheoryTypes.push_back(ZINDOS);
    this->enableTheoryTypes.push_back(MNDO);
    this->enableTheoryTypes.push_back(AM1);
+   this->enableTheoryTypes.push_back(AM1D);
    this->enableTheoryTypes.push_back(PM3);
+   this->enableTheoryTypes.push_back(PM3D);
    this->enableTheoryTypes.push_back(PM3PDDG);
 }
 
