@@ -308,14 +308,18 @@ void RPMD::SetEnableTheoryTypes(){
    this->enableGroundStateTheoryTypes.push_back(ZINDOS);
    this->enableGroundStateTheoryTypes.push_back(MNDO);
    this->enableGroundStateTheoryTypes.push_back(AM1);
+   this->enableGroundStateTheoryTypes.push_back(AM1D);
    this->enableGroundStateTheoryTypes.push_back(PM3);
+   this->enableGroundStateTheoryTypes.push_back(PM3D);
    this->enableGroundStateTheoryTypes.push_back(PM3PDDG);
 
    // excited state
    this->enableExcitedStateTheoryTypes.clear();
    this->enableExcitedStateTheoryTypes.push_back(MNDO);
    this->enableExcitedStateTheoryTypes.push_back(AM1);
+   this->enableExcitedStateTheoryTypes.push_back(AM1D);
    this->enableExcitedStateTheoryTypes.push_back(PM3);
+   this->enableExcitedStateTheoryTypes.push_back(PM3D);
    this->enableExcitedStateTheoryTypes.push_back(PM3PDDG);
 }
 
