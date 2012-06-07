@@ -119,7 +119,7 @@ HOW TO WRITE INPUT:
 
    <SCF>
       Write "cndo/2", "indo", "zindo/s", "mndo", "am1", "am1-d",
-      "pm3", "pm3-D", or "pm3/pddg" in theory-directive.
+      "pm3", "pm3-d", or "pm3/pddg" in theory-directive.
       This theory-directive indicate a electronic structure theory used in your simulations.
       MNDO only supports (can calculate) Heats of formation.
       SCF module outputs also the dipole moment arrond the center of cores of the molecule.
