@@ -2515,7 +2515,34 @@ void Mndo::RotateTwoElecTwoCoreDiatomicToSpaceFramegc(double**** matrix,
       }
    }
    
-   // rotate
+   // rotate (fast algorythm, see also slow algorythm shown later)
+   for(int mu=0; mu<dxy; mu++){
+      for(int nu=0; nu<dxy; nu++){
+         for(int lambda=0; lambda<dxy; lambda++){
+            for(int sigma=0; sigma<dxy; sigma++){
+               matrix[mu][nu][lambda][sigma] = 0.0;
+               for(int i=0; i<dxy; i++){
+                  double tempI = 0.0;
+                  for(int j=0; j<dxy; j++){
+                     double tempIJ = 0.0;
+                     for(int k=0; k<dxy; k++){
+                        double tempIJK = 0.0;
+                        for(int l=0; l<dxy; l++){
+                           tempIJK += oldMatrix[i][j][k][l]*rotatingMatrix[sigma][l];
+                        }
+                        tempIJ += tempIJK*rotatingMatrix[lambda][k];
+                     }
+                     tempI += tempIJ*rotatingMatrix[nu][j];
+                  }
+                  matrix[mu][nu][lambda][sigma] += tempI*rotatingMatrix[mu][i];
+               }
+            }
+         }
+      }
+   }
+
+   /*
+   // rotate (slow algorythm)
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
@@ -2538,6 +2565,7 @@ void Mndo::RotateTwoElecTwoCoreDiatomicToSpaceFramegc(double**** matrix,
          }
       }
    }
+   */
 }
 
 // Rotate 5-dimensional matrix from diatomic frame to space frame
