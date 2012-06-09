@@ -17,7 +17,7 @@
 #// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 #//************************************************************************//
 CC = g++
-LIBS =  -liomp5 -lpthread
+LIBS =  -lpthread
 CFLAGS = -O0 -fopenmp 
 BOOST_TOP_DIR = /usr/local/boost1.48.0/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)include/
