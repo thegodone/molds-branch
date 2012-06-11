@@ -2439,9 +2439,9 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
    double*** rotMatFirstDerivatives = NULL;
    double**** twoElecTwoCoreDiatomic = NULL;
    try{
-      this->MallocTempMatricesTwoElecTwoCoreDiatomicFirstDerivatives(&rotatingMatrix,
-                                                                     &rotMatFirstDerivatives,
-                                                                     &twoElecTwoCoreDiatomic);
+      this->MallocTwoElecTwoCoreDiatomicFirstDeriTemps(&rotatingMatrix,
+                                                       &rotMatFirstDerivatives,
+                                                       &twoElecTwoCoreDiatomic);
       // calclation in diatomic frame
       for(int mu=0; mu<atomA.GetValenceSize(); mu++){
          for(int nu=0; nu<atomA.GetValenceSize(); nu++){
@@ -2480,19 +2480,19 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
                                                                        rotMatFirstDerivatives);
    }
    catch(MolDSException ex){
-      this->FreeTempMatricesTwoElecTwoCoreDiatomicFirstDerivatives(&rotatingMatrix,
-                                                                   &rotMatFirstDerivatives,
-                                                                   &twoElecTwoCoreDiatomic);
+      this->FreeTwoElecTwoCoreDiatomicFirstDeriTemps(&rotatingMatrix,
+                                                     &rotMatFirstDerivatives,
+                                                     &twoElecTwoCoreDiatomic);
       throw ex;
    }
-   this->FreeTempMatricesTwoElecTwoCoreDiatomicFirstDerivatives(&rotatingMatrix,
-                                                                &rotMatFirstDerivatives,
-                                                                &twoElecTwoCoreDiatomic);
+   this->FreeTwoElecTwoCoreDiatomicFirstDeriTemps(&rotatingMatrix,
+                                                  &rotMatFirstDerivatives,
+                                                  &twoElecTwoCoreDiatomic);
 }
 
-void Mndo::MallocTempMatricesTwoElecTwoCoreDiatomicFirstDerivatives(double*** rotatingMatrix,
-                                                                    double**** rotMatFirstDerivatives,
-                                                                    double***** twoElecTwoCoreDiatomic) const{
+void Mndo::MallocTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
+                                                      double**** rotMatFirstDerivatives,
+                                                      double***** twoElecTwoCoreDiatomic) const{
    MallocerFreer::GetInstance()->Malloc<double>(rotatingMatrix,
                                                 OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(rotMatFirstDerivatives, 
@@ -2502,9 +2502,9 @@ void Mndo::MallocTempMatricesTwoElecTwoCoreDiatomicFirstDerivatives(double*** ro
    MallocerFreer::GetInstance()->Malloc<double>(twoElecTwoCoreDiatomic, dxy, dxy, dxy, dxy);
 }
 
-void Mndo::FreeTempMatricesTwoElecTwoCoreDiatomicFirstDerivatives(double*** rotatingMatrix,
-                                                                  double**** rotMatFirstDerivatives,
-                                                                  double***** twoElecTwoCoreDiatomic) const{
+void Mndo::FreeTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
+                                                    double**** rotMatFirstDerivatives,
+                                                    double***** twoElecTwoCoreDiatomic) const{
    MallocerFreer::GetInstance()->Free<double>(rotatingMatrix,
                                               OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(rotMatFirstDerivatives, 
