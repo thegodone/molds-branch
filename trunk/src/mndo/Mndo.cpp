@@ -2451,8 +2451,8 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
          for(int nu=0; nu<atomA.GetValenceSize(); nu++){
             for(int lambda=0; lambda<atomB.GetValenceSize(); lambda++){
                for(int sigma=0; sigma<atomB.GetValenceSize(); sigma++){
-                  for(int c=0; c<CartesianType_end; c++){
-                     matrix[mu][nu][lambda][sigma][c] 
+                  for(int dimA=0; dimA<CartesianType_end; dimA++){
+                     matrix[mu][nu][lambda][sigma][dimA] 
                         = this->GetNddoRepulsionIntegralFirstDerivative(
                                 atomA, 
                                 atomA.GetValence(mu),
@@ -2460,7 +2460,7 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
                                 atomB, 
                                 atomB.GetValence(lambda),
                                 atomB.GetValence(sigma),
-                                (CartesianType)c);
+                                static_cast<CartesianType>(dimA));
                   }  
                   twoElecTwoCoreDiatomic[mu][nu][lambda][sigma] 
                      = this->GetNddoRepulsionIntegral(
