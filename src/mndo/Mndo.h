@@ -204,12 +204,12 @@ private:
    void CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix, 
                                                    int atomAIndex, 
                                                    int atomBIndex) const;
-   void MallocTempMatricesTwoElecTwoCoreDiatomicFirstDerivatives(double*** rotatingMatrix,
-                                                                 double**** rotMatFirstDerivatives,
-                                                                 double***** twoElecTwoCoreDiatomic) const;
-   void FreeTempMatricesTwoElecTwoCoreDiatomicFirstDerivatives(double*** rotatingMatrix,
-                                                               double**** rotMatFirstDerivatives,
-                                                               double***** twoElecTwoCoreDiatomic) const;
+   void MallocTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
+                                                   double**** rotMatFirstDerivatives,
+                                                   double***** twoElecTwoCoreDiatomic) const;
+   void FreeTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
+                                                 double**** rotMatFirstDerivatives,
+                                                 double***** twoElecTwoCoreDiatomic) const;
    void RotateTwoElecTwoCoreDiatomicToSpaceFramegc(double**** matrix, 
                                                    double const* const* rotatingMatrix) const;
    void RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(
