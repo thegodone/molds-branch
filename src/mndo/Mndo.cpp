@@ -2541,14 +2541,25 @@ void Mndo::CalcTwoElecTwoCoreDiatomicSecondDerivatives(double****** matrix,
                                                         &rotMatSecondDerivatives,
                                                         &twoElecTwoCoreDiatomic,
                                                         &twoElecTwoCoreDiatomicFirstDerivatives);
-      /*
       // calclation in diatomic frame
       for(int mu=0; mu<atomA.GetValenceSize(); mu++){
          for(int nu=0; nu<atomA.GetValenceSize(); nu++){
             for(int lambda=0; lambda<atomB.GetValenceSize(); lambda++){
                for(int sigma=0; sigma<atomB.GetValenceSize(); sigma++){
-                  for(int c=0; c<CartesianType_end; c++){
-                     matrix[mu][nu][lambda][sigma][c] 
+                  for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
+                     for(int dimA2=0; dimA2<CartesianType_end; dimA2++){
+                        matrix[mu][nu][lambda][sigma][dimA1][dimA2]
+                           = this->GetNddoRepulsionIntegralSecondDerivative(
+                                   atomA, 
+                                   atomA.GetValence(mu),
+                                   atomA.GetValence(nu),
+                                   atomB, 
+                                   atomB.GetValence(lambda),
+                                   atomB.GetValence(sigma),
+                                   static_cast<CartesianType>(dimA1),
+                                   static_cast<CartesianType>(dimA2));
+                     }
+                     twoElecTwoCoreDiatomicFirstDerivatives[mu][nu][lambda][sigma][dimA1] 
                         = this->GetNddoRepulsionIntegralFirstDerivative(
                                 atomA, 
                                 atomA.GetValence(mu),
@@ -2556,7 +2567,7 @@ void Mndo::CalcTwoElecTwoCoreDiatomicSecondDerivatives(double****** matrix,
                                 atomB, 
                                 atomB.GetValence(lambda),
                                 atomB.GetValence(sigma),
-                                (CartesianType)c);
+                                static_cast<CartesianType>(dimA1));
                   }  
                   twoElecTwoCoreDiatomic[mu][nu][lambda][sigma] 
                      = this->GetNddoRepulsionIntegral(
@@ -2570,7 +2581,6 @@ void Mndo::CalcTwoElecTwoCoreDiatomicSecondDerivatives(double****** matrix,
             }
          }
       }
-      */
 
       // rotate matirix into the space frame
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
