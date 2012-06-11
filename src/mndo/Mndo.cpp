@@ -122,14 +122,18 @@ void Mndo::SetMessages(){
       = "Error in mndo::Mndo::GetNddoRepulsionIntegralSecondDerivative: Bad orbital is set.\n";
    this->errorMessageCalcTwoElecTwoCoreNullMatrix 
       = "Error in mndo::Mndo::CalcTwoElecTwoCore: The two elec two core matrix is NULL.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix 
-      = "Error in mndo::Mndo::CalcTwoElecTwoCoreDiatomic: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageCalcTwoElecTwoCoreDiatomicSameAtoms
       = "Error in mndo::Mndo::CalcTwoElecTwoCoreDiatomic: Atom A and B is same.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesNullMatrix
-      = "Error in mndo::Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesSameAtoms
       = "Error in mndo::Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesSameAtoms
+      = "Error in mndo::Mndo::CalcTwoElecTwoCoreDiatomicSecondDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix 
+      = "Error in mndo::Mndo::CalcTwoElecTwoCoreDiatomic: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesNullMatrix
+      = "Error in mndo::Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesNullMatrix
+      = "Error in mndo::Mndo::CalcTwoElecTwoCoreDiatomicSecondDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageGetElectronicEnergyEnergyNotCalculated
       = "Error in mndo::Mndo::GetElectronicEnergy: Set electronic state is not calculated by CIS.\n";
    this->errorMessageGetElectronicEnergyNULLCISEnergy 
@@ -2490,6 +2494,104 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
                                                   &twoElecTwoCoreDiatomic);
 }
 
+// Calculation of second derivatives of the two electrons two cores integral 
+// (mu, nu | lambda, sigma), taht is, Eq. (9) in ref. [DT_1977-2].
+// Both derivative is related to the coordinates of atomA.
+// Note that atomA != atomB.
+// Note taht d-orbital cannot be treated, 
+// that is, matrix[dxy][dxy][dxy][dxy][CartesianType_end][CartesianType_end] cannot be treatable.
+void Mndo::CalcTwoElecTwoCoreDiatomicSecondDerivatives(double****** matrix, 
+                                                       int atomAIndex, 
+                                                       int atomBIndex) const{
+   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+   const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
+   if(atomAIndex == atomBIndex){
+      stringstream ss;
+      ss << this->errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesSameAtoms;
+      ss << this->errorMessageAtomA << atomAIndex 
+                                    << AtomTypeStr(atomA.GetAtomType()) << endl;
+      ss << this->errorMessageAtomB << atomBIndex 
+                                    << AtomTypeStr(atomB.GetAtomType()) << endl;
+      throw MolDSException(ss.str());
+   }
+
+   if(matrix == NULL){
+      stringstream ss;
+      ss << this->errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesNullMatrix;
+      throw MolDSException(ss.str());
+   }
+   else{
+      MallocerFreer::GetInstance()->Initialize<double>(matrix, 
+                                                       dxy, 
+                                                       dxy, 
+                                                       dxy, 
+                                                       dxy, 
+                                                       CartesianType_end,
+                                                       CartesianType_end);
+   } 
+
+   double** rotatingMatrix = NULL;
+   double*** rotMatFirstDerivatives = NULL;
+   double**** rotMatSecondDerivatives = NULL;
+   double**** twoElecTwoCoreDiatomic = NULL;
+   double***** twoElecTwoCoreDiatomicFirstDerivatives = NULL;
+   try{
+      this->MallocTwoElecTwoCoreDiatomicSecondDeriTemps(&rotatingMatrix,
+                                                        &rotMatFirstDerivatives,
+                                                        &rotMatSecondDerivatives,
+                                                        &twoElecTwoCoreDiatomic,
+                                                        &twoElecTwoCoreDiatomicFirstDerivatives);
+      /*
+      // calclation in diatomic frame
+      for(int mu=0; mu<atomA.GetValenceSize(); mu++){
+         for(int nu=0; nu<atomA.GetValenceSize(); nu++){
+            for(int lambda=0; lambda<atomB.GetValenceSize(); lambda++){
+               for(int sigma=0; sigma<atomB.GetValenceSize(); sigma++){
+                  for(int c=0; c<CartesianType_end; c++){
+                     matrix[mu][nu][lambda][sigma][c] 
+                        = this->GetNddoRepulsionIntegralFirstDerivative(
+                                atomA, 
+                                atomA.GetValence(mu),
+                                atomA.GetValence(nu),
+                                atomB, 
+                                atomB.GetValence(lambda),
+                                atomB.GetValence(sigma),
+                                (CartesianType)c);
+                  }  
+                  twoElecTwoCoreDiatomic[mu][nu][lambda][sigma] 
+                     = this->GetNddoRepulsionIntegral(
+                             atomA, 
+                             atomA.GetValence(mu),
+                             atomA.GetValence(nu),
+                             atomB, 
+                             atomB.GetValence(lambda),
+                             atomB.GetValence(sigma));
+               }
+            }
+         }
+      }
+      */
+
+      // rotate matirix into the space frame
+      this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
+      this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivatives, atomA, atomB);
+      this->CalcRotatingMatrixSecondDerivatives(rotMatSecondDerivatives, atomA, atomB);
+      //this->RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(matrix, 
+      //                                                                 twoElecTwoCoreDiatomic,
+      //                                                                 rotatingMatrix,
+      //                                                                 rotMatFirstDerivatives);
+   }
+   catch(MolDSException ex){
+      this->FreeTwoElecTwoCoreDiatomicFirstDeriTemps(&rotatingMatrix,
+                                                     &rotMatFirstDerivatives,
+                                                     &twoElecTwoCoreDiatomic);
+      throw ex;
+   }
+   this->FreeTwoElecTwoCoreDiatomicFirstDeriTemps(&rotatingMatrix,
+                                                  &rotMatFirstDerivatives,
+                                                  &twoElecTwoCoreDiatomic);
+}
+
 void Mndo::MallocTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
                                                       double**** rotMatFirstDerivatives,
                                                       double***** twoElecTwoCoreDiatomic) const{
@@ -2502,6 +2604,27 @@ void Mndo::MallocTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
    MallocerFreer::GetInstance()->Malloc<double>(twoElecTwoCoreDiatomic, dxy, dxy, dxy, dxy);
 }
 
+void Mndo::MallocTwoElecTwoCoreDiatomicSecondDeriTemps(double*** rotatingMatrix,
+                                                       double**** rotMatFirstDerivatives,
+                                                       double***** rotMatSecondDerivatives,
+                                                       double***** twoElecTwoCoreDiatomic,
+                                                       double****** twoElecTwoCoreDiatomicFirstDerivatives) const{
+   this->MallocTwoElecTwoCoreDiatomicFirstDeriTemps(rotatingMatrix,
+                                                    rotMatFirstDerivatives,
+                                                    twoElecTwoCoreDiatomic);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMatSecondDerivatives, 
+                                                OrbitalType_end, 
+                                                OrbitalType_end, 
+                                                CartesianType_end,
+                                                CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(twoElecTwoCoreDiatomicFirstDerivatives, 
+                                                dxy, 
+                                                dxy, 
+                                                dxy, 
+                                                dxy,
+                                                CartesianType_end);
+}
+
 void Mndo::FreeTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
                                                     double**** rotMatFirstDerivatives,
                                                     double***** twoElecTwoCoreDiatomic) const{
@@ -2512,6 +2635,27 @@ void Mndo::FreeTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
                                               OrbitalType_end, 
                                               CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(twoElecTwoCoreDiatomic, dxy, dxy, dxy, dxy);
+}
+
+void Mndo::FreeTwoElecTwoCoreDiatomicSecondDeriTemps(double*** rotatingMatrix,
+                                                     double**** rotMatFirstDerivatives,
+                                                     double***** rotMatSecondDerivatives,
+                                                     double***** twoElecTwoCoreDiatomic,
+                                                     double****** twoElecTwoCoreDiatomicFirstDerivatives) const{
+   this->FreeTwoElecTwoCoreDiatomicFirstDeriTemps(rotatingMatrix,
+                                                  rotMatFirstDerivatives,
+                                                  twoElecTwoCoreDiatomic);
+   MallocerFreer::GetInstance()->Free<double>(rotMatSecondDerivatives, 
+                                              OrbitalType_end, 
+                                              OrbitalType_end, 
+                                              CartesianType_end,
+                                              CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(twoElecTwoCoreDiatomicFirstDerivatives, 
+                                              dxy, 
+                                              dxy, 
+                                              dxy, 
+                                              dxy,
+                                              CartesianType_end);
 }
 
 // Rotate 4-dimensional matrix from diatomic frame to space frame

@@ -91,14 +91,18 @@ void Am1D::SetMessages(){
       = "Error in am1::Am1D::GetNddoRepulsionIntegralSecondDerivative: Bad orbital is set.\n";
    this->errorMessageCalcTwoElecTwoCoreNullMatrix 
       = "Error in am1::Am1D::CalcTwoElecTwoCore: The two elec two core matrix is NULL.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix 
-      = "Error in am1::Am1D::CalcTwoElecTwoCoreDiatomic: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageCalcTwoElecTwoCoreDiatomicSameAtoms
       = "Error in am1::Am1D::CalcTwoElecTwoCoreDiatomic: Atom A and B is same.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesNullMatrix
-      = "Error in am1::Am1D::CalcTwoElecTwoCoreDiatomicFirstDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesSameAtoms
       = "Error in am1::Am1D::CalcTwoElecTwoCoreDiatomicFirstDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesSameAtoms
+      = "Error in am1::Am1D::CalcTwoElecTwoCoreDiatomicSecondDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix 
+      = "Error in am1::Am1D::CalcTwoElecTwoCoreDiatomic: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesNullMatrix
+      = "Error in am1::Am1D::CalcTwoElecTwoCoreDiatomicFirstDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesNullMatrix
+      = "Error in am1::Am1D::CalcTwoElecTwoCoreDiatomicSecondDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageGetElectronicEnergyEnergyNotCalculated
       = "Error in am1::Am1D::GetElectronicEnergy: Set electronic state is not calculated by CIS.\n";
    this->errorMessageGetElectronicEnergyNULLCISEnergy 

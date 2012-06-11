@@ -39,8 +39,10 @@ protected:
    std::string errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix;
    std::string errorMessageCalcTwoElecTwoCoreNullMatrix;
    std::string errorMessageCalcTwoElecTwoCoreDiatomicSameAtoms;
-   std::string errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesNullMatrix;
    std::string errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesSameAtoms;
+   std::string errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesSameAtoms;
+   std::string errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesNullMatrix;
+   std::string errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesNullMatrix;
    std::string errorMessageCalcZMatrixForceEtaNull;
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
@@ -204,12 +206,25 @@ private:
    void CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix, 
                                                    int atomAIndex, 
                                                    int atomBIndex) const;
+   void CalcTwoElecTwoCoreDiatomicSecondDerivatives(double****** matrix, 
+                                                    int atomAIndex, 
+                                                    int atomBIndex) const;
    void MallocTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
                                                    double**** rotMatFirstDerivatives,
                                                    double***** twoElecTwoCoreDiatomic) const;
+   void MallocTwoElecTwoCoreDiatomicSecondDeriTemps(double*** rotatingMatrix,
+                                                    double**** rotMatFirstDerivatives,
+                                                    double***** rotMatSecondDerivatives,
+                                                    double***** twoElecTwoCoreDiatomic,
+                                                    double****** twoElecTwoCoreDiatomicFirstDerivatives) const;
    void FreeTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
                                                  double**** rotMatFirstDerivatives,
                                                  double***** twoElecTwoCoreDiatomic) const;
+   void FreeTwoElecTwoCoreDiatomicSecondDeriTemps(double*** rotatingMatrix,
+                                                  double**** rotMatFirstDerivatives,
+                                                  double***** rotMatSecondDerivatives,
+                                                  double***** twoElecTwoCoreDiatomic,
+                                                  double****** twoElecTwoCoreDiatomicFirstDerivatives) const;
    void RotateTwoElecTwoCoreDiatomicToSpaceFramegc(double**** matrix, 
                                                    double const* const* rotatingMatrix) const;
    void RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(
