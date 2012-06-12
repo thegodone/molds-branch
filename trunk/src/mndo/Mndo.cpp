@@ -2586,20 +2586,26 @@ void Mndo::CalcTwoElecTwoCoreDiatomicSecondDerivatives(double****** matrix,
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
       this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivatives, atomA, atomB);
       this->CalcRotatingMatrixSecondDerivatives(rotMatSecondDerivatives, atomA, atomB);
-      //this->RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(matrix, 
-      //                                                                 twoElecTwoCoreDiatomic,
-      //                                                                 rotatingMatrix,
-      //                                                                 rotMatFirstDerivatives);
+      this->RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(matrix, 
+                                                                        twoElecTwoCoreDiatomic,
+                                                                        twoElecTwoCoreDiatomicFirstDerivatives,
+                                                                        rotatingMatrix,
+                                                                        rotMatFirstDerivatives,
+                                                                        rotMatSecondDerivatives);
    }
    catch(MolDSException ex){
-      this->FreeTwoElecTwoCoreDiatomicFirstDeriTemps(&rotatingMatrix,
-                                                     &rotMatFirstDerivatives,
-                                                     &twoElecTwoCoreDiatomic);
+      this->FreeTwoElecTwoCoreDiatomicSecondDeriTemps(&rotatingMatrix,
+                                                      &rotMatFirstDerivatives,
+                                                      &rotMatSecondDerivatives,
+                                                      &twoElecTwoCoreDiatomic,
+                                                      &twoElecTwoCoreDiatomicFirstDerivatives);
       throw ex;
    }
-   this->FreeTwoElecTwoCoreDiatomicFirstDeriTemps(&rotatingMatrix,
-                                                  &rotMatFirstDerivatives,
-                                                  &twoElecTwoCoreDiatomic);
+   this->FreeTwoElecTwoCoreDiatomicSecondDeriTemps(&rotatingMatrix,
+                                                   &rotMatFirstDerivatives,
+                                                   &rotMatSecondDerivatives,
+                                                   &twoElecTwoCoreDiatomic,
+                                                   &twoElecTwoCoreDiatomicFirstDerivatives);
 }
 
 void Mndo::MallocTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
@@ -2866,6 +2872,90 @@ void Mndo::RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(
       }
    }
    */
+}
+
+// Rotate 6-dimensional matrix from diatomic frame to space frame
+// Note tha in this method d-orbitals can not be treatable.
+void Mndo::RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(
+           double****** matrix, 
+           double const* const* const* const* twoElecTwoCoreDiatomic,
+           double const* const* const* const* const* twoElecTwoCoreDiatomicFirstDerivatives,
+           double const* const* rotatingMatrix,
+           double const* const* const* rotMatFirstDerivatives,
+           double const* const* const* const* rotMatSecondDerivatives) const{
+   double oldMatrix[dxy][dxy][dxy][dxy][CartesianType_end][CartesianType_end];
+   for(int mu=0; mu<dxy; mu++){
+      for(int nu=0; nu<dxy; nu++){
+         for(int lambda=0; lambda<dxy; lambda++){
+            for(int sigma=0; sigma<dxy; sigma++){
+               for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
+                  for(int dimA2=0; dimA2<CartesianType_end; dimA2++){
+                     oldMatrix[mu][nu][lambda][sigma][dimA1][dimA2] = matrix[mu][nu][lambda][sigma][dimA1][dimA2];
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   // rotate (slow algorythm)
+   for(int mu=0; mu<dxy; mu++){
+      for(int nu=0; nu<dxy; nu++){
+         for(int lambda=0; lambda<dxy; lambda++){
+            for(int sigma=0; sigma<dxy; sigma++){
+               for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
+                  for(int dimA2=0; dimA2<CartesianType_end; dimA2++){
+
+
+                     matrix[mu][nu][lambda][sigma][dimA1][dimA2] = 0.0;
+                     for(int i=0; i<dxy; i++){
+                        for(int j=0; j<dxy; j++){
+                           for(int k=0; k<dxy; k++){
+                              for(int l=0; l<dxy; l++){
+                                 
+                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2]
+                                    += oldMatrix[i][j][k][l][dimA1][dimA2]
+                                      *rotatingMatrix[mu][i] 
+                                      *rotatingMatrix[nu][j] 
+                                      *rotatingMatrix[lambda][k] 
+                                      *rotatingMatrix[sigma][l];
+                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2] 
+                                    += twoElecTwoCoreDiatomic[i][j][k][l]
+                                      *rotMatSecondDerivatives[mu][i][dimA1][dimA2]
+                                      *rotatingMatrix[nu][j] 
+                                      *rotatingMatrix[lambda][k] 
+                                      *rotatingMatrix[sigma][l];
+                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2] 
+                                    += twoElecTwoCoreDiatomic[i][j][k][l]
+                                      *rotatingMatrix[mu][i] 
+                                      *rotMatSecondDerivatives[nu][j][dimA1][dimA2]
+                                      *rotatingMatrix[lambda][k] 
+                                      *rotatingMatrix[sigma][l];
+                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2] 
+                                    += twoElecTwoCoreDiatomic[i][j][k][l]
+                                      *rotatingMatrix[mu][i] 
+                                      *rotatingMatrix[nu][j] 
+                                      *rotMatSecondDerivatives[lambda][k][dimA1][dimA2]
+                                      *rotatingMatrix[sigma][l];
+                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2] 
+                                    += twoElecTwoCoreDiatomic[i][j][k][l]
+                                      *rotatingMatrix[mu][i] 
+                                      *rotatingMatrix[nu][j] 
+                                      *rotatingMatrix[lambda][k] 
+                                      *rotMatSecondDerivatives[sigma][l][dimA1][dimA2];
+                                 
+                              }
+                           }
+                        }
+                     }
+
+
+                  }
+               }
+            }
+         }
+      }
+   }
 }
 
 // See Apendix in [DT_1977]

@@ -232,6 +232,13 @@ private:
         double const* const* const* const* twoElecTwoCoreDiatomic,
         double const* const* rotatingMatrix,
         double const* const* const* rotMatFirstDerivatives) const;
+   void RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(
+        double****** matrix, 
+        double const* const* const* const* twoElecTwoCoreDiatomic,
+        double const* const* const* const* const* twoElecTwoCoreDiatomicFirstDerivatives,
+        double const* const* rotatingMatrix,
+        double const* const* const* rotMatFirstDerivatives,
+        double const* const* const* const* rotMatSecondDerivatives) const;
    double GetNddoRepulsionIntegral(const MolDS_base_atoms::Atom& atomA, 
                                    MolDS_base::OrbitalType mu, 
                                    MolDS_base::OrbitalType nu,
