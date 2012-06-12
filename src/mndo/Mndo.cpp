@@ -2756,7 +2756,66 @@ void Mndo::RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(
       }
    }
    
-   // rotate
+   // rotate (fast algorythm, see also slow algorythm shown later)
+   for(int mu=0; mu<dxy; mu++){
+      for(int nu=0; nu<dxy; nu++){
+         for(int lambda=0; lambda<dxy; lambda++){
+            for(int sigma=0; sigma<dxy; sigma++){
+               for(int c=0; c<CartesianType_end; c++){
+
+                  matrix[mu][nu][lambda][sigma][c] = 0.0;
+                  for(int i=0; i<dxy; i++){
+                     double tempI_1 = 0.0;
+                     double tempI_2 = 0.0;
+                     double tempI_3 = 0.0;
+                     double tempI_4 = 0.0;
+                     double tempI_5 = 0.0;
+                     for(int j=0; j<dxy; j++){
+                        double tempIJ_1 = 0.0;
+                        double tempIJ_2 = 0.0;
+                        double tempIJ_3 = 0.0;
+                        double tempIJ_4 = 0.0;
+                        double tempIJ_5 = 0.0;
+                        for(int k=0; k<dxy; k++){
+                           double tempIJK_1 = 0.0;
+                           double tempIJK_2 = 0.0;
+                           double tempIJK_3 = 0.0;
+                           double tempIJK_4 = 0.0;
+                           double tempIJK_5 = 0.0;
+                           for(int l=0; l<dxy; l++){
+                              tempIJK_1 += oldMatrix[i][j][k][l][c]*rotatingMatrix[sigma][l];
+                              tempIJK_2 += twoElecTwoCoreDiatomic[i][j][k][l]*rotatingMatrix[sigma][l];
+                              tempIJK_3 += twoElecTwoCoreDiatomic[i][j][k][l]*rotatingMatrix[sigma][l];
+                              tempIJK_4 += twoElecTwoCoreDiatomic[i][j][k][l]*rotatingMatrix[sigma][l];
+                              tempIJK_5 += twoElecTwoCoreDiatomic[i][j][k][l]*rotMatFirstDerivatives[sigma][l][c];
+                           }
+                           tempIJ_1 += tempIJK_1*rotatingMatrix[lambda][k];
+                           tempIJ_2 += tempIJK_2*rotatingMatrix[lambda][k];
+                           tempIJ_3 += tempIJK_3*rotatingMatrix[lambda][k];
+                           tempIJ_4 += tempIJK_4*rotMatFirstDerivatives[lambda][k][c];
+                           tempIJ_5 += tempIJK_5*rotatingMatrix[lambda][k];
+                        }
+                        tempI_1 += tempIJ_1*rotatingMatrix[nu][j];
+                        tempI_2 += tempIJ_2*rotatingMatrix[nu][j];
+                        tempI_3 += tempIJ_3*rotMatFirstDerivatives[nu][j][c];
+                        tempI_4 += tempIJ_4*rotatingMatrix[nu][j];
+                        tempI_5 += tempIJ_5*rotatingMatrix[nu][j];
+                     }
+                     matrix[mu][nu][lambda][sigma][c] += tempI_1*rotatingMatrix[mu][i];
+                     matrix[mu][nu][lambda][sigma][c] += tempI_2*rotMatFirstDerivatives[mu][i][c];
+                     matrix[mu][nu][lambda][sigma][c] += tempI_3*rotatingMatrix[mu][i];
+                     matrix[mu][nu][lambda][sigma][c] += tempI_4*rotatingMatrix[mu][i];
+                     matrix[mu][nu][lambda][sigma][c] += tempI_5*rotatingMatrix[mu][i];
+                  }
+
+               }
+            }
+         }
+      }
+   }
+
+   /*
+   // rotate (slow algorythm)
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
@@ -2806,6 +2865,7 @@ void Mndo::RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(
          }
       }
    }
+   */
 }
 
 // See Apendix in [DT_1977]
