@@ -37,7 +37,22 @@ public:
    }
 protected:
    void OutputLog(std::string log) const{
-      if(this->canOutputLogs){std::cout << log;}
+      if(this->canOutputLogs){
+         bool endl = false;
+         std::string::reverse_iterator iter;
+         for(iter = log.rbegin(); iter != log.rend(); iter++){
+            if(*iter == '\n'){
+               log.erase(--iter.base());
+               endl = true;
+               break;
+            }
+            else if(*iter != '\0'){
+               break;
+            }
+         }
+         std::cout << log;
+         if(endl){std::cout << std::endl;}
+      }
    }
 private:
    bool canOutputLogs;
