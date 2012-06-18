@@ -23,7 +23,7 @@ namespace MolDS_base{
 class Molecule : public MolDS_base::PrintController{
 public:
    Molecule();
-   Molecule(const Molecule& rhs);
+   explicit Molecule(const Molecule& rhs);
    Molecule& operator=(const Molecule& rhs);
    ~Molecule();
    int GetNumberAtoms() const{return this->atomVect->size();}

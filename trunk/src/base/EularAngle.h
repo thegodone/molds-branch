@@ -24,7 +24,7 @@ class EularAngle{
 public:
    EularAngle();
    EularAngle(double x, double y, double z);
-   EularAngle(double* angles);
+   explicit EularAngle(double* angles);
    double GetAlpha() const;
    double GetBeta() const;
    double GetGamma() const;
