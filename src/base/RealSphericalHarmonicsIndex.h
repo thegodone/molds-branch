@@ -24,7 +24,7 @@ namespace MolDS_base{
 class RealSphericalHarmonicsIndex {
 public:
    RealSphericalHarmonicsIndex(int l, int m);
-   RealSphericalHarmonicsIndex(MolDS_base::OrbitalType  orbitalType);
+   explicit RealSphericalHarmonicsIndex(MolDS_base::OrbitalType  orbitalType);
    int GetL() const;
    int GetM() const;
 private:

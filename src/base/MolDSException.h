@@ -21,7 +21,7 @@
 namespace MolDS_base{
 class MolDSException : public std::domain_error {
 public:
-   MolDSException(std::string cause);
+   explicit MolDSException(std::string cause);
 private:
 };
 }
