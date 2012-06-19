@@ -1733,7 +1733,8 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
                            ss << this->errorMessageAtomType << AtomTypeStr(atomA.GetAtomType()) << "\n";
                            ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalMu) << "\n";
                            ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalNu) << "\n";
-                           throw MolDSException(ss.str());
+                           #pragma omp critical
+                           ompErrors << ss.str() << endl ;
                         }   
 
                         value += 2.0*(coulomb-gamma)*fockMatrix[moA][mu]
@@ -1840,7 +1841,8 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
                            ss << this->errorMessageAtomType << AtomTypeStr(atomA.GetAtomType()) << "\n";
                            ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalMu) << "\n";
                            ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalNu) << "\n";
-                           throw MolDSException(ss.str());
+                           #pragma omp critical
+                           ompErrors << ss.str() << endl ;
                         }   
 
                         value += 2.0*(coulomb-gamma)*fockMatrix[moI][mu]
