@@ -84,23 +84,8 @@ void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> elect
       this->OutputLog((boost::format("%s%d\n\n") % this->messageStartSteepestDescentStep.c_str() % (s+1)).str());
       lineSearchInitialEnergy = lineSearchCurrentEnergy;
 
-      // line search roop
-      bool tempCanOutputLogs = false;
-      int lineSearchSteps = 0;
-      double lineSearchOldEnergy = lineSearchCurrentEnergy;
-      while(lineSearchCurrentEnergy <= lineSearchOldEnergy){
-         this->UpdateMolecularCoordinates(molecule, matrixForce, dt);
-         this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
-         lineSearchOldEnergy = lineSearchCurrentEnergy;
-         lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
-         lineSearchSteps++;
-      }
-
-      // final state of line search
-      this->OutputLog((boost::format("%s%d\n\n") % this->messageLineSearchSteps.c_str() % lineSearchSteps).str());
-      this->UpdateMolecularCoordinates(molecule, matrixForce, -0.5*dt);
-      this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
-      this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
+      // do line search
+      this->LineSearch(electronicStructure, molecule, matrixForce, lineSearchInitialEnergy, elecState, dt);
       matrixForce = electronicStructure->GetForce(elecState);
       lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
