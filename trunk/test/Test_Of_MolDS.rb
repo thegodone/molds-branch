@@ -1,5 +1,7 @@
+#!/usr/bin/env ruby
 #//************************************************************************//
 #// Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+#// Copyright (C) 2012-2012 Katsuhiko Nishimra                             // 
 #//                                                                        // 
 #// This file is part of MolDS.                                            // 
 #//                                                                        // 
