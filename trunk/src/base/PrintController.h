@@ -43,7 +43,8 @@ protected:
          std::string::reverse_iterator iter;
          for(iter = log.rbegin(); iter != log.rend(); iter++){
             if(*iter == '\n'){
-               log.erase(--iter.base());
+               std::string::iterator fwditer = iter.base();
+               log.erase(--fwditer);
                endl = true;
                break;
             }
