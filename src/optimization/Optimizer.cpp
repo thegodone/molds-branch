@@ -131,7 +131,7 @@ void Optimizer::ClearMolecularMomenta(Molecule& molecule) const{
    }
 }
 
-void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double** matrixForce, double dt) const{
+void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* const* matrixForce, double dt) const{
    #pragma omp parallel for schedule(auto) 
    for(int a=0; a<molecule.GetNumberAtoms(); a++){
       const Atom* atom = molecule.GetAtom(a);
@@ -175,7 +175,7 @@ void Optimizer::OutputMoleculeElectronicStructure(boost::shared_ptr<ElectronicSt
 
 void Optimizer::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStructure,
                            MolDS_base::Molecule& molecule,
-                           double** matrixForce,
+                           double const* const* matrixForce,
                            double lineSearchInitialEnergy,
                            int elecState,
                            double dt) const{
