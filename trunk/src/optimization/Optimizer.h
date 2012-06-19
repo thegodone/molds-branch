@@ -44,6 +44,12 @@ protected:
    void OutputMoleculeElectronicStructure(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, 
                                           MolDS_base::Molecule& molecule,
                                           bool printsLogs) const;
+   void LineSearch(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                   MolDS_base::Molecule& molecule,
+                   double** matrixForce,
+                   double lineSearchInitialEnergy,
+                   int elecState,
+                   double dt) const;
 private:
    std::string errorMessageTheoryType;
    std::string errorMessageTotalSteps;
