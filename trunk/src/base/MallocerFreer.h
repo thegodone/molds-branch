@@ -63,6 +63,7 @@ public:
       double wannaMalloc = static_cast<double>(size1*size2*sizeof(T));
       this->CheckLimitHeap(wannaMalloc);
 
+      // Continuous allocation is necessary for matrix to vector conversion.
       *matrix = new T*[size1];
       if(*matrix==NULL){
          throw MolDSException(this->errorMessageMallocFailure);
