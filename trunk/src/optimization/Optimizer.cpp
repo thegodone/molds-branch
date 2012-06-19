@@ -175,14 +175,14 @@ void Optimizer::OutputMoleculeElectronicStructure(boost::shared_ptr<ElectronicSt
 
 void Optimizer::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStructure,
                            MolDS_base::Molecule& molecule,
+                           double& lineSearchCurrentEnergy,
                            double const* const* matrixForce,
-                           double lineSearchInitialEnergy,
                            int elecState,
                            double dt) const{
    bool tempCanOutputLogs = false;
    int lineSearchSteps = 0;
-   double lineSearchCurrentEnergy = lineSearchInitialEnergy;
-   double lineSearchOldEnergy = lineSearchInitialEnergy;
+   double lineSearchOldEnergy = lineSearchCurrentEnergy;
+
    while(lineSearchCurrentEnergy <= lineSearchOldEnergy){
       this->UpdateMolecularCoordinates(molecule, matrixForce, dt);
       this->UpdateElectronicStructure(electronicStructure, molecule, false, tempCanOutputLogs);
@@ -196,6 +196,8 @@ void Optimizer::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStru
    this->UpdateMolecularCoordinates(molecule, matrixForce, -0.5*dt);
    this->UpdateElectronicStructure(electronicStructure, molecule, false, tempCanOutputLogs);
    this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
+
+   lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 }
 
 bool Optimizer::SatisfiesConvergenceCriterion(double** matrixForce, 
