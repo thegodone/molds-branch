@@ -17,13 +17,12 @@
 #// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 #//************************************************************************//
 CC = icpc
-LIBS32 = -lmkl_intel      -lmkl_intel_thread -lmkl_core -liomp5 -lpthread
-LIBS64 = -lmkl_intel_lp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread
+LIBSBASE = -lmkl_intel_thread -lmkl_core -liomp5 -lpthread
+LIBS32 = -lmkl_intel      $(LIBSBASE)
+LIBS64 = -lmkl_intel_lp64 $(LIBSBASE)
 CFLAGS = -O0 -openmp -openmp-report2
 BOOST_TOP_DIR = /usr/local/boost1.48.0/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)include/
-BOOST_LIB_DIR = $(BOOST_TOP_DIR)lib/
-BOOST_LIBS = -lboost_random
 EXENAME = MolDS.out
 DEPFILE = obj/objfile.dep
 
@@ -33,9 +32,9 @@ ALL_OBJ_FILES = obj/Main.o obj/MolDSException.o obj/Lapack.o obj/Utilities.o obj
 
 $(EXENAME): depend $(ALL_OBJ_FILES)
 ifeq ($(INTEL), 64)
-	$(CC) -o $@ -Wl,-rpath=$(BOOST_LIB_DIR) $(ALL_OBJ_FILES) -L$(BOOST_LIB_DIR) $(LIBS64) $(BOOST_LIBS)
+	$(CC) -o $@  $(ALL_OBJ_FILES) $(LIBS64) 
 else
-	$(CC) -o $@ -Wl,-rpath=$(BOOST_LIB_DIR) $(ALL_OBJ_FILES) -L$(BOOST_LIB_DIR) $(LIBS32) $(BOOST_LIBS) 
+	$(CC) -o $@  $(ALL_OBJ_FILES) $(LIBS32)  
 endif
 
 ifeq ($(wildcard $(DEPFILE)), $(DEPFILE))
