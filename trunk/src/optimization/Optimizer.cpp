@@ -67,7 +67,7 @@ void Optimizer::Optimize(Molecule& molecule){
    // Search Minimum
    double lineSearchedEnergy = 0.0;
    bool obtainesOptimizedStructure = false;
-   this->LineSearch(electronicStructure, molecule, &lineSearchedEnergy, &obtainesOptimizedStructure);
+   this->SearchMinimum(electronicStructure, molecule, &lineSearchedEnergy, &obtainesOptimizedStructure);
   
    // Not converged
    if(!obtainesOptimizedStructure){

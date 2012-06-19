@@ -60,10 +60,10 @@ void SteepestDescent::SetMessages(){
    this->messageStartSteepestDescentStep = "\n==========  START: Steepest Descent step ";
 }
 
-void SteepestDescent::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStructure, 
-                                 Molecule& molecule,
-                                 double* lineSearchedEnergy,
-                                 bool* obtainesOptimizedStructure) const{
+void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
+                                    Molecule& molecule,
+                                    double* lineSearchedEnergy,
+                                    bool* obtainesOptimizedStructure) const{
    int elecState = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
    double dt = Parameters::GetInstance()->GetTimeWidthOptimization();
    int totalSteps = Parameters::GetInstance()->GetTotalStepsOptimization();
