@@ -21,8 +21,6 @@ LIBS =  -lpthread
 CFLAGS = -O0 -fopenmp 
 BOOST_TOP_DIR = /usr/local/boost1.48.0/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)include/
-BOOST_LIB_DIR = $(BOOST_TOP_DIR)lib/
-BOOST_LIBS = -lboost_random
 OPENBLAS_TOP_DIR = /usr/local/openblas0.1.1/
 OPENBLAS_INC_DIR = $(OPENBLAS_TOP_DIR)include/
 OPENBLAS_LIB_DIR = $(OPENBLAS_TOP_DIR)lib/
@@ -35,7 +33,7 @@ ALL_HEAD_FILES = base/PrintController.h base/MolDSException.h base/Uncopyable.h 
 ALL_OBJ_FILES = obj/Main.o obj/MolDSException.o obj/Lapack_GNU.o obj/Utilities.o obj/Enums.o obj/MathUtilities.o obj/MallocerFreer.o obj/EularAngle.o obj/Parameters.o obj/Atom.o obj/Hatom.o obj/Liatom.o obj/Catom.o obj/Natom.o obj/Oatom.o obj/Satom.o obj/AtomFactory.o obj/Molecule.o obj/InputParser.o obj/GTOExpansionSTO.o obj/RealSphericalHarmonicsIndex.o obj/MOLogger.o obj/DensityLogger.o obj/HoleDensityLogger.o obj/ParticleDensityLogger.o obj/Cndo2.o obj/Indo.o obj/ZindoS.o obj/Mndo.o obj/Am1.o obj/Am1D.o obj/Pm3.o obj/Pm3D.o obj/Pm3Pddg.o obj/ElectronicStructureFactory.o obj/MD.o obj/MC.o obj/RPMD.o obj/Optimizer.o obj/ConjugateGradient.o obj/SteepestDescent.o obj/OptimizerFactory.o obj/MolDS.o
 
 $(EXENAME): depend $(ALL_OBJ_FILES)
-	$(CC) -o $@ -Wl,-rpath=$(BOOST_LIB_DIR):$(OPENBLAS_LIB_DIR) $(ALL_OBJ_FILES) -L$(BOOST_LIB_DIR) -L$(OPENBLAS_LIB_DIR) $(LIBS) $(BOOST_LIBS) $(OPENBLAS_LIBS)
+	$(CC) -o $@ -Wl,-rpath=$(OPENBLAS_LIB_DIR) $(ALL_OBJ_FILES) -L$(OPENBLAS_LIB_DIR) $(LIBS) $(OPENBLAS_LIBS)
 
 ifeq ($(wildcard $(DEPFILE)), $(DEPFILE))
 include $(DEPFILE)
