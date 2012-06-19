@@ -1,5 +1,6 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+// Copyright (C) 2012-2012 Katushiko Nishimra                             // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -66,11 +67,12 @@ public:
       if(*matrix==NULL){
          throw MolDSException(this->errorMessageMallocFailure);
       }
+			T *buf = new T[size1*size2];
+      if(buf==NULL){
+         throw MolDSException(this->errorMessageMallocFailure);
+      }
       for(int i=0;i<size1;i++) {
-         (*matrix)[i] = new T[size2];
-         if ((*matrix)[i]==NULL){
-            throw MolDSException(this->errorMessageMallocFailure);
-         }
+         (*matrix)[i] = &buf[i*size2];
       }
       MallocerFreer::AddCurrentMalloced(wannaMalloc);
       this->Initialize<T>(*matrix, size1, size2);
@@ -88,9 +90,7 @@ public:
       if(*matrix==NULL){
          return;
       }
-      for(int i=0;i<size1;i++){
-         delete [] (*matrix)[i];
-      }
+      delete [] (*matrix)[0];
       delete [] *matrix;
       MallocerFreer::SubtCurrentMalloced(static_cast<double>(size1*size2*sizeof(T)));
       *matrix = NULL;
