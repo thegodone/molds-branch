@@ -61,10 +61,10 @@ void ConjugateGradient::SetMessages(){
    this->messageStartConjugateGradientStep = "\n==========  START: Conjugate gradient step ";
 }
 
-void ConjugateGradient::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStructure, 
-                                 Molecule& molecule,
-                                 double* lineSearchedEnergy,
-                                 bool* obtainesOptimizedStructure) const{
+void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
+                                      Molecule& molecule,
+                                      double* lineSearchedEnergy,
+                                      bool* obtainesOptimizedStructure) const{
    int elecState = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
    double dt = Parameters::GetInstance()->GetTimeWidthOptimization();
    int totalSteps = Parameters::GetInstance()->GetTotalStepsOptimization();

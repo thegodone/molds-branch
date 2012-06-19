@@ -60,10 +60,10 @@ private:
    void SetEnableTheoryTypes();
    void CheckEnableTheoryType(MolDS_base::TheoryType theoryType) const;
    void ClearMolecularMomenta(MolDS_base::Molecule& molecule) const;
-   virtual void LineSearch(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, 
-                   MolDS_base::Molecule& molecule,
-                   double* lineSearchedEnergy,
-                   bool* obainesOptimizedStructure) const = 0;
+   virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                              MolDS_base::Molecule& molecule,
+                              double* lineSearchedEnergy,
+                              bool* obainesOptimizedStructure) const = 0;
 };
 
 }

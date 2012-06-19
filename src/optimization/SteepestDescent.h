@@ -28,10 +28,10 @@ protected:
    void SetMessages();
 private:
    std::string messageStartSteepestDescentStep;
-   void LineSearch(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, 
-                   MolDS_base::Molecule& molecule,
-                   double* lineSearchedEnergy,
-                   bool* obainesOptimizedStructure) const;
+   void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                      MolDS_base::Molecule& molecule,
+                      double* lineSearchedEnergy,
+                      bool* obainesOptimizedStructure) const;
 };
 
 }
