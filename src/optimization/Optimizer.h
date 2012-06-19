@@ -46,8 +46,8 @@ protected:
                                           bool printsLogs) const;
    void LineSearch(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
                    MolDS_base::Molecule& molecule,
+                   double &lineSearchCurrentEnergy,
                    double const* const* matrixForce,
-                   double lineSearchInitialEnergy,
                    int elecState,
                    double dt) const;
 private:

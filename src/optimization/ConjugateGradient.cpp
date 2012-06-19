@@ -98,12 +98,10 @@ void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> ele
          lineSearchInitialEnergy = lineSearchCurrentEnergy;
 
          // do line search
-         this->LineSearch(electronicStructure, molecule, matrixForce, lineSearchInitialEnergy, elecState, dt);
+         this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixForce, elecState, dt);
 
          // update matrixSearchDirection
          this->UpdateSearchDirection(&matrixForce, oldMatrixForce, matrixSearchDirection, electronicStructure, molecule, elecState);
-
-         lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
          // check convergence
          if(this->SatisfiesConvergenceCriterion(matrixForce, 

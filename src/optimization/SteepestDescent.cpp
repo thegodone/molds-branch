@@ -76,7 +76,6 @@ void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> elect
    // initial calculation
    bool requireGuess = true;
    this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, this->CanOutputLogs());
-   lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
    requireGuess = false;
    matrixForce = electronicStructure->GetForce(elecState);
@@ -85,9 +84,8 @@ void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> elect
       lineSearchInitialEnergy = lineSearchCurrentEnergy;
 
       // do line search
-      this->LineSearch(electronicStructure, molecule, matrixForce, lineSearchInitialEnergy, elecState, dt);
+      this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixForce, elecState, dt);
       matrixForce = electronicStructure->GetForce(elecState);
-      lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
       // check convergence
       if(this->SatisfiesConvergenceCriterion(matrixForce, 
