@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:9  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/6/20(Wed.) 14:33:50  <<<<<
 
 
 **********  START: Parse input  **********
@@ -10,16 +10,16 @@
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	-5.638268e-01	4.868251e+00	0.000000e+00		-2.983643e-01	2.576167e+00	0.000000e+00
-	Atom coordinates:	1	H	1.101524e-01	2.961876e+00	0.000000e+00		5.829015e-02	1.567357e+00	0.000000e+00
+	Atom coordinates:	1	H	1.101524e-01	2.961876e+00	1.889726e-01		5.829015e-02	1.567357e+00	1.000000e-01
 	Atom coordinates:	2	H	1.101872e-01	5.821426e+00	1.650962e+00		5.830857e-02	3.080566e+00	8.736515e-01
 	Atom coordinates:	3	H	1.101872e-01	5.821426e+00	-1.650962e+00		5.830857e-02	3.080566e+00	-8.736515e-01
 	Atom coordinates:	4	H	-2.585834e+00	4.868276e+00	0.000000e+00		-1.368364e+00	2.576181e+00	0.000000e+00
 
 			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-5.638268e-01	4.868251e+00	0.000000e+00		-2.983643e-01	2.576167e+00	0.000000e+00
+	Center of Mass:	-5.638268e-01	4.868251e+00	1.187306e-02		-2.983643e-01	2.576167e+00	6.282952e-03
 
 			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-5.638268e-01	4.868251e+00	0.000000e+00		-2.983643e-01	2.576167e+00	0.000000e+00
+	Center of Core:	-5.638268e-01	4.868251e+00	1.186984e-02		-2.983643e-01	2.576167e+00	6.281250e-03
 
 	SCF conditions:
 		Max iterations: 50
@@ -37,7 +37,7 @@
 Input terms:
 theory | cndo/2 | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
 damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.00000002 | scf_end | geometry | 
-c | -0.29836427 | 2.57616749 | 0.00000000 | h | 0.05829015 | 1.56735749 | 0.00000000 | h | 0.05830857 | 
+c | -0.29836427 | 2.57616749 | 0.00000000 | h | 0.05829015 | 1.56735749 | 0.10000000 | h | 0.05830857 | 
 3.08056568 | 0.87365150 | h | 0.05830857 | 3.08056568 | -0.87365150 | h | -1.36836427 | 2.57618068 | 0.00000000 | 
 geometry_end | 
 
@@ -45,13 +45,13 @@ geometry_end |
 
 
 **********  START: CNDO/2-SCF  **********
-SCF iter=0: RMS density=4.000000000000001
-SCF iter=1: RMS density=0.012446303426798
-SCF iter=2: RMS density=0.002189639028953
-SCF iter=3: RMS density=0.000494294559954
-SCF iter=4: RMS density=0.000137611656594
-SCF iter=5: RMS density=0.000042009095380
-SCF iter=6: RMS density=0.000000000044139
+SCF iter=0: RMS density=4.000000000000002
+SCF iter=1: RMS density=0.012667189481607
+SCF iter=2: RMS density=0.002218635273366
+SCF iter=3: RMS density=0.000502373742728
+SCF iter=4: RMS density=0.000141504373437
+SCF iter=5: RMS density=0.000044129425727
+SCF iter=6: RMS density=0.000000030358218
 
 
 
@@ -59,39 +59,39 @@ SCF iter=6: RMS density=0.000000000044139
 
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
-	Energy of MO:	0	occ	-1.288108e+00	-3.505149e+01
-	Energy of MO:	1	occ	-7.302897e-01	-1.987235e+01
-	Energy of MO:	2	occ	-7.302897e-01	-1.987235e+01
-	Energy of MO:	3	occ	-7.302896e-01	-1.987235e+01
-	Energy of MO:	4	unocc	3.215764e-01	8.750609e+00
-	Energy of MO:	5	unocc	3.386043e-01	9.213965e+00
-	Energy of MO:	6	unocc	3.386043e-01	9.213967e+00
-	Energy of MO:	7	unocc	3.386044e-01	9.213968e+00
+	Energy of MO:	0	occ	-1.287219e+00	-3.502728e+01
+	Energy of MO:	1	occ	-7.426521e-01	-2.020875e+01
+	Energy of MO:	2	occ	-7.302003e-01	-1.986992e+01
+	Energy of MO:	3	occ	-7.161930e-01	-1.948876e+01
+	Energy of MO:	4	unocc	3.184999e-01	8.666892e+00
+	Energy of MO:	5	unocc	3.309781e-01	9.006444e+00
+	Energy of MO:	6	unocc	3.386957e-01	9.216453e+00
+	Energy of MO:	7	unocc	3.470115e-01	9.442738e+00
 
 				|   [a.u.]   |   [eV]   |
-	Electronic energy(SCF):	-1.010390e+01	-2.749433e+02
+	Electronic energy(SCF):	-1.010335e+01	-2.749284e+02
 	Note that this electronic energy includs core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
-	Core repulsion energy:	9.730053e+00	2.647703e+02
+	Core repulsion energy:	9.720725e+00	2.645165e+02
 
 					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Total Dipole moment(SCF):	1.233183e-05	-1.069044e-04	2.564355e-15	1.076133e-04		3.134440e-05	-2.717238e-04	6.517942e-15	2.735257e-04
+	Total Dipole moment(SCF):	3.824016e-03	-8.753327e-03	-8.436162e-02	8.490068e-02		9.719682e-03	-2.224874e-02	-2.144259e-01	2.157961e-01
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Electronic Dipole moment(SCF):	1.223782e-05	-1.065001e-04	2.564355e-15	1.072009e-04		3.110544e-05	-2.706963e-04	6.517942e-15	2.724776e-04
+	Electronic Dipole moment(SCF):	3.823922e-03	-8.752923e-03	-1.783755e-01	1.786310e-01		9.719443e-03	-2.224771e-02	-4.533854e-01	4.540349e-01
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Core Dipole moment:		9.401387e-08	-4.042596e-07	0.000000e+00	4.150475e-07		2.389595e-07	-1.027526e-06	0.000000e+00	1.054946e-06
+	Core Dipole moment:		9.401387e-08	-4.042596e-07	9.401387e-02	9.401387e-02		2.389595e-07	-1.027526e-06	2.389595e-01	2.389595e-01
 
 				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-5.544662e-02
-	Mulliken charge:	1	H	1.000000e+00	1.386164e-02
-	Mulliken charge:	2	H	1.000000e+00	1.386166e-02
-	Mulliken charge:	3	H	1.000000e+00	1.386166e-02
-	Mulliken charge:	4	H	1.000000e+00	1.386166e-02
+	Mulliken charge:	0	C	4.000000e+00	-5.601005e-02
+	Mulliken charge:	1	H	1.000000e+00	1.400562e-02
+	Mulliken charge:	2	H	1.000000e+00	1.152139e-02
+	Mulliken charge:	3	H	1.000000e+00	1.665194e-02
+	Mulliken charge:	4	H	1.000000e+00	1.383112e-02
 
-	Elapsed time(omp) for the SCF = 0.008295[s].
+	Elapsed time(omp) for the SCF = 0.034806[s].
 **********  DONE: CNDO/2-SCF  **********
 
 
@@ -101,9 +101,9 @@ SCF iter=6: RMS density=0.000000000044139
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.01[s].  <<<<<
+     >>>>>  CPU time: 0[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00921607[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.038738[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
