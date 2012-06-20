@@ -2897,7 +2897,8 @@ void Mndo::RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(
          }
       }
    }
-
+   
+   // rotate (fast algorythm, see also slow algorythm shown later)
    int numberTerms = 25;
    double* tempIJK = NULL;
    double* tempIJ = NULL;
@@ -2906,14 +2907,12 @@ void Mndo::RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(
    MallocerFreer::GetInstance()->Malloc<double>(&tempIJ, numberTerms);
    MallocerFreer::GetInstance()->Malloc<double>(&tempI, numberTerms);
    try{ 
-      // rotate (slow algorythm)
       for(int mu=s; mu<dxy; mu++){
          for(int nu=s; nu<dxy; nu++){
             for(int lambda=s; lambda<dxy; lambda++){
                for(int sigma=s; sigma<dxy; sigma++){
                   for(int dimA1=XAxis; dimA1<CartesianType_end; dimA1++){
                      for(int dimA2=XAxis; dimA2<CartesianType_end; dimA2++){
-
 
                         matrix[mu][nu][lambda][sigma][dimA1][dimA2] = 0.0;
                         double value=0.0;
@@ -2925,184 +2924,78 @@ void Mndo::RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(
                                  MallocerFreer::GetInstance()->Initialize<double>(tempIJK, numberTerms);
                                  for(int l=s; l<dxy; l++){
                                     
-                                    tempIJK[0] += oldMatrix[i][j][k][l][dimA1][dimA2]*rotatingMatrix[sigma][l];
-                                    tempIJK[1] += twoElecTwoCoreDiatomic[i][j][k][l]*rotatingMatrix[sigma][l];
-                                    tempIJK[4] += twoElecTwoCoreDiatomic[i][j][k][l]*rotMatSecondDerivatives[sigma ][l][dimA1][dimA2];
-                                    /*
-                                    // term0
-                                    value += oldMatrix[i][j][k][l][dimA1][dimA2]
-                                            *rotatingMatrix         [mu    ][i] 
-                                            *rotatingMatrix         [nu    ][j] 
-                                            *rotatingMatrix         [lambda][k] 
-                                            *rotatingMatrix         [sigma ][l];
-                                    // term1
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotMatSecondDerivatives[mu    ][i][dimA1][dimA2]
-                                            *rotatingMatrix         [nu    ][j] 
-                                            *rotatingMatrix         [lambda][k] 
-                                            *rotatingMatrix         [sigma ][l];
-                                    // term2
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix         [mu    ][i] 
-                                            *rotMatSecondDerivatives[nu    ][j][dimA1][dimA2]
-                                            *rotatingMatrix         [lambda][k] 
-                                            *rotatingMatrix         [sigma ][l];
-                                    // term3
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix         [mu    ][i] 
-                                            *rotatingMatrix         [nu    ][j] 
-                                            *rotMatSecondDerivatives[lambda][k][dimA1][dimA2]
-                                            *rotatingMatrix         [sigma ][l];
-                                    // term4
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix         [mu    ][i] 
-                                            *rotatingMatrix         [nu    ][j] 
-                                            *rotatingMatrix         [lambda][k] 
-                                            *rotMatSecondDerivatives[sigma ][l][dimA1][dimA2];
-                                    */
-                                    
-                                    // term5
-                                    value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
-                                            *rotMatFirstDerivatives[mu    ][i][dimA2]
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term6
-                                    value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotMatFirstDerivatives[nu    ][j][dimA2]
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term7
-                                    value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotMatFirstDerivatives[lambda][k][dimA2]
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term8
-                                    value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
-                                            *rotatingMatrix        [mu    ][i]
-                                            *rotatingMatrix        [nu    ][j]
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotMatFirstDerivatives[sigma ][l][dimA2];
-                                    
-                                    // term9
-                                    value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
-                                            *rotMatFirstDerivatives[mu    ][i][dimA1]
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term10
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotMatFirstDerivatives[mu    ][i][dimA1]
-                                            *rotMatFirstDerivatives[nu    ][j][dimA2]
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term11
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotMatFirstDerivatives[mu    ][i][dimA1]
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotMatFirstDerivatives[lambda][k][dimA2]
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term12
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotMatFirstDerivatives[mu    ][i][dimA1]
-                                            *rotatingMatrix        [nu    ][j]
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotMatFirstDerivatives[sigma ][l][dimA2];
-                                    
-                                    // term13
-                                    value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotMatFirstDerivatives[nu    ][j][dimA1]
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term14
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotMatFirstDerivatives[mu    ][i][dimA2]
-                                            *rotMatFirstDerivatives[nu    ][j][dimA1]
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term15
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotMatFirstDerivatives[nu    ][j][dimA1]
-                                            *rotMatFirstDerivatives[lambda][k][dimA2]
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term16
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotMatFirstDerivatives[nu    ][j][dimA1]
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotMatFirstDerivatives[sigma ][l][dimA2];
+                                    tempIJK[0]  += oldMatrix             [i][j][k][l][dimA1][dimA2]*rotatingMatrix         [sigma][l];
+                                    tempIJK[1]  += twoElecTwoCoreDiatomic[i][j][k][l]              *rotatingMatrix         [sigma][l];
+                                    tempIJK[4]  += twoElecTwoCoreDiatomic[i][j][k][l]              *rotMatSecondDerivatives[sigma][l][dimA1][dimA2];
 
-                                    // term17
-                                    value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotMatFirstDerivatives[lambda][k][dimA1]
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term18
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotMatFirstDerivatives[mu    ][i][dimA2]
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotMatFirstDerivatives[lambda][k][dimA1]
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term19
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotMatFirstDerivatives[nu    ][j][dimA2]
-                                            *rotMatFirstDerivatives[lambda][k][dimA1]
-                                            *rotatingMatrix        [sigma ][l];
-                                    // term20
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotMatFirstDerivatives[lambda][k][dimA1]
-                                            *rotMatFirstDerivatives[sigma ][l][dimA2];
+                                    tempIJK[5]  += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]*rotatingMatrix        [sigma][l];
+                                    tempIJK[8]  += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]*rotMatFirstDerivatives[sigma][l][dimA2];
 
-                                    // term21
-                                    value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotMatFirstDerivatives[sigma ][l][dimA1];
-                                    // term22
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotMatFirstDerivatives[mu    ][i][dimA2]
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotMatFirstDerivatives[sigma ][l][dimA1];
-                                    // term23
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotMatFirstDerivatives[nu    ][j][dimA2]
-                                            *rotatingMatrix        [lambda][k] 
-                                            *rotMatFirstDerivatives[sigma ][l][dimA1];
-                                    // term24
-                                    value += twoElecTwoCoreDiatomic[i][j][k][l]
-                                            *rotatingMatrix        [mu    ][i] 
-                                            *rotatingMatrix        [nu    ][j] 
-                                            *rotMatFirstDerivatives[lambda][k][dimA2]
-                                            *rotMatFirstDerivatives[sigma ][l][dimA1];
+                                    tempIJK[9]  += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]*rotatingMatrix        [sigma][l];
+                                    tempIJK[12] += twoElecTwoCoreDiatomic                [i][j][k][l]       *rotMatFirstDerivatives[sigma][l][dimA2];
 
+                                    tempIJK[21] += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]*rotMatFirstDerivatives[sigma][l][dimA1];
+                                    tempIJK[22] += twoElecTwoCoreDiatomic                [i][j][k][l]       *rotMatFirstDerivatives[sigma][l][dimA1];
                                  }
-                                 tempIJ[0] += tempIJK[0]*rotatingMatrix[lambda][k];
-                                 tempIJ[1] += tempIJK[1]*rotatingMatrix[lambda][k];
-                                 tempIJ[3] += tempIJK[1]*rotMatSecondDerivatives[lambda][k][dimA1][dimA2];
-                                 tempIJ[4] += tempIJK[4]*rotatingMatrix[lambda][k];
+                                 tempIJ[0]  += tempIJK[0] *rotatingMatrix         [lambda][k];
+                                 tempIJ[1]  += tempIJK[1] *rotatingMatrix         [lambda][k];
+                                 tempIJ[3]  += tempIJK[1] *rotMatSecondDerivatives[lambda][k][dimA1][dimA2];
+                                 tempIJ[4]  += tempIJK[4] *rotatingMatrix         [lambda][k];
+                                           
+                                 tempIJ[5]  += tempIJK[5] *rotatingMatrix        [lambda][k];
+                                 tempIJ[7]  += tempIJK[5] *rotMatFirstDerivatives[lambda][k][dimA2];
+                                 tempIJ[8]  += tempIJK[8] *rotatingMatrix        [lambda][k];
+
+                                 tempIJ[9]  += tempIJK[9] *rotatingMatrix        [lambda][k];
+                                 tempIJ[11] += tempIJK[1] *rotMatFirstDerivatives[lambda][k][dimA2];
+                                 tempIJ[12] += tempIJK[12]*rotatingMatrix        [lambda][k];
+
+                                 tempIJ[17] += tempIJK[9] *rotMatFirstDerivatives[lambda][k][dimA1];
+                                 tempIJ[18] += tempIJK[1 ]*rotMatFirstDerivatives[lambda][k][dimA1];
+                                 tempIJ[20] += tempIJK[12]*rotMatFirstDerivatives[lambda][k][dimA1];
+
+                                 tempIJ[21] += tempIJK[21]*rotatingMatrix        [lambda][k];
+                                 tempIJ[22] += tempIJK[22]*rotatingMatrix        [lambda][k];
+                                 tempIJ[24] += tempIJK[22]*rotMatFirstDerivatives[lambda][k][dimA2];
                               }
-                              tempI[0] += tempIJ[0]*rotatingMatrix[nu][j];
-                              tempI[1] += tempIJ[1]*rotatingMatrix[nu][j];
-                              tempI[2] += tempIJ[1]*rotMatSecondDerivatives[nu][j][dimA1][dimA2];
-                              tempI[3] += tempIJ[3]*rotatingMatrix[nu][j];
-                              tempI[4] += tempIJ[4]*rotatingMatrix[nu][j];
+                              tempI[0]  += tempIJ[0] *rotatingMatrix         [nu][j];
+                              tempI[1]  += tempIJ[1] *rotatingMatrix         [nu][j];
+                              tempI[2]  += tempIJ[1] *rotMatSecondDerivatives[nu][j][dimA1][dimA2];
+                              tempI[3]  += tempIJ[3] *rotatingMatrix         [nu][j];
+                              tempI[4]  += tempIJ[4] *rotatingMatrix         [nu][j];
+                                       
+                              tempI[5]  += tempIJ[5] *rotatingMatrix        [nu][j];
+                              tempI[6]  += tempIJ[5] *rotMatFirstDerivatives[nu][j][dimA2];
+                              tempI[7]  += tempIJ[7] *rotatingMatrix        [nu][j];
+                              tempI[8]  += tempIJ[8] *rotatingMatrix        [nu][j];
+                                       
+                              tempI[9]  += tempIJ[9] *rotatingMatrix        [nu][j];
+                              tempI[10] += tempIJ[1] *rotMatFirstDerivatives[nu][j][dimA2];
+                              tempI[11] += tempIJ[11]*rotatingMatrix        [nu][j];
+                              tempI[12] += tempIJ[12]*rotatingMatrix        [nu][j];
+
+                              tempI[13] += tempIJ[9] *rotMatFirstDerivatives[nu][j][dimA1];
+                              tempI[14] += tempIJ[1] *rotMatFirstDerivatives[nu][j][dimA1];
+                              tempI[15] += tempIJ[11]*rotMatFirstDerivatives[nu][j][dimA1];
+                              tempI[16] += tempIJ[12]*rotMatFirstDerivatives[nu][j][dimA1];
+
+                              tempI[17] += tempIJ[17]*rotatingMatrix        [nu][j];
+                              tempI[18] += tempIJ[18]*rotatingMatrix        [nu][j];
+                              tempI[19] += tempIJ[18]*rotMatFirstDerivatives[nu][j][dimA2];
+                              tempI[20] += tempIJ[20]*rotatingMatrix        [nu][j];
+
+                              tempI[21] += tempIJ[21]*rotatingMatrix        [nu][j];
+                              tempI[22] += tempIJ[22]*rotatingMatrix        [nu][j];
+                              tempI[23] += tempIJ[22]*rotMatFirstDerivatives[nu][j][dimA2];
+                              tempI[24] += tempIJ[24]*rotatingMatrix        [nu][j];
                            }
-                           value += tempI[0]*rotatingMatrix[mu][i];
-                           value += tempI[1]*rotMatSecondDerivatives[mu][i][dimA1][dimA2];
-                           value += tempI[2]*rotatingMatrix[mu][i];
-                           value += tempI[3]*rotatingMatrix[mu][i];
-                           value += tempI[4]*rotatingMatrix[mu][i];
+                           value += (tempI[0] + tempI[2] + tempI[3] + tempI[4] + 
+                                     tempI[6] + tempI[7] + tempI[8] + tempI[13] + 
+                                     tempI[15] + tempI[16] + tempI[17] + tempI[19] + 
+                                     tempI[20] + tempI[21] + tempI[23] + tempI[24])*rotatingMatrix[mu][i];
+                           value += (tempI[9] + tempI[10] + tempI[11] + tempI[12]) *rotMatFirstDerivatives[mu][i][dimA1];
+                           value += (tempI[5] + tempI[14] + tempI[18] + tempI[22]) *rotMatFirstDerivatives[mu][i][dimA2];
+                           value += tempI[1] *rotMatSecondDerivatives[mu][i][dimA1][dimA2];
                         }
                         matrix[mu][nu][lambda][sigma][dimA1][dimA2] = value;
 
@@ -3123,6 +3016,192 @@ void Mndo::RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(
    MallocerFreer::GetInstance()->Free<double>(&tempIJK, numberTerms);
    MallocerFreer::GetInstance()->Free<double>(&tempIJ, numberTerms);
    MallocerFreer::GetInstance()->Free<double>(&tempI, numberTerms);
+  
+   /*
+   // rotate (slow algorythm shown later)
+   for(int mu=s; mu<dxy; mu++){
+      for(int nu=s; nu<dxy; nu++){
+         for(int lambda=s; lambda<dxy; lambda++){
+            for(int sigma=s; sigma<dxy; sigma++){
+               for(int dimA1=XAxis; dimA1<CartesianType_end; dimA1++){
+                  for(int dimA2=XAxis; dimA2<CartesianType_end; dimA2++){
+
+
+                     matrix[mu][nu][lambda][sigma][dimA1][dimA2] = 0.0;
+                     double value=0.0;
+                     for(int i=s; i<dxy; i++){
+                        for(int j=s; j<dxy; j++){
+                           for(int k=s; k<dxy; k++){
+                              for(int l=s; l<dxy; l++){
+                                 // term0
+                                 value += oldMatrix[i][j][k][l][dimA1][dimA2]
+                                         *rotatingMatrix         [mu    ][i] 
+                                         *rotatingMatrix         [nu    ][j] 
+                                         *rotatingMatrix         [lambda][k] 
+                                         *rotatingMatrix         [sigma ][l];
+                                 // term1
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatSecondDerivatives[mu    ][i][dimA1][dimA2]
+                                         *rotatingMatrix         [nu    ][j] 
+                                         *rotatingMatrix         [lambda][k] 
+                                         *rotatingMatrix         [sigma ][l];
+                                 // term2
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix         [mu    ][i] 
+                                         *rotMatSecondDerivatives[nu    ][j][dimA1][dimA2]
+                                         *rotatingMatrix         [lambda][k] 
+                                         *rotatingMatrix         [sigma ][l];
+                                 // term3
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix         [mu    ][i] 
+                                         *rotatingMatrix         [nu    ][j] 
+                                         *rotMatSecondDerivatives[lambda][k][dimA1][dimA2]
+                                         *rotatingMatrix         [sigma ][l];
+                                 // term4
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix         [mu    ][i] 
+                                         *rotatingMatrix         [nu    ][j] 
+                                         *rotatingMatrix         [lambda][k] 
+                                         *rotMatSecondDerivatives[sigma ][l][dimA1][dimA2];
+                                 
+                                 // term5
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA2]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term6
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA2]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term7
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA2]
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term8
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
+                                         *rotatingMatrix        [mu    ][i]
+                                         *rotatingMatrix        [nu    ][j]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA2];
+
+                                 // term9
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA1]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term10
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA1]
+                                         *rotMatFirstDerivatives[nu    ][j][dimA2]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term11
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA1]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA2]
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term12
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA1]
+                                         *rotatingMatrix        [nu    ][j]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA2];
+
+                                 // term13
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA1]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term14
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA2]
+                                         *rotMatFirstDerivatives[nu    ][j][dimA1]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term15
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA1]
+                                         *rotMatFirstDerivatives[lambda][k][dimA2]
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term16
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA1]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA2];
+
+                                 // term17
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA1]
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term18
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA2]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA1]
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term19
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA2]
+                                         *rotMatFirstDerivatives[lambda][k][dimA1]
+                                         *rotatingMatrix        [sigma ][l];
+                                 // term20
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA1]
+                                         *rotMatFirstDerivatives[sigma ][l][dimA2];
+                                 
+                                 // term21
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA1];
+                                 // term22
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA2]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA1];
+                                 // term23
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA2]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA1];
+                                 // term24
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA2]
+                                         *rotMatFirstDerivatives[sigma ][l][dimA1];
+                              }
+                           }
+                        }
+                     }
+                     matrix[mu][nu][lambda][sigma][dimA1][dimA2] = value;
+
+                  }
+               }
+            }
+         }
+      }
+   }
+   */
+   
 }
 
 // See Apendix in [DT_1977]
