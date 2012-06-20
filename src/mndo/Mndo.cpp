@@ -2908,46 +2908,148 @@ void Mndo::RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(
 
 
                      matrix[mu][nu][lambda][sigma][dimA1][dimA2] = 0.0;
+                     double value=0.0;
                      for(int i=0; i<dxy; i++){
                         for(int j=0; j<dxy; j++){
                            for(int k=0; k<dxy; k++){
                               for(int l=0; l<dxy; l++){
                                  
-                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2]
-                                    += oldMatrix[i][j][k][l][dimA1][dimA2]
-                                      *rotatingMatrix[mu][i] 
-                                      *rotatingMatrix[nu][j] 
-                                      *rotatingMatrix[lambda][k] 
-                                      *rotatingMatrix[sigma][l];
-                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2] 
-                                    += twoElecTwoCoreDiatomic[i][j][k][l]
-                                      *rotMatSecondDerivatives[mu][i][dimA1][dimA2]
-                                      *rotatingMatrix[nu][j] 
-                                      *rotatingMatrix[lambda][k] 
-                                      *rotatingMatrix[sigma][l];
-                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2] 
-                                    += twoElecTwoCoreDiatomic[i][j][k][l]
-                                      *rotatingMatrix[mu][i] 
-                                      *rotMatSecondDerivatives[nu][j][dimA1][dimA2]
-                                      *rotatingMatrix[lambda][k] 
-                                      *rotatingMatrix[sigma][l];
-                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2] 
-                                    += twoElecTwoCoreDiatomic[i][j][k][l]
-                                      *rotatingMatrix[mu][i] 
-                                      *rotatingMatrix[nu][j] 
-                                      *rotMatSecondDerivatives[lambda][k][dimA1][dimA2]
-                                      *rotatingMatrix[sigma][l];
-                                 matrix[mu][nu][lambda][sigma][dimA1][dimA2] 
-                                    += twoElecTwoCoreDiatomic[i][j][k][l]
-                                      *rotatingMatrix[mu][i] 
-                                      *rotatingMatrix[nu][j] 
-                                      *rotatingMatrix[lambda][k] 
-                                      *rotMatSecondDerivatives[sigma][l][dimA1][dimA2];
+                                 value += oldMatrix[i][j][k][l][dimA1][dimA2]
+                                         *rotatingMatrix         [mu    ][i] 
+                                         *rotatingMatrix         [nu    ][j] 
+                                         *rotatingMatrix         [lambda][k] 
+                                         *rotatingMatrix         [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatSecondDerivatives[mu    ][i][dimA1][dimA2]
+                                         *rotatingMatrix         [nu    ][j] 
+                                         *rotatingMatrix         [lambda][k] 
+                                         *rotatingMatrix         [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix         [mu    ][i] 
+                                         *rotMatSecondDerivatives[nu    ][j][dimA1][dimA2]
+                                         *rotatingMatrix         [lambda][k] 
+                                         *rotatingMatrix         [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix         [mu    ][i] 
+                                         *rotatingMatrix         [nu    ][j] 
+                                         *rotMatSecondDerivatives[lambda][k][dimA1][dimA2]
+                                         *rotatingMatrix         [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix         [mu    ][i] 
+                                         *rotatingMatrix         [nu    ][j] 
+                                         *rotatingMatrix         [lambda][k] 
+                                         *rotMatSecondDerivatives[sigma ][l][dimA1][dimA2];
                                  
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA2]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA2]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA2]
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA1]
+                                         *rotatingMatrix        [mu    ][i]
+                                         *rotatingMatrix        [nu    ][j]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA2];
+                                 
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA1]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA1]
+                                         *rotMatFirstDerivatives[nu    ][j][dimA2]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA1]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA2]
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA1]
+                                         *rotatingMatrix        [nu    ][j]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA2];
+                                 
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA1]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA2]
+                                         *rotMatFirstDerivatives[nu    ][j][dimA1]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA1]
+                                         *rotMatFirstDerivatives[lambda][k][dimA2]
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA1]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA2];
+
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA1]
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA2]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA1]
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA2]
+                                         *rotMatFirstDerivatives[lambda][k][dimA1]
+                                         *rotatingMatrix        [sigma ][l];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA1]
+                                         *rotMatFirstDerivatives[sigma ][l][dimA2];
+
+                                 value += twoElecTwoCoreDiatomicFirstDerivatives[i][j][k][l][dimA2]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA1];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotMatFirstDerivatives[mu    ][i][dimA2]
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA1];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotMatFirstDerivatives[nu    ][j][dimA2]
+                                         *rotatingMatrix        [lambda][k] 
+                                         *rotMatFirstDerivatives[sigma ][l][dimA1];
+                                 value += twoElecTwoCoreDiatomic[i][j][k][l]
+                                         *rotatingMatrix        [mu    ][i] 
+                                         *rotatingMatrix        [nu    ][j] 
+                                         *rotMatFirstDerivatives[lambda][k][dimA2]
+                                         *rotMatFirstDerivatives[sigma ][l][dimA1];
+
                               }
                            }
                         }
                      }
+                     matrix[mu][nu][lambda][sigma][dimA1][dimA2] = value;
 
 
                   }
