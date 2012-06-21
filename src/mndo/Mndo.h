@@ -150,6 +150,9 @@ private:
                     const std::vector<MoIndexPair>& nonRedundantQIndeces,
                     const std::vector<MoIndexPair>& redundantQIndeces) const;
    void TransposeFockMatrixMatrix(double** transposedFockMatrix) const;
+   void CalcGammaMinusKMatrix(double** gammaMinusK, 
+                              const std::vector<MoIndexPair>& nonRedundantQIndeces,
+                              const std::vector<MoIndexPair>& redundantQIndeces) const;
    void CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, 
                                   const std::vector<MoIndexPair>& nonRedundantQIndeces) const;
    void CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv, 
@@ -191,6 +194,15 @@ private:
                                 std::vector<MoIndexPair>* redundantQIndeces,
                                 int numberActiveOcc,
                                 int numberActiveVir) const;
+   void SolveCPHF(double* solution, int atomAIndex, MolDS_base::CartesianType axis) const;
+   void MallocTempMatricesSolveCPHF(double** staticFirstOrderFock,
+                                    double*** gammaMinusK,
+                                    double*** occupations,
+                                    int matrixSize) const;
+   void FreeTempMatricesSolveCPHF(double** staticFirstOrderFock,
+                                  double*** gammaMinusK,
+                                  double*** occupations,
+                                  int matrixSize) const;
    void CalcHeatsFormation(double* heatsFormation, 
                            const MolDS_base::Molecule& molecule) const;
    double GetElectronCoreAttraction(int atomAIndex, 
