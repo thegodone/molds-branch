@@ -188,7 +188,9 @@ private:
                                            int s, 
                                            int numberActiveVir) const;
    void CalcActiveSetVariablesQ(std::vector<MoIndexPair>* nonRedundantQIndeces, 
-                                std::vector<MoIndexPair>* redundantQIndeces) const;
+                                std::vector<MoIndexPair>* redundantQIndeces,
+                                int numberActiveOcc,
+                                int numberActiveVir) const;
    void CalcHeatsFormation(double* heatsFormation, 
                            const MolDS_base::Molecule& molecule) const;
    double GetElectronCoreAttraction(int atomAIndex, 

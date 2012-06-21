@@ -814,11 +814,11 @@ void Mndo::CheckEtaMatrixForce(const vector<int>& elecStates){
 
 // see variable Q-vector in [PT_1996, PT_1997]
 void Mndo::CalcActiveSetVariablesQ(vector<MoIndexPair>* nonRedundantQIndeces, 
-                                   vector<MoIndexPair>* redundantQIndeces) const{
+                                   vector<MoIndexPair>* redundantQIndeces,
+                                   int numberActiveOcc,
+                                   int numberActiveVir) const{
    int numberAOs = this->molecule->GetTotalNumberAOs();
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
-   int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
-   int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
    for(int moI=0; moI<numberOcc; moI++){
       bool isMoICIMO = numberOcc-numberActiveOcc<=moI ? true : false;
       for(int moJ=numberOcc; moJ<numberAOs; moJ++){
@@ -1721,7 +1721,10 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
    // creat MO-index-pair for Q variables. 
    vector<MoIndexPair> nonRedundantQIndeces;
    vector<MoIndexPair> redundantQIndeces;
-   this->CalcActiveSetVariablesQ(&nonRedundantQIndeces, &redundantQIndeces);
+   this->CalcActiveSetVariablesQ(&nonRedundantQIndeces, 
+                                 &redundantQIndeces,
+                                 Parameters::GetInstance()->GetActiveOccCIS(),
+                                 Parameters::GetInstance()->GetActiveVirCIS());
 
    // malloc temporary arraies
    double* delta = NULL; // Delta matrix, see (9) in [PT_1997]
