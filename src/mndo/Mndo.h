@@ -152,12 +152,12 @@ private:
    void TransposeFockMatrixMatrix(double** transposedFockMatrix) const;
    void CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, 
                                   const std::vector<MoIndexPair>& nonRedundantQIndeces) const;
-   void CalcKRDagerMatrix(double** kRDager, 
-                          const std::vector<MoIndexPair>& nonRedundantQIndeces,
-                          const std::vector<MoIndexPair>& redundantQIndeces) const;
+   void CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv, 
+                                   const std::vector<MoIndexPair>& nonRedundantQIndeces,
+                                   const std::vector<MoIndexPair>& redundantQIndeces) const;
    void CalcAuxiliaryVector(double* y,
                             double const* q,
-                            double const* const* kRDager,
+                            double const* const* kRDagerGammaRInv,
                             const std::vector<MoIndexPair>& nonRedundantQIndeces,
                             const std::vector<MoIndexPair>& redundantQIndeces) const;
    void CalcXiMatrices(double** xiOcc, 
