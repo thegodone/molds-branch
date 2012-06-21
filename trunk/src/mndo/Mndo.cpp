@@ -1524,6 +1524,42 @@ void Mndo::CalcQVector(double* q,
    */
 }
 
+// see (40) - (46) in [PT_1996].
+// This method calculates "\Gamma - K" to solve CPHF (34) in [PT_1966]
+void Mndo::CalcGammaMinusKMatrix(double** gammaMinusK, 
+                                 const vector<MoIndexPair>& nonRedundantQIndeces,
+                                 const vector<MoIndexPair>& redundantQIndeces) const{
+   for(int i=0; i<nonRedundantQIndeces.size(); i++){
+      int moI = nonRedundantQIndeces[i].moI;
+      int moJ = nonRedundantQIndeces[i].moJ;
+      for(int j=i; j<nonRedundantQIndeces.size(); j++){
+         int moK = nonRedundantQIndeces[j].moI;
+         int moL = nonRedundantQIndeces[j].moJ;
+         gammaMinusK[i][j] = this->GetGammaNRElement(moI, moJ, moK, moL)
+                            -this->GetKNRElement(moI, moJ, moK, moL);
+      }
+      for(int j=0; j<i; j++){
+         gammaMinusK[j][i] = gammaMinusK[i][j];
+      }
+   }
+
+   for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
+      int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+      int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+      for(int j=0; j<nonRedundantQIndeces.size(); j++){
+         int moK = nonRedundantQIndeces[j].moI;
+         int moL = nonRedundantQIndeces[j].moJ;
+         gammaMinusK[i][j] = -1.0*this->GetKRElement(moI, moJ, moK, moL);
+      }
+   }
+
+   for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
+      int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+      int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+      gammaMinusK[i][i] = this->GetGammaRElement(moI, moJ, moI, moJ);
+   }
+}
+
 // see (40) and (45) in [PT_1996].
 // This method calculates "\Gamma_{NR} - K_{NR}" to solve (54) in [PT_1966]
 // Note taht K_{NR} is not calculated.
@@ -1708,6 +1744,61 @@ void Mndo::CalcXiMatrices(double** xiOcc,
       throw MolDSException(ompErrors.str());
    }
 }
+
+// solve CPHF (34) in [PT_1996].
+// Derivative coordinates is "axis" of atomA.
+// Solution of the CPHF is set to solution.
+void Mndo::SolveCPHF(double* solution, int atomAIndex, CartesianType axis) const{
+   int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
+   int numberVir = this->molecule->GetTotalNumberAOs() - numberOcc;
+   vector<MoIndexPair> nonRedundantQIndeces;
+   vector<MoIndexPair> redundantQIndeces;
+   this->CalcActiveSetVariablesQ(&nonRedundantQIndeces, &redundantQIndeces, numberOcc, numberVir);
+
+   double* staticFirstOrderFock = NULL; // right side hand of CPHF, (34), in [PT_1996]. See also (25).
+   double** gammaMinusK = NULL; // Gmamma - K matrix, see (40) - (46) to slove (34) in [PT_1996].
+   double** occupations = NULL; // N matrix in CPHF. N matrix in  (34) in [PT_1996].
+
+   try{
+      this->MallocTempMatricesSolveCPHF(&staticFirstOrderFock, 
+                                        &gammaMinusK, 
+                                        &occupations, 
+                                        nonRedundantQIndeces.size() + redundantQIndeces.size());
+      this->CalcGammaMinusKMatrix(gammaMinusK, nonRedundantQIndeces, redundantQIndeces);
+   }
+   catch(MolDSException ex){
+      this->FreeTempMatricesSolveCPHF(&staticFirstOrderFock, 
+                                      &gammaMinusK, 
+                                      &occupations, 
+                                      nonRedundantQIndeces.size() + redundantQIndeces.size());
+      throw ex;
+   }
+   this->FreeTempMatricesSolveCPHF(&staticFirstOrderFock, 
+                                   &gammaMinusK, 
+                                   &occupations, 
+                                   nonRedundantQIndeces.size() + redundantQIndeces.size());
+
+}
+
+void Mndo::MallocTempMatricesSolveCPHF(double** staticFirstOrderFock,
+                                       double*** gammaMinusK,
+                                       double*** occupations,
+                                       int matrixSize) const{
+   MallocerFreer::GetInstance()->Malloc<double>(staticFirstOrderFock, matrixSize);
+   MallocerFreer::GetInstance()->Malloc<double>(gammaMinusK, matrixSize, matrixSize);
+   MallocerFreer::GetInstance()->Malloc<double>(occupations, matrixSize, matrixSize);
+}
+
+void Mndo::FreeTempMatricesSolveCPHF(double** staticFirstOrderFock,
+                                     double*** gammaMinusK,
+                                     double*** occupations,
+                                     int matrixSize) const{
+   MallocerFreer::GetInstance()->Free<double>(staticFirstOrderFock, matrixSize);
+   MallocerFreer::GetInstance()->Free<double>(gammaMinusK, matrixSize, matrixSize);
+   MallocerFreer::GetInstance()->Free<double>(occupations, matrixSize, matrixSize);
+}
+
+
 
 // see [PT_1996, PT_1997]
 void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
