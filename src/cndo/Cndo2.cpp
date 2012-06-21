@@ -3429,7 +3429,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
                                            &rotMatFirstDerivatives);
 }
 
-// First derivative of diatomic overlap integrals between AOs in space fixed flame.
+// Second derivative of diatomic overlap integrals between AOs in space fixed flame.
 // The Overlap matrix is S_{\mu\nu} in (3.74) in J. A. Pople book.
 // Note that this method can not treat d-obitals 
 // because CalcRotatingMatrixFirstDerivatives can not treat d-orbitals.
