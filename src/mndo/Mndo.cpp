@@ -2330,8 +2330,10 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
    }
 }
 
-// Calculation of two electrons two cores integral (mu, nu | lambda, sigma), 
+// Calculation of two electrons two cores integral (mu, nu | lambda, sigma) in space fixed frame, 
 // taht is, Eq. (9) in ref. [DT_1977-2].
+// mu and nu are included in atomA's AOs. 
+// lambda and sigma are included in atomB's AOs.
 // Note that atomA != atomB.
 // Note taht d-orbital cannot be treated, 
 // that is, matrix[dxy][dxy][dxy][dxy] cannot be treatable.
@@ -2407,8 +2409,10 @@ void Mndo::CalcTwoElecTwoCoreDiatomic(double**** matrix, int atomAIndex, int ato
    */
 }
 
-// Calculation of first derivatives of the two electrons two cores integral 
+// Calculation of first derivatives of the two electrons two cores integral in space fixed frame,
 // (mu, nu | lambda, sigma), taht is, Eq. (9) in ref. [DT_1977-2].
+// mu and nu are included in atomA's AOs. 
+// lambda and sigma are included in atomB's AOs.
 // This derivative is related to the coordinates of atomA.
 // Note that atomA != atomB.
 // Note taht d-orbital cannot be treated, 
@@ -2497,8 +2501,10 @@ void Mndo::CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix,
                                                   &twoElecTwoCoreDiatomic);
 }
 
-// Calculation of second derivatives of the two electrons two cores integral 
+// Calculation of second derivatives of the two electrons two cores integral in space fixed frame,
 // (mu, nu | lambda, sigma), taht is, Eq. (9) in ref. [DT_1977-2].
+// mu and nu are included in atomA's AOs. 
+// lambda and sigma are included in atomB's AOs.
 // Both derivative is related to the coordinates of atomA.
 // Note that atomA != atomB.
 // Note taht d-orbital cannot be treated, 
