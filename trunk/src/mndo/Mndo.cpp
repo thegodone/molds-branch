@@ -847,7 +847,7 @@ void Mndo::CalcActiveSetVariablesQ(vector<MoIndexPair>* nonRedundantQIndeces,
 
 void Mndo::MallocTempMatrixForZMatrix(double** delta,
                                       double** q,
-                                      double*** kNR,
+                                      double*** gammaNRMinusKNR,
                                       double*** kRDag,
                                       double** y,
                                       double*** transposedFockMatrix,
@@ -861,7 +861,7 @@ void Mndo::MallocTempMatrixForZMatrix(double** delta,
    int numberAOs = this->molecule->GetTotalNumberAOs();
    MallocerFreer::GetInstance()->Malloc<double>(delta, numberActiveMO);
    MallocerFreer::GetInstance()->Malloc<double>(q, sizeQNR+sizeQR);
-   MallocerFreer::GetInstance()->Malloc<double>(kNR, sizeQNR, sizeQNR);
+   MallocerFreer::GetInstance()->Malloc<double>(gammaNRMinusKNR, sizeQNR, sizeQNR);
    MallocerFreer::GetInstance()->Malloc<double>(kRDag, sizeQNR, sizeQR);
    MallocerFreer::GetInstance()->Malloc<double>(y, sizeQNR);
    MallocerFreer::GetInstance()->Malloc<double>(transposedFockMatrix,
@@ -873,7 +873,7 @@ void Mndo::MallocTempMatrixForZMatrix(double** delta,
 
 void Mndo::FreeTempMatrixForZMatrix(double** delta,
                                     double** q,
-                                    double*** kNR,
+                                    double*** gammaNRMinusKNR,
                                     double*** kRDag,
                                     double** y,
                                     double*** transposedFockMatrix,
@@ -887,7 +887,7 @@ void Mndo::FreeTempMatrixForZMatrix(double** delta,
    int numberAOs = this->molecule->GetTotalNumberAOs();
    MallocerFreer::GetInstance()->Free<double>(delta, numberActiveMO);
    MallocerFreer::GetInstance()->Free<double>(q, sizeQNR+sizeQR);
-   MallocerFreer::GetInstance()->Free<double>(kNR, sizeQNR, sizeQNR);
+   MallocerFreer::GetInstance()->Free<double>(gammaNRMinusKNR, sizeQNR, sizeQNR);
    MallocerFreer::GetInstance()->Free<double>(kRDag, sizeQNR, sizeQR);
    MallocerFreer::GetInstance()->Free<double>(y, sizeQNR);
    MallocerFreer::GetInstance()->Free<double>(transposedFockMatrix, numberAOs, numberAOs);
@@ -1524,10 +1524,10 @@ void Mndo::CalcQVector(double* q,
    */
 }
 
-// see (43) and (45) in [PT_1996].
-// This method calculates "\Gamma_{NR} - K_{NR}".
+// see (40)and (45) in [PT_1996].
+// This method calculates "\Gamma_{NR} - K_{NR}" to solve (54) in [PT_1966]
 // Note taht K_{NR} is not calculated.
-void Mndo::CalcKNRMatrix(double** kNR, const vector<MoIndexPair>& nonRedundantQIndeces) const{
+void Mndo::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<MoIndexPair>& nonRedundantQIndeces) const{
    stringstream ompErrors;
    #pragma omp parallel for schedule(auto)
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
@@ -1537,8 +1537,8 @@ void Mndo::CalcKNRMatrix(double** kNR, const vector<MoIndexPair>& nonRedundantQI
          for(int j=i; j<nonRedundantQIndeces.size(); j++){
             int moK = nonRedundantQIndeces[j].moI;
             int moL = nonRedundantQIndeces[j].moJ;
-            kNR[i][j] = this->GetGammaNRElement(moI, moJ, moK, moL)
-                       -this->GetKNRElement(moI, moJ, moK, moL);
+            gammaNRMinusKNR[i][j] = this->GetGammaNRElement(moI, moJ, moK, moL)
+                                   -this->GetKNRElement(moI, moJ, moK, moL);
          }
       }
       catch(MolDSException ex){
@@ -1553,7 +1553,7 @@ void Mndo::CalcKNRMatrix(double** kNR, const vector<MoIndexPair>& nonRedundantQI
 }
 
 // see (44) and (46) in [PT_1996].
-// This method calculates "K_{R}^{\dager} * \Gamma_{R}^{-1}".
+// This method calculates "K_{R}^{\dager} * \Gamma_{R}^{-1}" to solve (54) in [PT_1966]
 // Note taht K_{R}^{\dager} is not calculated.
 void Mndo::CalcKRDagerMatrix(double** kRDager, 
                              const vector<MoIndexPair>& nonRedundantQIndeces,
@@ -1726,7 +1726,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
    // malloc temporary arraies
    double* delta = NULL; // Delta matrix, see (9) in [PT_1997]
    double* q = NULL; //// Q-vector in (19) in [PT_1997]
-   double** kNR = NULL; // K_{NR} matrix, see (45) in [PT_1996]
+   double** gammaNRMinusKNR = NULL; // Gmamma_{NR} - K_{NR} matrix, see (40) and (45) to slove (54) in [PT_1996]
    double** kRDager = NULL; // Dagar of K_{R} matrix, see (46) in [PT_1996]
    double* y = NULL; // y-vector in (54) in [PT_1996]
    double** transposedFockMatrix = NULL; // transposed Fock matrix
@@ -1735,7 +1735,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
    try{
       this->MallocTempMatrixForZMatrix(&delta,
                                        &q,
-                                       &kNR,
+                                       &gammaNRMinusKNR,
                                        &kRDager,
                                        &y,
                                        &transposedFockMatrix,
@@ -1744,7 +1744,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
                                        nonRedundantQIndeces.size(),
                                        redundantQIndeces.size());
       this->TransposeFockMatrixMatrix(transposedFockMatrix);
-      this->CalcKNRMatrix(kNR, nonRedundantQIndeces);
+      this->CalcGammaNRMinusKNRMatrix(gammaNRMinusKNR, nonRedundantQIndeces);
       this->CalcKRDagerMatrix(kRDager, nonRedundantQIndeces,redundantQIndeces);
       int groundState=0;
       for(int n=0; n<elecStates.size(); n++){
@@ -1761,7 +1761,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
                               redundantQIndeces);
             this->CalcAuxiliaryVector(y, q, kRDager, nonRedundantQIndeces, redundantQIndeces);
             // solve (54) in [PT_1996]
-            MolDS_wrappers::Lapack::GetInstance()->Dsysv(kNR, 
+            MolDS_wrappers::Lapack::GetInstance()->Dsysv(gammaNRMinusKNR, 
                                                          y, 
                                                          nonRedundantQIndeces.size());
             // calculate each element of Z matrix.
@@ -1796,7 +1796,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
    catch(MolDSException ex){
       this->FreeTempMatrixForZMatrix(&delta,
                                      &q,
-                                     &kNR,
+                                     &gammaNRMinusKNR,
                                      &kRDager,
                                      &y,
                                      &transposedFockMatrix,
@@ -1808,7 +1808,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
    }
    this->FreeTempMatrixForZMatrix(&delta,
                                   &q,
-                                  &kNR,
+                                  &gammaNRMinusKNR,
                                   &kRDager,
                                   &y,
                                   &transposedFockMatrix,

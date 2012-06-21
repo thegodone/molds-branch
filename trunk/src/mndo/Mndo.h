@@ -118,7 +118,7 @@ private:
    double GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const;
    void MallocTempMatrixForZMatrix(double** delta,
                                    double** q,
-                                   double*** kNR, 
+                                   double*** gammaNRMinusKNR, 
                                    double*** kRDag,
                                    double** y,
                                    double*** transposedFockMatrix,
@@ -128,7 +128,7 @@ private:
                                    int sizeQR) const;
    void FreeTempMatrixForZMatrix(double** delta,
                                  double** q,
-                                 double*** kNR, 
+                                 double*** gammaNRMinusKNR, 
                                  double*** kRDag,
                                  double** y,
                                  double*** transposedFockMatrix,
@@ -150,8 +150,8 @@ private:
                     const std::vector<MoIndexPair>& nonRedundantQIndeces,
                     const std::vector<MoIndexPair>& redundantQIndeces) const;
    void TransposeFockMatrixMatrix(double** transposedFockMatrix) const;
-   void CalcKNRMatrix(double** kNR, 
-                      const std::vector<MoIndexPair>& nonRedundantQIndeces) const;
+   void CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, 
+                                  const std::vector<MoIndexPair>& nonRedundantQIndeces) const;
    void CalcKRDagerMatrix(double** kRDager, 
                           const std::vector<MoIndexPair>& nonRedundantQIndeces,
                           const std::vector<MoIndexPair>& redundantQIndeces) const;
