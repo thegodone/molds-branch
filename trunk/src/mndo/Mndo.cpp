@@ -1524,7 +1524,7 @@ void Mndo::CalcQVector(double* q,
    */
 }
 
-// see (40)and (45) in [PT_1996].
+// see (40) and (45) in [PT_1996].
 // This method calculates "\Gamma_{NR} - K_{NR}" to solve (54) in [PT_1966]
 // Note taht K_{NR} is not calculated.
 void Mndo::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<MoIndexPair>& nonRedundantQIndeces) const{
@@ -1552,12 +1552,12 @@ void Mndo::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<MoIn
    }
 }
 
-// see (44) and (46) in [PT_1996].
-// This method calculates "K_{R}^{\dager} * \Gamma_{R}^{-1}" to solve (54) in [PT_1966]
+// see (41), (42), and (46) in [PT_1996].
+// This method calculates "K_{R}^{\dagger} * Gamma_{R}" matrix, see (41), (42), and (46) to solve (54) in [PT_1996]
 // Note taht K_{R}^{\dager} is not calculated.
-void Mndo::CalcKRDagerMatrix(double** kRDager, 
-                             const vector<MoIndexPair>& nonRedundantQIndeces,
-                             const vector<MoIndexPair>& redundantQIndeces) const{
+void Mndo::CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv, 
+                                      const vector<MoIndexPair>& nonRedundantQIndeces,
+                                      const vector<MoIndexPair>& redundantQIndeces) const{
    stringstream ompErrors;
    #pragma omp parallel for schedule(auto)
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
@@ -1567,8 +1567,8 @@ void Mndo::CalcKRDagerMatrix(double** kRDager,
          for(int j=0; j<redundantQIndeces.size(); j++){
             int moK = redundantQIndeces[j].moI;
             int moL = redundantQIndeces[j].moJ;
-            kRDager[i][j] = this->GetKRDagerElement(moI, moJ, moK, moL)
-                           /this->GetGammaRElement(moK, moL, moK, moL);
+            kRDagerGammaRInv[i][j] = this->GetKRDagerElement(moI, moJ, moK, moL)
+                                    /this->GetGammaRElement(moK, moL, moK, moL);
          }
       }
       catch(MolDSException ex){
@@ -1585,7 +1585,7 @@ void Mndo::CalcKRDagerMatrix(double** kRDager,
 // right hand side of (54) in [PT_1996]      
 void Mndo::CalcAuxiliaryVector(double* y, 
                                double const* q, 
-                               double const* const* kRDager, 
+                               double const* const* kRDagerGammaRInv, 
                                const vector<MoIndexPair>& nonRedundantQIndeces, 
                                const vector<MoIndexPair>& redundantQIndeces) const{
    MallocerFreer::GetInstance()->Initialize<double>(
@@ -1600,7 +1600,7 @@ void Mndo::CalcAuxiliaryVector(double* y,
          y[i] += q[i]/this->GetNNRElement(moI, moJ, moI, moJ);
          for(int j=0; j<redundantQIndeces.size(); j++){
             int k = nonRedundantQIndeces.size() + j; 
-            y[i] += kRDager[i][j]*q[k];
+            y[i] += kRDagerGammaRInv[i][j]*q[k];
          }
       }
       catch(MolDSException ex){
@@ -1727,7 +1727,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
    double* delta = NULL; // Delta matrix, see (9) in [PT_1997]
    double* q = NULL; //// Q-vector in (19) in [PT_1997]
    double** gammaNRMinusKNR = NULL; // Gmamma_{NR} - K_{NR} matrix, see (40) and (45) to slove (54) in [PT_1996]
-   double** kRDager = NULL; // Dagar of K_{R} matrix, see (46) in [PT_1996]
+   double** kRDagerGammaRInv = NULL; // K_{R}^{\dagger} * Gamma_{R} matrix, see (41), (42), and (46) to solve (54) in [PT_1996]
    double* y = NULL; // y-vector in (54) in [PT_1996]
    double** transposedFockMatrix = NULL; // transposed Fock matrix
    double** xiOcc = NULL;
@@ -1736,7 +1736,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
       this->MallocTempMatrixForZMatrix(&delta,
                                        &q,
                                        &gammaNRMinusKNR,
-                                       &kRDager,
+                                       &kRDagerGammaRInv,
                                        &y,
                                        &transposedFockMatrix,
                                        &xiOcc,
@@ -1745,7 +1745,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
                                        redundantQIndeces.size());
       this->TransposeFockMatrixMatrix(transposedFockMatrix);
       this->CalcGammaNRMinusKNRMatrix(gammaNRMinusKNR, nonRedundantQIndeces);
-      this->CalcKRDagerMatrix(kRDager, nonRedundantQIndeces,redundantQIndeces);
+      this->CalcKRDagerGammaRInvMatrix(kRDagerGammaRInv, nonRedundantQIndeces,redundantQIndeces);
       int groundState=0;
       for(int n=0; n<elecStates.size(); n++){
          if(groundState < elecStates[n]){
@@ -1759,7 +1759,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
                               this->etaMatrixForce[n],
                               nonRedundantQIndeces, 
                               redundantQIndeces);
-            this->CalcAuxiliaryVector(y, q, kRDager, nonRedundantQIndeces, redundantQIndeces);
+            this->CalcAuxiliaryVector(y, q, kRDagerGammaRInv, nonRedundantQIndeces, redundantQIndeces);
             // solve (54) in [PT_1996]
             MolDS_wrappers::Lapack::GetInstance()->Dsysv(gammaNRMinusKNR, 
                                                          y, 
@@ -1797,7 +1797,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
       this->FreeTempMatrixForZMatrix(&delta,
                                      &q,
                                      &gammaNRMinusKNR,
-                                     &kRDager,
+                                     &kRDagerGammaRInv,
                                      &y,
                                      &transposedFockMatrix,
                                      &xiOcc,
@@ -1809,7 +1809,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
    this->FreeTempMatrixForZMatrix(&delta,
                                   &q,
                                   &gammaNRMinusKNR,
-                                  &kRDager,
+                                  &kRDagerGammaRInv,
                                   &y,
                                   &transposedFockMatrix,
                                   &xiOcc,
