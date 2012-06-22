@@ -32,7 +32,7 @@ private:
    virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
                               MolDS_base::Molecule& molecule,
                               double* lineSearchedEnergy,
-                              bool* obainesOptimizedStructure) const = 0;
+                              bool* obainesOptimizedStructure) const;
 };
 
 }
