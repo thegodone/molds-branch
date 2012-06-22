@@ -80,6 +80,7 @@ void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> elect
 
    requireGuess = false;
    matrixForce = electronicStructure->GetForce(elecState);
+   lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
    for(int s=0; s<totalSteps; s++){
       this->OutputLog((boost::format("%s%d\n\n") % this->messageStartSteepestDescentStep.c_str() % (s+1)).str());
       lineSearchInitialEnergy = lineSearchCurrentEnergy;
