@@ -124,6 +124,9 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
       }
 
+      // Store initial energy
+      lineSearchInitialEnergy = lineSearchCurrentEnergy;
+
       // do line search
       this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixDirection, elecState, dt);
       matrixForce = electronicStructure->GetForce(elecState);
