@@ -36,13 +36,13 @@ protected:
    std::string errorMessageGetNddoRepulsionIntegral;
    std::string errorMessageGetNddoRepulsionIntegralFirstDerivative;
    std::string errorMessageGetNddoRepulsionIntegralSecondDerivative;
-   std::string errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix;
+   std::string errorMessageCalcDiatomicTwoElecTwoCoreNullMatrix;
    std::string errorMessageCalcTwoElecTwoCoreNullMatrix;
-   std::string errorMessageCalcTwoElecTwoCoreDiatomicSameAtoms;
-   std::string errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesSameAtoms;
-   std::string errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesSameAtoms;
-   std::string errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesNullMatrix;
-   std::string errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesNullMatrix;
+   std::string errorMessageCalcDiatomicTwoElecTwoCoreSameAtoms;
+   std::string errorMessageCalcDiatomicTwoElecTwoCoreFirstDerivativesSameAtoms;
+   std::string errorMessageCalcDiatomicTwoElecTwoCoreSecondDerivativesSameAtoms;
+   std::string errorMessageCalcDiatomicTwoElecTwoCoreFirstDerivativesNullMatrix;
+   std::string errorMessageCalcDiatomicTwoElecTwoCoreSecondDerivativesNullMatrix;
    std::string errorMessageCalcZMatrixForceEtaNull;
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
@@ -223,42 +223,42 @@ private:
                                                    int atomBIndex, 
                                                    int mu, 
                                                    int nu, 
-                                                   double const* const* const* const* const* twoElecTwoCoreFirstDerivative,
+                                                   double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivative,
                                                    MolDS_base::CartesianType axisA) const;
-   void CalcTwoElecTwoCoreDiatomic(double**** matrix, int atomAIndex, int atomBIndex) const;
-   void CalcTwoElecTwoCoreDiatomicFirstDerivatives(double***** matrix, 
+   void CalcDiatomicTwoElecTwoCore(double**** matrix, int atomAIndex, int atomBIndex) const;
+   void CalcDiatomicTwoElecTwoCoreFirstDerivatives(double***** matrix, 
                                                    int atomAIndex, 
                                                    int atomBIndex) const;
-   void CalcTwoElecTwoCoreDiatomicSecondDerivatives(double****** matrix, 
+   void CalcDiatomicTwoElecTwoCoreSecondDerivatives(double****** matrix, 
                                                     int atomAIndex, 
                                                     int atomBIndex) const;
-   void MallocTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
+   void MallocDiatomicTwoElecTwoCoreFirstDeriTemps(double*** rotatingMatrix,
                                                    double**** rotMatFirstDerivatives,
-                                                   double***** twoElecTwoCoreDiatomic) const;
-   void MallocTwoElecTwoCoreDiatomicSecondDeriTemps(double*** rotatingMatrix,
+                                                   double***** diatomicTwoElecTwoCore) const;
+   void MallocDiatomicTwoElecTwoCoreSecondDeriTemps(double*** rotatingMatrix,
                                                     double**** rotMatFirstDerivatives,
                                                     double***** rotMatSecondDerivatives,
-                                                    double***** twoElecTwoCoreDiatomic,
-                                                    double****** twoElecTwoCoreDiatomicFirstDerivatives) const;
-   void FreeTwoElecTwoCoreDiatomicFirstDeriTemps(double*** rotatingMatrix,
+                                                    double***** diatomicTwoElecTwoCore,
+                                                    double****** diatomicTwoElecTwoCoreFirstDerivatives) const;
+   void FreeDiatomicTwoElecTwoCoreFirstDeriTemps(double*** rotatingMatrix,
                                                  double**** rotMatFirstDerivatives,
-                                                 double***** twoElecTwoCoreDiatomic) const;
-   void FreeTwoElecTwoCoreDiatomicSecondDeriTemps(double*** rotatingMatrix,
+                                                 double***** diatomicTwoElecTwoCore) const;
+   void FreeDiatomicTwoElecTwoCoreSecondDeriTemps(double*** rotatingMatrix,
                                                   double**** rotMatFirstDerivatives,
                                                   double***** rotMatSecondDerivatives,
-                                                  double***** twoElecTwoCoreDiatomic,
-                                                  double****** twoElecTwoCoreDiatomicFirstDerivatives) const;
-   void RotateTwoElecTwoCoreDiatomicToSpaceFramegc(double**** matrix, 
+                                                  double***** diatomicTwoElecTwoCore,
+                                                  double****** diatomicTwoElecTwoCoreFirstDerivatives) const;
+   void RotateDiatomicTwoElecTwoCoreToSpaceFramegc(double**** matrix, 
                                                    double const* const* rotatingMatrix) const;
-   void RotateTwoElecTwoCoreDiatomicFirstDerivativesToSpaceFramegc(
+   void RotateDiatomicTwoElecTwoCoreFirstDerivativesToSpaceFramegc(
         double***** matrix, 
-        double const* const* const* const* twoElecTwoCoreDiatomic,
+        double const* const* const* const* diatomicTwoElecTwoCore,
         double const* const* rotatingMatrix,
         double const* const* const* rotMatFirstDerivatives) const;
-   void RotateTwoElecTwoCoreDiatomicSecondDerivativesToSpaceFramegc(
+   void RotateDiatomicTwoElecTwoCoreSecondDerivativesToSpaceFramegc(
         double****** matrix, 
-        double const* const* const* const* twoElecTwoCoreDiatomic,
-        double const* const* const* const* const* twoElecTwoCoreDiatomicFirstDerivatives,
+        double const* const* const* const* diatomicTwoElecTwoCore,
+        double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivatives,
         double const* const* rotatingMatrix,
         double const* const* const* rotMatFirstDerivatives,
         double const* const* const* const* rotMatSecondDerivatives) const;
@@ -306,12 +306,14 @@ private:
                                                double DA,
                                                double DB,
                                                double Rab) const;
-   void FreeCalcForceTempMatrices(double**** overlapDer, 
-                                  double****** twoElecTwoCoreFirstDeriv) const;
+   void MallocTempMatricesCalcForce(double**** diatomicOverlapFirstDeriv, 
+                                    double****** diatomiTwoElecTwoCoreFirstDeriv) const;
+   void FreeTempMatricesCalcForce(double**** diatomicOverlapFirstDeriv, 
+                                  double****** diatomiTwoElecTwoCoreFirstDeriv) const;
    void CalcForceSCFElecCoreAttractionPart(double* force, 
                                           int atomAIndex,
                                           int atomBIndex,
-                                          double const* const* const* const* const* twoElecTwoCoreFirstDeriv) const;
+                                          double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const;
    void CalcForceSCFOverlapPart(double* force, 
                                 int atomAIndex,
                                 int atomBIndex,
@@ -319,17 +321,17 @@ private:
    void CalcForceSCFTwoElecPart(double* force, 
                                 int atomAIndex,
                                 int atomBIndex,
-                                double const* const* const* const* const* twoElecTwoCoreFirstDeriv) const;
+                                double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const;
    void CalcForceExcitedStaticPart(double* force, 
                                    int elecStateIndex,
                                    int atomAIndex,
                                    int atomBIndex,
-                                   double const* const* const* const* const* twoElecTwoCoreFirstDeriv) const;
+                                   double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const;
    void CalcForceExcitedElecCoreAttractionPart(double* force, 
                                                int elecStateIndex,
                                                int atomAIndex,
                                                int atomBIndex,
-                                               double const* const* const* const* const* twoElecTwoCoreFirstDeriv) const;
+                                               double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const;
    void CalcForceExcitedOverlapPart(double* force, 
                                     int elecStateIndex,
                                     int atomAIndex,
@@ -339,7 +341,7 @@ private:
                                     int elecStateIndex,
                                     int atomAIndex,
                                     int atomBIndex,
-                                    double const* const* const* const* const* twoElecTwoCoreFirstDeriv) const;
+                                    double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const;
 
 };
 

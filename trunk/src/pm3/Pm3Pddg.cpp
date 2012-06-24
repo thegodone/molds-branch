@@ -92,18 +92,18 @@ void Pm3Pddg::SetMessages(){
       = "Error in pm3::Pm3Pddg::GetNddoRepulsionIntegralSecondDerivative: Bad orbital is set.\n";
    this->errorMessageCalcTwoElecTwoCoreNullMatrix 
       = "Error in pm3::Pm3Pddg::CalcTwoElecTwoCore: The two elec two core matrix is NULL.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicSameAtoms
-      = "Error in pm3::Pm3Pddg::CalcTwoElecTwoCoreDiatomic: Atom A and B is same.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesSameAtoms
-      = "Error in pm3::Pm3Pddg::CalcTwoElecTwoCoreDiatomicFirstDerivatives: Atom A and B is same.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesSameAtoms
-      = "Error in pm3::Pm3Pddg::CalcTwoElecTwoCoreDiatomicSecondDerivatives: Atom A and B is same.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicNullMatrix 
-      = "Error in pm3::Pm3Pddg::CalcTwoElecTwoCoreDiatomic: The two elec two core diatomic matrix is NULL.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicFirstDerivativesNullMatrix
-      = "Error in pm3::Pm3Pddg::CalcTwoElecTwoCoreDiatomicFirstDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
-   this->errorMessageCalcTwoElecTwoCoreDiatomicSecondDerivativesNullMatrix
-      = "Error in pm3::Pm3Pddg::CalcTwoElecTwoCoreDiatomicSecondDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCoreSameAtoms
+      = "Error in pm3::Pm3Pddg::CalcDiatomicTwoElecTwoCore: Atom A and B is same.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCoreFirstDerivativesSameAtoms
+      = "Error in pm3::Pm3Pddg::CalcDiatomicTwoElecTwoCoreFirstDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCoreSecondDerivativesSameAtoms
+      = "Error in pm3::Pm3Pddg::CalcDiatomicTwoElecTwoCoreSecondDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCoreNullMatrix 
+      = "Error in pm3::Pm3Pddg::CalcDiatomicTwoElecTwoCore: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCoreFirstDerivativesNullMatrix
+      = "Error in pm3::Pm3Pddg::CalcDiatomicTwoElecTwoCoreFirstDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCoreSecondDerivativesNullMatrix
+      = "Error in pm3::Pm3Pddg::CalcDiatomicTwoElecTwoCoreSecondDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageGetElectronicEnergyEnergyNotCalculated
       = "Error in pm3::Pm3Pddg::GetElectronicEnergy: Set electronic state is not calculated by CIS.\n";
    this->errorMessageGetElectronicEnergyNULLCISEnergy 
