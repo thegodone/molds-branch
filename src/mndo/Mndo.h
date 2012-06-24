@@ -192,15 +192,17 @@ private:
                                 int numberActiveOcc,
                                 int numberActiveVir) const;
    void SolveCPHF(double* solution, 
-                  double const* const* transposedFockMatrix,
                   int atomAIndex, 
-                  MolDS_base::CartesianType axis) const;
+                  MolDS_base::CartesianType axisA) const;
    void CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                  const std::vector<MoIndexPair>& nonRedundantQIndeces,
                                  const std::vector<MoIndexPair>& redundantQIndeces,
-                                 double const* const* transposedFockMatrix,
                                  int atomAIndex,
-                                 MolDS_base::CartesianType axis) const;
+                                 MolDS_base::CartesianType axisA) const;
+   void MallocTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCoreFirstDeriv,
+                                               double**** diatomicOverlapFirstDeriv) const;
+   void FreeTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCoreFirstDeriv,
+                                               double**** diatomicOverlapFirstDeriv) const;
    void CalcMatrixCPHF(double** matrixCPHF, 
                        const std::vector<MoIndexPair>& nonRedundantQIndeces,
                        const std::vector<MoIndexPair>& redundantQIndeces) const;
