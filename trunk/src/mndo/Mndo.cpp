@@ -1713,9 +1713,8 @@ void Mndo::CalcXiMatrices(double** xiOcc,
 // Derivative coordinates is "axis" of atomA.
 // The solution of the CPHF is set to solution.
 void Mndo::SolveCPHF(double* solution, 
-                     double const* const* transposedFockMatrix,
                      int atomAIndex, 
-                     CartesianType axis) const{
+                     CartesianType axisA) const{
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    int numberVir = this->molecule->GetTotalNumberAOs() - numberOcc;
    vector<MoIndexPair> nonRedundantQIndeces;
@@ -1731,11 +1730,10 @@ void Mndo::SolveCPHF(double* solution,
                                         nonRedundantQIndeces.size() + redundantQIndeces.size());
       this->CalcMatrixCPHF(matrixCPHF, nonRedundantQIndeces, redundantQIndeces);
       this->CalcStaticFirstOrderFock(staticFirstOrderFock, 
-                                    nonRedundantQIndeces,
-                                    redundantQIndeces,
-                                    transposedFockMatrix,
-                                    atomAIndex,
-                                    axis);
+                                     nonRedundantQIndeces,
+                                     redundantQIndeces,
+                                     atomAIndex,
+                                     axisA);
    }
    catch(MolDSException ex){
       this->FreeTempMatricesSolveCPHF(&staticFirstOrderFock, 
@@ -1754,9 +1752,189 @@ void Mndo::SolveCPHF(double* solution,
 void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                     const vector<MoIndexPair>& nonRedundantQIndeces,
                                     const vector<MoIndexPair>& redundantQIndeces,
-                                    double const* const* transposedFockMatrix,
                                     int atomAIndex,
-                                    CartesianType axis) const{
+                                    CartesianType axisA) const{
+   double***** diatomicTwoElecTwoCoreFirstDeriv = NULL;
+   double*** diatomicOverlapFirstDeriv = NULL;
+   
+   try{
+      this->MallocTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDeriv, &diatomicOverlapFirstDeriv);
+      const Atom& atomA = *molecule->GetAtom(atomAIndex);
+      int firstAOIndexA = atomA.GetFirstAOIndex();
+      int numberAOsA = atomA.GetValenceSize();
+      int coreChargeA = atomA.GetCoreCharge();
+      for(int atomBIndex=0; atomBIndex<this->molecule->GetNumberAtoms(); atomBIndex++){
+         if(atomAIndex != atomBIndex){
+            const Atom& atomB = *molecule->GetAtom(atomBIndex);
+            int firstAOIndexB = atomB.GetFirstAOIndex();
+            int numberAOsB = atomB.GetValenceSize();
+            int coreChargeB = atomB.GetCoreCharge();
+
+            // calc. first derivative of two elec two core interaction
+            this->CalcTwoElecTwoCoreDiatomicFirstDerivatives(diatomicTwoElecTwoCoreFirstDeriv, atomAIndex, atomBIndex);
+            // calc. first derivative of overlap.
+            this->CalcDiatomicOverlapFirstDerivative(diatomicOverlapFirstDeriv, atomA, atomB);
+
+            // calc. static first order Fock;
+            for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+               for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
+                  for(int lambda=firstAOIndexB; lambda<firstAOIndexB+numberAOsB; lambda++){
+                     for(int sigma=firstAOIndexB; sigma<firstAOIndexB+numberAOsB; sigma++){
+
+                        for(int i=0; i<nonRedundantQIndeces.size()+redundantQIndeces.size();i++){
+                           int moI;
+                           int moJ;
+                           if(i<nonRedundantQIndeces.size()){
+                              moI = nonRedundantQIndeces[i].moI;
+                              moJ = nonRedundantQIndeces[i].moJ;
+                           }
+                           else{
+                              moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+                              moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+                           }
+                           double temp1 = this->fockMatrix[mu][moI]
+                                         *this->fockMatrix[nu][moJ]
+                                         *this->orbitalElectronPopulation[lambda][sigma]
+                                         +this->fockMatrix[lambda][moI]
+                                         *this->fockMatrix[sigma][moJ]
+                                         *this->orbitalElectronPopulation[mu][nu]
+                                         -0.5
+                                         *this->fockMatrix[mu][moI]
+                                         *this->fockMatrix[lambda][moJ]
+                                         *this->orbitalElectronPopulation[nu][sigma]
+                                         -0.5
+                                         *this->fockMatrix[lambda][moI]
+                                         *this->fockMatrix[mu][moJ]
+                                         *this->orbitalElectronPopulation[nu][sigma];
+                           staticFirstOrderFock[i] += temp1*diatomicTwoElecTwoCoreFirstDeriv[mu-firstAOIndexA]
+                                                                                            [nu-firstAOIndexA]
+                                                                                            [lambda-firstAOIndexB]
+                                                                                            [sigma-firstAOIndexB]
+                                                                                            [axisA];
+                        } //i-loop
+
+                     } //sigma-loop
+                  } // lambda-loop
+
+                  for(int i=0; i<nonRedundantQIndeces.size()+redundantQIndeces.size();i++){
+                     int moI;
+                     int moJ;
+                     if(i<nonRedundantQIndeces.size()){
+                        moI = nonRedundantQIndeces[i].moI;
+                        moJ = nonRedundantQIndeces[i].moJ;
+                     }
+                     else{
+                        moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+                        moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+                     }
+                     double temp2 = this->fockMatrix[mu][moI]
+                                   *this->fockMatrix[nu][moJ]
+                                   *coreChargeB
+                                   *diatomicTwoElecTwoCoreFirstDeriv[mu-firstAOIndexA]
+                                                                    [nu-firstAOIndexA]
+                                                                    [s]
+                                                                    [s]
+                                                                    [axisA];
+                     staticFirstOrderFock[i] -= temp2;
+                  }
+
+               } // nu-loop
+            } // mu-loop
+
+            for(int lambda=firstAOIndexB; lambda<firstAOIndexB+numberAOsB; lambda++){
+               for(int sigma=firstAOIndexB; sigma<firstAOIndexB+numberAOsB; sigma++){
+                  
+                  for(int i=0; i<nonRedundantQIndeces.size()+redundantQIndeces.size();i++){
+                     int moI;
+                     int moJ;
+                     if(i<nonRedundantQIndeces.size()){
+                        moI = nonRedundantQIndeces[i].moI;
+                        moJ = nonRedundantQIndeces[i].moJ;
+                     }
+                     else{
+                        moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+                        moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+                     }
+                     double temp3 = this->fockMatrix[lambda][moI]
+                                   *this->fockMatrix[sigma][moJ]
+                                   *coreChargeA
+                                   *diatomicTwoElecTwoCoreFirstDeriv[s]
+                                                                    [s]
+                                                                    [lambda-firstAOIndexB]
+                                                                    [sigma-firstAOIndexB]
+                                                                    [axisA];
+                     staticFirstOrderFock[i] -= temp3;
+                  } //i-loop
+
+               } //sigma-loop
+            } // lambda-loop
+
+            for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+               for(int lambda=firstAOIndexB; lambda<firstAOIndexB+numberAOsB; lambda++){
+                  double bondParameter = 0.5*(atomA.GetBondingParameter(this->theory, 
+                                                                        atomA.GetValence(mu-firstAOIndexA)) 
+                                             +atomB.GetBondingParameter(this->theory, 
+                                                                        atomB.GetValence(lambda-firstAOIndexB))); 
+                  for(int i=0; i<nonRedundantQIndeces.size()+redundantQIndeces.size();i++){
+                     int moI;
+                     int moJ;
+                     if(i<nonRedundantQIndeces.size()){
+                        moI = nonRedundantQIndeces[i].moI;
+                        moJ = nonRedundantQIndeces[i].moJ;
+                     }
+                     else{
+                        moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+                        moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+                     }
+                     double temp4 = ( this->fockMatrix[mu][moI]
+                                     *this->fockMatrix[lambda][moJ]
+                                     +this->fockMatrix[lambda][moI]
+                                     *this->fockMatrix[mu][moJ]
+                                    )
+                                    *bondParameter
+                                    *diatomicOverlapFirstDeriv[mu-firstAOIndexA][lambda-firstAOIndexB][axisA];
+                     staticFirstOrderFock[i] += temp4;
+                  }
+               } //lambda-loop
+            } // mu-loop
+         }
+      }
+
+   }
+   catch(MolDSException ex){
+      this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDeriv, &diatomicOverlapFirstDeriv);
+      throw ex;
+   }
+   this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDeriv, &diatomicOverlapFirstDeriv);
+
+}
+
+void Mndo::MallocTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCoreFirstDeriv,
+                                                  double**** diatomicOverlapFirstDeriv)const{
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCoreFirstDeriv,
+                                                dxy,
+                                                dxy,
+                                                dxy,
+                                                dxy,
+                                                CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapFirstDeriv,
+                                                OrbitalType_end, 
+                                                OrbitalType_end, 
+                                                CartesianType_end);
+}
+
+void Mndo::FreeTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCoreFirstDeriv,
+                                                double**** diatomicOverlapFirstDeriv)const{
+   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCoreFirstDeriv,
+                                              dxy,
+                                              dxy,
+                                              dxy,
+                                              dxy,
+                                              CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapFirstDeriv,
+                                              OrbitalType_end, 
+                                              OrbitalType_end, 
+                                              CartesianType_end);
 }
 
 // see (40) - (46) in [PT_1996].
