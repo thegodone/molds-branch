@@ -2189,7 +2189,7 @@ bool Mndo::RequiresExcitedStatesForce(const vector<int>& elecStates) const{
 void Mndo::CalcForceSCFElecCoreAttractionPart(double* force, 
                                              int atomAIndex, 
                                              int atomBIndex,
-                                             double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const{
+                                             double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
    int firstAOIndexA = atomA.GetFirstAOIndex();
    int numberAOsA = atomA.GetValenceSize();
@@ -2203,7 +2203,7 @@ void Mndo::CalcForceSCFElecCoreAttractionPart(double* force,
                                    atomBIndex, 
                                    mu-firstAOIndexA, 
                                    nu-firstAOIndexA,
-                                   diatomicTwoElecTwoCoreFirstDeriv,
+                                   diatomicTwoElecTwoCoreFirstDerivs,
                                    (CartesianType)i);
          }
       }

@@ -313,7 +313,7 @@ private:
    void CalcForceSCFElecCoreAttractionPart(double* force, 
                                           int atomAIndex,
                                           int atomBIndex,
-                                          double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const;
+                                          double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const;
    void CalcForceSCFOverlapPart(double* force, 
                                 int atomAIndex,
                                 int atomBIndex,
