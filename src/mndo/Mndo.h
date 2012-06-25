@@ -317,7 +317,7 @@ private:
    void CalcForceSCFOverlapPart(double* force, 
                                 int atomAIndex,
                                 int atomBIndex,
-                                double const* const* const* overlapDer) const;
+                                double const* const* const* diatomicOverlapFirstDerivs) const;
    void CalcForceSCFTwoElecPart(double* force, 
                                 int atomAIndex,
                                 int atomBIndex,
