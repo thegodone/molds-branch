@@ -3603,14 +3603,14 @@ double Cndo2::GetSecondDerivativeElementFromDistanceDerivatives(double firstDist
    return value;
 }
 
-void Cndo2::MallocDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
-                                                double*** diaOverlapFirstDeri,
-                                                double*** rotatingMatrix,
-                                                double**** rotMatFirstDerivatives) const{
-   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlap, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapFirstDeri, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotatingMatrix, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMatFirstDerivatives, OrbitalType_end, OrbitalType_end, CartesianType_end);
+void Cndo2::MallocDiatomicOverlapFirstDeriTemps(double*** diaOverlapInDiaFrame, 
+                                                double*** diaOverlapFirstDerivInDiaFrame,
+                                                double*** rotMat,
+                                                double**** rotMatFirstDerivs) const{
+   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapFirstDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMat, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMatFirstDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
 }
 
 void Cndo2::MallocDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
