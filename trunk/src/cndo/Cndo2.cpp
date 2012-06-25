@@ -3372,20 +3372,20 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
                     pow(cartesian[YAxis],2.0) + 
                     pow(cartesian[ZAxis],2.0) );
    
-   double** diatomicOverlap = NULL;
-   double** diaOverlapFirstDeri = NULL;
-   double** rotatingMatrix = NULL;
-   double*** rotMatFirstDerivatives = NULL;
+   double** diaOverlapInDiaFrame = NULL;  // diatomic overlap in diatomic frame
+   double** diaOverlapFirstDerivInDiaFrame = NULL; // first derivative of the diaOverlap. This derivative is related to the distance between two atoms.
+   double**  rotMat = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
+   double*** rotMatFirstDerivs = NULL; // first derivative of the rotMat.
 
    try{
-      this->MallocDiatomicOverlapFirstDeriTemps(&diatomicOverlap,
-                                                &diaOverlapFirstDeri,
-                                                &rotatingMatrix,
-                                                &rotMatFirstDerivatives);
-      this->CalcDiatomicOverlapInDiatomicFrame(diatomicOverlap, atomA, atomB);
-      this->CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(diaOverlapFirstDeri, atomA, atomB);
-      this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
-      this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivatives, atomA, atomB);
+      this->MallocDiatomicOverlapFirstDeriTemps(&diaOverlapInDiaFrame,
+                                                &diaOverlapFirstDerivInDiaFrame,
+                                                &rotMat,
+                                                &rotMatFirstDerivs);
+      this->CalcDiatomicOverlapInDiatomicFrame(diaOverlapInDiaFrame, atomA, atomB);
+      this->CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(diaOverlapFirstDerivInDiaFrame, atomA, atomB);
+      this->CalcRotatingMatrix(rotMat, atomA, atomB);
+      this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivs, atomA, atomB);
 
       // rotate
       for(int i=0; i<OrbitalType_end; i++){
@@ -3398,16 +3398,16 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
                double temp3 = 0.0;
                for(int k=0; k<OrbitalType_end; k++){
                   for(int l=0; l<OrbitalType_end; l++){
-                     temp1 += rotatingMatrix[i][k] 
-                             *rotatingMatrix[j][l]
+                     temp1 += rotMat[i][k] 
+                             *rotMat[j][l]
                              *(cartesian[c]/R)
-                             *diaOverlapFirstDeri[k][l];
-                     temp2 += rotMatFirstDerivatives[i][k][c] 
-                             *rotatingMatrix[j][l]
-                             *diatomicOverlap[k][l];
-                     temp3 += rotatingMatrix[i][k] 
-                             *rotMatFirstDerivatives[j][l][c]
-                             *diatomicOverlap[k][l];
+                             *diaOverlapFirstDerivInDiaFrame[k][l];
+                     temp2 += rotMatFirstDerivs[i][k][c] 
+                             *rotMat[j][l]
+                             *diaOverlapInDiaFrame[k][l];
+                     temp3 += rotMat[i][k] 
+                             *rotMatFirstDerivs[j][l][c]
+                             *diaOverlapInDiaFrame[k][l];
                   }
                }
                overlapFirstDeri[i][j][c] = temp1 + temp2 + temp3;
@@ -3416,17 +3416,17 @@ void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri,
       }
    }
    catch(MolDSException ex){
-      this->FreeDiatomicOverlapFirstDeriTemps(&diatomicOverlap,
-                                              &diaOverlapFirstDeri,
-                                              &rotatingMatrix,
-                                              &rotMatFirstDerivatives);
+      this->FreeDiatomicOverlapFirstDeriTemps(&diaOverlapInDiaFrame,
+                                              &diaOverlapFirstDerivInDiaFrame,
+                                              &rotMat,
+                                              &rotMatFirstDerivs);
       throw ex;
    }
    // free
-   this->FreeDiatomicOverlapFirstDeriTemps(&diatomicOverlap,
-                                           &diaOverlapFirstDeri,
-                                           &rotatingMatrix,
-                                           &rotMatFirstDerivatives);
+   this->FreeDiatomicOverlapFirstDeriTemps(&diaOverlapInDiaFrame,
+                                           &diaOverlapFirstDerivInDiaFrame,
+                                           &rotMat,
+                                           &rotMatFirstDerivs);
 }
 
 // Second derivative of diatomic overlap integrals between AOs in space fixed flame.
