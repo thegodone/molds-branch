@@ -2414,10 +2414,10 @@ void Mndo::CalcForce(const vector<int>& elecStates){
    stringstream ompErrors;
    #pragma omp parallel
    {
-      double***** diatomicTwoElecTwoCoreFirstDeriv = NULL;
-      double*** diatomicOverlapFirstDeriv = NULL;
+      double***** diatomicTwoElecTwoCoreFirstDerivs = NULL;
+      double*** diatomicOverlapFirstDerivs = NULL;
       try{
-         this->MallocTempMatricesCalcForce(&diatomicOverlapFirstDeriv, &diatomicTwoElecTwoCoreFirstDeriv);
+         this->MallocTempMatricesCalcForce(&diatomicOverlapFirstDerivs, &diatomicTwoElecTwoCoreFirstDerivs);
          #pragma omp for schedule(auto)
          for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
             const Atom& atomA = *molecule->GetAtom(a);
@@ -2430,9 +2430,9 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                   int numberAOsB = atomB.GetValenceSize();
 
                   // calc. first derivative of overlap.
-                  this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDeriv, atomA, atomB);
+                  this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDerivs, atomA, atomB);
                   // calc. first derivative of two elec two core interaction
-                  this->CalcDiatomicTwoElecTwoCoreFirstDerivatives(diatomicTwoElecTwoCoreFirstDeriv, 
+                  this->CalcDiatomicTwoElecTwoCoreFirstDerivatives(diatomicTwoElecTwoCoreFirstDerivs, 
                                                                    a, 
                                                                    b);
 
@@ -2451,19 +2451,19 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                   this->CalcForceSCFElecCoreAttractionPart(forceElecCoreAttPart,
                                                           a,
                                                           b,
-                                                          diatomicTwoElecTwoCoreFirstDeriv);
+                                                          diatomicTwoElecTwoCoreFirstDerivs);
                   // overlap part (ground state)
                   double forceOverlapPart[CartesianType_end] = {0.0,0.0,0.0};
                   this->CalcForceSCFOverlapPart(forceOverlapPart, 
                                                a,
                                                b,
-                                               diatomicOverlapFirstDeriv);
+                                               diatomicOverlapFirstDerivs);
                   // two electron part (ground state)
                   double forceTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
                   this->CalcForceSCFTwoElecPart(forceTwoElecPart,
                                                a,
                                                b,
-                                               diatomicTwoElecTwoCoreFirstDeriv);
+                                               diatomicTwoElecTwoCoreFirstDerivs);
                   // sum up contributions from each part (ground state)
                   #pragma omp critical
                   {
@@ -2488,7 +2488,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                          n,
                                                          a,
                                                          b,
-                                                         diatomicTwoElecTwoCoreFirstDeriv);
+                                                         diatomicTwoElecTwoCoreFirstDerivs);
                         // sum up contributions from static part (excited state)
                         #pragma omp critical
                         {
@@ -2506,21 +2506,21 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                    n,
                                                    a,
                                                    b,
-                                                   diatomicTwoElecTwoCoreFirstDeriv);
+                                                   diatomicTwoElecTwoCoreFirstDerivs);
                         // overlap part (excited state)
                         double forceExcitedOverlapPart[CartesianType_end] = {0.0,0.0,0.0};
                         this->CalcForceExcitedOverlapPart(forceExcitedOverlapPart, 
                                                           n,
                                                           a,
                                                           b,
-                                                          diatomicOverlapFirstDeriv);
+                                                          diatomicOverlapFirstDerivs);
                         // two electron part (ground state)
                         double forceExcitedTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
                         this->CalcForceExcitedTwoElecPart(forceExcitedTwoElecPart,
                                                           n,
                                                           a,
                                                           b,
-                                                          diatomicTwoElecTwoCoreFirstDeriv);
+                                                          diatomicTwoElecTwoCoreFirstDerivs);
                         // sum up contributions from response part (excited state)
                         #pragma omp critical
                         {
@@ -2544,7 +2544,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
          #pragma omp critical
          ompErrors << ex.what() << endl ;
       }
-      this->FreeTempMatricesCalcForce(&diatomicOverlapFirstDeriv, &diatomicTwoElecTwoCoreFirstDeriv);
+      this->FreeTempMatricesCalcForce(&diatomicOverlapFirstDerivs, &diatomicTwoElecTwoCoreFirstDerivs);
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
