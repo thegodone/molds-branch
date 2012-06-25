@@ -407,14 +407,14 @@ private:
                                           double*** diaOverlapFirstDerivInDiaFrame,
                                           double*** rotMat,
                                           double**** rotMatFirstDerivs) const;
-   void FreeDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
-                                           double*** diaOverlapFirstDeri,
-                                           double*** diaOverlapSecondDeri,
-                                           double*** rotatingMatrix,
-                                           double**** rotMatFirstDerivatives,
-                                           double***** rotMatSecondDerivatives,
-                                           double**** tempOverlapFirstDeri,
-                                           double***** tempOverlapSecondDeri) const;
+   void FreeDiatomicOverlapSecondDeriTemps(double*** diaOverlapInDiaFrame, 
+                                           double*** diaOverlapFirstDerivInDiaFrame,
+                                           double*** diaOverlapSecondDerivInDiaFrame,
+                                           double*** rotMat,
+                                           double**** rotMatFirstDerivs,
+                                           double***** rotMatSecondDerivs,
+                                           double**** tempDiaOverlapFirstDerivs,
+                                           double***** tempDiaOverlapSecondDerivs) const;
 };
 
 

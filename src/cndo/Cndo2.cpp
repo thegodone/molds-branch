@@ -3641,22 +3641,22 @@ void Cndo2::FreeDiatomicOverlapFirstDeriTemps(double*** diaOverlapInDiaFrame,
    MallocerFreer::GetInstance()->Free<double>(rotMatFirstDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
 }
 
-void Cndo2::FreeDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
-                                               double*** diaOverlapFirstDeri,
-                                               double*** diaOverlapSecondDeri,
-                                               double*** rotatingMatrix,
-                                               double**** rotMatFirstDerivatives,
-                                               double***** rotMatSecondDerivatives,
-                                               double**** tempOverlapFirstDeri,
-                                               double***** tempOverlapSecondDeri) const{
-   MallocerFreer::GetInstance()->Free<double>(diatomicOverlap, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(diaOverlapFirstDeri, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(diaOverlapSecondDeri, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotatingMatrix, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotMatFirstDerivatives, OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotMatSecondDerivatives, OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(tempOverlapFirstDeri, OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(tempOverlapSecondDeri, OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
+void Cndo2::FreeDiatomicOverlapSecondDeriTemps(double*** diaOverlapInDiaFrame, 
+                                               double*** diaOverlapFirstDerivInDiaFrame,
+                                               double*** diaOverlapSecondDerivInDiaFrame,
+                                               double*** rotMat,
+                                               double**** rotMatFirstDerivs,
+                                               double***** rotMatSecondDerivs,
+                                               double**** tempDiaOverlapFirstDerivs,
+                                               double***** tempDiaOverlapSecondDerivs) const{
+   MallocerFreer::GetInstance()->Free<double>(diaOverlapInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(diaOverlapFirstDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(diaOverlapSecondDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(rotMat, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(rotMatFirstDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(rotMatSecondDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(tempDiaOverlapFirstDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(tempDiaOverlapSecondDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
 }
 
 // calculate Overlap matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book by GTO expansion.
