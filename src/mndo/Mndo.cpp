@@ -2369,7 +2369,7 @@ void Mndo::CalcForceExcitedTwoElecPart(double* force,
                                        int elecStateIndex,
                                        int atomAIndex, 
                                        int atomBIndex,
-                                       double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const{
+                                       double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -2383,19 +2383,19 @@ void Mndo::CalcForceExcitedTwoElecPart(double* force,
                for(int i=0; i<CartesianType_end; i++){
                   force[i] -= this->zMatrixForce[elecStateIndex][mu][nu]
                              *this->orbitalElectronPopulation[lambda][sigma]
-                             *diatomicTwoElecTwoCoreFirstDeriv[mu-firstAOIndexA]
-                                                              [nu-firstAOIndexA]
-                                                              [lambda-firstAOIndexB]
-                                                              [sigma-firstAOIndexB]
-                                                              [i];
+                             *diatomicTwoElecTwoCoreFirstDerivs[mu-firstAOIndexA]
+                                                               [nu-firstAOIndexA]
+                                                               [lambda-firstAOIndexB]
+                                                               [sigma-firstAOIndexB]
+                                                               [i];
                   force[i] += 0.50
                              *this->zMatrixForce[elecStateIndex][mu][lambda]
                              *this->orbitalElectronPopulation[nu][sigma]
-                             *diatomicTwoElecTwoCoreFirstDeriv[mu-firstAOIndexA]
-                                                              [nu-firstAOIndexA]
-                                                              [lambda-firstAOIndexB]
-                                                              [sigma-firstAOIndexB]
-                                                              [(CartesianType)i];
+                             *diatomicTwoElecTwoCoreFirstDerivs[mu-firstAOIndexA]
+                                                               [nu-firstAOIndexA]
+                                                               [lambda-firstAOIndexB]
+                                                               [sigma-firstAOIndexB]
+                                                               [(CartesianType)i];
                }
             }
          }
