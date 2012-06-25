@@ -391,10 +391,10 @@ private:
                                    double**** diisStoredErrorVect,
                                    double*** diisErrorProducts,
                                    double** diisErrorCoefficients);
-   void MallocDiatomicOverlapFirstDeriTemps(double*** diatomicOverlap, 
-                                            double*** diaOverlapFirstDeri,
-                                            double*** rotatingMatrix,
-                                            double**** rotMatFirstDerivatives) const;
+   void MallocDiatomicOverlapFirstDeriTemps(double*** diaOverlapInDiaFrame, 
+                                            double*** diaOverlapFirstDerivInDiaFrame,
+                                            double*** rotMat,
+                                            double**** rotMatFirstDerivs) const;
    void MallocDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
                                              double*** diaOverlapFirstDeri,
                                              double*** diaOverlapSecondDeri,
