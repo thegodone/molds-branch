@@ -336,7 +336,7 @@ private:
                                     int elecStateIndex,
                                     int atomAIndex,
                                     int atomBIndex,
-                                    double const* const* const* overlapDer) const;
+                                    double const* const* const* diatomicOverlapFirstDerivs) const;
    void CalcForceExcitedTwoElecPart(double* force, 
                                     int elecStateIndex,
                                     int atomAIndex,
