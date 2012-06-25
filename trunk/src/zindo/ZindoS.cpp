@@ -1970,7 +1970,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                   int numberAOsB = atomB.GetValenceSize();
 
                   // calc. first derivative of overlap.
-                  this->CalcDiatomicOverlapFirstDerivative(overlapDer, atomA, atomB);
+                  this->CalcDiatomicOverlapFirstDerivatives(overlapDer, atomA, atomB);
 
                   for(int i=0; i<CartesianType_end; i++){
                      coreRepulsion[i] += this->GetDiatomCoreRepulsionFirstDerivative(

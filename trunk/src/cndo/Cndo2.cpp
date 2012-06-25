@@ -3362,9 +3362,9 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
 // The Overlap matrix is S_{\mu\nu} in (3.74) in J. A. Pople book.
 // Note that this method can not treat d-obitals 
 // because CalcRotatingMatrixFirstDerivatives can not treat d-orbitals.
-void Cndo2::CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri, 
-                                               const Atom& atomA, 
-                                               const Atom& atomB) const{
+void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** overlapFirstDeri, 
+                                                const Atom& atomA, 
+                                                const Atom& atomB) const{
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
                                           atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
                                           atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
