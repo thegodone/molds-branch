@@ -395,14 +395,14 @@ private:
                                             double*** diaOverlapFirstDerivInDiaFrame,
                                             double*** rotMat,
                                             double**** rotMatFirstDerivs) const;
-   void MallocDiatomicOverlapSecondDeriTemps(double*** diatomicOverlap, 
-                                             double*** diaOverlapFirstDeri,
-                                             double*** diaOverlapSecondDeri,
-                                             double*** rotatingMatrix,
-                                             double**** rotMatFirstDerivatives,
-                                             double***** rotMatSecondDerivatives,
-                                             double**** tempOverlapFirstDeri,
-                                             double***** tempOverlapSecondDeri) const;
+   void MallocDiatomicOverlapSecondDeriTemps(double*** diaOverlapInDiaFrame, 
+                                             double*** diaOverlapFirstDerivInDiaFrame,
+                                             double*** diaOverlapSecondDerivInDiaFrame,
+                                             double*** rotMat,
+                                             double**** rotMatFirstDerivs,
+                                             double***** rotMatSecondDerivs,
+                                             double**** tempDiaOverlapFirstDerivs,
+                                             double***** tempDiaOverlapSecondDerivs) const;
    void FreeDiatomicOverlapFirstDeriTemps(double*** diaOverlapInDiaFrame, 
                                           double*** diaOverlapFirstDerivInDiaFrame,
                                           double*** rotMat,
