@@ -321,7 +321,7 @@ private:
    void CalcForceSCFTwoElecPart(double* force, 
                                 int atomAIndex,
                                 int atomBIndex,
-                                double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const;
+                                double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const;
    void CalcForceExcitedStaticPart(double* force, 
                                    int elecStateIndex,
                                    int atomAIndex,
