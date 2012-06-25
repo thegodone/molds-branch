@@ -455,11 +455,11 @@ double Mndo::GetElectronCoreAttractionFirstDerivative(int atomAIndex,
                                                       int atomBIndex, 
                                                       int mu, 
                                                       int nu, 
-                                                      double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivative,
+                                                      double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivatives,
                                                       CartesianType axisA) const{
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
    double value = -1.0*atomB.GetCoreCharge()
-                  *diatomicTwoElecTwoCoreFirstDerivative[mu][nu][s][s][axisA];
+                  *diatomicTwoElecTwoCoreFirstDerivatives[mu][nu][s][s][axisA];
    return value;
 }
 
