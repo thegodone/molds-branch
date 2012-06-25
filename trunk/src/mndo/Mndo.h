@@ -306,8 +306,8 @@ private:
                                                double DA,
                                                double DB,
                                                double Rab) const;
-   void MallocTempMatricesCalcForce(double**** diatomicOverlapFirstDeriv, 
-                                    double****** diatomiTwoElecTwoCoreFirstDeriv) const;
+   void MallocTempMatricesCalcForce(double**** diatomicOverlapFirstDerivs, 
+                                    double****** diatomiTwoElecTwoCoreFirstDerivs) const;
    void FreeTempMatricesCalcForce(double**** diatomicOverlapFirstDeriv, 
                                   double****** diatomiTwoElecTwoCoreFirstDeriv) const;
    void CalcForceSCFElecCoreAttractionPart(double* force, 
