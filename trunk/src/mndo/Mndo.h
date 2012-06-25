@@ -191,7 +191,11 @@ private:
                                 std::vector<MoIndexPair>* redundantQIndeces,
                                 int numberActiveOcc,
                                 int numberActiveVir) const;
+   void CalcHessianSCF(double** hessianSCF) const;
    void SolveCPHF(double* solution, 
+                  double** matrixCPHF,
+                  const std::vector<MoIndexPair>& nonRedundantQIndeces,
+                  const std::vector<MoIndexPair>& redundantQIndeces,
                   int atomAIndex, 
                   MolDS_base::CartesianType axisA) const;
    void CalcStaticFirstOrderFock(double* staticFirstOrderFock,
@@ -207,10 +211,8 @@ private:
                        const std::vector<MoIndexPair>& nonRedundantQIndeces,
                        const std::vector<MoIndexPair>& redundantQIndeces) const;
    void MallocTempMatricesSolveCPHF(double** staticFirstOrderFock,
-                                    double*** matrixCPHF,
                                     int dimensionCPHF) const;
    void FreeTempMatricesSolveCPHF(double** staticFirstOrderFock,
-                                  double*** matrixCPHF,
                                   int dimensionCPHF) const;
    void CalcHeatsFormation(double* heatsFormation, 
                            const MolDS_base::Molecule& molecule) const;
