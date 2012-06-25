@@ -1947,9 +1947,9 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    stringstream ompErrors;
    #pragma omp parallel 
    {
-      double*** overlapDer=NULL;
+      double*** diatomicOverlapFirstDerivs=NULL;
       try{
-         MallocerFreer::GetInstance()->Malloc<double>(&overlapDer,
+         MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapFirstDerivs,
                                                       OrbitalType_end, 
                                                       OrbitalType_end, 
                                                       CartesianType_end);
@@ -1970,7 +1970,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                   int numberAOsB = atomB.GetValenceSize();
 
                   // calc. first derivative of overlap.
-                  this->CalcDiatomicOverlapFirstDerivatives(overlapDer, atomA, atomB);
+                  this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDerivs, atomA, atomB);
 
                   for(int i=0; i<CartesianType_end; i++){
                      coreRepulsion[i] += this->GetDiatomCoreRepulsionFirstDerivative(
@@ -1998,7 +1998,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                         for(int i=0; i<CartesianType_end; i++){
                            electronicForce2[i] += 2.0*this->orbitalElectronPopulation[mu][nu]
                                                  *bondParameter
-                                                 *overlapDer[mu-firstAOIndexA][nu-firstAOIndexB][i];
+                                                 *diatomicOverlapFirstDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
                            electronicForce3[i] += (this->orbitalElectronPopulation[mu][mu]
                                                   *this->orbitalElectronPopulation[nu][nu]
                                                   -0.5*pow(this->orbitalElectronPopulation[mu][nu],2.0))
@@ -2022,7 +2022,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
          #pragma omp critical
          ompErrors << ex.what() << endl ;
       }
-      MallocerFreer::GetInstance()->Free<double>(&overlapDer, 
+      MallocerFreer::GetInstance()->Free<double>(&diatomicOverlapFirstDerivs, 
                                                  OrbitalType_end,
                                                  OrbitalType_end,
                                                  CartesianType_end);
