@@ -2281,7 +2281,7 @@ void Mndo::CalcForceExcitedStaticPart(double* force,
                                       int elecStateIndex,
                                       int atomAIndex, 
                                       int atomBIndex,
-                                      double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDeriv) const{
+                                      double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -2298,11 +2298,11 @@ void Mndo::CalcForceExcitedStaticPart(double* force,
                               -1.0*this->etaMatrixForce[elecStateIndex][mu][lambda]
                                   *this->etaMatrixForce[elecStateIndex][nu][sigma];
                   force[i] += temp
-                             *diatomicTwoElecTwoCoreFirstDeriv[mu-firstAOIndexA]
-                                                              [nu-firstAOIndexA]
-                                                              [lambda-firstAOIndexB]
-                                                              [sigma-firstAOIndexB]
-                                                              [i];
+                             *diatomicTwoElecTwoCoreFirstDerivs[mu-firstAOIndexA]
+                                                               [nu-firstAOIndexA]
+                                                               [lambda-firstAOIndexB]
+                                                               [sigma-firstAOIndexB]
+                                                               [i];
                }
             }
          }
