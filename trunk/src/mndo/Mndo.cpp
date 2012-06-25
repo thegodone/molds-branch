@@ -1710,7 +1710,6 @@ void Mndo::CalcXiMatrices(double** xiOcc,
 }
 
 void Mndo::CalcHessianSCF(double** hessianSCF) const{
-
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    int numberVir = this->molecule->GetTotalNumberAOs() - numberOcc;
    vector<MoIndexPair> nonRedundantQIndeces;
@@ -1778,7 +1777,6 @@ void Mndo::SolveCPHF(double* solution,
    }
    this->FreeTempMatricesSolveCPHF(&staticFirstOrderFock, 
                                    nonRedundantQIndeces.size() + redundantQIndeces.size());
-
 }
 
 // clac right side hand of CPHF, (34) in [PT_1996]
