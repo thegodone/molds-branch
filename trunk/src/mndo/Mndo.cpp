@@ -2213,7 +2213,7 @@ void Mndo::CalcForceSCFElecCoreAttractionPart(double* force,
 void Mndo::CalcForceSCFOverlapPart(double* force, 
                                   int atomAIndex, 
                                   int atomBIndex,
-                                  double const* const* const* overlapDer) const{
+                                  double const* const* const* diatomicOverlapFirstDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -2233,7 +2233,7 @@ void Mndo::CalcForceSCFOverlapPart(double* force,
             force[i] += -1.0
                        *this->orbitalElectronPopulation[mu][nu]
                        *bondParameter
-                       *overlapDer[mu-firstAOIndexA][nu-firstAOIndexB][i];
+                       *diatomicOverlapFirstDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
          }
       }
    }
