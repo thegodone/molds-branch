@@ -1773,7 +1773,7 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
             // calc. first derivative of two elec two core interaction
             this->CalcDiatomicTwoElecTwoCoreFirstDerivatives(diatomicTwoElecTwoCoreFirstDeriv, atomAIndex, atomBIndex);
             // calc. first derivative of overlap.
-            this->CalcDiatomicOverlapFirstDerivative(diatomicOverlapFirstDeriv, atomA, atomB);
+            this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDeriv, atomA, atomB);
 
             // calc. static first order Fock;
             for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
@@ -2430,7 +2430,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                   int numberAOsB = atomB.GetValenceSize();
 
                   // calc. first derivative of overlap.
-                  this->CalcDiatomicOverlapFirstDerivative(diatomicOverlapFirstDeriv, atomA, atomB);
+                  this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDeriv, atomA, atomB);
                   // calc. first derivative of two elec two core interaction
                   this->CalcDiatomicTwoElecTwoCoreFirstDerivatives(diatomicTwoElecTwoCoreFirstDeriv, 
                                                                    a, 

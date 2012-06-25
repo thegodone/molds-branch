@@ -163,9 +163,9 @@ protected:
    virtual void CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomicOverlapSecondDeri, 
                                                                    const MolDS_base_atoms::Atom& atomA, 
                                                                    const MolDS_base_atoms::Atom& atomB) const;
-   void CalcDiatomicOverlapFirstDerivative(double*** overlapFirstDeri, 
-                                           const MolDS_base_atoms::Atom& atomA, 
-                                           const MolDS_base_atoms::Atom& atomB) const;
+   void CalcDiatomicOverlapFirstDerivatives(double*** overlapFirstDeri, 
+                                            const MolDS_base_atoms::Atom& atomA, 
+                                            const MolDS_base_atoms::Atom& atomB) const;
    void CalcDiatomicOverlapSecondDerivative(double**** overlapSecondDeri, 
                                             const MolDS_base_atoms::Atom& atomA, 
                                             const MolDS_base_atoms::Atom& atomB) const;
