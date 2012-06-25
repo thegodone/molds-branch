@@ -3433,7 +3433,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDe
 // The Overlap matrix is S_{\mu\nu} in (3.74) in J. A. Pople book.
 // Note that this method can not treat d-obitals 
 // because CalcRotatingMatrixFirstDerivatives can not treat d-orbitals.
-void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** overlapSecondDeri, 
+void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecondDerivs, 
                                                  const Atom& atomA, 
                                                  const Atom& atomB) const{
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
@@ -3503,7 +3503,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** overlapSecondDeri,
          for(int j=0; j<OrbitalType_end; j++){
             for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
                for(int dimA2=dimA1; dimA2<CartesianType_end; dimA2++){
-                  overlapSecondDeri[i][j][dimA1][dimA2] = 0.0;
+                  diatomicOverlapSecondDerivs[i][j][dimA1][dimA2] = 0.0;
                
                   double temp1 = 0.0, temp2=0.0, temp3 = 0.0;
                   double temp4 = 0.0, temp5=0.0, temp6 = 0.0;
@@ -3541,10 +3541,10 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** overlapSecondDeri,
                      }
                   }
 
-                  overlapSecondDeri[i][j][dimA1][dimA2] = temp1+temp2+temp3 
-                                                         +temp4+temp5+temp6 
-                                                         +temp7+temp8+temp9;
-                  overlapSecondDeri[i][j][dimA2][dimA1] = overlapSecondDeri[i][j][dimA1][dimA2];
+                  diatomicOverlapSecondDerivs[i][j][dimA1][dimA2] = temp1+temp2+temp3 
+                                                                   +temp4+temp5+temp6 
+                                                                   +temp7+temp8+temp9;
+                  diatomicOverlapSecondDerivs[i][j][dimA2][dimA1] = diatomicOverlapSecondDerivs[i][j][dimA1][dimA2];
                }
             }
          }
