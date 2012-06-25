@@ -2565,12 +2565,12 @@ void Mndo::MallocTempMatricesCalcForce(double**** diatomicOverlapFirstDerivs, do
                                                 CartesianType_end);
 }
 
-void Mndo::FreeTempMatricesCalcForce(double**** diatomicOverlapFirstDeriv, double****** diatomicTwoElecTwoCoreFirstDeriv) const{
-   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapFirstDeriv, 
+void Mndo::FreeTempMatricesCalcForce(double**** diatomicOverlapFirstDerivs, double****** diatomicTwoElecTwoCoreFirstDerivs) const{
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapFirstDerivs, 
                                               OrbitalType_end,
                                               OrbitalType_end,
                                               CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCoreFirstDeriv,
+   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCoreFirstDerivs,
                                               dxy,
                                               dxy,
                                               dxy,
