@@ -223,7 +223,7 @@ private:
                                                    int atomBIndex, 
                                                    int mu, 
                                                    int nu, 
-                                                   double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivative,
+                                                   double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivatives,
                                                    MolDS_base::CartesianType axisA) const;
    void CalcDiatomicTwoElecTwoCore(double**** matrix, int atomAIndex, int atomBIndex) const;
    void CalcDiatomicTwoElecTwoCoreFirstDerivatives(double***** matrix, 
