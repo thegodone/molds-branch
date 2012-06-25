@@ -32,12 +32,12 @@
 #include"../base/MolDSException.h"
 #include"../base/Uncopyable.h"
 #include"../base/Enums.h"
+#include"../base/MallocerFreer.h"
 #include"../base/EularAngle.h"
 #include"../base/Parameters.h"
 #include"../base/atoms/Atom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
-#include"../base/MallocerFreer.h"
 #include"Optimizer.h"
 #include"BFGS.h"
 using namespace std;
