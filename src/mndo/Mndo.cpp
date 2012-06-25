@@ -1754,11 +1754,11 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                     const vector<MoIndexPair>& redundantQIndeces,
                                     int atomAIndex,
                                     CartesianType axisA) const{
-   double***** diatomicTwoElecTwoCoreFirstDeriv = NULL;
-   double*** diatomicOverlapFirstDeriv = NULL;
+   double***** diatomicTwoElecTwoCoreFirstDerivs = NULL;
+   double*** diatomicOverlapFirstDerivs = NULL;
    
    try{
-      this->MallocTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDeriv, &diatomicOverlapFirstDeriv);
+      this->MallocTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicOverlapFirstDerivs);
       const Atom& atomA = *molecule->GetAtom(atomAIndex);
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int numberAOsA = atomA.GetValenceSize();
@@ -1771,9 +1771,9 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
             int coreChargeB = atomB.GetCoreCharge();
 
             // calc. first derivative of two elec two core interaction
-            this->CalcDiatomicTwoElecTwoCoreFirstDerivatives(diatomicTwoElecTwoCoreFirstDeriv, atomAIndex, atomBIndex);
+            this->CalcDiatomicTwoElecTwoCoreFirstDerivatives(diatomicTwoElecTwoCoreFirstDerivs, atomAIndex, atomBIndex);
             // calc. first derivative of overlap.
-            this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDeriv, atomA, atomB);
+            this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDerivs, atomA, atomB);
 
             // calc. static first order Fock;
             for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
@@ -1806,11 +1806,11 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                          *this->fockMatrix[lambda][moI]
                                          *this->fockMatrix[mu][moJ]
                                          *this->orbitalElectronPopulation[nu][sigma];
-                           staticFirstOrderFock[i] += temp1*diatomicTwoElecTwoCoreFirstDeriv[mu-firstAOIndexA]
-                                                                                            [nu-firstAOIndexA]
-                                                                                            [lambda-firstAOIndexB]
-                                                                                            [sigma-firstAOIndexB]
-                                                                                            [axisA];
+                           staticFirstOrderFock[i] += temp1*diatomicTwoElecTwoCoreFirstDerivs[mu-firstAOIndexA]
+                                                                                             [nu-firstAOIndexA]
+                                                                                             [lambda-firstAOIndexB]
+                                                                                             [sigma-firstAOIndexB]
+                                                                                             [axisA];
                         } //i-loop
 
                      } //sigma-loop
@@ -1830,11 +1830,11 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                      double temp2 = this->fockMatrix[mu][moI]
                                    *this->fockMatrix[nu][moJ]
                                    *coreChargeB
-                                   *diatomicTwoElecTwoCoreFirstDeriv[mu-firstAOIndexA]
-                                                                    [nu-firstAOIndexA]
-                                                                    [s]
-                                                                    [s]
-                                                                    [axisA];
+                                   *diatomicTwoElecTwoCoreFirstDerivs[mu-firstAOIndexA]
+                                                                     [nu-firstAOIndexA]
+                                                                     [s]
+                                                                     [s]
+                                                                     [axisA];
                      staticFirstOrderFock[i] -= temp2;
                   }
 
@@ -1858,11 +1858,11 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                      double temp3 = this->fockMatrix[lambda][moI]
                                    *this->fockMatrix[sigma][moJ]
                                    *coreChargeA
-                                   *diatomicTwoElecTwoCoreFirstDeriv[s]
-                                                                    [s]
-                                                                    [lambda-firstAOIndexB]
-                                                                    [sigma-firstAOIndexB]
-                                                                    [axisA];
+                                   *diatomicTwoElecTwoCoreFirstDerivs[s]
+                                                                     [s]
+                                                                     [lambda-firstAOIndexB]
+                                                                     [sigma-firstAOIndexB]
+                                                                     [axisA];
                      staticFirstOrderFock[i] -= temp3;
                   } //i-loop
 
@@ -1892,7 +1892,7 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                      *this->fockMatrix[mu][moJ]
                                     )
                                     *bondParameter
-                                    *diatomicOverlapFirstDeriv[mu-firstAOIndexA][lambda-firstAOIndexB][axisA];
+                                    *diatomicOverlapFirstDerivs[mu-firstAOIndexA][lambda-firstAOIndexB][axisA];
                      staticFirstOrderFock[i] += temp4;
                   }
                } //lambda-loop
@@ -1902,10 +1902,10 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
 
    }
    catch(MolDSException ex){
-      this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDeriv, &diatomicOverlapFirstDeriv);
+      this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicOverlapFirstDerivs);
       throw ex;
    }
-   this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDeriv, &diatomicOverlapFirstDeriv);
+   this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicOverlapFirstDerivs);
 
 }
 
