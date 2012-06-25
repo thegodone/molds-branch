@@ -1743,7 +1743,7 @@ void Mndo::SolveCPHF(double** solutionsCPHF,
                      const vector<MoIndexPair>& nonRedundantQIndeces,
                      const vector<MoIndexPair>& redundantQIndeces) const{
    int dimensionCPHF = nonRedundantQIndeces.size() + redundantQIndeces.size();
-   double** staticFirstOrderFocks = NULL; // right side hand of CPHF, (34), in [PT_1996]. See also (25).
+   double** staticFirstOrderFocks = NULL; // right side hands of CPHF, (34), in [PT_1996]. See also (25).
    double** matrixCPHF = NULL; // (Gmamma - K matrix)N, see (40) - (46) to slove (34) in [PT_1996].
    try{
       this->MallocTempMatricesSolveCPHF(&staticFirstOrderFocks, &matrixCPHF, dimensionCPHF);
