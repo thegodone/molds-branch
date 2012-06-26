@@ -1751,6 +1751,7 @@ void Mndo::SolveCPHF(double** solutionsCPHF,
       // Static first order focks are temporary stored in solutionsCPHF.
       // This focks in solutionsCPHF are overwritten with solutions of the CPHF by Lapack.
       this->CalcStaticFirstOrderFocks(solutionsCPHF, nonRedundantQIndeces,redundantQIndeces);
+      // ToDo: Call Lapack
    }
    catch(MolDSException ex){
       this->FreeTempMatricesSolveCPHF(&matrixCPHF, dimensionCPHF);
