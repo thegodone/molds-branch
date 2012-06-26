@@ -35,7 +35,6 @@ private:
    std::string errorMessageDsyevdInfo;
    std::string errorMessageDsyevdSize;
    std::string errorMessageDsysvInfo;
-   std::string errorMessageInfo;
    std::string errorMessageDsysvSize;
 };
 }
