@@ -1710,31 +1710,82 @@ void Mndo::CalcXiMatrices(double** xiOcc,
 }
 
 void Mndo::CalcHessianSCF(double** hessianSCF) const{
+   int totalNumberAOs = this->molecule->GetTotalNumberAOs();
+   double**** orbitalElectronPopulationFirstDerivatives = NULL;
+
+   try{
+      MallocerFreer::GetInstance()->Malloc<double>(&orbitalElectronPopulationFirstDerivatives, 
+                                                   totalNumberAOs,
+                                                   totalNumberAOs,
+                                                   this->molecule->GetNumberAtoms(),
+                                                   CartesianType_end);
+
+      this->CalcOrbitalElectronPopulationFirstDerivatives(orbitalElectronPopulationFirstDerivatives);
+   }
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free<double>(&orbitalElectronPopulationFirstDerivatives, 
+                                                 totalNumberAOs,
+                                                 totalNumberAOs,
+                                                 this->molecule->GetNumberAtoms(),
+                                                 CartesianType_end);
+      throw ex;
+   }
+   MallocerFreer::GetInstance()->Free<double>(&orbitalElectronPopulationFirstDerivatives, 
+                                              totalNumberAOs,
+                                              totalNumberAOs,
+                                              this->molecule->GetNumberAtoms(),
+                                              CartesianType_end);
+}
+
+void Mndo::CalcOrbitalElectronPopulationFirstDerivatives(double**** orbitalElectronPopulationFirstDerivatives) const{
+   int totalNumberAOs = this->molecule->GetTotalNumberAOs();
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    int numberVir = this->molecule->GetTotalNumberAOs() - numberOcc;
    vector<MoIndexPair> nonRedundantQIndeces;
    vector<MoIndexPair> redundantQIndeces;
    this->CalcActiveSetVariablesQ(&nonRedundantQIndeces, &redundantQIndeces, numberOcc, numberVir);
-
-   //solve CPHF
-   double** solutionsCPHF = NULL; // solutions of CPHF
    int dimensionCPHF = nonRedundantQIndeces.size() + redundantQIndeces.size();
    int numberCPHFs = this->molecule->GetNumberAtoms()*CartesianType_end;
+   double** solutionsCPHF = NULL; // solutions of CPHF
+   double** transposedFockMatrix = NULL; // transposed Fock matrix
    try{
-      MallocerFreer::GetInstance()->Malloc<double>(&solutionsCPHF, 
-                                                   numberCPHFs,
-                                                   dimensionCPHF);
+      MallocerFreer::GetInstance()->Malloc<double>(&solutionsCPHF, numberCPHFs, dimensionCPHF);
+      MallocerFreer::GetInstance()->Malloc<double>(&transposedFockMatrix, totalNumberAOs, totalNumberAOs);
       this->SolveCPHF(solutionsCPHF, nonRedundantQIndeces, redundantQIndeces);
+      this->TransposeFockMatrixMatrix(transposedFockMatrix);
+      for(int mu=0; mu<totalNumberAOs; mu++){
+         for(int nu=0; nu<totalNumberAOs; nu++){
+            for(int atomAIndex=0; atomAIndex<this->molecule->GetNumberAtoms(); atomAIndex++){
+               for(int axis=XAxis; axis<CartesianType_end; axis++){
+
+                  int moI, moJ;
+                  double nI, nJ;
+                  int indexSolutionCPHF = atomAIndex*CartesianType_end+axis;
+                  orbitalElectronPopulationFirstDerivatives[mu][nu][atomAIndex][axis] = 0.0;
+                  for(int k=0; k<nonRedundantQIndeces.size(); k++){
+                     moI = nonRedundantQIndeces[k].moI;
+                     moJ = nonRedundantQIndeces[k].moJ;
+                     nI = moI<numberOcc ? 2.0 : 0.0;
+                     nJ = moJ<numberOcc ? 2.0 : 0.0;
+                     orbitalElectronPopulationFirstDerivatives[mu][nu][atomAIndex][axis]
+                        += (nJ-nI)*
+                           (transposedFockMatrix[mu][moJ]*transposedFockMatrix[nu][moI]+
+                            transposedFockMatrix[mu][moI]*transposedFockMatrix[nu][moJ])*
+                           solutionsCPHF[indexSolutionCPHF][k];
+                  }
+
+               }
+            }
+         }
+      }
    }
    catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&solutionsCPHF, 
-                                                 numberCPHFs,
-                                                 dimensionCPHF);
+      MallocerFreer::GetInstance()->Free<double>(&solutionsCPHF, numberCPHFs, dimensionCPHF);
+      MallocerFreer::GetInstance()->Free<double>(&transposedFockMatrix, totalNumberAOs, totalNumberAOs);
       throw ex;
    }
-   MallocerFreer::GetInstance()->Free<double>(&solutionsCPHF, 
-                                              numberCPHFs,
-                                              dimensionCPHF);
+   MallocerFreer::GetInstance()->Free<double>(&solutionsCPHF, numberCPHFs, dimensionCPHF);
+   MallocerFreer::GetInstance()->Free<double>(&transposedFockMatrix, totalNumberAOs, totalNumberAOs);
 }
 
 // Solve CPHF (34) in [PT_1996].
