@@ -1736,25 +1736,27 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
                                               dimensionCPHF);
 }
 
-// solve CPHF (34) in [PT_1996].
+// Solve CPHF (34) in [PT_1996].
 // Derivative coordinates is "axis" of atomA.
 // The solution of the CPHF is set to solution.
+// solutionsCPHF[i][j] is the j-th element of i-th CPHF solution.
 void Mndo::SolveCPHF(double** solutionsCPHF,
                      const vector<MoIndexPair>& nonRedundantQIndeces,
                      const vector<MoIndexPair>& redundantQIndeces) const{
    int dimensionCPHF = nonRedundantQIndeces.size() + redundantQIndeces.size();
-   double** staticFirstOrderFocks = NULL; // right side hands of CPHF, (34), in [PT_1996]. See also (25).
    double** matrixCPHF = NULL; // (Gmamma - K matrix)N, see (40) - (46) to slove (34) in [PT_1996].
    try{
-      this->MallocTempMatricesSolveCPHF(&staticFirstOrderFocks, &matrixCPHF, dimensionCPHF);
+      this->MallocTempMatricesSolveCPHF(&matrixCPHF, dimensionCPHF);
       this->CalcMatrixCPHF(matrixCPHF, nonRedundantQIndeces, redundantQIndeces);
-      this->CalcStaticFirstOrderFocks(staticFirstOrderFocks, nonRedundantQIndeces,redundantQIndeces);
+      // Static first order focks are temporary stored in solutionsCPHF.
+      // This focks in solutionsCPHF are overwritten with solutions of the CPHF by Lapack.
+      this->CalcStaticFirstOrderFocks(solutionsCPHF, nonRedundantQIndeces,redundantQIndeces);
    }
    catch(MolDSException ex){
-      this->FreeTempMatricesSolveCPHF(&staticFirstOrderFocks, &matrixCPHF, dimensionCPHF);
+      this->FreeTempMatricesSolveCPHF(&matrixCPHF, dimensionCPHF);
       throw ex;
    }
-   this->FreeTempMatricesSolveCPHF(&staticFirstOrderFocks, &matrixCPHF, dimensionCPHF);
+   this->FreeTempMatricesSolveCPHF(&matrixCPHF, dimensionCPHF);
 }
 
 // clac right side hands of CPHF, (34) in [PT_1996]
@@ -1780,6 +1782,8 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                     const vector<MoIndexPair>& redundantQIndeces,
                                     int atomAIndex,
                                     CartesianType axisA) const{
+   MallocerFreer::GetInstance()->Initialize<double>(staticFirstOrderFock,
+                                                    nonRedundantQIndeces.size()+redundantQIndeces.size());
    double***** diatomicTwoElecTwoCoreFirstDerivs = NULL;
    double*** diatomicOverlapFirstDerivs = NULL;
    
@@ -2022,22 +2026,14 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
    MallocerFreer::GetInstance()->Free<double>(&occupations, nonRedundantQIndeces.size()+redundantQIndeces.size());
 }
 
-void Mndo::MallocTempMatricesSolveCPHF(double*** staticFirstOrderFocks,
-                                       double*** matrixCPHF,
+void Mndo::MallocTempMatricesSolveCPHF(double*** matrixCPHF,
                                        int dimensionCPHF) const{
    MallocerFreer::GetInstance()->Malloc<double>(matrixCPHF, dimensionCPHF, dimensionCPHF);
-   MallocerFreer::GetInstance()->Malloc<double>(staticFirstOrderFocks,
-                                                this->molecule->GetNumberAtoms()*CartesianType_end, 
-                                                dimensionCPHF);
 }
 
-void Mndo::FreeTempMatricesSolveCPHF(double*** staticFirstOrderFocks,
-                                     double*** matrixCPHF,
+void Mndo::FreeTempMatricesSolveCPHF(double*** matrixCPHF,
                                      int dimensionCPHF) const{
    MallocerFreer::GetInstance()->Free<double>(matrixCPHF, dimensionCPHF, dimensionCPHF);
-   MallocerFreer::GetInstance()->Free<double>(staticFirstOrderFocks, 
-                                              this->molecule->GetNumberAtoms()*CartesianType_end, 
-                                              dimensionCPHF);
 }
 
 // see [PT_1996, PT_1997]
