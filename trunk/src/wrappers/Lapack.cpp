@@ -42,6 +42,9 @@ Lapack::Lapack(){
    this->errorMessageDsyevdSize = "Error in wrappers::Lapack::Dsyevd: size of matirx < 1\n";
    this->errorMessageDsysvInfo = "Error in wrappers::Lapack::Dsysv: info != 0: info = ";
    this->errorMessageDsysvSize = "Error in wrappers::Lapack::Dsysv: size of matirx < 1\n";
+   this->errorMessageDgetrsInfo = "Error in wrappers::Lapack::Dgetrs: info != 0: info = ";
+   this->errorMessageDgetrsSize = "Error in wrappers::Lapack::Dgetrs: size of matirx < 1\n";
+   this->errorMessageDgetrfInfo = "Error in wrappers::Lapack::Dgetrf: info != 0: info = ";
 }
 
 Lapack::~Lapack(){
@@ -241,6 +244,88 @@ int Lapack::Dsysv(double const* const* matrix, double* b, int size){
    if(info != 0){
       stringstream ss;
       ss << errorMessageDsysvInfo;
+      ss << info << endl;
+      throw MolDSException(ss.str());
+   }
+   return info;
+}
+
+/***
+ *
+ * Slove matrix*X[i]=b[i] (i=0, 1, ... , nrhs-1), then we get X[i] by this method.
+ * The X[i] is stored in b[i].
+ * b[i][j] is j-th element of i-th solution, b[i].
+ *
+ */
+int Lapack::Dgetrs(double const* const* matrix, double** b, int size, int nrhs) const{
+   int info = 0;
+   char trans = 'N';
+   int lda = size;
+   int ldb = size;
+   double* convertedMatrix;
+   double* convertedB;
+   int* ipiv;
+
+   if(size < 1 ){
+      stringstream ss;
+      ss << errorMessageDgetrsSize;
+      throw MolDSException(ss.str());
+   }
+
+
+   try{
+      // malloc
+      ipiv = (int*)mkl_malloc( sizeof(int)*2*size, 16 );
+      convertedMatrix = (double*)mkl_malloc( sizeof(double)*size*size, 16 );
+      convertedB = (double*)mkl_malloc( sizeof(double)*nrhs*size, 16 );
+      for(int i = 0; i < size; i++){
+         for(int j = 0; j < size; j++){
+            convertedMatrix[i+j*size] = matrix[i][j];
+         }
+      }
+      for(int i = 0; i < nrhs; i++){
+         for(int j = 0; j < size; j++){
+            convertedB[j+i*size] = b[i][j];
+         }
+      }
+      this->Dgetrf(convertedMatrix, ipiv, size, size);
+      dgetrs(&trans, &size, &nrhs, convertedMatrix, &lda, ipiv, convertedB, &ldb, &info);
+      for(int i = 0; i < nrhs; i++){
+         for(int j = 0; j < size; j++){
+            b[i][j] = convertedB[j+i*size];
+         }
+      }
+   }
+   catch(MolDSException ex){
+      // free
+      mkl_free(convertedMatrix);
+      mkl_free(convertedB);
+      mkl_free(ipiv);
+      throw ex;
+   }
+   // free
+   mkl_free(convertedMatrix);
+   mkl_free(convertedB);
+   mkl_free(ipiv);
+  
+   if(info != 0){
+      stringstream ss;
+      ss << errorMessageDgetrsInfo;
+      ss << info << endl;
+      throw MolDSException(ss.str());
+   }
+   return info;
+}
+
+// Argument "matrix" means sizeM * sizeN matrix.
+// The each element of "matrix" should be stored in 1-dimensional vecotre with column major (Fortran type).
+int Lapack::Dgetrf(double* matrix, int* ipiv, int sizeM, int sizeN) const{
+   int info = 0;
+   int lda = sizeM;
+   dgetrf(&sizeM, &sizeN, matrix, &lda, ipiv, &info);
+   if(info != 0){
+      stringstream ss;
+      ss << errorMessageDgetrfInfo;
       ss << info << endl;
       throw MolDSException(ss.str());
    }

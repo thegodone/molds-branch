@@ -1719,20 +1719,21 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
    //solve CPHF
    double** solutionsCPHF = NULL; // solutions of CPHF
    int dimensionCPHF = nonRedundantQIndeces.size() + redundantQIndeces.size();
+   int numberCPHFs = this->molecule->GetNumberAtoms()*CartesianType_end;
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&solutionsCPHF, 
-                                                   this->molecule->GetNumberAtoms()*CartesianType_end,
+                                                   numberCPHFs,
                                                    dimensionCPHF);
       this->SolveCPHF(solutionsCPHF, nonRedundantQIndeces, redundantQIndeces);
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&solutionsCPHF, 
-                                                 this->molecule->GetNumberAtoms()*CartesianType_end,
+                                                 numberCPHFs,
                                                  dimensionCPHF);
       throw ex;
    }
    MallocerFreer::GetInstance()->Free<double>(&solutionsCPHF, 
-                                              this->molecule->GetNumberAtoms()*CartesianType_end,
+                                              numberCPHFs,
                                               dimensionCPHF);
 }
 
@@ -1744,6 +1745,7 @@ void Mndo::SolveCPHF(double** solutionsCPHF,
                      const vector<MoIndexPair>& nonRedundantQIndeces,
                      const vector<MoIndexPair>& redundantQIndeces) const{
    int dimensionCPHF = nonRedundantQIndeces.size() + redundantQIndeces.size();
+   int numberCPHFs = this->molecule->GetNumberAtoms()*CartesianType_end;
    double** matrixCPHF = NULL; // (Gmamma - K matrix)N, see (40) - (46) to slove (34) in [PT_1996].
    try{
       this->MallocTempMatricesSolveCPHF(&matrixCPHF, dimensionCPHF);
@@ -1751,7 +1753,7 @@ void Mndo::SolveCPHF(double** solutionsCPHF,
       // Static first order focks are temporary stored in solutionsCPHF.
       // This focks in solutionsCPHF are overwritten with solutions of the CPHF by Lapack.
       this->CalcStaticFirstOrderFocks(solutionsCPHF, nonRedundantQIndeces,redundantQIndeces);
-      // ToDo: Call Lapack
+      MolDS_wrappers::Lapack::GetInstance()->Dgetrs(matrixCPHF, solutionsCPHF, dimensionCPHF,numberCPHFs);
    }
    catch(MolDSException ex){
       this->FreeTempMatricesSolveCPHF(&matrixCPHF, dimensionCPHF);
@@ -1766,7 +1768,7 @@ void Mndo::CalcStaticFirstOrderFocks(double** staticFirstOrderFocks,
                                      const vector<MoIndexPair>& redundantQIndeces) const{
    for(int atomAIndex=0; atomAIndex<this->molecule->GetNumberAtoms(); atomAIndex++){
       for(int axisA=XAxis; axisA<CartesianType_end; axisA++){
-         int k=atomAIndex*this->molecule->GetNumberAtoms() + axisA;
+         int k=atomAIndex*CartesianType_end + axisA;
          this->CalcStaticFirstOrderFock(staticFirstOrderFocks[k], 
                                         nonRedundantQIndeces,
                                         redundantQIndeces,
