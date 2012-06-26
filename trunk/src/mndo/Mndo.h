@@ -192,6 +192,7 @@ private:
                                 int numberActiveOcc,
                                 int numberActiveVir) const;
    void CalcHessianSCF(double** hessianSCF) const;
+   void CalcOrbitalElectronPopulationFirstDerivatives(double**** orbitalElectronPopulationFirstDerivatives) const;
    void SolveCPHF(double** solutionsCPHF,
                   const std::vector<MoIndexPair>& nonRedundantQIndeces,
                   const std::vector<MoIndexPair>& redundantQIndeces) const;
