@@ -40,8 +40,7 @@ Lapack::Lapack(){
    this->dsysvBlockSize = 64;
    this->errorMessageDsyevdInfo = "Error in wrappers::Lapack::Dsyevd: info != 0: info = ";
    this->errorMessageDsyevdSize = "Error in wrappers::Lapack::Dsyevd: size of matirx < 1\n";
-   this->errorMessageDsysvInfo = "Error in wrappers::Lapack::Dsysv: info != 0\n";
-   this->errorMessageInfo = "info=";
+   this->errorMessageDsysvInfo = "Error in wrappers::Lapack::Dsysv: info != 0: info = ";
    this->errorMessageDsysvSize = "Error in wrappers::Lapack::Dsysv: size of matirx < 1\n";
 }
 
@@ -242,7 +241,7 @@ int Lapack::Dsysv(double const* const* matrix, double* b, int size){
    if(info != 0){
       stringstream ss;
       ss << errorMessageDsysvInfo;
-      ss << errorMessageInfo << info << endl;
+      ss << info << endl;
       throw MolDSException(ss.str());
    }
    return info;
