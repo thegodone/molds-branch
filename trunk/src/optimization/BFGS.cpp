@@ -144,8 +144,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             this->OutputLog("Eigenvalues of the hessian:");
             for(int i=0;i<dimension;i++){
                if((i%6) == 0){
-                  this->OutputLog("\n");
-                  this->OutputLog((boost::format("%e")%tmpvector[i]).str());
+                  this->OutputLog((boost::format("\n%e")%tmpvector[i]).str());
                }
                else{
                   this->OutputLog((boost::format(",\t%e")%tmpvector[i]).str());
