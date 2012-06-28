@@ -86,11 +86,6 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double*  vectorEigenValues      = NULL;
    double** matrixOldCoordinates   = NULL;
    double** matrixDisplacement     = NULL;
-   double*  P    = NULL; // P_k in eq. 14 on [SJTO_1983]
-   double*  K    = NULL; // K_k in eq. 15 on [SJTO_1983]
-   double** PP   = NULL; // P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
-   double*  HK   = NULL; // H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-   double** HKKH = NULL; // H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
    const double maxNormStep = 0.1;
 
    try{
@@ -277,10 +272,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             break;
          }
 
-         // Update Hessian
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
          MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-         K = &matrixDisplacement[0][0];
          for(int i=0;i<molecule.GetNumberAtoms();i++){
             const Atom*   atom = molecule.GetAtom(i);
             const double* xyz  = atom->GetXyz();
@@ -290,54 +283,10 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
          matrixForce = electronicStructure->GetForce(elecState);
          vectorForce = &matrixForce[0][0];
-         MallocerFreer::GetInstance()->Malloc(&P, dimension);
-         for(int i=0; i<dimension; i++){
-            // initialize P_k according to Eq. (14) in [SJTO_1983]
-            // note: gradient = -1 * force
-            P[i] = - (vectorForce[i] - vectorOldForce[i]);
-         }
-         double PK = 0; // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
-         for(int i=0; i<dimension;i++){
-            PK += P[i] * K[i];
-         }
-         //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
-         MallocerFreer::GetInstance()->Malloc(&PP, dimension, dimension);
-         for(int i=0; i<dimension;i++){
-            for(int j=i;j<dimension;j++){
-               PP[i][j] = PP[j][i] = P[i] * P[j];
-            }
-         }
-         //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-         MallocerFreer::GetInstance()->Malloc(&HK, dimension);
-         for(int i=0; i<dimension; i++){
-            HK[i] = 0;
-            for(int j=0; j<dimension; j++){
-               HK[i] += matrixHessian[i][j] * K[j];
-            }
-         }
-         double KHK = 0; //K_k^T H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-         for(int i=0;i<dimension;i++){
-            KHK += K[i]*HK[i];
-         }
-         //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
-         MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
-         for(int i=0;i<dimension;i++){
-            for(int j=i;j<dimension;j++){
-               HKKH[i][j] = 0;
-               for(int k=0;k<dimension;k++){
-                  HKKH[i][j] += HK[i]*K[k]*matrixHessian[k][j];
-               }
-               HKKH[j][i] = HKKH[i][j];
-            }
-         }
-         // Calculate H_k+1 according to Eq. (13) in [SJTO_1983]
-         for(int i=0;i<dimension;i++){
-            for(int j=i;j<dimension;j++){
-               matrixHessian[i][j]+= PP[i][j] / PK
-                                   - HKKH[i][j] / KHK;
-               matrixHessian[j][i] = matrixHessian[i][j];
-            }
-         }
+
+         // Update Hessian
+         this->UpdateHessian(matrixHessian, dimension, vectorForce, vectorOldForce, &matrixDisplacement[0][0]);
+
          // Update the trust radius
          if(r < 0)
          {
@@ -382,10 +331,6 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
       MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
       MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
-      MallocerFreer::GetInstance()->Free(&P, dimension);
-      MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
-      MallocerFreer::GetInstance()->Free(&HK, dimension);
-      MallocerFreer::GetInstance()->Free(&HKKH, dimension,dimension);
       throw ex;
    }
    MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
@@ -395,6 +340,76 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
    MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
    MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
+}
+
+void BFGS::UpdateHessian(double **matrixHessian,
+                         const int dimension,
+                         double const* vectorForce,
+                         double const* vectorOldForce,
+                         double const* vectorDisplacement) const{
+   double const* const K = &vectorDisplacement[0]; // K_k in eq. 15 on [SJTO_1983]
+   double*  P    = NULL;                           // P_k in eq. 14 on [SJTO_1983]
+   double** PP   = NULL;                           // P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
+   double*  HK   = NULL;                           // H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+   double** HKKH = NULL;                           // H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
+   try{
+      MallocerFreer::GetInstance()->Malloc(&P, dimension);
+      for(int i=0; i<dimension; i++){
+         // initialize P_k according to Eq. (14) in [SJTO_1983]
+         // note: gradient = -1 * force
+         P[i] = - (vectorForce[i] - vectorOldForce[i]);
+      }
+      double PK = 0; // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
+      for(int i=0; i<dimension;i++){
+         PK += P[i] * K[i];
+      }
+      //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
+      MallocerFreer::GetInstance()->Malloc(&PP, dimension, dimension);
+      for(int i=0; i<dimension;i++){
+         for(int j=i;j<dimension;j++){
+            PP[i][j] = PP[j][i] = P[i] * P[j];
+         }
+      }
+      //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+      MallocerFreer::GetInstance()->Malloc(&HK, dimension);
+      for(int i=0; i<dimension; i++){
+         HK[i] = 0;
+         for(int j=0; j<dimension; j++){
+            HK[i] += matrixHessian[i][j] * K[j];
+         }
+      }
+      double KHK = 0; //K_k^T H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+      for(int i=0;i<dimension;i++){
+         KHK += K[i]*HK[i];
+      }
+      //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
+      MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
+      for(int i=0;i<dimension;i++){
+         for(int j=i;j<dimension;j++){
+            HKKH[i][j] = 0;
+            for(int k=0;k<dimension;k++){
+               HKKH[i][j] += HK[i]*K[k]*matrixHessian[k][j];
+            }
+            HKKH[j][i] = HKKH[i][j];
+         }
+      }
+
+      // Calculate H_k+1 according to Eq. (13) in [SJTO_1983]
+      for(int i=0;i<dimension;i++){
+         for(int j=i;j<dimension;j++){
+            matrixHessian[i][j]+= (PP[i][j] / PK
+                                - HKKH[i][j] / KHK);
+            matrixHessian[j][i] = matrixHessian[i][j];
+         }
+      }
+   }
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free(&P, dimension);
+      MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
+      MallocerFreer::GetInstance()->Free(&HK, dimension);
+      MallocerFreer::GetInstance()->Free(&HKKH, dimension,dimension);
+      throw ex;
+   }
    MallocerFreer::GetInstance()->Free(&P, dimension);
    MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
    MallocerFreer::GetInstance()->Free(&HK, dimension);

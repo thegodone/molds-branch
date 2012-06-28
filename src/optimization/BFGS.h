@@ -33,6 +33,12 @@ private:
                               MolDS_base::Molecule& molecule,
                               double* lineSearchedEnergy,
                               bool* obainesOptimizedStructure) const;
+public:
+   void UpdateHessian(double**      matrixHessian,
+                      const int     dimension,
+                      double const* vectorForce,
+                      double const* vectorOldForce,
+                      double const* vectorDisplacement) const;
 };
 
 }
