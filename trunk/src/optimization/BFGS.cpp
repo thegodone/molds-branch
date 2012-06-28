@@ -202,45 +202,98 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             // See Eq. (4) in [EPW_1997].
             vectorStep[i] = matrixAugmentedHessian[0][i] / matrixAugmentedHessian[0][dimension];
          }
+         //
          // Calculate size of the RFO step
          double normStep = 0;
          for(int i=0;i<dimension;i++){
             normStep += vectorStep[i] * vectorStep[i];
          }
          normStep = sqrt(normStep);
-         this->OutputLog((boost::format("Lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[0]).str());
-         this->OutputLog((boost::format("RFO step size                              = %f\n") % normStep).str());
 
-         // Limit the step size to maxNormStep
-         if(normStep > maxNormStep){
-            for(int i=0;i<dimension;i++){
-               vectorStep[i] *= maxNormStep/normStep;
+         this->OutputLog((boost::format("Lowest eigenvalue of the augmented Hessian     = %f\n") % vectorEigenValues[0]).str());
+         this->OutputLog((boost::format("2nd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[1]).str());
+         this->OutputLog((boost::format("3rd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[2]).str());
+         this->OutputLog((boost::format("Calculated RFO step size                       = %f\n") % normStep).str());
+
+         double r; // correctness of the step
+         do{
+
+            // Limit the step size to maxNormStep
+            if(normStep > maxNormStep){
+               for(int i=0;i<dimension;i++){
+                  vectorStep[i] *= maxNormStep/normStep;
+               }
+               normStep = maxNormStep;
+               this->OutputLog((boost::format("RFO step size is limited to %f\n") % normStep).str());
             }
-         }
 
-         // Take a RFO step
-         bool doLineSearch = true;
-         bool tempCanOutputLogs = true;
-         lineSearchInitialEnergy = lineSearchCurrentEnergy;
-         if(doLineSearch){
-            this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixStep, elecState, dt);
-         }
-         else{
-            this->UpdateMolecularCoordinates(molecule, matrixStep);
-            this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
-            lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
-         }
+            // Calculate approximate change of energy
+            double approximateChange = 0;
+            for(int i=0;i<dimension;i++){
+               approximateChange -= vectorForce[i] * vectorStep[i];
+               for(int j=0;j<dimension;j++){
+                  approximateChange += vectorStep[i] * matrixHessian[i][j] * vectorStep[j] / 2;
+               }
+            }
 
-         // check convergence
-         if(this->SatisfiesConvergenceCriterion(matrixForce,
-                                                molecule,
-                                                lineSearchInitialEnergy,
-                                                lineSearchCurrentEnergy,
-                                                maxGradientThreshold,
-                                                rmsGradientThreshold)){
-            *obtainesOptimizedStructure = true;
-            break;
-         }
+            // Take a RFO step
+            bool doLineSearch = false;
+            bool tempCanOutputLogs = true;
+            lineSearchInitialEnergy = lineSearchCurrentEnergy;
+            if(doLineSearch){
+               this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixStep, elecState, dt);
+            }
+            else{
+               this->UpdateMolecularCoordinates(molecule, matrixStep);
+               this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
+               lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
+            }
+
+            // check convergence
+            if(this->SatisfiesConvergenceCriterion(matrixForce,
+                                                   molecule,
+                                                   lineSearchInitialEnergy,
+                                                   lineSearchCurrentEnergy,
+                                                   maxGradientThreshold,
+                                                   rmsGradientThreshold)){
+               *obtainesOptimizedStructure = true;
+               break;
+            }
+
+            // Calculate the correctness of the approximation
+            r = (lineSearchCurrentEnergy - lineSearchInitialEnergy)/approximateChange;
+            this->OutputLog((boost::format("actual energy change          = %e\n") % (lineSearchCurrentEnergy-lineSearchInitialEnergy)).str());
+            this->OutputLog((boost::format("expected energy change        = %e\n") % approximateChange).str());
+            this->OutputLog((boost::format("actual/expected energy change = %f\n") % r).str());
+
+            // Update the trust radius
+            if(r < 0)
+            {
+               // Rollback molecular geometry
+               for(int i=0;i<molecule.GetNumberAtoms();i++){
+                  const Atom* atom = molecule.GetAtom(i);
+                  for(int j=0;j<CartesianType_end;j++){
+                     atom->GetXyz()[j] = -matrixDisplacement[i][j];
+                  }
+               }
+               lineSearchCurrentEnergy = lineSearchInitialEnergy;
+               // and rerun with smaller trust radius
+               maxNormStep /= 4;
+            }
+            else if(r<0.25){
+               maxNormStep /= 4;
+            }
+            else if(r<0.75){
+               // keep trust radius
+            }
+            else if(r<2){
+               maxNormStep *= 2;
+            }
+            else{
+               maxNormStep /= 2;
+            }
+         }while(r < 0);
+
 
          // Update Hessian
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
