@@ -32,6 +32,7 @@ protected:
    std::string messageLineSearchSteps;
    virtual void SetMessages();
    void UpdateMolecularCoordinates(MolDS_base::Molecule& molecule, double const* const* matrixForce, double dt) const;
+   void UpdateMolecularCoordinates(MolDS_base::Molecule& molecule, double const* const* matrixForce) const;
    void UpdateElectronicStructure(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, 
                                   MolDS_base::Molecule& molecule,
                                   bool requireGuess, 

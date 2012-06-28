@@ -145,6 +145,18 @@ void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* con
    molecule.CalcXyzCOC();
 }
 
+void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* const* matrixForce) const{
+   #pragma omp parallel for schedule(auto)
+   for(int a=0; a<molecule.GetNumberAtoms(); a++){
+      const Atom* atom = molecule.GetAtom(a);
+      for(int i=0; i<CartesianType_end; i++){
+         atom->GetXyz()[i] += matrixForce[a][i];
+      }
+   }
+   molecule.CalcXyzCOM();
+   molecule.CalcXyzCOC();
+}
+
 void Optimizer::UpdateElectronicStructure(boost::shared_ptr<ElectronicStructure> electronicStructure, 
                                                 Molecule& molecule,
                                                 bool requireGuess, 
