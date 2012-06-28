@@ -86,7 +86,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double*  vectorEigenValues      = NULL;
    double** matrixOldCoordinates   = NULL;
    double** matrixDisplacement     = NULL;
-   const double maxNormStep = 0.1;
+   double maxNormStep = 0.3;
 
    try{
       // initialize Hessian with unit matrix
