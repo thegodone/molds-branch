@@ -140,8 +140,9 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
          // g_k and g_k^t in Eq. (4) in [EPW_1997]
          for(int i=0;i<dimension;i++){
+            // note: gradient = -1 * force
             matrixAugmentedHessian[i][dimension] =
-               matrixAugmentedHessian[dimension][i] = vectorForce[i];
+               matrixAugmentedHessian[dimension][i] = - vectorForce[i];
          }
          // 0 in Eq. (4) in [EPW_1997]
          matrixAugmentedHessian[dimension][dimension] = 0;
@@ -222,7 +223,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          MallocerFreer::GetInstance()->Malloc(&P, dimension);
          for(int i=0; i<dimension; i++){
             // initialize P_k according to Eq. (14) in [SJTO_1983]
-            P[i] = vectorForce[i] - vectorOldForce[i];
+            // note: gradient = -1 * force
+            P[i] = - (vectorForce[i] - vectorOldForce[i]);
          }
          double PK = 0; // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
          for(int i=0; i<dimension;i++){
