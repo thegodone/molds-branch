@@ -96,8 +96,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       // initialize Hessian with unit matrix
       MallocerFreer::GetInstance()->Malloc(&matrixHessian, dimension, dimension);
       for(int i=0; i<dimension; i++){
-         for(int j=0; j<dimension; j++){
-            matrixHessian[i][j] = i==j ? 1.0 : 0.0;
+         for(int j=i; j<dimension; j++){
+            matrixHessian[i][j] = matrixHessian[j][i] = i==j ? 1.0 : 0.0;
          }
       }
 
@@ -133,9 +133,9 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          // See Eq. (4) in [EPW_1997]
          MallocerFreer::GetInstance()->Malloc(&matrixAugmentedHessian, dimension+1,dimension+1);
          for(int i=0;i<dimension;i++){
-            for(int j=0;j<dimension;j++){
+            for(int j=i;j<dimension;j++){
                // H_k in Eq. (4) in [EPW_1997]
-               matrixAugmentedHessian[i][j] = matrixHessian[i][j];
+               matrixAugmentedHessian[i][j] = matrixAugmentedHessian[j][i] = matrixHessian[i][j];
             }
          }
          // g_k and g_k^t in Eq. (4) in [EPW_1997]
@@ -231,8 +231,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
          MallocerFreer::GetInstance()->Malloc(&PP, dimension, dimension);
          for(int i=0; i<dimension;i++){
-            for(int j=0;j<dimension;j++){
-               PP[i][j] = P[i] * P[j];
+            for(int j=i;j<dimension;j++){
+               PP[i][j] = PP[j][i] = P[i] * P[j];
             }
          }
          //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
@@ -250,18 +250,20 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
          MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
          for(int i=0;i<dimension;i++){
-            for(int j=0;j<dimension;j++){
+            for(int j=i;j<dimension;j++){
                HKKH[i][j] = 0;
                for(int k=0;k<dimension;k++){
                   HKKH[i][j] += HK[i]*K[k]*matrixHessian[k][j];
                }
+               HKKH[j][i] = HKKH[i][j];
             }
          }
          // Calculate H_k+1 according to Eq. (13) in [SJTO_1983]
          for(int i=0;i<dimension;i++){
-            for(int j=0;j<dimension;j++){
+            for(int j=i;j<dimension;j++){
                matrixHessian[i][j]+= PP[i][j] / PK
                                    - HKKH[i][j] / KHK;
+               matrixHessian[j][i] = matrixHessian[i][j];
             }
          }
 
