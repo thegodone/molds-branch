@@ -123,9 +123,10 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
          K = &matrixDisplacement[0][0];
          for(int i=0;i<molecule.GetNumberAtoms();i++){
-            const Atom* atom = molecule.GetAtom(i);
+            const Atom*   atom = molecule.GetAtom(i);
+            const double* xyz  = atom->GetXyz();
             for(int j=0;j<CartesianType_end;j++){
-               matrixDisplacement[i][j] = -atom->GetXyz()[j];
+               matrixDisplacement[i][j] = -xyz[j];
             }
          }
 
@@ -274,8 +275,9 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
                // Rollback molecular geometry
                for(int i=0;i<molecule.GetNumberAtoms();i++){
                   const Atom* atom = molecule.GetAtom(i);
+                  double*     xyz  = atom->GetXyz();
                   for(int j=0;j<CartesianType_end;j++){
-                     atom->GetXyz()[j] = -matrixDisplacement[i][j];
+                     xyz[j] = -matrixDisplacement[i][j];
                   }
                }
                lineSearchCurrentEnergy = lineSearchInitialEnergy;
@@ -300,9 +302,10 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          // Update Hessian
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
          for(int i=0;i<molecule.GetNumberAtoms();i++){
-            const Atom* atom = molecule.GetAtom(i);
+            const Atom*   atom = molecule.GetAtom(i);
+            const double* xyz  = atom->GetXyz();
             for(int j=0;j<CartesianType_end;j++){
-               matrixDisplacement[i][j] += atom->GetXyz()[j];
+               matrixDisplacement[i][j] += xyz[j];
             }
          }
          matrixForce = electronicStructure->GetForce(elecState);
@@ -355,7 +358,6 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
                matrixHessian[j][i] = matrixHessian[i][j];
             }
          }
-
       }
       *lineSearchedEnergy = lineSearchCurrentEnergy;
    }
