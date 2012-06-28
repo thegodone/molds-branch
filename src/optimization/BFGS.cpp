@@ -262,9 +262,11 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
 
             // Calculate the correctness of the approximation
             r = (lineSearchCurrentEnergy - lineSearchInitialEnergy)/approximateChange;
+            molecule.SetCanOutputLogs(true);
             this->OutputLog((boost::format("actual energy change          = %e\n") % (lineSearchCurrentEnergy-lineSearchInitialEnergy)).str());
             this->OutputLog((boost::format("expected energy change        = %e\n") % approximateChange).str());
             this->OutputLog((boost::format("actual/expected energy change = %f\n") % r).str());
+            molecule.SetCanOutputLogs(tempCanOutputLogs);
 
             // Update the trust radius
             if(r < 0)
