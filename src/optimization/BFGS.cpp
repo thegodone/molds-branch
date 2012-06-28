@@ -228,14 +228,19 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
                this->OutputLog((boost::format("RFO step size is limited to %f\n") % normStep).str());
             }
 
-            // Calculate approximate change of energy
-            double approximateChange = 0;
+            // Calculate approximate change of energy using
+            // [2/2] Pade approximant
+            // See Eq. (2) in [BB_1998]
+            double approximateChangeNumerator   = 0;
+            double approximateChangeDenominator = 1;
             for(int i=0;i<dimension;i++){
-               approximateChange -= vectorForce[i] * vectorStep[i];
+               approximateChangeNumerator -= vectorForce[i] * vectorStep[i];
+               approximateChangeDenominator += vectorStep[i] * vectorStep[i];
                for(int j=0;j<dimension;j++){
-                  approximateChange += vectorStep[i] * matrixHessian[i][j] * vectorStep[j] / 2;
+                  approximateChangeNumerator += vectorStep[i] * matrixHessian[i][j] * vectorStep[j] / 2;
                }
             }
+            double approximateChange = approximateChangeNumerator / approximateChangeDenominator;
 
             // Take a RFO step
             bool doLineSearch = false;
