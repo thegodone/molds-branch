@@ -186,11 +186,17 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
 
          // Take a RFO step
+         bool doLineSearch = true;
          bool tempCanOutputLogs = true;
-         this->UpdateMolecularCoordinates(molecule, matrixStep, 1);
-         this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
          lineSearchInitialEnergy = lineSearchCurrentEnergy;
-         lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
+         if(doLineSearch){
+            this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixStep, elecState, dt);
+         }
+         else{
+            this->UpdateMolecularCoordinates(molecule, matrixStep, dt);
+            this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
+            lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
+         }
 
          // check convergence
          if(this->SatisfiesConvergenceCriterion(matrixForce,
