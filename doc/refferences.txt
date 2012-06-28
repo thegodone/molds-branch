@@ -34,6 +34,7 @@
 [BZ_1979] A. D. Bacon and M. C. Zerner, Theort. Chim. Acta (Berl.) 53, 21 (1979)
 [P_1980] P. Pulay, Chem. Phys. Lett. 73, 393 (1980)
 [HKLWNZ_1982] Z. S. Herman, R. F. Kirachner, G. H. Loew, U. T. M.-WesterHoff, A. Nazzal, and M. C. Zerner, Inorg. Chem., 21, 46 (1982)
+[SJTO_1983] J. Slmons, P. Jerrgensen, H. Taylor, and J. Orments, J. Phys. Chem. 87, 2745-2753 (1983)
 [DZHS_1985] M. J. S. Dewar, E. G. Zoebisch, E. F. Healy, and J. J. P. Stewart, J. Am. Chem. Soc. 107, 3902 (1985)
 [DR_1986] M. J. S. Dewar and C. H. Reynolds, J. Comp. Chem. 7, 140 (1986)
 [AEZ_1986] W. P. Anderson, W. D. Edwards, and M. C. Zerner, Inorg. Chem. 25, 2728 (1986)

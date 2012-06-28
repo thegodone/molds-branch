@@ -77,12 +77,12 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double** matrixForce = NULL;
    double* vectorForce = NULL;
    const int dimension = molecule.GetNumberAtoms()*CartesianType_end;
-   double matrixHessianInverse[dimension][dimension];
+   double matrixHessian[dimension][dimension];
 
    // initialize Hessian with unit matrix
    for(int i=0; i<dimension; i++){
       for(int j=0; j<dimension; j++){
-         matrixHessianInverse[i][j] = i==j ? 1.0 : 0.0;
+         matrixHessian[i][j] = i==j ? 1.0 : 0.0;
       }
    }
 
@@ -103,11 +103,11 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       }
 
       //Store old coordinates for calculating
-      double vectorDisplacement[dimension];
+      double K[dimension]; //K_k in eq. 15 on [SJTO_1983]
       for(int i=0;i<molecule.GetNumberAtoms();i++){
          const Atom* atom = molecule.GetAtom(i);
          for(int j=0;j<CartesianType_end;j++){
-            vectorDisplacement[i*CartesianType_end+j] = - atom->GetXyz()[j];
+            K[i*CartesianType_end+j] = - atom->GetXyz()[j];
          }
       }
 
@@ -120,7 +120,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       for(int i=0;i<dimension;i++){
          vectorDirection[i] = 0;
          for(int j=0;j<dimension;j++){
-            vectorDirection[i] += matrixHessianInverse[i][j]*vectorForce[j];
+            vectorDirection[i] += matrixHessian[i][j]*vectorForce[j];
          }
       }
 
@@ -147,38 +147,54 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       for(int i=0;i<molecule.GetNumberAtoms();i++){
          const Atom* atom = molecule.GetAtom(i);
          for(int j=0;j<CartesianType_end;j++){
-            vectorDisplacement[i*CartesianType_end+j] += atom->GetXyz()[j];
+            K[i*CartesianType_end+j] += atom->GetXyz()[j];
          }
       }
       // Update Hessian
-      double matrixOldHessianInverse[dimension][dimension];
-      for(int i=0;i<dimension;i++){
-         for(int j=0;j<dimension;j++){
-            matrixOldHessianInverse[i][j]=matrixHessianInverse[i][j];
-         }
-      }
-      double sy = 0;
-      double yby = 0;
+      double P[dimension]; //P_k in eq. 14 on [SJTO_1983]
       for(int i=0; i<dimension; i++){
-         sy += vectorDisplacement[i] * (vectorForce[i] - vectorOldForce[i]);
-         double byi = 0;
-         for(int j=0; j<dimension; j++){
-            byi += matrixHessianInverse[i][j] * (vectorForce[j] - vectorOldForce[j]);
-         }
-         yby += (vectorForce[i] - vectorOldForce[i]) * byi;
+         // initialize P_k according to eq. 14 on [SJTO_1983]
+         P[i] = vectorForce[i] - vectorOldForce[i];
       }
-      double syybysysy = (sy+yby)/sy/sy;
+      double PK = 0; // P_k^T K_k at second term in RHS of eq. 13 on [SJTO_1983]
+      for(int i=0; i<dimension;i++){
+         PK += P[i] * K[i];
+      }
+      double PP[dimension][dimension]; //P_k P_k^T at second term in RHS of eq. 13 on [SJTO_1983]
+      for(int i=0; i<dimension;i++){
+         for(int j=0;j<dimension;j++){
+            PP[i][j] = P[i] * P[j];
+         }
+      }
+      double HK[dimension]; //H_k K_k at third term in RHS of eq. 13 on [SJTO_1983]
+      for(int i=0; i<dimension; i++){
+         HK[i] = 0;
+         for(int j=0; j<dimension; j++){
+            HK[i] += matrixHessian[i][j] * K[j];
+         }
+      }
+      double KHK = 0; //K_k^T H_k K_k at third term in RHS of eq. 13 on [SJTO_1983]
+      for(int i=0;i<dimension;i++){
+         KHK += K[i]*HK[i];
+      }
+      //H_k K_k K_k^T H_k at third term in RHS of eq. 13 on [SJTO_1983]
+      double HKKH[dimension][dimension];
       for(int i=0;i<dimension;i++){
          for(int j=0;j<dimension;j++){
-            matrixHessianInverse[i][j] = matrixOldHessianInverse[i][j] + syybysysy *vectorDisplacement[i] * vectorDisplacement[j];
-            double byssyb = 0;
+            HKKH[i][j] = 0;
             for(int k=0;k<dimension;k++){
-               byssyb += matrixOldHessianInverse[i][k] * (vectorForce[k] - vectorOldForce[k]) * vectorDisplacement[j];
-               byssyb += vectorDisplacement[i] * (vectorForce[k] - vectorOldForce[k]) * matrixOldHessianInverse[k][j];
+               HKKH[i][j] += HK[i]*K[k]*matrixHessian[k][j];
             }
-            matrixHessianInverse[i][j] -= byssyb / sy;
          }
       }
+      // Calculate H_k+1 according to eq. 13 on [SJTO_1983]
+      for(int i=0;i<dimension;i++){
+         for(int j=0;j<dimension;j++){
+            matrixHessian[i][j]+= PP[i][j] / PK
+                                - HKKH[i][j] / KHK;
+         }
+      }
+
    }
    *lineSearchedEnergy = lineSearchCurrentEnergy;
 }
