@@ -77,125 +77,153 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double** matrixForce = NULL;
    double* vectorForce = NULL;
    const int dimension = molecule.GetNumberAtoms()*CartesianType_end;
-   double matrixHessian[dimension][dimension];
+   double** matrixHessian = NULL;
+   double* vectorOldForce = NULL;
+   double* vectorDirection = NULL;
+   double** matrixDirection = NULL;
+   double*  P    = NULL; // P_k in eq. 14 on [SJTO_1983]
+   double*  K    = NULL; // K_k in eq. 15 on [SJTO_1983]
+   double** PP   = NULL; // P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
+   double*  HK   = NULL; // H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+   double** HKKH = NULL; // H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
 
-   // initialize Hessian with unit matrix
-   for(int i=0; i<dimension; i++){
-      for(int j=0; j<dimension; j++){
-         matrixHessian[i][j] = i==j ? 1.0 : 0.0;
-      }
-   }
-
-   // initial calculation
-   bool requireGuess = true;
-   this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, this->CanOutputLogs());
-   lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
-
-   requireGuess = false;
-   matrixForce = electronicStructure->GetForce(elecState);
-   vectorForce = &matrixForce[0][0];
-
-   for(int s=0; s<totalSteps; s++){
-      // Store old Force data
-      double vectorOldForce[dimension];
-      for(int i =0;i < dimension; i++){
-         vectorOldForce[i] = vectorForce[i];
-      }
-
-      //Store old coordinates for calculating
-      double K[dimension]; //K_k in eq. 15 on [SJTO_1983]
-      for(int i=0;i<molecule.GetNumberAtoms();i++){
-         const Atom* atom = molecule.GetAtom(i);
-         for(int j=0;j<CartesianType_end;j++){
-            K[i*CartesianType_end+j] = - atom->GetXyz()[j];
+   try{
+      // initialize Hessian with unit matrix
+      MallocerFreer::GetInstance()->Malloc(&matrixHessian, dimension, dimension);
+      for(int i=0; i<dimension; i++){
+         for(int j=0; j<dimension; j++){
+            matrixHessian[i][j] = i==j ? 1.0 : 0.0;
          }
       }
 
-      // Calculate new search direction
-      double vectorDirection[dimension];
-      double *matrixDirection[molecule.GetNumberAtoms()];
-      for(int i=0;i<molecule.GetNumberAtoms();i++){
-         matrixDirection[i]=&vectorDirection[i*CartesianType_end];
-      }
-      for(int i=0;i<dimension;i++){
-         vectorDirection[i] = 0;
-         for(int j=0;j<dimension;j++){
-            vectorDirection[i] += matrixHessian[i][j]*vectorForce[j];
-         }
-      }
+      // initial calculation
+      bool requireGuess = true;
+      this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, this->CanOutputLogs());
+      lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
-      // Store initial energy
-      lineSearchInitialEnergy = lineSearchCurrentEnergy;
-
-      // do line search
-      this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixDirection, elecState, dt);
+      requireGuess = false;
       matrixForce = electronicStructure->GetForce(elecState);
       vectorForce = &matrixForce[0][0];
 
-      // check convergence
-      if(this->SatisfiesConvergenceCriterion(matrixForce,
-                                             molecule,
-                                             lineSearchInitialEnergy,
-                                             lineSearchCurrentEnergy,
-                                             maxGradientThreshold,
-                                             rmsGradientThreshold)){
-         *obtainesOptimizedStructure = true;
-         break;
-      }
+      for(int s=0; s<totalSteps; s++){
+         // Store old Force data
+         MallocerFreer::GetInstance()->Malloc(&vectorOldForce, dimension);
+         for(int i =0;i < dimension; i++){
+            vectorOldForce[i] = vectorForce[i];
+         }
 
-      //Calculate displacement
-      for(int i=0;i<molecule.GetNumberAtoms();i++){
-         const Atom* atom = molecule.GetAtom(i);
-         for(int j=0;j<CartesianType_end;j++){
-            K[i*CartesianType_end+j] += atom->GetXyz()[j];
-         }
-      }
-      // Update Hessian
-      double P[dimension]; //P_k in eq. 14 on [SJTO_1983]
-      for(int i=0; i<dimension; i++){
-         // initialize P_k according to eq. 14 on [SJTO_1983]
-         P[i] = vectorForce[i] - vectorOldForce[i];
-      }
-      double PK = 0; // P_k^T K_k at second term in RHS of eq. 13 on [SJTO_1983]
-      for(int i=0; i<dimension;i++){
-         PK += P[i] * K[i];
-      }
-      double PP[dimension][dimension]; //P_k P_k^T at second term in RHS of eq. 13 on [SJTO_1983]
-      for(int i=0; i<dimension;i++){
-         for(int j=0;j<dimension;j++){
-            PP[i][j] = P[i] * P[j];
-         }
-      }
-      double HK[dimension]; //H_k K_k at third term in RHS of eq. 13 on [SJTO_1983]
-      for(int i=0; i<dimension; i++){
-         HK[i] = 0;
-         for(int j=0; j<dimension; j++){
-            HK[i] += matrixHessian[i][j] * K[j];
-         }
-      }
-      double KHK = 0; //K_k^T H_k K_k at third term in RHS of eq. 13 on [SJTO_1983]
-      for(int i=0;i<dimension;i++){
-         KHK += K[i]*HK[i];
-      }
-      //H_k K_k K_k^T H_k at third term in RHS of eq. 13 on [SJTO_1983]
-      double HKKH[dimension][dimension];
-      for(int i=0;i<dimension;i++){
-         for(int j=0;j<dimension;j++){
-            HKKH[i][j] = 0;
-            for(int k=0;k<dimension;k++){
-               HKKH[i][j] += HK[i]*K[k]*matrixHessian[k][j];
+         //Store old coordinates for calculating
+         MallocerFreer::GetInstance()->Malloc(&K, dimension);
+         for(int i=0;i<molecule.GetNumberAtoms();i++){
+            const Atom* atom = molecule.GetAtom(i);
+            for(int j=0;j<CartesianType_end;j++){
+               K[i*CartesianType_end+j] = - atom->GetXyz()[j];
             }
          }
-      }
-      // Calculate H_k+1 according to eq. 13 on [SJTO_1983]
-      for(int i=0;i<dimension;i++){
-         for(int j=0;j<dimension;j++){
-            matrixHessian[i][j]+= PP[i][j] / PK
-                                - HKKH[i][j] / KHK;
-         }
-      }
 
+         // Calculate new search direction
+         MallocerFreer::GetInstance()->Malloc(&matrixDirection, molecule.GetNumberAtoms(), CartesianType_end);
+         vectorDirection = &matrixDirection[0][0];
+         for(int i=0;i<dimension;i++){
+            vectorDirection[i] = 0;
+            for(int j=0;j<dimension;j++){
+               vectorDirection[i] += matrixHessian[i][j]*vectorForce[j];
+            }
+         }
+
+         // Store initial energy
+         lineSearchInitialEnergy = lineSearchCurrentEnergy;
+
+         // do line search
+         this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixDirection, elecState, dt);
+         matrixForce = electronicStructure->GetForce(elecState);
+         vectorForce = &matrixForce[0][0];
+
+         // check convergence
+         if(this->SatisfiesConvergenceCriterion(matrixForce,
+                                                molecule,
+                                                lineSearchInitialEnergy,
+                                                lineSearchCurrentEnergy,
+                                                maxGradientThreshold,
+                                                rmsGradientThreshold)){
+            *obtainesOptimizedStructure = true;
+            break;
+         }
+
+         //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
+         for(int i=0;i<molecule.GetNumberAtoms();i++){
+            const Atom* atom = molecule.GetAtom(i);
+            for(int j=0;j<CartesianType_end;j++){
+               K[i*CartesianType_end+j] += atom->GetXyz()[j];
+            }
+         }
+         // Update Hessian
+         MallocerFreer::GetInstance()->Malloc(&P, dimension);
+         for(int i=0; i<dimension; i++){
+            // initialize P_k according to Eq. (14) in [SJTO_1983]
+            P[i] = vectorForce[i] - vectorOldForce[i];
+         }
+         double PK = 0; // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
+         for(int i=0; i<dimension;i++){
+            PK += P[i] * K[i];
+         }
+         //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
+         MallocerFreer::GetInstance()->Malloc(&PP, dimension, dimension);
+         for(int i=0; i<dimension;i++){
+            for(int j=0;j<dimension;j++){
+               PP[i][j] = P[i] * P[j];
+            }
+         }
+         //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+         MallocerFreer::GetInstance()->Malloc(&HK, dimension);
+         for(int i=0; i<dimension; i++){
+            HK[i] = 0;
+            for(int j=0; j<dimension; j++){
+               HK[i] += matrixHessian[i][j] * K[j];
+            }
+         }
+         double KHK = 0; //K_k^T H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+         for(int i=0;i<dimension;i++){
+            KHK += K[i]*HK[i];
+         }
+         //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
+         MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
+         for(int i=0;i<dimension;i++){
+            for(int j=0;j<dimension;j++){
+               HKKH[i][j] = 0;
+               for(int k=0;k<dimension;k++){
+                  HKKH[i][j] += HK[i]*K[k]*matrixHessian[k][j];
+               }
+            }
+         }
+         // Calculate H_k+1 according to Eq. (13) in [SJTO_1983]
+         for(int i=0;i<dimension;i++){
+            for(int j=0;j<dimension;j++){
+               matrixHessian[i][j]+= PP[i][j] / PK
+                                   - HKKH[i][j] / KHK;
+            }
+         }
+
+      }
+      *lineSearchedEnergy = lineSearchCurrentEnergy;
    }
-   *lineSearchedEnergy = lineSearchCurrentEnergy;
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
+      MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
+      MallocerFreer::GetInstance()->Free(&K, dimension);
+      MallocerFreer::GetInstance()->Free(&matrixDirection, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&P, dimension);
+      MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
+      MallocerFreer::GetInstance()->Free(&HK, dimension);
+      MallocerFreer::GetInstance()->Free(&HKKH, dimension,dimension);
+   }
+   MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
+   MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
+   MallocerFreer::GetInstance()->Free(&K, dimension);
+   MallocerFreer::GetInstance()->Free(&matrixDirection, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&P, dimension);
+   MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
+   MallocerFreer::GetInstance()->Free(&HK, dimension);
+   MallocerFreer::GetInstance()->Free(&HKKH, dimension,dimension);
 }
 }
