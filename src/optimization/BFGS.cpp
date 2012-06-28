@@ -385,11 +385,8 @@ void BFGS::UpdateHessian(double **matrixHessian,
       MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
       for(int i=0;i<dimension;i++){
          for(int j=i;j<dimension;j++){
-            HKKH[i][j] = 0;
-            for(int k=0;k<dimension;k++){
-               HKKH[i][j] += HK[i]*K[k]*matrixHessian[k][j];
-            }
-            HKKH[j][i] = HKKH[i][j];
+            // H_k K_k = (K_k^T H_k)^T because H_k^T = H_k
+            HKKH[i][j] = HKKH[j][i] = HK[i] * HK[j];
          }
       }
 
