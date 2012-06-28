@@ -129,6 +129,42 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             }
          }
 
+         // Calculate Hessian eigenvalues
+         double** tmpmatrix = NULL;
+         double*  tmpvector = NULL;
+         try{
+            MallocerFreer::GetInstance()->Malloc(&tmpmatrix, dimension, dimension);
+            for(int i=0;i<dimension;i++){
+               for(int j=i;j<dimension;j++){
+                  tmpmatrix[i][j] = tmpmatrix[j][i] = matrixHessian[i][j];
+               }
+            }
+            bool calcEigenVectors = false;
+            MallocerFreer::GetInstance()->Malloc(&tmpvector, dimension);
+            MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&tmpmatrix[0],
+                                                          &tmpvector[0],
+                                                          dimension,
+                                                          calcEigenVectors);
+            this->OutputLog("Eigenvalues of the hessian:");
+            for(int i=0;i<dimension;i++){
+               if((i%6) == 0){
+                  this->OutputLog("\n");
+                  this->OutputLog((boost::format("%e")%tmpvector[i]).str());
+               }
+               else{
+                  this->OutputLog((boost::format(",\t%e")%tmpvector[i]).str());
+               }
+            }
+            this->OutputLog("\n");
+         }
+         catch(MolDSException ex){
+            MallocerFreer::GetInstance()->Free(&tmpmatrix, dimension, dimension);
+            MallocerFreer::GetInstance()->Free(&tmpvector, dimension);
+            throw ex;
+         }
+         MallocerFreer::GetInstance()->Free(&tmpmatrix, dimension, dimension);
+         MallocerFreer::GetInstance()->Free(&tmpvector, dimension);
+
          // Prepare the augmented Hessian
          // See Eq. (4) in [EPW_1997]
          MallocerFreer::GetInstance()->Malloc(&matrixAugmentedHessian, dimension+1,dimension+1);
