@@ -181,10 +181,6 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
                vectorStep[i] *= maxNormStep/normStep;
             }
          }
-         double* matrixStep[molecule.GetNumberAtoms()];
-         for(int i=0;i<molecule.GetNumberAtoms();i++){
-            matrixStep[i] = &vectorStep[i*CartesianType_end];
-         }
 
          // Take a RFO step
          bool doLineSearch = true;
