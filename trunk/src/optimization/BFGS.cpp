@@ -84,6 +84,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double*  vectorStep             = NULL;
    double** matrixStep             = NULL;
    double*  vectorEigenValues      = NULL;
+   double** matrixOldCoordinates   = NULL;
    double** matrixDisplacement     = NULL;
    double*  P    = NULL; // P_k in eq. 14 on [SJTO_1983]
    double*  K    = NULL; // K_k in eq. 15 on [SJTO_1983]
@@ -119,14 +120,13 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             vectorOldForce[i] = vectorForce[i];
          }
 
-         //Store old coordinates for calculating
-         MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-         K = &matrixDisplacement[0][0];
+         //Store old coordinates
+         MallocerFreer::GetInstance()->Malloc(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
          for(int i=0;i<molecule.GetNumberAtoms();i++){
             const Atom*   atom = molecule.GetAtom(i);
             const double* xyz  = atom->GetXyz();
             for(int j=0;j<CartesianType_end;j++){
-               matrixDisplacement[i][j] = -xyz[j];
+               matrixOldCoordinates[i][j] = xyz[j];
             }
          }
 
@@ -216,101 +216,76 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          this->OutputLog((boost::format("3rd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[2]).str());
          this->OutputLog((boost::format("Calculated RFO step size                       = %f\n") % normStep).str());
 
-         double r; // correctness of the step
-         do{
-
-            // Limit the step size to maxNormStep
-            if(normStep > maxNormStep){
-               for(int i=0;i<dimension;i++){
-                  vectorStep[i] *= maxNormStep/normStep;
-               }
-               normStep = maxNormStep;
-               this->OutputLog((boost::format("RFO step size is limited to %f\n") % normStep).str());
-            }
-
-            // Calculate approximate change of energy using
-            // [2/2] Pade approximant
-            // See Eq. (2) in [BB_1998]
-            double approximateChangeNumerator   = 0;
-            double approximateChangeDenominator = 1;
+         this->OutputLog((boost::format("Trust radius is %f\n") % maxNormStep).str());
+         // Limit the step size to maxNormStep
+         if(normStep > maxNormStep){
             for(int i=0;i<dimension;i++){
-               approximateChangeNumerator -= vectorForce[i] * vectorStep[i];
-               approximateChangeDenominator += vectorStep[i] * vectorStep[i];
-               for(int j=0;j<dimension;j++){
-                  approximateChangeNumerator += vectorStep[i] * matrixHessian[i][j] * vectorStep[j] / 2;
-               }
+               vectorStep[i] *= maxNormStep/normStep;
             }
-            double approximateChange = approximateChangeNumerator / approximateChangeDenominator;
+            normStep = maxNormStep;
+            this->OutputLog((boost::format("RFO step size is limited to %f\n") % normStep).str());
+         }
 
-            // Take a RFO step
-            bool doLineSearch = false;
-            bool tempCanOutputLogs = true;
-            lineSearchInitialEnergy = lineSearchCurrentEnergy;
-            if(doLineSearch){
-               this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixStep, elecState, dt);
+         // Calculate approximate change of energy using
+         // [2/2] Pade approximant
+         // See Eq. (2) in [BB_1998]
+         double approximateChangeNumerator   = 0;
+         double approximateChangeDenominator = 1;
+         for(int i=0;i<dimension;i++){
+            approximateChangeNumerator -= vectorForce[i] * vectorStep[i];
+            approximateChangeDenominator += vectorStep[i] * vectorStep[i];
+            for(int j=0;j<dimension;j++){
+               approximateChangeNumerator += vectorStep[i] * matrixHessian[i][j] * vectorStep[j] / 2;
             }
-            else{
-               this->UpdateMolecularCoordinates(molecule, matrixStep);
-               this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
-               lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
-            }
+         }
+         double approximateChange = approximateChangeNumerator / approximateChangeDenominator;
 
-            // check convergence
-            if(this->SatisfiesConvergenceCriterion(matrixForce,
-                                                   molecule,
-                                                   lineSearchInitialEnergy,
-                                                   lineSearchCurrentEnergy,
-                                                   maxGradientThreshold,
-                                                   rmsGradientThreshold)){
-               *obtainesOptimizedStructure = true;
-               break;
-            }
+         // Take a RFO step
+         bool doLineSearch = false;
+         bool tempCanOutputLogs = false;
+         lineSearchInitialEnergy = lineSearchCurrentEnergy;
+         if(doLineSearch){
+            this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixStep, elecState, dt);
+         }
+         else{
+            this->UpdateMolecularCoordinates(molecule, matrixStep);
+            this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
+            lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
+         }
+         // Calculate the correctness of the approximation
+         double r = (lineSearchCurrentEnergy - lineSearchInitialEnergy)
+                  / approximateChange; // correctness of the step
+         bool aproxcheckCanOutputLogs = true;
+         tempCanOutputLogs = molecule.CanOutputLogs();
+         molecule.SetCanOutputLogs(aproxcheckCanOutputLogs);
+         this->OutputLog((boost::format("\n"
+                                        "actual energy change          = %e\n"
+                                        "expected energy change        = %e\n"
+                                        "actual/expected energy change = %f\n")
+                                        % (lineSearchCurrentEnergy-lineSearchInitialEnergy)
+                                        % approximateChange % r).str());
+         molecule.SetCanOutputLogs(tempCanOutputLogs);
 
-            // Calculate the correctness of the approximation
-            r = (lineSearchCurrentEnergy - lineSearchInitialEnergy)/approximateChange;
-            molecule.SetCanOutputLogs(true);
-            this->OutputLog((boost::format("actual energy change          = %e\n") % (lineSearchCurrentEnergy-lineSearchInitialEnergy)).str());
-            this->OutputLog((boost::format("expected energy change        = %e\n") % approximateChange).str());
-            this->OutputLog((boost::format("actual/expected energy change = %f\n") % r).str());
-            molecule.SetCanOutputLogs(tempCanOutputLogs);
-
-            // Update the trust radius
-            if(r < 0)
-            {
-               // Rollback molecular geometry
-               for(int i=0;i<molecule.GetNumberAtoms();i++){
-                  const Atom* atom = molecule.GetAtom(i);
-                  double*     xyz  = atom->GetXyz();
-                  for(int j=0;j<CartesianType_end;j++){
-                     xyz[j] = -matrixDisplacement[i][j];
-                  }
-               }
-               lineSearchCurrentEnergy = lineSearchInitialEnergy;
-               // and rerun with smaller trust radius
-               maxNormStep /= 4;
-            }
-            else if(r<0.25){
-               maxNormStep /= 4;
-            }
-            else if(r<0.75){
-               // keep trust radius
-            }
-            else if(r<2){
-               maxNormStep *= 2;
-            }
-            else{
-               maxNormStep /= 2;
-            }
-         }while(r < 0);
-
+         // check convergence
+         if(this->SatisfiesConvergenceCriterion(matrixForce,
+                  molecule,
+                  lineSearchInitialEnergy,
+                  lineSearchCurrentEnergy,
+                  maxGradientThreshold,
+                  rmsGradientThreshold)){
+            *obtainesOptimizedStructure = true;
+            break;
+         }
 
          // Update Hessian
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
+         MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
+         K = &matrixDisplacement[0][0];
          for(int i=0;i<molecule.GetNumberAtoms();i++){
             const Atom*   atom = molecule.GetAtom(i);
             const double* xyz  = atom->GetXyz();
             for(int j=0;j<CartesianType_end;j++){
-               matrixDisplacement[i][j] += xyz[j];
+               matrixDisplacement[i][j] = xyz[j] - matrixOldCoordinates[i][j];
             }
          }
          matrixForce = electronicStructure->GetForce(elecState);
@@ -363,6 +338,39 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
                matrixHessian[j][i] = matrixHessian[i][j];
             }
          }
+         // Update the trust radius
+         if(r < 0)
+         {
+            // Rollback molecular geometry
+            bool tempCanOutputLogs = molecule.CanOutputLogs();
+            bool rollbackCanOutputLogs = true;
+            molecule.SetCanOutputLogs(rollbackCanOutputLogs);
+            this->OutputLog("Detected hill climbing.\n"
+                            "Rolling back molecular geometry.\n");
+            for(int i=0;i<molecule.GetNumberAtoms();i++){
+               const Atom* atom = molecule.GetAtom(i);
+               double*     xyz  = atom->GetXyz();
+               for(int j=0;j<CartesianType_end;j++){
+                  xyz[j] = matrixOldCoordinates[i][j];
+               }
+            }
+            lineSearchCurrentEnergy = lineSearchInitialEnergy;
+            molecule.SetCanOutputLogs(tempCanOutputLogs);
+            // and rerun with smaller trust radius
+            maxNormStep /= 4;
+         }
+         else if(r<0.25){
+            maxNormStep /= 4;
+         }
+         else if(r<0.75){
+            // keep trust radius
+         }
+         else if(r<2){
+            maxNormStep *= 2;
+         }
+         else{
+            maxNormStep /= 2;
+         }
       }
       *lineSearchedEnergy = lineSearchCurrentEnergy;
    }
@@ -371,6 +379,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
       MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
       MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
       MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
       MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
       MallocerFreer::GetInstance()->Free(&P, dimension);
@@ -383,6 +392,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
    MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
    MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
    MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
    MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
    MallocerFreer::GetInstance()->Free(&P, dimension);
