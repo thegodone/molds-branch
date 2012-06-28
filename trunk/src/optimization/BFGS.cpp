@@ -31,6 +31,7 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/Uncopyable.h"
+#include"../wrappers/Lapack.h"
 #include"../base/Enums.h"
 #include"../base/MallocerFreer.h"
 #include"../base/EularAngle.h"
@@ -77,15 +78,19 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double** matrixForce = NULL;
    double* vectorForce = NULL;
    const int dimension = molecule.GetNumberAtoms()*CartesianType_end;
-   double** matrixHessian = NULL;
-   double* vectorOldForce = NULL;
-   double* vectorDirection = NULL;
-   double** matrixDirection = NULL;
+   double** matrixHessian          = NULL;
+   double** matrixAugmentedHessian = NULL;
+   double*  vectorOldForce         = NULL;
+   double*  vectorStep             = NULL;
+   double** matrixStep             = NULL;
+   double*  vectorEigenValues      = NULL;
+   double** matrixDisplacement     = NULL;
    double*  P    = NULL; // P_k in eq. 14 on [SJTO_1983]
    double*  K    = NULL; // K_k in eq. 15 on [SJTO_1983]
    double** PP   = NULL; // P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
    double*  HK   = NULL; // H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
    double** HKKH = NULL; // H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
+   const double maxNormStep = 0.1;
 
    try{
       // initialize Hessian with unit matrix
@@ -106,6 +111,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       vectorForce = &matrixForce[0][0];
 
       for(int s=0; s<totalSteps; s++){
+         this->OutputLog((boost::format("%s%d\n\n") % this->messageStartBFGSStep % (s+1)).str());
+
          // Store old Force data
          MallocerFreer::GetInstance()->Malloc(&vectorOldForce, dimension);
          for(int i =0;i < dimension; i++){
@@ -113,31 +120,77 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
 
          //Store old coordinates for calculating
-         MallocerFreer::GetInstance()->Malloc(&K, dimension);
+         MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
+         K = &matrixDisplacement[0][0];
          for(int i=0;i<molecule.GetNumberAtoms();i++){
             const Atom* atom = molecule.GetAtom(i);
             for(int j=0;j<CartesianType_end;j++){
-               K[i*CartesianType_end+j] = - atom->GetXyz()[j];
+               matrixDisplacement[i][j] = -atom->GetXyz()[j];
             }
          }
 
-         // Calculate new search direction
-         MallocerFreer::GetInstance()->Malloc(&matrixDirection, molecule.GetNumberAtoms(), CartesianType_end);
-         vectorDirection = &matrixDirection[0][0];
+         // Prepare the augmented Hessian
+         // See Eq. (4) in [EPW_1997]
+         MallocerFreer::GetInstance()->Malloc(&matrixAugmentedHessian, dimension+1,dimension+1);
          for(int i=0;i<dimension;i++){
-            vectorDirection[i] = 0;
             for(int j=0;j<dimension;j++){
-               vectorDirection[i] += matrixHessian[i][j]*vectorForce[j];
+               // H_k in Eq. (4) in [EPW_1997]
+               matrixAugmentedHessian[i][j] = matrixHessian[i][j];
             }
          }
+         // g_k and g_k^t in Eq. (4) in [EPW_1997]
+         for(int i=0;i<dimension;i++){
+            matrixAugmentedHessian[i][dimension] =
+               matrixAugmentedHessian[dimension][i] = vectorForce[i];
+         }
+         // 0 in Eq. (4) in [EPW_1997]
+         matrixAugmentedHessian[dimension][dimension] = 0;
 
-         // Store initial energy
+         // Solve eigenvalue problem on the augmented Hessian
+         // See Eq. (4) in [EPW_1997]
+         MallocerFreer::GetInstance()->Malloc(&vectorEigenValues, dimension+1);
+         //TODO: calculate eigenvalues first then calculate only an eigenvector needed
+         bool calcEigenVectors = true;
+         MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&matrixAugmentedHessian[0],
+                                                       &vectorEigenValues[0],
+                                                       dimension+1,
+                                                       calcEigenVectors);
+
+         // Select a RFO step as the eigenvector whose eivenvalue is the lowest
+         MallocerFreer::GetInstance()->Malloc(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
+         vectorStep = &matrixStep[0][0];
+         for(int i=0;i<dimension;i++){
+            // Scale last element of eigenvector to 1 because
+            // [vectorStep, 1] is the eigenvector of augmented Hessian.
+            // See Eq. (4) in [EPW_1997].
+            vectorStep[i] = matrixAugmentedHessian[0][i] / matrixAugmentedHessian[0][dimension];
+         }
+         // Calculate size of the RFO step
+         double normStep = 0;
+         for(int i=0;i<dimension;i++){
+            normStep += vectorStep[i] * vectorStep[i];
+         }
+         normStep = sqrt(normStep);
+         this->OutputLog((boost::format("Lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[0]).str());
+         this->OutputLog((boost::format("RFO step size                              = %f\n") % normStep).str());
+
+         // Limit the step size to maxNormStep
+         if(normStep > maxNormStep){
+            for(int i=0;i<dimension;i++){
+               vectorStep[i] *= maxNormStep/normStep;
+            }
+         }
+         double* matrixStep[molecule.GetNumberAtoms()];
+         for(int i=0;i<molecule.GetNumberAtoms();i++){
+            matrixStep[i] = &vectorStep[i*CartesianType_end];
+         }
+
+         // Take a RFO step
+         bool tempCanOutputLogs = true;
+         this->UpdateMolecularCoordinates(molecule, matrixStep, 1);
+         this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
          lineSearchInitialEnergy = lineSearchCurrentEnergy;
-
-         // do line search
-         this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixDirection, elecState, dt);
-         matrixForce = electronicStructure->GetForce(elecState);
-         vectorForce = &matrixForce[0][0];
+         lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
          // check convergence
          if(this->SatisfiesConvergenceCriterion(matrixForce,
@@ -150,14 +203,16 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             break;
          }
 
+         // Update Hessian
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
          for(int i=0;i<molecule.GetNumberAtoms();i++){
             const Atom* atom = molecule.GetAtom(i);
             for(int j=0;j<CartesianType_end;j++){
-               K[i*CartesianType_end+j] += atom->GetXyz()[j];
+               matrixDisplacement[i][j] += atom->GetXyz()[j];
             }
          }
-         // Update Hessian
+         matrixForce = electronicStructure->GetForce(elecState);
+         vectorForce = &matrixForce[0][0];
          MallocerFreer::GetInstance()->Malloc(&P, dimension);
          for(int i=0; i<dimension; i++){
             // initialize P_k according to Eq. (14) in [SJTO_1983]
@@ -210,17 +265,22 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
       MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
-      MallocerFreer::GetInstance()->Free(&K, dimension);
-      MallocerFreer::GetInstance()->Free(&matrixDirection, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
+      MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
       MallocerFreer::GetInstance()->Free(&P, dimension);
       MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
       MallocerFreer::GetInstance()->Free(&HK, dimension);
       MallocerFreer::GetInstance()->Free(&HKKH, dimension,dimension);
+      throw ex;
    }
    MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
    MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
-   MallocerFreer::GetInstance()->Free(&K, dimension);
-   MallocerFreer::GetInstance()->Free(&matrixDirection, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
+   MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
    MallocerFreer::GetInstance()->Free(&P, dimension);
    MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
    MallocerFreer::GetInstance()->Free(&HK, dimension);
