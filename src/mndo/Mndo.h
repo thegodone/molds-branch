@@ -52,6 +52,10 @@ protected:
    virtual double GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
                                                         int atomBIndex, 
                                                         MolDS_base::CartesianType axisA) const;
+   virtual double GetDiatomCoreRepulsionSecondDerivative(int atomAIndex,
+                                                         int atomBIndex, 
+                                                         MolDS_base::CartesianType axisA1,
+                                                         MolDS_base::CartesianType axisA2) const;
    virtual double GetFockDiagElement(const MolDS_base_atoms::Atom& atomA, 
                                      int atomAIndex, 
                                      int mu, 
@@ -115,6 +119,11 @@ private:
                                                                const MolDS_base_atoms::Atom& atomB,
                                                                double distanceAB,
                                                                MolDS_base::CartesianType axisA) const;
+   double GetAuxiliaryDiatomCoreRepulsionEnergySecondDerivative(const MolDS_base_atoms::Atom& atomA,
+                                                                const MolDS_base_atoms::Atom& atomB,
+                                                                double distanceAB,
+                                                                MolDS_base::CartesianType axisA1,
+                                                                MolDS_base::CartesianType axisA2) const;
    double GetGammaNRElement(int moI, int moJ, int moK, int moL) const;
    double GetGammaRElement(int moI, int moJ, int moK, int moL) const;
    double GetNNRElement(int moI, int moJ, int moK, int moL) const;

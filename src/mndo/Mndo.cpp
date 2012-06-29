@@ -207,6 +207,54 @@ double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergyFirstDerivative(const Atom& at
    return value;
 }
 
+// Second derivative of Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy.
+// Both deivatives are related to the Cartesian coordinate of atomA.
+double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergySecondDerivative(const Atom& atomA, 
+                                                                   const Atom& atomB,
+                                                                   double distanceAB,
+                                                                   CartesianType axisA1,
+                                                                   CartesianType axisA2) const{
+   double value=0.0;
+   double dCartesian1 = (atomA.GetXyz()[axisA1] - atomB.GetXyz()[axisA1]);
+   double dCartesian2 = (atomA.GetXyz()[axisA2] - atomB.GetXyz()[axisA2]);
+   double pre1=0.0;
+   double pre2=0.0;
+   if(axisA1 == axisA2){
+      pre1 = 1.0/distanceAB - pow(dCartesian1,2.0)/pow(distanceAB,3.0);
+      pre2 = pow(dCartesian1/distanceAB,2.0);
+   }
+   else{
+      pre1 = -dCartesian1*dCartesian2/pow(distanceAB,3.0);
+      pre2 = pow(dCartesian1/distanceAB,2.0);
+   }
+
+   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
+   double alphaA = atomA.GetNddoAlpha(this->theory);
+   double alphaB = atomB.GetNddoAlpha(this->theory);
+   double fact1=0.0;
+   double fact2=0.0;
+   if(atomA.GetAtomType() == H && (atomB.GetAtomType() == N || 
+                                   atomB.GetAtomType() == O)  ){
+      fact1 = -alphaA*exp(-alphaA*distanceAB);
+             +((1.0/ang2AU) - alphaB*(distanceAB/ang2AU))*exp(-alphaB*distanceAB);
+      fact2 = alphaA*alphaA*exp(-alphaA*distanceAB);
+             +(-2.0*alphaA/ang2AU + (distanceAB/ang2AU)*alphaA*alphaA)*exp(-alphaB*distanceAB);
+   }
+   else if(atomB.GetAtomType() == H && (atomA.GetAtomType() == N || 
+                                        atomA.GetAtomType() == O)  ){
+      fact1 = -alphaB*exp(-alphaB*distanceAB);
+             +((1.0/ang2AU) - alphaA*(distanceAB/ang2AU))*exp(-alphaA*distanceAB);
+      fact2 = alphaB*alphaB*exp(-alphaB*distanceAB);
+             +(-2.0*alphaB/ang2AU + (distanceAB/ang2AU)*alphaB*alphaB)*exp(-alphaA*distanceAB);
+   }
+   else{
+      fact1 = -alphaA*exp(-alphaA*distanceAB) - alphaB*exp(-alphaB*distanceAB);
+      fact2 = alphaA*alphaA*exp(-alphaA*distanceAB) + alphaB*alphaB*exp(-alphaB*distanceAB);
+   }
+   value = pre1*fact1 + pre2*fact2;
+   return value;
+}
+
 double Mndo::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
@@ -233,6 +281,54 @@ double Mndo::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
    double tempDeriv = this->GetAuxiliaryDiatomCoreRepulsionEnergyFirstDerivative(atomA, atomB, distanceAB, axisA);
    value = atomA.GetCoreCharge()*atomB.GetCoreCharge()
           *(twoElecIntFirstDeriv*temp + twoElecInt*tempDeriv); 
+   return value;
+}
+
+// Second derivative of diatomic core repulsion energy.
+// Both derivatives are related to the coordinate of atomA.
+double Mndo::GetDiatomCoreRepulsionSecondDerivative(int atomAIndex,
+                                                    int atomBIndex, 
+                                                    CartesianType axisA1,
+                                                    CartesianType axisA2) const{
+   double value =0.0;
+   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+   const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
+   double distanceAB = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
+   double twoElecInt = this->GetNddoRepulsionIntegral(atomA, s, s, 
+                                                      atomB, s, s);
+   double twoElecIntFirstDeriv1 = this->GetNddoRepulsionIntegralFirstDerivative(atomA, s, s, 
+                                                                                atomB, s, s, 
+                                                                                axisA1);
+   double twoElecIntFirstDeriv2 = this->GetNddoRepulsionIntegralFirstDerivative(atomA, s, s, 
+                                                                                atomB, s, s, 
+                                                                                axisA2);
+   double twoElecIntSecondDeriv = this->GetNddoRepulsionIntegralSecondDerivative(atomA, s, s, 
+                                                                                 atomB, s, s, 
+                                                                                 axisA1, 
+                                                                                 axisA2);
+
+   double temp = this->GetAuxiliaryDiatomCoreRepulsionEnergy(atomA, 
+                                                             atomB, 
+                                                             distanceAB);
+   double tempFirstDeriv1 = this->GetAuxiliaryDiatomCoreRepulsionEnergyFirstDerivative(atomA, 
+                                                                                       atomB, 
+                                                                                       distanceAB, 
+                                                                                       axisA1);
+   double tempFirstDeriv2 = this->GetAuxiliaryDiatomCoreRepulsionEnergyFirstDerivative(atomA, 
+                                                                                       atomB, 
+                                                                                       distanceAB, 
+                                                                                       axisA2);
+   double tempSecondDeriv = this->GetAuxiliaryDiatomCoreRepulsionEnergySecondDerivative(atomA, 
+                                                                                        atomB, 
+                                                                                        distanceAB, 
+                                                                                        axisA1, 
+                                                                                        axisA2);
+
+   value = atomA.GetCoreCharge()*atomB.GetCoreCharge();
+   value *= twoElecInt*tempSecondDeriv 
+           +twoElecIntFirstDeriv1*tempFirstDeriv2 
+           +twoElecIntFirstDeriv2*tempFirstDeriv1
+           +twoElecIntSecondDeriv*temp;
    return value;
 }
 
