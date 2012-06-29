@@ -108,6 +108,11 @@ private:
    int zMatrixForceElecStatesNum;
    int etaMatrixForceElecStatesNum;
    double heatsFormation;
+   double GetAuxiliaryDiatomCoreRepulsionEnergy(MolDS_base::AtomType atomTypeA,
+                                                MolDS_base::AtomType atomTypeB,
+                                                double alphaA,
+                                                double alphaB,
+                                                double distance) const;
    double GetGammaNRElement(int moI, int moJ, int moK, int moL) const;
    double GetGammaRElement(int moI, int moJ, int moK, int moL) const;
    double GetNNRElement(int moI, int moJ, int moK, int moL) const;
