@@ -158,8 +158,8 @@ double Am1::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
    double alphaA = atomA.GetNddoAlpha(this->theory);
    double alphaB = atomB.GetNddoAlpha(this->theory);
-   double Rab = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
-   double dRabDa = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/Rab;
+   double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
+   double dCartesian = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA]);
    double temp1 = 0.0;
    double temp2 = 0.0;
    for(int i=0; i<4; i++){
@@ -169,20 +169,20 @@ double Am1::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
       double kB = atomB.GetNddoParameterK(this->theory, i);
       double lB = atomB.GetNddoParameterL(this->theory, i);
       double mB = atomB.GetNddoParameterM(this->theory, i);
-      temp1 += kA*exp(-lA*pow(Rab-mA,2.0));
-      temp1 += kB*exp(-lB*pow(Rab-mB,2.0));
-      temp2 += -2.0*lA*(Rab-mA)*kA*exp(-lA*pow(Rab-mA,2.0));
-      temp2 += -2.0*lB*(Rab-mB)*kB*exp(-lB*pow(Rab-mB,2.0));
+      temp1 += kA*exp(-lA*pow(distance-mA,2.0));
+      temp1 += kB*exp(-lB*pow(distance-mB,2.0));
+      temp2 += -2.0*lA*(distance-mA)*kA*exp(-lA*pow(distance-mA,2.0));
+      temp2 += -2.0*lB*(distance-mB)*kB*exp(-lB*pow(distance-mB,2.0));
    }
-   value -= dRabDa
+   value -= dCartesian/distance
            *atomA.GetCoreCharge()
            *atomB.GetCoreCharge()
            *temp1
-           /(pow(Rab,2.0)/ang2AU);
-   value += dRabDa
+           /(pow(distance,2.0)/ang2AU);
+   value += dCartesian/distance
            *atomA.GetCoreCharge()
            *atomB.GetCoreCharge()
-           *temp2/(Rab/ang2AU);
+           *temp2/(distance/ang2AU);
    return value;
 }
 
