@@ -78,14 +78,12 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double** matrixForce = NULL;
    double* vectorForce = NULL;
    const int dimension = molecule.GetNumberAtoms()*CartesianType_end;
-   double** matrixHessian          = NULL;
-   double** matrixAugmentedHessian = NULL;
-   double*  vectorOldForce         = NULL;
-   double*  vectorStep             = NULL;
-   double** matrixStep             = NULL;
-   double*  vectorEigenValues      = NULL;
-   double** matrixOldCoordinates   = NULL;
-   double** matrixDisplacement     = NULL;
+   double** matrixHessian        = NULL;
+   double*  vectorOldForce       = NULL;
+   double*  vectorStep           = NULL;
+   double** matrixStep           = NULL;
+   double** matrixOldCoordinates = NULL;
+   double** matrixDisplacement   = NULL;
    double maxNormStep = 0.3;
 
    try{
@@ -160,65 +158,10 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          MallocerFreer::GetInstance()->Free(&tmpmatrix, dimension, dimension);
          MallocerFreer::GetInstance()->Free(&tmpvector, dimension);
 
-         // Prepare the augmented Hessian
-         // See Eq. (4) in [EPW_1997]
-         MallocerFreer::GetInstance()->Malloc(&matrixAugmentedHessian, dimension+1,dimension+1);
-         for(int i=0;i<dimension;i++){
-            for(int j=i;j<dimension;j++){
-               // H_k in Eq. (4) in [EPW_1997]
-               matrixAugmentedHessian[i][j] = matrixAugmentedHessian[j][i] = matrixHessian[i][j];
-            }
-         }
-         // g_k and g_k^t in Eq. (4) in [EPW_1997]
-         for(int i=0;i<dimension;i++){
-            // note: gradient = -1 * force
-            matrixAugmentedHessian[i][dimension] =
-               matrixAugmentedHessian[dimension][i] = - vectorForce[i];
-         }
-         // 0 in Eq. (4) in [EPW_1997]
-         matrixAugmentedHessian[dimension][dimension] = 0;
-
-         // Solve eigenvalue problem on the augmented Hessian
-         // See Eq. (4) in [EPW_1997]
-         MallocerFreer::GetInstance()->Malloc(&vectorEigenValues, dimension+1);
-         //TODO: calculate eigenvalues first then calculate only an eigenvector needed
-         bool calcEigenVectors = true;
-         MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&matrixAugmentedHessian[0],
-                                                       &vectorEigenValues[0],
-                                                       dimension+1,
-                                                       calcEigenVectors);
-
-         // Select a RFO step as the eigenvector whose eivenvalue is the lowest
+         //Calculate RFO step
          MallocerFreer::GetInstance()->Malloc(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
          vectorStep = &matrixStep[0][0];
-         for(int i=0;i<dimension;i++){
-            // Scale last element of eigenvector to 1 because
-            // [vectorStep, 1] is the eigenvector of augmented Hessian.
-            // See Eq. (4) in [EPW_1997].
-            vectorStep[i] = matrixAugmentedHessian[0][i] / matrixAugmentedHessian[0][dimension];
-         }
-         //
-         // Calculate size of the RFO step
-         double normStep = 0;
-         for(int i=0;i<dimension;i++){
-            normStep += vectorStep[i] * vectorStep[i];
-         }
-         normStep = sqrt(normStep);
-
-         this->OutputLog((boost::format("Lowest eigenvalue of the augmented Hessian     = %f\n") % vectorEigenValues[0]).str());
-         this->OutputLog((boost::format("2nd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[1]).str());
-         this->OutputLog((boost::format("3rd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[2]).str());
-         this->OutputLog((boost::format("Calculated RFO step size                       = %f\n") % normStep).str());
-
-         this->OutputLog((boost::format("Trust radius is %f\n") % maxNormStep).str());
-         // Limit the step size to maxNormStep
-         if(normStep > maxNormStep){
-            for(int i=0;i<dimension;i++){
-               vectorStep[i] *= maxNormStep/normStep;
-            }
-            normStep = maxNormStep;
-            this->OutputLog((boost::format("RFO step size is limited to %f\n") % normStep).str());
-         }
+         this->CalcRFOStep(vectorStep, matrixHessian, vectorForce, maxNormStep, dimension);
 
          // Calculate approximate change of energy using
          // [2/2] Pade approximant
@@ -330,8 +273,6 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
       MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
       MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
-      MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
-      MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
       throw ex;
    }
    MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
@@ -339,6 +280,79 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
    MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
    MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+}
+
+void BFGS::CalcRFOStep(double* vectorStep,
+                       double const* const* matrixHessian,
+                       double const* vectorForce,
+                       const double maxNormStep,
+                       const int dimension) const{
+   double** matrixAugmentedHessian = NULL;
+   double*  vectorEigenValues      = NULL;
+   try{
+      // Prepare the augmented Hessian
+      // See Eq. (4) in [EPW_1997]
+      MallocerFreer::GetInstance()->Malloc(&matrixAugmentedHessian, dimension+1,dimension+1);
+      for(int i=0;i<dimension;i++){
+         for(int j=i;j<dimension;j++){
+            // H_k in Eq. (4) in [EPW_1997]
+            matrixAugmentedHessian[i][j] = matrixAugmentedHessian[j][i] = matrixHessian[i][j];
+         }
+      }
+      // g_k and g_k^t in Eq. (4) in [EPW_1997]
+      for(int i=0;i<dimension;i++){
+         // note: gradient = -1 * force
+         matrixAugmentedHessian[i][dimension] =
+            matrixAugmentedHessian[dimension][i] = - vectorForce[i];
+      }
+      // 0 in Eq. (4) in [EPW_1997]
+      matrixAugmentedHessian[dimension][dimension] = 0;
+
+      // Solve eigenvalue problem on the augmented Hessian
+      // See Eq. (4) in [EPW_1997]
+      MallocerFreer::GetInstance()->Malloc(&vectorEigenValues, dimension+1);
+      //TODO: calculate eigenvalues first then calculate only an eigenvector needed
+      bool calcEigenVectors = true;
+      MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&matrixAugmentedHessian[0],
+                                                    &vectorEigenValues[0],
+                                                    dimension+1,
+                                                    calcEigenVectors);
+
+      // Select a RFO step as the eigenvector whose eivenvalue is the lowest
+      for(int i=0;i<dimension;i++){
+         // Scale last element of eigenvector to 1 because
+         // [vectorStep, 1] is the eigenvector of augmented Hessian.
+         // See Eq. (4) in [EPW_1997].
+         vectorStep[i] = matrixAugmentedHessian[0][i] / matrixAugmentedHessian[0][dimension];
+      }
+      //
+      // Calculate size of the RFO step
+      double normStep = 0;
+      for(int i=0;i<dimension;i++){
+         normStep += vectorStep[i] * vectorStep[i];
+      }
+      normStep = sqrt(normStep);
+
+      this->OutputLog((boost::format("Lowest eigenvalue of the augmented Hessian     = %f\n") % vectorEigenValues[0]).str());
+      this->OutputLog((boost::format("2nd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[1]).str());
+      this->OutputLog((boost::format("3rd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[2]).str());
+      this->OutputLog((boost::format("Calculated RFO step size                       = %f\n") % normStep).str());
+
+      this->OutputLog((boost::format("Trust radius is %f\n") % maxNormStep).str());
+      // Limit the step size to maxNormStep
+      if(normStep > maxNormStep){
+         for(int i=0;i<dimension;i++){
+            vectorStep[i] *= maxNormStep/normStep;
+         }
+         normStep = maxNormStep;
+         this->OutputLog((boost::format("RFO step size is limited to %f\n") % normStep).str());
+      }
+   }
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
+      MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
+      throw ex;
+   }
    MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
    MallocerFreer::GetInstance()->Free(&vectorEigenValues, dimension+1);
 }
