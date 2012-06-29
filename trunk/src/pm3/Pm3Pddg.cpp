@@ -156,8 +156,8 @@ double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
                                                              axisA);
    const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
-   double Rab = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
-   double dRabDa = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/Rab;
+   double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
+   double dCartesian = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA]);
    double na = static_cast<double>(atomA.GetNumberValenceElectrons());
    double nb = static_cast<double>(atomB.GetNumberValenceElectrons());
    double temp = 0.0;
@@ -167,11 +167,11 @@ double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
       for(int j=0; j<2; j++){
          double pb = atomB.GetPm3PddgParameterPa(j);
          double db = atomB.GetPm3PddgParameterDa(j);
-         temp += (na*pa +nb*pb)*exp(-10.0*pow((Rab-da-db),2.0))
-                *(-20.0*(Rab-da-db));
+         temp += (na*pa +nb*pb)*exp(-10.0*pow((distance-da-db),2.0))
+                *(-20.0*(distance-da-db));
       }
    }
-   value += temp*dRabDa/(na+nb);
+   value += temp*dCartesian/(distance*(na+nb));
    return value;
 }
 
