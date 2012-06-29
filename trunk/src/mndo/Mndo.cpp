@@ -161,19 +161,19 @@ void Mndo::SetEnableAtomTypes(){
 
 double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy(const Atom& atomA, 
                                                    const Atom& atomB,
-                                                   double distance) const{
+                                                   double distanceAB) const{
    double value=0.0;
    double alphaA = atomA.GetNddoAlpha(this->theory);
    double alphaB = atomB.GetNddoAlpha(this->theory);
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
    if(atomA.GetAtomType() == H && (atomB.GetAtomType() == N || atomB.GetAtomType() == O) ){
-      value = 1.0 + (distance/ang2AU)*exp(-alphaB*distance) + exp(-alphaA*distance);
+      value = 1.0 + (distanceAB/ang2AU)*exp(-alphaB*distanceAB) + exp(-alphaA*distanceAB);
    }
    else if(atomB.GetAtomType() == H && (atomA.GetAtomType() == N || atomA.GetAtomType() == O) ){
-      value = 1.0 + (distance/ang2AU)*exp(-alphaA*distance) + exp(-alphaB*distance);
+      value = 1.0 + (distanceAB/ang2AU)*exp(-alphaA*distanceAB) + exp(-alphaB*distanceAB);
    }
    else{
-      value = 1.0 + exp(-alphaA*distance) + exp(-alphaB*distance);
+      value = 1.0 + exp(-alphaA*distanceAB) + exp(-alphaB*distanceAB);
    }
    return value;
 }
