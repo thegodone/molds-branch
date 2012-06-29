@@ -111,6 +111,10 @@ private:
    double GetAuxiliaryDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
                                                 const MolDS_base_atoms::Atom& atomB,
                                                 double distanceAB) const;
+   double GetAuxiliaryDiatomCoreRepulsionEnergyFirstDerivative(const MolDS_base_atoms::Atom& atomA,
+                                                               const MolDS_base_atoms::Atom& atomB,
+                                                               double distanceAB,
+                                                               MolDS_base::CartesianType axisA) const;
    double GetGammaNRElement(int moI, int moJ, int moK, int moL) const;
    double GetGammaRElement(int moI, int moJ, int moK, int moL) const;
    double GetNNRElement(int moI, int moJ, int moK, int moL) const;
