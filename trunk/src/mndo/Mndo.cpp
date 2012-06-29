@@ -159,25 +159,34 @@ void Mndo::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(S);
 }
 
+double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy(AtomType atomTypeA, 
+                                                   AtomType atomTypeB,
+                                                   double alphaA,
+                                                   double alphaB,
+                                                   double distance) const{
+   double value=0.0;
+   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
+   if(atomTypeA == H && (atomTypeB == N || atomTypeB == O) ){
+      value = 1.0 + (distance/ang2AU)*exp(-alphaB*distance) + exp(-alphaA*distance);
+   }
+   else if(atomTypeB == H && (atomTypeA == N || atomTypeA == O) ){
+      value = 1.0 + (distance/ang2AU)*exp(-alphaA*distance) + exp(-alphaB*distance);
+   }
+   else{
+      value = 1.0 + exp(-alphaA*distance) + exp(-alphaB*distance);
+   }
+   return value;
+}
+
+
 double Mndo::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
-   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
-   double alphaA = atomA.GetNddoAlpha(this->theory);
-   double alphaB = atomB.GetNddoAlpha(this->theory);
-   double temp = 0.0;
-   if(atomA.GetAtomType() == H && (atomB.GetAtomType() == N || 
-                                   atomB.GetAtomType() == O)  ){
-      temp = 1.0 + (distance/ang2AU)*exp(-alphaB*distance) + exp(-alphaA*distance);
-   }
-   else if(atomB.GetAtomType() == H && (atomA.GetAtomType() == N || 
-                                        atomA.GetAtomType() == O)  ){
-      temp = 1.0 + (distance/ang2AU)*exp(-alphaA*distance) + exp(-alphaB*distance);
-   }
-   else{
-      temp = 1.0 + exp(-alphaA*distance) + exp(-alphaB*distance);
-   }
+   double temp = this->GetAuxiliaryDiatomCoreRepulsionEnergy(atomA.GetAtomType(),
+                                                             atomB.GetAtomType(),
+                                                             atomA.GetNddoAlpha(this->theory),
+                                                             atomB.GetNddoAlpha(this->theory),
+                                                             this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB));
    double twoElecInt = this->GetNddoRepulsionIntegral(atomA, s, s, atomB, s, s);
    return  atomA.GetCoreCharge()*atomB.GetCoreCharge()*twoElecInt*temp; 
 }
