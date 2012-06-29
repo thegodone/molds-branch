@@ -124,6 +124,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
 
          // Calculate Hessian eigenvalues
+         // TODO: Decide whether this routine is necessary
          double** tmpmatrix = NULL;
          double*  tmpvector = NULL;
          try{
