@@ -33,7 +33,11 @@ private:
                               MolDS_base::Molecule& molecule,
                               double* lineSearchedEnergy,
                               bool* obainesOptimizedStructure) const;
-public:
+   void CalcRFOStep(double* vectorStep,
+                    double const* const* matrixHessian,
+                    double const* vectorForce,
+                    const double maxNormStep,
+                    const int dimension) const;
    void UpdateHessian(double**      matrixHessian,
                       const int     dimension,
                       double const* vectorForce,
