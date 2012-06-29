@@ -271,21 +271,6 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             break;
          }
 
-         //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
-         MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-         for(int i=0;i<molecule.GetNumberAtoms();i++){
-            const Atom*   atom = molecule.GetAtom(i);
-            const double* xyz  = atom->GetXyz();
-            for(int j=0;j<CartesianType_end;j++){
-               matrixDisplacement[i][j] = xyz[j] - matrixOldCoordinates[i][j];
-            }
-         }
-         matrixForce = electronicStructure->GetForce(elecState);
-         vectorForce = &matrixForce[0][0];
-
-         // Update Hessian
-         this->UpdateHessian(matrixHessian, dimension, vectorForce, vectorOldForce, &matrixDisplacement[0][0]);
-
          // Update the trust radius
          if(r < 0)
          {
@@ -305,7 +290,9 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             lineSearchCurrentEnergy = lineSearchInitialEnergy;
             molecule.SetCanOutputLogs(tempCanOutputLogs);
             // and rerun with smaller trust radius
+            // without updating Hessian
             maxNormStep /= 4;
+            continue;
          }
          else if(r<0.25){
             maxNormStep /= 4;
@@ -319,6 +306,21 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          else{
             maxNormStep /= 2;
          }
+         //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
+         MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
+         for(int i=0;i<molecule.GetNumberAtoms();i++){
+            const Atom*   atom = molecule.GetAtom(i);
+            const double* xyz  = atom->GetXyz();
+            for(int j=0;j<CartesianType_end;j++){
+               matrixDisplacement[i][j] = xyz[j] - matrixOldCoordinates[i][j];
+            }
+         }
+         matrixForce = electronicStructure->GetForce(elecState);
+         vectorForce = &matrixForce[0][0];
+
+         // Update Hessian
+         this->UpdateHessian(matrixHessian, dimension, vectorForce, vectorOldForce, &matrixDisplacement[0][0]);
+
       }
       *lineSearchedEnergy = lineSearchCurrentEnergy;
    }
