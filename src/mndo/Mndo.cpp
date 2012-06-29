@@ -1819,6 +1819,41 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
                                                    CartesianType_end);
 
       this->CalcOrbitalElectronPopulationFirstDerivatives(orbitalElectronPopulationFirstDerivatives);
+
+
+      for(int atomAIndex=0; atomAIndex<this->molecule->GetNumberAtoms(); atomAIndex++){
+         for(int axisA = XAxis; axisA<CartesianType_end; axisA++){
+            int k = atomAIndex*CartesianType_end + axisA;
+
+            // atomA == atomB
+            for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
+               int l = atomAIndex*CartesianType_end + axisA2;
+               for(int atomCIndex=0; atomCIndex<this->molecule->GetNumberAtoms(); atomCIndex++){
+                  // second derivatives of nuclear repulsions
+                  hessianSCF[k][l] += this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
+                                                                                   atomCIndex, 
+                                                                                   static_cast<CartesianType>(axisA), 
+                                                                                   static_cast<CartesianType>(axisA2));
+               }
+            }
+
+            // atomA < atomB
+            for(int atomBIndex=atomAIndex+1; atomBIndex<this->molecule->GetNumberAtoms(); atomBIndex++){
+               for(int axisB = XAxis; axisB<CartesianType_end; axisB++){
+                  int l = atomAIndex*CartesianType_end + axisB;
+
+                  // second derivatives of nuclear repulsions
+                  hessianSCF[k][l] -= this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
+                                                                                   atomBIndex, 
+                                                                                   static_cast<CartesianType>(axisA), 
+                                                                                   static_cast<CartesianType>(axisB));
+               
+
+                  hessianSCF[l][k] = hessianSCF[k][l];
+               }
+            }
+         }
+      }
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&orbitalElectronPopulationFirstDerivatives, 
