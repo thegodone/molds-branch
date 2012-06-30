@@ -476,7 +476,7 @@ public:
       delete [] p3d;
       delete [] p2d;
       delete [] p1d;
-      MallocerFreer::SubtCurrentMalloced(static_cast<double>(size1*size2*size3*size4*size5*sizeof(T)));
+      MallocerFreer::SubtCurrentMalloced(static_cast<double>(size1*size2*size3*size4*size5*size6*sizeof(T)));
       *matrix = NULL;
    }
 private:
