@@ -122,26 +122,39 @@ void Am1::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(S);
 }
 
+double Am1::GetAdditionalDiatomCoreRepulsionTerm(double k, double l, double m, double distance) const{
+   return k*exp(-l*pow(distance-m,2.0));
+}
+
+double Am1::GetAdditionalDiatomCoreRepulsionTermFirstDerivative(double k, double l, double m, double distance) const{
+   return -2.0*l*(distance-m)*k*exp(-l*pow(distance-m,2.0));
+}
+
 double Am1::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
+   // MNDO term
    double energy = Mndo::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
+
+   // additional term, Eq. (4) in [S_1989].
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
    double alphaA = atomA.GetNddoAlpha(this->theory);
    double alphaB = atomB.GetNddoAlpha(this->theory);
+   double kA, lA, mA;
+   double kB, lB, mB;
    double temp = 0.0;
    for(int i=0; i<4; i++){
-      double kA = atomA.GetNddoParameterK(this->theory, i);
-      double lA = atomA.GetNddoParameterL(this->theory, i);
-      double mA = atomA.GetNddoParameterM(this->theory, i);
-      double kB = atomB.GetNddoParameterK(this->theory, i);
-      double lB = atomB.GetNddoParameterL(this->theory, i);
-      double mB = atomB.GetNddoParameterM(this->theory, i);
-      temp += kA*exp(-lA*pow(distance-mA,2.0));
-      temp += kB*exp(-lB*pow(distance-mB,2.0));
+      kA = atomA.GetNddoParameterK(this->theory, i);
+      lA = atomA.GetNddoParameterL(this->theory, i);
+      mA = atomA.GetNddoParameterM(this->theory, i);
+      kB = atomB.GetNddoParameterK(this->theory, i);
+      lB = atomB.GetNddoParameterL(this->theory, i);
+      mB = atomB.GetNddoParameterM(this->theory, i);
+      temp += this->GetAdditionalDiatomCoreRepulsionTerm(kA, lA, mA, distance);
+      temp += this->GetAdditionalDiatomCoreRepulsionTerm(kB, lB, mB, distance);
    }
-   energy += atomA.GetCoreCharge()*atomB.GetCoreCharge()*temp/(distance/ang2AU);
+   energy += atomA.GetCoreCharge()*atomB.GetCoreCharge()*temp*ang2AU/distance;
    return energy;
 }
 
@@ -150,9 +163,11 @@ double Am1::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
 double Am1::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
                                                   int atomBIndex, 
                                                   CartesianType axisA) const{
+   // MNDO term
    double value = Mndo::GetDiatomCoreRepulsionFirstDerivative(atomAIndex,
                                                               atomBIndex,
                                                               axisA);
+   // additional term, first derivative of eq. (4) in [S_1989]
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
    const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
@@ -160,19 +175,21 @@ double Am1::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
    double alphaB = atomB.GetNddoAlpha(this->theory);
    double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
    double dCartesian = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA]);
+   double kA, lA, mA;
+   double kB, lB, mB;
    double temp1 = 0.0;
    double temp2 = 0.0;
    for(int i=0; i<4; i++){
-      double kA = atomA.GetNddoParameterK(this->theory, i);
-      double lA = atomA.GetNddoParameterL(this->theory, i);
-      double mA = atomA.GetNddoParameterM(this->theory, i);
-      double kB = atomB.GetNddoParameterK(this->theory, i);
-      double lB = atomB.GetNddoParameterL(this->theory, i);
-      double mB = atomB.GetNddoParameterM(this->theory, i);
-      temp1 += kA*exp(-lA*pow(distance-mA,2.0));
-      temp1 += kB*exp(-lB*pow(distance-mB,2.0));
-      temp2 += -2.0*lA*(distance-mA)*kA*exp(-lA*pow(distance-mA,2.0));
-      temp2 += -2.0*lB*(distance-mB)*kB*exp(-lB*pow(distance-mB,2.0));
+      kA = atomA.GetNddoParameterK(this->theory, i);
+      lA = atomA.GetNddoParameterL(this->theory, i);
+      mA = atomA.GetNddoParameterM(this->theory, i);
+      kB = atomB.GetNddoParameterK(this->theory, i);
+      lB = atomB.GetNddoParameterL(this->theory, i);
+      mB = atomB.GetNddoParameterM(this->theory, i);
+      temp1 += this->GetAdditionalDiatomCoreRepulsionTerm(kA, lA, mA, distance);
+      temp1 += this->GetAdditionalDiatomCoreRepulsionTerm(kB, lB, mB, distance);
+      temp2 += this->GetAdditionalDiatomCoreRepulsionTermFirstDerivative(kA, lA, mA, distance);
+      temp2 += this->GetAdditionalDiatomCoreRepulsionTermFirstDerivative(kB, lB, mB, distance);
    }
    value -= dCartesian*ang2AU
            *atomA.GetCoreCharge()

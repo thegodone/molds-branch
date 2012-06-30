@@ -37,6 +37,8 @@ protected:
                                                         int atomBIndex, 
                                                         MolDS_base::CartesianType axisA) const;
 private:
+   double GetAdditionalDiatomCoreRepulsionTerm(double k, double l, double m, double distance) const;
+   double GetAdditionalDiatomCoreRepulsionTermFirstDerivative(double k, double l, double m, double distance) const;
 };
 
 }
