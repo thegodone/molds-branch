@@ -155,9 +155,10 @@ double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) con
 double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
                                                       int atomBIndex, 
                                                       CartesianType axisA) const{
-   double value = Pm3::GetDiatomCoreRepulsionFirstDerivative(atomAIndex,
-                                                             atomBIndex,
-                                                             axisA);
+   // PM3 term
+   double pm3Term = Pm3::GetDiatomCoreRepulsionFirstDerivative(atomAIndex, atomBIndex, axisA);
+
+   // additional term, first derivative of eq. (4) in [RCJ_2002]
    const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
    double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
@@ -175,8 +176,9 @@ double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
                 *(-20.0*(distance-da-db));
       }
    }
-   value += temp*dCartesian/(distance*(na+nb));
-   return value;
+   double additionalTerm = temp*dCartesian/(distance*(na+nb));
+
+   return pm3Term + additionalTerm;
 }
 
 
