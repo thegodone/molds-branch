@@ -85,7 +85,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double** matrixOldCoordinates = NULL;
    double*  vectorOldCoordinates = NULL;
    double** matrixDisplacement   = NULL;
-   double maxNormStep = 0.3;
+   double       trustRadius     = 0.3;
+   const double maxNormStep     = 0.3;
    const double largeEigenvalue = 1.0e3;
 
    try{
@@ -192,10 +193,13 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          MallocerFreer::GetInstance()->Free(&tmpmatrix, dimension, dimension);
          MallocerFreer::GetInstance()->Free(&tmpvector, dimension);
 
+         // Limit the trustRadius to maxNormStep
+         trustRadius=min(trustRadius,maxNormStep);
+
          //Calculate RFO step
          MallocerFreer::GetInstance()->Malloc(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
          vectorStep = &matrixStep[0][0];
-         this->CalcRFOStep(vectorStep, matrixHessian, vectorForce, maxNormStep, dimension);
+         this->CalcRFOStep(vectorStep, matrixHessian, vectorForce, trustRadius, dimension);
 
          // Calculate approximate change of energy using
          // [2/2] Pade approximant
@@ -270,20 +274,20 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             molecule.SetCanOutputLogs(tempCanOutputLogs);
             // and rerun with smaller trust radius
             // without updating Hessian
-            maxNormStep /= 4;
+            trustRadius /= 4;
             continue;
          }
          else if(r<0.25){
-            maxNormStep /= 4;
+            trustRadius /= 4;
          }
          else if(r<0.75){
             // keep trust radius
          }
          else if(r<2){
-            maxNormStep *= 2;
+            trustRadius *= 2;
          }
          else{
-            maxNormStep /= 2;
+            trustRadius /= 2;
          }
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
          MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
@@ -321,7 +325,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
 void BFGS::CalcRFOStep(double* vectorStep,
                        double const* const* matrixHessian,
                        double const* vectorForce,
-                       const double maxNormStep,
+                       const double trustRadius,
                        const int dimension) const{
    double** matrixAugmentedHessian = NULL;
    double*  vectorEigenValues      = NULL;
@@ -377,14 +381,14 @@ void BFGS::CalcRFOStep(double* vectorStep,
          this->OutputLog((boost::format("3rd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[2]).str());
          this->OutputLog((boost::format("Calculated RFO step size                       = %f\n") % normStep).str());
 
-         this->OutputLog((boost::format("Trust radius is %f\n") % maxNormStep).str());
-         // Limit the step size to maxNormStep
-         if(normStep > maxNormStep){
-            alpha *= normStep / maxNormStep * 1.1; // 1.1 is speed up factor
+         this->OutputLog((boost::format("Trust radius is %f\n") % trustRadius).str());
+         // Limit the step size to trustRadius
+         if(normStep > trustRadius){
+            alpha *= normStep / trustRadius * 1.1; // 1.1 is speed up factor
             this->OutputLog((boost::format("Scaling factor is increased to %e.\n") % alpha).str());
             this->OutputLog("Recalculating RFO step...\n");
          }
-      }while(normStep > maxNormStep);
+      }while(normStep > trustRadius);
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free(&matrixAugmentedHessian, dimension+1, dimension+1);
