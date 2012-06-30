@@ -223,6 +223,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
             lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
          }
+         this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
+
          // Calculate the correctness of the approximation
          double r = (lineSearchCurrentEnergy - lineSearchInitialEnergy)
                   / approximateChange; // correctness of the step
