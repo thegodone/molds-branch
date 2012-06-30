@@ -126,7 +126,10 @@ void Pm3Pddg::SetEnableAtomTypes(){
 }
 
 double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
-   double energy = Pm3::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
+   // PM3 term
+   double pm3Term = Pm3::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
+
+   // additional term, eq. (4) in [RCJ_2002]
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double na = static_cast<double>(atomA.GetNumberValenceElectrons());
@@ -142,8 +145,9 @@ double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) con
          temp += (na*pa +nb*pb)*exp(-10.0*pow((distance-da-db),2.0));
       }
    }
-   energy += temp/(na+nb);
-   return energy;
+   double additionalTerm = temp/(na+nb);
+   
+   return pm3Term + additionalTerm;
 }
 
 // First derivative of diatomic core repulsion energy.
