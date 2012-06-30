@@ -174,15 +174,16 @@ double Am1::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
       temp2 += -2.0*lA*(distance-mA)*kA*exp(-lA*pow(distance-mA,2.0));
       temp2 += -2.0*lB*(distance-mB)*kB*exp(-lB*pow(distance-mB,2.0));
    }
-   value -= dCartesian/distance
+   value -= dCartesian*ang2AU
            *atomA.GetCoreCharge()
            *atomB.GetCoreCharge()
            *temp1
-           /(pow(distance,2.0)/ang2AU);
-   value += dCartesian/distance
+           /pow(distance,3.0);
+   value += dCartesian*ang2AU
            *atomA.GetCoreCharge()
            *atomB.GetCoreCharge()
-           *temp2/(distance/ang2AU);
+           *temp2
+           /pow(distance,2.0);
    return value;
 }
 
