@@ -83,15 +83,49 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double*  vectorStep           = NULL;
    double** matrixStep           = NULL;
    double** matrixOldCoordinates = NULL;
+   double*  vectorOldCoordinates = NULL;
    double** matrixDisplacement   = NULL;
    double maxNormStep = 0.3;
+   const double largeEigenvalue = 1.0e3;
 
    try{
-      // initialize Hessian with unit matrix
+      // initialize Hessian
       MallocerFreer::GetInstance()->Malloc(&matrixHessian, dimension, dimension);
       for(int i=0; i<dimension; i++){
          for(int j=i; j<dimension; j++){
-            matrixHessian[i][j] = matrixHessian[j][i] = i==j ? 1.0 : 0.0;
+            // Make translational mode eigenvalue to be largeEigenvalue
+            matrixHessian[i][j] = matrixHessian[j][i] = (i%3==j%3 ? (largeEigenvalue-1)/molecule.GetNumberAtoms() : 0.0)
+                                                      + (i==j ? 1:0);
+         }
+      }
+      // Make rotational mode eigenvalue to be large eigenvalue
+      MallocerFreer::GetInstance()->Malloc(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+      vectorOldCoordinates = &matrixOldCoordinates[0][0];
+      for(int c=0;c<CartesianType_end;c++){
+         MallocerFreer::GetInstance()->Initialize<double>(matrixOldCoordinates,
+                                                          molecule.GetNumberAtoms(),
+                                                          CartesianType_end);
+         // Extract the rotational mode orthogonal to the translational mode
+         double dotProductTransRot = 0; // Dot product of rotational and translational mode
+         for(int n=0;n<molecule.GetNumberAtoms();n++){
+            const Atom*   atom = molecule.GetAtom(n);
+            const double* xyz  = atom->GetXyz();
+            matrixOldCoordinates[n][c] = xyz[c];
+            dotProductTransRot += xyz[c] / sqrt(molecule.GetNumberAtoms()*1.0);
+         }
+         double rotNorm2 = 0; // Norm of the extracted rotational mode
+         for(int n=0;n<molecule.GetNumberAtoms();n++){
+            // Orthogonalization
+            matrixOldCoordinates[n][c] -= dotProductTransRot / sqrt(molecule.GetNumberAtoms());
+            rotNorm2 += matrixOldCoordinates[n][c] * matrixOldCoordinates[n][c];
+         }
+         for(int i=0; i<dimension; i++){
+            for(int j=i; j<dimension; j++){
+               matrixHessian[i][j] += vectorOldCoordinates[i]
+                                    * vectorOldCoordinates[j]
+                                    / rotNorm2 * (largeEigenvalue-1);
+               matrixHessian[j][i] = matrixHessian[i][j];
+            }
          }
       }
 
@@ -114,7 +148,6 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
 
          //Store old coordinates
-         MallocerFreer::GetInstance()->Malloc(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
          for(int i=0;i<molecule.GetNumberAtoms();i++){
             const Atom*   atom = molecule.GetAtom(i);
             const double* xyz  = atom->GetXyz();
