@@ -105,24 +105,42 @@ public:
       double wannaMalloc = static_cast<double>(size1*size2*size3*sizeof(T));
       this->CheckLimitHeap(wannaMalloc);
 
-      *matrix = new T**[size1];
-      if(*matrix==NULL){
-         throw MolDSException(this->errorMessageMallocFailure);
-      }
-      for(int i=0;i<size1;i++) {
-         (*matrix)[i] = new T*[size2];
-         if((*matrix)[i]==NULL){
+      T *p1d=NULL, **p2d=NULL, ***p3d=NULL;
+      try{
+         p1d = new T[size1*size2*size3];
+         if(p1d==NULL){
             throw MolDSException(this->errorMessageMallocFailure);
          }
-         for(int j=0;j<size2;j++){
-            (*matrix)[i][j] = new T[size3];
-            if((*matrix)[i][j]==NULL){
-               throw MolDSException(this->errorMessageMallocFailure);
+         p2d = new T*[size1*size2];
+         if(p2d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+         p3d = new T**[size1];
+         if(p3d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+
+         for(int i=0;i<size1;i++){
+            p3d[i] = &p2d[i*size2];
+            for(int j=0;j<size2;j++){
+               p3d[i][j] = &p1d[i*size2*size3+j*size3];
             }
          }
+         *matrix = p3d;
+         MallocerFreer::AddCurrentMalloced(wannaMalloc);
+         this->Initialize<T>(*matrix, size1, size2, size3);
       }
-      MallocerFreer::AddCurrentMalloced(wannaMalloc);
-      this->Initialize<T>(*matrix, size1, size2, size3);
+      catch(MolDSException ex){
+         if(p1d!=NULL){
+            delete[] p1d;
+         }
+         if(p2d!=NULL){
+            delete[] p2d;
+         }
+         if(p3d!=NULL){
+            delete[] p3d;
+         }
+      }
    }
 
    template<typename T> void Initialize(T*** matrix, int size1, int size2, int size3) const{
@@ -139,13 +157,13 @@ public:
       if(*matrix==NULL){
          return;
       }
-      for (int i=0;i<size1;i++) {
-         for (int j=0;j<size2;j++) {
-            delete [] (*matrix)[i][j];
-         }
-         delete [] (*matrix)[i];
-      }
-      delete [] *matrix;
+      T *p1d=NULL, **p2d=NULL, ***p3d=NULL;
+      p3d = *matrix;
+      p2d = p3d[0];
+      p1d = p2d[0];
+      delete [] p3d;
+      delete [] p2d;
+      delete [] p1d;
       MallocerFreer::SubtCurrentMalloced(static_cast<double>(size1*size2*size3*sizeof(T)));
       *matrix = NULL;
    }
