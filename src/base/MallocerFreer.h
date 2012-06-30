@@ -140,6 +140,7 @@ public:
          if(p3d!=NULL){
             delete[] p3d;
          }
+         throw ex;
       }
    }
 
@@ -221,6 +222,7 @@ public:
          if(p4d!=NULL){
             delete[] p4d;
          }
+         throw ex;
       }
    }
 
@@ -319,6 +321,7 @@ public:
          if(p5d!=NULL){
             delete[] p5d;
          }
+         throw ex;
       }
    }
 
