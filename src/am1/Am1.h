@@ -36,9 +36,14 @@ protected:
    virtual double GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
                                                         int atomBIndex, 
                                                         MolDS_base::CartesianType axisA) const;
+   virtual double GetDiatomCoreRepulsionSecondDerivative(int atomAIndex,
+                                                         int atomBIndex, 
+                                                         MolDS_base::CartesianType axisA1,
+                                                         MolDS_base::CartesianType axisA2) const;
 private:
    double GetAdditionalDiatomCoreRepulsionTerm(double k, double l, double m, double distance) const;
    double GetAdditionalDiatomCoreRepulsionTermFirstDerivative(double k, double l, double m, double distance) const;
+   double GetAdditionalDiatomCoreRepulsionTermSecondDerivative(double k, double l, double m, double distance) const;
 };
 
 }
