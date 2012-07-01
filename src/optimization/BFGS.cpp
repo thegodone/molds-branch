@@ -345,17 +345,20 @@ void BFGS::UpdateHessian(double **matrixHessian,
    double** HKKH = NULL;                           // H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
    try{
       MallocerFreer::GetInstance()->Malloc(&P, dimension);
+#pragma omp parallel for schedule(auto)
       for(int i=0; i<dimension; i++){
          // initialize P_k according to Eq. (14) in [SJTO_1983]
          // note: gradient = -1 * force
          P[i] = - (vectorForce[i] - vectorOldForce[i]);
       }
       double PK = 0; // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
+#pragma omp parallel for schedule(auto)
       for(int i=0; i<dimension;i++){
          PK += P[i] * K[i];
       }
       //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
       MallocerFreer::GetInstance()->Malloc(&PP, dimension, dimension);
+#pragma omp parallel for schedule(auto)
       for(int i=0; i<dimension;i++){
          for(int j=i;j<dimension;j++){
             PP[i][j] = PP[j][i] = P[i] * P[j];
@@ -363,6 +366,7 @@ void BFGS::UpdateHessian(double **matrixHessian,
       }
       //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
       MallocerFreer::GetInstance()->Malloc(&HK, dimension);
+#pragma omp parallel for schedule(auto)
       for(int i=0; i<dimension; i++){
          HK[i] = 0;
          for(int j=0; j<dimension; j++){
@@ -375,6 +379,7 @@ void BFGS::UpdateHessian(double **matrixHessian,
       }
       //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
       MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
+#pragma omp parallel for schedule(auto)
       for(int i=0;i<dimension;i++){
          for(int j=i;j<dimension;j++){
             // H_k K_k = (K_k^T H_k)^T because H_k^T = H_k
@@ -383,6 +388,7 @@ void BFGS::UpdateHessian(double **matrixHessian,
       }
 
       // Calculate H_k+1 according to Eq. (13) in [SJTO_1983]
+#pragma omp parallel for schedule(auto)
       for(int i=0;i<dimension;i++){
          for(int j=i;j<dimension;j++){
             matrixHessian[i][j]+= (PP[i][j] / PK
