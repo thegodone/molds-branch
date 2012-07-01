@@ -43,6 +43,8 @@ private:
                       double const* vectorForce,
                       double const* vectorOldForce,
                       double const* vectorDisplacement) const;
+   void ShiftHesssianRedundantMode(double** matrixHessian,
+                                   const MolDS_base::Molecule& molecule) const;
 };
 
 }

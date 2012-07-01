@@ -87,46 +87,13 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double** matrixDisplacement   = NULL;
    double       trustRadius     = 0.3;
    const double maxNormStep     = 0.3;
-   const double largeEigenvalue = 1.0e3;
 
    try{
-      // initialize Hessian
+      // initialize Hessian with unit matrix
       MallocerFreer::GetInstance()->Malloc(&matrixHessian, dimension, dimension);
       for(int i=0; i<dimension; i++){
          for(int j=i; j<dimension; j++){
-            // Make translational mode eigenvalue to be largeEigenvalue
-            matrixHessian[i][j] = matrixHessian[j][i] = (i%3==j%3 ? (largeEigenvalue-1)/molecule.GetNumberAtoms() : 0.0)
-                                                      + (i==j ? 1:0);
-         }
-      }
-      // Make rotational mode eigenvalue to be large eigenvalue
-      MallocerFreer::GetInstance()->Malloc(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
-      vectorOldCoordinates = &matrixOldCoordinates[0][0];
-      for(int c=0;c<CartesianType_end;c++){
-         MallocerFreer::GetInstance()->Initialize<double>(matrixOldCoordinates,
-                                                          molecule.GetNumberAtoms(),
-                                                          CartesianType_end);
-         // Extract the rotational mode orthogonal to the translational mode
-         double dotProductTransRot = 0; // Dot product of rotational and translational mode
-         for(int n=0;n<molecule.GetNumberAtoms();n++){
-            const Atom*   atom = molecule.GetAtom(n);
-            const double* xyz  = atom->GetXyz();
-            matrixOldCoordinates[n][c] = xyz[c];
-            dotProductTransRot += xyz[c] / sqrt(molecule.GetNumberAtoms()*1.0);
-         }
-         double rotNorm2 = 0; // Norm of the extracted rotational mode
-         for(int n=0;n<molecule.GetNumberAtoms();n++){
-            // Orthogonalization
-            matrixOldCoordinates[n][c] -= dotProductTransRot / sqrt(molecule.GetNumberAtoms());
-            rotNorm2 += matrixOldCoordinates[n][c] * matrixOldCoordinates[n][c];
-         }
-         for(int i=0; i<dimension; i++){
-            for(int j=i; j<dimension; j++){
-               matrixHessian[i][j] += vectorOldCoordinates[i]
-                                    * vectorOldCoordinates[j]
-                                    / rotNorm2 * (largeEigenvalue-1);
-               matrixHessian[j][i] = matrixHessian[i][j];
-            }
+            matrixHessian[i][j] = matrixHessian[j][i] = i==j ? 1.0 : 0.0;
          }
       }
 
@@ -149,6 +116,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
 
          //Store old coordinates
+         MallocerFreer::GetInstance()->Malloc(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
          for(int i=0;i<molecule.GetNumberAtoms();i++){
             const Atom*   atom = molecule.GetAtom(i);
             const double* xyz  = atom->GetXyz();
@@ -156,42 +124,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
                matrixOldCoordinates[i][j] = xyz[j];
             }
          }
-
-         // Calculate Hessian eigenvalues
-         // TODO: Decide whether this routine is necessary
-         double** tmpmatrix = NULL;
-         double*  tmpvector = NULL;
-         try{
-            MallocerFreer::GetInstance()->Malloc(&tmpmatrix, dimension, dimension);
-            for(int i=0;i<dimension;i++){
-               for(int j=i;j<dimension;j++){
-                  tmpmatrix[i][j] = tmpmatrix[j][i] = matrixHessian[i][j];
-               }
-            }
-            bool calcEigenVectors = false;
-            MallocerFreer::GetInstance()->Malloc(&tmpvector, dimension);
-            MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&tmpmatrix[0],
-                                                          &tmpvector[0],
-                                                          dimension,
-                                                          calcEigenVectors);
-            this->OutputLog("Eigenvalues of the hessian:");
-            for(int i=0;i<dimension;i++){
-               if((i%6) == 0){
-                  this->OutputLog((boost::format("\n%e")%tmpvector[i]).str());
-               }
-               else{
-                  this->OutputLog((boost::format(",\t%e")%tmpvector[i]).str());
-               }
-            }
-            this->OutputLog("\n");
-         }
-         catch(MolDSException ex){
-            MallocerFreer::GetInstance()->Free(&tmpmatrix, dimension, dimension);
-            MallocerFreer::GetInstance()->Free(&tmpvector, dimension);
-            throw ex;
-         }
-         MallocerFreer::GetInstance()->Free(&tmpmatrix, dimension, dimension);
-         MallocerFreer::GetInstance()->Free(&tmpvector, dimension);
+         // Level shift Hessian redundant modes
+         this->ShiftHesssianRedundantMode(matrixHessian, molecule);
 
          // Limit the trustRadius to maxNormStep
          trustRadius=min(trustRadius,maxNormStep);
@@ -468,5 +402,180 @@ void BFGS::UpdateHessian(double **matrixHessian,
    MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
    MallocerFreer::GetInstance()->Free(&HK, dimension);
    MallocerFreer::GetInstance()->Free(&HKKH, dimension,dimension);
+}
+
+// Level shift eigenvalues of redandant modes to largeEigenvalue
+void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
+                                      const Molecule& molecule) const{
+   const double largeEigenvalue      = 1.0e3;
+   const int    numAtoms             = molecule.GetNumberAtoms();
+   const int    dimension            = numAtoms *CartesianType_end;
+   int          numIndependentModes  = CartesianType_end *2;
+   double** vectorsHessianModes      = NULL;
+   double*  vectorHessianEigenValues = NULL;
+   double** matrixesRedundantModes[CartesianType_end*2] = {NULL, NULL, NULL, NULL, NULL, NULL};
+   double*  vectorsRedundantModes[CartesianType_end *2] = {NULL, NULL, NULL, NULL, NULL, NULL};
+   double   matrixesRotationalModeGenerators[CartesianType_end]
+                                            [CartesianType_end]
+                                            [CartesianType_end] = {{{0,  0, 0}, {0, 0, -1}, { 0, 1, 0}},
+                                                                   {{0,  0, 1}, {0, 0,  0}, {-1, 0, 0}},
+                                                                   {{0, -1, 0}, {1, 0,  0}, { 0, 0, 0}}};
+
+   try{
+      // Prepare translational modes
+      for(int c=0; c<CartesianType_end;c++){
+         MallocerFreer::GetInstance()->Malloc(&matrixesRedundantModes[c], numAtoms, CartesianType_end);
+         vectorsRedundantModes[c] = &matrixesRedundantModes[c][0][0];
+         for(int n=0;n<numAtoms;n++){
+            for(int d=0;d<CartesianType_end;d++){
+               matrixesRedundantModes[c][n][d] = c==d? 1.0 : 0.0;
+            }
+         }
+      }
+      // Prepare rotational modes
+      for(int c=0; c<CartesianType_end;c++){
+         MallocerFreer::GetInstance()->Malloc(&matrixesRedundantModes[c+CartesianType_end], numAtoms, CartesianType_end);
+         vectorsRedundantModes[c+CartesianType_end] = &matrixesRedundantModes[c+CartesianType_end][0][0];
+         for(int n=0;n<numAtoms;n++){
+            const double* xyz = molecule.GetAtom(n)->GetXyz();
+            for(int d=0;d<CartesianType_end;d++){
+               matrixesRedundantModes[c+CartesianType_end][n][d] = 0.0;
+               for(int e=0;e<CartesianType_end;e++){
+                  matrixesRedundantModes[c+CartesianType_end][n][d] += matrixesRotationalModeGenerators[c][d][e] * xyz[e];
+               }
+            }
+         }
+      }
+      // Orthonormalize redundant modes
+      // using Gram-Schmidt process
+      for(int c=0; c<numIndependentModes;c++){
+         for(int d=0;d<c;d++){
+            double dotproduct = 0.0;
+            for(int i=0;i<dimension;i++){
+               dotproduct += vectorsRedundantModes[d][i] * vectorsRedundantModes[c][i];
+            }
+            for(int i=0;i<dimension;i++){
+               vectorsRedundantModes[c][i] -= dotproduct * vectorsRedundantModes[d][i];
+            }
+         }
+         double norm = 0.0;
+         for(int i=0;i<dimension;i++){
+            norm += vectorsRedundantModes[c][i] * vectorsRedundantModes[c][i];
+         }
+         norm = sqrt(norm);
+         // Eliminate a linear dependent mode
+         if(norm < 1e-5){
+            numIndependentModes--;
+            for(int d=c;d<numIndependentModes;d++){
+               for(int i=0;i<dimension;i++){
+                  vectorsRedundantModes[d][i] = vectorsRedundantModes[d+1][i];
+               }
+            }
+         }
+         else{
+            for(int i=0;i<dimension;i++){
+               vectorsRedundantModes[c][i] /= norm;
+            }
+         }
+      }
+
+      // Diagonalize hessian
+      MallocerFreer::GetInstance()->Malloc(&vectorHessianEigenValues, dimension);
+      MallocerFreer::GetInstance()->Malloc(&vectorsHessianModes, dimension, dimension);
+      for(int i=0; i<dimension; i++){
+         for(int j=0; j<dimension; j++){
+            vectorsHessianModes[i][j] = matrixHessian[i][j];
+         }
+      }
+      bool calcEigenVectors = true;
+      MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&vectorsHessianModes[0],
+                                                    &vectorHessianEigenValues[0],
+                                                    dimension,
+                                                    calcEigenVectors);
+
+      // Output eigenvalues of the raw Hessianto the log
+      this->OutputLog("Eigenvalues of the raw Hessian:");
+      for(int i=0;i<dimension;i++){
+         if((i%6) == 0){
+            this->OutputLog((boost::format("\n%e")%vectorHessianEigenValues[i]).str());
+         }
+         else{
+            this->OutputLog((boost::format(",\t%e")%vectorHessianEigenValues[i]).str());
+         }
+      }
+      this->OutputLog("\n");
+
+      // Orthogonalize vectorsHessianModes against vectorsRedundantModes
+      for(int i=0;i<dimension-numIndependentModes;i++){
+         for(int c=0; c<numIndependentModes;c++){
+            double dotproduct = 0.0;
+            for(int j=0;j<dimension;j++){
+               dotproduct += vectorsHessianModes[i][j] * vectorsRedundantModes[c][j];
+            }
+            for(int j=0;j<dimension;j++){
+               vectorsHessianModes[i][j] -= dotproduct * vectorsRedundantModes[c][j];
+            }
+            double norm = 0.0;
+            for(int j=0;j<dimension;j++){
+               norm += vectorsHessianModes[i][j] * vectorsHessianModes[i][j];
+            }
+            norm = sqrt(norm);
+            for(int j=0;j<dimension;j++){
+               vectorsHessianModes[i][j] /= norm;
+            }
+         }
+      }
+
+      // Calculate projected eigenvalues of new modes
+      for(int i=0;i<dimension-numIndependentModes;i++){
+         vectorHessianEigenValues[i] = 0.0;
+         for(int j=0;j<dimension;j++){
+            for(int k=0;k<dimension;k++){
+               vectorHessianEigenValues[i] += vectorsHessianModes[i][j] * matrixHessian[j][k] * vectorsHessianModes[i][k];
+            }
+         }
+      }
+      for(int i=dimension-numIndependentModes;i<dimension;i++){
+         vectorHessianEigenValues[i] = largeEigenvalue;
+      }
+
+      // Output eigenvalues of the raw Hessianto the log
+      this->OutputLog("Eigenvalues of the level shifted hessian:");
+      for(int i=0;i<dimension;i++){
+         if((i%6) == 0){
+            this->OutputLog((boost::format("\n%e")%vectorHessianEigenValues[i]).str());
+         }
+         else{
+            this->OutputLog((boost::format(",\t%e")%vectorHessianEigenValues[i]).str());
+         }
+      }
+      this->OutputLog("\n");
+
+      // Calculate shifted Hessian from eigenvalues and modes
+      for(int i=0;i<dimension;i++){
+         for(int j=0;j<dimension;j++){
+            matrixHessian[i][j] = 0.0;
+            for(int k=0;k<dimension-numIndependentModes;k++){
+               matrixHessian[i][j] += vectorsHessianModes[k][i] * vectorsHessianModes[k][j] * vectorHessianEigenValues[k];
+            }
+            for(int k=0;k<numIndependentModes;k++){
+               matrixHessian[i][j] += vectorsRedundantModes[k][i] * vectorsRedundantModes[k][j] * largeEigenvalue;
+            }
+         }
+      }
+   }
+   catch(MolDSException ex)
+   {
+      for(int i=0;i<CartesianType_end*2;i++){
+         MallocerFreer::GetInstance()->Free(&matrixesRedundantModes[i], numAtoms, CartesianType_end);
+      }
+      MallocerFreer::GetInstance()->Free(&vectorHessianEigenValues, dimension);
+      MallocerFreer::GetInstance()->Free(&vectorsHessianModes, dimension, dimension);
+   }
+   for(int i=0;i<CartesianType_end*2;i++){
+      MallocerFreer::GetInstance()->Free(&matrixesRedundantModes[i], numAtoms, CartesianType_end);
+   }
+   MallocerFreer::GetInstance()->Free(&vectorHessianEigenValues, dimension);
+   MallocerFreer::GetInstance()->Free(&vectorsHessianModes, dimension, dimension);
 }
 }
