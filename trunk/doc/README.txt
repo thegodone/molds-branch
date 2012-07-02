@@ -329,7 +329,7 @@ HOW TO WRITE INPUT:
 
    <Particle Plot>
       Write particle plot directive for the output of the density of 
-      the particle which lives avobe Fermi's see.
+      the particle which lives avobe Fermi's sea.
       Note that this plot is valid only when CIS is required.
 
       E.g.
