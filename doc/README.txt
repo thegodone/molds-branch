@@ -328,7 +328,7 @@ HOW TO WRITE INPUT:
          HOLEPLOT_END
 
    <Particle Plot>
-      Write particle plot directive for the output of the density of i
+      Write particle plot directive for the output of the density of 
       the particle which lives avobe Fermi's see.
       Note that this plot is valid only when CIS is required.
 
