@@ -312,6 +312,7 @@ void InputParser::SetMessages(){
    this->stringOptimization = "optimization";
    this->stringOptimizationEnd = "optimization_end";
    this->stringOptimizationMethod = "method";
+   this->stringOptimizationBFGS = "bfgs";
    this->stringOptimizationConjugateGradient = "conjugate_gradient";
    this->stringOptimizationSteepestDescent = "steepest_descent";
    this->stringOptimizationTotalSteps = "total_steps";
@@ -864,6 +865,9 @@ int InputParser::ParseConditionsOptimization(vector<string>* inputTerms, int par
          }
          else if((*inputTerms)[parseIndex+1].compare(this->stringOptimizationSteepestDescent) == 0){
             Parameters::GetInstance()->SetMethodOptimization(SteepestDescentMethod);
+         }
+         else if((*inputTerms)[parseIndex+1].compare(this->stringOptimizationBFGS) == 0){
+            Parameters::GetInstance()->SetMethodOptimization(BFGSMethod);
          }
          else{
          }
@@ -1430,9 +1434,17 @@ void InputParser::OutputOptimizationConditions() const{
                                              % Parameters::GetInstance()->GetMaxGradientOptimization()).str());
    this->OutputLog((boost::format("%s%lf\n") % this->messageOptimizationRmsGradient.c_str() 
                                              % Parameters::GetInstance()->GetRmsGradientOptimization()).str());
-   this->OutputLog((boost::format("%s%lf%s\n") % this->messageOptimizationTimeWidth.c_str() 
-                                               % (Parameters::GetInstance()->GetTimeWidthOptimization()/Parameters::GetInstance()->GetFs2AU())
-                                               % this->messageFs.c_str()).str());
+
+   switch(Parameters::GetInstance()->GetMethodOptimization()){
+      case ConjugateGradientMethod:
+      case SteepestDescentMethod:
+         this->OutputLog((boost::format("%s%lf%s\n") % this->messageOptimizationTimeWidth.c_str() 
+                                                     % (Parameters::GetInstance()->GetTimeWidthOptimization()/Parameters::GetInstance()->GetFs2AU())
+                                                     % this->messageFs.c_str()).str());
+         break;
+      default:
+         break;
+   }
 
    this->OutputLog("\n");
 }

@@ -241,6 +241,7 @@ private:
    std::string stringOptimization;
    std::string stringOptimizationEnd;
    std::string stringOptimizationMethod;
+   std::string stringOptimizationBFGS;
    std::string stringOptimizationConjugateGradient;
    std::string stringOptimizationSteepestDescent;
    std::string stringOptimizationTotalSteps;

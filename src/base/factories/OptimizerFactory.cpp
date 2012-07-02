@@ -35,6 +35,7 @@
 #include"../ElectronicStructure.h"
 #include"../../optimization/Optimizer.h"
 #include"../../optimization/ConjugateGradient.h"
+#include"../../optimization/BFGS.h"
 #include"../../optimization/SteepestDescent.h"
 #include"OptimizerFactory.h"
 using namespace std;
@@ -48,6 +49,9 @@ MolDS_optimization::Optimizer* OptimizerFactory::Create(OptimizationMethodType m
    MolDS_optimization::Optimizer* optimizer=NULL;
    if(methodType == ConjugateGradientMethod ){
       optimizer = new MolDS_optimization::ConjugateGradient();
+   }
+   else if(methodType == BFGSMethod ){
+      optimizer = new MolDS_optimization::BFGS();
    }
    else if(methodType == SteepestDescentMethod ){
       optimizer = new MolDS_optimization::SteepestDescent();
