@@ -1,0 +1,2548 @@
+
+
+     >>>>>  Welcome to the MolDS world at 2012/7/2(Mon.) 16:2:53  <<<<<
+
+
+**********  START: Parse input  **********
+	Total number of atoms: 8
+	Total number of valence AOs: 14
+	Total number of valence electrons: 14
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-1.889726e-01	1.889726e-01	0.000000e+00		-1.000000e-01	1.000000e-01	0.000000e+00
+	Atom coordinates:	1	C	3.200818e+00	0.000000e+00	-1.889726e-01		1.693800e+00	0.000000e+00	-1.000000e-01
+	Atom coordinates:	2	H	-7.199857e-01	2.156367e+00	0.000000e+00		-3.810000e-01	1.141100e+00	0.000000e+00
+	Atom coordinates:	3	H	-5.066356e-01	-9.836025e-01	-1.703777e+00		-2.681000e-01	-5.205000e-01	-9.016000e-01
+	Atom coordinates:	4	H	-6.956082e-01	-8.928956e-01	1.514804e+00		-3.681000e-01	-4.725000e-01	8.016000e-01
+	Atom coordinates:	5	H	3.688556e+00	9.826576e-01	-1.702076e+00		1.951900e+00	5.200000e-01	-9.007000e-01
+	Atom coordinates:	6	H	3.499584e+00	1.001555e+00	1.513104e+00		1.851900e+00	5.300000e-01	8.007000e-01
+	Atom coordinates:	7	H	3.310611e+00	-1.965504e+00	-1.889726e-01		1.751900e+00	-1.040100e+00	-1.000000e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.490536e+00	8.549128e-02	-9.448631e-02		7.887578e-01	4.524004e-02	-5.000000e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.490541e+00	8.549388e-02	-9.448631e-02		7.887601e-01	4.524141e-02	-5.000000e-02
+
+	SCF conditions:
+		Max iterations: 50
+		RMS density: 1.000000e-06
+		Damping threshold: 1.000000e+00
+		Damping weight: 0.000000e+00
+		DIIS number of error vectors: 5
+		DIIS starting error: 1.000000e-01
+		DIIS ending error: 2.000000e-08
+		van der Waals (vdW) correction: no
+
+	Memory conditions:
+		Heap limit: 2.560000e+02[MB]
+
+	Optimization conditions:
+		Method: BFGS
+		Total steps: 50
+		Electronic eigenstate: 0
+		Max gradient: 0.000450
+		Rms gradient: 0.000300
+
+Input terms:
+theory | pm3/pddg | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
+damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.00000002 | scf_end | optimization | 
+method | bfgs | total_steps | 50 | electronic_state | 0 | max_gradient | 0.00045 | rms_gradient | 0.00030 | 
+optimization_end | geometry | c | -0.1000 | 0.1000 | 0.0000 | c | 1.6938 | 0.0000 | -0.1000 | 
+h | -0.381 | 1.1411 | 0.0000 | h | -0.2681 | -0.5205 | -0.9016 | h | -0.3681 | 
+-0.4725 | 0.8016 | h | 1.9519 | 0.5200 | -0.9007 | h | 1.8519 | 0.5300 | 0.8007 | 
+h | 1.7519 | -1.0401 | -0.1000 | geometry_end | 
+
+**********  DONE: Parse input  ***********
+
+
+**********  START: Geometry optimization  **********
+**********  START: PM3/PDDG-SCF  **********
+SCF iter=0: RMS density=5.291502622129187
+SCF iter=1: RMS density=1.776302500713476
+SCF iter=2: RMS density=0.953825787215981
+SCF iter=3: RMS density=0.523019383342596
+SCF iter=4: RMS density=0.287694781515640
+SCF iter=5: RMS density=0.158473555927058
+SCF iter=6: RMS density=0.001365259404938
+SCF iter=7: RMS density=0.000269846866810
+SCF iter=8: RMS density=0.000098252575143
+SCF iter=9: RMS density=0.000042078671238
+SCF iter=10: RMS density=0.000013333148822
+SCF iter=11: RMS density=0.000002624318414
+SCF iter=12: RMS density=0.000000435961069
+
+
+
+		PM3/PDDG-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.259927e+00	-3.428464e+01
+	Energy of MO:	1	occ	-8.922997e-01	-2.428090e+01
+	Energy of MO:	2	occ	-5.710686e-01	-1.553969e+01
+	Energy of MO:	3	occ	-5.495756e-01	-1.495483e+01
+	Energy of MO:	4	occ	-4.834402e-01	-1.315518e+01
+	Energy of MO:	5	occ	-4.681430e-01	-1.273892e+01
+	Energy of MO:	6	occ	-4.113054e-01	-1.119228e+01
+	Energy of MO:	7	unocc	9.040476e-02	2.460058e+00
+	Energy of MO:	8	unocc	1.450770e-01	3.947778e+00
+	Energy of MO:	9	unocc	1.572431e-01	4.278837e+00
+	Energy of MO:	10	unocc	1.819105e-01	4.950077e+00
+	Energy of MO:	11	unocc	1.930776e-01	5.253951e+00
+	Energy of MO:	12	unocc	1.943505e-01	5.288588e+00
+	Energy of MO:	13	unocc	2.057980e-01	5.600092e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.224319e+01	-3.331569e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.142555e+01	5.830235e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-6.281977e-02	1.128565e-01	-1.942001e-02	1.306141e-01		-1.596720e-01	2.868527e-01	-4.936074e-02	3.319881e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.808451e-01	2.553037e-01	-1.942001e-02	3.134678e-01		4.596626e-01	6.489173e-01	-4.936074e-02	7.967558e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.436649e-01	-1.424472e-01	-5.273559e-16	2.822477e-01		-6.193345e-01	-3.620646e-01	-1.340405e-15	7.174023e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-3.160865e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.859222e-01
+	Mulliken charge:	2	H	1.000000e+00	1.131464e-01
+	Mulliken charge:	3	H	1.000000e+00	9.016184e-02
+	Mulliken charge:	4	H	1.000000e+00	9.227697e-02
+	Mulliken charge:	5	H	1.000000e+00	9.978754e-02
+	Mulliken charge:	6	H	1.000000e+00	9.774623e-02
+	Mulliken charge:	7	H	1.000000e+00	1.088898e-01
+
+	Elapsed time(omp) for the SCF = 1.070586[s].
+**********  DONE: PM3/PDDG-SCF  **********
+
+
+
+==========  START: BFGS step 1
+
+Eigenvalues of the raw Hessian:
+1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00
+1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00
+1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00
+1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00
+Eigenvalues of the level shifted hessian:
+1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00
+1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00
+1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00,	1.000000e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.049244
+2nd lowest eigenvalue of the augmented Hessian = 0.011867
+3rd lowest eigenvalue of the augmented Hessian = 0.089640
+Calculated RFO step size                       = 0.540354
+Trust radius is 0.300000
+Scaling factor is increased to 1.981296e+00.
+Recalculating RFO step...
+Lowest eigenvalue of the augmented Hessian     = -0.074383
+2nd lowest eigenvalue of the augmented Hessian = 0.007119
+3rd lowest eigenvalue of the augmented Hessian = 0.045265
+Calculated RFO step size                       = 0.242847
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-1.302576e-01	1.911532e-01	-4.844651e-02		-6.892935e-02	1.011539e-01	-2.563679e-02
+	Atom coordinates:	1	C	3.093079e+00	5.292684e-03	-1.486979e-01		1.636787e+00	2.800768e-03	-7.868754e-02
+	Atom coordinates:	2	H	-7.384154e-01	2.160949e+00	-3.180119e-03		-3.907526e-01	1.143525e+00	-1.682847e-03
+	Atom coordinates:	3	H	-5.297031e-01	-9.717127e-01	-1.703086e+00		-2.803068e-01	-5.142082e-01	-9.012343e-01
+	Atom coordinates:	4	H	-7.201367e-01	-9.005869e-01	1.537509e+00		-3.810799e-01	-4.765701e-01	8.136150e-01
+	Atom coordinates:	5	H	3.698099e+00	1.007862e+00	-1.745703e+00		1.956950e+00	5.333375e-01	-9.237864e-01
+	Atom coordinates:	6	H	3.555553e+00	1.084854e+00	1.585809e+00		1.881518e+00	5.740799e-01	8.391738e-01
+	Atom coordinates:	7	H	3.360149e+00	-2.090262e+00	-2.300947e-01		1.778114e+00	-1.106119e+00	-1.217609e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.472597e+00	8.822587e-02	-9.747650e-02		7.792650e-01	4.668712e-02	-5.158234e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.472600e+00	8.822876e-02	-9.747682e-02		7.792663e-01	4.668865e-02	-5.158251e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.251416e+00	-3.405303e+01
+	Energy of MO:	1	occ	-8.713400e-01	-2.371056e+01
+	Energy of MO:	2	occ	-5.664895e-01	-1.541509e+01
+	Energy of MO:	3	occ	-5.436966e-01	-1.479486e+01
+	Energy of MO:	4	occ	-4.666263e-01	-1.269765e+01
+	Energy of MO:	5	occ	-4.608048e-01	-1.253924e+01
+	Energy of MO:	6	occ	-4.311584e-01	-1.173251e+01
+	Energy of MO:	7	unocc	1.138009e-01	3.096705e+00
+	Energy of MO:	8	unocc	1.422527e-01	3.870925e+00
+	Energy of MO:	9	unocc	1.558311e-01	4.240414e+00
+	Energy of MO:	10	unocc	1.778291e-01	4.839014e+00
+	Energy of MO:	11	unocc	1.821795e-01	4.957397e+00
+	Energy of MO:	12	unocc	1.902684e-01	5.177508e+00
+	Energy of MO:	13	unocc	1.978498e-01	5.383811e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.227023e+01	-3.338926e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.131698e+01	5.800691e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	1.589771e-01	5.927243e-02	4.358759e-02	1.751766e-01		4.040797e-01	1.506555e-01	1.107886e-01	4.452545e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	2.985451e-01	2.175881e-01	2.623580e-02	3.703540e-01		7.588262e-01	5.530539e-01	6.668477e-02	9.413462e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-1.395680e-01	-1.583157e-01	1.735179e-02	2.117644e-01		-3.547465e-01	-4.023984e-01	4.410385e-02	5.382515e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.994182e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.829748e-01
+	Mulliken charge:	2	H	1.000000e+00	1.092461e-01
+	Mulliken charge:	3	H	1.000000e+00	8.858960e-02
+	Mulliken charge:	4	H	1.000000e+00	8.731868e-02
+	Mulliken charge:	5	H	1.000000e+00	9.308609e-02
+	Mulliken charge:	6	H	1.000000e+00	9.698857e-02
+	Mulliken charge:	7	H	1.000000e+00	1.071640e-01
+
+
+actual energy change          = -2.703557e-02
+expected energy change        = -2.182951e-02
+actual/expected energy change = 1.238487
+
+	====== Optimization Logs ======
+	Energy difference:  -2.703557e-02 [a.u.]
+	Max gradient:  1.230913e-01 [a.u.]
+	Rms gradient:  4.187431e-02 [a.u.]
+
+
+
+==========  START: BFGS step 2
+
+Eigenvalues of the raw Hessian:
+-6.713288e-14,	8.967071e-02,	2.850370e-01,	3.261060e-01,	4.267014e-01,	6.539276e-01
+8.572275e-01,	1.188753e+00,	1.245086e+00,	1.256263e+00,	1.265219e+00,	1.280663e+00
+1.300525e+00,	1.369967e+00,	1.375732e+00,	1.434666e+00,	1.444904e+00,	1.577964e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+1.844701e-03,	3.856366e-01,	3.857624e-01,	8.936844e-01,	4.302830e-01,	9.001259e-01
+1.299731e+00,	1.203677e+00,	1.537997e+00,	1.562005e+00,	1.286788e+00,	1.290409e+00
+1.306828e+00,	1.402546e+00,	1.400868e+00,	1.529881e+00,	1.536009e+00,	1.601461e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.095564
+2nd lowest eigenvalue of the augmented Hessian = 0.069423
+3rd lowest eigenvalue of the augmented Hessian = 0.385628
+Calculated RFO step size                       = 0.886621
+Trust radius is 0.300000
+Scaling factor is increased to 3.250944e+00.
+Recalculating RFO step...
+Lowest eigenvalue of the augmented Hessian     = -0.112293
+2nd lowest eigenvalue of the augmented Hessian = 0.040277
+3rd lowest eigenvalue of the augmented Hessian = 0.118620
+Calculated RFO step size                       = 0.267841
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-1.163386e-02	1.815029e-01	-9.930456e-02		-6.156373e-03	9.604718e-02	-5.254971e-02
+	Atom coordinates:	1	C	2.936333e+00	-4.018744e-04	-8.165329e-02		1.553841e+00	-2.126628e-04	-4.320906e-02
+	Atom coordinates:	2	H	-7.519891e-01	2.158874e+00	-7.947292e-03		-3.979355e-01	1.142427e+00	-4.205526e-03
+	Atom coordinates:	3	H	-5.561997e-01	-9.593353e-01	-1.700859e+00		-2.943282e-01	-5.076584e-01	-9.000556e-01
+	Atom coordinates:	4	H	-7.460797e-01	-9.076064e-01	1.567809e+00		-3.948084e-01	-4.802846e-01	8.296488e-01
+	Atom coordinates:	5	H	3.723592e+00	1.028197e+00	-1.791490e+00		1.970440e+00	5.440984e-01	-9.480159e-01
+	Atom coordinates:	6	H	3.590561e+00	9.979138e-01	1.547099e+00		1.900043e+00	5.280732e-01	8.186897e-01
+	Atom coordinates:	7	H	3.403784e+00	-2.011595e+00	-1.895446e-01		1.801205e+00	-1.064490e+00	-1.003027e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.458648e+00	8.261093e-02	-9.155357e-02		7.718833e-01	4.371582e-02	-4.844806e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.458649e+00	8.261322e-02	-9.155326e-02		7.718839e-01	4.371703e-02	-4.844790e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.275811e+00	-3.471686e+01
+	Energy of MO:	1	occ	-8.581088e-01	-2.335052e+01
+	Energy of MO:	2	occ	-5.717055e-01	-1.555702e+01
+	Energy of MO:	3	occ	-5.441273e-01	-1.480657e+01
+	Energy of MO:	4	occ	-4.845668e-01	-1.318584e+01
+	Energy of MO:	5	occ	-4.513568e-01	-1.228214e+01
+	Energy of MO:	6	occ	-4.313800e-01	-1.173854e+01
+	Energy of MO:	7	unocc	1.341042e-01	3.649191e+00
+	Energy of MO:	8	unocc	1.493174e-01	4.063165e+00
+	Energy of MO:	9	unocc	1.607735e-01	4.374905e+00
+	Energy of MO:	10	unocc	1.705172e-01	4.640046e+00
+	Energy of MO:	11	unocc	1.759950e-01	4.789105e+00
+	Energy of MO:	12	unocc	1.848550e-01	5.030201e+00
+	Energy of MO:	13	unocc	1.996125e-01	5.431776e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.229131e+01	-3.344661e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.160459e+01	5.878956e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.486688e-02	1.354824e-01	-2.468818e-02	1.385136e-01		-3.778786e-02	3.443619e-01	-6.275110e-02	3.520664e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	4.375445e-02	2.612151e-01	-7.669842e-03	2.649653e-01		1.112128e-01	6.639428e-01	-1.949480e-02	6.734748e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-5.862134e-02	-1.257328e-01	-1.701834e-02	1.397670e-01		-1.490006e-01	-3.195809e-01	-4.325631e-02	3.552523e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.763508e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.676770e-01
+	Mulliken charge:	2	H	1.000000e+00	1.045444e-01
+	Mulliken charge:	3	H	1.000000e+00	8.751911e-02
+	Mulliken charge:	4	H	1.000000e+00	7.925154e-02
+	Mulliken charge:	5	H	1.000000e+00	8.505891e-02
+	Mulliken charge:	6	H	1.000000e+00	9.048376e-02
+	Mulliken charge:	7	H	1.000000e+00	9.717008e-02
+
+
+actual energy change          = -2.107783e-02
+expected energy change        = -2.833261e-02
+actual/expected energy change = 0.743942
+
+	====== Optimization Logs ======
+	Energy difference:  -2.107783e-02 [a.u.]
+	Max gradient:  9.163740e-02 [a.u.]
+	Rms gradient:  2.835448e-02 [a.u.]
+
+
+
+==========  START: BFGS step 3
+
+Eigenvalues of the raw Hessian:
+6.052099e-03,	3.195951e-01,	3.861564e-01,	4.865863e-01,	8.885373e-01,	9.054503e-01
+1.207376e+00,	1.286828e+00,	1.295488e+00,	1.297814e+00,	1.309573e+00,	1.401255e+00
+1.420463e+00,	1.529991e+00,	1.537998e+00,	1.553270e+00,	1.601115e+00,	1.680574e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+2.658319e-02,	4.409099e-01,	7.227485e-01,	5.295546e-01,	1.319808e+00,	1.077926e+00
+1.246284e+00,	1.330166e+00,	1.534197e+00,	1.390005e+00,	1.368810e+00,	1.417309e+00
+1.462007e+00,	1.774999e+00,	2.187531e+00,	1.759524e+00,	1.637335e+00,	2.512096e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.007830
+2nd lowest eigenvalue of the augmented Hessian = 0.028398
+3rd lowest eigenvalue of the augmented Hessian = 0.444816
+Calculated RFO step size                       = 0.251784
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	8.156614e-02	1.615645e-01	-9.244191e-02		4.316294e-02	8.549625e-02	-4.891815e-02
+	Atom coordinates:	1	C	2.841120e+00	-4.145137e-03	-6.955642e-02		1.503456e+00	-2.193512e-03	-3.680767e-02
+	Atom coordinates:	2	H	-7.445474e-01	2.141191e+00	-1.614012e-02		-3.939975e-01	1.133070e+00	-8.540986e-03
+	Atom coordinates:	3	H	-5.748670e-01	-9.581332e-01	-1.705733e+00		-3.042065e-01	-5.070222e-01	-9.026351e-01
+	Atom coordinates:	4	H	-7.479817e-01	-8.994524e-01	1.568431e+00		-3.958149e-01	-4.759697e-01	8.299781e-01
+	Atom coordinates:	5	H	3.736896e+00	1.011979e+00	-1.786419e+00		1.977480e+00	5.355163e-01	-9.453323e-01
+	Atom coordinates:	6	H	3.611311e+00	1.134642e+00	1.631612e+00		1.911024e+00	6.004269e-01	8.634120e-01
+	Atom coordinates:	7	H	3.384871e+00	-2.100097e+00	-2.856432e-01		1.791196e+00	-1.111324e+00	-1.511559e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.457911e+00	7.394543e-02	-8.461597e-02		7.714934e-01	3.913023e-02	-4.477684e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.457912e+00	7.394680e-02	-8.461492e-02		7.714939e-01	3.913096e-02	-4.477629e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.284138e+00	-3.494346e+01
+	Energy of MO:	1	occ	-8.363030e-01	-2.275715e+01
+	Energy of MO:	2	occ	-5.736896e-01	-1.561101e+01
+	Energy of MO:	3	occ	-5.434905e-01	-1.478925e+01
+	Energy of MO:	4	occ	-5.082350e-01	-1.382989e+01
+	Energy of MO:	5	occ	-4.348557e-01	-1.183312e+01
+	Energy of MO:	6	occ	-4.134469e-01	-1.125055e+01
+	Energy of MO:	7	unocc	1.355808e-01	3.689372e+00
+	Energy of MO:	8	unocc	1.454174e-01	3.957042e+00
+	Energy of MO:	9	unocc	1.494023e-01	4.065475e+00
+	Energy of MO:	10	unocc	1.617128e-01	4.400463e+00
+	Energy of MO:	11	unocc	1.814797e-01	4.938355e+00
+	Energy of MO:	12	unocc	1.847840e-01	5.028269e+00
+	Energy of MO:	13	unocc	1.952951e-01	5.314292e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.228732e+01	-3.343577e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.165393e+01	5.892381e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	2.542931e-01	9.138286e-02	8.753341e-02	2.840386e-01		6.463487e-01	2.322721e-01	2.224878e-01	7.219542e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	3.086387e-01	1.668306e-01	1.448099e-01	3.795527e-01		7.844816e-01	4.240413e-01	3.680702e-01	9.647269e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-5.434563e-02	-7.544779e-02	-5.727652e-02	1.092081e-01		-1.381328e-01	-1.917692e-01	-1.455824e-01	2.775794e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.689360e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.621150e-01
+	Mulliken charge:	2	H	1.000000e+00	9.898927e-02
+	Mulliken charge:	3	H	1.000000e+00	8.385278e-02
+	Mulliken charge:	4	H	1.000000e+00	7.856866e-02
+	Mulliken charge:	5	H	1.000000e+00	7.703557e-02
+	Mulliken charge:	6	H	1.000000e+00	9.396027e-02
+	Mulliken charge:	7	H	1.000000e+00	9.864444e-02
+
+
+actual energy change          = 3.986103e-03
+expected energy change        = -3.914768e-03
+actual/expected energy change = -1.018222
+
+	====== Optimization Logs ======
+	Energy difference:  3.986103e-03 [a.u.]
+	Max gradient:  3.912559e-02 [a.u.]
+	Rms gradient:  1.598169e-02 [a.u.]
+
+
+Detected hill climbing.
+Rolling back molecular geometry.
+
+==========  START: BFGS step 4
+
+Eigenvalues of the raw Hessian:
+2.658319e-02,	4.409099e-01,	5.295545e-01,	7.227482e-01,	1.077925e+00,	1.246284e+00
+1.319805e+00,	1.330167e+00,	1.368810e+00,	1.390005e+00,	1.417309e+00,	1.462007e+00
+1.534197e+00,	1.637335e+00,	1.759521e+00,	1.775002e+00,	2.187533e+00,	2.512098e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+2.658319e-02,	4.409099e-01,	5.295545e-01,	7.227482e-01,	1.077925e+00,	1.246284e+00
+1.319805e+00,	1.330167e+00,	1.368810e+00,	1.390005e+00,	1.417309e+00,	1.462007e+00
+1.534197e+00,	1.637335e+00,	1.759521e+00,	1.775002e+00,	2.187533e+00,	2.512098e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.007830
+2nd lowest eigenvalue of the augmented Hessian = 0.028398
+3rd lowest eigenvalue of the augmented Hessian = 0.444816
+Calculated RFO step size                       = 0.251784
+Trust radius is 0.075000
+Scaling factor is increased to 3.692826e+00.
+Recalculating RFO step...
+Lowest eigenvalue of the augmented Hessian     = -0.021937
+2nd lowest eigenvalue of the augmented Hessian = 0.009115
+3rd lowest eigenvalue of the augmented Hessian = 0.130940
+Calculated RFO step size                       = 0.114375
+Trust radius is 0.075000
+Scaling factor is increased to 6.194700e+00.
+Recalculating RFO step...
+Lowest eigenvalue of the augmented Hessian     = -0.030646
+2nd lowest eigenvalue of the augmented Hessian = 0.005671
+3rd lowest eigenvalue of the augmented Hessian = 0.082645
+Calculated RFO step size                       = 0.082177
+Trust radius is 0.075000
+Scaling factor is increased to 7.466213e+00.
+Recalculating RFO step...
+Lowest eigenvalue of the augmented Hessian     = -0.034055
+2nd lowest eigenvalue of the augmented Hessian = 0.004750
+3rd lowest eigenvalue of the augmented Hessian = 0.069116
+Calculated RFO step size                       = 0.073076
+Trust radius is 0.075000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.411149e-02	1.748441e-01	-9.679720e-02		1.275925e-02	9.252351e-02	-5.122287e-02
+	Atom coordinates:	1	C	2.887084e+00	6.052206e-03	-8.763766e-02		1.527779e+00	3.202689e-03	-4.637585e-02
+	Atom coordinates:	2	H	-7.513126e-01	2.150269e+00	-1.308806e-02		-3.975775e-01	1.137873e+00	-6.925902e-03
+	Atom coordinates:	3	H	-5.700717e-01	-9.570526e-01	-1.705587e+00		-3.016690e-01	-5.064504e-01	-9.025580e-01
+	Atom coordinates:	4	H	-7.484995e-01	-9.026227e-01	1.565306e+00		-3.960889e-01	-4.776473e-01	8.283240e-01
+	Atom coordinates:	5	H	3.723843e+00	1.022332e+00	-1.790001e+00		1.970573e+00	5.409950e-01	-9.472277e-01
+	Atom coordinates:	6	H	3.610602e+00	1.009070e+00	1.568298e+00		1.910648e+00	5.339767e-01	8.299075e-01
+	Atom coordinates:	7	H	3.412611e+00	-2.015343e+00	-1.963828e-01		1.805876e+00	-1.066473e+00	-1.039213e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.453707e+00	8.253603e-02	-9.282587e-02		7.692684e-01	4.367618e-02	-4.912133e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.453707e+00	8.253831e-02	-9.282569e-02		7.692687e-01	4.367739e-02	-4.912124e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.282075e+00	-3.488732e+01
+	Energy of MO:	1	occ	-8.521730e-01	-2.318899e+01
+	Energy of MO:	2	occ	-5.713076e-01	-1.554620e+01
+	Energy of MO:	3	occ	-5.458876e-01	-1.485448e+01
+	Energy of MO:	4	occ	-4.969204e-01	-1.352200e+01
+	Energy of MO:	5	occ	-4.441013e-01	-1.208471e+01
+	Energy of MO:	6	occ	-4.257098e-01	-1.158424e+01
+	Energy of MO:	7	unocc	1.363392e-01	3.710007e+00
+	Energy of MO:	8	unocc	1.499438e-01	4.080212e+00
+	Energy of MO:	9	unocc	1.570456e-01	4.273462e+00
+	Energy of MO:	10	unocc	1.702897e-01	4.633855e+00
+	Energy of MO:	11	unocc	1.770607e-01	4.818104e+00
+	Energy of MO:	12	unocc	1.849427e-01	5.032586e+00
+	Energy of MO:	13	unocc	1.978313e-01	5.383306e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.229427e+01	-3.345469e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.166849e+01	5.896344e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	2.237683e-02	1.332521e-01	-5.319299e-03	1.352225e-01		5.687624e-02	3.386930e-01	-1.352031e-02	3.437014e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	5.232335e-02	2.585502e-01	4.316071e-03	2.638268e-01		1.329927e-01	6.571691e-01	1.097036e-02	6.705809e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.994652e-02	-1.252981e-01	-9.635369e-03	1.291869e-01		-7.611647e-02	-3.184761e-01	-2.449067e-02	3.283604e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.702852e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.646844e-01
+	Mulliken charge:	2	H	1.000000e+00	1.022101e-01
+	Mulliken charge:	3	H	1.000000e+00	8.593949e-02
+	Mulliken charge:	4	H	1.000000e+00	7.906161e-02
+	Mulliken charge:	5	H	1.000000e+00	8.381783e-02
+	Mulliken charge:	6	H	1.000000e+00	8.911426e-02
+	Mulliken charge:	7	H	1.000000e+00	9.482627e-02
+
+
+actual energy change          = -2.967444e-03
+expected energy change        = -2.943785e-03
+actual/expected energy change = 1.008037
+
+	====== Optimization Logs ======
+	Energy difference:  -2.967444e-03 [a.u.]
+	Max gradient:  3.912559e-02 [a.u.]
+	Rms gradient:  1.598169e-02 [a.u.]
+
+
+
+==========  START: BFGS step 5
+
+Eigenvalues of the raw Hessian:
+3.097342e-02,	4.666613e-01,	6.235701e-01,	7.290872e-01,	1.071142e+00,	1.237951e+00
+1.289312e+00,	1.332202e+00,	1.359050e+00,	1.377793e+00,	1.417115e+00,	1.430530e+00
+1.560080e+00,	1.634904e+00,	1.712090e+00,	1.787478e+00,	1.898968e+00,	2.197692e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+4.282773e-02,	4.671995e-01,	6.301840e-01,	7.315677e-01,	1.117371e+00,	1.244939e+00
+1.304857e+00,	1.333941e+00,	1.378843e+00,	1.392585e+00,	1.419247e+00,	1.437140e+00
+1.571768e+00,	1.640018e+00,	1.714683e+00,	1.806754e+00,	1.939157e+00,	2.240820e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.008405
+2nd lowest eigenvalue of the augmented Hessian = 0.049245
+3rd lowest eigenvalue of the augmented Hessian = 0.467674
+Calculated RFO step size                       = 0.357364
+Trust radius is 0.150000
+Scaling factor is increased to 2.620671e+00.
+Recalculating RFO step...
+Lowest eigenvalue of the augmented Hessian     = -0.015385
+2nd lowest eigenvalue of the augmented Hessian = 0.026565
+3rd lowest eigenvalue of the augmented Hessian = 0.179481
+Calculated RFO step size                       = 0.222804
+Trust radius is 0.150000
+Scaling factor is increased to 4.281895e+00.
+Recalculating RFO step...
+Lowest eigenvalue of the augmented Hessian     = -0.019141
+2nd lowest eigenvalue of the augmented Hessian = 0.020855
+3rd lowest eigenvalue of the augmented Hessian = 0.110972
+Calculated RFO step size                       = 0.151438
+Trust radius is 0.150000
+Scaling factor is increased to 4.755227e+00.
+Recalculating RFO step...
+Lowest eigenvalue of the augmented Hessian     = -0.019966
+2nd lowest eigenvalue of the augmented Hessian = 0.019826
+3rd lowest eigenvalue of the augmented Hessian = 0.100275
+Calculated RFO step size                       = 0.138119
+Trust radius is 0.150000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.816864e-02	1.725863e-01	-9.010707e-02		1.490620e-02	9.132872e-02	-4.768261e-02
+	Atom coordinates:	1	C	2.852488e+00	2.887434e-02	-1.144830e-01		1.509471e+00	1.527964e-02	-6.058179e-02
+	Atom coordinates:	2	H	-7.523844e-01	2.134928e+00	-2.174853e-02		-3.981447e-01	1.129755e+00	-1.150883e-02
+	Atom coordinates:	3	H	-5.933040e-01	-9.504662e-01	-1.714097e+00		-3.139630e-01	-5.029650e-01	-9.070609e-01
+	Atom coordinates:	4	H	-7.517108e-01	-8.924381e-01	1.552939e+00		-3.977882e-01	-4.722579e-01	8.217799e-01
+	Atom coordinates:	5	H	3.709663e+00	1.014522e+00	-1.781748e+00		1.963069e+00	5.368621e-01	-9.428604e-01
+	Atom coordinates:	6	H	3.647111e+00	9.342025e-01	1.555456e+00		1.929968e+00	4.943586e-01	8.231119e-01
+	Atom coordinates:	7	H	3.448337e+00	-1.954660e+00	-1.421023e-01		1.824781e+00	-1.034361e+00	-7.519732e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.442532e+00	9.006085e-02	-1.002010e-01		7.633550e-01	4.765815e-02	-5.302408e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.442531e+00	9.006393e-02	-1.002016e-01		7.633546e-01	4.765978e-02	-5.302440e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.290578e+00	-3.511871e+01
+	Energy of MO:	1	occ	-8.569170e-01	-2.331808e+01
+	Energy of MO:	2	occ	-5.678437e-01	-1.545194e+01
+	Energy of MO:	3	occ	-5.519325e-01	-1.501897e+01
+	Energy of MO:	4	occ	-5.054279e-01	-1.375350e+01
+	Energy of MO:	5	occ	-4.391607e-01	-1.195027e+01
+	Energy of MO:	6	occ	-4.271979e-01	-1.162474e+01
+	Energy of MO:	7	unocc	1.372121e-01	3.733762e+00
+	Energy of MO:	8	unocc	1.529460e-01	4.161905e+00
+	Energy of MO:	9	unocc	1.589854e-01	4.326247e+00
+	Energy of MO:	10	unocc	1.666736e-01	4.535456e+00
+	Energy of MO:	11	unocc	1.820233e-01	4.953144e+00
+	Energy of MO:	12	unocc	1.890194e-01	5.143520e+00
+	Energy of MO:	13	unocc	1.965326e-01	5.347966e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.229726e+01	-3.346281e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.177936e+01	5.926512e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-7.546665e-02	1.519830e-01	-3.882789e-02	1.740737e-01		-1.918171e-01	3.863022e-01	-9.869068e-02	4.424512e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-1.103657e-01	3.209468e-01	-7.198960e-02	3.469437e-01		-2.805218e-01	8.157656e-01	-1.829794e-01	8.818432e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		3.489909e-02	-1.689639e-01	3.316171e-02	1.756884e-01		8.870465e-02	-4.294634e-01	8.428867e-02	4.465556e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.622545e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.623478e-01
+	Mulliken charge:	2	H	1.000000e+00	1.004505e-01
+	Mulliken charge:	3	H	1.000000e+00	8.486842e-02
+	Mulliken charge:	4	H	1.000000e+00	8.030012e-02
+	Mulliken charge:	5	H	1.000000e+00	8.797222e-02
+	Mulliken charge:	6	H	1.000000e+00	8.305766e-02
+	Mulliken charge:	7	H	1.000000e+00	8.795343e-02
+
+
+actual energy change          = -2.984315e-03
+expected energy change        = -2.948774e-03
+actual/expected energy change = 1.012053
+
+	====== Optimization Logs ======
+	Energy difference:  -2.984315e-03 [a.u.]
+	Max gradient:  1.970073e-02 [a.u.]
+	Rms gradient:  1.068235e-02 [a.u.]
+
+
+
+==========  START: BFGS step 6
+
+Eigenvalues of the raw Hessian:
+8.410810e-02,	3.422643e-01,	6.699205e-01,	7.335805e-01,	9.337005e-01,	1.158972e+00
+1.261774e+00,	1.334616e+00,	1.350772e+00,	1.390392e+00,	1.419110e+00,	1.433008e+00
+1.533870e+00,	1.579054e+00,	1.648534e+00,	1.796441e+00,	1.942053e+00,	2.258338e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+8.844301e-02,	4.282613e-01,	6.953318e-01,	1.034349e+00,	1.005779e+00,	1.258981e+00
+1.270929e+00,	1.335475e+00,	1.621619e+00,	1.392520e+00,	1.426579e+00,	1.451269e+00
+1.544044e+00,	1.583387e+00,	1.651270e+00,	1.814558e+00,	1.947284e+00,	2.282777e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.002304
+2nd lowest eigenvalue of the augmented Hessian = 0.089122
+3rd lowest eigenvalue of the augmented Hessian = 0.429109
+Calculated RFO step size                       = 0.100815
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	1.455921e-02	1.674426e-01	-8.071377e-02		7.704403e-03	8.860681e-02	-4.271189e-02
+	Atom coordinates:	1	C	2.843357e+00	4.923228e-02	-1.394597e-01		1.504640e+00	2.605260e-02	-7.379890e-02
+	Atom coordinates:	2	H	-7.514588e-01	2.113899e+00	-3.094502e-02		-3.976549e-01	1.118627e+00	-1.637540e-02
+	Atom coordinates:	3	H	-6.158246e-01	-9.404157e-01	-1.720135e+00		-3.258803e-01	-4.976466e-01	-9.102560e-01
+	Atom coordinates:	4	H	-7.539090e-01	-8.783576e-01	1.537226e+00		-3.989515e-01	-4.648068e-01	8.134649e-01
+	Atom coordinates:	5	H	3.693436e+00	1.002748e+00	-1.767301e+00		1.954482e+00	5.306316e-01	-9.352154e-01
+	Atom coordinates:	6	H	3.681217e+00	8.897186e-01	1.554297e+00		1.948016e+00	4.708188e-01	8.224985e-01
+	Atom coordinates:	7	H	3.476991e+00	-1.916718e+00	-1.088593e-01		1.839944e+00	-1.014283e+00	-5.760586e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.434211e+00	9.562800e-02	-1.059032e-01		7.589517e-01	5.060416e-02	-5.604157e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.434209e+00	9.563168e-02	-1.059044e-01		7.589508e-01	5.060610e-02	-5.604221e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.293601e+00	-3.520094e+01
+	Energy of MO:	1	occ	-8.632610e-01	-2.349072e+01
+	Energy of MO:	2	occ	-5.642486e-01	-1.535411e+01
+	Energy of MO:	3	occ	-5.559157e-01	-1.512736e+01
+	Energy of MO:	4	occ	-5.074135e-01	-1.380754e+01
+	Energy of MO:	5	occ	-4.380894e-01	-1.192112e+01
+	Energy of MO:	6	occ	-4.301615e-01	-1.170538e+01
+	Energy of MO:	7	unocc	1.373405e-01	3.737255e+00
+	Energy of MO:	8	unocc	1.552345e-01	4.224180e+00
+	Energy of MO:	9	unocc	1.620932e-01	4.410816e+00
+	Energy of MO:	10	unocc	1.646880e-01	4.481423e+00
+	Energy of MO:	11	unocc	1.837658e-01	5.000563e+00
+	Energy of MO:	12	unocc	1.920355e-01	5.225595e+00
+	Energy of MO:	13	unocc	1.957457e-01	5.326554e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.229867e+01	-3.346665e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.182788e+01	5.939717e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.045668e-01	1.508504e-01	-4.584824e-02	1.891881e-01		-2.657822e-01	3.834237e-01	-1.165346e-01	4.808682e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-1.877522e-01	3.521199e-01	-1.120993e-01	4.144944e-01		-4.772187e-01	8.949997e-01	-2.849281e-01	1.053540e+00
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		8.318547e-02	-2.012695e-01	6.625110e-02	2.276366e-01		2.114364e-01	-5.115760e-01	1.683935e-01	5.785947e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.571392e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.626776e-01
+	Mulliken charge:	2	H	1.000000e+00	9.856882e-02
+	Mulliken charge:	3	H	1.000000e+00	8.398866e-02
+	Mulliken charge:	4	H	1.000000e+00	8.224872e-02
+	Mulliken charge:	5	H	1.000000e+00	9.156414e-02
+	Mulliken charge:	6	H	1.000000e+00	7.984529e-02
+	Mulliken charge:	7	H	1.000000e+00	8.360118e-02
+
+
+actual energy change          = -1.411237e-03
+expected energy change        = -1.152177e-03
+actual/expected energy change = 1.224844
+
+	====== Optimization Logs ======
+	Energy difference:  -1.411237e-03 [a.u.]
+	Max gradient:  1.484611e-02 [a.u.]
+	Rms gradient:  7.501192e-03 [a.u.]
+
+
+
+==========  START: BFGS step 7
+
+Eigenvalues of the raw Hessian:
+8.892203e-02,	3.486176e-01,	6.921105e-01,	9.726890e-01,	1.044411e+00,	1.241621e+00
+1.282423e+00,	1.338106e+00,	1.392533e+00,	1.427532e+00,	1.455931e+00,	1.508182e+00
+1.584708e+00,	1.619847e+00,	1.653090e+00,	1.811017e+00,	2.000278e+00,	2.284970e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+9.436070e-02,	3.827546e-01,	7.146253e-01,	1.028325e+00,	1.140662e+00,	1.304479e+00
+1.283979e+00,	1.342977e+00,	1.394111e+00,	1.433180e+00,	1.482430e+00,	1.514852e+00
+1.585253e+00,	1.710262e+00,	1.660466e+00,	1.826441e+00,	2.012032e+00,	2.312142e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000522
+2nd lowest eigenvalue of the augmented Hessian = 0.094401
+3rd lowest eigenvalue of the augmented Hessian = 0.382947
+Calculated RFO step size                       = 0.033574
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	1.254272e-02	1.616202e-01	-7.985013e-02		6.637320e-03	8.552575e-02	-4.225487e-02
+	Atom coordinates:	1	C	2.842891e+00	5.536756e-02	-1.386625e-01		1.504393e+00	2.929925e-02	-7.337701e-02
+	Atom coordinates:	2	H	-7.506319e-01	2.099188e+00	-3.561371e-02		-3.972173e-01	1.110843e+00	-1.884596e-02
+	Atom coordinates:	3	H	-6.280014e-01	-9.313483e-01	-1.720856e+00		-3.323240e-01	-4.928483e-01	-9.106378e-01
+	Atom coordinates:	4	H	-7.569677e-01	-8.701466e-01	1.532040e+00		-4.005701e-01	-4.604617e-01	8.107206e-01
+	Atom coordinates:	5	H	3.688888e+00	9.971883e-01	-1.760905e+00		1.952075e+00	5.276893e-01	-9.318308e-01
+	Atom coordinates:	6	H	3.693382e+00	8.828269e-01	1.553596e+00		1.954453e+00	4.671719e-01	8.221278e-01
+	Atom coordinates:	7	H	3.486265e+00	-1.907147e+00	-1.056394e-01		1.844852e+00	-1.009219e+00	-5.590198e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.433303e+00	9.574251e-02	-1.052955e-01		7.584711e-01	5.066475e-02	-5.571996e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.433301e+00	9.574619e-02	-1.052966e-01		7.584702e-01	5.066670e-02	-5.572057e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.294856e+00	-3.523510e+01
+	Energy of MO:	1	occ	-8.658494e-01	-2.356115e+01
+	Energy of MO:	2	occ	-5.633913e-01	-1.533078e+01
+	Energy of MO:	3	occ	-5.568259e-01	-1.515212e+01
+	Energy of MO:	4	occ	-5.082514e-01	-1.383034e+01
+	Energy of MO:	5	occ	-4.379538e-01	-1.191742e+01
+	Energy of MO:	6	occ	-4.312476e-01	-1.173494e+01
+	Energy of MO:	7	unocc	1.374204e-01	3.739428e+00
+	Energy of MO:	8	unocc	1.562156e-01	4.250878e+00
+	Energy of MO:	9	unocc	1.628017e-01	4.430094e+00
+	Energy of MO:	10	unocc	1.644891e-01	4.476012e+00
+	Energy of MO:	11	unocc	1.844416e-01	5.018952e+00
+	Energy of MO:	12	unocc	1.927761e-01	5.245747e+00
+	Energy of MO:	13	unocc	1.958251e-01	5.328715e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.229911e+01	-3.346785e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.184784e+01	5.945148e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-9.467133e-02	1.430988e-01	-4.190485e-02	1.766237e-01		-2.406306e-01	3.637209e-01	-1.065115e-01	4.489328e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-1.831265e-01	3.450327e-01	-1.046293e-01	4.043886e-01		-4.654612e-01	8.769858e-01	-2.659411e-01	1.027854e+00
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		8.845515e-02	-2.019339e-01	6.272442e-02	2.292073e-01		2.248306e-01	-5.132649e-01	1.594296e-01	5.825868e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.554305e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.621153e-01
+	Mulliken charge:	2	H	1.000000e+00	9.704875e-02
+	Mulliken charge:	3	H	1.000000e+00	8.386604e-02
+	Mulliken charge:	4	H	1.000000e+00	8.258929e-02
+	Mulliken charge:	5	H	1.000000e+00	9.159854e-02
+	Mulliken charge:	6	H	1.000000e+00	8.006659e-02
+	Mulliken charge:	7	H	1.000000e+00	8.237661e-02
+
+
+actual energy change          = -4.414196e-04
+expected energy change        = -2.608560e-04
+actual/expected energy change = 1.692196
+
+	====== Optimization Logs ======
+	Energy difference:  -4.414196e-04 [a.u.]
+	Max gradient:  9.951329e-03 [a.u.]
+	Rms gradient:  4.728340e-03 [a.u.]
+
+
+
+==========  START: BFGS step 8
+
+Eigenvalues of the raw Hessian:
+1.002432e-01,	1.582508e-01,	6.738547e-01,	8.627857e-01,	1.137946e+00,	1.262436e+00
+1.309752e+00,	1.359640e+00,	1.392762e+00,	1.395404e+00,	1.446760e+00,	1.543099e+00
+1.583646e+00,	1.671031e+00,	1.711082e+00,	1.813268e+00,	1.933009e+00,	2.226388e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+1.008171e-01,	1.596642e-01,	6.757383e-01,	8.699875e-01,	1.139897e+00,	1.266745e+00
+1.310310e+00,	1.361664e+00,	1.395448e+00,	1.397376e+00,	1.447968e+00,	1.547273e+00
+1.584809e+00,	1.674520e+00,	1.713372e+00,	1.815400e+00,	1.935707e+00,	2.228429e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.001546
+2nd lowest eigenvalue of the augmented Hessian = 0.101104
+3rd lowest eigenvalue of the augmented Hessian = 0.160674
+Calculated RFO step size                       = 0.096634
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	1.420233e-02	1.406052e-01	-8.201936e-02		7.515549e-03	7.440505e-02	-4.340278e-02
+	Atom coordinates:	1	C	2.847730e+00	6.515648e-02	-1.194649e-01		1.506954e+00	3.447932e-02	-6.321810e-02
+	Atom coordinates:	2	H	-7.485362e-01	2.050676e+00	-5.006634e-02		-3.961083e-01	1.085171e+00	-2.649396e-02
+	Atom coordinates:	3	H	-6.672720e-01	-8.994029e-01	-1.721947e+00		-3.531051e-01	-4.759435e-01	-9.112151e-01
+	Atom coordinates:	4	H	-7.698618e-01	-8.449710e-01	1.521936e+00		-4.073933e-01	-4.471394e-01	8.053738e-01
+	Atom coordinates:	5	H	3.680483e+00	9.812059e-01	-1.743382e+00		1.947628e+00	5.192318e-01	-9.225578e-01
+	Atom coordinates:	6	H	3.724354e+00	8.870945e-01	1.555126e+00		1.970843e+00	4.694302e-01	8.229372e-01
+	Atom coordinates:	7	H	3.507269e+00	-1.892814e+00	-1.160732e-01		1.855967e+00	-1.001634e+00	-6.142328e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.435680e+00	9.163467e-02	-9.906452e-02		7.597293e-01	4.849098e-02	-5.242269e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.435679e+00	9.163792e-02	-9.906501e-02		7.597286e-01	4.849270e-02	-5.242294e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.297536e+00	-3.530802e+01
+	Energy of MO:	1	occ	-8.722110e-01	-2.373426e+01
+	Energy of MO:	2	occ	-5.613296e-01	-1.527468e+01
+	Energy of MO:	3	occ	-5.582702e-01	-1.519143e+01
+	Energy of MO:	4	occ	-5.106332e-01	-1.389515e+01
+	Energy of MO:	5	occ	-4.371076e-01	-1.189440e+01
+	Energy of MO:	6	occ	-4.344122e-01	-1.182105e+01
+	Energy of MO:	7	unocc	1.374255e-01	3.739569e+00
+	Energy of MO:	8	unocc	1.587803e-01	4.320665e+00
+	Energy of MO:	9	unocc	1.639366e-01	4.460979e+00
+	Energy of MO:	10	unocc	1.646137e-01	4.479403e+00
+	Energy of MO:	11	unocc	1.861512e-01	5.065473e+00
+	Energy of MO:	12	unocc	1.945037e-01	5.292758e+00
+	Energy of MO:	13	unocc	1.957031e-01	5.325396e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230014e+01	-3.347065e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.189103e+01	5.956901e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-3.353131e-02	1.097191e-01	-1.734723e-02	1.160326e-01		-8.522810e-02	2.788782e-01	-4.409228e-02	2.949255e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-1.081893e-01	2.878157e-01	-4.391412e-02	3.105982e-01		-2.749898e-01	7.315546e-01	-1.116186e-01	7.894620e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		7.465799e-02	-1.780966e-01	2.656689e-02	1.949308e-01		1.897617e-01	-4.526764e-01	6.752630e-02	4.954646e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.519926e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.589825e-01
+	Mulliken charge:	2	H	1.000000e+00	9.178061e-02
+	Mulliken charge:	3	H	1.000000e+00	8.392682e-02
+	Mulliken charge:	4	H	1.000000e+00	8.280600e-02
+	Mulliken charge:	5	H	1.000000e+00	8.933500e-02
+	Mulliken charge:	6	H	1.000000e+00	8.290826e-02
+	Mulliken charge:	7	H	1.000000e+00	8.021841e-02
+
+
+actual energy change          = -1.027196e-03
+expected energy change        = -7.728635e-04
+actual/expected energy change = 1.329078
+
+	====== Optimization Logs ======
+	Energy difference:  -1.027196e-03 [a.u.]
+	Max gradient:  1.212431e-02 [a.u.]
+	Rms gradient:  4.437211e-03 [a.u.]
+
+
+
+==========  START: BFGS step 9
+
+Eigenvalues of the raw Hessian:
+9.818431e-02,	1.163449e-01,	6.581903e-01,	8.256929e-01,	1.137506e+00,	1.255299e+00
+1.317392e+00,	1.369623e+00,	1.383156e+00,	1.396653e+00,	1.457047e+00,	1.566686e+00
+1.612104e+00,	1.694079e+00,	1.730987e+00,	1.820292e+00,	1.919231e+00,	2.222146e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+1.001806e-01,	1.283529e-01,	6.754201e-01,	8.653912e-01,	1.143698e+00,	1.274128e+00
+1.323559e+00,	1.389237e+00,	1.432337e+00,	1.414809e+00,	1.469157e+00,	1.630813e+00
+1.627415e+00,	1.706908e+00,	1.786046e+00,	1.835927e+00,	1.950628e+00,	2.238431e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000671
+2nd lowest eigenvalue of the augmented Hessian = 0.100419
+3rd lowest eigenvalue of the augmented Hessian = 0.128509
+Calculated RFO step size                       = 0.061552
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.058201e-02	1.272028e-01	-8.700472e-02		1.089153e-02	6.731284e-02	-4.604091e-02
+	Atom coordinates:	1	C	2.855227e+00	6.319618e-02	-9.915092e-02		1.510921e+00	3.344198e-02	-5.246840e-02
+	Atom coordinates:	2	H	-7.496122e-01	2.023265e+00	-5.900656e-02		-3.966777e-01	1.070665e+00	-3.122493e-02
+	Atom coordinates:	3	H	-6.928746e-01	-8.786971e-01	-1.723859e+00		-3.666535e-01	-4.649865e-01	-9.122266e-01
+	Atom coordinates:	4	H	-7.811981e-01	-8.317905e-01	1.522277e+00		-4.133922e-01	-4.401646e-01	8.055541e-01
+	Atom coordinates:	5	H	3.678948e+00	9.738723e-01	-1.735925e+00		1.946815e+00	5.153510e-01	-9.186121e-01
+	Atom coordinates:	6	H	3.739419e+00	9.003647e-01	1.557256e+00		1.978815e+00	4.764525e-01	8.240645e-01
+	Atom coordinates:	7	H	3.517877e+00	-1.889864e+00	-1.304773e-01		1.861580e+00	-1.000073e+00	-6.904563e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.440758e+00	8.601323e-02	-9.345553e-02		7.624164e-01	4.551624e-02	-4.945453e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.440757e+00	8.601588e-02	-9.345542e-02		7.624160e-01	4.551764e-02	-4.945448e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.297845e+00	-3.531644e+01
+	Energy of MO:	1	occ	-8.748559e-01	-2.380623e+01
+	Energy of MO:	2	occ	-5.606102e-01	-1.525510e+01
+	Energy of MO:	3	occ	-5.577567e-01	-1.517745e+01
+	Energy of MO:	4	occ	-5.119269e-01	-1.393035e+01
+	Energy of MO:	5	occ	-4.364500e-01	-1.187650e+01
+	Energy of MO:	6	occ	-4.356683e-01	-1.185523e+01
+	Energy of MO:	7	unocc	1.371667e-01	3.732525e+00
+	Energy of MO:	8	unocc	1.598358e-01	4.349388e+00
+	Energy of MO:	9	unocc	1.642737e-01	4.470151e+00
+	Energy of MO:	10	unocc	1.646142e-01	4.479416e+00
+	Energy of MO:	11	unocc	1.869768e-01	5.087938e+00
+	Energy of MO:	12	unocc	1.948545e-01	5.302304e+00
+	Energy of MO:	13	unocc	1.955166e-01	5.320320e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230062e+01	-3.347196e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.189789e+01	5.958767e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	5.777707e-03	8.614854e-02	1.893680e-03	8.636283e-02		1.468547e-02	2.189678e-01	4.813255e-03	2.195125e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-3.941387e-02	2.316245e-01	7.875192e-03	2.350859e-01		-1.001801e-01	5.887309e-01	2.001674e-02	5.975289e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		4.519158e-02	-1.454760e-01	-5.981512e-03	1.524510e-01		1.148656e-01	-3.697631e-01	-1.520349e-02	3.874919e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.513944e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.561429e-01
+	Mulliken charge:	2	H	1.000000e+00	8.850143e-02
+	Mulliken charge:	3	H	1.000000e+00	8.430971e-02
+	Mulliken charge:	4	H	1.000000e+00	8.239734e-02
+	Mulliken charge:	5	H	1.000000e+00	8.673537e-02
+	Mulliken charge:	6	H	1.000000e+00	8.548745e-02
+	Mulliken charge:	7	H	1.000000e+00	8.010599e-02
+
+
+actual energy change          = -4.819696e-04
+expected energy change        = -3.353685e-04
+actual/expected energy change = 1.437134
+
+	====== Optimization Logs ======
+	Energy difference:  -4.819696e-04 [a.u.]
+	Max gradient:  1.049780e-02 [a.u.]
+	Rms gradient:  4.297991e-03 [a.u.]
+
+
+
+==========  START: BFGS step 10
+
+Eigenvalues of the raw Hessian:
+8.468100e-02,	1.172069e-01,	6.696850e-01,	7.871906e-01,	1.134042e+00,	1.186957e+00
+1.315186e+00,	1.357262e+00,	1.414270e+00,	1.422619e+00,	1.477655e+00,	1.535566e+00
+1.638855e+00,	1.684170e+00,	1.753020e+00,	1.853097e+00,	1.914861e+00,	2.236547e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+8.481497e-02,	1.220609e-01,	6.770601e-01,	7.982512e-01,	1.145971e+00,	1.195977e+00
+1.319297e+00,	1.358828e+00,	1.429700e+00,	1.434387e+00,	1.489054e+00,	1.557852e+00
+1.656618e+00,	1.699437e+00,	1.793739e+00,	1.857431e+00,	1.915982e+00,	2.243286e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000479
+2nd lowest eigenvalue of the augmented Hessian = 0.085035
+3rd lowest eigenvalue of the augmented Hessian = 0.122075
+Calculated RFO step size                       = 0.054131
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.889084e-02	1.168118e-01	-9.150496e-02		1.528837e-02	6.181417e-02	-4.842234e-02
+	Atom coordinates:	1	C	2.865271e+00	5.485419e-02	-8.107828e-02		1.516236e+00	2.902759e-02	-4.290478e-02
+	Atom coordinates:	2	H	-7.534475e-01	2.006731e+00	-6.667256e-02		-3.987072e-01	1.061916e+00	-3.528160e-02
+	Atom coordinates:	3	H	-7.154326e-01	-8.627459e-01	-1.728593e+00		-3.785906e-01	-4.565455e-01	-9.147320e-01
+	Atom coordinates:	4	H	-7.930142e-01	-8.240797e-01	1.528416e+00		-4.196450e-01	-4.360842e-01	8.088031e-01
+	Atom coordinates:	5	H	3.679833e+00	9.701627e-01	-1.732301e+00		1.947284e+00	5.133880e-01	-9.166944e-01
+	Atom coordinates:	6	H	3.749127e+00	9.191804e-01	1.562573e+00		1.983953e+00	4.864093e-01	8.268782e-01
+	Atom coordinates:	7	H	3.527139e+00	-1.893365e+00	-1.467301e-01		1.866482e+00	-1.001925e+00	-7.764620e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.447474e+00	7.915852e-02	-8.848916e-02		7.659702e-01	4.188888e-02	-4.682645e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.447474e+00	7.916045e-02	-8.848853e-02		7.659701e-01	4.188991e-02	-4.682611e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.296184e+00	-3.527125e+01
+	Energy of MO:	1	occ	-8.756289e-01	-2.382727e+01
+	Energy of MO:	2	occ	-5.604055e-01	-1.524953e+01
+	Energy of MO:	3	occ	-5.559286e-01	-1.512771e+01
+	Energy of MO:	4	occ	-5.125555e-01	-1.394746e+01
+	Energy of MO:	5	occ	-4.374410e-01	-1.190347e+01
+	Energy of MO:	6	occ	-4.342956e-01	-1.181788e+01
+	Energy of MO:	7	unocc	1.367133e-01	3.720189e+00
+	Energy of MO:	8	unocc	1.600803e-01	4.356042e+00
+	Energy of MO:	9	unocc	1.633693e-01	4.445540e+00
+	Energy of MO:	10	unocc	1.649487e-01	4.488518e+00
+	Energy of MO:	11	unocc	1.874227e-01	5.100071e+00
+	Energy of MO:	12	unocc	1.937624e-01	5.272585e+00
+	Energy of MO:	13	unocc	1.958692e-01	5.329914e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230094e+01	-3.347283e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.187650e+01	5.952946e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	3.466792e-02	6.491254e-02	2.137314e-02	7.663102e-02		8.811709e-02	1.649913e-01	5.432511e-02	1.947767e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	2.844644e-02	1.706114e-01	5.617393e-02	1.818597e-01		7.230365e-02	4.336509e-01	1.427799e-01	4.622413e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		6.221484e-03	-1.056988e-01	-3.480079e-02	1.114542e-01		1.581344e-02	-2.686597e-01	-8.845481e-02	2.832884e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.522633e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.533225e-01
+	Mulliken charge:	2	H	1.000000e+00	8.606412e-02
+	Mulliken charge:	3	H	1.000000e+00	8.461668e-02
+	Mulliken charge:	4	H	1.000000e+00	8.195680e-02
+	Mulliken charge:	5	H	1.000000e+00	8.411529e-02
+	Mulliken charge:	6	H	1.000000e+00	8.772217e-02
+	Mulliken charge:	7	H	1.000000e+00	8.111069e-02
+
+
+actual energy change          = -3.195700e-04
+expected energy change        = -2.393426e-04
+actual/expected energy change = 1.335199
+
+	====== Optimization Logs ======
+	Energy difference:  -3.195700e-04 [a.u.]
+	Max gradient:  7.584607e-03 [a.u.]
+	Rms gradient:  3.540215e-03 [a.u.]
+
+
+
+==========  START: BFGS step 11
+
+Eigenvalues of the raw Hessian:
+8.062021e-02,	1.224249e-01,	5.908011e-01,	7.293315e-01,	1.069011e+00,	1.168428e+00
+1.312695e+00,	1.344505e+00,	1.425438e+00,	1.431550e+00,	1.497648e+00,	1.510375e+00
+1.662808e+00,	1.692291e+00,	1.781971e+00,	1.849459e+00,	1.951100e+00,	2.246629e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+8.093416e-02,	1.253829e-01,	5.938327e-01,	7.394482e-01,	1.077504e+00,	1.178865e+00
+1.319125e+00,	1.345518e+00,	1.433310e+00,	1.443747e+00,	1.523190e+00,	1.515732e+00
+1.674638e+00,	1.703694e+00,	1.818223e+00,	1.850147e+00,	1.951472e+00,	2.250515e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000224
+2nd lowest eigenvalue of the augmented Hessian = 0.080984
+3rd lowest eigenvalue of the augmented Hessian = 0.125385
+Calculated RFO step size                       = 0.029136
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	3.298460e-02	1.126397e-01	-9.269309e-02		1.745470e-02	5.960636e-02	-4.905107e-02
+	Atom coordinates:	1	C	2.872656e+00	4.713281e-02	-7.471850e-02		1.520144e+00	2.494161e-02	-3.953933e-02
+	Atom coordinates:	2	H	-7.581802e-01	2.004270e+00	-7.132830e-02		-4.012117e-01	1.060614e+00	-3.774531e-02
+	Atom coordinates:	3	H	-7.290704e-01	-8.557192e-01	-1.734258e+00		-3.858075e-01	-4.528271e-01	-9.177297e-01
+	Atom coordinates:	4	H	-8.007611e-01	-8.226785e-01	1.535523e+00		-4.237445e-01	-4.353427e-01	8.125636e-01
+	Atom coordinates:	5	H	3.680931e+00	9.703205e-01	-1.732175e+00		1.947865e+00	5.134715e-01	-9.166277e-01
+	Atom coordinates:	6	H	3.753134e+00	9.274476e-01	1.566205e+00		1.986073e+00	4.907841e-01	8.287998e-01
+	Atom coordinates:	7	H	3.536674e+00	-1.895864e+00	-1.524448e-01		1.871527e+00	-1.003248e+00	-8.067029e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.451674e+00	7.480648e-02	-8.659677e-02		7.681929e-01	3.958588e-02	-4.582504e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.451674e+00	7.480794e-02	-8.659594e-02		7.681930e-01	3.958666e-02	-4.582460e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.293900e+00	-3.520909e+01
+	Energy of MO:	1	occ	-8.754696e-01	-2.382293e+01
+	Energy of MO:	2	occ	-5.597028e-01	-1.523041e+01
+	Energy of MO:	3	occ	-5.547786e-01	-1.509642e+01
+	Energy of MO:	4	occ	-5.124500e-01	-1.394459e+01
+	Energy of MO:	5	occ	-4.375875e-01	-1.190746e+01
+	Energy of MO:	6	occ	-4.336957e-01	-1.180155e+01
+	Energy of MO:	7	unocc	1.362839e-01	3.708503e+00
+	Energy of MO:	8	unocc	1.598789e-01	4.350561e+00
+	Energy of MO:	9	unocc	1.627946e-01	4.429902e+00
+	Energy of MO:	10	unocc	1.648025e-01	4.484539e+00
+	Energy of MO:	11	unocc	1.874468e-01	5.100729e+00
+	Energy of MO:	12	unocc	1.931063e-01	5.254731e+00
+	Energy of MO:	13	unocc	1.956649e-01	5.324357e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230110e+01	-3.347327e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.184616e+01	5.944689e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	3.587186e-02	5.490647e-02	2.965107e-02	7.197706e-02		9.117720e-02	1.395583e-01	7.536552e-02	1.829475e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	5.402432e-02	1.353508e-01	7.543320e-02	1.640995e-01		1.373161e-01	3.440276e-01	1.917321e-01	4.170994e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-1.815246e-02	-8.044438e-02	-4.578212e-02	9.432292e-02		-4.613895e-02	-2.044693e-01	-1.163666e-01	2.397450e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.531498e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.517091e-01
+	Mulliken charge:	2	H	1.000000e+00	8.513140e-02
+	Mulliken charge:	3	H	1.000000e+00	8.456323e-02
+	Mulliken charge:	4	H	1.000000e+00	8.184473e-02
+	Mulliken charge:	5	H	1.000000e+00	8.298134e-02
+	Mulliken charge:	6	H	1.000000e+00	8.833852e-02
+	Mulliken charge:	7	H	1.000000e+00	8.199966e-02
+
+
+actual energy change          = -1.629800e-04
+expected energy change        = -1.118285e-04
+actual/expected energy change = 1.457411
+
+	====== Optimization Logs ======
+	Energy difference:  -1.629800e-04 [a.u.]
+	Max gradient:  4.851988e-03 [a.u.]
+	Rms gradient:  2.600030e-03 [a.u.]
+
+
+
+==========  START: BFGS step 12
+
+Eigenvalues of the raw Hessian:
+7.659361e-02,	1.326737e-01,	3.514282e-01,	7.266778e-01,	1.016956e+00,	1.237893e+00
+1.306025e+00,	1.345813e+00,	1.421609e+00,	1.443186e+00,	1.478993e+00,	1.524689e+00
+1.669972e+00,	1.699624e+00,	1.809443e+00,	1.842232e+00,	1.940966e+00,	2.254281e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+7.673633e-02,	1.332841e-01,	3.522908e-01,	7.286817e-01,	1.017676e+00,	1.239062e+00
+1.308122e+00,	1.345996e+00,	1.424242e+00,	1.447680e+00,	1.480798e+00,	1.528896e+00
+1.672812e+00,	1.702660e+00,	1.813975e+00,	1.844394e+00,	1.941149e+00,	2.254516e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000199
+2nd lowest eigenvalue of the augmented Hessian = 0.076773
+3rd lowest eigenvalue of the augmented Hessian = 0.133285
+Calculated RFO step size                       = 0.029404
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	3.421245e-02	1.100739e-01	-9.162726e-02		1.810445e-02	5.824861e-02	-4.848706e-02
+	Atom coordinates:	1	C	2.878949e+00	4.006154e-02	-7.451991e-02		1.523474e+00	2.119965e-02	-3.943424e-02
+	Atom coordinates:	2	H	-7.641451e-01	2.006867e+00	-7.650159e-02		-4.043682e-01	1.061988e+00	-4.048290e-02
+	Atom coordinates:	3	H	-7.434094e-01	-8.500890e-01	-1.741604e+00		-3.933953e-01	-4.498477e-01	-9.216171e-01
+	Atom coordinates:	4	H	-8.082676e-01	-8.230570e-01	1.543712e+00		-4.277168e-01	-4.355430e-01	8.168970e-01
+	Atom coordinates:	5	H	3.681785e+00	9.719415e-01	-1.732795e+00		1.948317e+00	5.143293e-01	-9.169556e-01
+	Atom coordinates:	6	H	3.756581e+00	9.285913e-01	1.568913e+00		1.987897e+00	4.913893e-01	8.302330e-01
+	Atom coordinates:	7	H	3.552662e+00	-1.896840e+00	-1.514675e-01		1.879988e+00	-1.003764e+00	-8.015312e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.454426e+00	7.128013e-02	-8.613410e-02		7.696490e-01	3.771982e-02	-4.558020e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.454427e+00	7.128122e-02	-8.613322e-02		7.696494e-01	3.772040e-02	-4.557973e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.291017e+00	-3.513065e+01
+	Energy of MO:	1	occ	-8.752886e-01	-2.381801e+01
+	Energy of MO:	2	occ	-5.581839e-01	-1.518908e+01
+	Energy of MO:	3	occ	-5.540756e-01	-1.507728e+01
+	Energy of MO:	4	occ	-5.121523e-01	-1.393648e+01
+	Energy of MO:	5	occ	-4.371460e-01	-1.189544e+01
+	Energy of MO:	6	occ	-4.337110e-01	-1.180197e+01
+	Energy of MO:	7	unocc	1.357482e-01	3.693925e+00
+	Energy of MO:	8	unocc	1.595990e-01	4.342945e+00
+	Energy of MO:	9	unocc	1.625191e-01	4.422406e+00
+	Energy of MO:	10	unocc	1.642334e-01	4.469053e+00
+	Energy of MO:	11	unocc	1.873686e-01	5.098601e+00
+	Energy of MO:	12	unocc	1.927880e-01	5.246071e+00
+	Energy of MO:	13	unocc	1.950209e-01	5.306831e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230124e+01	-3.347365e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.180801e+01	5.934310e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	2.251621e-02	4.681528e-02	3.258134e-02	6.132042e-02		5.723051e-02	1.189926e-01	8.281352e-02	1.558610e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	5.663685e-02	1.067966e-01	8.104830e-02	1.455406e-01		1.439566e-01	2.714500e-01	2.060043e-01	3.699275e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-3.412064e-02	-5.998135e-02	-4.846697e-02	8.432691e-02		-8.672605e-02	-1.524574e-01	-1.231908e-01	2.143377e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.535936e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.504310e-01
+	Mulliken charge:	2	H	1.000000e+00	8.456126e-02
+	Mulliken charge:	3	H	1.000000e+00	8.421842e-02
+	Mulliken charge:	4	H	1.000000e+00	8.205337e-02
+	Mulliken charge:	5	H	1.000000e+00	8.260148e-02
+	Mulliken charge:	6	H	1.000000e+00	8.799220e-02
+	Mulliken charge:	7	H	1.000000e+00	8.259785e-02
+
+
+actual energy change          = -1.398414e-04
+expected energy change        = -9.943735e-05
+actual/expected energy change = 1.406327
+
+	====== Optimization Logs ======
+	Energy difference:  -1.398414e-04 [a.u.]
+	Max gradient:  4.382366e-03 [a.u.]
+	Rms gradient:  2.032965e-03 [a.u.]
+
+
+
+==========  START: BFGS step 13
+
+Eigenvalues of the raw Hessian:
+6.998980e-02,	1.287709e-01,	2.464026e-01,	7.180459e-01,	9.872650e-01,	1.277452e+00
+1.306300e+00,	1.376985e+00,	1.412152e+00,	1.449809e+00,	1.457876e+00,	1.525543e+00
+1.660585e+00,	1.700875e+00,	1.824442e+00,	1.841065e+00,	1.919125e+00,	2.248633e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+7.022216e-02,	1.301888e-01,	2.473206e-01,	7.182407e-01,	9.873381e-01,	1.278603e+00
+1.306626e+00,	1.378350e+00,	1.414049e+00,	1.453335e+00,	1.458781e+00,	1.527153e+00
+1.663197e+00,	1.702195e+00,	1.827299e+00,	1.843632e+00,	1.919550e+00,	2.248981e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000139
+2nd lowest eigenvalue of the augmented Hessian = 0.070253
+3rd lowest eigenvalue of the augmented Hessian = 0.130211
+Calculated RFO step size                       = 0.029015
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	3.192121e-02	1.087399e-01	-8.926955e-02		1.689198e-02	5.754269e-02	-4.723941e-02
+	Atom coordinates:	1	C	2.881439e+00	3.658668e-02	-7.901507e-02		1.524792e+00	1.936084e-02	-4.181297e-02
+	Atom coordinates:	2	H	-7.687803e-01	2.010981e+00	-8.126812e-02		-4.068210e-01	1.064165e+00	-4.300524e-02
+	Atom coordinates:	3	H	-7.555485e-01	-8.454201e-01	-1.747315e+00		-3.998190e-01	-4.473770e-01	-9.246392e-01
+	Atom coordinates:	4	H	-8.135084e-01	-8.238392e-01	1.549836e+00		-4.304901e-01	-4.359569e-01	8.201378e-01
+	Atom coordinates:	5	H	3.682321e+00	9.740405e-01	-1.733272e+00		1.948600e+00	5.154400e-01	-9.172078e-01
+	Atom coordinates:	6	H	3.758800e+00	9.222134e-01	1.569009e+00		1.989071e+00	4.880143e-01	8.302836e-01
+	Atom coordinates:	7	H	3.571725e+00	-1.895752e+00	-1.445958e-01		1.890075e+00	-1.003189e+00	-7.651680e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.454499e+00	6.952049e-02	-8.691623e-02		7.696876e-01	3.678866e-02	-4.599409e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.454499e+00	6.952139e-02	-8.691543e-02		7.696879e-01	3.678914e-02	-4.599366e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288743e+00	-3.506877e+01
+	Energy of MO:	1	occ	-8.754760e-01	-2.382311e+01
+	Energy of MO:	2	occ	-5.563955e-01	-1.514041e+01
+	Energy of MO:	3	occ	-5.539988e-01	-1.507520e+01
+	Energy of MO:	4	occ	-5.119749e-01	-1.393166e+01
+	Energy of MO:	5	occ	-4.363803e-01	-1.187461e+01
+	Energy of MO:	6	occ	-4.342655e-01	-1.181706e+01
+	Energy of MO:	7	unocc	1.352828e-01	3.681261e+00
+	Energy of MO:	8	unocc	1.594754e-01	4.339581e+00
+	Energy of MO:	9	unocc	1.626411e-01	4.425726e+00
+	Energy of MO:	10	unocc	1.635067e-01	4.449278e+00
+	Energy of MO:	11	unocc	1.873378e-01	5.097761e+00
+	Energy of MO:	12	unocc	1.929025e-01	5.249186e+00
+	Energy of MO:	13	unocc	1.942256e-01	5.285189e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230134e+01	-3.347392e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.177834e+01	5.926234e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	3.897996e-03	4.037116e-02	2.976671e-02	5.030986e-02		9.907719e-03	1.026133e-01	7.565945e-02	1.278749e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	3.844138e-02	9.014151e-02	7.369507e-02	1.226140e-01		9.770825e-02	2.291169e-01	1.873142e-01	3.116538e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-3.454338e-02	-4.977035e-02	-4.392836e-02	7.483337e-02		-8.780054e-02	-1.265036e-01	-1.116548e-01	1.902075e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.531535e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.498826e-01
+	Mulliken charge:	2	H	1.000000e+00	8.425937e-02
+	Mulliken charge:	3	H	1.000000e+00	8.377918e-02
+	Mulliken charge:	4	H	1.000000e+00	8.251826e-02
+	Mulliken charge:	5	H	1.000000e+00	8.292574e-02
+	Mulliken charge:	6	H	1.000000e+00	8.694276e-02
+	Mulliken charge:	7	H	1.000000e+00	8.261084e-02
+
+
+actual energy change          = -9.906283e-05
+expected energy change        = -6.956737e-05
+actual/expected energy change = 1.423984
+
+	====== Optimization Logs ======
+	Energy difference:  -9.906283e-05 [a.u.]
+	Max gradient:  3.940767e-03 [a.u.]
+	Rms gradient:  1.693556e-03 [a.u.]
+
+
+
+==========  START: BFGS step 14
+
+Eigenvalues of the raw Hessian:
+6.076408e-02,	1.091003e-01,	2.299357e-01,	7.061153e-01,	9.388065e-01,	1.184148e+00
+1.315193e+00,	1.349013e+00,	1.428832e+00,	1.446400e+00,	1.472682e+00,	1.554077e+00
+1.641583e+00,	1.694218e+00,	1.833009e+00,	1.838551e+00,	1.926675e+00,	2.215553e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+6.116229e-02,	1.103488e-01,	2.337463e-01,	7.062794e-01,	9.398504e-01,	1.185257e+00
+1.316382e+00,	1.349678e+00,	1.430913e+00,	1.449546e+00,	1.474962e+00,	1.554259e+00
+1.642800e+00,	1.694377e+00,	1.839714e+00,	1.839813e+00,	1.926877e+00,	2.216894e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000101
+2nd lowest eigenvalue of the augmented Hessian = 0.061194
+3rd lowest eigenvalue of the augmented Hessian = 0.110368
+Calculated RFO step size                       = 0.027828
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.749585e-02	1.076978e-01	-8.689008e-02		1.455018e-02	5.699120e-02	-4.598025e-02
+	Atom coordinates:	1	C	2.880404e+00	3.575130e-02	-8.490035e-02		1.524244e+00	1.891877e-02	-4.492733e-02
+	Atom coordinates:	2	H	-7.710398e-01	2.014110e+00	-8.537906e-02		-4.080167e-01	1.065821e+00	-4.518065e-02
+	Atom coordinates:	3	H	-7.650506e-01	-8.406330e-01	-1.749977e+00		-4.048474e-01	-4.448438e-01	-9.260478e-01
+	Atom coordinates:	4	H	-8.164061e-01	-8.242657e-01	1.553446e+00		-4.320235e-01	-4.361826e-01	8.220484e-01
+	Atom coordinates:	5	H	3.683217e+00	9.761609e-01	-1.733285e+00		1.949075e+00	5.165621e-01	-9.172150e-01
+	Atom coordinates:	6	H	3.758993e+00	9.129280e-01	1.566893e+00		1.989173e+00	4.831007e-01	8.291642e-01
+	Atom coordinates:	7	H	3.590754e+00	-1.894200e+00	-1.357986e-01		1.900145e+00	-1.002367e+00	-7.186154e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.452501e+00	6.883346e-02	-8.819906e-02		7.686304e-01	3.642510e-02	-4.667293e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.452501e+00	6.883429e-02	-8.819840e-02		7.686306e-01	3.642554e-02	-4.667258e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.287371e+00	-3.503142e+01
+	Energy of MO:	1	occ	-8.759735e-01	-2.383664e+01
+	Energy of MO:	2	occ	-5.550888e-01	-1.510486e+01
+	Energy of MO:	3	occ	-5.539977e-01	-1.507517e+01
+	Energy of MO:	4	occ	-5.120071e-01	-1.393253e+01
+	Energy of MO:	5	occ	-4.357732e-01	-1.185809e+01
+	Energy of MO:	6	occ	-4.348108e-01	-1.183190e+01
+	Energy of MO:	7	unocc	1.349535e-01	3.672301e+00
+	Energy of MO:	8	unocc	1.595108e-01	4.340545e+00
+	Energy of MO:	9	unocc	1.628488e-01	4.431376e+00
+	Energy of MO:	10	unocc	1.629712e-01	4.434708e+00
+	Energy of MO:	11	unocc	1.874093e-01	5.099707e+00
+	Energy of MO:	12	unocc	1.931515e-01	5.255961e+00
+	Energy of MO:	13	unocc	1.935995e-01	5.268153e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230141e+01	-3.347411e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.176086e+01	5.921479e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.007229e-02	3.388035e-02	2.419617e-02	4.283437e-02		-2.560121e-02	8.611528e-02	6.150054e-02	1.088741e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.287777e-02	7.966395e-02	6.068038e-02	1.009668e-01		3.273204e-02	2.024856e-01	1.542342e-01	2.566320e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.295006e-02	-4.578360e-02	-3.648421e-02	6.288037e-02		-5.833325e-02	-1.163703e-01	-9.273363e-02	1.598260e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.520738e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.499822e-01
+	Mulliken charge:	2	H	1.000000e+00	8.405939e-02
+	Mulliken charge:	3	H	1.000000e+00	8.341209e-02
+	Mulliken charge:	4	H	1.000000e+00	8.307730e-02
+	Mulliken charge:	5	H	1.000000e+00	8.349801e-02
+	Mulliken charge:	6	H	1.000000e+00	8.570101e-02
+	Mulliken charge:	7	H	1.000000e+00	8.230813e-02
+
+
+actual energy change          = -6.960217e-05
+expected energy change        = -5.027332e-05
+actual/expected energy change = 1.384475
+
+	====== Optimization Logs ======
+	Energy difference:  -6.960217e-05 [a.u.]
+	Max gradient:  3.126796e-03 [a.u.]
+	Rms gradient:  1.510221e-03 [a.u.]
+
+
+
+==========  START: BFGS step 15
+
+Eigenvalues of the raw Hessian:
+5.600285e-02,	1.033223e-01,	2.252896e-01,	6.905016e-01,	8.036401e-01,	1.065752e+00
+1.315425e+00,	1.326798e+00,	1.426027e+00,	1.447990e+00,	1.474366e+00,	1.597980e+00
+1.633328e+00,	1.685303e+00,	1.829742e+00,	1.841361e+00,	1.957721e+00,	2.197528e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+5.646950e-02,	1.042404e-01,	2.311634e-01,	6.911268e-01,	8.066280e-01,	1.067144e+00
+1.317740e+00,	1.327623e+00,	1.428557e+00,	1.450302e+00,	1.476072e+00,	1.598092e+00
+1.633663e+00,	1.685424e+00,	1.837553e+00,	1.841715e+00,	1.957744e+00,	2.199119e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000061
+2nd lowest eigenvalue of the augmented Hessian = 0.056484
+3rd lowest eigenvalue of the augmented Hessian = 0.104247
+Calculated RFO step size                       = 0.019348
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.344234e-02	1.065951e-01	-8.560401e-02		1.240515e-02	5.640772e-02	-4.529969e-02
+	Atom coordinates:	1	C	2.877590e+00	3.553969e-02	-8.884156e-02		1.522755e+00	1.880679e-02	-4.701293e-02
+	Atom coordinates:	2	H	-7.704657e-01	2.014905e+00	-8.806845e-02		-4.077129e-01	1.066242e+00	-4.660382e-02
+	Atom coordinates:	3	H	-7.706937e-01	-8.360920e-01	-1.749165e+00		-4.078336e-01	-4.424408e-01	-9.256185e-01
+	Atom coordinates:	4	H	-8.170180e-01	-8.242294e-01	1.554632e+00		-4.323473e-01	-4.361634e-01	8.226758e-01
+	Atom coordinates:	5	H	3.684906e+00	9.778474e-01	-1.732811e+00		1.949968e+00	5.174545e-01	-9.169642e-01
+	Atom coordinates:	6	H	3.756459e+00	9.069785e-01	1.564023e+00		1.987832e+00	4.799524e-01	8.276451e-01
+	Atom coordinates:	7	H	3.604149e+00	-1.893995e+00	-1.300543e-01		1.907233e+00	-1.002259e+00	-6.882178e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.449988e+00	6.835256e-02	-8.917062e-02		7.673004e-01	3.617062e-02	-4.718706e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.449988e+00	6.835334e-02	-8.917006e-02		7.673005e-01	3.617103e-02	-4.718676e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.286989e+00	-3.502103e+01
+	Energy of MO:	1	occ	-8.764802e-01	-2.385043e+01
+	Energy of MO:	2	occ	-5.550639e-01	-1.510418e+01
+	Energy of MO:	3	occ	-5.534661e-01	-1.506070e+01
+	Energy of MO:	4	occ	-5.121834e-01	-1.393733e+01
+	Energy of MO:	5	occ	-4.359126e-01	-1.186188e+01
+	Energy of MO:	6	occ	-4.346850e-01	-1.182848e+01
+	Energy of MO:	7	unocc	1.348177e-01	3.668604e+00
+	Energy of MO:	8	unocc	1.596227e-01	4.343589e+00
+	Energy of MO:	9	unocc	1.625138e-01	4.422261e+00
+	Energy of MO:	10	unocc	1.632316e-01	4.441793e+00
+	Energy of MO:	11	unocc	1.875477e-01	5.103473e+00
+	Energy of MO:	12	unocc	1.929932e-01	5.251653e+00
+	Energy of MO:	13	unocc	1.936644e-01	5.269918e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230146e+01	-3.347423e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.175641e+01	5.920267e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.252269e-02	2.767899e-02	1.961800e-02	3.616365e-02		-3.182950e-02	7.035298e-02	4.986399e-02	9.191886e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-4.156631e-03	7.067199e-02	5.046435e-02	8.693939e-02		-1.056511e-02	1.796303e-01	1.282676e-01	2.209779e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-8.366055e-03	-4.299300e-02	-3.084635e-02	5.357132e-02		-2.126440e-02	-1.092773e-01	-7.840363e-02	1.361647e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.510057e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.503998e-01
+	Mulliken charge:	2	H	1.000000e+00	8.391619e-02
+	Mulliken charge:	3	H	1.000000e+00	8.323268e-02
+	Mulliken charge:	4	H	1.000000e+00	8.349714e-02
+	Mulliken charge:	5	H	1.000000e+00	8.383838e-02
+	Mulliken charge:	6	H	1.000000e+00	8.482375e-02
+	Mulliken charge:	7	H	1.000000e+00	8.209739e-02
+
+
+actual energy change          = -4.413823e-05
+expected energy change        = -3.068951e-05
+actual/expected energy change = 1.438219
+
+	====== Optimization Logs ======
+	Energy difference:  -4.413823e-05 [a.u.]
+	Max gradient:  2.756465e-03 [a.u.]
+	Rms gradient:  1.280478e-03 [a.u.]
+
+
+
+==========  START: BFGS step 16
+
+Eigenvalues of the raw Hessian:
+5.574915e-02,	1.071295e-01,	2.090668e-01,	4.837179e-01,	7.506089e-01,	1.027427e+00
+1.297524e+00,	1.321042e+00,	1.422844e+00,	1.451057e+00,	1.468470e+00,	1.565098e+00
+1.645689e+00,	1.681261e+00,	1.840744e+00,	1.865830e+00,	1.952634e+00,	2.227111e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+5.612842e-02,	1.074665e-01,	2.130005e-01,	4.847843e-01,	7.508326e-01,	1.027664e+00
+1.299019e+00,	1.321333e+00,	1.423927e+00,	1.452724e+00,	1.469232e+00,	1.565284e+00
+1.646008e+00,	1.681417e+00,	1.840981e+00,	1.868777e+00,	1.953408e+00,	2.228007e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000051
+2nd lowest eigenvalue of the augmented Hessian = 0.056136
+3rd lowest eigenvalue of the augmented Hessian = 0.107470
+Calculated RFO step size                       = 0.015909
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.040953e-02	1.051490e-01	-8.513657e-02		1.080026e-02	5.564243e-02	-4.505233e-02
+	Atom coordinates:	1	C	2.874361e+00	3.412818e-02	-9.104464e-02		1.521046e+00	1.805986e-02	-4.817875e-02
+	Atom coordinates:	2	H	-7.677244e-01	2.014026e+00	-9.005966e-02		-4.062622e-01	1.065777e+00	-4.765752e-02
+	Atom coordinates:	3	H	-7.748514e-01	-8.310427e-01	-1.746072e+00		-4.100337e-01	-4.397689e-01	-9.239814e-01
+	Atom coordinates:	4	H	-8.164147e-01	-8.240866e-01	1.554864e+00		-4.320281e-01	-4.360878e-01	8.227985e-01
+	Atom coordinates:	5	H	3.687720e+00	9.794402e-01	-1.731794e+00		1.951457e+00	5.182974e-01	-9.164260e-01
+	Atom coordinates:	6	H	3.750910e+00	9.053441e-01	1.560896e+00		1.984896e+00	4.790875e-01	8.259904e-01
+	Atom coordinates:	7	H	3.613958e+00	-1.895409e+00	-1.275431e-01		1.912424e+00	-1.003007e+00	-6.749288e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.447696e+00	6.730689e-02	-8.980572e-02		7.660879e-01	3.561727e-02	-4.752314e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.447696e+00	6.730756e-02	-8.980522e-02		7.660879e-01	3.561763e-02	-4.752288e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.287152e+00	-3.502547e+01
+	Energy of MO:	1	occ	-8.769073e-01	-2.386205e+01
+	Energy of MO:	2	occ	-5.552100e-01	-1.510815e+01
+	Energy of MO:	3	occ	-5.532019e-01	-1.505351e+01
+	Energy of MO:	4	occ	-5.124401e-01	-1.394432e+01
+	Energy of MO:	5	occ	-4.360778e-01	-1.186637e+01
+	Energy of MO:	6	occ	-4.345421e-01	-1.182459e+01
+	Energy of MO:	7	unocc	1.347974e-01	3.668054e+00
+	Energy of MO:	8	unocc	1.597630e-01	4.347408e+00
+	Energy of MO:	9	unocc	1.623966e-01	4.419071e+00
+	Energy of MO:	10	unocc	1.633776e-01	4.445767e+00
+	Energy of MO:	11	unocc	1.877330e-01	5.108516e+00
+	Energy of MO:	12	unocc	1.928888e-01	5.248812e+00
+	Energy of MO:	13	unocc	1.938118e-01	5.273930e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230149e+01	-3.347433e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.175899e+01	5.920969e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-6.442512e-03	2.055900e-02	1.651223e-02	2.714466e-02		-1.637524e-02	5.225578e-02	4.196992e-02	6.899485e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-1.137279e-02	5.748408e-02	4.367318e-02	7.308287e-02		-2.890675e-02	1.461100e-01	1.110062e-01	1.857582e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		4.930275e-03	-3.692507e-02	-2.716095e-02	4.610299e-02		1.253151e-02	-9.385420e-02	-6.903627e-02	1.171821e-01
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.501419e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.508345e-01
+	Mulliken charge:	2	H	1.000000e+00	8.377565e-02
+	Mulliken charge:	3	H	1.000000e+00	8.314308e-02
+	Mulliken charge:	4	H	1.000000e+00	8.380502e-02
+	Mulliken charge:	5	H	1.000000e+00	8.387510e-02
+	Mulliken charge:	6	H	1.000000e+00	8.421140e-02
+	Mulliken charge:	7	H	1.000000e+00	8.216615e-02
+
+
+actual energy change          = -3.657315e-05
+expected energy change        = -2.563696e-05
+actual/expected energy change = 1.426579
+
+	====== Optimization Logs ======
+	Energy difference:  -3.657315e-05 [a.u.]
+	Max gradient:  2.480115e-03 [a.u.]
+	Rms gradient:  1.047604e-03 [a.u.]
+
+
+
+==========  START: BFGS step 17
+
+Eigenvalues of the raw Hessian:
+5.668633e-02,	1.125803e-01,	1.573513e-01,	3.532893e-01,	7.596285e-01,	1.033868e+00
+1.289485e+00,	1.320814e+00,	1.417224e+00,	1.454849e+00,	1.462355e+00,	1.527552e+00
+1.642781e+00,	1.685610e+00,	1.840866e+00,	1.908937e+00,	1.949487e+00,	2.254097e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+5.718930e-02,	1.128628e-01,	1.599479e-01,	3.532984e-01,	7.598799e-01,	1.033916e+00
+1.290050e+00,	1.321026e+00,	1.417868e+00,	1.455467e+00,	1.464057e+00,	1.527883e+00
+1.643216e+00,	1.686003e+00,	1.841076e+00,	1.909210e+00,	1.951937e+00,	2.254378e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000040
+2nd lowest eigenvalue of the augmented Hessian = 0.057193
+3rd lowest eigenvalue of the augmented Hessian = 0.112864
+Calculated RFO step size                       = 0.014691
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	1.943947e-02	1.037005e-01	-8.520395e-02		1.028693e-02	5.487595e-02	-4.508799e-02
+	Atom coordinates:	1	C	2.872184e+00	3.095129e-02	-9.184134e-02		1.519894e+00	1.637872e-02	-4.860035e-02
+	Atom coordinates:	2	H	-7.636270e-01	2.012368e+00	-9.127541e-02		-4.040940e-01	1.064899e+00	-4.830087e-02
+	Atom coordinates:	3	H	-7.781111e-01	-8.264052e-01	-1.742202e+00		-4.117586e-01	-4.373148e-01	-9.219336e-01
+	Atom coordinates:	4	H	-8.151726e-01	-8.242536e-01	1.554892e+00		-4.313708e-01	-4.361762e-01	8.228134e-01
+	Atom coordinates:	5	H	3.691118e+00	9.807706e-01	-1.730268e+00		1.953256e+00	5.190014e-01	-9.156185e-01
+	Atom coordinates:	6	H	3.743124e+00	9.082320e-01	1.558255e+00		1.980776e+00	4.806157e-01	8.245930e-01
+	Atom coordinates:	7	H	3.619413e+00	-1.897814e+00	-1.282465e-01		1.915311e+00	-1.004280e+00	-6.786513e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.446545e+00	6.561440e-02	-9.012190e-02		7.654787e-01	3.472165e-02	-4.769046e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.446545e+00	6.561490e-02	-9.012144e-02		7.654786e-01	3.472191e-02	-4.769021e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.287608e+00	-3.503788e+01
+	Energy of MO:	1	occ	-8.771310e-01	-2.386814e+01
+	Energy of MO:	2	occ	-5.552050e-01	-1.510802e+01
+	Energy of MO:	3	occ	-5.533993e-01	-1.505888e+01
+	Energy of MO:	4	occ	-5.126890e-01	-1.395109e+01
+	Energy of MO:	5	occ	-4.359785e-01	-1.186367e+01
+	Energy of MO:	6	occ	-4.346427e-01	-1.182732e+01
+	Energy of MO:	7	unocc	1.348604e-01	3.669768e+00
+	Energy of MO:	8	unocc	1.598862e-01	4.350760e+00
+	Energy of MO:	9	unocc	1.624597e-01	4.420789e+00
+	Energy of MO:	10	unocc	1.633700e-01	4.445558e+00
+	Energy of MO:	11	unocc	1.879122e-01	5.113392e+00
+	Energy of MO:	12	unocc	1.929767e-01	5.251205e+00
+	Energy of MO:	13	unocc	1.938244e-01	5.274274e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230152e+01	-3.347441e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.176516e+01	5.922648e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	3.120741e-03	1.354381e-02	1.522170e-02	2.061247e-02		7.932135e-03	3.442493e-02	3.868970e-02	5.239168e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-8.490067e-03	4.064758e-02	4.054788e-02	5.803824e-02		-2.157960e-02	1.033159e-01	1.030624e-01	1.475185e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		1.161081e-02	-2.710377e-02	-2.532618e-02	3.886953e-02		2.951174e-02	-6.889093e-02	-6.437274e-02	9.879652e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.497693e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.510331e-01
+	Mulliken charge:	2	H	1.000000e+00	8.366653e-02
+	Mulliken charge:	3	H	1.000000e+00	8.307013e-02
+	Mulliken charge:	4	H	1.000000e+00	8.397594e-02
+	Mulliken charge:	5	H	1.000000e+00	8.364921e-02
+	Mulliken charge:	6	H	1.000000e+00	8.385482e-02
+	Mulliken charge:	7	H	1.000000e+00	8.258580e-02
+
+
+actual energy change          = -2.863601e-05
+expected energy change        = -1.999587e-05
+actual/expected energy change = 1.432096
+
+	====== Optimization Logs ======
+	Energy difference:  -2.863601e-05 [a.u.]
+	Max gradient:  2.431905e-03 [a.u.]
+	Rms gradient:  8.900491e-04 [a.u.]
+
+
+
+==========  START: BFGS step 18
+
+Eigenvalues of the raw Hessian:
+5.677968e-02,	9.976911e-02,	1.164702e-01,	3.296596e-01,	7.407901e-01,	1.049375e+00
+1.311283e+00,	1.321252e+00,	1.386092e+00,	1.443458e+00,	1.469151e+00,	1.512462e+00
+1.638528e+00,	1.688272e+00,	1.840214e+00,	1.881446e+00,	1.984791e+00,	2.219211e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+5.731943e-02,	1.002002e-01,	1.177672e-01,	3.297733e-01,	7.418552e-01,	1.049434e+00
+1.311489e+00,	1.321454e+00,	1.386860e+00,	1.443704e+00,	1.470176e+00,	1.513335e+00
+1.638956e+00,	1.688832e+00,	1.840354e+00,	1.882539e+00,	1.986317e+00,	2.219275e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000032
+2nd lowest eigenvalue of the augmented Hessian = 0.057322
+3rd lowest eigenvalue of the augmented Hessian = 0.100218
+Calculated RFO step size                       = 0.015371
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.044360e-02	1.025316e-01	-8.528701e-02		1.081828e-02	5.425739e-02	-4.513194e-02
+	Atom coordinates:	1	C	2.871589e+00	2.650570e-02	-9.239382e-02		1.519579e+00	1.402621e-02	-4.889270e-02
+	Atom coordinates:	2	H	-7.588876e-01	2.010955e+00	-9.187726e-02		-4.015860e-01	1.064151e+00	-4.861935e-02
+	Atom coordinates:	3	H	-7.813383e-01	-8.227690e-01	-1.738828e+00		-4.134664e-01	-4.353906e-01	-9.201481e-01
+	Atom coordinates:	4	H	-8.136811e-01	-8.249861e-01	1.555163e+00		-4.305815e-01	-4.365638e-01	8.229569e-01
+	Atom coordinates:	5	H	3.694485e+00	9.817588e-01	-1.728267e+00		1.955037e+00	5.195243e-01	-9.145594e-01
+	Atom coordinates:	6	H	3.734041e+00	9.137959e-01	1.556242e+00		1.975969e+00	4.835600e-01	8.235280e-01
+	Atom coordinates:	7	H	3.621717e+00	-1.900242e+00	-1.306432e-01		1.916530e+00	-1.005565e+00	-6.913340e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.446695e+00	6.355996e-02	-9.035446e-02		7.655578e-01	3.363448e-02	-4.781352e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.446694e+00	6.356024e-02	-9.035402e-02		7.655577e-01	3.363463e-02	-4.781329e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288129e+00	-3.505204e+01
+	Energy of MO:	1	occ	-8.771612e-01	-2.386896e+01
+	Energy of MO:	2	occ	-5.550805e-01	-1.510463e+01
+	Energy of MO:	3	occ	-5.538629e-01	-1.507150e+01
+	Energy of MO:	4	occ	-5.128741e-01	-1.395613e+01
+	Energy of MO:	5	occ	-4.357002e-01	-1.185610e+01
+	Energy of MO:	6	occ	-4.349021e-01	-1.183438e+01
+	Energy of MO:	7	unocc	1.349648e-01	3.672608e+00
+	Energy of MO:	8	unocc	1.599659e-01	4.352929e+00
+	Energy of MO:	9	unocc	1.626130e-01	4.424960e+00
+	Energy of MO:	10	unocc	1.632696e-01	4.442828e+00
+	Energy of MO:	11	unocc	1.880470e-01	5.117061e+00
+	Energy of MO:	12	unocc	1.931703e-01	5.256474e+00
+	Energy of MO:	13	unocc	1.937330e-01	5.271784e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230154e+01	-3.347447e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.177197e+01	5.924502e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	1.076561e-02	7.198684e-03	1.491711e-02	1.975448e-02		2.736344e-02	1.829723e-02	3.791551e-02	5.021089e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	2.285420e-05	2.238075e-02	3.889379e-02	4.487344e-02		5.808959e-05	5.688621e-02	9.885817e-02	1.140569e-01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		1.074275e-02	-1.518207e-02	-2.397668e-02	3.034441e-02		2.730536e-02	-3.858898e-02	-6.094266e-02	7.712781e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.498920e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.509487e-01
+	Mulliken charge:	2	H	1.000000e+00	8.360897e-02
+	Mulliken charge:	3	H	1.000000e+00	8.294826e-02
+	Mulliken charge:	4	H	1.000000e+00	8.406418e-02
+	Mulliken charge:	5	H	1.000000e+00	8.334362e-02
+	Mulliken charge:	6	H	1.000000e+00	8.361974e-02
+	Mulliken charge:	7	H	1.000000e+00	8.325596e-02
+
+
+actual energy change          = -2.285633e-05
+expected energy change        = -1.603488e-05
+actual/expected energy change = 1.425413
+
+	====== Optimization Logs ======
+	Energy difference:  -2.285633e-05 [a.u.]
+	Max gradient:  2.312639e-03 [a.u.]
+	Rms gradient:  8.571455e-04 [a.u.]
+
+
+
+==========  START: BFGS step 19
+
+Eigenvalues of the raw Hessian:
+5.525028e-02,	7.447452e-02,	1.171763e-01,	3.244236e-01,	6.987006e-01,	1.047565e+00
+1.244030e+00,	1.319917e+00,	1.364402e+00,	1.437195e+00,	1.469548e+00,	1.530225e+00
+1.634402e+00,	1.687036e+00,	1.787054e+00,	1.842400e+00,	1.946599e+00,	2.223217e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+5.560965e-02,	7.477130e-02,	1.186393e-01,	3.245180e-01,	7.002911e-01,	1.047591e+00
+1.245413e+00,	1.320118e+00,	1.365270e+00,	1.437577e+00,	1.469748e+00,	1.531434e+00
+1.634897e+00,	1.687504e+00,	1.788644e+00,	1.842647e+00,	1.947393e+00,	2.223474e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000024
+2nd lowest eigenvalue of the augmented Hessian = 0.055613
+3rd lowest eigenvalue of the augmented Hessian = 0.074780
+Calculated RFO step size                       = 0.014034
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.265221e-02	1.018041e-01	-8.512596e-02		1.198703e-02	5.387240e-02	-4.504672e-02
+	Atom coordinates:	1	C	2.872408e+00	2.227232e-02	-9.347894e-02		1.520013e+00	1.178600e-02	-4.946693e-02
+	Atom coordinates:	2	H	-7.543081e-01	2.010431e+00	-9.197276e-02		-3.991626e-01	1.063874e+00	-4.866989e-02
+	Atom coordinates:	3	H	-7.848002e-01	-8.206818e-01	-1.736830e+00		-4.152984e-01	-4.342861e-01	-9.190910e-01
+	Atom coordinates:	4	H	-8.122068e-01	-8.261738e-01	1.555644e+00		-4.298013e-01	-4.371923e-01	8.232111e-01
+	Atom coordinates:	5	H	3.697033e+00	9.822178e-01	-1.726060e+00		1.956385e+00	5.197673e-01	-9.133914e-01
+	Atom coordinates:	6	H	3.725411e+00	9.193534e-01	1.554885e+00		1.971403e+00	4.865009e-01	8.228095e-01
+	Atom coordinates:	7	H	3.622179e+00	-1.901673e+00	-1.329510e-01		1.916775e+00	-1.006322e+00	-7.035462e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.447802e+00	6.174469e-02	-9.069259e-02		7.661441e-01	3.267388e-02	-4.799245e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.447802e+00	6.174477e-02	-9.069219e-02		7.661440e-01	3.267393e-02	-4.799224e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288566e+00	-3.506395e+01
+	Energy of MO:	1	occ	-8.770834e-01	-2.386685e+01
+	Energy of MO:	2	occ	-5.549339e-01	-1.510064e+01
+	Energy of MO:	3	occ	-5.543597e-01	-1.508502e+01
+	Energy of MO:	4	occ	-5.129685e-01	-1.395869e+01
+	Energy of MO:	5	occ	-4.354154e-01	-1.184835e+01
+	Energy of MO:	6	occ	-4.351751e-01	-1.184181e+01
+	Energy of MO:	7	unocc	1.350709e-01	3.675497e+00
+	Energy of MO:	8	unocc	1.599975e-01	4.353789e+00
+	Energy of MO:	9	unocc	1.627757e-01	4.429388e+00
+	Energy of MO:	10	unocc	1.631655e-01	4.439995e+00
+	Energy of MO:	11	unocc	1.881171e-01	5.118968e+00
+	Energy of MO:	12	unocc	1.933779e-01	5.262122e+00
+	Energy of MO:	13	unocc	1.936092e-01	5.268416e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230156e+01	-3.347452e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.177763e+01	5.926043e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	1.283263e-02	2.348247e-03	1.460107e-02	1.958014e-02		3.261729e-02	5.968649e-03	3.711222e-02	4.976775e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	8.518281e-03	6.996469e-03	3.661561e-02	3.823891e-02		2.165131e-02	1.778325e-02	9.306761e-02	9.719364e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		4.314346e-03	-4.648223e-03	-2.201454e-02	2.290981e-02		1.096598e-02	-1.181461e-02	-5.595540e-02	5.823095e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.503406e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.506677e-01
+	Mulliken charge:	2	H	1.000000e+00	8.360016e-02
+	Mulliken charge:	3	H	1.000000e+00	8.278545e-02
+	Mulliken charge:	4	H	1.000000e+00	8.411576e-02
+	Mulliken charge:	5	H	1.000000e+00	8.315171e-02
+	Mulliken charge:	6	H	1.000000e+00	8.342682e-02
+	Mulliken charge:	7	H	1.000000e+00	8.392845e-02
+
+
+actual energy change          = -1.691338e-05
+expected energy change        = -1.210993e-05
+actual/expected energy change = 1.396654
+
+	====== Optimization Logs ======
+	Energy difference:  -1.691338e-05 [a.u.]
+	Max gradient:  1.656370e-03 [a.u.]
+	Rms gradient:  8.139238e-04 [a.u.]
+
+
+
+==========  START: BFGS step 20
+
+Eigenvalues of the raw Hessian:
+5.337425e-02,	6.851625e-02,	1.191337e-01,	3.178860e-01,	6.330336e-01,	9.739055e-01
+1.088319e+00,	1.320069e+00,	1.378866e+00,	1.431113e+00,	1.465963e+00,	1.515895e+00
+1.611168e+00,	1.673445e+00,	1.708842e+00,	1.847615e+00,	1.922011e+00,	2.302943e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+5.349231e-02,	6.867227e-02,	1.204124e-01,	3.179253e-01,	6.340479e-01,	9.749860e-01
+1.089118e+00,	1.320169e+00,	1.379780e+00,	1.431641e+00,	1.466175e+00,	1.516796e+00
+1.611707e+00,	1.673588e+00,	1.709841e+00,	1.847792e+00,	1.922573e+00,	2.303084e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000015
+2nd lowest eigenvalue of the augmented Hessian = 0.053495
+3rd lowest eigenvalue of the augmented Hessian = 0.068675
+Calculated RFO step size                       = 0.009592
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.471000e-02	1.014709e-01	-8.487623e-02		1.307597e-02	5.369610e-02	-4.491457e-02
+	Atom coordinates:	1	C	2.873731e+00	1.997888e-02	-9.500946e-02		1.520713e+00	1.057237e-02	-5.027684e-02
+	Atom coordinates:	2	H	-7.507702e-01	2.010854e+00	-9.169126e-02		-3.972905e-01	1.064098e+00	-4.852092e-02
+	Atom coordinates:	3	H	-7.879806e-01	-8.202894e-01	-1.736359e+00		-4.169814e-01	-4.340785e-01	-9.188416e-01
+	Atom coordinates:	4	H	-8.109723e-01	-8.273486e-01	1.555986e+00		-4.291480e-01	-4.378140e-01	8.233923e-01
+	Atom coordinates:	5	H	3.698206e+00	9.820737e-01	-1.724275e+00		1.957006e+00	5.196910e-01	-9.124471e-01
+	Atom coordinates:	6	H	3.719414e+00	9.225259e-01	1.554247e+00		1.968229e+00	4.881797e-01	8.224720e-01
+	Atom coordinates:	7	H	3.622030e+00	-1.901716e+00	-1.339121e-01		1.916696e+00	-1.006345e+00	-7.086323e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.449039e+00	6.078357e-02	-9.116125e-02		7.667987e-01	3.216528e-02	-4.824046e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.449040e+00	6.078355e-02	-9.116090e-02		7.667987e-01	3.216527e-02	-4.824027e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288836e+00	-3.507128e+01
+	Energy of MO:	1	occ	-8.770023e-01	-2.386464e+01
+	Energy of MO:	2	occ	-5.548484e-01	-1.509832e+01
+	Energy of MO:	3	occ	-5.546961e-01	-1.509417e+01
+	Energy of MO:	4	occ	-5.129792e-01	-1.395899e+01
+	Energy of MO:	5	occ	-4.354487e-01	-1.184926e+01
+	Energy of MO:	6	occ	-4.351643e-01	-1.184152e+01
+	Energy of MO:	7	unocc	1.351444e-01	3.677495e+00
+	Energy of MO:	8	unocc	1.600006e-01	4.353873e+00
+	Energy of MO:	9	unocc	1.629071e-01	4.432963e+00
+	Energy of MO:	10	unocc	1.630999e-01	4.438211e+00
+	Energy of MO:	11	unocc	1.881293e-01	5.119299e+00
+	Energy of MO:	12	unocc	1.934743e-01	5.264745e+00
+	Energy of MO:	13	unocc	1.935715e-01	5.267391e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230157e+01	-3.347454e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.178113e+01	5.926994e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	9.576204e-03	-3.129798e-04	1.368986e-02	1.670970e-02		2.434029e-02	-7.955155e-04	3.479617e-02	4.247182e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.244000e-02	-1.242022e-03	3.298481e-02	3.527455e-02		3.161934e-02	-3.156906e-03	8.383903e-02	8.965897e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-2.863799e-03	9.290422e-04	-1.929494e-02	1.952842e-02		-7.279054e-03	2.361390e-03	-4.904286e-02	4.963631e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.507995e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.503843e-01
+	Mulliken charge:	2	H	1.000000e+00	8.361234e-02
+	Mulliken charge:	3	H	1.000000e+00	8.266163e-02
+	Mulliken charge:	4	H	1.000000e+00	8.415025e-02
+	Mulliken charge:	5	H	1.000000e+00	8.316562e-02
+	Mulliken charge:	6	H	1.000000e+00	8.327677e-02
+	Mulliken charge:	7	H	1.000000e+00	8.431714e-02
+
+
+actual energy change          = -1.036522e-05
+expected energy change        = -7.505044e-06
+actual/expected energy change = 1.381101
+
+	====== Optimization Logs ======
+	Energy difference:  -1.036522e-05 [a.u.]
+	Max gradient:  1.426164e-03 [a.u.]
+	Rms gradient:  6.740073e-04 [a.u.]
+
+
+
+==========  START: BFGS step 21
+
+Eigenvalues of the raw Hessian:
+5.291392e-02,	6.896788e-02,	1.211744e-01,	3.029966e-01,	5.216710e-01,	8.062729e-01
+1.064864e+00,	1.320632e+00,	1.368292e+00,	1.416007e+00,	1.455874e+00,	1.478470e+00
+1.591302e+00,	1.678429e+00,	1.701239e+00,	1.852433e+00,	1.942966e+00,	2.373719e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+5.296780e-02,	6.902001e-02,	1.217871e-01,	3.030148e-01,	5.219725e-01,	8.071092e-01
+1.064920e+00,	1.320645e+00,	1.368600e+00,	1.416815e+00,	1.456059e+00,	1.478552e+00
+1.591497e+00,	1.678487e+00,	1.701587e+00,	1.852615e+00,	1.943119e+00,	2.373757e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000009
+2nd lowest eigenvalue of the augmented Hessian = 0.052969
+3rd lowest eigenvalue of the augmented Hessian = 0.069021
+Calculated RFO step size                       = 0.005950
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.583187e-02	1.012467e-01	-8.488287e-02		1.366964e-02	5.357747e-02	-4.491808e-02
+	Atom coordinates:	1	C	2.874671e+00	1.967397e-02	-9.641585e-02		1.521210e+00	1.041102e-02	-5.102107e-02
+	Atom coordinates:	2	H	-7.481672e-01	2.011751e+00	-9.121838e-02		-3.959130e-01	1.064573e+00	-4.827069e-02
+	Atom coordinates:	3	H	-7.906523e-01	-8.208848e-01	-1.736634e+00		-4.183952e-01	-4.343935e-01	-9.189873e-01
+	Atom coordinates:	4	H	-8.099333e-01	-8.282256e-01	1.556004e+00		-4.285982e-01	-4.382781e-01	8.234017e-01
+	Atom coordinates:	5	H	3.698437e+00	9.815855e-01	-1.723242e+00		1.957128e+00	5.194327e-01	-9.119005e-01
+	Atom coordinates:	6	H	3.716063e+00	9.233388e-01	1.554177e+00		1.966456e+00	4.886098e-01	8.224348e-01
+	Atom coordinates:	7	H	3.622118e+00	-1.900936e+00	-1.336771e-01		1.916742e+00	-1.005932e+00	-7.073887e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.449794e+00	6.058997e-02	-9.167830e-02		7.671980e-01	3.206283e-02	-4.851407e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.449794e+00	6.058993e-02	-9.167801e-02		7.671981e-01	3.206281e-02	-4.851391e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288967e+00	-3.507487e+01
+	Energy of MO:	1	occ	-8.769601e-01	-2.386349e+01
+	Energy of MO:	2	occ	-5.549016e-01	-1.509976e+01
+	Energy of MO:	3	occ	-5.547835e-01	-1.509655e+01
+	Energy of MO:	4	occ	-5.129488e-01	-1.395816e+01
+	Energy of MO:	5	occ	-4.355623e-01	-1.185235e+01
+	Energy of MO:	6	occ	-4.351002e-01	-1.183977e+01
+	Energy of MO:	7	unocc	1.351836e-01	3.678563e+00
+	Energy of MO:	8	unocc	1.599973e-01	4.353782e+00
+	Energy of MO:	9	unocc	1.630156e-01	4.435917e+00
+	Energy of MO:	10	unocc	1.630539e-01	4.436959e+00
+	Energy of MO:	11	unocc	1.881150e-01	5.118911e+00
+	Energy of MO:	12	unocc	1.934464e-01	5.263986e+00
+	Energy of MO:	13	unocc	1.936368e-01	5.269168e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230158e+01	-3.347456e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.178287e+01	5.927469e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	4.620190e-03	-1.354825e-03	1.221918e-02	1.313354e-02		1.174335e-02	-3.443623e-03	3.105805e-02	3.338215e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.186328e-02	-3.407324e-03	2.851372e-02	3.107056e-02		3.015347e-02	-8.660556e-03	7.247467e-02	7.897351e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-7.243094e-03	2.052499e-03	-1.629455e-02	1.794958e-02		-1.841011e-02	5.216933e-03	-4.141662e-02	4.562329e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.510692e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.502333e-01
+	Mulliken charge:	2	H	1.000000e+00	8.361653e-02
+	Mulliken charge:	3	H	1.000000e+00	8.263472e-02
+	Mulliken charge:	4	H	1.000000e+00	8.416546e-02
+	Mulliken charge:	5	H	1.000000e+00	8.330147e-02
+	Mulliken charge:	6	H	1.000000e+00	8.318880e-02
+	Mulliken charge:	7	H	1.000000e+00	8.439547e-02
+
+
+actual energy change          = -6.470045e-06
+expected energy change        = -4.475743e-06
+actual/expected energy change = 1.445580
+
+	====== Optimization Logs ======
+	Energy difference:  -6.470045e-06 [a.u.]
+	Max gradient:  1.237499e-03 [a.u.]
+	Rms gradient:  5.343936e-04 [a.u.]
+
+
+
+==========  START: BFGS step 22
+
+Eigenvalues of the raw Hessian:
+5.156946e-02,	6.930879e-02,	1.191932e-01,	2.552417e-01,	4.069256e-01,	7.313865e-01
+1.057563e+00,	1.320944e+00,	1.330604e+00,	1.409319e+00,	1.447141e+00,	1.474979e+00
+1.601986e+00,	1.689565e+00,	1.699849e+00,	1.850488e+00,	1.994241e+00,	2.339666e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+5.168673e-02,	6.933029e-02,	1.194166e-01,	2.552742e-01,	4.069852e-01,	7.316228e-01
+1.057573e+00,	1.320947e+00,	1.330776e+00,	1.409541e+00,	1.447194e+00,	1.474992e+00
+1.602048e+00,	1.689683e+00,	1.700028e+00,	1.850573e+00,	1.994246e+00,	2.339692e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000008
+2nd lowest eigenvalue of the augmented Hessian = 0.051687
+3rd lowest eigenvalue of the augmented Hessian = 0.069331
+Calculated RFO step size                       = 0.006024
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.625023e-02	1.008416e-01	-8.538599e-02		1.389102e-02	5.336310e-02	-4.518432e-02
+	Atom coordinates:	1	C	2.875159e+00	2.043842e-02	-9.761838e-02		1.521469e+00	1.081555e-02	-5.165742e-02
+	Atom coordinates:	2	H	-7.452721e-01	2.012969e+00	-9.053163e-02		-3.943810e-01	1.065217e+00	-4.790728e-02
+	Atom coordinates:	3	H	-7.937204e-01	-8.219637e-01	-1.737048e+00		-4.200188e-01	-4.349644e-01	-9.192063e-01
+	Atom coordinates:	4	H	-8.086823e-01	-8.290336e-01	1.555731e+00		-4.279362e-01	-4.387057e-01	8.232575e-01
+	Atom coordinates:	5	H	3.698441e+00	9.808939e-01	-1.722735e+00		1.957131e+00	5.190667e-01	-9.116320e-01
+	Atom coordinates:	6	H	3.713475e+00	9.231513e-01	1.554571e+00		1.965086e+00	4.885106e-01	8.226436e-01
+	Atom coordinates:	7	H	3.622718e+00	-1.899748e+00	-1.328736e-01		1.917060e+00	-1.005303e+00	-7.031370e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.450126e+00	6.072146e-02	-9.230243e-02		7.673735e-01	3.213241e-02	-4.884434e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.450126e+00	6.072144e-02	-9.230219e-02		7.673736e-01	3.213240e-02	-4.884422e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.289038e+00	-3.507678e+01
+	Energy of MO:	1	occ	-8.769264e-01	-2.386257e+01
+	Energy of MO:	2	occ	-5.550219e-01	-1.510304e+01
+	Energy of MO:	3	occ	-5.547582e-01	-1.509586e+01
+	Energy of MO:	4	occ	-5.128970e-01	-1.395675e+01
+	Energy of MO:	5	occ	-4.356359e-01	-1.185435e+01
+	Energy of MO:	6	occ	-4.350902e-01	-1.183950e+01
+	Energy of MO:	7	unocc	1.352103e-01	3.679290e+00
+	Energy of MO:	8	unocc	1.599893e-01	4.353564e+00
+	Energy of MO:	9	unocc	1.630117e-01	4.435809e+00
+	Energy of MO:	10	unocc	1.631181e-01	4.438706e+00
+	Energy of MO:	11	unocc	1.880891e-01	5.118205e+00
+	Energy of MO:	12	unocc	1.934195e-01	5.263255e+00
+	Energy of MO:	13	unocc	1.936890e-01	5.270588e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230158e+01	-3.347458e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.178383e+01	5.927728e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-3.886017e-04	-1.813262e-03	1.006560e-02	1.023500e-02		-9.877271e-04	-4.608853e-03	2.558420e-02	2.601477e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	8.778462e-03	-3.102721e-03	2.273843e-02	2.457081e-02		2.231263e-02	-7.886332e-03	5.779534e-02	6.245277e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-9.167063e-03	1.289459e-03	-1.267283e-02	1.569390e-02		-2.330036e-02	3.277479e-03	-3.221114e-02	3.988992e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.511963e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.502057e-01
+	Mulliken charge:	2	H	1.000000e+00	8.360404e-02
+	Mulliken charge:	3	H	1.000000e+00	8.271205e-02
+	Mulliken charge:	4	H	1.000000e+00	8.415159e-02
+	Mulliken charge:	5	H	1.000000e+00	8.347872e-02
+	Mulliken charge:	6	H	1.000000e+00	8.315774e-02
+	Mulliken charge:	7	H	1.000000e+00	8.429776e-02
+
+
+actual energy change          = -6.236098e-06
+expected energy change        = -4.139657e-06
+actual/expected energy change = 1.506428
+
+	====== Optimization Logs ======
+	Energy difference:  -6.236098e-06 [a.u.]
+	Max gradient:  1.283145e-03 [a.u.]
+	Rms gradient:  4.975402e-04 [a.u.]
+
+
+
+==========  START: BFGS step 23
+
+Eigenvalues of the raw Hessian:
+4.757057e-02,	6.812708e-02,	1.124386e-01,	1.843800e-01,	3.620682e-01,	6.971784e-01
+1.050630e+00,	1.300979e+00,	1.321138e+00,	1.404429e+00,	1.442445e+00,	1.475193e+00
+1.631385e+00,	1.694311e+00,	1.713479e+00,	1.842395e+00,	2.015110e+00,	2.218257e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+4.773505e-02,	6.817704e-02,	1.126571e-01,	1.844007e-01,	3.620892e-01,	6.973847e-01
+1.050676e+00,	1.301147e+00,	1.321154e+00,	1.404503e+00,	1.442533e+00,	1.475201e+00
+1.631498e+00,	1.694725e+00,	1.713529e+00,	1.842451e+00,	2.015117e+00,	2.218304e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000011
+2nd lowest eigenvalue of the augmented Hessian = 0.047737
+3rd lowest eigenvalue of the augmented Hessian = 0.068177
+Calculated RFO step size                       = 0.008694
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.601070e-02	1.000057e-01	-8.678022e-02		1.376427e-02	5.292075e-02	-4.592211e-02
+	Atom coordinates:	1	C	2.875159e+00	2.193623e-02	-9.855662e-02		1.521468e+00	1.160815e-02	-5.215392e-02
+	Atom coordinates:	2	H	-7.408700e-01	2.014678e+00	-8.943185e-02		-3.920515e-01	1.066121e+00	-4.732530e-02
+	Atom coordinates:	3	H	-7.982993e-01	-8.235684e-01	-1.737390e+00		-4.224418e-01	-4.358136e-01	-9.193870e-01
+	Atom coordinates:	4	H	-8.067673e-01	-8.300298e-01	1.555098e+00		-4.269228e-01	-4.392329e-01	8.229224e-01
+	Atom coordinates:	5	H	3.698628e+00	9.799504e-01	-1.722805e+00		1.957230e+00	5.185674e-01	-9.116690e-01
+	Atom coordinates:	6	H	3.710433e+00	9.226804e-01	1.555711e+00		1.963476e+00	4.882615e-01	8.232468e-01
+	Atom coordinates:	7	H	3.624074e+00	-1.898103e+00	-1.317364e-01		1.917777e+00	-1.004433e+00	-6.971190e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.450038e+00	6.096365e-02	-9.315592e-02		7.673271e-01	3.226058e-02	-4.929599e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.450038e+00	6.096365e-02	-9.315578e-02		7.673271e-01	3.226058e-02	-4.929591e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.289059e+00	-3.507736e+01
+	Energy of MO:	1	occ	-8.768610e-01	-2.386079e+01
+	Energy of MO:	2	occ	-5.551129e-01	-1.510551e+01
+	Energy of MO:	3	occ	-5.547462e-01	-1.509553e+01
+	Energy of MO:	4	occ	-5.128122e-01	-1.395444e+01
+	Energy of MO:	5	occ	-4.356689e-01	-1.185525e+01
+	Energy of MO:	6	occ	-4.351305e-01	-1.184060e+01
+	Energy of MO:	7	unocc	1.352350e-01	3.679960e+00
+	Energy of MO:	8	unocc	1.599668e-01	4.352954e+00
+	Energy of MO:	9	unocc	1.629814e-01	4.434984e+00
+	Energy of MO:	10	unocc	1.632054e-01	4.441080e+00
+	Energy of MO:	11	unocc	1.880459e-01	5.117029e+00
+	Energy of MO:	12	unocc	1.933983e-01	5.262678e+00
+	Energy of MO:	13	unocc	1.937199e-01	5.271430e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230159e+01	-3.347460e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.178411e+01	5.927807e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-4.981489e-03	-2.034562e-03	6.749415e-03	8.631875e-03		-1.266168e-02	-5.171343e-03	1.715530e-02	2.194004e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	3.676679e-03	-1.918597e-03	1.446953e-02	1.505212e-02		9.345187e-03	-4.876588e-03	3.677788e-02	3.825868e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-8.658167e-03	-1.159654e-04	-7.720114e-03	1.160075e-02		-2.200687e-02	-2.947546e-04	-1.962258e-02	2.948618e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.512073e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.503208e-01
+	Mulliken charge:	2	H	1.000000e+00	8.357232e-02
+	Mulliken charge:	3	H	1.000000e+00	8.294071e-02
+	Mulliken charge:	4	H	1.000000e+00	8.407940e-02
+	Mulliken charge:	5	H	1.000000e+00	8.366560e-02
+	Mulliken charge:	6	H	1.000000e+00	8.320773e-02
+	Mulliken charge:	7	H	1.000000e+00	8.406234e-02
+
+
+actual energy change          = -8.061532e-06
+expected energy change        = -5.399570e-06
+actual/expected energy change = 1.492995
+
+	====== Optimization Logs ======
+	Energy difference:  -8.061532e-06 [a.u.]
+	Max gradient:  1.049180e-03 [a.u.]
+	Rms gradient:  5.335443e-04 [a.u.]
+
+
+
+==========  START: BFGS step 24
+
+Eigenvalues of the raw Hessian:
+4.101031e-02,	6.675269e-02,	1.050864e-01,	1.488718e-01,	3.464351e-01,	6.711000e-01
+1.041656e+00,	1.257428e+00,	1.321604e+00,	1.400964e+00,	1.438730e+00,	1.473453e+00
+1.647873e+00,	1.690946e+00,	1.736894e+00,	1.797853e+00,	1.909362e+00,	2.144597e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+4.119580e-02,	6.694059e-02,	1.055515e-01,	1.489002e-01,	3.464691e-01,	6.715003e-01
+1.041828e+00,	1.257683e+00,	1.321644e+00,	1.401047e+00,	1.438898e+00,	1.473481e+00
+1.648241e+00,	1.691901e+00,	1.736948e+00,	1.797954e+00,	1.909402e+00,	2.144741e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000012
+2nd lowest eigenvalue of the augmented Hessian = 0.041199
+3rd lowest eigenvalue of the augmented Hessian = 0.066941
+Calculated RFO step size                       = 0.010998
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.500137e-02	9.876467e-02	-8.917080e-02		1.323015e-02	5.226401e-02	-4.718715e-02
+	Atom coordinates:	1	C	2.874505e+00	2.355864e-02	-9.872816e-02		1.521122e+00	1.246670e-02	-5.224469e-02
+	Atom coordinates:	2	H	-7.351448e-01	2.016568e+00	-8.799786e-02		-3.890219e-01	1.067122e+00	-4.656646e-02
+	Atom coordinates:	3	H	-8.041132e-01	-8.254133e-01	-1.737418e+00		-4.255184e-01	-4.367899e-01	-9.194020e-01
+	Atom coordinates:	4	H	-8.043277e-01	-8.311316e-01	1.554144e+00		-4.256319e-01	-4.398159e-01	8.224177e-01
+	Atom coordinates:	5	H	3.699290e+00	9.789745e-01	-1.723757e+00		1.957580e+00	5.180510e-01	-9.121728e-01
+	Atom coordinates:	6	H	3.707088e+00	9.225502e-01	1.557767e+00		1.961706e+00	4.881925e-01	8.243346e-01
+	Atom coordinates:	7	H	3.626069e+00	-1.896321e+00	-1.307300e-01		1.918833e+00	-1.003490e+00	-6.917933e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.449429e+00	6.110320e-02	-9.409344e-02		7.670050e-01	3.233442e-02	-4.979210e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.449429e+00	6.110322e-02	-9.409340e-02		7.670050e-01	3.233443e-02	-4.979208e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288998e+00	-3.507569e+01
+	Energy of MO:	1	occ	-8.767384e-01	-2.385746e+01
+	Energy of MO:	2	occ	-5.551195e-01	-1.510569e+01
+	Energy of MO:	3	occ	-5.547816e-01	-1.509650e+01
+	Energy of MO:	4	occ	-5.126977e-01	-1.395133e+01
+	Energy of MO:	5	occ	-4.356256e-01	-1.185407e+01
+	Energy of MO:	6	occ	-4.352268e-01	-1.184322e+01
+	Energy of MO:	7	unocc	1.352520e-01	3.680423e+00
+	Energy of MO:	8	unocc	1.599218e-01	4.351728e+00
+	Energy of MO:	9	unocc	1.629839e-01	4.435053e+00
+	Energy of MO:	10	unocc	1.632316e-01	4.441793e+00
+	Energy of MO:	11	unocc	1.879842e-01	5.115351e+00
+	Energy of MO:	12	unocc	1.934024e-01	5.262790e+00
+	Energy of MO:	13	unocc	1.936940e-01	5.270725e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230160e+01	-3.347463e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.178326e+01	5.927573e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-7.033397e-03	-1.931525e-03	2.695695e-03	7.776003e-03		-1.787711e-02	-4.909447e-03	6.851774e-03	1.976463e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-1.906973e-03	-1.005788e-03	4.975475e-03	5.422500e-03		-4.847044e-03	-2.556458e-03	1.264640e-02	1.378262e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-5.126423e-03	-9.257370e-04	-2.279780e-03	5.686352e-03		-1.303007e-02	-2.352989e-03	-5.794624e-03	1.445327e-02
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.510869e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.505991e-01
+	Mulliken charge:	2	H	1.000000e+00	8.353535e-02
+	Mulliken charge:	3	H	1.000000e+00	8.332542e-02
+	Mulliken charge:	4	H	1.000000e+00	8.392545e-02
+	Mulliken charge:	5	H	1.000000e+00	8.377175e-02
+	Mulliken charge:	6	H	1.000000e+00	8.336909e-02
+	Mulliken charge:	7	H	1.000000e+00	8.375896e-02
+
+
+actual energy change          = -8.716924e-06
+expected energy change        = -6.172488e-06
+actual/expected energy change = 1.412222
+
+	====== Optimization Logs ======
+	Energy difference:  -8.716924e-06 [a.u.]
+	Max gradient:  1.375230e-03 [a.u.]
+	Rms gradient:  5.781716e-04 [a.u.]
+
+
+
+==========  START: BFGS step 25
+
+Eigenvalues of the raw Hessian:
+3.770936e-02,	6.647384e-02,	1.045575e-01,	1.375657e-01,	3.374811e-01,	6.414850e-01
+1.019186e+00,	1.171706e+00,	1.322877e+00,	1.393154e+00,	1.430501e+00,	1.467091e+00
+1.553616e+00,	1.660510e+00,	1.700325e+00,	1.765817e+00,	1.864626e+00,	2.088617e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+3.786988e-02,	6.679060e-02,	1.052169e-01,	1.376904e-01,	3.375397e-01,	6.420926e-01
+1.019495e+00,	1.171946e+00,	1.322975e+00,	1.393296e+00,	1.430687e+00,	1.467158e+00
+1.553909e+00,	1.661147e+00,	1.701662e+00,	1.765892e+00,	1.864848e+00,	2.088959e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000008
+2nd lowest eigenvalue of the augmented Hessian = 0.037872
+3rd lowest eigenvalue of the augmented Hessian = 0.066791
+Calculated RFO step size                       = 0.007927
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.380795e-02	9.785526e-02	-9.128683e-02		1.259862e-02	5.178277e-02	-4.830691e-02
+	Atom coordinates:	1	C	2.873576e+00	2.412753e-02	-9.798971e-02		1.520631e+00	1.276774e-02	-5.185392e-02
+	Atom coordinates:	2	H	-7.310739e-01	2.017570e+00	-8.698259e-02		-3.868676e-01	1.067652e+00	-4.602920e-02
+	Atom coordinates:	3	H	-8.081537e-01	-8.264922e-01	-1.737087e+00		-4.276565e-01	-4.373608e-01	-9.192269e-01
+	Atom coordinates:	4	H	-8.026646e-01	-8.318030e-01	1.553373e+00		-4.247518e-01	-4.401712e-01	8.220097e-01
+	Atom coordinates:	5	H	3.700185e+00	9.785395e-01	-1.725174e+00		1.958053e+00	5.178208e-01	-9.129226e-01
+	Atom coordinates:	6	H	3.705123e+00	9.230852e-01	1.559751e+00		1.960666e+00	4.884756e-01	8.253848e-01
+	Atom coordinates:	7	H	3.627568e+00	-1.895333e+00	-1.304950e-01		1.919626e+00	-1.002967e+00	-6.905499e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.448653e+00	6.097860e-02	-9.459752e-02		7.665941e-01	3.226848e-02	-5.005885e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.448653e+00	6.097860e-02	-9.459753e-02		7.665941e-01	3.226849e-02	-5.005886e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288878e+00	-3.507242e+01
+	Energy of MO:	1	occ	-8.766130e-01	-2.385404e+01
+	Energy of MO:	2	occ	-5.550294e-01	-1.510324e+01
+	Energy of MO:	3	occ	-5.548517e-01	-1.509840e+01
+	Energy of MO:	4	occ	-5.126122e-01	-1.394900e+01
+	Energy of MO:	5	occ	-4.355248e-01	-1.185133e+01
+	Energy of MO:	6	occ	-4.353270e-01	-1.184594e+01
+	Energy of MO:	7	unocc	1.352518e-01	3.680419e+00
+	Energy of MO:	8	unocc	1.598742e-01	4.350433e+00
+	Energy of MO:	9	unocc	1.630235e-01	4.436130e+00
+	Energy of MO:	10	unocc	1.631737e-01	4.440219e+00
+	Energy of MO:	11	unocc	1.879336e-01	5.113976e+00
+	Energy of MO:	12	unocc	1.934417e-01	5.263858e+00
+	Energy of MO:	13	unocc	1.936091e-01	5.268413e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230161e+01	-3.347464e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.178158e+01	5.927118e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-5.067312e-03	-1.491539e-03	9.950512e-05	5.283203e-03		-1.287982e-02	-3.791114e-03	2.529168e-04	1.342857e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-4.446440e-03	-1.288852e-03	-5.458529e-04	4.661537e-03		-1.130173e-02	-3.275937e-03	-1.387420e-03	1.184845e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-6.208714e-04	-2.026864e-04	6.453580e-04	9.181776e-04		-1.578098e-03	-5.151776e-04	1.640337e-03	2.333775e-03
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.509141e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.508843e-01
+	Mulliken charge:	2	H	1.000000e+00	8.352767e-02
+	Mulliken charge:	3	H	1.000000e+00	8.365117e-02
+	Mulliken charge:	4	H	1.000000e+00	8.376154e-02
+	Mulliken charge:	5	H	1.000000e+00	8.371898e-02
+	Mulliken charge:	6	H	1.000000e+00	8.355251e-02
+	Mulliken charge:	7	H	1.000000e+00	8.358657e-02
+
+
+actual energy change          = -5.198735e-06
+expected energy change        = -4.003700e-06
+actual/expected energy change = 1.298483
+
+	====== Optimization Logs ======
+	Energy difference:  -5.198735e-06 [a.u.]
+	Max gradient:  1.211897e-03 [a.u.]
+	Rms gradient:  5.102620e-04 [a.u.]
+
+
+
+==========  START: BFGS step 26
+
+Eigenvalues of the raw Hessian:
+3.933987e-02,	6.716871e-02,	1.094844e-01,	1.356588e-01,	3.301743e-01,	5.992172e-01
+9.139598e-01,	1.081239e+00,	1.324700e+00,	1.334144e+00,	1.409855e+00,	1.448221e+00
+1.482472e+00,	1.661248e+00,	1.698006e+00,	1.775778e+00,	1.858556e+00,	2.035857e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+3.940158e-02,	6.731115e-02,	1.097988e-01,	1.357445e-01,	3.302113e-01,	5.994985e-01
+9.140171e-01,	1.081445e+00,	1.324768e+00,	1.334174e+00,	1.409943e+00,	1.448247e+00
+1.482594e+00,	1.661585e+00,	1.698680e+00,	1.775853e+00,	1.858763e+00,	2.036095e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000002
+2nd lowest eigenvalue of the augmented Hessian = 0.039402
+3rd lowest eigenvalue of the augmented Hessian = 0.067311
+Calculated RFO step size                       = 0.002277
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.329088e-02	9.774228e-02	-9.194668e-02		1.232500e-02	5.172299e-02	-4.865609e-02
+	Atom coordinates:	1	C	2.873118e+00	2.372062e-02	-9.730540e-02		1.520388e+00	1.255241e-02	-5.149180e-02
+	Atom coordinates:	2	H	-7.302699e-01	2.017512e+00	-8.678218e-02		-3.864422e-01	1.067622e+00	-4.592315e-02
+	Atom coordinates:	3	H	-8.089584e-01	-8.265573e-01	-1.736797e+00		-4.280823e-01	-4.373953e-01	-9.190732e-01
+	Atom coordinates:	4	H	-8.024027e-01	-8.318970e-01	1.553128e+00		-4.246132e-01	-4.402209e-01	8.218799e-01
+	Atom coordinates:	5	H	3.700662e+00	9.786409e-01	-1.726001e+00		1.958306e+00	5.178745e-01	-9.133604e-01
+	Atom coordinates:	6	H	3.705014e+00	9.236390e-01	1.560548e+00		1.960609e+00	4.887687e-01	8.258066e-01
+	Atom coordinates:	7	H	3.627914e+00	-1.895252e+00	-1.307346e-01		1.919809e+00	-1.002924e+00	-6.918179e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.448296e+00	6.078836e-02	-9.458857e-02		7.664052e-01	3.216781e-02	-5.005411e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.448296e+00	6.078834e-02	-9.458858e-02		7.664051e-01	3.216781e-02	-5.005412e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288799e+00	-3.507029e+01
+	Energy of MO:	1	occ	-8.765633e-01	-2.385269e+01
+	Energy of MO:	2	occ	-5.549615e-01	-1.510139e+01
+	Energy of MO:	3	occ	-5.548780e-01	-1.509912e+01
+	Energy of MO:	4	occ	-5.125938e-01	-1.394850e+01
+	Energy of MO:	5	occ	-4.354620e-01	-1.184962e+01
+	Energy of MO:	6	occ	-4.353649e-01	-1.184698e+01
+	Energy of MO:	7	unocc	1.352437e-01	3.680198e+00
+	Energy of MO:	8	unocc	1.598544e-01	4.349893e+00
+	Energy of MO:	9	unocc	1.630546e-01	4.436977e+00
+	Energy of MO:	10	unocc	1.631114e-01	4.438522e+00
+	Energy of MO:	11	unocc	1.879209e-01	5.113630e+00
+	Energy of MO:	12	unocc	1.934744e-01	5.264747e+00
+	Energy of MO:	13	unocc	1.935450e-01	5.266669e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230161e+01	-3.347464e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.178049e+01	5.926822e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-2.328180e-03	-1.097006e-03	-2.466388e-04	2.585474e-03		-5.917645e-03	-2.788312e-03	-6.268935e-04	6.571621e-03
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-3.779453e-03	-1.998250e-03	-8.400471e-04	4.356943e-03		-9.606414e-03	-5.079047e-03	-2.135187e-03	1.107425e-02
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		1.451273e-03	9.012445e-04	5.934083e-04	1.808471e-03		3.688769e-03	2.290735e-03	1.508294e-03	4.596677e-03
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.508253e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.509902e-01
+	Mulliken charge:	2	H	1.000000e+00	8.354808e-02
+	Mulliken charge:	3	H	1.000000e+00	8.373702e-02
+	Mulliken charge:	4	H	1.000000e+00	8.368850e-02
+	Mulliken charge:	5	H	1.000000e+00	8.362132e-02
+	Mulliken charge:	6	H	1.000000e+00	8.362506e-02
+	Mulliken charge:	7	H	1.000000e+00	8.359559e-02
+
+
+actual energy change          = -1.333676e-06
+expected energy change        = -1.103517e-06
+actual/expected energy change = 1.208569
+
+	====== Optimization Logs ======
+	Energy difference:  -1.333676e-06 [a.u.]
+	Max gradient:  7.242273e-04 [a.u.]
+	Rms gradient:  2.879566e-04 [a.u.]
+
+
+
+==========  START: BFGS step 27
+
+Eigenvalues of the raw Hessian:
+4.058214e-02,	6.752757e-02,	1.102505e-01,	1.388328e-01,	3.270757e-01,	5.703856e-01
+8.082802e-01,	1.059855e+00,	1.261816e+00,	1.326512e+00,	1.404967e+00,	1.444728e+00
+1.480265e+00,	1.661586e+00,	1.695600e+00,	1.768404e+00,	1.861776e+00,	1.985778e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Eigenvalues of the level shifted hessian:
+4.059767e-02,	6.753616e-02,	1.102669e-01,	1.388432e-01,	3.270786e-01,	5.703988e-01
+8.082859e-01,	1.059879e+00,	1.261835e+00,	1.326520e+00,	1.404978e+00,	1.444731e+00
+1.480278e+00,	1.661604e+00,	1.695628e+00,	1.768438e+00,	1.861807e+00,	1.985793e+00
+1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
+Lowest eigenvalue of the augmented Hessian     = -0.000000
+2nd lowest eigenvalue of the augmented Hessian = 0.040598
+3rd lowest eigenvalue of the augmented Hessian = 0.067536
+Calculated RFO step size                       = 0.000787
+Trust radius is 0.300000
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	2.326008e-02	9.790575e-02	-9.188955e-02		1.230871e-02	5.180949e-02	-4.862586e-02
+	Atom coordinates:	1	C	2.873072e+00	2.338343e-02	-9.713255e-02		1.520364e+00	1.237398e-02	-5.140033e-02
+	Atom coordinates:	2	H	-7.305691e-01	2.017312e+00	-8.684799e-02		-3.866005e-01	1.067515e+00	-4.595798e-02
+	Atom coordinates:	3	H	-8.087361e-01	-8.264199e-01	-1.736708e+00		-4.279647e-01	-4.373226e-01	-9.190260e-01
+	Atom coordinates:	4	H	-8.025690e-01	-8.318622e-01	1.553090e+00		-4.247012e-01	-4.402025e-01	8.218596e-01
+	Atom coordinates:	5	H	3.700742e+00	9.787640e-01	-1.726221e+00		1.958348e+00	5.179396e-01	-9.134769e-01
+	Atom coordinates:	6	H	3.705307e+00	9.237878e-01	1.560644e+00		1.960764e+00	4.888474e-01	8.258572e-01
+	Atom coordinates:	7	H	3.627861e+00	-1.895322e+00	-1.308252e-01		1.919781e+00	-1.002961e+00	-6.922972e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.448268e+00	6.072479e-02	-9.450442e-02		7.663905e-01	3.213418e-02	-5.000958e-02
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.448268e+00	6.072477e-02	-9.450442e-02		7.663904e-01	3.213416e-02	-5.000958e-02
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.288778e+00	-3.506971e+01
+	Energy of MO:	1	occ	-8.765620e-01	-2.385266e+01
+	Energy of MO:	2	occ	-5.549407e-01	-1.510083e+01
+	Energy of MO:	3	occ	-5.548775e-01	-1.509910e+01
+	Energy of MO:	4	occ	-5.126006e-01	-1.394868e+01
+	Energy of MO:	5	occ	-4.354377e-01	-1.184896e+01
+	Energy of MO:	6	occ	-4.353762e-01	-1.184728e+01
+	Energy of MO:	7	unocc	1.352390e-01	3.680069e+00
+	Energy of MO:	8	unocc	1.598532e-01	4.349861e+00
+	Energy of MO:	9	unocc	1.630613e-01	4.437159e+00
+	Energy of MO:	10	unocc	1.630906e-01	4.437957e+00
+	Energy of MO:	11	unocc	1.879246e-01	5.113728e+00
+	Energy of MO:	12	unocc	1.934868e-01	5.265085e+00
+	Energy of MO:	13	unocc	1.935233e-01	5.266080e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.230161e+01	-3.347464e+02
+	Note that this electronic energy includs core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	2.178020e+01	5.926741e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-1.298813e-03	-9.121388e-04	-3.146384e-05	1.587420e-03		-3.301254e-03	-2.318426e-03	-7.997311e-05	4.034820e-03
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-2.911299e-03	-2.182248e-03	-1.365400e-04	3.640949e-03		-7.399784e-03	-5.546721e-03	-3.470500e-04	9.254370e-03
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		1.612485e-03	1.270109e-03	1.050761e-04	2.055317e-03		4.098530e-03	3.228295e-03	2.670769e-04	5.224095e-03
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	C	4.000000e+00	-2.508133e-01
+	Mulliken charge:	1	C	4.000000e+00	-2.509873e-01
+	Mulliken charge:	2	H	1.000000e+00	8.356700e-02
+	Mulliken charge:	3	H	1.000000e+00	8.371526e-02
+	Mulliken charge:	4	H	1.000000e+00	8.367653e-02
+	Mulliken charge:	5	H	1.000000e+00	8.358664e-02
+	Mulliken charge:	6	H	1.000000e+00	8.362289e-02
+	Mulliken charge:	7	H	1.000000e+00	8.363229e-02
+
+
+actual energy change          = -1.687398e-07
+expected energy change        = -1.385594e-07
+actual/expected energy change = 1.217816
+
+	====== Optimization Logs ======
+	Energy difference:  -1.687398e-07 [a.u.]
+	Max gradient:  3.129846e-04 [a.u.]
+	Rms gradient:  1.032987e-04 [a.u.]
+
+
+		Geometry otimization met convergence criterion(^^b
+
+
+**********  DONE: Geometry optimization  **********
+	Summary for memory usage:
+		Max Heap: 0.214440[MB].
+		Current Heap(Leaked): 0.000000[MB].
+
+
+     >>>>>  The MolDS finished normally!  <<<<<
+     >>>>>  CPU time: 124.37[s].  <<<<<
+     >>>>>  Elapsed time: 22[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 22.0868[s].  <<<<<
+     >>>>>  See you.  <<<<<
+
+
