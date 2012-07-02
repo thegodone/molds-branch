@@ -198,6 +198,16 @@ double Pm3Pddg::GetPddgAdditonalDiatomCoreRepulsionTermFirstDerivative(int na, d
          *(2.0*pddgExponent*(distance-da-db));
 }
 
+// see eq. (4) in [RCJ_2002]
+double Pm3Pddg::GetPddgAdditonalDiatomCoreRepulsionTermSecondDerivative(int na, double pa, double da,
+                                                                        int nb, double pb, double db,
+                                                                        double distance) const{
+   double pddgExponent = -10.0;
+   return (static_cast<double>(na)*pa +static_cast<double>(nb)*pb)
+         *(2.0*pddgExponent + pow(2.0*pddgExponent*(distance-da-db),2.0))
+         *exp(pddgExponent*pow((distance-da-db),2.0));
+}
+
 }
 
 
