@@ -41,6 +41,9 @@ private:
    double GetPddgAdditonalDiatomCoreRepulsionTermFirstDerivative(int na, double pa, double da, 
                                                                  int nb, double pb, double db,
                                                                  double distance) const;
+   double GetPddgAdditonalDiatomCoreRepulsionTermSecondDerivative(int na, double pa, double da, 
+                                                                  int nb, double pb, double db,
+                                                                  double distance) const;
                                                 
 };
 
