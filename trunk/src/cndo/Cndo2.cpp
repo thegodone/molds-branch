@@ -306,31 +306,6 @@ double Cndo2::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const
    return atomA.GetCoreCharge()*atomB.GetCoreCharge()/distance; 
 }
 
-// See (2) in [G_2004] ((11) in [G_2006])
-void Cndo2::CalcVdWCorrectionEnergy(){
-   double value = 0.0;
-   for(int i=0; i<this->molecule->GetNumberAtoms(); i++){
-      for(int j=i+1; j<this->molecule->GetNumberAtoms(); j++){
-         value += this->GetDiatomVdWCorrectionEnergy(i, j);
-      }
-   }
-   this->vdWCorrectionEnergy = value;
-}
-
-// See (2) in [G_2004] ((11) in [G_2006])
-double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
-   double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
-   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
-                           /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
-   double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
-   double damping = 1.0/(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)));
-   double scalingFactor = Parameters::GetInstance()->GetVdWScalingFactorSCF();
-   return -1.0*scalingFactor*vdWCoefficients*pow(distance,-6.0)*damping;
-}
-
 // First derivative of the core repulsion related to the coordinate of atom A.
 double Cndo2::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA, int indexAtomB, 
                                                     CartesianType axisA) const{
@@ -342,6 +317,35 @@ double Cndo2::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA, int indexAto
    value *= (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/distance;
    value *= -1.0/pow(distance,2.0);
    return value;
+}
+
+// See (2) in [G_2004] ((11) in [G_2006])
+void Cndo2::CalcVdWCorrectionEnergy(){
+   double value = 0.0;
+   for(int i=0; i<this->molecule->GetNumberAtoms(); i++){
+      for(int j=i+1; j<this->molecule->GetNumberAtoms(); j++){
+         value += this->GetDiatomVdWCorrectionEnergy(i, j);
+      }
+   }
+   this->vdWCorrectionEnergy = value;
+}
+
+// See damping function in (2) in [G_2004] ((11) in [G_2006])
+double Cndo2::GetVdwDampingValue(double vdWDistance, double distance) const{
+   double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
+   return 1.0/(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)));
+}
+// See (2) in [G_2004] ((11) in [G_2006])
+double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const{
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+   double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
+   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
+                           /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
+   double damping = this->GetVdwDampingValue(vdWDistance, distance);
+   double scalingFactor = Parameters::GetInstance()->GetVdWScalingFactorSCF();
+   return -1.0*scalingFactor*vdWCoefficients*pow(distance,-6.0)*damping;
 }
 
 // First derivative of the vdW correction related to the coordinate of atom A.
