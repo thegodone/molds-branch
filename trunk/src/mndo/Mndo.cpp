@@ -1834,6 +1834,14 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
                                                                                    atomCIndex, 
                                                                                    static_cast<CartesianType>(axisA), 
                                                                                    static_cast<CartesianType>(axisA2));
+                 
+                  // second derivative of van der waals corrections
+                  if(Parameters::GetInstance()->RequiresVdWSCF()){
+                     hessianSCF[k][l] += this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
+                                                                                      atomCIndex, 
+                                                                                      static_cast<CartesianType>(axisA), 
+                                                                                      static_cast<CartesianType>(axisA2));
+                  }
                }
             }
 
@@ -1847,6 +1855,13 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
                                                                                    atomBIndex, 
                                                                                    static_cast<CartesianType>(axisA), 
                                                                                    static_cast<CartesianType>(axisB));
+                  // second derivative of van der waals corrections
+                  if(Parameters::GetInstance()->RequiresVdWSCF()){
+                     hessianSCF[k][l] -= this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
+                                                                                      atomBIndex, 
+                                                                                      static_cast<CartesianType>(axisA), 
+                                                                                      static_cast<CartesianType>(axisB));
+                  }
                
 
                   hessianSCF[l][k] = hessianSCF[k][l];
