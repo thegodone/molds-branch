@@ -344,6 +344,17 @@ double Cndo2::GetVdwDampingValueFirstDerivative(double vdWDistance, double dista
          *pow(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)),-2.0);
 }
 
+// See damping function in (2) in [G_2004] ((11) in [G_2006])
+double Cndo2::GetVdwDampingValueSecondDerivative(double vdWDistance, double distance) const{
+   double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
+   double exponent = -1.0*dampingFactor*(distance/vdWDistance - 1.0);
+   double pre = dampingFactor/vdWDistance;
+   double dominator = 1.0+exp(exponent);
+
+   return 2.0*pow(dominator,-3.0)*pre*pre*exp(2.0*exponent) 
+         -    pow(dominator,-2.0)*pre*pre*exp(    exponent);
+}
+
 // See (2) in [G_2004] ((11) in [G_2006])
 double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
@@ -375,6 +386,49 @@ double Cndo2::GetDiatomVdWCorrectionFirstDerivative(int indexAtomA, int indexAto
    value *= vdWCoefficients;
    value *= Parameters::GetInstance()->GetVdWScalingFactorSCF();
    value *= (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/distance;
+   return value;
+}
+
+// Second derivative of the vdW correction.
+// Both derivative sare related to the coordinate of atom A.
+// See (2) in [G_2004] ((11) in [G_2006]).
+double Cndo2::GetDiatomVdWCorrectionSecondDerivative(int indexAtomA, 
+                                                     int indexAtomB, 
+                                                     CartesianType axisA1,
+                                                     CartesianType axisA2) const{
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+   double dCartesian1 = atomA.GetXyz()[axisA1] - atomB.GetXyz()[axisA1];
+   double dCartesian2 = atomA.GetXyz()[axisA2] - atomB.GetXyz()[axisA2];
+   double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
+   double vdWScalingFacotor = Parameters::GetInstance()->GetVdWScalingFactorSCF();
+   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
+                           /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
+   double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
+   double damping = this->GetVdwDampingValue(vdWDistance, distance);
+   double dampingFirstDerivative = this->GetVdwDampingValueFirstDerivative(vdWDistance, distance);
+   double dampingSecondDerivative = this->GetVdwDampingValueSecondDerivative(vdWDistance, distance);
+
+   double temp1 = -6.0*pow(distance,-7.0)*damping 
+                  +    pow(distance,-6.0)*dampingFirstDerivative;
+   double temp2 = 42.0*pow(distance,-8.0)*damping 
+                 -12.0*pow(distance,-7.0)*dampingFirstDerivative
+                 +     pow(distance,-6.0)*dampingSecondDerivative;
+
+   double pre1=0.0;
+   double pre2=0.0;
+   if(axisA1 != axisA2){
+      pre1 = -dCartesian1*dCartesian2/pow(distance,3.0);
+      pre2 =  dCartesian1*dCartesian2/pow(distance,2.0);
+   }
+   else{
+      pre1 = 1.0/distance - dCartesian1*dCartesian1/pow(distance,3.0);
+      pre2 = pow(dCartesian1/distance,2.0);
+   }
+
+   double value= pre1*temp1 + pre2*temp2;
+   value *= -1.0*vdWScalingFacotor*vdWCoefficients;
    return value;
 }
 

@@ -110,6 +110,10 @@ protected:
    virtual double GetDiatomVdWCorrectionFirstDerivative(int indexAtomA, 
                                                         int indexAtomB, 
                                                         MolDS_base::CartesianType axisA) const;
+   virtual double GetDiatomVdWCorrectionSecondDerivative(int indexAtomA, 
+                                                         int indexAtomB, 
+                                                         MolDS_base::CartesianType axisA1,
+                                                         MolDS_base::CartesianType axisA2) const;
    double GetReducedOverlap(int na, int la, int m, 
                             int nb, int lb, double alpha, double beta) const;
    double GetReducedOverlap(int na, int nb, double alpha, double beta) const;
@@ -261,6 +265,7 @@ private:
    void CalcVdWCorrectionEnergy();
    double GetVdwDampingValue(double vdWDistance, double distance) const;
    double GetVdwDampingValueFirstDerivative(double vdWDistance, double distance) const;
+   double GetVdwDampingValueSecondDerivative(double vdWDistance, double distance) const;
    void CalcElectronicDipoleMomentGroundState(double*** electronicTransitionDipoleMoments,
                                               double const* const* const* cartesianMatrix,
                                               const MolDS_base::Molecule& molecule, 
