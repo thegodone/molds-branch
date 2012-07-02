@@ -260,6 +260,7 @@ private:
    void CalcCoreRepulsionEnergy();
    void CalcVdWCorrectionEnergy();
    double GetVdwDampingValue(double vdWDistance, double distance) const;
+   double GetVdwDampingValueFirstDerivative(double vdWDistance, double distance) const;
    void CalcElectronicDipoleMomentGroundState(double*** electronicTransitionDipoleMoments,
                                               double const* const* const* cartesianMatrix,
                                               const MolDS_base::Molecule& molecule, 

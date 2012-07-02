@@ -335,6 +335,15 @@ double Cndo2::GetVdwDampingValue(double vdWDistance, double distance) const{
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    return 1.0/(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)));
 }
+
+// See damping function in (2) in [G_2004] ((11) in [G_2006])
+double Cndo2::GetVdwDampingValueFirstDerivative(double vdWDistance, double distance) const{
+   double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
+   return (dampingFactor/vdWDistance)
+         *exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0))
+         *pow(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)),-2.0);
+}
+
 // See (2) in [G_2004] ((11) in [G_2006])
 double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
@@ -359,10 +368,8 @@ double Cndo2::GetDiatomVdWCorrectionFirstDerivative(int indexAtomA, int indexAto
    double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
                            /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
-   double damping = 1.0/(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)));
-   double dampingFirstDerivative = (dampingFactor/vdWDistance)
-                                  *exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0))
-                                  *pow(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)),-2.0);
+   double damping = this->GetVdwDampingValue(vdWDistance, distance);
+   double dampingFirstDerivative = this->GetVdwDampingValueFirstDerivative(vdWDistance, distance);
    double value=0.0;
    value += 6.0*pow(distance,-7.0)*damping - pow(distance,-6.0)*dampingFirstDerivative;
    value *= vdWCoefficients;
