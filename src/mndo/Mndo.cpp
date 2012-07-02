@@ -1829,13 +1829,13 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
             for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
                int l = atomAIndex*CartesianType_end + axisA2;
                for(int atomCIndex=0; atomCIndex<this->molecule->GetNumberAtoms(); atomCIndex++){
-                  // second derivatives of nuclear repulsions
+                  // second derivatives of the nuclear repulsions
                   hessianSCF[k][l] += this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
                                                                                    atomCIndex, 
                                                                                    static_cast<CartesianType>(axisA), 
                                                                                    static_cast<CartesianType>(axisA2));
                  
-                  // second derivative of van der waals corrections
+                  // second derivatives of the van der waals corrections
                   if(Parameters::GetInstance()->RequiresVdWSCF()){
                      hessianSCF[k][l] += this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
                                                                                       atomCIndex, 
@@ -1850,12 +1850,12 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
                for(int axisB = XAxis; axisB<CartesianType_end; axisB++){
                   int l = atomAIndex*CartesianType_end + axisB;
 
-                  // second derivatives of nuclear repulsions
+                  // second derivatives of the nuclear repulsions
                   hessianSCF[k][l] -= this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
                                                                                    atomBIndex, 
                                                                                    static_cast<CartesianType>(axisA), 
                                                                                    static_cast<CartesianType>(axisB));
-                  // second derivative of van der waals corrections
+                  // second derivatives of the van der waals corrections
                   if(Parameters::GetInstance()->RequiresVdWSCF()){
                      hessianSCF[k][l] -= this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
                                                                                       atomBIndex, 
