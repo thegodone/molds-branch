@@ -129,12 +129,13 @@ double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) con
    // PM3 term
    double pm3Term = Pm3::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
 
-   // additional term, eq. (4) in [RCJ_2002]
+   // pddg additional term, eq. (4) in [RCJ_2002]
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double na = static_cast<double>(atomA.GetNumberValenceElectrons());
    double nb = static_cast<double>(atomB.GetNumberValenceElectrons());
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+   double pddgExponent = -10.0;
    double temp = 0.0;
    for(int i=0; i<2; i++){
       double pa = atomA.GetPm3PddgParameterPa(i);
@@ -142,7 +143,7 @@ double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) con
       for(int j=0; j<2; j++){
          double pb = atomB.GetPm3PddgParameterPa(j);
          double db = atomB.GetPm3PddgParameterDa(j);
-         temp += (na*pa +nb*pb)*exp(-10.0*pow((distance-da-db),2.0));
+         temp += (na*pa +nb*pb)*exp(pddgExponent*pow((distance-da-db),2.0));
       }
    }
    double additionalTerm = temp/(na+nb);
@@ -158,13 +159,14 @@ double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
    // PM3 term
    double pm3Term = Pm3::GetDiatomCoreRepulsionFirstDerivative(atomAIndex, atomBIndex, axisA);
 
-   // additional term, first derivative of eq. (4) in [RCJ_2002]
+   // pddg additional term, first derivative of eq. (4) in [RCJ_2002]
    const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
    const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
    double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
    double dCartesian = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA]);
    double na = static_cast<double>(atomA.GetNumberValenceElectrons());
    double nb = static_cast<double>(atomB.GetNumberValenceElectrons());
+   double pddgExponent = -10.0;
    double temp = 0.0;
    for(int i=0; i<2; i++){
       double pa = atomA.GetPm3PddgParameterPa(i);
@@ -172,8 +174,8 @@ double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
       for(int j=0; j<2; j++){
          double pb = atomB.GetPm3PddgParameterPa(j);
          double db = atomB.GetPm3PddgParameterDa(j);
-         temp += (na*pa +nb*pb)*exp(-10.0*pow((distance-da-db),2.0))
-                *(-20.0*(distance-da-db));
+         temp += (na*pa +nb*pb)*exp(pddgExponent*pow((distance-da-db),2.0))
+                *(2.0*pddgExponent*(distance-da-db));
       }
    }
    double additionalTerm = temp*dCartesian/(distance*(na+nb));
