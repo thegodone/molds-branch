@@ -377,7 +377,7 @@ HOW TO WRITE INPUT:
        "method", "total_steps", "electronic_state", "max_gradient", "rms_gradient", 
        and "dt" are prepared as options.
 
-       "method" should be set as "conjugate_gradient" or "steepest_descent". 
+       "method" should be set as "conjugate_gradient", "steepest_descent", or "bfgs". 
        The default of the "method" is conjugate gradient.
 
        "electronic_state" means the electronic eigenstate 
@@ -387,6 +387,7 @@ HOW TO WRITE INPUT:
 
       "line_search_times" means the times of line-search trials.
       The default value of the "line_search_times" is 50.
+      This parameter have no effect if method is "bfgs".
 
       "steep_step" means the number of steps of the steepest descent.
       The default value of the "steep_step" is 50.
@@ -397,7 +398,8 @@ HOW TO WRITE INPUT:
       The default value of the "rms_gradient" is 0.00030.
 
       "dt" is initial fictious time steps for the steepest descent algorythms.
-      The defaul value of the "dt" is 50[fs]
+      The default value of the "dt" is 50[fs].
+      This parameter have no effect if method is "bfgs".
 
       E.g.
          OPTIMIZE
