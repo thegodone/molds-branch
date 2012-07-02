@@ -35,6 +35,10 @@ protected:
                                                         int atomBIndex, 
                                                         MolDS_base::CartesianType axisA) const;
 private:
+   double GetPddgAdditonalDiatomCoreRepulsionTerm(int na, double pa, double da, 
+                                                  int nb, double pb, double db,
+                                                  double distance) const;
+                                                
 };
 
 }
