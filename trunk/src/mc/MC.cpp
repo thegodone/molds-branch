@@ -111,7 +111,7 @@ void MC::DoMC(int totalSteps, int elecState, double temperature, double stepWidt
    this->OutputLog(this->messageinitialConditionMC);
    this->OutputMolecule(*currentES, *this->molecule, elecState);
 
-   // Monte Carlo roop 
+   // Monte Carlo loop 
    for(int s=0; s<totalSteps; s++){
       this->OutputLog((boost::format("%s%d\n\n") % this->messageStartStepMC.c_str() % (s+1) ).str());
       // create trial molecule

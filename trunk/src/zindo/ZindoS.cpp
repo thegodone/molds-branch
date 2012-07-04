@@ -102,7 +102,7 @@ void ZindoS::SetMessages(){
    this->errorMessageCalcCISMatrix
       = "Error in zindo::ZindoS::CalcCISMatrix: Non available orbital is contained.\n";
    this->errorMessageDavidsonNotConverged =  "Error in zindo::ZindoS::DoCISDavidson: Davidson did not met convergence criterion. \n";
-   this->errorMessageDavidsonMaxIter = "Davidson roop reaches max_iter=";
+   this->errorMessageDavidsonMaxIter = "Davidson loop reaches max_iter=";
    this->errorMessageDavidsonMaxDim = "Dimension of the expansion vectors reaches max_dim=";
    this->errorMessageCalcForceNotGroundState 
       = "Error in zindo::ZindoS::CalcForce: Only ground state is enable in ZindoS.";
@@ -1430,7 +1430,7 @@ void ZindoS::DoCISDavidson(){
       interactionMatrixDimension = 0;
       reachMaxDim = false;
       goToDirectCIS = false;
-      // Davidson roop
+      // Davidson loop
       for(int k=0; k<maxIter; k++){
          this->OutputLog((boost::format("%s%d\n") % this->messageNumIterCIS.c_str() % k ).str());
          // calculate dimension of the interaction matrix 
@@ -1540,7 +1540,7 @@ void ZindoS::DoCISDavidson(){
                                                    interactionMatrixDimension, 
                                                    &interactionEigenEnergies);
 
-         // stop the Davidson roop
+         // stop the Davidson loop
          if(allConverged){
             this->OutputLog(this->messageDavidsonConverge);
             break;
@@ -1564,7 +1564,7 @@ void ZindoS::DoCISDavidson(){
             throw MolDSException(ss.str());
          }
 
-      }// end Davidson roop
+      }// end Davidson loop
    }
    catch(MolDSException ex){
       this->FreeDavidsonCISTemporaryMtrices(&expansionVectors, 
