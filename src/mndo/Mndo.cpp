@@ -1817,7 +1817,6 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
                                                    totalNumberAOs,
                                                    this->molecule->GetNumberAtoms(),
                                                    CartesianType_end);
-
       this->CalcOrbitalElectronPopulationFirstDerivatives(orbitalElectronPopulationFirstDerivatives);
 
 
@@ -1828,6 +1827,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
             // atomA == atomB
             for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
                int l = atomAIndex*CartesianType_end + axisA2;
+               hessianSCF[k][l] = 0.0;
                for(int atomCIndex=0; atomCIndex<this->molecule->GetNumberAtoms(); atomCIndex++){
                   // second derivatives of the nuclear repulsions
                   hessianSCF[k][l] += this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
@@ -1849,6 +1849,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
             for(int atomBIndex=atomAIndex+1; atomBIndex<this->molecule->GetNumberAtoms(); atomBIndex++){
                for(int axisB = XAxis; axisB<CartesianType_end; axisB++){
                   int l = atomAIndex*CartesianType_end + axisB;
+                  hessianSCF[k][l] = 0.0;
 
                   // second derivatives of the nuclear repulsions
                   hessianSCF[k][l] -= this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
