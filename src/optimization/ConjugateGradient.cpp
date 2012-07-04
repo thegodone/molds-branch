@@ -93,7 +93,7 @@ void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> ele
          }
       }
       
-      // conugate gradient roop
+      // conugate gradient loop
       for(int s=0; s<totalSteps; s++){
          this->OutputLog((boost::format("%s%d\n\n") % this->messageStartConjugateGradientStep.c_str() % (s+1)).str());
          lineSearchInitialEnergy = lineSearchCurrentEnergy;

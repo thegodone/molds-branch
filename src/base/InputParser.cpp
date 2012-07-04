@@ -688,7 +688,7 @@ int InputParser::ParseConditionsCIS(vector<string>* inputTerms, int parseIndex) 
          }
          parseIndex++;
       }
-      // max iterations for the Davidson roop
+      // max iterations for the Davidson loop
       if((*inputTerms)[parseIndex].compare(this->stringCISMaxIter) == 0){
          int maxIter = atoi((*inputTerms)[parseIndex+1].c_str());
          Parameters::GetInstance()->SetMaxIterationsCIS(maxIter);

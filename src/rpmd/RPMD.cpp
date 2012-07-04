@@ -177,7 +177,7 @@ void RPMD::DoRPMD(const Molecule& refferenceMolecule){
                                                temperature);
    this->OutputLog(this->messageEndInitialRPMD);
 
-   // time step roop
+   // time step loop
    for(int s=0; s<totalSteps; s++){
       this->OutputLog((boost::format("%s%d\n") % this->messageStartStepRPMD.c_str() % (s+1)).str());
       // update momenta
