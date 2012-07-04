@@ -479,6 +479,146 @@ public:
       MallocerFreer::SubtCurrentMalloced(static_cast<double>(size1*size2*size3*size4*size5*size6*sizeof(T)));
       *matrix = NULL;
    }
+
+   //7d
+   template<typename T> void Malloc(T******** matrix, int size1, int size2, int size3, int size4, int size5, int size6, int size7) const{
+      if(*matrix!=NULL){
+         return;
+      }
+      double wannaMalloc = static_cast<double>(size1*size2*size3*size4*size5*size6*size7*sizeof(T));
+      this->CheckLimitHeap(wannaMalloc);
+
+      T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL, *****p5d=NULL, ******p6d=NULL, *******p7d=NULL;
+      try{
+         p1d = new T[size1*size2*size3*size4*size5*size6*size7];
+         if(p1d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+         p2d = new T*[size1*size2*size3*size4*size5*size6];
+         if(p2d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+         p3d = new T**[size1*size2*size3*size4*size5];
+         if(p3d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+         p4d = new T***[size1*size2*size3*size4];
+         if(p4d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+         p5d = new T****[size1*size2*size3];
+         if(p5d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+         p6d = new T*****[size1*size2];
+         if(p6d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+         p7d = new T******[size1];
+         if(p6d==NULL){
+            throw MolDSException(this->errorMessageMallocFailure);
+         }
+
+         for(int i=0;i<size1;i++){
+            p7d[i] = &p6d[i*size2];
+            for(int j=0;j<size2;j++){
+               p7d[i][j] = &p5d[i*size2*size3+j*size3];
+               for(int k=0;k<size3;k++){
+                  p7d[i][j][k] = &p4d[i*size2*size3*size4+j*size3*size4+k*size4];
+                  for(int l=0;l<size4;l++){
+                     p7d[i][j][k][l] = &p3d[i*size2*size3*size4*size5+
+                                            j*size3*size4*size5+
+                                            k*size4*size5+
+                                            l*size5];
+                     for(int m=0;m<size5;m++){
+                        p7d[i][j][k][l][m] = &p2d[i*size2*size3*size4*size5*size6+
+                                                  j*size3*size4*size5*size6+
+                                                  k*size4*size5*size6+
+                                                  l*size5*size6+
+                                                  m*size6];
+                        for(int n=0;n<size6;n++){
+                           p7d[i][j][k][l][m][n] = &p1d[i*size2*size3*size4*size5*size6*size7+
+                                                        j*size3*size4*size5*size6*size7+
+                                                        k*size4*size5*size6*size7+
+                                                        l*size5*size6*size7+
+                                                        m*size6*size7+
+                                                        n*size7];
+                     }
+                     }
+                  }
+               }
+            }
+         }
+         *matrix = p7d;
+         MallocerFreer::AddCurrentMalloced(wannaMalloc);
+         this->Initialize<T>(*matrix, size1, size2, size3, size4, size5, size6, size7);
+      }
+      catch(MolDSException ex){
+         if(p1d!=NULL){
+            delete[] p1d;
+         }
+         if(p2d!=NULL){
+            delete[] p2d;
+         }
+         if(p3d!=NULL){
+            delete[] p3d;
+         }
+         if(p4d!=NULL){
+            delete[] p4d;
+         }
+         if(p5d!=NULL){
+            delete[] p5d;
+         }
+         if(p6d!=NULL){
+            delete[] p6d;
+         }
+         if(p7d!=NULL){
+            delete[] p7d;
+         }
+         throw ex;
+      }
+   }
+
+   template<typename T> void Initialize(T******* matrix, int size1, int size2, int size3, int size4, int size5, int size6, int size7) const{
+      for(int i=0;i<size1;i++) {
+         for(int j=0;j<size2;j++){
+            for(int k=0;k<size3;k++){
+               for(int l=0;l<size4;l++){
+                  for(int m=0;m<size5;m++){
+                     for(int n=0;n<size6;n++){
+                        for(int o=0;o<size7;o++){
+                           matrix[i][j][k][l][m][n][o] = 0.0;
+                        }
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   template<typename T> void Free(T******** matrix, int size1, int size2, int size3, int size4, int size5, int size6, int size7) const{
+      if(*matrix==NULL){
+         return;
+      }
+      T *p1d=NULL, **p2d=NULL, ***p3d=NULL,****p4d=NULL, *****p5d=NULL, ******p6d=NULL, *******p7d=NULL;
+      p7d = *matrix;
+      p6d = p7d[0];
+      p5d = p6d[0];
+      p4d = p5d[0];
+      p3d = p4d[0];
+      p2d = p3d[0];
+      p1d = p2d[0];
+      delete [] p7d;
+      delete [] p6d;
+      delete [] p5d;
+      delete [] p4d;
+      delete [] p3d;
+      delete [] p2d;
+      delete [] p1d;
+      MallocerFreer::SubtCurrentMalloced(static_cast<double>(size1*size2*size3*size4*size5*size6*size7*sizeof(T)));
+      *matrix = NULL;
+   }
 private:
    MallocerFreer();
    ~MallocerFreer();
