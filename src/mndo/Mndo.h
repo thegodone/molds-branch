@@ -208,6 +208,41 @@ private:
                                 int numberActiveOcc,
                                 int numberActiveVir) const;
    void CalcHessianSCF(double** hessianSCF) const;
+   double GetAuxiliaryHessianElement1(int mu, 
+                                      int nu, 
+                                      int firstAOIndexA, 
+                                      MolDS_base::CartesianType axisA1,
+                                      MolDS_base::CartesianType axisA2,
+                                      int atomBIndex,
+                                      double const* const* orbitalElectronPopulation,
+                                      double const* const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const;
+   double GetAuxiliaryHessianElement2(int mu, 
+                                      int nu, 
+                                      int firstAOIndexA, 
+                                      MolDS_base::CartesianType axisA1,
+                                      MolDS_base::CartesianType axisA2,
+                                      int atomAIndex,
+                                      int atomBIndex,
+                                      double const* const* const* const* orbitalElectronPopulationFirstDerivs,
+                                      double const* const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const;
+   double GetAuxiliaryHessianElement3(int lambda, 
+                                      int sigma, 
+                                      int firstAOIndexB, 
+                                      MolDS_base::CartesianType axisA1,
+                                      MolDS_base::CartesianType axisA2,
+                                      int atomAIndex,
+                                      int atomBIndex,
+                                      double const* const* orbitalElectronPopulation,
+                                      double const* const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const;
+   double GetAuxiliaryHessianElement4(int lambda, 
+                                      int sigma, 
+                                      int firstAOIndexB, 
+                                      MolDS_base::CartesianType axisA1,
+                                      MolDS_base::CartesianType axisA2,
+                                      int atomAIndex,
+                                      int atomBIndex,
+                                      double const* const* const* const* orbitalElectronPopulationFirstDerivs,
+                                      double const* const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const;
    void CalcOrbitalElectronPopulationFirstDerivatives(double**** orbitalElectronPopulationFirstDerivatives) const;
    void SolveCPHF(double** solutionsCPHF,
                   const std::vector<MoIndexPair>& nonRedundantQIndeces,
