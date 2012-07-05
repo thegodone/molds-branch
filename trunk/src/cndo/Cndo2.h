@@ -170,9 +170,15 @@ protected:
    void CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDerivs, 
                                             const MolDS_base_atoms::Atom& atomA, 
                                             const MolDS_base_atoms::Atom& atomB) const;
+   void CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDerivs, 
+                                            int atomAIndex, 
+                                            int atomBIndex) const;
    void CalcDiatomicOverlapSecondDerivatives(double**** overlapSecondDeri, 
                                              const MolDS_base_atoms::Atom& atomA, 
                                              const MolDS_base_atoms::Atom& atomB) const;
+   void CalcDiatomicOverlapSecondDerivatives(double**** overlapSecondDeri, 
+                                             int atomAIndex, 
+                                             int atomBIndex) const;
    double GetSecondDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
                                                             double secondDistanceDeri,
                                                             MolDS_base::CartesianType axisA1,

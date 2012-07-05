@@ -3494,6 +3494,14 @@ void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDe
                                            &rotMatFirstDerivs);
 }
 
+void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDerivs, 
+                                                int atomAIndex, 
+                                                int atomBIndex) const{
+   this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDerivs,
+                                             *this->molecule->GetAtom(atomAIndex),
+                                             *this->molecule->GetAtom(atomBIndex));
+}
+
 // Second derivative of diatomic overlap integrals between AOs in space fixed flame.
 // The Overlap matrix is S_{\mu\nu} in (3.74) in J. A. Pople book.
 // Note that this method can not treat d-obitals 
@@ -3647,6 +3655,14 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
       }
    }
    */
+}
+
+void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecondDerivs, 
+                                                 int atomAIndex, 
+                                                 int atomBIndex) const{
+   this->CalcDiatomicOverlapSecondDerivatives(diatomicOverlapSecondDerivs,
+                                              *this->molecule->GetAtom(atomAIndex),
+                                              *this->molecule->GetAtom(atomBIndex));
 }
 
 double Cndo2::GetSecondDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
