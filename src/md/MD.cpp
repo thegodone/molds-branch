@@ -98,12 +98,7 @@ void MD::DoMD(){
       this->OutputLog((boost::format("%s%d\n") % this->messageStartStepMD.c_str() % (s+1) ).str());
 
       // update momenta
-      for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
-         Atom* atom = this->molecule->GetAtom(a);
-         for(int i=0; i<CartesianType_end; i++){
-            atom->GetPxyz()[i] += 0.5*dt*(matrixForce[a][i]);
-         }
-      }
+      this->UpdateMomenta(*this->molecule, matrixForce, dt);
 
       // update coordinates
       for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
@@ -126,12 +121,7 @@ void MD::DoMD(){
       matrixForce = electronicStructure->GetForce(elecState);
 
       // update momenta
-      for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
-         Atom* atom = this->molecule->GetAtom(a);
-         for(int i=0; i<CartesianType_end; i++){
-            atom->GetPxyz()[i] += 0.5*dt*(matrixForce[a][i]);
-         }
-      }
+      this->UpdateMomenta(*this->molecule, matrixForce, dt);
 
       // output results
       this->OutputEnergies(electronicStructure, initialEnergy);
@@ -145,6 +135,15 @@ void MD::DoMD(){
    }
 
    this->OutputLog(this->messageEndMD);
+}
+
+void MD::UpdateMomenta(const Molecule& molecule, double const* const* matrixForce, double dt) const{
+   for(int a=0; a<molecule.GetNumberAtoms(); a++){
+      Atom* atom = molecule.GetAtom(a);
+      for(int i=0; i<CartesianType_end; i++){
+         atom->GetPxyz()[i] += 0.5*dt*(matrixForce[a][i]);
+      }
+   }
 }
 
 void MD::SetMessages(){
