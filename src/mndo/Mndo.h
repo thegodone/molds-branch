@@ -208,6 +208,10 @@ private:
                                 int numberActiveOcc,
                                 int numberActiveVir) const;
    void CalcHessianSCF(double** hessianSCF) const;
+   void MallocTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoElecTwoCoreFirstDerivs,
+                                                   double******** diatomicTwoElecTwoCoreSecondDerivs) const;
+   void FreeTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoElecTwoCoreFirstDeriv,
+                                                 double******** diatomicTwoElecTwoCoreSecondDerivs) const;
    double GetAuxiliaryHessianElement1(int mu, 
                                       int nu, 
                                       int firstAOIndexA, 

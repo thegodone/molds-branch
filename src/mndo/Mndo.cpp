@@ -1807,6 +1807,44 @@ void Mndo::CalcXiMatrices(double** xiOcc,
    }
 }
 
+void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoElecTwoCoreFirstDerivs,
+                                                      double******** diatomicTwoElecTwoCoreSecondDerivs) const{
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCoreFirstDerivs,
+                                                this->molecule->GetNumberAtoms(),
+                                                dxy,
+                                                dxy,
+                                                dxy,
+                                                dxy,
+                                                CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCoreSecondDerivs,
+                                                this->molecule->GetNumberAtoms(),
+                                                dxy,
+                                                dxy,
+                                                dxy,
+                                                dxy,
+                                                CartesianType_end,
+                                                CartesianType_end);
+}
+
+void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoElecTwoCoreFirstDerivs,
+                                                    double******** diatomicTwoElecTwoCoreSecondDerivs) const{
+   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCoreFirstDerivs,
+                                              this->molecule->GetNumberAtoms(),
+                                              dxy,
+                                              dxy,
+                                              dxy,
+                                              dxy,
+                                              CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCoreSecondDerivs,
+                                              this->molecule->GetNumberAtoms(),
+                                              dxy,
+                                              dxy,
+                                              dxy,
+                                              dxy,
+                                              CartesianType_end,
+                                              CartesianType_end);
+}
+
 // mu and nu is included in atomA' AO. 
 // s is included in atomB's AO.
 double Mndo::GetAuxiliaryHessianElement1(int mu, 
@@ -1903,10 +1941,6 @@ double Mndo::GetAuxiliaryHessianElement4(int lambda,
 void Mndo::CalcHessianSCF(double** hessianSCF) const{
    int totalNumberAOs = this->molecule->GetTotalNumberAOs();
    double**** orbitalElectronPopulationFirstDerivatives = NULL;
-   double****** diatomicTwoElecTwoCoreFirstDerivs = NULL;
-   double******* diatomicTwoElecTwoCoreSecondDerivs = NULL;
-   double**** diatomicOverlapFirstDerivs = NULL;
-   double***** diatomicOverlapSecondDerivs = NULL;
 
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&orbitalElectronPopulationFirstDerivatives, 
@@ -1916,7 +1950,15 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
                                                    CartesianType_end);
       this->CalcOrbitalElectronPopulationFirstDerivatives(orbitalElectronPopulationFirstDerivatives);
 
+//#pragma omp parallel
+//{
+      double****** diatomicTwoElecTwoCoreFirstDerivs = NULL;
+      double******* diatomicTwoElecTwoCoreSecondDerivs = NULL;
+      double**** diatomicOverlapFirstDerivs = NULL;
+      double***** diatomicOverlapSecondDerivs = NULL;
+      this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicTwoElecTwoCoreSecondDerivs);
 
+//#pragma omp for schedule(auto)                                                 
       for(int atomAIndex=0; atomAIndex<this->molecule->GetNumberAtoms(); atomAIndex++){
          for(int axisA = XAxis; axisA<CartesianType_end; axisA++){
             int firstAOIndexA = this->molecule->GetAtom(atomAIndex)->GetFirstAOIndex();
@@ -2034,6 +2076,9 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
             }
          }
       }
+      this->FreeTempMatricesEachThreadCalcHessianSCF(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicTwoElecTwoCoreSecondDerivs);
+//}
+
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&orbitalElectronPopulationFirstDerivatives, 
