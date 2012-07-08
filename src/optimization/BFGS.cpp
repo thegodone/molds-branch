@@ -345,42 +345,51 @@ void BFGS::UpdateHessian(double **matrixHessian,
    double** HKKH = NULL;                           // H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
    try{
       MallocerFreer::GetInstance()->Malloc(&P, dimension);
+      MallocerFreer::GetInstance()->Malloc(&PP, dimension, dimension);
+      MallocerFreer::GetInstance()->Malloc(&HK, dimension);
+      MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
+      double KHK = 0;
+      double PK = 0;
 #pragma omp parallel for schedule(auto)
       for(int i=0; i<dimension; i++){
          // initialize P_k according to Eq. (14) in [SJTO_1983]
          // note: gradient = -1 * force
          P[i] = - (vectorForce[i] - vectorOldForce[i]);
       }
-      double PK = 0; // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
-#pragma omp parallel for schedule(auto)
+
+      // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
+#pragma omp parallel for schedule(auto) reduction(+:PK)
       for(int i=0; i<dimension;i++){
          PK += P[i] * K[i];
       }
+
       //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
-      MallocerFreer::GetInstance()->Malloc(&PP, dimension, dimension);
-#pragma omp parallel for schedule(auto)
       for(int i=0; i<dimension;i++){
+#pragma omp parallel for schedule(auto)
          for(int j=i;j<dimension;j++){
             PP[i][j] = PP[j][i] = P[i] * P[j];
          }
       }
+
       //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-      MallocerFreer::GetInstance()->Malloc(&HK, dimension);
-#pragma omp parallel for schedule(auto)
       for(int i=0; i<dimension; i++){
-         HK[i] = 0;
+         double tmp=0;
+#pragma omp parallel for schedule(auto) shared(i) reduction(+:tmp)
          for(int j=0; j<dimension; j++){
-            HK[i] += matrixHessian[i][j] * K[j];
+            tmp += matrixHessian[i][j] * K[j];
          }
+         HK[i] = tmp;
       }
-      double KHK = 0; //K_k^T H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+
+      //K_k^T H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+#pragma omp parallel for schedule(auto) default(shared) reduction(+:KHK)
       for(int i=0;i<dimension;i++){
          KHK += K[i]*HK[i];
       }
+
       //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
-      MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
-#pragma omp parallel for schedule(auto)
       for(int i=0;i<dimension;i++){
+#pragma omp parallel for schedule(auto)
          for(int j=i;j<dimension;j++){
             // H_k K_k = (K_k^T H_k)^T because H_k^T = H_k
             HKKH[i][j] = HKKH[j][i] = HK[i] * HK[j];
@@ -388,8 +397,8 @@ void BFGS::UpdateHessian(double **matrixHessian,
       }
 
       // Calculate H_k+1 according to Eq. (13) in [SJTO_1983]
-#pragma omp parallel for schedule(auto)
       for(int i=0;i<dimension;i++){
+#pragma omp parallel for schedule(auto)
          for(int j=i;j<dimension;j++){
             matrixHessian[i][j]+= (PP[i][j] / PK
                                 - HKKH[i][j] / KHK);
