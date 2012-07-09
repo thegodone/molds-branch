@@ -1846,124 +1846,563 @@ void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoEle
 }
 
 // mu and nu is included in atomA' AO. 
-// s is included in atomB's AO.
+// s is included in atomC's AO.
+// Both derivatives are related to the Cartesian coordinates (axisA1 and axisA2) of atomA.
 double Mndo::GetAuxiliaryHessianElement1(int mu, 
                                          int nu, 
-                                         int firstAOIndexA, 
-                                         MolDS_base::CartesianType axisA1,
-                                         MolDS_base::CartesianType axisA2,
-                                         int atomBIndex,
+                                         int atomAIndex,
+                                         int atomCIndex,
+                                         CartesianType axisA1,
+                                         CartesianType axisA2,
                                          double const* const* orbitalElectronPopulation,
-                                         double const* const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const{
+                                         double const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const{
+   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+   const Atom& atomC = *this->molecule->GetAtom(atomCIndex);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
    double value = orbitalElectronPopulation[mu]
                                            [nu]
-                 *diatomicTwoElecTwoCoreSecondDerivs[atomBIndex]
-                                                    [mu-firstAOIndexA]
+                 *diatomicTwoElecTwoCoreSecondDerivs[mu-firstAOIndexA]
                                                     [nu-firstAOIndexA]
                                                     [s]
                                                     [s]
                                                     [axisA1]
                                                     [axisA2];
-   return value*this->molecule->GetAtom(atomBIndex)->GetCoreCharge();
+   return value*atomC.GetCoreCharge();
 }
 
 // mu and nu is included in atomA' AO. 
-// s is included in atomB's AO.
+// s is included in atomC's AO.
+// Derivtive of orbitalElectronPopulation is reralted to the Cartesian coordinate (axisB) of atomB.
 double Mndo::GetAuxiliaryHessianElement2(int mu, 
                                          int nu, 
-                                         int firstAOIndexA, 
-                                         MolDS_base::CartesianType axisA1,
-                                         MolDS_base::CartesianType axisA2,
                                          int atomAIndex,
                                          int atomBIndex,
+                                         int atomCIndex,
+                                         CartesianType axisA,
+                                         CartesianType axisB,
                                          double const* const* const* const* orbitalElectronPopulationFirstDerivs,
-                                         double const* const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const{
+                                         double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const{
+   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+   const Atom& atomC = *this->molecule->GetAtom(atomCIndex);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
    double value = orbitalElectronPopulationFirstDerivs[mu]
                                                       [nu]
-                                                      [atomAIndex]
-                                                      [axisA2]
-                 *diatomicTwoElecTwoCoreFirstDerivs[atomBIndex]
-                                                   [mu-firstAOIndexA]
+                                                      [atomBIndex]
+                                                      [axisB]
+                 *diatomicTwoElecTwoCoreFirstDerivs[mu-firstAOIndexA]
                                                    [nu-firstAOIndexA]
                                                    [s]
                                                    [s]
-                                                   [axisA1];
-   return value*this->molecule->GetAtom(atomBIndex)->GetCoreCharge();
+                                                   [axisA];
+   return value*atomC.GetCoreCharge();
 }
 
-// lambda and sigma is included in atomB' AO. 
+// lambda and sigma is included in atomC' AO. 
 // s is included in atomA's AO.
+// Both derivatives are related to the Cartesian coordinates (axisA1 and axisA2) of atomA.
 double Mndo::GetAuxiliaryHessianElement3(int lambda, 
                                          int sigma, 
-                                         int firstAOIndexB, 
-                                         MolDS_base::CartesianType axisA1,
-                                         MolDS_base::CartesianType axisA2,
                                          int atomAIndex,
-                                         int atomBIndex,
+                                         int atomCIndex,
+                                         CartesianType axisA1,
+                                         CartesianType axisA2,
                                          double const* const* orbitalElectronPopulation,
-                                         double const* const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const{
+                                         double const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const{
+   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+   const Atom& atomC = *this->molecule->GetAtom(atomCIndex);
+   int firstAOIndexC = atomC.GetFirstAOIndex();
    double value = orbitalElectronPopulation[lambda]
                                            [sigma]
-                 *diatomicTwoElecTwoCoreSecondDerivs[atomBIndex]
+                 *diatomicTwoElecTwoCoreSecondDerivs[s]
                                                     [s]
-                                                    [s]
-                                                    [lambda-firstAOIndexB]
-                                                    [sigma-firstAOIndexB]
+                                                    [lambda-firstAOIndexC]
+                                                    [sigma-firstAOIndexC]
                                                     [axisA1]
                                                     [axisA2];
-   return value*this->molecule->GetAtom(atomAIndex)->GetCoreCharge();
+   return value*atomA.GetCoreCharge();
 }
 
-// lambda and sigma is included in atomB' AO. 
+// lambda and sigma is included in atomC' AO. 
 // s is included in atomA's AO.
+// Derivtive of orbitalElectronPopulation is reralted to the Cartesian coordinate (axisB) of atomB.
 double Mndo::GetAuxiliaryHessianElement4(int lambda, 
                                          int sigma, 
-                                         int firstAOIndexB, 
-                                         MolDS_base::CartesianType axisA1,
-                                         MolDS_base::CartesianType axisA2,
                                          int atomAIndex,
                                          int atomBIndex,
+                                         int atomCIndex,
+                                         CartesianType axisA,
+                                         CartesianType axisB,
                                          double const* const* const* const* orbitalElectronPopulationFirstDerivs,
-                                         double const* const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const{
+                                         double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const{
+   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+   const Atom& atomC = *this->molecule->GetAtom(atomCIndex);
+   int firstAOIndexC = atomC.GetFirstAOIndex();
    double value = orbitalElectronPopulationFirstDerivs[lambda]
                                                       [sigma]
-                                                      [atomAIndex]
-                                                      [axisA2]
-                 *diatomicTwoElecTwoCoreFirstDerivs[atomBIndex]
+                                                      [atomBIndex]
+                                                      [axisB]
+                 *diatomicTwoElecTwoCoreFirstDerivs[s]
                                                    [s]
-                                                   [s]
-                                                   [lambda-firstAOIndexB]
-                                                   [sigma-firstAOIndexB]
-                                                   [axisA1];
-   return value*this->molecule->GetAtom(atomAIndex)->GetCoreCharge();
+                                                   [lambda-firstAOIndexC]
+                                                   [sigma-firstAOIndexC]
+                                                   [axisA];
+   return value*atomA.GetCoreCharge();
 }
 
-void Mndo::CalcHessianSCF(double** hessianSCF) const{
+// mu is included in atomA's AO.
+// lambda is included in atomC's AO.
+// Both derivatives are related to the Cartesian coordinates (axisA1 and axisA2) of atomA.
+double Mndo::GetAuxiliaryHessianElement5(int mu, 
+                                         int lambda, 
+                                         int atomAIndex,
+                                         int atomCIndex,
+                                         CartesianType axisA1,
+                                         CartesianType axisA2,
+                                         double const* const* orbitalElectronPopulation,
+                                         double const* const* const* const* diatomicOverlapSecondDerivs) const{
+   const Atom& atomA = *molecule->GetAtom(atomAIndex);
+   const Atom& atomC = *molecule->GetAtom(atomCIndex);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
+   int firstAOIndexC = atomC.GetFirstAOIndex();
+   double bondParameterA = atomA.GetBondingParameter(this->theory, atomA.GetValence(mu-firstAOIndexA));
+   double bondParameterC = atomC.GetBondingParameter(this->theory, atomC.GetValence(lambda-firstAOIndexC));
+   double sumBondParameters = bondParameterA+bondParameterC;
+   double value = orbitalElectronPopulation[mu][lambda]
+                 *sumBondParameters
+                 *diatomicOverlapSecondDerivs[mu-firstAOIndexA]
+                                             [lambda-firstAOIndexC]
+                                             [axisA1]
+                                             [axisA2];
+   return value;
+}
+
+// mu is included in atomA's AO.
+// lambda is included in atomC's AO.
+// Derivtive of orbitalElectronPopulation is reralted to the Cartesian coordinate (axisB) of atomB.
+double Mndo::GetAuxiliaryHessianElement6(int mu, 
+                                         int lambda, 
+                                         int atomAIndex,
+                                         int atomBIndex,
+                                         int atomCIndex,
+                                         CartesianType axisA,
+                                         CartesianType axisB,
+                                         double const* const* const* const* orbitalElectronPopulationFirstDerivs,
+                                         double const* const* const* diatomicOverlapFirstDerivs) const{
+   const Atom& atomA = *molecule->GetAtom(atomAIndex);
+   const Atom& atomC = *molecule->GetAtom(atomCIndex);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
+   int firstAOIndexC = atomC.GetFirstAOIndex();
+   double bondParameterA = atomA.GetBondingParameter(this->theory, atomA.GetValence(mu-firstAOIndexA));
+   double bondParameterC = atomC.GetBondingParameter(this->theory, atomC.GetValence(lambda-firstAOIndexC));
+   double sumBondParameters = bondParameterA+bondParameterC;
+   double value = orbitalElectronPopulationFirstDerivs[mu]
+                                                      [lambda]
+                                                      [atomBIndex]
+                                                      [axisB]
+                 *sumBondParameters
+                 *diatomicOverlapFirstDerivs[mu-firstAOIndexA]
+                                            [lambda-firstAOIndexC]
+                                            [axisA];
+   return value;
+}
+
+// mu and nu are included in atomA's AO.
+// lambda and sigma are included in atomC's AO.
+// Both derivatives are related to the Cartesian coordinates (axisA1 and axisA2) of atomA.
+double Mndo::GetAuxiliaryHessianElement7(int mu, 
+                                         int nu, 
+                                         int lambda, 
+                                         int sigma, 
+                                         int atomAIndex,
+                                         int atomCIndex,
+                                         CartesianType axisA1,
+                                         CartesianType axisA2,
+                                         double const* const* orbitalElectronPopulation,
+                                         double const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const{
+   const Atom& atomA = *molecule->GetAtom(atomAIndex);
+   const Atom& atomC = *molecule->GetAtom(atomCIndex);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
+   int firstAOIndexC = atomC.GetFirstAOIndex();
+   double temp1 = orbitalElectronPopulation[mu][nu]*orbitalElectronPopulation[lambda][sigma];
+   double temp2 = orbitalElectronPopulation[mu][lambda]*orbitalElectronPopulation[nu][sigma];
+   double value = (temp1 - 0.5*temp2)
+                 *diatomicTwoElecTwoCoreSecondDerivs[mu-firstAOIndexA]
+                                                    [nu-firstAOIndexA]
+                                                    [lambda-firstAOIndexC]
+                                                    [sigma-firstAOIndexC]
+                                                    [axisA1]
+                                                    [axisA2];
+   return value;
+}
+
+// mu and nu are included in atomA's AO.
+// lambda and sigma are included in atomC's AO.
+// Derivtive of orbitalElectronPopulation is reralted to the Cartesian coordinate (axisB) of atomB.
+double Mndo::GetAuxiliaryHessianElement8(int mu, 
+                                         int nu, 
+                                         int lambda, 
+                                         int sigma, 
+                                         int atomAIndex,
+                                         int atomBIndex,
+                                         int atomCIndex,
+                                         CartesianType axisA,
+                                         CartesianType axisB,
+                                         double const* const* orbitalElectronPopulation,
+                                         double const* const* const* const* orbitalElectronPopulationFirstDerivs,
+                                         double const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs) const{
+   const Atom& atomA = *molecule->GetAtom(atomAIndex);
+   const Atom& atomC = *molecule->GetAtom(atomCIndex);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
+   int firstAOIndexC = atomC.GetFirstAOIndex();
+   double temp1 = orbitalElectronPopulationFirstDerivs[mu][nu]       [atomBIndex][axisB]
+                 *orbitalElectronPopulation           [lambda][sigma];
+   double temp2 = orbitalElectronPopulation           [mu][nu]
+                 *orbitalElectronPopulationFirstDerivs[lambda][sigma][atomBIndex][axisB];
+   double temp3 = orbitalElectronPopulationFirstDerivs[mu][lambda]   [atomBIndex][axisB]
+                 *orbitalElectronPopulation           [nu][sigma];
+   double temp4 = orbitalElectronPopulation           [mu][lambda]
+                 *orbitalElectronPopulationFirstDerivs[nu][sigma]    [atomBIndex][axisB];
+   double value = (0.5*(temp1 + temp2) - 0.25*(temp3 + temp4))
+                 *diatomicTwoElecTwoCoreFirstDerivs[mu-firstAOIndexA]
+                                                   [nu-firstAOIndexA]
+                                                   [lambda-firstAOIndexC]
+                                                   [sigma-firstAOIndexC]
+                                                   [axisA];
+   return value;
+}
+
+// Return hessian element. 
+// The Second derivative are related to axisA1 and axisA2.
+// These axisA1 and axisA2 are the Cartesian coordinates of atomA labeled with atomAIndex.
+double Mndo::GetHessianElementSameAtomsSCF(int atomAIndex, 
+                                           CartesianType axisA1,
+                                           CartesianType axisA2,
+                                           bool isMassWeighted,
+                                           double const* const* orbitalElectronPopulation,
+                                           double const* const* const* const* orbitalElectronPopulationFirstDerivs,
+                                           double const* const* const* const* diatomicOverlapFirstDerivs,
+                                           double const* const* const* const* const* diatomicOverlapSecondDerivs,
+                                           double const* const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs,
+                                           double const* const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const{
+   double value=0.0;
+   int atomBIndex = atomAIndex;
+   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
+   int numberAOsA = atomA.GetValenceSize();
+   for(int atomCIndex=0; atomCIndex<this->molecule->GetNumberAtoms(); atomCIndex++){
+      if(atomAIndex != atomCIndex){
+         const Atom& atomC = *this->molecule->GetAtom(atomCIndex);
+         int firstAOIndexC = atomC.GetFirstAOIndex();
+         int numberAOsC = atomC.GetValenceSize();
+
+         // second derivative of electronic part
+         for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+            for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
+               value -= this->GetAuxiliaryHessianElement1(mu, 
+                                                          nu, 
+                                                          atomAIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA1), 
+                                                          static_cast<CartesianType>(axisA2), 
+                                                          orbitalElectronPopulation,
+                                                          diatomicTwoElecTwoCoreSecondDerivs[atomCIndex]);
+               value -= this->GetAuxiliaryHessianElement2(mu, 
+                                                          nu, 
+                                                          atomAIndex,
+                                                          atomBIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA1), 
+                                                          static_cast<CartesianType>(axisA2), 
+                                                          orbitalElectronPopulationFirstDerivs,
+                                                          diatomicTwoElecTwoCoreFirstDerivs[atomCIndex]);
+            }
+         }
+         for(int lambda=firstAOIndexC; lambda<firstAOIndexC+numberAOsC; lambda++){
+            for(int sigma=firstAOIndexC; sigma<firstAOIndexC+numberAOsC; sigma++){
+               value -= this->GetAuxiliaryHessianElement3(lambda, 
+                                                          sigma, 
+                                                          atomAIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA1), 
+                                                          static_cast<CartesianType>(axisA2), 
+                                                          orbitalElectronPopulation,
+                                                          diatomicTwoElecTwoCoreSecondDerivs[atomCIndex]);
+               value -= this->GetAuxiliaryHessianElement4(lambda, 
+                                                          sigma, 
+                                                          atomAIndex,
+                                                          atomBIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA1), 
+                                                          static_cast<CartesianType>(axisA2), 
+                                                          orbitalElectronPopulationFirstDerivs,
+                                                          diatomicTwoElecTwoCoreFirstDerivs[atomCIndex]);
+            }
+         }
+         for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+            for(int lambda=firstAOIndexC; lambda<firstAOIndexC+numberAOsC; lambda++){
+               value += this->GetAuxiliaryHessianElement5(mu, 
+                                                          lambda, 
+                                                          atomAIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA1), 
+                                                          static_cast<CartesianType>(axisA2), 
+                                                          orbitalElectronPopulation,
+                                                          diatomicOverlapSecondDerivs[atomCIndex]);
+               value += this->GetAuxiliaryHessianElement6(mu, 
+                                                          lambda, 
+                                                          atomAIndex,
+                                                          atomBIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA1), 
+                                                          static_cast<CartesianType>(axisA2), 
+                                                          orbitalElectronPopulationFirstDerivs,
+                                                          diatomicOverlapFirstDerivs[atomCIndex]);
+            }
+         }
+         for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+            for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
+               for(int lambda=firstAOIndexC; lambda<firstAOIndexC+numberAOsC; lambda++){
+                  for(int sigma=firstAOIndexC; sigma<firstAOIndexC+numberAOsC; sigma++){
+                     value += this->GetAuxiliaryHessianElement7(mu, 
+                                                                nu, 
+                                                                lambda, 
+                                                                sigma, 
+                                                                atomAIndex,
+                                                                atomCIndex,
+                                                                static_cast<CartesianType>(axisA1), 
+                                                                static_cast<CartesianType>(axisA2), 
+                                                                orbitalElectronPopulation,
+                                                                diatomicTwoElecTwoCoreSecondDerivs[atomCIndex]);
+                     value += this->GetAuxiliaryHessianElement8(mu, 
+                                                                nu, 
+                                                                lambda, 
+                                                                sigma, 
+                                                                atomAIndex,
+                                                                atomBIndex,
+                                                                atomCIndex,
+                                                                static_cast<CartesianType>(axisA1), 
+                                                                static_cast<CartesianType>(axisA2), 
+                                                                orbitalElectronPopulation,
+                                                                orbitalElectronPopulationFirstDerivs,
+                                                                diatomicTwoElecTwoCoreFirstDerivs[atomCIndex]);
+                  }
+               }
+            }
+         }
+
+         // second derivatives of the nuclear repulsions
+         value += this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
+                                                               atomCIndex, 
+                                                               static_cast<CartesianType>(axisA1), 
+                                                               static_cast<CartesianType>(axisA2));
+         
+         // second derivatives of the van der waals corrections
+         if(Parameters::GetInstance()->RequiresVdWSCF()){
+            value += this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
+                                                                  atomCIndex, 
+                                                                  static_cast<CartesianType>(axisA1), 
+                                                                  static_cast<CartesianType>(axisA2));
+         }
+      }
+   }
+
+   if(isMassWeighted){
+      value /= atomA.GetCoreMass();
+   }
+   return value;
+}
+
+// Return hessian element. 
+// The Second derivative are related to axisA and axisB.
+// These axisA and axisB are the Cartesian coordinates of atomA and atomB, respectively.
+double Mndo::GetHessianElementDifferentAtomsSCF(int atomAIndex, 
+                                                int atomBIndex,
+                                                CartesianType axisA,
+                                                CartesianType axisB,
+                                                bool isMassWeighted,
+                                                double const* const* orbitalElectronPopulation,
+                                                double const* const* const* const* orbitalElectronPopulationFirstDerivs,
+                                                double const* const* const* const* diatomicOverlapFirstDerivs,
+                                                double const* const* const* const* const* diatomicOverlapSecondDerivs,
+                                                double const* const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs,
+                                                double const* const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const{
+   double value=0.0;
+   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+   const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
+   int firstAOIndexB = atomB.GetFirstAOIndex();
+   int numberAOsA = atomA.GetValenceSize();
+   int numberAOsB = atomB.GetValenceSize();
+
+   // second derivative of electronic part
+   for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+      for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
+         value += this->GetAuxiliaryHessianElement1(mu, 
+                                                    nu, 
+                                                    atomAIndex,
+                                                    atomBIndex,
+                                                    static_cast<CartesianType>(axisA), 
+                                                    static_cast<CartesianType>(axisB), 
+                                                    orbitalElectronPopulation,
+                                                    diatomicTwoElecTwoCoreSecondDerivs[atomBIndex]);
+      }
+   }
+   for(int lambda=firstAOIndexB; lambda<firstAOIndexB+numberAOsB; lambda++){
+      for(int sigma=firstAOIndexB; sigma<firstAOIndexB+numberAOsB; sigma++){
+         value += this->GetAuxiliaryHessianElement3(lambda, 
+                                                    sigma, 
+                                                    atomAIndex,
+                                                    atomBIndex,
+                                                    static_cast<CartesianType>(axisA), 
+                                                    static_cast<CartesianType>(axisB), 
+                                                    orbitalElectronPopulation,
+                                                    diatomicTwoElecTwoCoreSecondDerivs[atomBIndex]);
+      }
+   }
+   for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+      for(int lambda=firstAOIndexB; lambda<firstAOIndexB+numberAOsB; lambda++){
+         value -= this->GetAuxiliaryHessianElement5(mu, 
+                                                    lambda, 
+                                                    atomAIndex,
+                                                    atomBIndex,
+                                                    static_cast<CartesianType>(axisA), 
+                                                    static_cast<CartesianType>(axisB), 
+                                                    orbitalElectronPopulation,
+                                                    diatomicOverlapSecondDerivs[atomBIndex]);
+      }
+   }
+   for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+      for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
+         for(int lambda=firstAOIndexB; lambda<firstAOIndexB+numberAOsB; lambda++){
+            for(int sigma=firstAOIndexB; sigma<firstAOIndexB+numberAOsB; sigma++){
+               value += this->GetAuxiliaryHessianElement7(mu, 
+                                                          nu, 
+                                                          lambda, 
+                                                          sigma, 
+                                                          atomAIndex,
+                                                          atomBIndex,
+                                                          static_cast<CartesianType>(axisA), 
+                                                          static_cast<CartesianType>(axisB), 
+                                                          orbitalElectronPopulation,
+                                                          diatomicTwoElecTwoCoreSecondDerivs[atomBIndex]);
+            }
+         }
+      }
+   }
+
+   for(int atomCIndex=0; atomCIndex<this->molecule->GetNumberAtoms(); atomCIndex++){
+      if(atomAIndex != atomCIndex){
+         const Atom& atomC = *this->molecule->GetAtom(atomCIndex);
+         int firstAOIndexC = atomC.GetFirstAOIndex();
+         int numberAOsC = atomC.GetValenceSize();
+
+         // second derivative of electronic part
+         for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+            for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
+               value -= this->GetAuxiliaryHessianElement2(mu, 
+                                                          nu, 
+                                                          atomAIndex,
+                                                          atomBIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA), 
+                                                          static_cast<CartesianType>(axisB), 
+                                                          orbitalElectronPopulationFirstDerivs,
+                                                          diatomicTwoElecTwoCoreFirstDerivs[atomCIndex]);
+            }
+         }
+         for(int lambda=firstAOIndexC; lambda<firstAOIndexC+numberAOsC; lambda++){
+            for(int sigma=firstAOIndexC; sigma<firstAOIndexC+numberAOsC; sigma++){
+               value -= this->GetAuxiliaryHessianElement4(lambda, 
+                                                          sigma, 
+                                                          atomAIndex,
+                                                          atomBIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA), 
+                                                          static_cast<CartesianType>(axisB), 
+                                                          orbitalElectronPopulationFirstDerivs,
+                                                          diatomicTwoElecTwoCoreFirstDerivs[atomCIndex]);
+            }
+         }
+         for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+            for(int lambda=firstAOIndexC; lambda<firstAOIndexC+numberAOsC; lambda++){
+               value += this->GetAuxiliaryHessianElement6(mu, 
+                                                          lambda, 
+                                                          atomAIndex,
+                                                          atomBIndex,
+                                                          atomCIndex,
+                                                          static_cast<CartesianType>(axisA), 
+                                                          static_cast<CartesianType>(axisB), 
+                                                          orbitalElectronPopulationFirstDerivs,
+                                                          diatomicOverlapFirstDerivs[atomCIndex]);
+            }
+         }
+         for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
+            for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
+               for(int lambda=firstAOIndexC; lambda<firstAOIndexC+numberAOsC; lambda++){
+                  for(int sigma=firstAOIndexC; sigma<firstAOIndexC+numberAOsC; sigma++){
+                     value += this->GetAuxiliaryHessianElement8(mu, 
+                                                                nu, 
+                                                                lambda, 
+                                                                sigma, 
+                                                                atomAIndex,
+                                                                atomBIndex,
+                                                                atomCIndex,
+                                                                static_cast<CartesianType>(axisA), 
+                                                                static_cast<CartesianType>(axisB), 
+                                                                orbitalElectronPopulation,
+                                                                orbitalElectronPopulationFirstDerivs,
+                                                                diatomicTwoElecTwoCoreFirstDerivs[atomCIndex]);
+                  }
+               }
+            }
+         }
+      }
+   }
+
+   // second derivatives of the nuclear repulsions
+   value -= this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
+                                                         atomBIndex, 
+                                                         static_cast<CartesianType>(axisA), 
+                                                         static_cast<CartesianType>(axisB));
+   // second derivatives of the van der waals corrections
+   if(Parameters::GetInstance()->RequiresVdWSCF()){
+      value -= this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
+                                                            atomBIndex, 
+                                                            static_cast<CartesianType>(axisA), 
+                                                            static_cast<CartesianType>(axisB));
+   }
+
+   if(isMassWeighted){
+      value /= sqrt(atomA.GetCoreMass()*atomB.GetCoreMass());
+   }
+   return value;
+}
+void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
    int totalNumberAOs = this->molecule->GetTotalNumberAOs();
-   double**** orbitalElectronPopulationFirstDerivatives = NULL;
+   double**** orbitalElectronPopulationFirstDerivs = NULL;
 
    try{
-      MallocerFreer::GetInstance()->Malloc<double>(&orbitalElectronPopulationFirstDerivatives, 
+      MallocerFreer::GetInstance()->Malloc<double>(&orbitalElectronPopulationFirstDerivs, 
                                                    totalNumberAOs,
                                                    totalNumberAOs,
                                                    this->molecule->GetNumberAtoms(),
                                                    CartesianType_end);
-      this->CalcOrbitalElectronPopulationFirstDerivatives(orbitalElectronPopulationFirstDerivatives);
+      this->CalcOrbitalElectronPopulationFirstDerivatives(orbitalElectronPopulationFirstDerivs);
 
 //#pragma omp parallel
 //{
-      double****** diatomicTwoElecTwoCoreFirstDerivs = NULL;
-      double******* diatomicTwoElecTwoCoreSecondDerivs = NULL;
       double**** diatomicOverlapFirstDerivs = NULL;
       double***** diatomicOverlapSecondDerivs = NULL;
+      double****** diatomicTwoElecTwoCoreFirstDerivs = NULL;
+      double******* diatomicTwoElecTwoCoreSecondDerivs = NULL;
       this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicTwoElecTwoCoreSecondDerivs);
 
 //#pragma omp for schedule(auto)                                                 
       for(int atomAIndex=0; atomAIndex<this->molecule->GetNumberAtoms(); atomAIndex++){
+         const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
+         int firstAOIndexA = atomA.GetFirstAOIndex();
+         int numberAOsA = atomA.GetValenceSize();
          for(int axisA = XAxis; axisA<CartesianType_end; axisA++){
-            int firstAOIndexA = this->molecule->GetAtom(atomAIndex)->GetFirstAOIndex();
-            int numberAOsA = this->molecule->GetAtom(atomAIndex)->GetValenceSize();
-            int k = atomAIndex*CartesianType_end + axisA; // hessian index, i.e. hessian[k][l]
 
             // calculation of derivatives of the overlaps and two electron integrals
             for(int atomBIndex=0; atomBIndex<this->molecule->GetNumberAtoms(); atomBIndex++){
@@ -1983,95 +2422,40 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
                }
             }
 
+            int k = atomAIndex*CartesianType_end + axisA; // hessian index, i.e. hessian[k][l]
             // hessian element (atomA == atomB)
             for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
                int l = atomAIndex*CartesianType_end + axisA2; // hessian index, i.e. hessian[k][l]
-               hessianSCF[k][l] = 0.0;
-               for(int atomCIndex=0; atomCIndex<this->molecule->GetNumberAtoms(); atomCIndex++){
-                  int firstAOIndexC = this->molecule->GetAtom(atomCIndex)->GetFirstAOIndex();
-                  int numberAOsC = this->molecule->GetAtom(atomCIndex)->GetValenceSize();
-                  // second derivative of electronic part
-                  for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
-                     for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
-                        hessianSCF[k][l] -= this->GetAuxiliaryHessianElement1(mu, 
-                                                                              nu, 
-                                                                              firstAOIndexA, 
-                                                                              static_cast<CartesianType>(axisA), 
-                                                                              static_cast<CartesianType>(axisA2), 
-                                                                              atomCIndex,
-                                                                              this->orbitalElectronPopulation,
-                                                                              diatomicTwoElecTwoCoreSecondDerivs);
-                        hessianSCF[k][l] -= this->GetAuxiliaryHessianElement2(mu, 
-                                                                              nu, 
-                                                                              firstAOIndexA, 
-                                                                              static_cast<CartesianType>(axisA), 
-                                                                              static_cast<CartesianType>(axisA2), 
-                                                                              atomAIndex,
-                                                                              atomCIndex,
-                                                                              orbitalElectronPopulationFirstDerivatives,
-                                                                              diatomicTwoElecTwoCoreFirstDerivs);
-                     }
-                  }
-                  for(int lambda=firstAOIndexC; lambda<firstAOIndexC+numberAOsC; lambda++){
-                     for(int sigma=firstAOIndexC; sigma<firstAOIndexC+numberAOsC; sigma++){
-                        hessianSCF[k][l] -= this->GetAuxiliaryHessianElement3(lambda, 
-                                                                              sigma, 
-                                                                              firstAOIndexC, 
-                                                                              static_cast<CartesianType>(axisA), 
-                                                                              static_cast<CartesianType>(axisA2), 
-                                                                              atomAIndex,
-                                                                              atomCIndex,
-                                                                              this->orbitalElectronPopulation,
-                                                                              diatomicTwoElecTwoCoreSecondDerivs);
-                        hessianSCF[k][l] -= this->GetAuxiliaryHessianElement4(lambda, 
-                                                                              sigma, 
-                                                                              firstAOIndexC, 
-                                                                              static_cast<CartesianType>(axisA), 
-                                                                              static_cast<CartesianType>(axisA2), 
-                                                                              atomAIndex,
-                                                                              atomCIndex,
-                                                                              orbitalElectronPopulationFirstDerivatives,
-                                                                              diatomicTwoElecTwoCoreFirstDerivs);
-                     }
-                  }
-
-                  // second derivatives of the nuclear repulsions
-                  hessianSCF[k][l] += this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
-                                                                                   atomCIndex, 
-                                                                                   static_cast<CartesianType>(axisA), 
-                                                                                   static_cast<CartesianType>(axisA2));
-                 
-                  // second derivatives of the van der waals corrections
-                  if(Parameters::GetInstance()->RequiresVdWSCF()){
-                     hessianSCF[k][l] += this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
-                                                                                      atomCIndex, 
-                                                                                      static_cast<CartesianType>(axisA), 
-                                                                                      static_cast<CartesianType>(axisA2));
-                  }
-               }
+               hessianSCF[k][l] = this->GetHessianElementSameAtomsSCF(atomAIndex, 
+                                                                      static_cast<CartesianType>(axisA), 
+                                                                      static_cast<CartesianType>(axisA2), 
+                                                                      isMassWeighted,
+                                                                      orbitalElectronPopulation,
+                                                                      orbitalElectronPopulationFirstDerivs,
+                                                                      diatomicOverlapFirstDerivs,
+                                                                      diatomicOverlapSecondDerivs,
+                                                                      diatomicTwoElecTwoCoreFirstDerivs,
+                                                                      diatomicTwoElecTwoCoreSecondDerivs);
             }
 
             // hessian element atomA < atomB
             for(int atomBIndex=atomAIndex+1; atomBIndex<this->molecule->GetNumberAtoms(); atomBIndex++){
+               const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
                for(int axisB = XAxis; axisB<CartesianType_end; axisB++){
                   int l = atomAIndex*CartesianType_end + axisB;
-                  hessianSCF[k][l] = 0.0;
+                  hessianSCF[l][k] = 
+                  hessianSCF[k][l] = this->GetHessianElementDifferentAtomsSCF(atomAIndex, 
+                                                                              atomBIndex,
+                                                                              static_cast<CartesianType>(axisA), 
+                                                                              static_cast<CartesianType>(axisB), 
+                                                                              isMassWeighted,
+                                                                              orbitalElectronPopulation,
+                                                                              orbitalElectronPopulationFirstDerivs,
+                                                                              diatomicOverlapFirstDerivs,
+                                                                              diatomicOverlapSecondDerivs,
+                                                                              diatomicTwoElecTwoCoreFirstDerivs,
+                                                                              diatomicTwoElecTwoCoreSecondDerivs);
 
-                  // second derivatives of the nuclear repulsions
-                  hessianSCF[k][l] -= this->GetDiatomCoreRepulsionSecondDerivative(atomAIndex, 
-                                                                                   atomBIndex, 
-                                                                                   static_cast<CartesianType>(axisA), 
-                                                                                   static_cast<CartesianType>(axisB));
-                  // second derivatives of the van der waals corrections
-                  if(Parameters::GetInstance()->RequiresVdWSCF()){
-                     hessianSCF[k][l] -= this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
-                                                                                      atomBIndex, 
-                                                                                      static_cast<CartesianType>(axisA), 
-                                                                                      static_cast<CartesianType>(axisB));
-                  }
-               
-
-                  hessianSCF[l][k] = hessianSCF[k][l];
                }
             }
          }
@@ -2081,21 +2465,21 @@ void Mndo::CalcHessianSCF(double** hessianSCF) const{
 
    }
    catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&orbitalElectronPopulationFirstDerivatives, 
+      MallocerFreer::GetInstance()->Free<double>(&orbitalElectronPopulationFirstDerivs, 
                                                  totalNumberAOs,
                                                  totalNumberAOs,
                                                  this->molecule->GetNumberAtoms(),
                                                  CartesianType_end);
       throw ex;
    }
-   MallocerFreer::GetInstance()->Free<double>(&orbitalElectronPopulationFirstDerivatives, 
+   MallocerFreer::GetInstance()->Free<double>(&orbitalElectronPopulationFirstDerivs, 
                                               totalNumberAOs,
                                               totalNumberAOs,
                                               this->molecule->GetNumberAtoms(),
                                               CartesianType_end);
 }
 
-void Mndo::CalcOrbitalElectronPopulationFirstDerivatives(double**** orbitalElectronPopulationFirstDerivatives) const{
+void Mndo::CalcOrbitalElectronPopulationFirstDerivatives(double**** orbitalElectronPopulationFirstDerivs) const{
    int totalNumberAOs = this->molecule->GetTotalNumberAOs();
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    int numberVir = this->molecule->GetTotalNumberAOs() - numberOcc;
@@ -2119,13 +2503,13 @@ void Mndo::CalcOrbitalElectronPopulationFirstDerivatives(double**** orbitalElect
                   int moI, moJ;
                   double nI, nJ;
                   int indexSolutionCPHF = atomAIndex*CartesianType_end+axis;
-                  orbitalElectronPopulationFirstDerivatives[mu][nu][atomAIndex][axis] = 0.0;
+                  orbitalElectronPopulationFirstDerivs[mu][nu][atomAIndex][axis] = 0.0;
                   for(int k=0; k<nonRedundantQIndeces.size(); k++){
                      moI = nonRedundantQIndeces[k].moI;
                      moJ = nonRedundantQIndeces[k].moJ;
                      nI = moI<numberOcc ? 2.0 : 0.0;
                      nJ = moJ<numberOcc ? 2.0 : 0.0;
-                     orbitalElectronPopulationFirstDerivatives[mu][nu][atomAIndex][axis]
+                     orbitalElectronPopulationFirstDerivs[mu][nu][atomAIndex][axis]
                         += (nJ-nI)*
                            (transposedFockMatrix[mu][moJ]*transposedFockMatrix[nu][moI]+
                             transposedFockMatrix[mu][moI]*transposedFockMatrix[nu][moJ])*
