@@ -370,6 +370,7 @@ void Mndo::CalcSCFProperties(){
    for(int i=0; i<hessianDim; i++){
       printf("force cons: %d %e\n",i,forceCons[i]);
    }
+   cout << endl << endl;
    MallocerFreer::GetInstance()->Free<double>(&hessian, hessianDim, hessianDim);
    MallocerFreer::GetInstance()->Free<double>(&forceCons, hessianDim);
    */
@@ -2248,7 +2249,6 @@ double Mndo::GetHessianElementSameAtomsSCF(int atomAIndex,
                                                                atomCIndex, 
                                                                static_cast<CartesianType>(axisA1), 
                                                                static_cast<CartesianType>(axisA2));
-         
          // second derivatives of the van der waals corrections
          if(Parameters::GetInstance()->RequiresVdWSCF()){
             value += this->GetDiatomVdWCorrectionSecondDerivative(atomAIndex, 
@@ -2482,6 +2482,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
             // hessian element (atomA == atomB)
             for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
                int l = atomAIndex*CartesianType_end + axisA2; // hessian index, i.e. hessian[k][l]
+               hessianSCF[l][k] = 
                hessianSCF[k][l] = this->GetHessianElementSameAtomsSCF(atomAIndex, 
                                                                       static_cast<CartesianType>(axisA), 
                                                                       static_cast<CartesianType>(axisA2), 
@@ -2497,7 +2498,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
             for(int atomBIndex=atomAIndex+1; atomBIndex<this->molecule->GetNumberAtoms(); atomBIndex++){
                const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
                for(int axisB = XAxis; axisB<CartesianType_end; axisB++){
-                  int l = atomAIndex*CartesianType_end + axisB;
+                  int l = atomBIndex*CartesianType_end + axisB;
                   hessianSCF[l][k] = 
                   hessianSCF[k][l] = this->GetHessianElementDifferentAtomsSCF(atomAIndex, 
                                                                               atomBIndex,
