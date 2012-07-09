@@ -346,6 +346,33 @@ void Mndo::CalcHeatsFormation(double* heatsFormation,
 void Mndo::CalcSCFProperties(){
    MolDS_cndo::Cndo2::CalcSCFProperties();
    this->CalcHeatsFormation(&this->heatsFormation, *this->molecule);
+
+   /*
+   // test code for hessian
+   int hessianDim = this->molecule->GetNumberAtoms()*3;
+   double** hessian = NULL;
+   double* forceCons = NULL;
+   bool isMassWeighted = true;
+   MallocerFreer::GetInstance()->Malloc<double>(&hessian, hessianDim, hessianDim);
+   MallocerFreer::GetInstance()->Malloc<double>(&forceCons, hessianDim);
+   this->CalcHessianSCF(hessian, isMassWeighted);
+   for(int i=0; i<hessianDim; i++){
+      for(int j=0; j<hessianDim; j++){
+         printf("hess elem: %d %d %e\n",i,j,hessian[i][j]);
+      }
+   }
+   cout << endl << endl;
+   bool calcEigenVectors = true;
+   MolDS_wrappers::Lapack::GetInstance()->Dsyevd(hessian,
+                                                 forceCons,
+                                                 hessianDim,
+                                                 calcEigenVectors);
+   for(int i=0; i<hessianDim; i++){
+      printf("force cons: %d %e\n",i,forceCons[i]);
+   }
+   MallocerFreer::GetInstance()->Free<double>(&hessian, hessianDim, hessianDim);
+   MallocerFreer::GetInstance()->Free<double>(&forceCons, hessianDim);
+   */
 }
 
 void Mndo::OutputSCFResults() const{
@@ -1807,8 +1834,21 @@ void Mndo::CalcXiMatrices(double** xiOcc,
    }
 }
 
-void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoElecTwoCoreFirstDerivs,
+void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlapFirstDerivs,
+                                                      double****** diatomicOverlapSecondDerivs,
+                                                      double******* diatomicTwoElecTwoCoreFirstDerivs,
                                                       double******** diatomicTwoElecTwoCoreSecondDerivs) const{
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapFirstDerivs,
+                                                this->molecule->GetNumberAtoms(),
+                                                this->molecule->GetTotalNumberAOs(),
+                                                this->molecule->GetTotalNumberAOs(),
+                                                CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapSecondDerivs,
+                                                this->molecule->GetNumberAtoms(),
+                                                this->molecule->GetTotalNumberAOs(),
+                                                this->molecule->GetTotalNumberAOs(),
+                                                CartesianType_end,
+                                                CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCoreFirstDerivs,
                                                 this->molecule->GetNumberAtoms(),
                                                 dxy,
@@ -1826,8 +1866,21 @@ void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoE
                                                 CartesianType_end);
 }
 
-void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoElecTwoCoreFirstDerivs,
+void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlapFirstDerivs,
+                                                    double****** diatomicOverlapSecondDerivs,
+                                                    double******* diatomicTwoElecTwoCoreFirstDerivs,
                                                     double******** diatomicTwoElecTwoCoreSecondDerivs) const{
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapFirstDerivs,
+                                              this->molecule->GetNumberAtoms(),
+                                              this->molecule->GetTotalNumberAOs(),
+                                              this->molecule->GetTotalNumberAOs(),
+                                              CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapSecondDerivs,
+                                              this->molecule->GetNumberAtoms(),
+                                              this->molecule->GetTotalNumberAOs(),
+                                              this->molecule->GetTotalNumberAOs(),
+                                              CartesianType_end,
+                                              CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCoreFirstDerivs,
                                               this->molecule->GetNumberAtoms(),
                                               dxy,
@@ -2395,7 +2448,10 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
       double***** diatomicOverlapSecondDerivs = NULL;
       double****** diatomicTwoElecTwoCoreFirstDerivs = NULL;
       double******* diatomicTwoElecTwoCoreSecondDerivs = NULL;
-      this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicTwoElecTwoCoreSecondDerivs);
+      this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicOverlapFirstDerivs,
+                                                       &diatomicOverlapSecondDerivs,
+                                                       &diatomicTwoElecTwoCoreFirstDerivs, 
+                                                       &diatomicTwoElecTwoCoreSecondDerivs);
 
 //#pragma omp for schedule(auto)                                                 
       for(int atomAIndex=0; atomAIndex<this->molecule->GetNumberAtoms(); atomAIndex++){
@@ -2437,7 +2493,6 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                                       diatomicTwoElecTwoCoreFirstDerivs,
                                                                       diatomicTwoElecTwoCoreSecondDerivs);
             }
-
             // hessian element atomA < atomB
             for(int atomBIndex=atomAIndex+1; atomBIndex<this->molecule->GetNumberAtoms(); atomBIndex++){
                const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
@@ -2455,12 +2510,15 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                                               diatomicOverlapSecondDerivs,
                                                                               diatomicTwoElecTwoCoreFirstDerivs,
                                                                               diatomicTwoElecTwoCoreSecondDerivs);
-
                }
             }
+
          }
       }
-      this->FreeTempMatricesEachThreadCalcHessianSCF(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicTwoElecTwoCoreSecondDerivs);
+      this->FreeTempMatricesEachThreadCalcHessianSCF(&diatomicOverlapFirstDerivs,
+                                                     &diatomicOverlapSecondDerivs,
+                                                     &diatomicTwoElecTwoCoreFirstDerivs, 
+                                                     &diatomicTwoElecTwoCoreSecondDerivs);
 //}
 
    }
