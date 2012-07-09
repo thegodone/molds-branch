@@ -229,9 +229,13 @@ private:
                                              double const* const* const* const* const* diatomicOverlapSecondDerivs,
                                              double const* const* const* const* const* const* diatomicTwoElecTwoCoreFirstDerivs,
                                              double const* const* const* const* const* const* const* diatomicTwoElecTwoCoreSecondDerivs) const;
-   void MallocTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoElecTwoCoreFirstDerivs,
+   void MallocTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlapFirstDerivs,
+                                                   double****** diatomicOverlapSecondDerivs,
+                                                   double******* diatomicTwoElecTwoCoreFirstDerivs,
                                                    double******** diatomicTwoElecTwoCoreSecondDerivs) const;
-   void FreeTempMatricesEachThreadCalcHessianSCF(double******* diatomicTwoElecTwoCoreFirstDeriv,
+   void FreeTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlapFirstDerivs,
+                                                 double****** diatomicOverlapSecondDerivs,
+                                                 double******* diatomicTwoElecTwoCoreFirstDeriv,
                                                  double******** diatomicTwoElecTwoCoreSecondDerivs) const;
    double GetAuxiliaryHessianElement1(int mu, 
                                       int nu, 
