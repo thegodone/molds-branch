@@ -3443,20 +3443,30 @@ void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDe
    double*** rotMatFirstDerivs = NULL; // first derivatives of the rotMat.
 
    try{
+printf("hoge1-1\n");
       this->MallocDiatomicOverlapFirstDeriTemps(&diaOverlapInDiaFrame,
                                                 &diaOverlapFirstDerivInDiaFrame,
                                                 &rotMat,
                                                 &rotMatFirstDerivs);
+printf("hoge1-2\n");
       this->CalcDiatomicOverlapInDiatomicFrame(diaOverlapInDiaFrame, atomA, atomB);
+printf("hoge1-3\n");
       this->CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(diaOverlapFirstDerivInDiaFrame, atomA, atomB);
+printf("hoge1-4\n");
       this->CalcRotatingMatrix(rotMat, atomA, atomB);
+printf("hoge1-5\n");
       this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivs, atomA, atomB);
+printf("hoge1-6\n");
 
       // rotate
       for(int i=0; i<OrbitalType_end; i++){
          for(int j=0; j<OrbitalType_end; j++){
             for(int c=0; c<CartesianType_end; c++){
+printf("hoge1-6-1 %s %s %s\n",OrbitalTypeStr(static_cast<OrbitalType>(i)),
+                              OrbitalTypeStr(static_cast<OrbitalType>(j)),
+                              CartesianTypeStr(static_cast<CartesianType>(c)));
                diatomicOverlapFirstDerivs[i][j][c] = 0.0;
+printf("hoge1-6-2\n");
 
                double temp1 = 0.0;
                double temp2 = 0.0;
@@ -3488,6 +3498,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDe
       throw ex;
    }
    // free
+printf("hoge1-7\n");
    this->FreeDiatomicOverlapFirstDeriTemps(&diaOverlapInDiaFrame,
                                            &diaOverlapFirstDerivInDiaFrame,
                                            &rotMat,
