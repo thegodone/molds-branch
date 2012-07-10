@@ -225,7 +225,7 @@ double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergySecondDerivative(const Atom& a
    }
    else{
       pre1 = -dCartesian1*dCartesian2/pow(distanceAB,3.0);
-      pre2 = pow(dCartesian1/distanceAB,2.0);
+      pre2 =  dCartesian1*dCartesian2/pow(distanceAB,2.0);
    }
 
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
