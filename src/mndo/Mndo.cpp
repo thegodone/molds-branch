@@ -2328,7 +2328,7 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int atomAIndex,
       for(int nu=firstAOIndexA; nu<firstAOIndexA+numberAOsA; nu++){
          for(int lambda=firstAOIndexB; lambda<firstAOIndexB+numberAOsB; lambda++){
             for(int sigma=firstAOIndexB; sigma<firstAOIndexB+numberAOsB; sigma++){
-               value += this->GetAuxiliaryHessianElement7(mu, 
+               value -= this->GetAuxiliaryHessianElement7(mu, 
                                                           nu, 
                                                           lambda, 
                                                           sigma, 
