@@ -2125,7 +2125,6 @@ double Mndo::GetAuxiliaryHessianElement8(int mu,
 double Mndo::GetHessianElementSameAtomsSCF(int atomAIndex, 
                                            CartesianType axisA1,
                                            CartesianType axisA2,
-                                           bool isMassWeighted,
                                            double const* const* orbitalElectronPopulation,
                                            double const* const* const* const* orbitalElectronPopulationFirstDerivs,
                                            double const* const* const* const* diatomicOverlapFirstDerivs,
@@ -2253,9 +2252,6 @@ double Mndo::GetHessianElementSameAtomsSCF(int atomAIndex,
       }
    }
 
-   if(isMassWeighted){
-      value /= atomA.GetCoreMass();
-   }
    return value;
 }
 
@@ -2266,7 +2262,6 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int atomAIndex,
                                                 int atomBIndex,
                                                 CartesianType axisA,
                                                 CartesianType axisB,
-                                                bool isMassWeighted,
                                                 double const* const* orbitalElectronPopulation,
                                                 double const* const* const* const* orbitalElectronPopulationFirstDerivs,
                                                 double const* const* const* const* diatomicOverlapFirstDerivs,
@@ -2419,9 +2414,6 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int atomAIndex,
                                                             static_cast<CartesianType>(axisB));
    }
 
-   if(isMassWeighted){
-      value /= sqrt(atomA.GetCoreMass()*atomB.GetCoreMass());
-   }
    return value;
 }
 void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
@@ -2476,35 +2468,39 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
             // hessian element (atomA == atomB)
             for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
                int l = atomAIndex*CartesianType_end + axisA2; // hessian index, i.e. hessian[k][l]
-               hessianSCF[l][k] = 
                hessianSCF[k][l] = this->GetHessianElementSameAtomsSCF(atomAIndex, 
                                                                       static_cast<CartesianType>(axisA), 
                                                                       static_cast<CartesianType>(axisA2), 
-                                                                      isMassWeighted,
                                                                       orbitalElectronPopulation,
                                                                       orbitalElectronPopulationFirstDerivs,
                                                                       diatomicOverlapFirstDerivs,
                                                                       diatomicOverlapSecondDerivs,
                                                                       diatomicTwoElecTwoCoreFirstDerivs,
                                                                       diatomicTwoElecTwoCoreSecondDerivs);
+               if(isMassWeighted){
+                  hessianSCF[k][l] /= atomA.GetCoreMass();
+               }
+               hessianSCF[l][k] = hessianSCF[k][l];
             }
             // hessian element atomA < atomB
             for(int atomBIndex=atomAIndex+1; atomBIndex<this->molecule->GetNumberAtoms(); atomBIndex++){
                const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
                for(int axisB = XAxis; axisB<CartesianType_end; axisB++){
                   int l = atomBIndex*CartesianType_end + axisB;
-                  hessianSCF[l][k] = 
                   hessianSCF[k][l] = this->GetHessianElementDifferentAtomsSCF(atomAIndex, 
                                                                               atomBIndex,
                                                                               static_cast<CartesianType>(axisA), 
                                                                               static_cast<CartesianType>(axisB), 
-                                                                              isMassWeighted,
                                                                               orbitalElectronPopulation,
                                                                               orbitalElectronPopulationFirstDerivs,
                                                                               diatomicOverlapFirstDerivs,
                                                                               diatomicOverlapSecondDerivs,
                                                                               diatomicTwoElecTwoCoreFirstDerivs,
                                                                               diatomicTwoElecTwoCoreSecondDerivs);
+                  if(isMassWeighted){
+                     hessianSCF[k][l] /= sqrt(atomA.GetCoreMass()*atomB.GetCoreMass());
+                  }
+                  hessianSCF[l][k] = hessianSCF[k][l];
                }
             }
 
