@@ -1841,13 +1841,13 @@ void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverla
                                                       double******** diatomicTwoElecTwoCoreSecondDerivs) const{
    MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapFirstDerivs,
                                                 this->molecule->GetNumberAtoms(),
-                                                this->molecule->GetTotalNumberAOs(),
-                                                this->molecule->GetTotalNumberAOs(),
+                                                OrbitalType_end,
+                                                OrbitalType_end,
                                                 CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapSecondDerivs,
                                                 this->molecule->GetNumberAtoms(),
-                                                this->molecule->GetTotalNumberAOs(),
-                                                this->molecule->GetTotalNumberAOs(),
+                                                OrbitalType_end,
+                                                OrbitalType_end,
                                                 CartesianType_end,
                                                 CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCoreFirstDerivs,
