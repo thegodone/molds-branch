@@ -1867,13 +1867,13 @@ void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlapF
                                                     double******** diatomicTwoElecTwoCoreSecondDerivs) const{
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlapFirstDerivs,
                                               this->molecule->GetNumberAtoms(),
-                                              this->molecule->GetTotalNumberAOs(),
-                                              this->molecule->GetTotalNumberAOs(),
+                                              OrbitalType_end,
+                                              OrbitalType_end,
                                               CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlapSecondDerivs,
                                               this->molecule->GetNumberAtoms(),
-                                              this->molecule->GetTotalNumberAOs(),
-                                              this->molecule->GetTotalNumberAOs(),
+                                              OrbitalType_end,
+                                              OrbitalType_end,
                                               CartesianType_end,
                                               CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCoreFirstDerivs,
