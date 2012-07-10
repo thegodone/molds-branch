@@ -346,7 +346,7 @@ void Mndo::CalcHeatsFormation(double* heatsFormation,
 void Mndo::CalcSCFProperties(){
    MolDS_cndo::Cndo2::CalcSCFProperties();
    this->CalcHeatsFormation(&this->heatsFormation, *this->molecule);
-
+   
    /*
    // test code for hessian
    int hessianDim = this->molecule->GetNumberAtoms()*3;
@@ -356,12 +356,6 @@ void Mndo::CalcSCFProperties(){
    MallocerFreer::GetInstance()->Malloc<double>(&hessian, hessianDim, hessianDim);
    MallocerFreer::GetInstance()->Malloc<double>(&forceCons, hessianDim);
    this->CalcHessianSCF(hessian, isMassWeighted);
-   for(int i=0; i<hessianDim; i++){
-      for(int j=0; j<hessianDim; j++){
-         printf("hess elem: %d %d %e\n",i,j,hessian[i][j]);
-      }
-   }
-   cout << endl << endl;
    bool calcEigenVectors = true;
    MolDS_wrappers::Lapack::GetInstance()->Dsyevd(hessian,
                                                  forceCons,
@@ -2536,6 +2530,16 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                               totalNumberAOs,
                                               this->molecule->GetNumberAtoms(),
                                               CartesianType_end);
+
+   int hessianDim = this->molecule->GetNumberAtoms()*3;
+   for(int i=0; i<hessianDim; i++){
+      for(int j=0; j<hessianDim; j++){
+         //printf("hess elem: %d %d %e\n",i,j,hessianSCF[i][j]);
+         printf("%e ",hessianSCF[i][j]);
+      }
+      cout << endl;
+   }
+   cout << endl << endl;
 }
 
 void Mndo::CalcOrbitalElectronPopulationFirstDerivatives(double**** orbitalElectronPopulationFirstDerivs) const{
