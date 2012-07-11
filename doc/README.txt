@@ -67,11 +67,16 @@ CARRY OUT MolDS:
 SAMPLE and TEST
    See files in "test" directories for sample files.
    In the "test" directory, *.in files are input files, then *.dat files are
-   associated output files. For test calculations, carry out below ruby-script 
-   in the "test" directory. This scripb will finished in a few minutes with big 
+   associated output files. To execute all test cases, carry out below ruby-script
+   in the "test" directory. This script will finished in a few minutes with big
    output(a few thausands lines).
 
    $ ruby Test_Of_MolDS.rb
+
+   To execute some specific test cases, carry out below ruby-script with the
+   test names you want. .in and .dat after the name will be ignored.
+
+   $ ruby Test_Of_MolDS.rb test1.in test2.dat test3 ...
 
 ==============================================================================
 CAPABILITIES:
