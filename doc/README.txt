@@ -73,8 +73,8 @@ SAMPLE and TEST
 
    $ ruby Test_Of_MolDS.rb
 
-   To execute some specific test cases, carry out below ruby-script with the
-   test names you want. .in and .dat after the name will be ignored.
+   To execute some specific test cases, carry out below ruby-script with the test names you want. 
+   When the test names are specifed, ".in" and ".dat" in the arguments will be ignored.
 
    $ ruby Test_Of_MolDS.rb test1.in test2.dat test3 ...
 
