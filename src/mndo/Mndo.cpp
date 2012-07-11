@@ -716,7 +716,7 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
    double ompStartTime = omp_get_wtime();
 
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int k=0; k<this->matrixCISdimension; k++){
       try{
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
@@ -881,7 +881,7 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1347,7 +1347,7 @@ void Mndo::CalcDeltaVector(double* delta, int exciteState) const{
    int numberActiveMO = numberActiveOcc + numberActiveVir;
    MallocerFreer::GetInstance()->Initialize<double>(delta, numberActiveMO);
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int r=0; r<numberActiveMO; r++){
       try{
          double value = 0.0;
@@ -1370,7 +1370,7 @@ void Mndo::CalcDeltaVector(double* delta, int exciteState) const{
          delta[r] = value;
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1579,7 +1579,7 @@ void Mndo::CalcQVector(double* q,
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
       try{
          int moI = nonRedundantQIndeces[i].moI;
@@ -1601,7 +1601,7 @@ void Mndo::CalcQVector(double* q,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1609,7 +1609,7 @@ void Mndo::CalcQVector(double* q,
    if(!ompErrors.str().empty()){
       throw MolDSException(ompErrors.str());
    }
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int i=0; i<redundantQIndeces.size(); i++){
       try{
          int r = nonRedundantQIndeces.size() + i;
@@ -1625,7 +1625,7 @@ void Mndo::CalcQVector(double* q,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1649,7 +1649,7 @@ void Mndo::CalcQVector(double* q,
 // Note taht K_{NR} is not calculated.
 void Mndo::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<MoIndexPair>& nonRedundantQIndeces) const{
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
       try{
          int moI = nonRedundantQIndeces[i].moI;
@@ -1663,7 +1663,7 @@ void Mndo::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<MoIn
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1680,7 +1680,7 @@ void Mndo::CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv,
                                       const vector<MoIndexPair>& nonRedundantQIndeces,
                                       const vector<MoIndexPair>& redundantQIndeces) const{
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
       try{
          int moI = nonRedundantQIndeces[i].moI;
@@ -1694,7 +1694,7 @@ void Mndo::CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1714,7 +1714,7 @@ void Mndo::CalcAuxiliaryVector(double* y,
                                  y,
                                  nonRedundantQIndeces.size());
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
       try{
          int moI = nonRedundantQIndeces[i].moI;
@@ -1726,7 +1726,7 @@ void Mndo::CalcAuxiliaryVector(double* y,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1786,7 +1786,7 @@ void Mndo::CalcXiMatrices(double** xiOcc,
                                  xiVir, numberActiveVir, numberAOs);
    stringstream ompErrors;
    // xiOcc
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int p=0; p<numberActiveOcc; p++){
       try{
          for(int mu=0; mu<numberAOs; mu++){
@@ -1799,7 +1799,7 @@ void Mndo::CalcXiMatrices(double** xiOcc,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1808,7 +1808,7 @@ void Mndo::CalcXiMatrices(double** xiOcc,
       throw MolDSException(ompErrors.str());
    }
    // xiVir
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int p=0; p<numberActiveVir; p++){
       try{
          for(int mu=0; mu<numberAOs; mu++){
@@ -1821,7 +1821,7 @@ void Mndo::CalcXiMatrices(double** xiOcc,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -2430,7 +2430,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                    CartesianType_end);
       this->CalcOrbitalElectronPopulationFirstDerivatives(orbitalElectronPopulationFirstDerivs);
 
-//#pragma omp parallel
+			//#pragma omp parallel
 //{
       double**** diatomicOverlapFirstDerivs = NULL;
       double***** diatomicOverlapSecondDerivs = NULL;
@@ -2441,7 +2441,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                        &diatomicTwoElecTwoCoreFirstDerivs, 
                                                        &diatomicTwoElecTwoCoreSecondDerivs);
 
-//#pragma omp for schedule(auto)                                                 
+			//#pragma omp for schedule(auto)                                                 
       for(int atomAIndex=0; atomAIndex<this->molecule->GetNumberAtoms(); atomAIndex++){
          const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
          int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -2982,7 +2982,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
                                                          nonRedundantQIndeces.size());
             // calculate each element of Z matrix.
             stringstream ompErrors;
-            #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
             for(int mu=0; mu<this->molecule->GetTotalNumberAOs(); mu++){
                try{
                   for(int nu=0; nu<this->molecule->GetTotalNumberAOs(); nu++){
@@ -2997,7 +2997,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
                   }
                }
                catch(MolDSException ex){
-                  #pragma omp critical
+#pragma omp critical
                   ompErrors << ex.what() << endl ;
                }
             }
@@ -3053,7 +3053,7 @@ void Mndo::CalcEtaMatrixForce(const vector<int>& elecStates){
 
             // calc each element
             stringstream ompErrors;
-            #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
             for(int mu=0; mu<numberAOs; mu++){
                try{
                   for(int nu=0; nu<numberAOs; nu++){
@@ -3071,7 +3071,7 @@ void Mndo::CalcEtaMatrixForce(const vector<int>& elecStates){
                   }
                }
                catch(MolDSException ex){
-                  #pragma omp critical
+#pragma omp critical
                   ompErrors << ex.what() << endl ;
                }
             }
@@ -3324,13 +3324,13 @@ void Mndo::CalcForce(const vector<int>& elecStates){
       this->CalcZMatrixForce(elecStates);
    }
    stringstream ompErrors;
-   #pragma omp parallel
+#pragma omp parallel
    {
       double***** diatomicTwoElecTwoCoreFirstDerivs = NULL;
       double*** diatomicOverlapFirstDerivs = NULL;
       try{
          this->MallocTempMatricesCalcForce(&diatomicOverlapFirstDerivs, &diatomicTwoElecTwoCoreFirstDerivs);
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
             const Atom& atomA = *molecule->GetAtom(a);
             int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -3377,7 +3377,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                b,
                                                diatomicTwoElecTwoCoreFirstDerivs);
                   // sum up contributions from each part (ground state)
-                  #pragma omp critical
+#pragma omp critical
                   {
                      for(int n=0; n<elecStates.size(); n++){
                         for(int i=0; i<CartesianType_end; i++){
@@ -3402,7 +3402,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                          b,
                                                          diatomicTwoElecTwoCoreFirstDerivs);
                         // sum up contributions from static part (excited state)
-                        #pragma omp critical
+#pragma omp critical
                         {
                            for(int i=0; i<CartesianType_end; i++){
                               this->matrixForce[n][b][i] += forceExcitedStaticPart[i];
@@ -3434,7 +3434,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                           b,
                                                           diatomicTwoElecTwoCoreFirstDerivs);
                         // sum up contributions from response part (excited state)
-                        #pragma omp critical
+#pragma omp critical
                         {
                            for(int i=0; i<CartesianType_end; i++){
                               this->matrixForce[n][a][i] += forceExcitedElecCoreAttPart[i];
@@ -3453,7 +3453,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
       this->FreeTempMatricesCalcForce(&diatomicOverlapFirstDerivs, &diatomicTwoElecTwoCoreFirstDerivs);
@@ -3505,13 +3505,13 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
    } 
 
    stringstream ompErrors;
-   #pragma omp parallel
+#pragma omp parallel
    {
       double**** diatomicTwoElecTwoCore = NULL;
       try{
          MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
          // note that terms with condition a==b are not needed to calculate. 
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int a=0; a<molecule.GetNumberAtoms(); a++){
             for(int b=a+1; b<molecule.GetNumberAtoms(); b++){
                this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, a, b);
@@ -3536,7 +3536,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
       MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);

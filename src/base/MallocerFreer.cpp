@@ -84,7 +84,7 @@ void MallocerFreer::DeleteInstance(){
 }
 
 void MallocerFreer::AddCurrentMalloced(double amount){
-   #pragma omp critical
+#pragma omp critical
    {
       MallocerFreer::currentMalloced += amount;
       if(MallocerFreer::maxMalloced < MallocerFreer::currentMalloced){
@@ -94,7 +94,7 @@ void MallocerFreer::AddCurrentMalloced(double amount){
 }
 
 void MallocerFreer::SubtCurrentMalloced(double amount){
-   #pragma omp critical
+#pragma omp critical
    MallocerFreer::currentMalloced -= amount;
 }
 

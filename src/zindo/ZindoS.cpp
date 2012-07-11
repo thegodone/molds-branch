@@ -1366,7 +1366,7 @@ void ZindoS::CalcInteractionMatrix(double** interactionMatrix,
                                    double const* const* expansionVectors, 
                                    int interactionMatrixDimension) const{
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int k=0; k<interactionMatrixDimension*interactionMatrixDimension; k++){
       try{
          int i = k/interactionMatrixDimension;
@@ -1383,7 +1383,7 @@ void ZindoS::CalcInteractionMatrix(double** interactionMatrix,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1618,7 +1618,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
    double ompStartTime = omp_get_wtime();
 
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int k=0; k<this->matrixCISdimension; k++){
       try{
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
@@ -1733,7 +1733,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
                            ss << this->errorMessageAtomType << AtomTypeStr(atomA.GetAtomType()) << "\n";
                            ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalMu) << "\n";
                            ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalNu) << "\n";
-                           #pragma omp critical
+#pragma omp critical
                            ompErrors << ss.str() << endl ;
                         }   
 
@@ -1841,7 +1841,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
                            ss << this->errorMessageAtomType << AtomTypeStr(atomA.GetAtomType()) << "\n";
                            ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalMu) << "\n";
                            ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalNu) << "\n";
-                           #pragma omp critical
+#pragma omp critical
                            ompErrors << ss.str() << endl ;
                         }   
 
@@ -1877,7 +1877,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1945,7 +1945,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
 
    this->CheckMatrixForce(elecStates);
    stringstream ompErrors;
-   #pragma omp parallel 
+#pragma omp parallel 
    {
       double*** diatomicOverlapFirstDerivs=NULL;
       try{
@@ -1954,7 +1954,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                                       OrbitalType_end, 
                                                       CartesianType_end);
 
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
             const Atom& atomA = *molecule->GetAtom(a);
             int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -2019,7 +2019,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
       MallocerFreer::GetInstance()->Free<double>(&diatomicOverlapFirstDerivs, 
@@ -2036,7 +2036,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    // Calculate force. First derivative of overlap integral is
    // calculated with GTO expansion technique.
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
       try{
          const Atom& atomA = *molecule->GetAtom(a);
@@ -2103,7 +2103,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
