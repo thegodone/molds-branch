@@ -18,11 +18,13 @@
 #// You should have received a copy of the GNU General Public License      // 
 #// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 #//************************************************************************//
+
+MolDSBin = "../src/MolDS.out".freeze
 class TesterOmp
    @@surfixDat = ".dat"
    @@surfixInp = ".in"
    @@tempFile = "temp.dat"
-   @@moldsBin = "../src/MolDS.out"
+   @@moldsBin = MolDSBin
    @@command = "command: "
    @@deleteDiff = " | gawk '{if(($4!=\"RMS\")){print $0}}' | gawk '{if(($4!=\"time:\")){print $0}}' | gawk '{if(($3!=\"Elapsed\")){print $0}}' | gawk '{if(($2!=\"Elapsed\")){print $0}}' | gawk '{if(($3!=\"Welcome\")){print $0}}' | gawk '{if(($7!=\"residual\")){print $0}}'"
    def doesTestOmp(prefix, mklNumThreads, ompNumThreads)
@@ -55,6 +57,10 @@ system("echo '***       Start Test for MolDS        ***'")
 system("echo '***                                   ***'")
 system("echo '***                    Power by Ruby  ***'")
 system("echo '*****************************************\n\n'")
+
+puts 'MD5 sum of the MolDS.out to be tested:'
+system "md5sum #{MolDSBin}"
+puts '',''
 
 testerOmp = TesterOmp.new
 
