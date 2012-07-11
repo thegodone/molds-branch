@@ -45,14 +45,16 @@ class TesterOmp
       return unless should_run?
       ENV["MKL_NUM_THREADS"] = mklNumThreads
       ENV["OMP_NUM_THREADS"] = ompNumThreads
-      system("echo MPI:no")
-      system("echo MKL_NUM_THREADS:$MKL_NUM_THREADS")
-      system("echo OMP_NUM_THREADS:$OMP_NUM_THREADS")
-      print @@command + @moldsCommand + "\n"
+			puts <<EOS % [ENV["MKL_NUM_THREADS"],ENV["OMP_NUM_THREADS"]]
+MPI:no
+MKL_NUM_THREADS:%s
+OMP_NUM_THREADS:%s
+EOS
+      puts @@command + @moldsCommand
       system(@moldsCommand)
-      print @@command + @diffCommand + @@deleteDiff + "\n"
+      puts @@command + @diffCommand + @@deleteDiff
       system(@diffCommand + @@deleteDiff)
-      system("echo '\n\n'")
+			puts '','',''
    end
    def initialize(prefix, section=nil, title)
       @prefix = prefix
@@ -81,14 +83,16 @@ class TesterOmp
 	 end
 end
 
-system("echo ")
-system("echo '*****************************************'")
-system("echo '***                                   ***'")
-system("echo '***                                   ***'")
-system("echo '***       Start Test for MolDS        ***'")
-system("echo '***                                   ***'")
-system("echo '***                    Power by Ruby  ***'")
-system("echo '*****************************************\n\n'")
+puts <<EOS
+
+*****************************************
+***                                   ***
+***                                   ***
+***       Start Test for MolDS        ***
+***                                   ***
+***                  Powered by Ruby  ***
+*****************************************
+EOS
 
 puts 'MD5 sum of the MolDS.out to be tested:'
 system "md5sum #{MolDSBin}"
