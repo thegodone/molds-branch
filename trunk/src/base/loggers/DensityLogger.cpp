@@ -102,7 +102,7 @@ void DensityLogger::DrawDensity(vector<int> elecStateIndeces) const{
 
       // density output 
       stringstream ompErrors;
-      #pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(auto) 
       for(int n=0; n<elecStateIndeces.size(); n++){
          try{
             // validate electronic state
@@ -149,7 +149,7 @@ void DensityLogger::DrawDensity(vector<int> elecStateIndeces) const{
             }
          }
          catch(MolDSException ex){
-            #pragma omp critical
+#pragma omp critical
             ompErrors << ex.what() << endl ;
          }
       }

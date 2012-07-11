@@ -215,7 +215,7 @@ int Lapack::Dsysv(double const* const* matrix, double* b, int size){
    }
 
    // calc. lwork
-   #pragma omp critical
+#pragma omp critical
    {
       if(!this->calculatedDsysvBlockSize){
          lwork = -1;

@@ -87,7 +87,7 @@ void MOLogger::DrawMO(vector<int> moIndeces){
 
    // MO output 
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(auto) 
    for(int i=0; i<moIndeces.size(); i++){
       try{
          // validate mo number
@@ -128,7 +128,7 @@ void MOLogger::DrawMO(vector<int> moIndeces){
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }

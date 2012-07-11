@@ -755,7 +755,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
    if( 0 < diisNumErrorVect){
       for(int m=0; m<diisNumErrorVect-1; m++){
          stringstream ompErrors;
-         #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
          for(int j=0; j<totalNumberAOs; j++){
             try{
                for(int k=0; k<totalNumberAOs; k++){
@@ -764,7 +764,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
                }
             }
             catch(MolDSException ex){
-               #pragma omp critical
+#pragma omp critical
                ompErrors << ex.what() << endl ;
             }
          }
@@ -775,7 +775,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
       }
       {
          stringstream ompErrors;
-         #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
          for(int j=0; j<totalNumberAOs; j++){
             try{
                for(int k=0; k<totalNumberAOs; k++){
@@ -786,7 +786,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
                }
             }
             catch(MolDSException ex){
-               #pragma omp critical
+#pragma omp critical
                ompErrors << ex.what() << endl ;
             }
          }
@@ -804,7 +804,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
       for(int mi=0; mi<diisNumErrorVect; mi++){
          double tempErrorProduct = 0.0;
          stringstream ompErrors;
-         #pragma omp parallel for schedule(auto) reduction(+:tempErrorProduct)
+#pragma omp parallel for schedule(auto) reduction(+:tempErrorProduct)
          for(int j=0; j<totalNumberAOs; j++){
             try{
                for(int k=0; k<totalNumberAOs; k++){
@@ -813,7 +813,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
                }
             }
             catch(MolDSException ex){
-               #pragma omp critical
+#pragma omp critical
                ompErrors << ex.what() << endl ;
             }
          }
@@ -861,7 +861,7 @@ void Cndo2::DoDamp(double rmsDensity,
    double dampingWeight = Parameters::GetInstance()->GetDampingWeightSCF();
    if(0.0 < dampingWeight && dampingThresh < rmsDensity){
       stringstream ompErrors;
-      #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
       for(int j=0; j<molecule.GetTotalNumberAOs(); j++){
          try{
             for(int k=0; k<molecule.GetTotalNumberAOs(); k++){
@@ -870,7 +870,7 @@ void Cndo2::DoDamp(double rmsDensity,
             }
          }
          catch(MolDSException ex){
-            #pragma omp critical
+#pragma omp critical
             ompErrors << ex.what() << endl ;
          }
       }
@@ -1173,7 +1173,7 @@ bool Cndo2::SatisfyConvergenceCriterion(double const* const* oldOrbitalElectronP
    bool satisfy = false;
    double change = 0.0;
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto) reduction(+:change)
+#pragma omp parallel for schedule(auto) reduction(+:change)
    for(int i=0; i<numberAOs; i++){
       try{
          for(int j=0; j<numberAOs; j++){
@@ -1181,7 +1181,7 @@ bool Cndo2::SatisfyConvergenceCriterion(double const* const* oldOrbitalElectronP
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1222,7 +1222,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                                                     molecule.GetTotalNumberAOs(), 
                                                     molecule.GetTotalNumberAOs());
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(auto) 
    for(int A=0; A<molecule.GetNumberAtoms(); A++){
       try{
         const Atom& atomA = *molecule.GetAtom(A);
@@ -1270,7 +1270,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1362,7 +1362,7 @@ void Cndo2::CalcOrbitalElectronPopulation(double** orbitalElectronPopulation,
    
       int numberTotalValenceElectrons = molecule.GetTotalNumberValenceElectrons();
       stringstream ompErrors;
-      #pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(auto) 
       for(int mu=0; mu<totalNumberAOs; mu++){
          try{
             for(int nu=mu; nu<totalNumberAOs; nu++){
@@ -1374,7 +1374,7 @@ void Cndo2::CalcOrbitalElectronPopulation(double** orbitalElectronPopulation,
             }
          }
          catch(MolDSException ex){
-            #pragma omp critical
+#pragma omp critical
             ompErrors << ex.what() << endl ;
          }
       }
@@ -1430,7 +1430,7 @@ void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
 void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
    int totalAtomNumber = molecule.GetNumberAtoms();
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(auto) 
    for(int A=0; A<totalAtomNumber; A++){
       try{
          const Atom& atomA = *molecule.GetAtom(A);
@@ -1488,7 +1488,7 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1497,7 +1497,7 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
       throw MolDSException(ompErrors.str());
    }
 
-   #pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto)
    for(int A=0; A<totalAtomNumber; A++){
       for(int B=0; B<A; B++){
          gammaAB[A][B] = gammaAB[B][A];
@@ -1536,7 +1536,7 @@ void Cndo2::CalcElectronicDipoleMomentGroundState(double*** electronicTransition
                                                   double const* const* overlap) const{
    int groundState = 0;
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(auto) 
    for(int axis=0; axis<CartesianType_end; axis++){
       try{
          electronicTransitionDipoleMoments[groundState][groundState][axis] = this->GetElectronicTransitionDipoleMoment(
@@ -1552,7 +1552,7 @@ void Cndo2::CalcElectronicDipoleMomentGroundState(double*** electronicTransition
                                                                                    NULL);
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -1601,7 +1601,7 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
    int totalAtomNumber = molecule.GetNumberAtoms();
 
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(auto) 
    for(int A=0; A<totalAtomNumber; A++){
       try{
          const Atom& atomA = *molecule.GetAtom(A);
@@ -1628,7 +1628,7 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
@@ -3372,7 +3372,7 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
    int totalAtomNumber = molecule.GetNumberAtoms();
 
    stringstream ompErrors;
-   #pragma omp parallel 
+#pragma omp parallel 
    {
       double** diatomicOverlap = NULL;
       double** rotatingMatrix = NULL;
@@ -3389,7 +3389,7 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
             overlap[mu][mu] = 1.0;
          }
 
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int A=0; A<totalAtomNumber; A++){
             const Atom& atomA = *molecule.GetAtom(A);
             for(int B=A+1; B<totalAtomNumber; B++){
@@ -3402,7 +3402,7 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
       this->FreeDiatomicOverlapAndRotatingMatrix(&diatomicOverlap, &rotatingMatrix);
@@ -3754,7 +3754,7 @@ void Cndo2::CalcOverlapByGTOExpansion(double** overlap,
    }
 
    stringstream ompErrors;
-   #pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(auto) 
    for(int A=0; A<totalAtomNumber; A++){
       try{
          const Atom& atomA = *molecule.GetAtom(A);
@@ -3774,7 +3774,7 @@ void Cndo2::CalcOverlapByGTOExpansion(double** overlap,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl ;
       }
    }
