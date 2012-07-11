@@ -442,6 +442,7 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
          MallocerFreer::GetInstance()->Malloc(&matrixesRedundantModes[c], numAtoms, CartesianType_end);
          vectorsRedundantModes[c] = &matrixesRedundantModes[c][0][0];
          for(int n=0;n<numAtoms;n++){
+#pragma omp parallel for schedule(auto)
             for(int d=0;d<CartesianType_end;d++){
                matrixesRedundantModes[c][n][d] = c==d? 1.0 : 0.0;
             }
@@ -453,6 +454,7 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
          vectorsRedundantModes[c+CartesianType_end] = &matrixesRedundantModes[c+CartesianType_end][0][0];
          for(int n=0;n<numAtoms;n++){
             const double* xyz = molecule.GetAtom(n)->GetXyz();
+#pragma omp parallel for schedule(auto)
             for(int d=0;d<CartesianType_end;d++){
                matrixesRedundantModes[c+CartesianType_end][n][d] = 0.0;
                for(int e=0;e<CartesianType_end;e++){
@@ -466,14 +468,17 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       for(int c=0; c<numIndependentModes;c++){
          for(int d=0;d<c;d++){
             double dotproduct = 0.0;
+#pragma omp parallel for schedule(auto) reduction(+:dotproduct)
             for(int i=0;i<dimension;i++){
                dotproduct += vectorsRedundantModes[d][i] * vectorsRedundantModes[c][i];
             }
+#pragma omp parallel for schedule(auto)
             for(int i=0;i<dimension;i++){
                vectorsRedundantModes[c][i] -= dotproduct * vectorsRedundantModes[d][i];
             }
          }
          double norm = 0.0;
+#pragma omp parallel for schedule(auto) reduction(+:norm)
          for(int i=0;i<dimension;i++){
             norm += vectorsRedundantModes[c][i] * vectorsRedundantModes[c][i];
          }
@@ -482,12 +487,14 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
          if(norm < 1e-5){
             numIndependentModes--;
             for(int d=c;d<numIndependentModes;d++){
+#pragma omp parallel for schedule(auto)
                for(int i=0;i<dimension;i++){
                   vectorsRedundantModes[d][i] = vectorsRedundantModes[d+1][i];
                }
             }
          }
          else{
+#pragma omp parallel for schedule(auto)
             for(int i=0;i<dimension;i++){
                vectorsRedundantModes[c][i] /= norm;
             }
@@ -498,6 +505,7 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       MallocerFreer::GetInstance()->Malloc(&vectorHessianEigenValues, dimension);
       MallocerFreer::GetInstance()->Malloc(&vectorsHessianModes, dimension, dimension);
       for(int i=0; i<dimension; i++){
+#pragma omp parallel for schedule(auto)
          for(int j=0; j<dimension; j++){
             vectorsHessianModes[i][j] = matrixHessian[i][j];
          }
@@ -524,17 +532,21 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       for(int i=0;i<dimension-numIndependentModes;i++){
          for(int c=0; c<numIndependentModes;c++){
             double dotproduct = 0.0;
+#pragma omp parallel for schedule(auto) reduction(+:dotproduct)
             for(int j=0;j<dimension;j++){
                dotproduct += vectorsHessianModes[i][j] * vectorsRedundantModes[c][j];
             }
+#pragma omp parallel for schedule(auto)
             for(int j=0;j<dimension;j++){
                vectorsHessianModes[i][j] -= dotproduct * vectorsRedundantModes[c][j];
             }
             double norm = 0.0;
+#pragma omp parallel for schedule(auto) reduction(+:norm)
             for(int j=0;j<dimension;j++){
                norm += vectorsHessianModes[i][j] * vectorsHessianModes[i][j];
             }
             norm = sqrt(norm);
+#pragma omp parallel for schedule(auto)
             for(int j=0;j<dimension;j++){
                vectorsHessianModes[i][j] /= norm;
             }
@@ -543,13 +555,16 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
 
       // Calculate projected eigenvalues of new modes
       for(int i=0;i<dimension-numIndependentModes;i++){
-         vectorHessianEigenValues[i] = 0.0;
+         double tmp = 0.0;
          for(int j=0;j<dimension;j++){
+#pragma omp parallel for schedule(auto) reduction(+:tmp)
             for(int k=0;k<dimension;k++){
-               vectorHessianEigenValues[i] += vectorsHessianModes[i][j] * matrixHessian[j][k] * vectorsHessianModes[i][k];
+               tmp += vectorsHessianModes[i][j] * matrixHessian[j][k] * vectorsHessianModes[i][k];
             }
          }
+         vectorHessianEigenValues[i] = tmp;
       }
+#pragma omp parallel for schedule(auto)
       for(int i=dimension-numIndependentModes;i<dimension;i++){
          vectorHessianEigenValues[i] = largeEigenvalue;
       }
@@ -569,13 +584,16 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       // Calculate shifted Hessian from eigenvalues and modes
       for(int i=0;i<dimension;i++){
          for(int j=0;j<dimension;j++){
-            matrixHessian[i][j] = 0.0;
+            double tmp = 0.0;
+#pragma omp parallel for schedule(auto) reduction(+:tmp)
             for(int k=0;k<dimension-numIndependentModes;k++){
-               matrixHessian[i][j] += vectorsHessianModes[k][i] * vectorsHessianModes[k][j] * vectorHessianEigenValues[k];
+               tmp += vectorsHessianModes[k][i] * vectorsHessianModes[k][j] * vectorHessianEigenValues[k];
             }
+#pragma omp parallel for schedule(auto) reduction(+:tmp)
             for(int k=0;k<numIndependentModes;k++){
-               matrixHessian[i][j] += vectorsRedundantModes[k][i] * vectorsRedundantModes[k][j] * largeEigenvalue;
+               tmp += vectorsRedundantModes[k][i] * vectorsRedundantModes[k][j] * largeEigenvalue;
             }
+            matrixHessian[i][j] = tmp;
          }
       }
    }
