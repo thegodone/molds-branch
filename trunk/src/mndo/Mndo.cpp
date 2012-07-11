@@ -2579,6 +2579,20 @@ void Mndo::CalcOrbitalElectronPopulationFirstDerivatives(double**** orbitalElect
             }
          }
       }
+      /*
+      // check the CPHF's solutions 
+      for(int atomAIndex=0; atomAIndex<this->molecule->GetNumberAtoms(); atomAIndex++){
+         for(int axis=XAxis; axis<CartesianType_end; axis++){
+            double temp=0.0;
+            printf("hoge-cphf: atom:%d axis:%s start\n ",atomAIndex,CartesianTypeStr(axis));
+            for(int mu=0; mu<totalNumberAOs; mu++){
+               temp += orbitalElectronPopulationFirstDerivs[mu][mu][atomAIndex][axis];
+               printf("%e\n",orbitalElectronPopulationFirstDerivs[mu][mu][atomAIndex][axis]);
+            }
+            printf("hoge-cphf: atom:%d axis:%s %e\n\n",atomAIndex,CartesianTypeStr(axis),temp);
+         }
+      }
+      */
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&solutionsCPHF, numberCPHFs, dimensionCPHF);
@@ -2792,6 +2806,12 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
    }
    this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCoreFirstDerivs, &diatomicOverlapFirstDerivs);
 
+   /*
+   printf("staticFirstOrderFock(atomA:%d axis:%s)\n",atomAIndex,CartesianTypeStr(axisA));
+   for(int i=0; i<nonRedundantQIndeces.size()+redundantQIndeces.size();i++){
+      printf("i:%d %e\n",i,staticFirstOrderFock[i]);
+   }
+   */
 }
 
 void Mndo::MallocTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCoreFirstDeriv,
@@ -2879,6 +2899,15 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
       throw ex;
    }
    MallocerFreer::GetInstance()->Free<double>(&occupations, nonRedundantQIndeces.size()+redundantQIndeces.size());
+
+   /*
+   printf("matrixCPHF\n");
+   for(int i=0; i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
+      for(int j=0; j<nonRedundantQIndeces.size()+redundantQIndeces.size(); j++){
+         printf("i:%d j:%d %e\n",i,j,matrixCPHF[i][j]);
+      }
+   }
+   */
 }
 
 void Mndo::MallocTempMatricesSolveCPHF(double*** matrixCPHF,
