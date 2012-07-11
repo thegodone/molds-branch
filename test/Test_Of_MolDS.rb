@@ -30,7 +30,9 @@ end
 if ARGV.empty?
 	Tests = Object.new.extend(AllInclude)
 else
-	Tests = ARGV.dup.freeze
+	Tests = ARGV.collect do |s|
+		s.sub(/\.(in|dat)$/,'').freeze
+	end.freeze
 end
 
 class TesterOmp
