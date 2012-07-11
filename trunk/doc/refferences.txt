@@ -40,6 +40,7 @@
 [AEZ_1986] W. P. Anderson, W. D. Edwards, and M. C. Zerner, Inorg. Chem. 25, 2728 (1986)
 [S_1989] J. J. P. Stewart, J. Comp. Chem. 10, 209 (1989)
 [S_1989-2] J. J. P. Stewart, J. Comp. Chem. 10, 221 (1989)
+[DL_1990] M. J. S. Dewar and D. A. Liotard, J. Mol. Struc.(Theochem) 206, 123(1990)
 [DY_1990] M. J. S. Dewar and Y.-C. Yuan, Inorg. Chem. 29, 3881 (1990)
 [S_1991] J. J. P. Stewart, J. Comp. Chem. 12, 320 (1991)
 [MOPAC_1990] J. J. P. Stewart, J. Computer-Aided Molecular Design 4, 1 (1990)
