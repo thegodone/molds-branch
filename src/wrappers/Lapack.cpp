@@ -178,7 +178,7 @@ int Lapack::Dsyevd(double** matrix, double* eigenValues, int size, bool calcEige
 
 /***
  *
- * Slove matrix*X=b, then we get X by this method.
+ * Solve matrix*X=b, then we get X by this method.
  * The X is stored in b.
  *
  */
@@ -252,7 +252,7 @@ int Lapack::Dsysv(double const* const* matrix, double* b, int size){
 
 /***
  *
- * Slove matrix*X[i]=b[i] (i=0, 1, ... , nrhs-1), then we get X[i] by this method.
+ * Solve matrix*X[i]=b[i] (i=0, 1, ... , nrhs-1), then we get X[i] by this method.
  * The X[i] is stored in b[i].
  * b[i][j] is j-th element of i-th solution, b[i].
  *
