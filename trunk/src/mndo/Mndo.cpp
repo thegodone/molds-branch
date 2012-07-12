@@ -2112,7 +2112,7 @@ double Mndo::GetAuxiliaryHessianElement8(int mu,
                  *orbitalElectronPopulation           [nu][sigma];
    double temp4 = orbitalElectronPopulation           [mu][lambda]
                  *orbitalElectronPopulationFirstDerivs[nu][sigma]    [atomBIndex][axisB];
-   double value = (0.5*(temp1 + temp2) - 0.25*(temp3 + temp4))
+   double value = ((temp1 + temp2) - 0.5*(temp3 + temp4))
                  *diatomicTwoElecTwoCoreFirstDerivs[mu-firstAOIndexA]
                                                    [nu-firstAOIndexA]
                                                    [lambda-firstAOIndexC]
