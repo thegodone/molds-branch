@@ -58,7 +58,14 @@ EOS
       system(@diffCommand + @@deleteDiff)
 			puts '','',''
    end
-   def initialize(prefix, section=nil, title)
+   #def initialize(prefix, section=nil, title)
+   #Old ruby workaround.
+   #Old versioned ruby accept default values for only last arguments.
+   def initialize(prefix, section, title=nil)
+      #So swap arguments if section is ommitted.
+      if title.nil?
+         section,title = title,section
+      end
       @prefix = prefix
       @inputFile = prefix + @@surfixInp
       @outputFile = prefix + @@surfixDat
