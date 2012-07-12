@@ -358,41 +358,47 @@ void BFGS::UpdateHessian(double **matrixHessian,
       }
 
       // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
-#pragma omp parallel for schedule(auto) reduction(+:PK)
-      for(int i=0; i<dimension;i++){
-         PK += P[i] * K[i];
-      }
-
-      //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
-      for(int i=0; i<dimension;i++){
-#pragma omp parallel for schedule(auto)
-         for(int j=i;j<dimension;j++){
-            PP[i][j] = PP[j][i] = P[i] * P[j];
+#pragma omp parallel
+      {
+#pragma omp for schedule(auto) reduction(+:PK)
+         for(int i=0; i<dimension;i++){
+            PK += P[i] * K[i];
          }
-      }
 
-      //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-      for(int i=0; i<dimension; i++){
-         double tmp=0;
-#pragma omp parallel for schedule(auto) shared(i) reduction(+:tmp)
-         for(int j=0; j<dimension; j++){
-            tmp += matrixHessian[i][j] * K[j];
+         //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
+         for(int i=0; i<dimension;i++){
+#pragma omp for schedule(auto)
+            for(int j=i;j<dimension;j++){
+               PP[i][j] = PP[j][i] = P[i] * P[j];
+            }
          }
-         HK[i] = tmp;
+
+         //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+#pragma omp for schedule(auto)
+         for(int i=0; i<dimension; i++){
+            double tmp=0;
+            for(int j=0; j<dimension; j++){
+               tmp += matrixHessian[i][j] * K[j];
+            }
+            HK[i] = tmp;
+         }
       }
 
       //K_k^T H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-#pragma omp parallel for schedule(auto) default(shared) reduction(+:KHK)
-      for(int i=0;i<dimension;i++){
-         KHK += K[i]*HK[i];
-      }
+#pragma omp parallel
+      {
+#pragma omp for schedule(auto) reduction(+:KHK)
+         for(int i=0;i<dimension;i++){
+            KHK += K[i]*HK[i];
+         }
 
-      //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
-      for(int i=0;i<dimension;i++){
-#pragma omp parallel for schedule(auto)
-         for(int j=i;j<dimension;j++){
-            // H_k K_k = (K_k^T H_k)^T because H_k^T = H_k
-            HKKH[i][j] = HKKH[j][i] = HK[i] * HK[j];
+         //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
+         for(int i=0;i<dimension;i++){
+#pragma omp for schedule(auto)
+            for(int j=i;j<dimension;j++){
+               // H_k K_k = (K_k^T H_k)^T because H_k^T = H_k
+               HKKH[i][j] = HKKH[j][i] = HK[i] * HK[j];
+            }
          }
       }
 
