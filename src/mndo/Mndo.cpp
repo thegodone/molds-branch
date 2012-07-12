@@ -347,6 +347,7 @@ void Mndo::CalcSCFProperties(){
    MolDS_cndo::Cndo2::CalcSCFProperties();
    this->CalcHeatsFormation(&this->heatsFormation, *this->molecule);
    
+   /*
    // test code for hessian
    int hessianDim = this->molecule->GetNumberAtoms()*3;
    double** hessian = NULL;
@@ -366,6 +367,7 @@ void Mndo::CalcSCFProperties(){
    cout << endl << endl;
    MallocerFreer::GetInstance()->Free<double>(&hessian, hessianDim, hessianDim);
    MallocerFreer::GetInstance()->Free<double>(&forceCons, hessianDim);
+   */
 }
 
 void Mndo::OutputSCFResults() const{

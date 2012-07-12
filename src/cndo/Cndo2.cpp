@@ -3553,8 +3553,8 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
       // calculate each element of second derivatives
       for(int i=0; i<OrbitalType_end; i++){
          for(int j=0; j<OrbitalType_end; j++){
-            for(int dimA1=XAxis; dimA1<CartesianType_end; dimA1++){
-               for(int dimA2=XAxis; dimA2<CartesianType_end; dimA2++){
+            for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
+               for(int dimA2=dimA1; dimA2<CartesianType_end; dimA2++){
                   tempDiaOverlapSecondDerivs[i][j][dimA1][dimA2] 
                      = this->GetSecondDerivativeElementFromDistanceDerivatives(diaOverlapFirstDerivInDiaFrame[i][j],
                                                                                diaOverlapSecondDerivInDiaFrame[i][j],
@@ -3562,6 +3562,10 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
                                                                                static_cast<CartesianType>(dimA2),
                                                                                cartesian,
                                                                                R);
+                  if(dimA1!=dimA2){
+                     tempDiaOverlapSecondDerivs[i][j][dimA2][dimA1] = tempDiaOverlapSecondDerivs[i][j][dimA1][dimA2];
+                  }
+
                }
             }
          }
@@ -3570,8 +3574,8 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
       // rotate
       for(int i=0; i<OrbitalType_end; i++){
          for(int j=0; j<OrbitalType_end; j++){
-            for(int dimA1=XAxis; dimA1<CartesianType_end; dimA1++){
-               for(int dimA2=XAxis; dimA2<CartesianType_end; dimA2++){
+            for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
+               for(int dimA2=dimA1; dimA2<CartesianType_end; dimA2++){
                   diatomicOverlapSecondDerivs[i][j][dimA1][dimA2] = 0.0;
                
                   double temp1 = 0.0, temp2=0.0, temp3 = 0.0;
@@ -3613,6 +3617,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
                   diatomicOverlapSecondDerivs[i][j][dimA1][dimA2] = temp1+temp2+temp3 
                                                                    +temp4+temp5+temp6 
                                                                    +temp7+temp8+temp9;
+                  diatomicOverlapSecondDerivs[i][j][dimA2][dimA1] = diatomicOverlapSecondDerivs[i][j][dimA1][dimA2];
                }
             }
          }
