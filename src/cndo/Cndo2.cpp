@@ -440,7 +440,7 @@ double Cndo2::GetDiatomVdWCorrectionSecondDerivative(int indexAtomA,
  *****/
 void Cndo2::DoSCF(bool requiresGuess){
    this->OutputLog(this->messageStartSCF);
-   double ompStartTine = omp_get_wtime();
+   double ompStartTime = omp_get_wtime();
 
    if(this->molecule == NULL){
       stringstream ss;
