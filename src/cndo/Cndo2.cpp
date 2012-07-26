@@ -448,15 +448,12 @@ void Cndo2::DoSCF(bool requiresGuess){
       throw MolDSException(ss.str());
    }
 
-   // diis parameters
-   int diisNumErrorVect = Parameters::GetInstance()->GetDiisNumErrorVectSCF();
    // temporary matrices for scf
-   double** oldOrbitalElectronPopulation = NULL;
-   // temporary matrices for diis
+   double**  oldOrbitalElectronPopulation = NULL;
    double*** diisStoredDensityMatrix = NULL;
    double*** diisStoredErrorVect = NULL;
-   double** diisErrorProducts = NULL;
-   double* diisErrorCoefficients = NULL;
+   double**  diisErrorProducts = NULL;
+   double*   diisErrorCoefficients = NULL;
 
    try{
       this->MallocSCFTemporaryMatrices(&oldOrbitalElectronPopulation,
@@ -526,7 +523,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                             diisStoredErrorVect,
                             diisErrorProducts,
                             diisErrorCoefficients,
-                            diisNumErrorVect,
+                            Parameters::GetInstance()->GetDiisNumErrorVectSCF(),
                             *this->molecule,
                             iterationStep);
             }
