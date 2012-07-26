@@ -22,6 +22,7 @@
 #include<sstream>
 #include<math.h>
 #include<vector>
+#include<boost/format.hpp>
 #include"../PrintController.h"
 #include"../Uncopyable.h"
 #include"../Enums.h"
