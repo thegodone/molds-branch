@@ -485,7 +485,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                                                   this->orbitalElectronPopulation, 
                                                   this->molecule->GetTotalNumberAOs());
 
-         (i==0 && requiresGuess) ? isGuess = true : isGuess = false;
+         isGuess = (i==0 && requiresGuess);
          this->CalcFockMatrix(this->fockMatrix, 
                               *this->molecule, 
                               this->overlap, 
