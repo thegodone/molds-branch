@@ -509,14 +509,13 @@ void Cndo2::DoSCF(bool requiresGuess){
 
 
          // check convergence or update oldpopulation
-         if(this->SatisfyConvergenceCriterion(oldOrbitalElectronPopulation, 
-                                              this->orbitalElectronPopulation,
-                                              this->molecule->GetTotalNumberAOs(), 
-                                              &rmsDensity, 
-                                              i)){
-            // converged!!!!!
+         bool hasConverged = this->SatisfyConvergenceCriterion(oldOrbitalElectronPopulation, 
+                                                               this->orbitalElectronPopulation,
+                                                               this->molecule->GetTotalNumberAOs(), 
+                                                               &rmsDensity, 
+                                                               i);
+         if(hasConverged){
             this->OutputLog(this->messageSCFMetConvergence);
-
             // calc. some properties.
             // e.g. electronic energy, electron population in each atom, and core replsion.
             this->CalcSCFProperties();
