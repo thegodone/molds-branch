@@ -95,7 +95,7 @@ void MD::DoMD(){
    this->molecule->OutputMomenta();
 
    for(int s=0; s<totalSteps; s++){
-      this->OutputLog((boost::format("%s%d\n") % this->messageStartStepMD.c_str() % (s+1) ).str());
+      this->OutputLog(boost::format("%s%d\n") % this->messageStartStepMD.c_str() % (s+1) );
 
       // update momenta
       this->UpdateMomenta(*this->molecule, matrixForce, dt);
@@ -129,9 +129,9 @@ void MD::DoMD(){
       this->molecule->OutputXyzCOM();
       this->molecule->OutputXyzCOC();
       this->molecule->OutputMomenta();
-      this->OutputLog((boost::format("%s%lf\n") % this->messageTime.c_str() 
-                                                % (dt*static_cast<double>(s+1)/Parameters::GetInstance()->GetFs2AU())).str());
-      this->OutputLog((boost::format("%s%d\n") % this->messageEndStepMD.c_str() % (s+1) ).str());
+      this->OutputLog(boost::format("%s%lf\n") % this->messageTime.c_str() 
+                                               % (dt*static_cast<double>(s+1)/Parameters::GetInstance()->GetFs2AU()));
+      this->OutputLog(boost::format("%s%d\n") % this->messageEndStepMD.c_str() % (s+1) );
    }
 
    this->OutputLog(this->messageEndMD);
@@ -181,28 +181,28 @@ double MD::OutputEnergies(boost::shared_ptr<ElectronicStructure> electronicStruc
    // output energies:
    this->OutputLog(this->messageEnergies);
    this->OutputLog(this->messageEnergiesTitle);
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageCoreKineticEnergy.c_str()
-                                                      % coreKineticEnergy
-                                                      % (coreKineticEnergy/eV2AU)).str());
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageCoreRepulsionEnergy.c_str()
-                                                      % electronicStructure->GetCoreRepulsionEnergy()
-                                                      % (electronicStructure->GetCoreRepulsionEnergy()/eV2AU)).str());
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageCoreKineticEnergy.c_str()
+                                                     % coreKineticEnergy
+                                                     % (coreKineticEnergy/eV2AU));
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageCoreRepulsionEnergy.c_str()
+                                                     % electronicStructure->GetCoreRepulsionEnergy()
+                                                     % (electronicStructure->GetCoreRepulsionEnergy()/eV2AU));
    if(Parameters::GetInstance()->RequiresVdWSCF()){
-      this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageVdWCorrectionEnergy.c_str()
-                                                         % electronicStructure->GetVdWCorrectionEnergy()
-                                                         % (electronicStructure->GetVdWCorrectionEnergy()/eV2AU)).str());
-      this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergyVdW.c_str()
-                                                         % electronicStructure->GetElectronicEnergy(elecState)
-                                                         % (electronicStructure->GetElectronicEnergy(elecState)/eV2AU)).str());
+      this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageVdWCorrectionEnergy.c_str()
+                                                        % electronicStructure->GetVdWCorrectionEnergy()
+                                                        % (electronicStructure->GetVdWCorrectionEnergy()/eV2AU));
+      this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergyVdW.c_str()
+                                                        % electronicStructure->GetElectronicEnergy(elecState)
+                                                        % (electronicStructure->GetElectronicEnergy(elecState)/eV2AU));
    }
    else{
-      this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergy.c_str()
-                                                         % electronicStructure->GetElectronicEnergy(elecState)
-                                                         % (electronicStructure->GetElectronicEnergy(elecState)/eV2AU)).str());
+      this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergy.c_str()
+                                                        % electronicStructure->GetElectronicEnergy(elecState)
+                                                        % (electronicStructure->GetElectronicEnergy(elecState)/eV2AU));
    }
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageTotalEnergy.c_str()
-                                                      % (coreKineticEnergy + electronicStructure->GetElectronicEnergy(elecState))
-                                                      % ((coreKineticEnergy + electronicStructure->GetElectronicEnergy(elecState))/eV2AU)).str());
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageTotalEnergy.c_str()
+                                                     % (coreKineticEnergy + electronicStructure->GetElectronicEnergy(elecState))
+                                                     % ((coreKineticEnergy + electronicStructure->GetElectronicEnergy(elecState))/eV2AU));
    return (coreKineticEnergy + electronicStructure->GetElectronicEnergy(elecState));
 }
 
@@ -210,9 +210,9 @@ void MD::OutputEnergies(boost::shared_ptr<ElectronicStructure> electronicStructu
                         double initialEnergy){
    double energy = this->OutputEnergies(electronicStructure);
    double eV2AU = Parameters::GetInstance()->GetEV2AU();
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n\n") % this->messageErrorEnergy.c_str()
-                                                        % (initialEnergy - energy)
-                                                        % ((initialEnergy - energy)/eV2AU)).str());
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n\n") % this->messageErrorEnergy.c_str()
+                                                       % (initialEnergy - energy)
+                                                       % ((initialEnergy - energy)/eV2AU));
 }
 
 void MD::SetEnableTheoryTypes(){

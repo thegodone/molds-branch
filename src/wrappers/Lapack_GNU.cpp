@@ -159,7 +159,7 @@ int Lapack::Dsyevd(double** matrix, double* eigenValues, int size, bool calcEige
    for(int i = 0; i < size; i++){
       eigenValues[i] = tempEigenValues[i];
    }
-   //this->OutputLog((boost::format("size=%d lwork=%d liwork=%d k=%d info=%d\n") % size % lwork % liwork % k % info ).str());
+   //this->OutputLog(boost::format("size=%d lwork=%d liwork=%d k=%d info=%d\n") % size % lwork % liwork % k % info);
 
    // free
    LAPACKE_free(work);

@@ -107,7 +107,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       vectorForce = &matrixForce[0][0];
 
       for(int s=0; s<totalSteps; s++){
-         this->OutputLog((boost::format("%s%d\n\n") % this->messageStartBFGSStep % (s+1)).str());
+         this->OutputLog(boost::format("%s%d\n\n") % this->messageStartBFGSStep % (s+1));
 
          // Store old Force data
          MallocerFreer::GetInstance()->Malloc(&vectorOldForce, dimension);
@@ -169,12 +169,12 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          bool aproxcheckCanOutputLogs = true;
          tempCanOutputLogs = molecule.CanOutputLogs();
          molecule.SetCanOutputLogs(aproxcheckCanOutputLogs);
-         this->OutputLog((boost::format("\n"
-                                        "actual energy change          = %e\n"
-                                        "expected energy change        = %e\n"
-                                        "actual/expected energy change = %f\n")
-                                        % (lineSearchCurrentEnergy-lineSearchInitialEnergy)
-                                        % approximateChange % r).str());
+         this->OutputLog(boost::format("\n"
+                                       "actual energy change          = %e\n"
+                                       "expected energy change        = %e\n"
+                                       "actual/expected energy change = %f\n")
+                                       % (lineSearchCurrentEnergy-lineSearchInitialEnergy)
+                                       % approximateChange % r);
          molecule.SetCanOutputLogs(tempCanOutputLogs);
 
          // check convergence
@@ -310,16 +310,16 @@ void BFGS::CalcRFOStep(double* vectorStep,
          }
          normStep = sqrt(normStep);
 
-         this->OutputLog((boost::format("Lowest eigenvalue of the augmented Hessian     = %f\n") % vectorEigenValues[0]).str());
-         this->OutputLog((boost::format("2nd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[1]).str());
-         this->OutputLog((boost::format("3rd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[2]).str());
-         this->OutputLog((boost::format("Calculated RFO step size                       = %f\n") % normStep).str());
+         this->OutputLog(boost::format("Lowest eigenvalue of the augmented Hessian     = %f\n") % vectorEigenValues[0]);
+         this->OutputLog(boost::format("2nd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[1]);
+         this->OutputLog(boost::format("3rd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[2]);
+         this->OutputLog(boost::format("Calculated RFO step size                       = %f\n") % normStep);
 
-         this->OutputLog((boost::format("Trust radius is %f\n") % trustRadius).str());
+         this->OutputLog(boost::format("Trust radius is %f\n") % trustRadius);
          // Limit the step size to trustRadius
          if(normStep > trustRadius){
             alpha *= normStep / trustRadius * 1.1; // 1.1 is speed up factor
-            this->OutputLog((boost::format("Scaling factor is increased to %e.\n") % alpha).str());
+            this->OutputLog(boost::format("Scaling factor is increased to %e.\n") % alpha);
             this->OutputLog("Recalculating RFO step...\n");
          }
       }while(normStep > trustRadius);
@@ -526,10 +526,10 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       this->OutputLog("Eigenvalues of the raw Hessian:");
       for(int i=0;i<dimension;i++){
          if((i%6) == 0){
-            this->OutputLog((boost::format("\n%e")%vectorHessianEigenValues[i]).str());
+            this->OutputLog(boost::format("\n%e")%vectorHessianEigenValues[i]);
          }
          else{
-            this->OutputLog((boost::format(",\t%e")%vectorHessianEigenValues[i]).str());
+            this->OutputLog(boost::format(",\t%e")%vectorHessianEigenValues[i]);
          }
       }
       this->OutputLog("\n");
@@ -579,10 +579,10 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       this->OutputLog("Eigenvalues of the level shifted hessian:");
       for(int i=0;i<dimension;i++){
          if((i%6) == 0){
-            this->OutputLog((boost::format("\n%e")%vectorHessianEigenValues[i]).str());
+            this->OutputLog(boost::format("\n%e")%vectorHessianEigenValues[i]);
          }
          else{
-            this->OutputLog((boost::format(",\t%e")%vectorHessianEigenValues[i]).str());
+            this->OutputLog(boost::format(",\t%e")%vectorHessianEigenValues[i]);
          }
       }
       this->OutputLog("\n");

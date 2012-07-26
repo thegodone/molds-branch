@@ -113,7 +113,7 @@ void MC::DoMC(int totalSteps, int elecState, double temperature, double stepWidt
 
    // Monte Carlo loop 
    for(int s=0; s<totalSteps; s++){
-      this->OutputLog((boost::format("%s%d\n\n") % this->messageStartStepMC.c_str() % (s+1) ).str());
+      this->OutputLog(boost::format("%s%d\n\n") % this->messageStartStepMC.c_str() % (s+1) );
       // create trial molecule
       this->CreateTrialConfiguration(&trialMolecule, *this->molecule, &realRand, stepWidth);
      
@@ -138,9 +138,9 @@ void MC::DoMC(int totalSteps, int elecState, double temperature, double stepWidt
       
       // output molecular states
       this->OutputMolecule(*currentES, *this->molecule, elecState);
-      this->OutputLog((boost::format("%s%d\n\n") % this->messageEndStepMC.c_str() % (s+1) ).str());
+      this->OutputLog(boost::format("%s%d\n\n") % this->messageEndStepMC.c_str() % (s+1) );
    }
-   this->OutputLog((boost::format("%s%lf\n\n") % this->messageTransitionRate.c_str() % (transitionRate/static_cast<double>(totalSteps)) ).str());
+   this->OutputLog(boost::format("%s%lf\n\n") % this->messageTransitionRate.c_str() % (transitionRate/static_cast<double>(totalSteps)) );
    this->OutputLog(this->messageEndMC);
 }
 
@@ -232,21 +232,21 @@ void MC::OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructu
    double eV2AU = Parameters::GetInstance()->GetEV2AU();
    this->OutputLog(this->messageEnergies);
    this->OutputLog(this->messageEnergiesTitle);
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageCoreRepulsionEnergy.c_str()
-                                                      % electronicStructure.GetCoreRepulsionEnergy()
-                                                      % (electronicStructure.GetCoreRepulsionEnergy()/eV2AU)).str());
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageCoreRepulsionEnergy.c_str()
+                                                     % electronicStructure.GetCoreRepulsionEnergy()
+                                                     % (electronicStructure.GetCoreRepulsionEnergy()/eV2AU));
    if(Parameters::GetInstance()->RequiresVdWSCF()){
-      this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageVdWCorrectionEnergy.c_str()
-                                                         % electronicStructure.GetVdWCorrectionEnergy()
-                                                         % (electronicStructure.GetVdWCorrectionEnergy()/eV2AU)).str());
-      this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergyVdW.c_str()
-                                                         % electronicStructure.GetElectronicEnergy(elecState)
-                                                         % (electronicStructure.GetElectronicEnergy(elecState)/eV2AU)).str());
+      this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageVdWCorrectionEnergy.c_str()
+                                                        % electronicStructure.GetVdWCorrectionEnergy()
+                                                        % (electronicStructure.GetVdWCorrectionEnergy()/eV2AU));
+      this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergyVdW.c_str()
+                                                        % electronicStructure.GetElectronicEnergy(elecState)
+                                                        % (electronicStructure.GetElectronicEnergy(elecState)/eV2AU));
    }
    else{
-      this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergy.c_str()
-                                                         % electronicStructure.GetElectronicEnergy(elecState)
-                                                         % (electronicStructure.GetElectronicEnergy(elecState)/eV2AU)).str());
+      this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergy.c_str()
+                                                        % electronicStructure.GetElectronicEnergy(elecState)
+                                                        % (electronicStructure.GetElectronicEnergy(elecState)/eV2AU));
    }
 }
 

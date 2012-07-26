@@ -74,7 +74,7 @@ void RPMD::CreateBeads(vector<boost::shared_ptr<Molecule> >& molecularBeads,
 void RPMD::UpdateElectronicStructure(const std::vector<boost::shared_ptr<ElectronicStructure> >& electronicStructureBeads){
    int numBeads = electronicStructureBeads.size();
    for(int b=0; b<numBeads; b++){
-      this->OutputLog((boost::format("%s%d\n") % this->messageBeadsNum.c_str() % b).str());
+      this->OutputLog(boost::format("%s%d\n") % this->messageBeadsNum.c_str() % b);
       electronicStructureBeads[b]->DoSCF();
       if(Parameters::GetInstance()->RequiresCIS()){
          electronicStructureBeads[b]->DoCIS();
@@ -179,7 +179,7 @@ void RPMD::DoRPMD(const Molecule& refferenceMolecule){
 
    // time step loop
    for(int s=0; s<totalSteps; s++){
-      this->OutputLog((boost::format("%s%d\n") % this->messageStartStepRPMD.c_str() % (s+1)).str());
+      this->OutputLog(boost::format("%s%d\n") % this->messageStartStepRPMD.c_str() % (s+1));
       // update momenta
       this->UpdateMomenta(molecularBeads, electronicStructureBeads, elecState, dt, temperature);
 
@@ -199,7 +199,7 @@ void RPMD::DoRPMD(const Molecule& refferenceMolecule){
                            temperature,
                            initialEnergy);
 
-      this->OutputLog((boost::format("%s%d\n") % this->messageEndStepRPMD.c_str() % (s+1)).str());
+      this->OutputLog(boost::format("%s%d\n") % this->messageEndStepRPMD.c_str() % (s+1));
    }
       this->OutputLog(this->messageEndRPMD);
 }
@@ -276,18 +276,18 @@ double RPMD::OutputEnergies(const vector<boost::shared_ptr<Molecule> >& molecula
    // output energies:
    this->OutputLog(this->messageEnergies);
    this->OutputLog(this->messageEnergiesTitle);
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageBeadsKineticEnergy.c_str()
-                                                      % beadsKineticEnergy
-                                                      % (beadsKineticEnergy/eV2AU)).str());
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageBeadsHarmonicEnergy.c_str()
-                                                      % beadsHarmonicEnergy
-                                                      % (beadsHarmonicEnergy/eV2AU)).str());
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageElecStateEnergy.c_str()
-                                                      % elecStateEnergy
-                                                      % (elecStateEnergy/eV2AU)).str());
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageTotalEnergy.c_str()
-                                                      % totalEnergy
-                                                      % (totalEnergy/eV2AU)).str());
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageBeadsKineticEnergy.c_str()
+                                                     % beadsKineticEnergy
+                                                     % (beadsKineticEnergy/eV2AU));
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageBeadsHarmonicEnergy.c_str()
+                                                     % beadsHarmonicEnergy
+                                                     % (beadsHarmonicEnergy/eV2AU));
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageElecStateEnergy.c_str()
+                                                     % elecStateEnergy
+                                                     % (elecStateEnergy/eV2AU));
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageTotalEnergy.c_str()
+                                                     % totalEnergy
+                                                     % (totalEnergy/eV2AU));
    return totalEnergy;
 }
 
@@ -297,9 +297,9 @@ void RPMD::OutputEnergies(const vector<boost::shared_ptr<Molecule> >& molecularB
                           double temperature,
                           double initialEnergy){
    double energy = this->OutputEnergies(molecularBeads, electronicStructureBeads, elecState, temperature);
-   this->OutputLog((boost::format("\t\t%s\t%e\t%e\n") % this->messageErrorEnergy.c_str()
-                                                      % (initialEnergy - energy)
-                                                      % ((initialEnergy - energy)/Parameters::GetInstance()->GetEV2AU())).str());
+   this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageErrorEnergy.c_str()
+                                                     % (initialEnergy - energy)
+                                                     % ((initialEnergy - energy)/Parameters::GetInstance()->GetEV2AU()));
 }
 
 void RPMD::SetEnableTheoryTypes(){
