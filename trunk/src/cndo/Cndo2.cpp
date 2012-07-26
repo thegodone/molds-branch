@@ -475,16 +475,12 @@ void Cndo2::DoSCF(bool requiresGuess){
       int maxIterationsSCF = Parameters::GetInstance()->GetMaxIterationsSCF();
       bool isGuess=true;
       for(int i=0; i<maxIterationsSCF; i++){
-
-         // calc. electron population in each atom.
          this->CalcAtomicElectronPopulation(this->atomicElectronPopulation, 
                                             this->orbitalElectronPopulation, 
                                             *this->molecule);
-
          this->UpdateOldOrbitalElectronPopulation(oldOrbitalElectronPopulation, 
                                                   this->orbitalElectronPopulation, 
                                                   this->molecule->GetTotalNumberAOs());
-
          isGuess = (i==0 && requiresGuess);
          this->CalcFockMatrix(this->fockMatrix, 
                               *this->molecule, 
@@ -495,20 +491,18 @@ void Cndo2::DoSCF(bool requiresGuess){
                               this->twoElecTwoCore,
                               isGuess);
 
-         // diagonalization
+         // diagonalization of the Fock matrix
          bool calcEigenVectors = true;
          MolDS_wrappers::Lapack::GetInstance()->Dsyevd(this->fockMatrix, 
                                                        this->energiesMO, 
                                                        this->molecule->GetTotalNumberAOs(), 
                                                        calcEigenVectors);
 
-         // calc. electron population in each orbital
          this->CalcOrbitalElectronPopulation(this->orbitalElectronPopulation, 
                                              *this->molecule, 
                                              this->fockMatrix);
 
-
-         // check convergence or update oldpopulation
+         // check convergence
          bool hasConverged = this->SatisfyConvergenceCriterion(oldOrbitalElectronPopulation, 
                                                                this->orbitalElectronPopulation,
                                                                this->molecule->GetTotalNumberAOs(), 
