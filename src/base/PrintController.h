@@ -37,6 +37,9 @@ public:
       this->canOutputLogs = canOutputLogs;
    }
 protected:
+   void OutputLog(const boost::format& log) const{
+      this->OutputLog(log.str());
+   }
    void OutputLog(std::string log) const{
       if(this->canOutputLogs){
          bool endl = false;

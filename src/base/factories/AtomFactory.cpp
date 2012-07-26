@@ -22,6 +22,7 @@
 #include<sstream>
 #include<vector>
 #include<stdexcept>
+#include<boost/format.hpp>
 #include"../PrintController.h"
 #include"../MolDSException.h"
 #include"../Uncopyable.h"
