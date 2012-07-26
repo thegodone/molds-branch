@@ -520,7 +520,6 @@ void Cndo2::DoSCF(bool requiresGuess){
                             this->orbitalElectronPopulation, 
                             oldOrbitalElectronPopulation, 
                             *this->molecule);
-           
                this->DoDIIS(this->orbitalElectronPopulation,
                             oldOrbitalElectronPopulation,
                             diisStoredDensityMatrix,
