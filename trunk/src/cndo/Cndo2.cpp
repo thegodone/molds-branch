@@ -440,7 +440,7 @@ double Cndo2::GetDiatomVdWCorrectionSecondDerivative(int indexAtomA,
  *****/
 void Cndo2::DoSCF(bool requiresGuess){
    this->OutputLog(this->messageStartSCF);
-   double ompStartTime = omp_get_wtime();
+   double ompStartTine = omp_get_wtime();
 
    if(this->molecule == NULL){
       stringstream ss;
@@ -474,14 +474,14 @@ void Cndo2::DoSCF(bool requiresGuess){
       double rmsDensity;
       int maxIterationsSCF = Parameters::GetInstance()->GetMaxIterationsSCF();
       bool isGuess=true;
-      for(int i=0; i<maxIterationsSCF; i++){
+      for(int iterationStep=0; iterationStep<maxIterationsSCF; iterationStep++){
          this->CalcAtomicElectronPopulation(this->atomicElectronPopulation, 
                                             this->orbitalElectronPopulation, 
                                             *this->molecule);
          this->UpdateOldOrbitalElectronPopulation(oldOrbitalElectronPopulation, 
                                                   this->orbitalElectronPopulation, 
                                                   this->molecule->GetTotalNumberAOs());
-         isGuess = (i==0 && requiresGuess);
+         isGuess = (iterationStep==0 && requiresGuess);
          this->CalcFockMatrix(this->fockMatrix, 
                               *this->molecule, 
                               this->overlap, 
@@ -507,7 +507,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                                                                this->orbitalElectronPopulation,
                                                                this->molecule->GetTotalNumberAOs(), 
                                                                &rmsDensity, 
-                                                               i);
+                                                               iterationStep);
          if(hasConverged){
             this->OutputLog(this->messageSCFMetConvergence);
             this->CalcSCFProperties();
@@ -528,12 +528,12 @@ void Cndo2::DoSCF(bool requiresGuess){
                             diisErrorCoefficients,
                             diisNumErrorVect,
                             *this->molecule,
-                            i);
+                            iterationStep);
             }
          }
 
          // SCF fails
-         if(i==maxIterationsSCF-1){
+         if(iterationStep==maxIterationsSCF-1){
             stringstream ss;
             ss << this->errorMessageSCFNotConverged << maxIterationsSCF << "\n";
             throw MolDSException(ss.str());
