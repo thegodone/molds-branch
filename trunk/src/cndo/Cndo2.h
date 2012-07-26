@@ -28,8 +28,7 @@ public:
    Cndo2();
    virtual ~Cndo2();
    virtual void SetMolecule(MolDS_base::Molecule* molecule);
-   void DoSCF();
-   void DoSCF(bool requiresGuess);
+   void DoSCF(bool requiresGuess=true);
    virtual void OutputSCFResults() const;
    virtual void DoCIS();
    virtual void OutputCISResults() const;
