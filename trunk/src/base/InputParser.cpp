@@ -1281,66 +1281,66 @@ void InputParser::OutputMolecularBasics(Molecule* molecule) const{
 
 void InputParser::OutputScfConditions() const{
    this->OutputLog(this->messageScfConditions);
-   this->OutputLog((boost::format("%s%d\n") % this->messageScfMaxIterations.c_str() 
-                                            % Parameters::GetInstance()->GetMaxIterationsSCF()).str());
-   this->OutputLog((boost::format("%s%e\n") % this->messageScfRmsDensity.c_str() 
-                                            % Parameters::GetInstance()->GetThresholdSCF()).str());
-   this->OutputLog((boost::format("%s%e\n") % this->messageScfDampingThresh.c_str()
-                                            % Parameters::GetInstance()->GetDampingThreshSCF()).str());
-   this->OutputLog((boost::format("%s%e\n") % this->messageScfDampingWeight.c_str()
-                                            % Parameters::GetInstance()->GetDampingWeightSCF()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageScfDiisNumErrorVect.c_str() 
-                                            % Parameters::GetInstance()->GetDiisNumErrorVectSCF()).str());
-   this->OutputLog((boost::format("%s%e\n") % this->messageScfDiisStartError.c_str() 
-                                            % Parameters::GetInstance()->GetDiisStartErrorSCF()).str());
-   this->OutputLog((boost::format("%s%e\n") % this->messageScfDiisEndError.c_str() 
-                                            % Parameters::GetInstance()->GetDiisEndErrorSCF()).str());
+   this->OutputLog(boost::format("%s%d\n") % this->messageScfMaxIterations.c_str() 
+                                           % Parameters::GetInstance()->GetMaxIterationsSCF());
+   this->OutputLog(boost::format("%s%e\n") % this->messageScfRmsDensity.c_str() 
+                                           % Parameters::GetInstance()->GetThresholdSCF());
+   this->OutputLog(boost::format("%s%e\n") % this->messageScfDampingThresh.c_str()
+                                           % Parameters::GetInstance()->GetDampingThreshSCF());
+   this->OutputLog(boost::format("%s%e\n") % this->messageScfDampingWeight.c_str()
+                                           % Parameters::GetInstance()->GetDampingWeightSCF());
+   this->OutputLog(boost::format("%s%d\n") % this->messageScfDiisNumErrorVect.c_str() 
+                                           % Parameters::GetInstance()->GetDiisNumErrorVectSCF());
+   this->OutputLog(boost::format("%s%e\n") % this->messageScfDiisStartError.c_str() 
+                                           % Parameters::GetInstance()->GetDiisStartErrorSCF());
+   this->OutputLog(boost::format("%s%e\n") % this->messageScfDiisEndError.c_str() 
+                                           % Parameters::GetInstance()->GetDiisEndErrorSCF());
    this->OutputLog(this->messageScfVdW);
    if(Parameters::GetInstance()->RequiresVdWSCF()){
-      this->OutputLog((boost::format("%s\n") % this->stringYES.c_str()).str());
-      this->OutputLog((boost::format("%s%lf\n") % this->messageScfVdWScalingFactor.c_str() 
-                                                % Parameters::GetInstance()->GetVdWScalingFactorSCF()).str());
-      this->OutputLog((boost::format("%s%lf\n") % this->messageScfVdWDampingFactor.c_str() 
-                                                % Parameters::GetInstance()->GetVdWDampingFactorSCF()).str());
+      this->OutputLog(boost::format("%s\n") % this->stringYES.c_str());
+      this->OutputLog(boost::format("%s%lf\n") % this->messageScfVdWScalingFactor.c_str() 
+                                               % Parameters::GetInstance()->GetVdWScalingFactorSCF());
+      this->OutputLog(boost::format("%s%lf\n") % this->messageScfVdWDampingFactor.c_str() 
+                                               % Parameters::GetInstance()->GetVdWDampingFactorSCF());
    }
    else{
-      this->OutputLog((boost::format("%s\n") % this->stringNO.c_str()).str());
+      this->OutputLog(boost::format("%s\n") % this->stringNO.c_str());
    }
    this->OutputLog("\n");
 }
 
 void InputParser::OutputMemoryConditions() const{
    this->OutputLog(this->messageMemoryConditions);
-   this->OutputLog((boost::format("%s%e%s") % this->messageMemoryLimitHeap.c_str() 
-                                            % Parameters::GetInstance()->GetLimitHeapMemory()
-                                            % this->messageMemoryMB.c_str()).str());
+   this->OutputLog(boost::format("%s%e%s") % this->messageMemoryLimitHeap.c_str() 
+                                           % Parameters::GetInstance()->GetLimitHeapMemory()
+                                           % this->messageMemoryMB.c_str());
    this->OutputLog("\n");
 }
 
 void InputParser::OutputCisConditions() const{
    this->OutputLog(this->messageCisConditions);
 
-   this->OutputLog((boost::format("%s%d\n") % this->messageCisNumberActiveOcc.c_str() 
-                                            % Parameters::GetInstance()->GetActiveOccCIS()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageCisNumberActiveVir.c_str() 
-                                            % Parameters::GetInstance()->GetActiveVirCIS()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageCisNumberExcitedStates.c_str() 
-                                            % Parameters::GetInstance()->GetNumberExcitedStatesCIS()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageCisNumPrintCoefficients.c_str() 
-                                            % Parameters::GetInstance()->GetNumberPrintCoefficientsCIS()).str());
+   this->OutputLog(boost::format("%s%d\n") % this->messageCisNumberActiveOcc.c_str() 
+                                           % Parameters::GetInstance()->GetActiveOccCIS());
+   this->OutputLog(boost::format("%s%d\n") % this->messageCisNumberActiveVir.c_str() 
+                                           % Parameters::GetInstance()->GetActiveVirCIS());
+   this->OutputLog(boost::format("%s%d\n") % this->messageCisNumberExcitedStates.c_str() 
+                                           % Parameters::GetInstance()->GetNumberExcitedStatesCIS());
+   this->OutputLog(boost::format("%s%d\n") % this->messageCisNumPrintCoefficients.c_str() 
+                                           % Parameters::GetInstance()->GetNumberPrintCoefficientsCIS());
 
    this->OutputLog(this->messageCisDavidson);
    if(Parameters::GetInstance()->IsDavidsonCIS()){
-      this->OutputLog((boost::format("%s\n") % this->stringYES.c_str()).str());
-      this->OutputLog((boost::format("%s%d\n") % this->messageCisMaxIterations.c_str() 
-                                               % Parameters::GetInstance()->GetMaxIterationsCIS()).str());
-      this->OutputLog((boost::format("%s%d\n") % this->messageCisMaxDimensions.c_str() 
-                                               % Parameters::GetInstance()->GetMaxDimensionsCIS()).str());
-      this->OutputLog((boost::format("%s%e\n") % this->messageCisNormTolerance.c_str() 
-                                               % Parameters::GetInstance()->GetNormToleranceCIS()).str());
+      this->OutputLog(boost::format("%s\n") % this->stringYES.c_str());
+      this->OutputLog(boost::format("%s%d\n") % this->messageCisMaxIterations.c_str() 
+                                              % Parameters::GetInstance()->GetMaxIterationsCIS());
+      this->OutputLog(boost::format("%s%d\n") % this->messageCisMaxDimensions.c_str() 
+                                              % Parameters::GetInstance()->GetMaxDimensionsCIS());
+      this->OutputLog(boost::format("%s%e\n") % this->messageCisNormTolerance.c_str() 
+                                              % Parameters::GetInstance()->GetNormToleranceCIS());
    }
    else{
-      this->OutputLog((boost::format("%s\n") % this->stringNO.c_str()).str());
+      this->OutputLog(boost::format("%s\n") % this->stringNO.c_str());
    }
 
    this->OutputLog(this->messageCisExcitonEnergies);
@@ -1367,13 +1367,13 @@ void InputParser::OutputCisConditions() const{
 void InputParser::OutputMdConditions() const{
    this->OutputLog(this->messageMdConditions);
 
-   this->OutputLog((boost::format("%s%d\n") % this->messageMdElecState.c_str() 
-                                            % Parameters::GetInstance()->GetElectronicStateIndexMD()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageMdTotalSteps.c_str() 
-                                            % Parameters::GetInstance()->GetTotalStepsMD()).str());
-   this->OutputLog((boost::format("%s%lf%s\n") % this->messageMdTimeWidth.c_str() 
-                                               % (Parameters::GetInstance()->GetTimeWidthMD()/Parameters::GetInstance()->GetFs2AU())
-                                               % this->messageFs.c_str()).str());
+   this->OutputLog(boost::format("%s%d\n") % this->messageMdElecState.c_str() 
+                                           % Parameters::GetInstance()->GetElectronicStateIndexMD());
+   this->OutputLog(boost::format("%s%d\n") % this->messageMdTotalSteps.c_str() 
+                                           % Parameters::GetInstance()->GetTotalStepsMD());
+   this->OutputLog(boost::format("%s%lf%s\n") % this->messageMdTimeWidth.c_str() 
+                                              % (Parameters::GetInstance()->GetTimeWidthMD()/Parameters::GetInstance()->GetFs2AU())
+                                              % this->messageFs.c_str());
 
    this->OutputLog("\n");
 }
@@ -1381,18 +1381,18 @@ void InputParser::OutputMdConditions() const{
 void InputParser::OutputMcConditions() const{
    this->OutputLog(this->messageMcConditions);
 
-   this->OutputLog((boost::format("%s%d\n") % this->messageMcElecState.c_str() 
-                                            % Parameters::GetInstance()->GetElectronicStateIndexMC()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageMcTotalSteps.c_str() 
-                                            % Parameters::GetInstance()->GetTotalStepsMC()).str());
-   this->OutputLog((boost::format("%s%lf%s\n") % this->messageMcTemperature.c_str() 
-                                               % Parameters::GetInstance()->GetTemperatureMC()
-                                               % this->messageK.c_str()).str());
-   this->OutputLog((boost::format("%s%lf%s\n") % this->messageMcStepWidth.c_str() 
-                                               % (Parameters::GetInstance()->GetStepWidthMC()/Parameters::GetInstance()->GetAngstrom2AU())
-                                               % this->messageAngst.c_str()).str());
-   this->OutputLog((boost::format("%s%lu\n") % this->messageMcSeed.c_str() 
-                                             % Parameters::GetInstance()->GetSeedMC()).str());
+   this->OutputLog(boost::format("%s%d\n") % this->messageMcElecState.c_str() 
+                                           % Parameters::GetInstance()->GetElectronicStateIndexMC());
+   this->OutputLog(boost::format("%s%d\n") % this->messageMcTotalSteps.c_str() 
+                                           % Parameters::GetInstance()->GetTotalStepsMC());
+   this->OutputLog(boost::format("%s%lf%s\n") % this->messageMcTemperature.c_str() 
+                                              % Parameters::GetInstance()->GetTemperatureMC()
+                                              % this->messageK.c_str());
+   this->OutputLog(boost::format("%s%lf%s\n") % this->messageMcStepWidth.c_str() 
+                                              % (Parameters::GetInstance()->GetStepWidthMC()/Parameters::GetInstance()->GetAngstrom2AU())
+                                              % this->messageAngst.c_str());
+   this->OutputLog(boost::format("%s%lu\n") % this->messageMcSeed.c_str() 
+                                            % Parameters::GetInstance()->GetSeedMC());
 
    this->OutputLog("\n");
 }
@@ -1400,22 +1400,22 @@ void InputParser::OutputMcConditions() const{
 void InputParser::OutputRpmdConditions() const{
    this->OutputLog(this->messageRpmdConditions);
 
-   this->OutputLog((boost::format("%s%d\n") % this->messageRpmdElecState.c_str() 
-                                            % Parameters::GetInstance()->GetElectronicStateIndexRPMD()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageRpmdNumElecStates.c_str() 
-                                            % Parameters::GetInstance()->GetNumberElectronicStatesRPMD()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageRpmdTotalSteps.c_str() 
-                                            % Parameters::GetInstance()->GetTotalStepsRPMD()).str());
-   this->OutputLog((boost::format("%s%lf%s\n") % this->messageRpmdTemperature.c_str() 
-                                               % Parameters::GetInstance()->GetTemperatureRPMD()
-                                               % this->messageK.c_str()).str());
-   this->OutputLog((boost::format("%s%lf%s\n") % this->messageRpmdTimeWidth.c_str() 
-                                               % (Parameters::GetInstance()->GetTimeWidthRPMD()/Parameters::GetInstance()->GetFs2AU()) 
-                                               % this->messageFs.c_str()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageRpmdNumBeads.c_str() 
-                                            % Parameters::GetInstance()->GetNumberBeadsRPMD()).str());
-   this->OutputLog((boost::format("%s%lu\n") % this->messageRpmdSeed.c_str() 
-                                             % Parameters::GetInstance()->GetSeedRPMD()).str());
+   this->OutputLog(boost::format("%s%d\n") % this->messageRpmdElecState.c_str() 
+                                           % Parameters::GetInstance()->GetElectronicStateIndexRPMD());
+   this->OutputLog(boost::format("%s%d\n") % this->messageRpmdNumElecStates.c_str() 
+                                           % Parameters::GetInstance()->GetNumberElectronicStatesRPMD());
+   this->OutputLog(boost::format("%s%d\n") % this->messageRpmdTotalSteps.c_str() 
+                                           % Parameters::GetInstance()->GetTotalStepsRPMD());
+   this->OutputLog(boost::format("%s%lf%s\n") % this->messageRpmdTemperature.c_str() 
+                                              % Parameters::GetInstance()->GetTemperatureRPMD()
+                                              % this->messageK.c_str());
+   this->OutputLog(boost::format("%s%lf%s\n") % this->messageRpmdTimeWidth.c_str() 
+                                              % (Parameters::GetInstance()->GetTimeWidthRPMD()/Parameters::GetInstance()->GetFs2AU()) 
+                                              % this->messageFs.c_str());
+   this->OutputLog(boost::format("%s%d\n") % this->messageRpmdNumBeads.c_str() 
+                                           % Parameters::GetInstance()->GetNumberBeadsRPMD());
+   this->OutputLog(boost::format("%s%lu\n") % this->messageRpmdSeed.c_str() 
+                                            % Parameters::GetInstance()->GetSeedRPMD());
 
    this->OutputLog("\n");
 }
@@ -1423,24 +1423,24 @@ void InputParser::OutputRpmdConditions() const{
 void InputParser::OutputOptimizationConditions() const{
    this->OutputLog(this->messageOptimizationConditions);
 
-   this->OutputLog((boost::format("%s%s\n") % this->messageOptimizationMethod.c_str() 
-                                            % OptimizationMethodTypeStr(Parameters::GetInstance()->
-                                                                        GetMethodOptimization())).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageOptimizationTotalSteps.c_str() 
-                                            % Parameters::GetInstance()->GetTotalStepsOptimization()).str());
-   this->OutputLog((boost::format("%s%d\n") % this->messageOptimizationElecState.c_str() 
-                                            % Parameters::GetInstance()->GetElectronicStateIndexOptimization()).str());
-   this->OutputLog((boost::format("%s%lf\n") % this->messageOptimizationMaxGradient.c_str() 
-                                             % Parameters::GetInstance()->GetMaxGradientOptimization()).str());
-   this->OutputLog((boost::format("%s%lf\n") % this->messageOptimizationRmsGradient.c_str() 
-                                             % Parameters::GetInstance()->GetRmsGradientOptimization()).str());
+   this->OutputLog(boost::format("%s%s\n") % this->messageOptimizationMethod.c_str() 
+                                           % OptimizationMethodTypeStr(Parameters::GetInstance()->
+                                                                        GetMethodOptimization()));
+   this->OutputLog(boost::format("%s%d\n") % this->messageOptimizationTotalSteps.c_str() 
+                                           % Parameters::GetInstance()->GetTotalStepsOptimization());
+   this->OutputLog(boost::format("%s%d\n") % this->messageOptimizationElecState.c_str() 
+                                           % Parameters::GetInstance()->GetElectronicStateIndexOptimization());
+   this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationMaxGradient.c_str() 
+                                            % Parameters::GetInstance()->GetMaxGradientOptimization());
+   this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationRmsGradient.c_str() 
+                                            % Parameters::GetInstance()->GetRmsGradientOptimization());
 
    switch(Parameters::GetInstance()->GetMethodOptimization()){
       case ConjugateGradientMethod:
       case SteepestDescentMethod:
-         this->OutputLog((boost::format("%s%lf%s\n") % this->messageOptimizationTimeWidth.c_str() 
-                                                     % (Parameters::GetInstance()->GetTimeWidthOptimization()/Parameters::GetInstance()->GetFs2AU())
-                                                     % this->messageFs.c_str()).str());
+         this->OutputLog(boost::format("%s%lf%s\n") % this->messageOptimizationTimeWidth.c_str() 
+                                                    % (Parameters::GetInstance()->GetTimeWidthOptimization()/Parameters::GetInstance()->GetFs2AU())
+                                                    % this->messageFs.c_str());
          break;
       default:
          break;
@@ -1453,22 +1453,22 @@ void InputParser::OutputMOPlotConditions() const{
    this->OutputLog(this->messageMOPlotConditions);
    vector<int>* moIndeces = Parameters::GetInstance()->GetIndecesMOPlot();
    for(int i=0; i<moIndeces->size(); i++){
-      this->OutputLog((boost::format("%s%d\n") % this->messageMOPlotIndex.c_str() 
-                                               % (*moIndeces)[i]).str());
+      this->OutputLog(boost::format("%s%d\n") % this->messageMOPlotIndex.c_str() 
+                                              % (*moIndeces)[i]);
    }
    int* gridNum = Parameters::GetInstance()->GetGridNumberMOPlot();
-   this->OutputLog((boost::format("%s%d %d %d\n") % this->messageMOPlotGridNumber.c_str() 
-                                                  % gridNum[XAxis] 
-                                                  % gridNum[YAxis]
-                                                  % gridNum[ZAxis]).str());
+   this->OutputLog(boost::format("%s%d %d %d\n") % this->messageMOPlotGridNumber.c_str() 
+                                                 % gridNum[XAxis] 
+                                                 % gridNum[YAxis]
+                                                 % gridNum[ZAxis]);
    double* frameLength = Parameters::GetInstance()->GetFrameLengthMOPlot();
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
-   this->OutputLog((boost::format("%s%e %e %e\n") % this->messageMOPlotFrameLength.c_str() 
-                                                  % (frameLength[XAxis]/ang2AU) 
-                                                  % (frameLength[YAxis]/ang2AU)
-                                                  % (frameLength[ZAxis]/ang2AU)).str());
-   this->OutputLog((boost::format("%s%s\n") % this->messageMOPlotFilePrefix.c_str() 
-                                            % Parameters::GetInstance()->GetFileNamePrefixMOPlot().c_str()).str());
+   this->OutputLog(boost::format("%s%e %e %e\n") % this->messageMOPlotFrameLength.c_str() 
+                                                 % (frameLength[XAxis]/ang2AU) 
+                                                 % (frameLength[YAxis]/ang2AU)
+                                                 % (frameLength[ZAxis]/ang2AU));
+   this->OutputLog(boost::format("%s%s\n") % this->messageMOPlotFilePrefix.c_str() 
+                                           % Parameters::GetInstance()->GetFileNamePrefixMOPlot().c_str());
 
    this->OutputLog("\n");
 }
@@ -1477,22 +1477,22 @@ void InputParser::OutputHolePlotConditions() const{
    this->OutputLog(this->messageHolePlotConditions);
    vector<int>* moIndeces = Parameters::GetInstance()->GetElecIndecesHolePlot();
    for(int i=0; i<moIndeces->size(); i++){
-      this->OutputLog((boost::format("%s%d\n") % this->messageHolePlotElecIndex.c_str() 
-                                               % (*moIndeces)[i]).str());
+      this->OutputLog(boost::format("%s%d\n") % this->messageHolePlotElecIndex.c_str() 
+                                              % (*moIndeces)[i]);
    }
    int* gridNum = Parameters::GetInstance()->GetGridNumberHolePlot();
-   this->OutputLog((boost::format("%s%d %d %d\n") % this->messageHolePlotGridNumber.c_str() 
-                                                  % gridNum[XAxis] 
-                                                  % gridNum[YAxis]
-                                                  % gridNum[ZAxis]).str());
+   this->OutputLog(boost::format("%s%d %d %d\n") % this->messageHolePlotGridNumber.c_str() 
+                                                 % gridNum[XAxis] 
+                                                 % gridNum[YAxis]
+                                                 % gridNum[ZAxis]);
    double* frameLength = Parameters::GetInstance()->GetFrameLengthHolePlot();
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
-   this->OutputLog((boost::format("%s%e %e %e\n") % this->messageHolePlotFrameLength.c_str() 
-                                                  % (frameLength[XAxis]/ang2AU) 
-                                                  % (frameLength[YAxis]/ang2AU)
-                                                  % (frameLength[ZAxis]/ang2AU)).str());
-   this->OutputLog((boost::format("%s%s\n") % this->messageHolePlotFilePrefix.c_str() 
-                                            % Parameters::GetInstance()->GetFileNamePrefixHolePlot().c_str()).str());
+   this->OutputLog(boost::format("%s%e %e %e\n") % this->messageHolePlotFrameLength.c_str() 
+                                                 % (frameLength[XAxis]/ang2AU) 
+                                                 % (frameLength[YAxis]/ang2AU)
+                                                 % (frameLength[ZAxis]/ang2AU));
+   this->OutputLog(boost::format("%s%s\n") % this->messageHolePlotFilePrefix.c_str() 
+                                           % Parameters::GetInstance()->GetFileNamePrefixHolePlot().c_str());
 
    this->OutputLog("\n");
 }
@@ -1501,22 +1501,22 @@ void InputParser::OutputParticlePlotConditions() const{
    this->OutputLog(this->messageParticlePlotConditions);
    vector<int>* moIndeces = Parameters::GetInstance()->GetElecIndecesParticlePlot();
    for(int i=0; i<moIndeces->size(); i++){
-      this->OutputLog((boost::format("%s%d\n") % this->messageParticlePlotElecIndex.c_str() 
-                                               % (*moIndeces)[i]).str());
+      this->OutputLog(boost::format("%s%d\n") % this->messageParticlePlotElecIndex.c_str() 
+                                              % (*moIndeces)[i]);
    }
    int* gridNum = Parameters::GetInstance()->GetGridNumberParticlePlot();
-   this->OutputLog((boost::format("%s%d %d %d\n") % this->messageParticlePlotGridNumber.c_str() 
-                                                  % gridNum[XAxis] 
-                                                  % gridNum[YAxis]
-                                                  % gridNum[ZAxis]).str());
+   this->OutputLog(boost::format("%s%d %d %d\n") % this->messageParticlePlotGridNumber.c_str() 
+                                                 % gridNum[XAxis] 
+                                                 % gridNum[YAxis]
+                                                 % gridNum[ZAxis]);
    double* frameLength = Parameters::GetInstance()->GetFrameLengthParticlePlot();
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
-   this->OutputLog((boost::format("%s%e %e %e\n") % this->messageParticlePlotFrameLength.c_str() 
-                                                  % (frameLength[XAxis]/ang2AU) 
-                                                  % (frameLength[YAxis]/ang2AU)
-                                                  % (frameLength[ZAxis]/ang2AU)).str());
-   this->OutputLog((boost::format("%s%s\n") % this->messageParticlePlotFilePrefix.c_str() 
-                                            % Parameters::GetInstance()->GetFileNamePrefixParticlePlot().c_str()).str());
+   this->OutputLog(boost::format("%s%e %e %e\n") % this->messageParticlePlotFrameLength.c_str() 
+                                                 % (frameLength[XAxis]/ang2AU) 
+                                                 % (frameLength[YAxis]/ang2AU)
+                                                 % (frameLength[ZAxis]/ang2AU));
+   this->OutputLog(boost::format("%s%s\n") % this->messageParticlePlotFilePrefix.c_str() 
+                                           % Parameters::GetInstance()->GetFileNamePrefixParticlePlot().c_str());
 
    this->OutputLog("\n");
 }

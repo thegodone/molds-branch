@@ -61,12 +61,12 @@ void MallocerFreer::CheckLimitHeap(double wannaMalloc) const{
 
 void MallocerFreer::OutputMemoryUsage() const{
    this->OutputLog(this->messageMemoryUsage);
-   this->OutputLog((boost::format("%s%lf%s") % this->messageMemoryMaxHeap.c_str() 
-                                             % (MallocerFreer::maxMalloced/pow(10.0,6.0))
-                                             % this->messageMByte.c_str()).str());
-   this->OutputLog((boost::format("%s%lf%s") % this->messageMemoryCurrentHeap.c_str() 
-                                             % (MallocerFreer::currentMalloced/pow(10.0,6.0))
-                                             % this->messageMByte.c_str()).str());
+   this->OutputLog(boost::format("%s%lf%s") % this->messageMemoryMaxHeap.c_str() 
+                                            % (MallocerFreer::maxMalloced/pow(10.0,6.0))
+                                            % this->messageMByte.c_str());
+   this->OutputLog(boost::format("%s%lf%s") % this->messageMemoryCurrentHeap.c_str() 
+                                            % (MallocerFreer::currentMalloced/pow(10.0,6.0))
+                                            % this->messageMByte.c_str());
 }
 
 MallocerFreer* MallocerFreer::GetInstance(){

@@ -205,7 +205,7 @@ void Optimizer::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStru
    }
 
    // final state of line search
-   this->OutputLog((boost::format("%s%d\n\n") % this->messageLineSearchSteps.c_str() % lineSearchSteps).str());
+   this->OutputLog(boost::format("%s%d\n\n") % this->messageLineSearchSteps.c_str() % lineSearchSteps);
    this->UpdateMolecularCoordinates(molecule, matrixForce, -0.5*dt);
    this->UpdateElectronicStructure(electronicStructure, molecule, false, tempCanOutputLogs);
    this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
@@ -214,11 +214,11 @@ void Optimizer::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStru
 }
 
 bool Optimizer::SatisfiesConvergenceCriterion(double** matrixForce, 
-                                                    const MolDS_base::Molecule& molecule,
-                                                    double oldEnergy,
-                                                    double currentEnergy,
-                                                    double maxGradientThreshold,
-                                                    double rmsGradientThreshold) const{
+                                              const MolDS_base::Molecule& molecule,
+                                              double oldEnergy,
+                                              double currentEnergy,
+                                              double maxGradientThreshold,
+                                              double rmsGradientThreshold) const{
    bool satisfies = false;
    double maxGradient = 0.0;
    double sumSqureGradient = 0.0;
@@ -237,15 +237,15 @@ bool Optimizer::SatisfiesConvergenceCriterion(double** matrixForce,
    // output logs
    this->OutputLog("\n");
    this->OutputLog(this->messageOptimizationLog);
-   this->OutputLog((boost::format("%s %e %s\n") % this->messageEnergyDifference.c_str() 
+   this->OutputLog(boost::format("%s %e %s\n") % this->messageEnergyDifference.c_str() 
                                                % energyDifference 
-                                               % this->messageAu.c_str()).str());
-   this->OutputLog((boost::format("%s %e %s\n") % this->messageMaxGradient.c_str() 
+                                               % this->messageAu.c_str());
+   this->OutputLog(boost::format("%s %e %s\n") % this->messageMaxGradient.c_str() 
                                                % maxGradient 
-                                               % this->messageAu.c_str()).str());
-   this->OutputLog((boost::format("%s %e %s\n") % this->messageRmsGradient.c_str() 
+                                               % this->messageAu.c_str());
+   this->OutputLog(boost::format("%s %e %s\n") % this->messageRmsGradient.c_str() 
                                                % rmsGradient 
-                                               % this->messageAu.c_str()).str());
+                                               % this->messageAu.c_str());
    this->OutputLog("\n\n");
   
    // judge convergence

@@ -554,10 +554,10 @@ void Cndo2::DoSCF(bool requiresGuess){
                                   &diisErrorCoefficients);
 
    double ompEndTime = omp_get_wtime();
-   this->OutputLog((boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeSCF.c_str()
-                                                 % (ompEndTime - ompStartTime)
-                                                 % this->messageUnitSec.c_str()
-                                                 % this->messageDoneSCF.c_str()).str());
+   this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeSCF.c_str()
+                                                % (ompEndTime - ompStartTime)
+                                                % this->messageUnitSec.c_str()
+                                                % this->messageDoneSCF.c_str());
 
 }
 
@@ -871,11 +871,11 @@ void Cndo2::OutputMOEnergies() const{
       if(mo < this->molecule->GetTotalNumberValenceElectrons()/2){
          occUnOcc = this->messageOcc;
       }
-      this->OutputLog((boost::format("%s\t%d\t%s\t%e\t%e\n") %this->messageEnergyMO
-                                                              % mo
-                                                              % occUnOcc
-                                                              % this->energiesMO[mo] 
-                                                              % (this->energiesMO[mo]/eV2AU) ).str());
+      this->OutputLog(boost::format("%s\t%d\t%s\t%e\t%e\n") % this->messageEnergyMO
+                                                            % mo
+                                                            % occUnOcc
+                                                            % this->energiesMO[mo] 
+                                                            % (this->energiesMO[mo]/eV2AU) );
    }
    this->OutputLog("\n");
 }
@@ -885,9 +885,9 @@ void Cndo2::OutputSCFEnergies() const{
 
    // electronic energy
    this->OutputLog(this->messageElecEnergyTitle);
-   this->OutputLog((boost::format("%s\t%e\t%e\n") % this->messageElecEnergy
-                                                  % this->elecSCFEnergy
-                                                  % (this->elecSCFEnergy/eV2AU)).str());
+   this->OutputLog(boost::format("%s\t%e\t%e\n") % this->messageElecEnergy
+                                                 % this->elecSCFEnergy
+                                                 % (this->elecSCFEnergy/eV2AU));
    if(Parameters::GetInstance()->RequiresVdWSCF()){
       this->OutputLog(this->messageNoteElecEnergyVdW);
    }
@@ -897,16 +897,16 @@ void Cndo2::OutputSCFEnergies() const{
 
    // output core repulsion energy
    this->OutputLog(this->messageCoreRepulsionTitle);
-   this->OutputLog((boost::format("%s\t%e\t%e\n\n") % this->messageCoreRepulsion
-                                                    % this->coreRepulsionEnergy 
-                                                    % (this->coreRepulsionEnergy/eV2AU)).str());
+   this->OutputLog(boost::format("%s\t%e\t%e\n\n") % this->messageCoreRepulsion
+                                                   % this->coreRepulsionEnergy 
+                                                   % (this->coreRepulsionEnergy/eV2AU));
 
    // output van der Waals correction 
    if(Parameters::GetInstance()->RequiresVdWSCF()){
       this->OutputLog(this->messageVdWCorrectionTitle);
-      this->OutputLog((boost::format("%s\t%e\t%e\n\n") % this->messageVdWCorrection
-                                                       % this->vdWCorrectionEnergy 
-                                                       % (this->vdWCorrectionEnergy/eV2AU)).str());
+      this->OutputLog(boost::format("%s\t%e\t%e\n\n") % this->messageVdWCorrection
+                                                      % this->vdWCorrectionEnergy 
+                                                      % (this->vdWCorrectionEnergy/eV2AU));
    }
 }
 
@@ -923,7 +923,7 @@ void Cndo2::OutputSCFDipole() const{
    temp += pow(this->electronicTransitionDipoleMoments[groundState][groundState][ZAxis]+this->coreDipoleMoment[ZAxis],2.0);
    magnitude = sqrt(temp);
    this->OutputLog(this->messageTotalDipoleMomentTitle);
-   this->OutputLog((boost::format("%s\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n\n") 
+   this->OutputLog(boost::format("%s\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n\n") 
       % this->messageTotalDipoleMoment
       % (this->electronicTransitionDipoleMoments[groundState][groundState][XAxis]+this->coreDipoleMoment[XAxis])
       % (this->electronicTransitionDipoleMoments[groundState][groundState][YAxis]+this->coreDipoleMoment[YAxis])
@@ -932,7 +932,7 @@ void Cndo2::OutputSCFDipole() const{
       % ((this->electronicTransitionDipoleMoments[groundState][groundState][XAxis]+this->coreDipoleMoment[XAxis])/debye2AU)
       % ((this->electronicTransitionDipoleMoments[groundState][groundState][YAxis]+this->coreDipoleMoment[YAxis])/debye2AU)
       % ((this->electronicTransitionDipoleMoments[groundState][groundState][ZAxis]+this->coreDipoleMoment[ZAxis])/debye2AU)
-      % (magnitude/debye2AU)).str());
+      % (magnitude/debye2AU));
 
    // output electronic dipole moment 
    temp = 0.0;
@@ -941,7 +941,7 @@ void Cndo2::OutputSCFDipole() const{
    temp += pow(this->electronicTransitionDipoleMoments[groundState][groundState][ZAxis],2.0);
    magnitude = sqrt(temp);
    this->OutputLog(this->messageElectronicDipoleMomentTitle);
-   this->OutputLog((boost::format("%s\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n\n") 
+   this->OutputLog(boost::format("%s\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n\n") 
       % this->messageElectronicDipoleMoment
       % this->electronicTransitionDipoleMoments[groundState][groundState][XAxis]
       % this->electronicTransitionDipoleMoments[groundState][groundState][YAxis]
@@ -950,7 +950,7 @@ void Cndo2::OutputSCFDipole() const{
       % (this->electronicTransitionDipoleMoments[groundState][groundState][XAxis]/debye2AU)
       % (this->electronicTransitionDipoleMoments[groundState][groundState][YAxis]/debye2AU)
       % (this->electronicTransitionDipoleMoments[groundState][groundState][ZAxis]/debye2AU)
-      % (magnitude/debye2AU)).str());
+      % (magnitude/debye2AU));
 
    // output core dipole moment 
    temp = 0.0;
@@ -959,7 +959,7 @@ void Cndo2::OutputSCFDipole() const{
    temp += pow(this->coreDipoleMoment[ZAxis],2.0);
    magnitude = sqrt(temp);
    this->OutputLog(this->messageCoreDipoleMomentTitle);
-   this->OutputLog((boost::format("%s\t\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n\n") 
+   this->OutputLog(boost::format("%s\t\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n\n") 
       % this->messageCoreDipoleMoment
       % this->coreDipoleMoment[XAxis]
       % this->coreDipoleMoment[YAxis]
@@ -968,18 +968,18 @@ void Cndo2::OutputSCFDipole() const{
       % (this->coreDipoleMoment[XAxis]/debye2AU)
       % (this->coreDipoleMoment[YAxis]/debye2AU)
       % (this->coreDipoleMoment[ZAxis]/debye2AU)
-      % (magnitude/debye2AU)).str());
+      % (magnitude/debye2AU));
 }
 
 void Cndo2::OutputSCFMulliken() const{
    this->OutputLog(this->messageMullikenAtomsTitle);
    for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
       Atom* atom = this->molecule->GetAtom(a);
-      this->OutputLog((boost::format("%s\t%d\t%s\t%e\t%e\n") % this->messageMullikenAtoms
-                                                               % a
-                                                               % AtomTypeStr(atom->GetAtomType())
-                                                               % atom->GetCoreCharge()
-                                                               % (atom->GetCoreCharge()-atomicElectronPopulation[a])).str());
+      this->OutputLog(boost::format("%s\t%d\t%s\t%e\t%e\n") % this->messageMullikenAtoms
+                                                            % a
+                                                            % AtomTypeStr(atom->GetAtomType())
+                                                            % atom->GetCoreCharge()
+                                                            % (atom->GetCoreCharge()-atomicElectronPopulation[a]));
    }
    this->OutputLog("\n");
 }
@@ -1172,10 +1172,10 @@ bool Cndo2::SatisfyConvergenceCriterion(double const* const* oldOrbitalElectronP
    }
    *rmsDensity = sqrt(change);
   
-   this->OutputLog((boost::format("%s%d%s%.15lf\n") % this->messageIterSCF.c_str()
-                                                    % times
-                                                    % this->messageDensityRMS.c_str()
-                                                    % *rmsDensity).str());
+   this->OutputLog(boost::format("%s%d%s%.15lf\n") % this->messageIterSCF.c_str()
+                                                   % times
+                                                   % this->messageDensityRMS.c_str()
+                                                   % *rmsDensity);
 
    if(*rmsDensity < Parameters::GetInstance()->GetThresholdSCF()){
       satisfy = true;
@@ -1263,7 +1263,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
    this->OutputLog("fock matrix\n");
    for(int o=0; o<this->molecule.GetTotalNumberAOs(); o++){
       for(int p=0; p<this->molecule.GetTotalNumberAOs(); p++){
-         this->OutputLog((boost::format("%lf\t") % fockMatrix[o][p]).str());
+         this->OutputLog(boost::format("%lf\t") % fockMatrix[o][p]);
       }
       this->OutputLog("\n");
    }
@@ -1380,7 +1380,7 @@ void Cndo2::CalcOrbitalElectronPopulation(double** orbitalElectronPopulation,
    this->OutputLog("orbital population\n");
    for(int mu=0; mu<totalNumberAOs; mu++){
       for(int nu=0; nu<totalNumberAOs; nu++){
-         this->OutputLog((boost::format("%lf\t") % orbitalElectronPopulation[mu][nu]).str());
+         this->OutputLog(boost::format("%lf\t") % orbitalElectronPopulation[mu][nu]);
       }
       this->OutputLog("\n");
    }
@@ -1403,7 +1403,7 @@ void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
       for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
          atomicElectronPopulation[A] += orbitalElectronPopulation[i][i];
       }
-      //this->OutputLog((boost::format("P_AA[%d]=%lf\n") % A % atomicElectronPopulation[A]).str());
+      //this->OutputLog(boost::format("P_AA[%d]=%lf\n") % A % atomicElectronPopulation[A]);
    }
 }
 
@@ -1489,7 +1489,7 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
    this->OutputLog("gamma matrix\n");
    for(int A=0; A<totalAtomNumber; A++){
       for(int B=0; B<totalAtomNumber; B++){
-         this->OutputLog((boost::format("gammaAB[%d][%d]=%lf\n") % A % B % gammaAB[A][B]).str());
+         this->OutputLog(boost::format("gammaAB[%d][%d]=%lf\n") % A % B % gammaAB[A][B]);
       }
       this->OutputLog("\n");
    }
@@ -1622,7 +1622,7 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
    for(int o=0; o<molecule.GetTotalNumberAOs(); o++){
       for(int p=0; p<molecule.GetTotalNumberAOs(); p++){
          for(int i=0; i<CartesianType_end; i++){
-            this->OutputLog((boost::format("%lf\t") % cartesianMatrix[o][p][i]).str());
+            this->OutputLog(boost::format("%lf\t") % cartesianMatrix[o][p][i]);
          }
          this->OutputLog("\n");
       }
@@ -3396,7 +3396,7 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
    this->OutputLog("overlap matrix\n"); 
    for(int o=0; o<molecule.GetTotalNumberAOs(); o++){
       for(int p=0; p<molecule.GetTotalNumberAOs(); p++){
-         this->OutputLog((boost::format("%lf\t") % overlap[o][p]).str());
+         this->OutputLog(boost::format("%lf\t") % overlap[o][p]);
       }
       this->OutputLog("\n");
    }
@@ -3762,7 +3762,7 @@ void Cndo2::CalcOverlapByGTOExpansion(double** overlap,
    this->OutputLog("overlap matrix by STOnG\n"); 
    for(int o=0; o<molecule.GetTotalNumberAOs(); o++){
       for(int p=0; p<molecule.GetTotalNumberAOs(); p++){
-         this->OutputLog((boost::format("%lf\t") % overlap[o][p]).str());
+         this->OutputLog(boost::format("%lf\t") % overlap[o][p]);
       }
       this->OutputLog("\n");
    }
@@ -5121,7 +5121,7 @@ void Cndo2::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap,
    /*
    for(int i=0;i<OrbitalType_end;i++){
       for(int j=0;j<OrbitalType_end;j++){
-         this->OutputLog((boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]).str());
+         this->OutputLog(boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]);
       }
    }
    */
@@ -5211,7 +5211,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(double** diatomicO
    /*
    for(int i=0;i<OrbitalType_end;i++){
       for(int j=0;j<OrbitalType_end;j++){
-         this->OutputLog((boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]).str());
+         this->OutputLog(boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]);
       }
    }
    */
@@ -5337,7 +5337,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
    /*
    for(int i=0;i<OrbitalType_end;i++){
       for(int j=0;j<OrbitalType_end;j++){
-         this->OutputLog((boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]).str());
+         this->OutputLog(boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]);
       }
    }
    */
@@ -5389,8 +5389,8 @@ void Cndo2::RotateDiatmicOverlapToSpaceFrame(double** diatomicOverlap,
    /*
    for(int i=0;i<OrbitalType_end;i++){
       for(int j=0;j<OrbitalType_end;j++){
-         this->OutputLog((boost::format("rotated diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]).str());
-         this->OutputLog((boost::format("rotating[%d][%d]=%lf\n") % i % j % rotating[i][j]).str());
+         this->OutputLog(boost::format("rotated diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]);
+         this->OutputLog(boost::format("rotating[%d][%d]=%lf\n") % i % j % rotating[i][j]);
       }
    }
    */
@@ -5692,7 +5692,7 @@ double Cndo2::GetAuxiliaryD(int la, int lb, int m) const{
    double termA = ( (2.0*la+1.0)*Factorial(la-m) ) / ( 2.0*Factorial(la+m) );
    double termB = ( (2.0*lb+1.0)*Factorial(lb-m) ) / ( 2.0*Factorial(lb+m) );
    value = pre*sqrt(termA)*sqrt(termB);
-   //this->OutputLog((boost::format("pre=%lf, termA=%lf, termB=%lf\n") % pre % termA % termB).str());
+   //this->OutputLog(boost::format("pre=%lf, termA=%lf, termB=%lf\n") % pre % termA % termB);
    
    return value;
 }

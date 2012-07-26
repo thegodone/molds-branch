@@ -656,7 +656,7 @@ void ZindoS::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap,
    
    for(int i=0;i<OrbitalType_end;i++){
       for(int j=0;j<OrbitalType_end;j++){
-         //this->OutputLog((boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]).str());
+         //this->OutputLog(boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]);
       }
    }
    
@@ -835,10 +835,10 @@ void ZindoS::DoCIS(){
    this->OutputCISResults();
 
    double ompEndTime = omp_get_wtime();
-   this->OutputLog((boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCIS.c_str()
-                                                 % (ompEndTime - ompStartTime)
-                                                 % this->messageUnitSec.c_str()
-                                                 % this->messageDoneCIS.c_str() ).str());
+   this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCIS.c_str()
+                                                % (ompEndTime - ompStartTime)
+                                                % this->messageUnitSec.c_str()
+                                                % this->messageDoneCIS.c_str() );
 }
 
 void ZindoS::CalcCISProperties(){
@@ -1112,19 +1112,19 @@ void ZindoS::OutputCISResults() const{
    this->OutputLog(this->messageExcitedStatesEnergiesTitle);
    double eV2AU = Parameters::GetInstance()->GetEV2AU();
    for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS(); k++){
-      this->OutputLog((boost::format("%s\t%d\t%e\t%e\t") 
+      this->OutputLog(boost::format("%s\t%d\t%e\t%e\t") 
          % this->messageExcitedStatesEnergies
          % (k+1) 
          % this->excitedEnergies[k]
-         % (this->excitedEnergies[k]/eV2AU)).str());
+         % (this->excitedEnergies[k]/eV2AU));
 
       // sort eigen vector coefficeits of CIS and output
       vector<CISEigenVectorCoefficient> cisEigenVectorCoefficients;
       this->SortCISEigenVectorCoefficients(&cisEigenVectorCoefficients, this->matrixCIS[k]);
       for(int l=0; l<Parameters::GetInstance()->GetNumberPrintCoefficientsCIS(); l++){
-         this->OutputLog((boost::format("%e (%d -> %d)\t") % cisEigenVectorCoefficients[l].coefficient
-                                                           % cisEigenVectorCoefficients[l].occIndex
-                                                           % cisEigenVectorCoefficients[l].virIndex).str());
+         this->OutputLog(boost::format("%e (%d -> %d)\t") % cisEigenVectorCoefficients[l].coefficient
+                                                          % cisEigenVectorCoefficients[l].occIndex
+                                                          % cisEigenVectorCoefficients[l].virIndex);
       }
       this->OutputLog("\n");
    }
@@ -1141,13 +1141,13 @@ void ZindoS::OutputCISResults() const{
       this->OutputLog(this->messageExcitonEnergiesCIS);
       this->OutputLog(this->messageExcitonEnergiesCISTitle);
       for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS(); k++){
-         this->OutputLog((boost::format("%s\t%d\t%e\t%e\t%e\t%e\n") 
+         this->OutputLog(boost::format("%s\t%d\t%e\t%e\t%e\t%e\n") 
                            % this->messageExcitonEnergiesShortCIS
                            % (k+1) 
                            %  this->freeExcitonEnergiesCIS[k]
                            % (this->freeExcitonEnergiesCIS[k]/eV2AU)
                            % (this->excitedEnergies[k]-this->freeExcitonEnergiesCIS[k])
-                           %((this->excitedEnergies[k]-this->freeExcitonEnergiesCIS[k])/eV2AU)).str());
+                           %((this->excitedEnergies[k]-this->freeExcitonEnergiesCIS[k])/eV2AU));
       }
    }
    this->OutputLog("\n");
@@ -1188,7 +1188,7 @@ void ZindoS::OutputCISDipole() const{
       temp += pow(this->electronicTransitionDipoleMoments[k][k][YAxis]+this->coreDipoleMoment[YAxis],2.0);
       temp += pow(this->electronicTransitionDipoleMoments[k][k][ZAxis]+this->coreDipoleMoment[ZAxis],2.0);
       magnitude = sqrt(temp);
-      this->OutputLog((boost::format("\t%s\t%d\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n") 
+      this->OutputLog(boost::format("\t%s\t%d\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n") 
          % this->messageTotalDipoleMoment
          % k
          % (this->electronicTransitionDipoleMoments[k][k][XAxis]+this->coreDipoleMoment[XAxis])
@@ -1198,7 +1198,7 @@ void ZindoS::OutputCISDipole() const{
          % ((this->electronicTransitionDipoleMoments[k][k][XAxis]+this->coreDipoleMoment[XAxis])/debye2AU)
          % ((this->electronicTransitionDipoleMoments[k][k][YAxis]+this->coreDipoleMoment[YAxis])/debye2AU)
          % ((this->electronicTransitionDipoleMoments[k][k][ZAxis]+this->coreDipoleMoment[ZAxis])/debye2AU)
-         % (magnitude/debye2AU)).str());
+         % (magnitude/debye2AU));
    }
    this->OutputLog("\n");
 
@@ -1211,7 +1211,7 @@ void ZindoS::OutputCISDipole() const{
       temp += pow(this->electronicTransitionDipoleMoments[k][k][YAxis],2.0);
       temp += pow(this->electronicTransitionDipoleMoments[k][k][ZAxis],2.0);
       magnitude = sqrt(temp);
-      this->OutputLog((boost::format("\t%s\t%d\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n") 
+      this->OutputLog(boost::format("\t%s\t%d\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n") 
          % this->messageElectronicDipoleMoment
          % k
          % (this->electronicTransitionDipoleMoments[k][k][XAxis])
@@ -1221,7 +1221,7 @@ void ZindoS::OutputCISDipole() const{
          % (this->electronicTransitionDipoleMoments[k][k][XAxis]/debye2AU)
          % (this->electronicTransitionDipoleMoments[k][k][YAxis]/debye2AU)
          % (this->electronicTransitionDipoleMoments[k][k][ZAxis]/debye2AU)
-         % (magnitude/debye2AU)).str());
+         % (magnitude/debye2AU));
    }
    this->OutputLog("\n");
 
@@ -1244,7 +1244,7 @@ void ZindoS::OutputCISTransitionDipole() const{
             temp += pow(this->electronicTransitionDipoleMoments[to][from][YAxis],2.0);
             temp += pow(this->electronicTransitionDipoleMoments[to][from][ZAxis],2.0);
             magnitude = sqrt(temp);
-            this->OutputLog((boost::format("\t%s\t%d -> %d\t\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n") 
+            this->OutputLog(boost::format("\t%s\t%d -> %d\t\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n") 
                % this->messageTransitionDipoleMoment
                % from
                % to
@@ -1255,7 +1255,7 @@ void ZindoS::OutputCISTransitionDipole() const{
                % (this->electronicTransitionDipoleMoments[to][from][XAxis]/debye2AU)
                % (this->electronicTransitionDipoleMoments[to][from][YAxis]/debye2AU)
                % (this->electronicTransitionDipoleMoments[to][from][ZAxis]/debye2AU)
-               % (magnitude/debye2AU)).str());
+               % (magnitude/debye2AU));
          }
       }
    }
@@ -1432,7 +1432,7 @@ void ZindoS::DoCISDavidson(){
       goToDirectCIS = false;
       // Davidson loop
       for(int k=0; k<maxIter; k++){
-         this->OutputLog((boost::format("%s%d\n") % this->messageNumIterCIS.c_str() % k ).str());
+         this->OutputLog(boost::format("%s%d\n") % this->messageNumIterCIS.c_str() % k );
          // calculate dimension of the interaction matrix 
          // (= number of the expansion vectors).
          for(int i=0; i<numberExcitedStates; i++){
@@ -1483,7 +1483,7 @@ void ZindoS::DoCISDavidson(){
                                                interactionEigenEnergies, i);
 
                // output norm of residual vector
-               this->OutputLog((boost::format("\t  %d%s%e\n") % (i+1) % this->messageResidualNorm.c_str() % norm ).str());
+               this->OutputLog(boost::format("\t  %d%s%e\n") % (i+1) % this->messageResidualNorm.c_str() % norm );
                if(i == numberExcitedStates-1){
                   this->OutputLog("\n");
                }
@@ -1886,10 +1886,10 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
       throw MolDSException(ompErrors.str());
    }
    double ompEndTime = omp_get_wtime();
-   this->OutputLog((boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCalcCISMarix.c_str()
-                                                 % (ompEndTime - ompStartTime)
-                                                 % this->messageUnitSec.c_str()
-                                                 % this->messageDoneCalcCISMatrix.c_str() ).str());
+   this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCalcCISMarix.c_str()
+                                                % (ompEndTime - ompStartTime)
+                                                % this->messageUnitSec.c_str()
+                                                % this->messageDoneCalcCISMatrix.c_str() );
 }
 
 void ZindoS::CheckMatrixForce(const vector<int>& elecStates){

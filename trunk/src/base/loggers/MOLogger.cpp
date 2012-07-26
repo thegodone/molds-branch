@@ -92,8 +92,8 @@ void MOLogger::DrawMO(vector<int> moIndeces){
       try{
          // validate mo number
          if(this->molecule->GetTotalNumberAOs() <= moIndeces[i]){
-            this->OutputLog((boost::format("%s%d\n") % this->messageSkippedMOIndex.c_str() 
-                                                     % moIndeces[i]).str()) ;
+            this->OutputLog(boost::format("%s%d\n") % this->messageSkippedMOIndex.c_str() 
+                                                    % moIndeces[i]) ;
             continue;
          }
       
@@ -116,7 +116,7 @@ void MOLogger::DrawMO(vector<int> moIndeces){
                   double z = origin[ZAxis] + dz*static_cast<double>(iz);
       
                   double moValue = this->GetMoValue(moIndeces[i], *this->molecule, this->fockMatrix, x, y, z);
-                  ofs << (boost::format("\t%e") % moValue ).str();
+                  ofs << boost::format("\t%e") % moValue ;
                   lineBreakCounter++;
                   if(lineBreakCounter%6==0){
                      ofs << endl;
@@ -138,10 +138,10 @@ void MOLogger::DrawMO(vector<int> moIndeces){
    }
 
    double ompEndTime = omp_get_wtime();
-   this->OutputLog((boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeMOPlot.c_str()
-                                                 % (ompEndTime - ompStartTime)
-                                                 % this->messageUnitSec.c_str()
-                                                 % this->messageEndMOPlot.c_str()).str());
+   this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeMOPlot.c_str()
+                                                % (ompEndTime - ompStartTime)
+                                                % this->messageUnitSec.c_str()
+                                                % this->messageEndMOPlot.c_str());
 }
 
 string MOLogger::GetFileName(int moIndex, int digit) const{

@@ -109,8 +109,8 @@ void DensityLogger::DrawDensity(vector<int> elecStateIndeces) const{
             int groundState = 0;
             if(Parameters::GetInstance()->GetNumberExcitedStatesCIS() < elecStateIndeces[n] || 
                groundState == elecStateIndeces[n]){
-               this->OutputLog((boost::format("%s%d\n") % this->messageSkippedElecStateIndex.c_str() 
-                                                        % elecStateIndeces[n]).str()) ;
+               this->OutputLog(boost::format("%s%d\n") % this->messageSkippedElecStateIndex.c_str() 
+                                                       % elecStateIndeces[n]) ;
                continue;
             }
          
@@ -137,7 +137,7 @@ void DensityLogger::DrawDensity(vector<int> elecStateIndeces) const{
                                                             activeVirMOs,
                                                             this->cisMatrix, 
                                                             ix, iy, iz);
-                     ofs << (boost::format("\t%e") % density ).str();
+                     ofs << boost::format("\t%e") % density ;
                      lineBreakCounter++;
                      if(lineBreakCounter%6==0){
                         ofs << endl;
@@ -165,10 +165,10 @@ void DensityLogger::DrawDensity(vector<int> elecStateIndeces) const{
    this->FreeTemporaryActiveMOs(&activeOccMOs, &activeVirMOs);
 
    double ompEndTime = omp_get_wtime();
-   this->OutputLog((boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeDensityPlot.c_str()
-                                                 % (ompEndTime - ompStartTime)
-                                                 % this->messageUnitSec.c_str()
-                                                 % this->messageEndDensityPlot.c_str()).str());
+   this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeDensityPlot.c_str()
+                                                % (ompEndTime - ompStartTime)
+                                                % this->messageUnitSec.c_str()
+                                                % this->messageEndDensityPlot.c_str());
 }
 
 void DensityLogger::CalcActiveMOs(double**** activeOccMOs, 

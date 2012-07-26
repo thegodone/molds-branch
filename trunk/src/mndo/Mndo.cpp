@@ -374,10 +374,10 @@ void Mndo::OutputSCFResults() const{
    MolDS_cndo::Cndo2::OutputSCFResults();
    // output heats of formation
    this->OutputLog(this->messageHeatsFormationTitle);
-   this->OutputLog((boost::format("%s\t%e\t%e\n\n") % this->messageHeatsFormation
-                                                    % this->heatsFormation 
-                                                    % (this->heatsFormation/Parameters::GetInstance()->
-                                                                                        GetKcalMolin2AU())).str());
+   this->OutputLog(boost::format("%s\t%e\t%e\n\n") % this->messageHeatsFormation
+                                                   % this->heatsFormation 
+                                                   % (this->heatsFormation/Parameters::GetInstance()->
+                                                                                       GetKcalMolin2AU()));
 }
 
 double Mndo::GetFockDiagElement(const Atom& atomA, 
@@ -890,10 +890,10 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
       throw MolDSException(ompErrors.str());
    }
    double ompEndTime = omp_get_wtime();
-   this->OutputLog((boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCalcCISMarix.c_str()
-                                                 % (ompEndTime - ompStartTime)
-                                                 % this->messageUnitSec.c_str()
-                                                 % this->messageDoneCalcCISMatrix.c_str()).str());
+   this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCalcCISMarix.c_str()
+                                                % (ompEndTime - ompStartTime)
+                                                % this->messageUnitSec.c_str()
+                                                % this->messageDoneCalcCISMatrix.c_str());
 }
 
 void Mndo::CheckZMatrixForce(const vector<int>& elecStates){
@@ -1635,11 +1635,11 @@ void Mndo::CalcQVector(double* q,
    }
    /* 
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
-      this->OutputLog((boost::format("q[%d] = %e\n") % i % q[i]).str());
+      this->OutputLog(boost::format("q[%d] = %e\n") % i % q[i]);
    }
    for(int i=0; i<redundantQIndeces.size(); i++){
       int r = nonRedundantQIndeces.size() + i;
-      this->OutputLog((boost::format("q[%d] = %e\n") % r % q[r]).str());
+      this->OutputLog(boost::format("q[%d] = %e\n") % r % q[r]);
    }
    */
 }
@@ -3617,11 +3617,11 @@ void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, int atomAIndex, int ato
       for(int nu=0; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
             for(int sigma=0; sigma<dxy; sigma++){
-               this->OutputLog((boost::format("mu=%d nu=%d lambda=%d sigma=%d $e\n") % mu
-                                                                                     % nu
-                                                                                     % lambda
-                                                                                     % sigma 
-                                                                                     % matrix[mu][nu][lambda][sigma]).str());
+               this->OutputLog(boost::format("mu=%d nu=%d lambda=%d sigma=%d $e\n") % mu
+                                                                                    % nu
+                                                                                    % lambda
+                                                                                    % sigma 
+                                                                                    % matrix[mu][nu][lambda][sigma]);
             }
          }
       }
