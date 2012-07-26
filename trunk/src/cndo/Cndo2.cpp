@@ -516,21 +516,17 @@ void Cndo2::DoSCF(bool requiresGuess){
                                                                i);
          if(hasConverged){
             this->OutputLog(this->messageSCFMetConvergence);
-            // calc. some properties.
-            // e.g. electronic energy, electron population in each atom, and core replsion.
             this->CalcSCFProperties();
             this->OutputSCFResults();
             break;
          }
          else{
             if(!isGuess){ 
-               // damping
                this->DoDamp(rmsDensity, 
                             this->orbitalElectronPopulation, 
                             oldOrbitalElectronPopulation, 
                             *this->molecule);
            
-               // diis 
                this->DoDIIS(this->orbitalElectronPopulation,
                             oldOrbitalElectronPopulation,
                             diisStoredDensityMatrix,
