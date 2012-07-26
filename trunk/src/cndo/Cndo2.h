@@ -248,20 +248,25 @@ private:
    double elecSCFEnergy;
    double** gammaAB;
    double bondingAdjustParameterK[2]; //see (3.79) in J. A. Pople book
-
-   // use Y[na][nb][la][lb][m][i][j] 
-   // as Y_{ij\lammda} in (B.20) in Pople book for given na, nb, la, lb, m, i, and j.
-   static const double Y[MolDS_base::ShellType_end+1]
-                        [MolDS_base::ShellType_end+1]
-                        [MolDS_base::ShellType_end]
-                        [MolDS_base::ShellType_end]
-                        [MolDS_base::ShellType_end]
-                        [2*MolDS_base::ShellType_end+1]
-                        [2*MolDS_base::ShellType_end+1];
-   // use Z[na][nb][k] as Z_{k} in (B.30) in Pople book for given na, nb, and k. 
-   static const double Z[2*MolDS_base::ShellType_end]
-                        [2*MolDS_base::ShellType_end]
-                        [4*MolDS_base::ShellType_end-1];
+   class ReducedOverlapParameters : private MolDS_base::Uncopyable{
+   public:
+      // use Y[na][nb][la][lb][m][i][j] 
+      // as Y_{ij\lammda} in (B.20) in Pople book for given na, nb, la, lb, m, i, and j.
+      static const double Y[MolDS_base::ShellType_end+1]
+                           [MolDS_base::ShellType_end+1]
+                           [MolDS_base::ShellType_end]
+                           [MolDS_base::ShellType_end]
+                           [MolDS_base::ShellType_end]
+                           [2*MolDS_base::ShellType_end+1]
+                           [2*MolDS_base::ShellType_end+1];
+      // use Z[na][nb][k] as Z_{k} in (B.30) in Pople book for given na, nb, and k. 
+      static const double Z[2*MolDS_base::ShellType_end]
+                           [2*MolDS_base::ShellType_end]
+                           [4*MolDS_base::ShellType_end-1];
+   private:
+      ReducedOverlapParameters();
+      ~ReducedOverlapParameters();
+   };
    void OutputMOEnergies() const;
    void OutputSCFEnergies() const;
    void OutputSCFDipole() const;
