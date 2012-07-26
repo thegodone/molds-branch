@@ -575,11 +575,6 @@ void Cndo2::DoSCF(bool requiresGuess){
 
 }
 
-void Cndo2::DoSCF(){
-   bool requiresGuess = true;
-   this->DoSCF(requiresGuess);
-}
-
 void Cndo2::CalcSCFProperties(){
    this->CalcAtomicElectronPopulation(this->atomicElectronPopulation, 
                                       this->orbitalElectronPopulation, 

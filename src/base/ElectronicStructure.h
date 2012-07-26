@@ -25,8 +25,7 @@ public:
    virtual ~ElectronicStructure(){};
    virtual MolDS_base::TheoryType GetTheoryType() const = 0;
    virtual void SetMolecule(MolDS_base::Molecule* molecule) = 0;
-   virtual void DoSCF() = 0;
-   virtual void DoSCF(bool requiresGuess) = 0;
+   virtual void DoSCF(bool requiresGuess=true) = 0;
    virtual void OutputSCFResults() const = 0;
    virtual void DoCIS() = 0;
    virtual void OutputCISResults() const = 0;
