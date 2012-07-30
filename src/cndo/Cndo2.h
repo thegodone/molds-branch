@@ -425,10 +425,10 @@ private:
                                              double***** rotMatSecondDerivs,
                                              double**** tempDiaOverlapFirstDerivs,
                                              double***** tempDiaOverlapSecondDerivs) const;
-   void FreeDiatomicOverlapFirstDeriTemps(double*** diaOverlapInDiaFrame, 
-                                          double*** diaOverlapFirstDerivInDiaFrame,
-                                          double*** rotMat,
-                                          double**** rotMatFirstDerivs) const;
+   void FreeDiatomicOverlap1stDeriTemps(double*** diaOverlapInDiaFrame, 
+                                        double*** diaOverlap1stDerivInDiaFrame,
+                                        double***  rotMat,
+                                        double**** rotMat1stDerivs) const;
    void FreeDiatomicOverlap2ndDeriTemps(double*** diaOverlapInDiaFrame, 
                                         double*** diaOverlap1stDerivInDiaFrame,
                                         double*** diaOverlap2ndDerivInDiaFrame,
