@@ -33,17 +33,17 @@ protected:
    virtual void SetEnableAtomTypes();
    virtual void CalcSCFProperties();
    virtual double GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const;
-   virtual double GetDiatomCoreRepulsionFirstDerivative(int indexAtomA,
-                                                        int indexAtomB, 
-                                                        MolDS_base::CartesianType axisA) const;
-   virtual double GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
-                                                         int indexAtomB, 
-                                                         MolDS_base::CartesianType axisA1,
-                                                         MolDS_base::CartesianType axisA2) const;
+   virtual double GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
+                                                      int indexAtomB, 
+                                                      MolDS_base::CartesianType axisA) const;
+   virtual double GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
+                                                      int indexAtomB, 
+                                                      MolDS_base::CartesianType axisA1,
+                                                      MolDS_base::CartesianType axisA2) const;
 private:
    double GetAdditionalDiatomCoreRepulsionTerm(double k, double l, double m, double distance) const;
-   double GetAdditionalDiatomCoreRepulsionTermFirstDerivative(double k, double l, double m, double distance) const;
-   double GetAdditionalDiatomCoreRepulsionTermSecondDerivative(double k, double l, double m, double distance) const;
+   double GetAdditionalDiatomCoreRepulsionTerm1stDerivative(double k, double l, double m, double distance) const;
+   double GetAdditionalDiatomCoreRepulsionTerm2ndDerivative(double k, double l, double m, double distance) const;
 };
 
 }

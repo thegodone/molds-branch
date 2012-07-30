@@ -77,30 +77,30 @@ void Am1::SetMessages(){
    this->errorMessageDavidsonNotConverged =  "Error in am1::Am1::DoCISDavidson: Davidson did not met convergence criterion. \n";
    this->errorMessageGetSemiEmpiricalMultipoleInteractionBadMultipoles
       = "Error in am1:: Am1::GetSemiEmpiricalMultipoleInteraction: Bad multipole combintaion is set\n";
-   this->errorMessageGetSemiEmpiricalMultipoleInteractionFirstDeriBadMultipoles
-      = "Error in am1:: Am1::GetSemiEmpiricalMultipoleInteractionFirstDerivative: Bad multipole combintaion is set\n";
-   this->errorMessageGetSemiEmpiricalMultipoleInteractionSecondDeriBadMultipoles
-      = "Error in am1:: Am1::GetSemiEmpiricalMultipoleInteractionSecondDerivative: Bad multipole combintaion is set\n";
+   this->errorMessageGetSemiEmpiricalMultipoleInteraction1stDeriBadMultipoles
+      = "Error in am1:: Am1::GetSemiEmpiricalMultipoleInteraction1stDerivative: Bad multipole combintaion is set\n";
+   this->errorMessageGetSemiEmpiricalMultipoleInteraction2ndDeriBadMultipoles
+      = "Error in am1:: Am1::GetSemiEmpiricalMultipoleInteraction2ndDerivative: Bad multipole combintaion is set\n";
    this->errorMessageGetNddoRepulsionIntegral 
       = "Error in am1::Am1::GetNddoRepulsionIntegral: Bad orbital is set.\n";
-   this->errorMessageGetNddoRepulsionIntegralFirstDerivative 
-      = "Error in am1::Am1::GetNddoRepulsionIntegralFirstDerivative: Bad orbital is set.\n";
-   this->errorMessageGetNddoRepulsionIntegralSecondDerivative 
-      = "Error in am1::Am1::GetNddoRepulsionIntegralSecondDerivative: Bad orbital is set.\n";
+   this->errorMessageGetNddoRepulsionIntegral1stDerivative 
+      = "Error in am1::Am1::GetNddoRepulsionIntegral1stDerivative: Bad orbital is set.\n";
+   this->errorMessageGetNddoRepulsionIntegral2ndDerivative 
+      = "Error in am1::Am1::GetNddoRepulsionIntegral2ndDerivative: Bad orbital is set.\n";
    this->errorMessageCalcTwoElecTwoCoreNullMatrix 
       = "Error in am1::Am1::CalcTwoElecTwoCore: The two elec two core matrix is NULL.\n"; 
    this->errorMessageCalcDiatomicTwoElecTwoCoreSameAtoms
       = "Error in am1::Am1::CalcDiatomicTwoElecTwoCore: Atom A and B is same.\n"; 
-   this->errorMessageCalcDiatomicTwoElecTwoCoreFirstDerivativesSameAtoms
-      = "Error in am1::Am1::CalcDiatomicTwoElecTwoCoreFirstDerivatives: Atom A and B is same.\n"; 
-   this->errorMessageCalcDiatomicTwoElecTwoCoreSecondDerivativesSameAtoms
-      = "Error in am1::Am1::CalcDiatomicTwoElecTwoCoreSecondDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCore1stDerivativesSameAtoms
+      = "Error in am1::Am1::CalcDiatomicTwoElecTwoCore1stDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCore2ndDerivativesSameAtoms
+      = "Error in am1::Am1::CalcDiatomicTwoElecTwoCore2ndDerivatives: Atom A and B is same.\n"; 
    this->errorMessageCalcDiatomicTwoElecTwoCoreNullMatrix 
       = "Error in am1::Am1::CalcDiatomicTwoElecTwoCore: The two elec two core diatomic matrix is NULL.\n"; 
-   this->errorMessageCalcDiatomicTwoElecTwoCoreFirstDerivativesNullMatrix
-      = "Error in am1::Am1::CalcDiatomicTwoElecTwoCoreFirstDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
-   this->errorMessageCalcDiatomicTwoElecTwoCoreSecondDerivativesNullMatrix
-      = "Error in am1::Am1::CalcDiatomicTwoElecTwoCoreSecondDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCore1stDerivativesNullMatrix
+      = "Error in am1::Am1::CalcDiatomicTwoElecTwoCore1stDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCore2ndDerivativesNullMatrix
+      = "Error in am1::Am1::CalcDiatomicTwoElecTwoCore2ndDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageGetElectronicEnergyEnergyNotCalculated
       = "Error in am1::Am1::GetElectronicEnergy: Set electronic state is not calculated by CIS.\n";
    this->errorMessageGetElectronicEnergyNULLCISEnergy 
@@ -126,11 +126,11 @@ double Am1::GetAdditionalDiatomCoreRepulsionTerm(double k, double l, double m, d
    return k*exp(-l*pow(distance-m,2.0));
 }
 
-double Am1::GetAdditionalDiatomCoreRepulsionTermFirstDerivative(double k, double l, double m, double distance) const{
+double Am1::GetAdditionalDiatomCoreRepulsionTerm1stDerivative(double k, double l, double m, double distance) const{
    return -2.0*l*(distance-m)*k*exp(-l*pow(distance-m,2.0));
 }
 
-double Am1::GetAdditionalDiatomCoreRepulsionTermSecondDerivative(double k, double l, double m, double distance) const{
+double Am1::GetAdditionalDiatomCoreRepulsionTerm2ndDerivative(double k, double l, double m, double distance) const{
    return (-2.0*l + pow(2.0*l*(distance-m),2.0))*k*exp(-l*pow(distance-m,2.0));
 }
 
@@ -165,11 +165,11 @@ double Am1::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
 
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
-double Am1::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA,
+double Am1::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
                                                   int indexAtomB, 
                                                   CartesianType axisA) const{
    // MNDO term
-   double mndoTerms = Mndo::GetDiatomCoreRepulsionFirstDerivative(indexAtomA, indexAtomB, axisA);
+   double mndoTerms = Mndo::GetDiatomCoreRepulsion1stDerivative(indexAtomA, indexAtomB, axisA);
 
    // additional term, first derivative of eq. (4) in [S_1989]
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
@@ -192,8 +192,8 @@ double Am1::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA,
       mB = atomB.GetNddoParameterM(this->theory, i);
       temp1 += this->GetAdditionalDiatomCoreRepulsionTerm(kA, lA, mA, distance);
       temp1 += this->GetAdditionalDiatomCoreRepulsionTerm(kB, lB, mB, distance);
-      temp2 += this->GetAdditionalDiatomCoreRepulsionTermFirstDerivative(kA, lA, mA, distance);
-      temp2 += this->GetAdditionalDiatomCoreRepulsionTermFirstDerivative(kB, lB, mB, distance);
+      temp2 += this->GetAdditionalDiatomCoreRepulsionTerm1stDerivative(kA, lA, mA, distance);
+      temp2 += this->GetAdditionalDiatomCoreRepulsionTerm1stDerivative(kB, lB, mB, distance);
    }
    double additionalTerm = 0.0;
    additionalTerm = -temp1/pow(distance,3.0)
@@ -205,12 +205,12 @@ double Am1::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA,
 
 // Second derivative of diatomic core repulsion energy.
 // Both derivatives are related to the coordinate of atomA.
-double Am1::GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
+double Am1::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
                                                    int indexAtomB, 
                                                    CartesianType axisA1,
                                                    CartesianType axisA2) const{
    // MNDO term
-   double mndoTerm = Mndo::GetDiatomCoreRepulsionSecondDerivative(indexAtomA, indexAtomB, axisA1, axisA2);
+   double mndoTerm = Mndo::GetDiatomCoreRepulsion2ndDerivative(indexAtomA, indexAtomB, axisA1, axisA2);
 
    // additional term, first derivative of eq. (4) in [S_1989]
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
@@ -233,10 +233,10 @@ double Am1::GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
       mB = atomB.GetNddoParameterM(this->theory, i);
       temp1 += this->GetAdditionalDiatomCoreRepulsionTerm(kA, lA, mA, distance);
       temp1 += this->GetAdditionalDiatomCoreRepulsionTerm(kB, lB, mB, distance);
-      temp2 += this->GetAdditionalDiatomCoreRepulsionTermFirstDerivative(kA, lA, mA, distance);
-      temp2 += this->GetAdditionalDiatomCoreRepulsionTermFirstDerivative(kB, lB, mB, distance);
-      temp3 += this->GetAdditionalDiatomCoreRepulsionTermSecondDerivative(kA, lA, mA, distance);
-      temp3 += this->GetAdditionalDiatomCoreRepulsionTermSecondDerivative(kB, lB, mB, distance);
+      temp2 += this->GetAdditionalDiatomCoreRepulsionTerm1stDerivative(kA, lA, mA, distance);
+      temp2 += this->GetAdditionalDiatomCoreRepulsionTerm1stDerivative(kB, lB, mB, distance);
+      temp3 += this->GetAdditionalDiatomCoreRepulsionTerm2ndDerivative(kA, lA, mA, distance);
+      temp3 += this->GetAdditionalDiatomCoreRepulsionTerm2ndDerivative(kB, lB, mB, distance);
    }
    double additionalTerm = 0.0;
    if(axisA1 != axisA2){
