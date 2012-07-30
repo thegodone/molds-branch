@@ -181,9 +181,9 @@ double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy(const Atom& atomA,
 // First derivative of Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy.
 // This deivative is related to the Cartesian coordinate of atomA.
 double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy1stDerivative(const Atom& atomA, 
-                                                                  const Atom& atomB,
-                                                                  double distanceAB,
-                                                                  CartesianType axisA) const{
+                                                                const Atom& atomB,
+                                                                double distanceAB,
+                                                                CartesianType axisA) const{
    double value=0.0;
    double alphaA = atomA.GetNddoAlpha(this->theory);
    double alphaB = atomB.GetNddoAlpha(this->theory);
@@ -268,15 +268,15 @@ double Mndo::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
 double Mndo::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
-                                                   int indexAtomB, 
-                                                   CartesianType axisA) const{
+                                                 int indexAtomB, 
+                                                 CartesianType axisA) const{
    double value =0.0;
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double distanceAB = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double twoElecInt = this->GetNddoRepulsionIntegral(atomA, s, s, atomB, s, s);
    double twoElecInt1stDeriv = this->GetNddoRepulsionIntegral1stDerivative(
-                                       atomA, s, s, atomB, s, s, axisA);
+                                     atomA, s, s, atomB, s, s, axisA);
    double temp = this->GetAuxiliaryDiatomCoreRepulsionEnergy(atomA, atomB, distanceAB);
    double tempDeriv = this->GetAuxiliaryDiatomCoreRepulsionEnergy1stDerivative(atomA, atomB, distanceAB, axisA);
    value = atomA.GetCoreCharge()*atomB.GetCoreCharge()
@@ -297,32 +297,32 @@ double Mndo::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
    double twoElecInt = this->GetNddoRepulsionIntegral(atomA, s, s, 
                                                       atomB, s, s);
    double twoElecInt1stDeriv1 = this->GetNddoRepulsionIntegral1stDerivative(atomA, s, s, 
-                                                                                atomB, s, s, 
-                                                                                axisA1);
+                                                                            atomB, s, s, 
+                                                                            axisA1);
    double twoElecInt1stDeriv2 = this->GetNddoRepulsionIntegral1stDerivative(atomA, s, s, 
-                                                                                atomB, s, s, 
-                                                                                axisA2);
+                                                                            atomB, s, s, 
+                                                                            axisA2);
    double twoElecInt2ndDeriv = this->GetNddoRepulsionIntegral2ndDerivative(atomA, s, s, 
-                                                                                 atomB, s, s, 
-                                                                                 axisA1, 
-                                                                                 axisA2);
+                                                                           atomB, s, s, 
+                                                                           axisA1, 
+                                                                           axisA2);
 
    double temp = this->GetAuxiliaryDiatomCoreRepulsionEnergy(atomA, 
                                                              atomB, 
                                                              distanceAB);
    double temp1stDeriv1 = this->GetAuxiliaryDiatomCoreRepulsionEnergy1stDerivative(atomA, 
-                                                                                       atomB, 
-                                                                                       distanceAB, 
-                                                                                       axisA1);
+                                                                                   atomB, 
+                                                                                   distanceAB, 
+                                                                                   axisA1);
    double temp1stDeriv2 = this->GetAuxiliaryDiatomCoreRepulsionEnergy1stDerivative(atomA, 
-                                                                                       atomB, 
-                                                                                       distanceAB, 
-                                                                                       axisA2);
+                                                                                   atomB, 
+                                                                                   distanceAB, 
+                                                                                   axisA2);
    double temp2ndDeriv = this->GetAuxiliaryDiatomCoreRepulsionEnergy2ndDerivative(atomA, 
-                                                                                        atomB, 
-                                                                                        distanceAB, 
-                                                                                        axisA1, 
-                                                                                        axisA2);
+                                                                                  atomB, 
+                                                                                  distanceAB, 
+                                                                                  axisA1, 
+                                                                                  axisA2);
 
    value = atomA.GetCoreCharge()*atomB.GetCoreCharge();
    value *= twoElecInt*temp2ndDeriv 
@@ -572,11 +572,11 @@ double Mndo::GetElectronCoreAttraction(int indexAtomA,
 // Note that diatomicTwoElecTwoCore1stDerivative is dioatomic one.
 // see Eq. (16) in [DT_1977-2] with f_2 = 0.
 double Mndo::GetElectronCoreAttraction1stDerivative(int indexAtomA, 
-                                                      int indexAtomB, 
-                                                      int mu, 
-                                                      int nu, 
-                                                      double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivatives,
-                                                      CartesianType axisA) const{
+                                                    int indexAtomB, 
+                                                    int mu, 
+                                                    int nu, 
+                                                    double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivatives,
+                                                    CartesianType axisA) const{
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double value = -1.0*atomB.GetCoreCharge()
                   *diatomicTwoElecTwoCore1stDerivatives[mu][nu][s][s][axisA];
@@ -591,8 +591,8 @@ void Mndo::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap,
 
 // First derivative of (B.40) in J. A. Pople book without bond corrections.
 void Mndo::CalcDiatomicOverlap1stDerivativeInDiatomicFrame(double** diatomicOverlapDeri, 
-                                                             const Atom& atomA, 
-                                                             const Atom& atomB) const{
+                                                           const Atom& atomA, 
+                                                           const Atom& atomB) const{
    MolDS_cndo::Cndo2::CalcDiatomicOverlap1stDerivativeInDiatomicFrame(
                       diatomicOverlapDeri,atomA, atomB);
 }
@@ -1936,14 +1936,14 @@ double Mndo::GetAuxiliaryHessianElement2(int mu,
    const Atom& atomC = *this->molecule->GetAtom(indexAtomC);
    int firstAOIndexA = atomA.GetFirstAOIndex();
    double value = orbitalElectronPopulation1stDerivs[mu]
-                                                      [nu]
-                                                      [indexAtomB]
-                                                      [axisB]
+                                                    [nu]
+                                                    [indexAtomB]
+                                                    [axisB]
                  *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                   [nu-firstAOIndexA]
-                                                   [s]
-                                                   [s]
-                                                   [axisA];
+                                                 [nu-firstAOIndexA]
+                                                 [s]
+                                                 [s]
+                                                 [axisA];
    return value*atomC.GetCoreCharge();
 }
 
@@ -1988,14 +1988,14 @@ double Mndo::GetAuxiliaryHessianElement4(int lambda,
    const Atom& atomC = *this->molecule->GetAtom(indexAtomC);
    int firstAOIndexC = atomC.GetFirstAOIndex();
    double value = orbitalElectronPopulation1stDerivs[lambda]
-                                                      [sigma]
-                                                      [indexAtomB]
-                                                      [axisB]
+                                                    [sigma]
+                                                    [indexAtomB]
+                                                    [axisB]
                  *diatomicTwoElecTwoCore1stDerivs[s]
-                                                   [s]
-                                                   [lambda-firstAOIndexC]
-                                                   [sigma-firstAOIndexC]
-                                                   [axisA];
+                                                 [s]
+                                                 [lambda-firstAOIndexC]
+                                                 [sigma-firstAOIndexC]
+                                                 [axisA];
    return value*atomA.GetCoreCharge();
 }
 
@@ -2046,13 +2046,13 @@ double Mndo::GetAuxiliaryHessianElement6(int mu,
    double bondParameterC = atomC.GetBondingParameter(this->theory, atomC.GetValence(lambda-firstAOIndexC));
    double sumBondParameters = bondParameterA+bondParameterC;
    double value = orbitalElectronPopulation1stDerivs[mu]
-                                                      [lambda]
-                                                      [indexAtomB]
-                                                      [axisB]
+                                                    [lambda]
+                                                    [indexAtomB]
+                                                    [axisB]
                  *sumBondParameters
                  *diatomicOverlap1stDerivs[mu-firstAOIndexA]
-                                            [lambda-firstAOIndexC]
-                                            [axisA];
+                                          [lambda-firstAOIndexC]
+                                          [axisA];
    return value;
 }
 
@@ -2105,19 +2105,19 @@ double Mndo::GetAuxiliaryHessianElement8(int mu,
    int firstAOIndexA = atomA.GetFirstAOIndex();
    int firstAOIndexC = atomC.GetFirstAOIndex();
    double temp1 = orbitalElectronPopulation1stDerivs[mu][nu]       [indexAtomB][axisB]
-                 *orbitalElectronPopulation           [lambda][sigma];
-   double temp2 = orbitalElectronPopulation           [mu][nu]
+                 *orbitalElectronPopulation         [lambda][sigma];
+   double temp2 = orbitalElectronPopulation         [mu][nu]
                  *orbitalElectronPopulation1stDerivs[lambda][sigma][indexAtomB][axisB];
    double temp3 = orbitalElectronPopulation1stDerivs[mu][lambda]   [indexAtomB][axisB]
-                 *orbitalElectronPopulation           [nu][sigma];
-   double temp4 = orbitalElectronPopulation           [mu][lambda]
+                 *orbitalElectronPopulation         [nu][sigma];
+   double temp4 = orbitalElectronPopulation         [mu][lambda]
                  *orbitalElectronPopulation1stDerivs[nu][sigma]    [indexAtomB][axisB];
    double value = ((temp1 + temp2) - 0.5*(temp3 + temp4))
                  *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                   [nu-firstAOIndexA]
-                                                   [lambda-firstAOIndexC]
-                                                   [sigma-firstAOIndexC]
-                                                   [axisA];
+                                                 [nu-firstAOIndexA]
+                                                 [lambda-firstAOIndexC]
+                                                 [sigma-firstAOIndexC]
+                                                 [axisA];
    return value;
 }
 
@@ -2452,17 +2452,17 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
             for(int indexAtomB=0; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
                if(indexAtomA != indexAtomB){
                   this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs[indexAtomB], 
-                                                            indexAtomA, 
-                                                            indexAtomB);
+                                                          indexAtomA, 
+                                                          indexAtomB);
                   this->CalcDiatomicOverlap2ndDerivatives(diatomicOverlap2ndDerivs[indexAtomB], 
-                                                             indexAtomA, 
-                                                             indexAtomB);
+                                                          indexAtomA, 
+                                                          indexAtomB);
                   this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs[indexAtomB], 
-                                                                   indexAtomA, 
-                                                                   indexAtomB);
+                                                                 indexAtomA, 
+                                                                 indexAtomB);
                   this->CalcDiatomicTwoElecTwoCore2ndDerivatives(diatomicTwoElecTwoCore2ndDerivs[indexAtomB], 
-                                                                    indexAtomA, 
-                                                                    indexAtomB);
+                                                                 indexAtomA, 
+                                                                 indexAtomB);
                }
             }
 
@@ -2711,10 +2711,10 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                          *this->fockMatrix[moJ][mu]
                                          *this->orbitalElectronPopulation[nu][sigma];
                            staticFirstOrderFock[i] += temp1*diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                                                             [nu-firstAOIndexA]
-                                                                                             [lambda-firstAOIndexB]
-                                                                                             [sigma-firstAOIndexB]
-                                                                                             [axisA];
+                                                                                           [nu-firstAOIndexA]
+                                                                                           [lambda-firstAOIndexB]
+                                                                                           [sigma-firstAOIndexB]
+                                                                                           [axisA];
                         } //i-loop
 
                      } //sigma-loop
@@ -2735,10 +2735,10 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                    *this->fockMatrix[moJ][nu]
                                    *coreChargeB
                                    *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                                     [nu-firstAOIndexA]
-                                                                     [s]
-                                                                     [s]
-                                                                     [axisA];
+                                                                   [nu-firstAOIndexA]
+                                                                   [s]
+                                                                   [s]
+                                                                   [axisA];
                      staticFirstOrderFock[i] -= temp2;
                   }
 
@@ -2763,10 +2763,10 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                    *this->fockMatrix[moJ][sigma]
                                    *coreChargeA
                                    *diatomicTwoElecTwoCore1stDerivs[s]
-                                                                     [s]
-                                                                     [lambda-firstAOIndexB]
-                                                                     [sigma-firstAOIndexB]
-                                                                     [axisA];
+                                                                   [s]
+                                                                   [lambda-firstAOIndexB]
+                                                                   [sigma-firstAOIndexB]
+                                                                   [axisA];
                      staticFirstOrderFock[i] -= temp3;
                   } //i-loop
 
@@ -3113,13 +3113,12 @@ void Mndo::CalcForceSCFElecCoreAttractionPart(double* force,
          for(int i=0; i<CartesianType_end; i++){
             force[i] += -1.0
                        *this->orbitalElectronPopulation[mu][nu]
-                       *this->GetElectronCoreAttraction1stDerivative(
-                                   indexAtomA, 
-                                   indexAtomB, 
-                                   mu-firstAOIndexA, 
-                                   nu-firstAOIndexA,
-                                   diatomicTwoElecTwoCore1stDerivs,
-                                   (CartesianType)i);
+                       *this->GetElectronCoreAttraction1stDerivative(indexAtomA, 
+                                                                     indexAtomB, 
+                                                                     mu-firstAOIndexA, 
+                                                                     nu-firstAOIndexA,
+                                                                     diatomicTwoElecTwoCore1stDerivs,
+                                                                     (CartesianType)i);
          }
       }
    }
@@ -3173,18 +3172,18 @@ void Mndo::CalcForceSCFTwoElecPart(double* force,
                              *this->orbitalElectronPopulation[mu][nu]
                              *this->orbitalElectronPopulation[lambda][sigma]
                              *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                               [nu-firstAOIndexA]
-                                                               [lambda-firstAOIndexB]
-                                                               [sigma-firstAOIndexB]
-                                                               [(CartesianType)i];
+                                                             [nu-firstAOIndexA]
+                                                             [lambda-firstAOIndexB]
+                                                             [sigma-firstAOIndexB]
+                                                             [(CartesianType)i];
                   force[i] += 0.25
                              *this->orbitalElectronPopulation[mu][lambda]
                              *this->orbitalElectronPopulation[nu][sigma]
                              *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                               [nu-firstAOIndexA]
-                                                               [lambda-firstAOIndexB]
-                                                               [sigma-firstAOIndexB]
-                                                               [(CartesianType)i];
+                                                             [nu-firstAOIndexA]
+                                                             [lambda-firstAOIndexB]
+                                                             [sigma-firstAOIndexB]
+                                                             [(CartesianType)i];
                }
             }
          }
@@ -3214,10 +3213,10 @@ void Mndo::CalcForceExcitedStaticPart(double* force,
                                   *this->etaMatrixForce[elecStateIndex][nu][sigma];
                   force[i] += temp
                              *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                               [nu-firstAOIndexA]
-                                                               [lambda-firstAOIndexB]
-                                                               [sigma-firstAOIndexB]
-                                                               [i];
+                                                             [nu-firstAOIndexA]
+                                                             [lambda-firstAOIndexB]
+                                                             [sigma-firstAOIndexB]
+                                                             [i];
                }
             }
          }
@@ -3238,13 +3237,12 @@ void Mndo::CalcForceExcitedElecCoreAttractionPart(double* force,
          for(int i=0; i<CartesianType_end; i++){
             force[i] += -1.0
                        *this->zMatrixForce[elecStateIndex][mu][nu]
-                       *this->GetElectronCoreAttraction1stDerivative(
-                                   indexAtomA, 
-                                   indexAtomB, 
-                                   mu-firstAOIndexA, 
-                                   nu-firstAOIndexA,
-                                   diatomicTwoElecTwoCore1stDerivs,
-                                   (CartesianType)i);
+                       *this->GetElectronCoreAttraction1stDerivative(indexAtomA, 
+                                                                     indexAtomB, 
+                                                                     mu-firstAOIndexA, 
+                                                                     nu-firstAOIndexA,
+                                                                     diatomicTwoElecTwoCore1stDerivs,
+                                                                     (CartesianType)i);
          }
       }
    }
@@ -3299,18 +3297,18 @@ void Mndo::CalcForceExcitedTwoElecPart(double* force,
                   force[i] -= this->zMatrixForce[elecStateIndex][mu][nu]
                              *this->orbitalElectronPopulation[lambda][sigma]
                              *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                               [nu-firstAOIndexA]
-                                                               [lambda-firstAOIndexB]
-                                                               [sigma-firstAOIndexB]
-                                                               [i];
+                                                             [nu-firstAOIndexA]
+                                                             [lambda-firstAOIndexB]
+                                                             [sigma-firstAOIndexB]
+                                                             [i];
                   force[i] += 0.50
                              *this->zMatrixForce[elecStateIndex][mu][lambda]
                              *this->orbitalElectronPopulation[nu][sigma]
                              *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                               [nu-firstAOIndexA]
-                                                               [lambda-firstAOIndexB]
-                                                               [sigma-firstAOIndexB]
-                                                               [(CartesianType)i];
+                                                             [nu-firstAOIndexA]
+                                                             [lambda-firstAOIndexB]
+                                                             [sigma-firstAOIndexB]
+                                                             [(CartesianType)i];
                }
             }
          }
@@ -3347,9 +3345,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                   // calc. first derivative of overlap.
                   this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs, atomA, atomB);
                   // calc. first derivative of two elec two core interaction
-                  this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, 
-                                                                   a, 
-                                                                   b);
+                  this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, a, b);
 
                   // core repulsion part
                   double coreRepulsion[CartesianType_end] = {0.0,0.0,0.0};
@@ -3364,21 +3360,21 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                   // electron core attraction part (ground state)
                   double forceElecCoreAttPart[CartesianType_end] = {0.0,0.0,0.0};
                   this->CalcForceSCFElecCoreAttractionPart(forceElecCoreAttPart,
-                                                          a,
-                                                          b,
-                                                          diatomicTwoElecTwoCore1stDerivs);
+                                                           a,
+                                                           b,
+                                                           diatomicTwoElecTwoCore1stDerivs);
                   // overlap part (ground state)
                   double forceOverlapPart[CartesianType_end] = {0.0,0.0,0.0};
                   this->CalcForceSCFOverlapPart(forceOverlapPart, 
-                                               a,
-                                               b,
-                                               diatomicOverlap1stDerivs);
+                                                a,
+                                                b,
+                                                diatomicOverlap1stDerivs);
                   // two electron part (ground state)
                   double forceTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
                   this->CalcForceSCFTwoElecPart(forceTwoElecPart,
-                                               a,
-                                               b,
-                                               diatomicTwoElecTwoCore1stDerivs);
+                                                a,
+                                                b,
+                                                diatomicTwoElecTwoCore1stDerivs);
                   // sum up contributions from each part (ground state)
 #pragma omp critical
                   {
@@ -3638,8 +3634,8 @@ void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, int indexAtomA, int ind
 // Note taht d-orbital cannot be treated, 
 // that is, matrix[dxy][dxy][dxy][dxy][CartesianType_end] cannot be treatable.
 void Mndo::CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix, 
-                                                      int indexAtomA, 
-                                                      int indexAtomB) const{
+                                                    int indexAtomA, 
+                                                    int indexAtomB) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    if(indexAtomA == indexAtomB){
@@ -3706,19 +3702,19 @@ void Mndo::CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix,
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
       this->CalcRotatingMatrix1stDerivatives(rotMat1stDerivatives, atomA, atomB);
       this->RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFramegc(matrix, 
-                                                                       diatomicTwoElecTwoCore,
-                                                                       rotatingMatrix,
-                                                                       rotMat1stDerivatives);
+                                                                     diatomicTwoElecTwoCore,
+                                                                     rotatingMatrix,
+                                                                     rotMat1stDerivatives);
    }
    catch(MolDSException ex){
       this->FreeDiatomicTwoElecTwoCore1stDeriTemps(&rotatingMatrix,
-                                                     &rotMat1stDerivatives,
-                                                     &diatomicTwoElecTwoCore);
+                                                   &rotMat1stDerivatives,
+                                                   &diatomicTwoElecTwoCore);
       throw ex;
    }
    this->FreeDiatomicTwoElecTwoCore1stDeriTemps(&rotatingMatrix,
-                                                  &rotMat1stDerivatives,
-                                                  &diatomicTwoElecTwoCore);
+                                                &rotMat1stDerivatives,
+                                                &diatomicTwoElecTwoCore);
 }
 
 // Calculation of second derivatives of the two electrons two cores integral in space fixed frame,
@@ -3766,10 +3762,10 @@ void Mndo::CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix,
    double***** diatomicTwoElecTwoCore1stDerivatives = NULL;
    try{
       this->MallocDiatomicTwoElecTwoCore2ndDeriTemps(&rotatingMatrix,
-                                                        &rotMat1stDerivatives,
-                                                        &rotMat2ndDerivatives,
-                                                        &diatomicTwoElecTwoCore,
-                                                        &diatomicTwoElecTwoCore1stDerivatives);
+                                                     &rotMat1stDerivatives,
+                                                     &rotMat2ndDerivatives,
+                                                     &diatomicTwoElecTwoCore,
+                                                     &diatomicTwoElecTwoCore1stDerivatives);
       // calclation in diatomic frame
       for(int mu=0; mu<atomA.GetValenceSize(); mu++){
          for(int nu=0; nu<atomA.GetValenceSize(); nu++){
@@ -3816,25 +3812,25 @@ void Mndo::CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix,
       this->CalcRotatingMatrix1stDerivatives(rotMat1stDerivatives, atomA, atomB);
       this->CalcRotatingMatrix2ndDerivatives(rotMat2ndDerivatives, atomA, atomB);
       this->RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(matrix, 
-                                                                        diatomicTwoElecTwoCore,
-                                                                        diatomicTwoElecTwoCore1stDerivatives,
-                                                                        rotatingMatrix,
-                                                                        rotMat1stDerivatives,
-                                                                        rotMat2ndDerivatives);
+                                                                     diatomicTwoElecTwoCore,
+                                                                     diatomicTwoElecTwoCore1stDerivatives,
+                                                                     rotatingMatrix,
+                                                                     rotMat1stDerivatives,
+                                                                     rotMat2ndDerivatives);
    }
    catch(MolDSException ex){
       this->FreeDiatomicTwoElecTwoCore2ndDeriTemps(&rotatingMatrix,
-                                                      &rotMat1stDerivatives,
-                                                      &rotMat2ndDerivatives,
-                                                      &diatomicTwoElecTwoCore,
-                                                      &diatomicTwoElecTwoCore1stDerivatives);
-      throw ex;
-   }
-   this->FreeDiatomicTwoElecTwoCore2ndDeriTemps(&rotatingMatrix,
                                                    &rotMat1stDerivatives,
                                                    &rotMat2ndDerivatives,
                                                    &diatomicTwoElecTwoCore,
                                                    &diatomicTwoElecTwoCore1stDerivatives);
+      throw ex;
+   }
+   this->FreeDiatomicTwoElecTwoCore2ndDeriTemps(&rotatingMatrix,
+                                                &rotMat1stDerivatives,
+                                                &rotMat2ndDerivatives,
+                                                &diatomicTwoElecTwoCore,
+                                                &diatomicTwoElecTwoCore1stDerivatives);
 }
 
 void Mndo::MallocDiatomicTwoElecTwoCore1stDeriTemps(double*** rotatingMatrix,
@@ -3850,13 +3846,13 @@ void Mndo::MallocDiatomicTwoElecTwoCore1stDeriTemps(double*** rotatingMatrix,
 }
 
 void Mndo::MallocDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
-                                                       double**** rotMat1stDerivatives,
-                                                       double***** rotMat2ndDerivatives,
-                                                       double***** diatomicTwoElecTwoCore,
-                                                       double****** diatomicTwoElecTwoCore1stDerivatives) const{
+                                                    double**** rotMat1stDerivatives,
+                                                    double***** rotMat2ndDerivatives,
+                                                    double***** diatomicTwoElecTwoCore,
+                                                    double****** diatomicTwoElecTwoCore1stDerivatives) const{
    this->MallocDiatomicTwoElecTwoCore1stDeriTemps(rotatingMatrix,
-                                                    rotMat1stDerivatives,
-                                                    diatomicTwoElecTwoCore);
+                                                  rotMat1stDerivatives,
+                                                  diatomicTwoElecTwoCore);
    MallocerFreer::GetInstance()->Malloc<double>(rotMat2ndDerivatives, 
                                                 OrbitalType_end, 
                                                 OrbitalType_end, 
@@ -3871,8 +3867,8 @@ void Mndo::MallocDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
 }
 
 void Mndo::FreeDiatomicTwoElecTwoCore1stDeriTemps(double*** rotatingMatrix,
-                                                    double**** rotMat1stDerivatives,
-                                                    double***** diatomicTwoElecTwoCore) const{
+                                                  double**** rotMat1stDerivatives,
+                                                  double***** diatomicTwoElecTwoCore) const{
    MallocerFreer::GetInstance()->Free<double>(rotatingMatrix,
                                               OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(rotMat1stDerivatives, 
@@ -3883,13 +3879,13 @@ void Mndo::FreeDiatomicTwoElecTwoCore1stDeriTemps(double*** rotatingMatrix,
 }
 
 void Mndo::FreeDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
-                                                     double**** rotMat1stDerivatives,
-                                                     double***** rotMat2ndDerivatives,
-                                                     double***** diatomicTwoElecTwoCore,
-                                                     double****** diatomicTwoElecTwoCore1stDerivatives) const{
+                                                  double**** rotMat1stDerivatives,
+                                                  double***** rotMat2ndDerivatives,
+                                                  double***** diatomicTwoElecTwoCore,
+                                                  double****** diatomicTwoElecTwoCore1stDerivatives) const{
    this->FreeDiatomicTwoElecTwoCore1stDeriTemps(rotatingMatrix,
-                                                  rotMat1stDerivatives,
-                                                  diatomicTwoElecTwoCore);
+                                                rotMat1stDerivatives,
+                                                diatomicTwoElecTwoCore);
    MallocerFreer::GetInstance()->Free<double>(rotMat2ndDerivatives, 
                                               OrbitalType_end, 
                                               OrbitalType_end, 
@@ -4153,70 +4149,70 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
                                  MallocerFreer::GetInstance()->Initialize<double>(tempIJK, numberTerms);
                                  for(int l=s; l<dxy; l++){
                                     
-                                    tempIJK[0]  += oldMatrix             [i][j][k][l][dimA1][dimA2]*rotatingMatrix         [sigma][l];
-                                    tempIJK[1]  += diatomicTwoElecTwoCore[i][j][k][l]              *rotatingMatrix         [sigma][l];
+                                    tempIJK[0]  += oldMatrix             [i][j][k][l][dimA1][dimA2]*rotatingMatrix      [sigma][l];
+                                    tempIJK[1]  += diatomicTwoElecTwoCore[i][j][k][l]              *rotatingMatrix      [sigma][l];
                                     tempIJK[4]  += diatomicTwoElecTwoCore[i][j][k][l]              *rotMat2ndDerivatives[sigma][l][dimA1][dimA2];
 
-                                    tempIJK[5]  += diatomicTwoElecTwoCore1stDerivatives[i][j][k][l][dimA1]*rotatingMatrix        [sigma][l];
+                                    tempIJK[5]  += diatomicTwoElecTwoCore1stDerivatives[i][j][k][l][dimA1]*rotatingMatrix      [sigma][l];
                                     tempIJK[8]  += diatomicTwoElecTwoCore1stDerivatives[i][j][k][l][dimA1]*rotMat1stDerivatives[sigma][l][dimA2];
 
-                                    tempIJK[9]  += diatomicTwoElecTwoCore1stDerivatives[i][j][k][l][dimA2]*rotatingMatrix        [sigma][l];
-                                    tempIJK[12] += diatomicTwoElecTwoCore                [i][j][k][l]       *rotMat1stDerivatives[sigma][l][dimA2];
+                                    tempIJK[9]  += diatomicTwoElecTwoCore1stDerivatives[i][j][k][l][dimA2]*rotatingMatrix      [sigma][l];
+                                    tempIJK[12] += diatomicTwoElecTwoCore              [i][j][k][l]       *rotMat1stDerivatives[sigma][l][dimA2];
 
                                     tempIJK[21] += diatomicTwoElecTwoCore1stDerivatives[i][j][k][l][dimA2]*rotMat1stDerivatives[sigma][l][dimA1];
-                                    tempIJK[22] += diatomicTwoElecTwoCore                [i][j][k][l]       *rotMat1stDerivatives[sigma][l][dimA1];
+                                    tempIJK[22] += diatomicTwoElecTwoCore              [i][j][k][l]       *rotMat1stDerivatives[sigma][l][dimA1];
                                  }
-                                 tempIJ[0]  += tempIJK[0] *rotatingMatrix         [lambda][k];
-                                 tempIJ[1]  += tempIJK[1] *rotatingMatrix         [lambda][k];
+                                 tempIJ[0]  += tempIJK[0] *rotatingMatrix      [lambda][k];
+                                 tempIJ[1]  += tempIJK[1] *rotatingMatrix      [lambda][k];
                                  tempIJ[3]  += tempIJK[1] *rotMat2ndDerivatives[lambda][k][dimA1][dimA2];
-                                 tempIJ[4]  += tempIJK[4] *rotatingMatrix         [lambda][k];
+                                 tempIJ[4]  += tempIJK[4] *rotatingMatrix      [lambda][k];
                                            
-                                 tempIJ[5]  += tempIJK[5] *rotatingMatrix        [lambda][k];
+                                 tempIJ[5]  += tempIJK[5] *rotatingMatrix      [lambda][k];
                                  tempIJ[7]  += tempIJK[5] *rotMat1stDerivatives[lambda][k][dimA2];
-                                 tempIJ[8]  += tempIJK[8] *rotatingMatrix        [lambda][k];
+                                 tempIJ[8]  += tempIJK[8] *rotatingMatrix      [lambda][k];
 
-                                 tempIJ[9]  += tempIJK[9] *rotatingMatrix        [lambda][k];
+                                 tempIJ[9]  += tempIJK[9] *rotatingMatrix      [lambda][k];
                                  tempIJ[11] += tempIJK[1] *rotMat1stDerivatives[lambda][k][dimA2];
-                                 tempIJ[12] += tempIJK[12]*rotatingMatrix        [lambda][k];
+                                 tempIJ[12] += tempIJK[12]*rotatingMatrix      [lambda][k];
 
                                  tempIJ[17] += tempIJK[9] *rotMat1stDerivatives[lambda][k][dimA1];
                                  tempIJ[18] += tempIJK[1 ]*rotMat1stDerivatives[lambda][k][dimA1];
                                  tempIJ[20] += tempIJK[12]*rotMat1stDerivatives[lambda][k][dimA1];
 
-                                 tempIJ[21] += tempIJK[21]*rotatingMatrix        [lambda][k];
-                                 tempIJ[22] += tempIJK[22]*rotatingMatrix        [lambda][k];
+                                 tempIJ[21] += tempIJK[21]*rotatingMatrix      [lambda][k];
+                                 tempIJ[22] += tempIJK[22]*rotatingMatrix      [lambda][k];
                                  tempIJ[24] += tempIJK[22]*rotMat1stDerivatives[lambda][k][dimA2];
                               }
-                              tempI[0]  += tempIJ[0] *rotatingMatrix         [nu][j];
-                              tempI[1]  += tempIJ[1] *rotatingMatrix         [nu][j];
+                              tempI[0]  += tempIJ[0] *rotatingMatrix      [nu][j];
+                              tempI[1]  += tempIJ[1] *rotatingMatrix      [nu][j];
                               tempI[2]  += tempIJ[1] *rotMat2ndDerivatives[nu][j][dimA1][dimA2];
-                              tempI[3]  += tempIJ[3] *rotatingMatrix         [nu][j];
-                              tempI[4]  += tempIJ[4] *rotatingMatrix         [nu][j];
+                              tempI[3]  += tempIJ[3] *rotatingMatrix      [nu][j];
+                              tempI[4]  += tempIJ[4] *rotatingMatrix      [nu][j];
                                        
-                              tempI[5]  += tempIJ[5] *rotatingMatrix        [nu][j];
+                              tempI[5]  += tempIJ[5] *rotatingMatrix      [nu][j];
                               tempI[6]  += tempIJ[5] *rotMat1stDerivatives[nu][j][dimA2];
-                              tempI[7]  += tempIJ[7] *rotatingMatrix        [nu][j];
-                              tempI[8]  += tempIJ[8] *rotatingMatrix        [nu][j];
+                              tempI[7]  += tempIJ[7] *rotatingMatrix      [nu][j];
+                              tempI[8]  += tempIJ[8] *rotatingMatrix      [nu][j];
                                        
-                              tempI[9]  += tempIJ[9] *rotatingMatrix        [nu][j];
+                              tempI[9]  += tempIJ[9] *rotatingMatrix      [nu][j];
                               tempI[10] += tempIJ[1] *rotMat1stDerivatives[nu][j][dimA2];
-                              tempI[11] += tempIJ[11]*rotatingMatrix        [nu][j];
-                              tempI[12] += tempIJ[12]*rotatingMatrix        [nu][j];
+                              tempI[11] += tempIJ[11]*rotatingMatrix      [nu][j];
+                              tempI[12] += tempIJ[12]*rotatingMatrix      [nu][j];
 
                               tempI[13] += tempIJ[9] *rotMat1stDerivatives[nu][j][dimA1];
                               tempI[14] += tempIJ[1] *rotMat1stDerivatives[nu][j][dimA1];
                               tempI[15] += tempIJ[11]*rotMat1stDerivatives[nu][j][dimA1];
                               tempI[16] += tempIJ[12]*rotMat1stDerivatives[nu][j][dimA1];
 
-                              tempI[17] += tempIJ[17]*rotatingMatrix        [nu][j];
-                              tempI[18] += tempIJ[18]*rotatingMatrix        [nu][j];
+                              tempI[17] += tempIJ[17]*rotatingMatrix      [nu][j];
+                              tempI[18] += tempIJ[18]*rotatingMatrix      [nu][j];
                               tempI[19] += tempIJ[18]*rotMat1stDerivatives[nu][j][dimA2];
-                              tempI[20] += tempIJ[20]*rotatingMatrix        [nu][j];
+                              tempI[20] += tempIJ[20]*rotatingMatrix      [nu][j];
 
-                              tempI[21] += tempIJ[21]*rotatingMatrix        [nu][j];
-                              tempI[22] += tempIJ[22]*rotatingMatrix        [nu][j];
+                              tempI[21] += tempIJ[21]*rotatingMatrix      [nu][j];
+                              tempI[22] += tempIJ[22]*rotatingMatrix      [nu][j];
                               tempI[23] += tempIJ[22]*rotMat1stDerivatives[nu][j][dimA2];
-                              tempI[24] += tempIJ[24]*rotatingMatrix        [nu][j];
+                              tempI[24] += tempIJ[24]*rotatingMatrix      [nu][j];
                            }
                            value += (tempI[0] + tempI[2] + tempI[3] + tempI[4] + 
                                      tempI[6] + tempI[7] + tempI[8] + tempI[13] + 
@@ -5231,49 +5227,49 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       value = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                      deriv2nd,
-                                                                      axisA1,
-                                                                      axisA2,
-                                                                      cartesian,
-                                                                      Rab);
+                                                                   deriv2nd,
+                                                                   axisA1,
+                                                                   axisA2,
+                                                                   cartesian,
+                                                                   Rab);
    }
    // (29) in [DT_1977]
    else if(mu == s && nu == s && lambda == px && sigma == px){
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qxx, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qxx, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    else if(mu == s && nu == s && lambda == py && sigma == py){
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qyy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qyy, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    // (30) in [DT_1977]
@@ -5281,19 +5277,19 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qzz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qzz, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    // (31) in [DT_1977]
@@ -5301,38 +5297,38 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxx, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, sQ, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    else if(mu == py && nu == py && lambda == s && sigma == s){
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyy, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyy, sQ, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    // (32) in [DT_1977]
@@ -5340,19 +5336,19 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qzz, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qzz, sQ, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    // (33) in [DT_1977]
@@ -5360,76 +5356,76 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qxx, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qxx, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxx, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxx, Qxx, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, Qxx, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2 + temp3 + temp4;
    }
    else if(mu == py && nu == py && lambda == py && sigma == py){
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qyy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qyy, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyy, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyy, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyy, Qyy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyy, Qyy, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       value = temp1 + temp2 + temp3 + temp4;
    }
@@ -5438,76 +5434,76 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qyy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qyy, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxx, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxx, Qyy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, Qyy, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2 + temp3 + temp4;
    }
    else if(mu == py && nu == py && lambda == px && sigma == px){
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qxx, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qxx, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyy, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyy, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyy, Qxx, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyy, Qxx, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       value = temp1 + temp2 + temp3 + temp4;
    }
@@ -5516,38 +5512,38 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qzz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qzz, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxx, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxx, Qzz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, Qzz, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       value = temp1 + temp2 + temp3 + temp4;
    }
@@ -5555,38 +5551,38 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qzz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qzz, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyy, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyy, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyy, Qzz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyy, Qzz, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       value = temp1 + temp2 + temp3 + temp4;
    }
@@ -5595,38 +5591,38 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qxx, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qxx, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qzz, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qzz, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qzz, Qxx, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qzz, Qxx, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       value = temp1 + temp2 + temp3 + temp4;
    }
@@ -5634,38 +5630,38 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, Qyy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qyy, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qzz, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qzz, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qzz, Qyy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qzz, Qyy, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       value = temp1 + temp2 + temp3 + temp4;
    }
@@ -5674,40 +5670,40 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, 
                                            sQ, Qzz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, Qzz, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, 
                                            Qzz, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qzz, sQ, Rab);
       double temp3 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qzz, Qzz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qzz, Qzz, Rab);
       double temp4 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       value = temp1 + temp2 + temp3 + temp4;
    }
@@ -5716,11 +5712,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muz, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muz, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == pz && nu == s && lambda == s && sigma == s){
@@ -5732,20 +5728,20 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muz, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muz, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muz, Qxx, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muz, Qxx, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    else if(mu == pz && nu == s && lambda == px && sigma == px){
@@ -5756,20 +5752,20 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muz, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muz, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muz, Qyy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muz, Qyy, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    else if(mu == pz && nu == s && lambda == py && sigma == py){
@@ -5781,20 +5777,20 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muz, sQ, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muz, sQ, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muz, Qzz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muz, Qzz, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    else if(mu == pz && nu == s && lambda == pz && sigma == pz){
@@ -5806,11 +5802,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, muz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, muz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == s && nu == s && lambda == pz && sigma == s){
@@ -5822,20 +5818,20 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, muz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, muz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxx, muz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, muz, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    else if(mu == px && nu == px && lambda == pz && sigma == s){
@@ -5846,20 +5842,20 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, muz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, muz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyy, muz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyy, muz, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    else if(mu == py && nu == py && lambda == pz && sigma == s){
@@ -5871,20 +5867,20 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, muz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, sQ, muz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
 
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qzz, muz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qzz, muz, Rab);
       double temp2 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1 + temp2;
    }
    else if(mu == pz && nu == pz && lambda == pz && sigma == s){
@@ -5896,11 +5892,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, mux, mux, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, mux, mux, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == px && nu == s && lambda == s && sigma == px){
@@ -5919,11 +5915,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muy, muy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muy, muy, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == py && nu == s && lambda == s && sigma == py){
@@ -5943,11 +5939,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muz, muz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muz, muz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                           Rab);
       value = temp1;
    }
    else if(mu == pz && nu == s && lambda == s && sigma == pz){
@@ -5967,11 +5963,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, mux, Qxz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, mux, Qxz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == px && nu == s && lambda == px && sigma == pz){
@@ -5990,11 +5986,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, muy, Qyz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, muy, Qyz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == py && nu == s && lambda == py && sigma == pz){
@@ -6014,11 +6010,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxz, mux, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxz, mux, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == pz && nu == px && lambda == s && sigma == px){
@@ -6037,11 +6033,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyz, muy, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyz, muy, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == pz && nu == py && lambda == s && sigma == py){
@@ -6061,11 +6057,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qxz, Qxz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxz, Qxz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == pz && nu == px && lambda == px && sigma == pz){
@@ -6084,11 +6080,11 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, Qyz, Qyz, Rab);
       deriv2nd = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qyz, Qyz, Rab);
       double temp1 = this->Get2ndDerivativeElementFromDistanceDerivatives(deriv1st,
-                                                                             deriv2nd,
-                                                                             axisA1,
-                                                                             axisA2,
-                                                                             cartesian,
-                                                                             Rab);
+                                                                          deriv2nd,
+                                                                          axisA1,
+                                                                          axisA2,
+                                                                          cartesian,
+                                                                          Rab);
       value = temp1;
    }
    else if(mu == pz && nu == py && lambda == py && sigma == pz){
@@ -6380,10 +6376,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
 // This derivativ is related to the nuclear distance Rab.
 // See Apendix in [DT_1977]
 double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA,
-                                                                 const Atom& atomB,
-                                                                 MultipoleType multipoleA,
-                                                                 MultipoleType multipoleB,
-                                                                 double Rab) const{
+                                                               const Atom& atomB,
+                                                               MultipoleType multipoleA,
+                                                               MultipoleType multipoleB,
+                                                               double Rab) const{
    double value = 0.0;
    double DA = atomA.GetNddoDerivedParameterD(this->theory, multipoleA);
    double DB = atomB.GetNddoDerivedParameterD(this->theory, multipoleB);
