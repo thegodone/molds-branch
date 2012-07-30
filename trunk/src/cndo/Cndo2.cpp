@@ -309,7 +309,8 @@ double Cndo2::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const
    return atomA.GetCoreCharge()*atomB.GetCoreCharge()/distance; 
 }
 
-// First derivative of the core repulsion related to the coordinate of atom A.
+// First derivative of diatomic core repulsion energy.
+// This derivative is related to the coordinate of atomA.
 double Cndo2::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA, int indexAtomB, 
                                                     CartesianType axisA) const{
    double value=0.0;
