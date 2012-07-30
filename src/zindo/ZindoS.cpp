@@ -99,6 +99,8 @@ void ZindoS::SetMessages(){
    this->errorMessageNishimotoMataga = "Error in zindo::ZindoS::GetNishimotoMatagaTwoEleInt: Invalid orbitalType.\n";
    this->errorMessageMolecularIntegralElement
       = "Error in zindo::ZindoS::GetMolecularIntegralElement: Non available orbital is contained.\n";
+   this->errorMessageGetDiatomCoreRepulsionSecondDerivativeNotImplemented
+      = "Error in indo::ZindoS::GetDiatomCoreRepulsionSecondDerivative: Second derivative is not implemented for ZINDO/S.\n";
    this->errorMessageCalcCISMatrix
       = "Error in zindo::ZindoS::CalcCISMatrix: Non available orbital is contained.\n";
    this->errorMessageDavidsonNotConverged =  "Error in zindo::ZindoS::DoCISDavidson: Davidson did not met convergence criterion. \n";

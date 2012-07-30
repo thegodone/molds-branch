@@ -136,6 +136,8 @@ void Cndo2::SetMessages(){
    this->errorMessageCartesianType = "\tcartesian type = ";
    this->errorMessageMolecularIntegralElement
       = "Error in cndo::Cndo2::GetMolecularIntegralElement: Non available orbital is contained.\n";
+   this->errorMessageGetDiatomCoreRepulsionSecondDerivativeNotImplemented
+      = "Error in cndo::Cndo2::GetDiatomCoreRepulsionSecondDerivative: Second derivative is not implemented for CNDO2.\n";
    this->errorMessageGetGaussianCartesianMatrixBadOrbital 
       = "Error in cndo::Cndo2::GetGaussianCartesianMatrix: Untreatable orbital is contained in atom A or B.\n";
    this->errorMessageGetGaussianOverlapBadOrbital 
@@ -318,6 +320,17 @@ double Cndo2::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA, int indexAto
    value *= (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/distance;
    value *= -1.0/pow(distance,2.0);
    return value;
+}
+
+// Second derivative of diatomic core repulsion energy.
+// Both derivatives are related to the coordinate of atomA.
+double Cndo2::GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
+                                                     int indexAtomB, 
+                                                     CartesianType axisA1,
+                                                     CartesianType axisA2) const{
+   stringstream ss;
+   ss << this->errorMessageGetDiatomCoreRepulsionSecondDerivativeNotImplemented;
+   throw MolDSException(ss.str());
 }
 
 // See (2) in [G_2004] ((11) in [G_2006])
