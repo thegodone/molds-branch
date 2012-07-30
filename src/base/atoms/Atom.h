@@ -85,9 +85,9 @@ public:
    double GetZindoIonPot(MolDS_base::OrbitalType orbital) const;
    double GetNddoAlpha(MolDS_base::TheoryType theory) const; // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S for MNDO. Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
    double GetNddoDerivedParameterD(MolDS_base::TheoryType theory, 
-                                   int dIndex) const;    // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. Or, calculated in tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
+                                   MolDS_base::MultipoleType multipole) const;    // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. Or, calculated in tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
    double GetNddoDerivedParameterRho(MolDS_base::TheoryType theory, 
-                                     int rhoIndex) const;  // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. Or, calculated in tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
+                                     MolDS_base::MultipoleType multipole) const;  // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. Or, calculated in tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
    double GetMndoElecEnergyAtom() const;        // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
    double GetMndoHeatsFormAtom() const;         // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
    double GetNddoGss(MolDS_base::TheoryType theory) const;
@@ -247,9 +247,9 @@ private:
    std::string errorMessageGetBondingParameterBadTheoryBadOrbital;
    std::string errorMessageGetNddoAlphaBadTheory;
    std::string errorMessageGetNddoDerivedParameterDBadTheory;
-   std::string errorMessageGetNddoDerivedParameterDBadDIndex;
-   std::string errorMessageDIndex;
-   std::string errorMessageGetNddoDerivedParameterRhoBadRhoIndex;
+   std::string errorMessageGetNddoDerivedParameterDBadMultipoleType;
+   std::string errorMessageMultipoleType;
+   std::string errorMessageGetNddoDerivedParameterRhoBadMultipoleType;
    std::string errorMessageGetNddoDerivedParameterRhoBadTheory;
    std::string errorMessageRhoIndex;
    std::string errorMessageGetNddoParameterKBadKIndex;

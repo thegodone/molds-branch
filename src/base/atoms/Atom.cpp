@@ -85,16 +85,15 @@ void Atom::SetMessages(){
    this->errorMessageZindoCoreIntegral = "Error in base_atoms::Atom::GetZindoCoreINtegral: Invalid orbitalType.\n";
    this->errorMessageGetOrbitalExponentBadTheory = "Erro in base_atoms::Atom::GetOrbitalExponent: Bad theory is set.\n";
    this->errorMessageGetBondingParameterBadTheoryBadOrbital = "Error in base_atoms::Atom::GetBondingParameter: Bad Theory of bad orbital is set.\n";
-   this->errorMessageGetNddoDerivedParameterDBadDIndex 
-      = "Error in base_atoms::Atom::GetNddoDerivedParameterD: Bad index for parameter D(dIndex). Only 0, 1, and 2 are permitted.\n";
+   this->errorMessageGetNddoDerivedParameterDBadMultipoleType 
+      = "Error in base_atoms::Atom::GetNddoDerivedParameterD: Bad multipole tyep for NDDO derived parameter D is set.\n";
    this->errorMessageGetNddoDerivedParameterDBadTheory
       = "Error in base_atoms::Atom::GetNddoDerivedParameterD: Bad theory is set.\n";
    this->errorMessageGetNddoAlphaBadTheory
       = "Error in base_atoms::Atom::GetNddoAlpha: Bad theory is set.\n";
-   this->errorMessageDIndex  = "dIndex = ";
-   this->errorMessageGetNddoDerivedParameterRhoBadRhoIndex 
-      = "Error in base_atoms::Atom::GetNddoDerivedParameterRho: Bad index for parameter rho(rhoIndex). Only 0, 1, and 2 are permitted.\n";
-   this->errorMessageRhoIndex = "rhoIndex = ";
+   this->errorMessageMultipoleType  = "MultipoleType = ";
+   this->errorMessageGetNddoDerivedParameterRhoBadMultipoleType 
+      = "Error in base_atoms::Atom::GetNddoDerivedParameterRho: Bad multipole type for parameter rho is set.\n";
    this->errorMessageGetNddoDerivedParameterRhoBadTheory 
       = "Error in base_atoms::Atom::GetNddoDerivedParameterRho: Bad thory is set.\n";
    this->errorMessageGetNddoParameterKBadKIndex 
@@ -800,61 +799,101 @@ double Atom::GetNddoAlpha(TheoryType theory) const{
    return value;
 }
 
-double Atom::GetNddoDerivedParameterD(TheoryType theory, int dIndex) const{
-   if(dIndex == 0 || dIndex == 1 || dIndex == 2){
-      if(theory == MNDO){
+double Atom::GetNddoDerivedParameterD(TheoryType theory, MultipoleType multipole) const{
+   int dIndex=0;
+   switch(multipole){
+      case sQ:
+         dIndex = 0;
+         break;
+      case mux:
+      case muy:
+      case muz:
+         dIndex = 1;
+         break;
+      case Qxx:
+      case Qyy:
+      case Qzz:
+      case Qxz:
+      case Qyz:
+      case Qxy:
+         dIndex = 2;
+         break;
+      default:
+         stringstream ss;
+         ss << this->errorMessageGetNddoDerivedParameterDBadMultipoleType;
+         ss << this->errorMessageMultipoleType << MultipoleTypeStr(multipole) << endl;
+         throw MolDSException(ss.str());
+   }
+
+   switch(theory){
+      case MNDO:
          return this->mndoDerivedParameterD[dIndex];
-      }
-      else if(theory == AM1 || theory == AM1D){
+         break;
+      case AM1:
+      case AM1D:
          return this->am1DerivedParameterD[dIndex];
-      }
-      else if(theory == PM3 || theory == PM3D){
+         break;
+      case PM3:
+      case PM3D:
          return this->pm3DerivedParameterD[dIndex];
-      }
-      else if(theory == PM3PDDG){
+         break;
+      case PM3PDDG:
          return this->pm3PddgDerivedParameterD[dIndex];
-      }
-      else{
+         break;
+      default:
          stringstream ss;
          ss << this->errorMessageGetNddoDerivedParameterDBadTheory;
          ss << this->errorMessageTheoryType << TheoryTypeStr(theory) << "\n";
          throw MolDSException(ss.str());
-      }
-   }
-   else{
-      stringstream ss;
-      ss << this->errorMessageGetNddoDerivedParameterDBadDIndex;
-      ss << this->errorMessageDIndex << dIndex << endl;
-      throw MolDSException(ss.str());
    }
 }
 
-double Atom::GetNddoDerivedParameterRho(TheoryType theory, int rhoIndex) const{
-   if(rhoIndex == 0 || rhoIndex == 1 || rhoIndex == 2){
-      if(theory == MNDO){
-         return this->mndoDerivedParameterRho[rhoIndex];
-      }
-      else if(theory == AM1 || theory == AM1D){
-         return this->am1DerivedParameterRho[rhoIndex];
-      }
-      else if(theory == PM3 || theory == PM3D){
-         return this->pm3DerivedParameterRho[rhoIndex];
-      }
-      else if(theory == PM3PDDG){
-         return this->pm3PddgDerivedParameterRho[rhoIndex];
-      }
-      else{
+double Atom::GetNddoDerivedParameterRho(TheoryType theory, MultipoleType multipole) const{
+   int rhoIndex=0;
+   switch(multipole){
+      case sQ:
+         rhoIndex = 0;
+         break;
+      case mux:
+      case muy:
+      case muz:
+         rhoIndex = 1;
+         break;
+      case Qxx:
+      case Qyy:
+      case Qzz:
+      case Qxz:
+      case Qyz:
+      case Qxy:
+         rhoIndex = 2;
+         break;
+      default:
          stringstream ss;
-         ss << this->errorMessageGetNddoDerivedParameterDBadTheory;
+         ss << this->errorMessageGetNddoDerivedParameterRhoBadMultipoleType;
+         ss << this->errorMessageMultipoleType << MultipoleTypeStr(multipole) << endl;
+         throw MolDSException(ss.str());
+   }
+
+   switch(theory){
+      case MNDO:
+         return this->mndoDerivedParameterRho[rhoIndex];
+         break;
+      case AM1:
+      case AM1D:
+         return this->am1DerivedParameterRho[rhoIndex];
+         break;
+      case PM3:
+      case PM3D:
+         return this->pm3DerivedParameterRho[rhoIndex];
+         break;
+      case PM3PDDG:
+         return this->pm3PddgDerivedParameterRho[rhoIndex];
+         break;
+      default:
+         stringstream ss;
+         ss << this->errorMessageGetNddoDerivedParameterRhoBadTheory;
          ss << this->errorMessageTheoryType << TheoryTypeStr(theory) << "\n";
          throw MolDSException(ss.str());
-      }
-   }
-   else{
-      stringstream ss;
-      ss << this->errorMessageGetNddoDerivedParameterRhoBadRhoIndex;
-      ss << this->errorMessageRhoIndex << rhoIndex << endl;
-      throw MolDSException(ss.str());
    }
 }
 
