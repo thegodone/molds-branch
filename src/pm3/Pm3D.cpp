@@ -80,30 +80,30 @@ void Pm3D::SetMessages(){
    this->errorMessageDavidsonNotConverged =  "Error in pm3::Pm3D::DoCISDavidson: Davidson did not met convergence criterion. \n";
    this->errorMessageGetSemiEmpiricalMultipoleInteractionBadMultipoles
       = "Error in pm3::Pm3D::GetSemiEmpiricalMultipoleInteraction: Bad multipole combintaion is set\n";
-   this->errorMessageGetSemiEmpiricalMultipoleInteractionFirstDeriBadMultipoles
-      = "Error in pm3::Pm3D::GetSemiEmpiricalMultipoleInteractionFirstDerivative: Bad multipole combintaion is set\n";
-   this->errorMessageGetSemiEmpiricalMultipoleInteractionSecondDeriBadMultipoles
-      = "Error in pm3::Pm3D::GetSemiEmpiricalMultipoleInteractionSecondDerivative: Bad multipole combintaion is set\n";
+   this->errorMessageGetSemiEmpiricalMultipoleInteraction1stDeriBadMultipoles
+      = "Error in pm3::Pm3D::GetSemiEmpiricalMultipoleInteraction1stDerivative: Bad multipole combintaion is set\n";
+   this->errorMessageGetSemiEmpiricalMultipoleInteraction2ndDeriBadMultipoles
+      = "Error in pm3::Pm3D::GetSemiEmpiricalMultipoleInteraction2ndDerivative: Bad multipole combintaion is set\n";
    this->errorMessageGetNddoRepulsionIntegral 
       = "Error in pm3::Pm3D::GetNddoRepulsionIntegral: Bad orbital is set.\n";
-   this->errorMessageGetNddoRepulsionIntegralFirstDerivative 
-      = "Error in pm3::Pm3D::GetNddoRepulsionIntegralFirstDerivative: Bad orbital is set.\n";
-   this->errorMessageGetNddoRepulsionIntegralSecondDerivative 
-      = "Error in pm3::Pm3D::GetNddoRepulsionIntegralSecondDerivative: Bad orbital is set.\n";
+   this->errorMessageGetNddoRepulsionIntegral1stDerivative 
+      = "Error in pm3::Pm3D::GetNddoRepulsionIntegral1stDerivative: Bad orbital is set.\n";
+   this->errorMessageGetNddoRepulsionIntegral2ndDerivative 
+      = "Error in pm3::Pm3D::GetNddoRepulsionIntegral2ndDerivative: Bad orbital is set.\n";
    this->errorMessageCalcTwoElecTwoCoreNullMatrix 
       = "Error in pm3::Pm3D::CalcTwoElecTwoCore: The two elec two core matrix is NULL.\n"; 
    this->errorMessageCalcDiatomicTwoElecTwoCoreSameAtoms
       = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCore: Atom A and B is same.\n"; 
-   this->errorMessageCalcDiatomicTwoElecTwoCoreFirstDerivativesSameAtoms
-      = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCoreFirstDerivatives: Atom A and B is same.\n"; 
-   this->errorMessageCalcDiatomicTwoElecTwoCoreSecondDerivativesSameAtoms
-      = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCoreSecondDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCore1stDerivativesSameAtoms
+      = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCore1stDerivatives: Atom A and B is same.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCore2ndDerivativesSameAtoms
+      = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCore2ndDerivatives: Atom A and B is same.\n"; 
    this->errorMessageCalcDiatomicTwoElecTwoCoreNullMatrix 
       = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCore: The two elec two core diatomic matrix is NULL.\n"; 
-   this->errorMessageCalcDiatomicTwoElecTwoCoreFirstDerivativesNullMatrix
-      = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCoreFirstDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
-   this->errorMessageCalcDiatomicTwoElecTwoCoreSecondDerivativesNullMatrix
-      = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCoreSecondDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCore1stDerivativesNullMatrix
+      = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCore1stDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
+   this->errorMessageCalcDiatomicTwoElecTwoCore2ndDerivativesNullMatrix
+      = "Error in pm3::Pm3D::CalcDiatomicTwoElecTwoCore2ndDerivatives: The two elec two core diatomic matrix is NULL.\n"; 
    this->errorMessageGetElectronicEnergyEnergyNotCalculated
       = "Error in pm3::Pm3D::GetElectronicEnergy: Set electronic state is not calculated by CIS.\n";
    this->errorMessageGetElectronicEnergyNULLCISEnergy 

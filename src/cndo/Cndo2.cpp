@@ -136,8 +136,8 @@ void Cndo2::SetMessages(){
    this->errorMessageCartesianType = "\tcartesian type = ";
    this->errorMessageMolecularIntegralElement
       = "Error in cndo::Cndo2::GetMolecularIntegralElement: Non available orbital is contained.\n";
-   this->errorMessageGetDiatomCoreRepulsionSecondDerivativeNotImplemented
-      = "Error in cndo::Cndo2::GetDiatomCoreRepulsionSecondDerivative: Second derivative is not implemented for CNDO2.\n";
+   this->errorMessageGetDiatomCoreRepulsion2ndDerivativeNotImplemented
+      = "Error in cndo::Cndo2::GetDiatomCoreRepulsion2ndDerivative: Second derivative is not implemented for CNDO2.\n";
    this->errorMessageGetGaussianCartesianMatrixBadOrbital 
       = "Error in cndo::Cndo2::GetGaussianCartesianMatrix: Untreatable orbital is contained in atom A or B.\n";
    this->errorMessageGetGaussianOverlapBadOrbital 
@@ -311,7 +311,7 @@ double Cndo2::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const
 
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
-double Cndo2::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA, int indexAtomB, 
+double Cndo2::GetDiatomCoreRepulsion1stDerivative(int indexAtomA, int indexAtomB, 
                                                     CartesianType axisA) const{
    double value=0.0;
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
@@ -325,12 +325,12 @@ double Cndo2::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA, int indexAto
 
 // Second derivative of diatomic core repulsion energy.
 // Both derivatives are related to the coordinate of atomA.
-double Cndo2::GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
+double Cndo2::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
                                                      int indexAtomB, 
                                                      CartesianType axisA1,
                                                      CartesianType axisA2) const{
    stringstream ss;
-   ss << this->errorMessageGetDiatomCoreRepulsionSecondDerivativeNotImplemented;
+   ss << this->errorMessageGetDiatomCoreRepulsion2ndDerivativeNotImplemented;
    throw MolDSException(ss.str());
 }
 
@@ -352,7 +352,7 @@ double Cndo2::GetVdwDampingValue(double vdWDistance, double distance) const{
 }
 
 // See damping function in (2) in [G_2004] ((11) in [G_2006])
-double Cndo2::GetVdwDampingValueFirstDerivative(double vdWDistance, double distance) const{
+double Cndo2::GetVdwDampingValue1stDerivative(double vdWDistance, double distance) const{
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    return (dampingFactor/vdWDistance)
          *exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0))
@@ -360,7 +360,7 @@ double Cndo2::GetVdwDampingValueFirstDerivative(double vdWDistance, double dista
 }
 
 // See damping function in (2) in [G_2004] ((11) in [G_2006])
-double Cndo2::GetVdwDampingValueSecondDerivative(double vdWDistance, double distance) const{
+double Cndo2::GetVdwDampingValue2ndDerivative(double vdWDistance, double distance) const{
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    double exponent = -1.0*dampingFactor*(distance/vdWDistance - 1.0);
    double pre = dampingFactor/vdWDistance;
@@ -385,7 +385,7 @@ double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const
 
 // First derivative of the vdW correction related to the coordinate of atom A.
 // See (2) in [G_2004] ((11) in [G_2006]).
-double Cndo2::GetDiatomVdWCorrectionFirstDerivative(int indexAtomA, int indexAtomB, 
+double Cndo2::GetDiatomVdWCorrection1stDerivative(int indexAtomA, int indexAtomB, 
                                                     CartesianType axisA) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
@@ -395,9 +395,9 @@ double Cndo2::GetDiatomVdWCorrectionFirstDerivative(int indexAtomA, int indexAto
                            /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    double damping = this->GetVdwDampingValue(vdWDistance, distance);
-   double dampingFirstDerivative = this->GetVdwDampingValueFirstDerivative(vdWDistance, distance);
+   double damping1stDerivative = this->GetVdwDampingValue1stDerivative(vdWDistance, distance);
    double value=0.0;
-   value += 6.0*pow(distance,-7.0)*damping - pow(distance,-6.0)*dampingFirstDerivative;
+   value += 6.0*pow(distance,-7.0)*damping - pow(distance,-6.0)*damping1stDerivative;
    value *= vdWCoefficients;
    value *= Parameters::GetInstance()->GetVdWScalingFactorSCF();
    value *= (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/distance;
@@ -407,7 +407,7 @@ double Cndo2::GetDiatomVdWCorrectionFirstDerivative(int indexAtomA, int indexAto
 // Second derivative of the vdW correction.
 // Both derivative sare related to the coordinate of atom A.
 // See (2) in [G_2004] ((11) in [G_2006]).
-double Cndo2::GetDiatomVdWCorrectionSecondDerivative(int indexAtomA, 
+double Cndo2::GetDiatomVdWCorrection2ndDerivative(int indexAtomA, 
                                                      int indexAtomB, 
                                                      CartesianType axisA1,
                                                      CartesianType axisA2) const{
@@ -422,14 +422,14 @@ double Cndo2::GetDiatomVdWCorrectionSecondDerivative(int indexAtomA,
                            /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    double damping = this->GetVdwDampingValue(vdWDistance, distance);
-   double dampingFirstDerivative = this->GetVdwDampingValueFirstDerivative(vdWDistance, distance);
-   double dampingSecondDerivative = this->GetVdwDampingValueSecondDerivative(vdWDistance, distance);
+   double damping1stDerivative = this->GetVdwDampingValue1stDerivative(vdWDistance, distance);
+   double damping2ndDerivative = this->GetVdwDampingValue2ndDerivative(vdWDistance, distance);
 
    double temp1 = -6.0*pow(distance,-7.0)*damping 
-                  +    pow(distance,-6.0)*dampingFirstDerivative;
+                  +    pow(distance,-6.0)*damping1stDerivative;
    double temp2 = 42.0*pow(distance,-8.0)*damping 
-                 -12.0*pow(distance,-7.0)*dampingFirstDerivative
-                 +     pow(distance,-6.0)*dampingSecondDerivative;
+                 -12.0*pow(distance,-7.0)*damping1stDerivative
+                 +     pow(distance,-6.0)*damping2ndDerivative;
 
    double pre1=0.0;
    double pre2=0.0;
@@ -3421,8 +3421,8 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
 // First derivative of diatomic overlap integrals between AOs in space fixed flame.
 // The Overlap matrix is S_{\mu\nu} in (3.74) in J. A. Pople book.
 // Note that this method can not treat d-obitals 
-// because CalcRotatingMatrixFirstDerivatives can not treat d-orbitals.
-void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDerivs, 
+// because CalcRotatingMatrix1stDerivatives can not treat d-orbitals.
+void Cndo2::CalcDiatomicOverlap1stDerivatives(double*** diatomicOverlap1stDerivs, 
                                                 const Atom& atomA, 
                                                 const Atom& atomB) const{
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
@@ -3433,25 +3433,25 @@ void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDe
                     pow(cartesian[ZAxis],2.0) );
    
    double** diaOverlapInDiaFrame = NULL;  // diatomic overlap in diatomic frame
-   double** diaOverlapFirstDerivInDiaFrame = NULL; // first derivative of the diaOverlap. This derivative is related to the distance between two atoms.
+   double** diaOverlap1stDerivInDiaFrame = NULL; // first derivative of the diaOverlap. This derivative is related to the distance between two atoms.
    double**  rotMat = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
-   double*** rotMatFirstDerivs = NULL; // first derivatives of the rotMat.
+   double*** rotMat1stDerivs = NULL; // first derivatives of the rotMat.
 
    try{
-      this->MallocDiatomicOverlapFirstDeriTemps(&diaOverlapInDiaFrame,
-                                                &diaOverlapFirstDerivInDiaFrame,
+      this->MallocDiatomicOverlap1stDeriTemps(&diaOverlapInDiaFrame,
+                                                &diaOverlap1stDerivInDiaFrame,
                                                 &rotMat,
-                                                &rotMatFirstDerivs);
+                                                &rotMat1stDerivs);
       this->CalcDiatomicOverlapInDiatomicFrame(diaOverlapInDiaFrame, atomA, atomB);
-      this->CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(diaOverlapFirstDerivInDiaFrame, atomA, atomB);
+      this->CalcDiatomicOverlap1stDerivativeInDiatomicFrame(diaOverlap1stDerivInDiaFrame, atomA, atomB);
       this->CalcRotatingMatrix(rotMat, atomA, atomB);
-      this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivs, atomA, atomB);
+      this->CalcRotatingMatrix1stDerivatives(rotMat1stDerivs, atomA, atomB);
 
       // rotate
       for(int i=0; i<OrbitalType_end; i++){
          for(int j=0; j<OrbitalType_end; j++){
             for(int c=0; c<CartesianType_end; c++){
-               diatomicOverlapFirstDerivs[i][j][c] = 0.0;
+               diatomicOverlap1stDerivs[i][j][c] = 0.0;
 
                double temp1 = 0.0;
                double temp2 = 0.0;
@@ -3461,38 +3461,38 @@ void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDe
                      temp1 += rotMat[i][k] 
                              *rotMat[j][l]
                              *(cartesian[c]/R)
-                             *diaOverlapFirstDerivInDiaFrame[k][l];
-                     temp2 += rotMatFirstDerivs[i][k][c] 
+                             *diaOverlap1stDerivInDiaFrame[k][l];
+                     temp2 += rotMat1stDerivs[i][k][c] 
                              *rotMat[j][l]
                              *diaOverlapInDiaFrame[k][l];
                      temp3 += rotMat[i][k] 
-                             *rotMatFirstDerivs[j][l][c]
+                             *rotMat1stDerivs[j][l][c]
                              *diaOverlapInDiaFrame[k][l];
                   }
                }
-               diatomicOverlapFirstDerivs[i][j][c] = temp1 + temp2 + temp3;
+               diatomicOverlap1stDerivs[i][j][c] = temp1 + temp2 + temp3;
             }
          }
       }
    }
    catch(MolDSException ex){
       this->FreeDiatomicOverlap1stDeriTemps(&diaOverlapInDiaFrame,
-                                            &diaOverlapFirstDerivInDiaFrame,
+                                            &diaOverlap1stDerivInDiaFrame,
                                             &rotMat,
-                                            &rotMatFirstDerivs);
+                                            &rotMat1stDerivs);
       throw ex;
    }
    // free
    this->FreeDiatomicOverlap1stDeriTemps(&diaOverlapInDiaFrame,
-                                         &diaOverlapFirstDerivInDiaFrame,
+                                         &diaOverlap1stDerivInDiaFrame,
                                          &rotMat,
-                                         &rotMatFirstDerivs);
+                                         &rotMat1stDerivs);
 }
 
-void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDerivs, 
+void Cndo2::CalcDiatomicOverlap1stDerivatives(double*** diatomicOverlap1stDerivs, 
                                                 int indexAtomA, 
                                                 int indexAtomB) const{
-   this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDerivs,
+   this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs,
                                              *this->molecule->GetAtom(indexAtomA),
                                              *this->molecule->GetAtom(indexAtomB));
 }
@@ -3500,8 +3500,8 @@ void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDe
 // Second derivative of diatomic overlap integrals between AOs in space fixed flame.
 // The Overlap matrix is S_{\mu\nu} in (3.74) in J. A. Pople book.
 // Note that this method can not treat d-obitals 
-// because CalcRotatingMatrixFirstDerivatives can not treat d-orbitals.
-void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecondDerivs, 
+// because CalcRotatingMatrix1stDerivatives can not treat d-orbitals.
+void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDerivs, 
                                                  const Atom& atomA, 
                                                  const Atom& atomB) const{
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
@@ -3512,35 +3512,35 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
                     pow(cartesian[ZAxis],2.0) );
    
    double** diaOverlapInDiaFrame = NULL;  // diatomic overlap in diatomic frame
-   double** diaOverlapFirstDerivInDiaFrame = NULL; // first derivative of the diaOverlap. This derivative is related to the distance between two atoms.
-   double** diaOverlapSecondDerivInDiaFrame = NULL; // second derivative of the diaOverlap. This derivative is related to the distance between two atoms.
+   double** diaOverlap1stDerivInDiaFrame = NULL; // first derivative of the diaOverlap. This derivative is related to the distance between two atoms.
+   double** diaOverlap2ndDerivInDiaFrame = NULL; // second derivative of the diaOverlap. This derivative is related to the distance between two atoms.
    double**  rotMat = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
-   double*** rotMatFirstDerivatives = NULL; //first derivatives of the rotMat
-   double**** rotMatSecondDerivatives = NULL; //second derivatives of the rotMat
-   double*** tempDiaOverlapFirstDerivs = NULL; // first derivatives of the diaOverlap. This derivatives are related to the all Cartesian coordinates.
-   double**** tempDiaOverlapSecondDerivs = NULL; //sedond derivatives of the diaOverlap. This derivatives are related to the all Cartesian coordinates.
+   double*** rotMat1stDerivatives = NULL; //first derivatives of the rotMat
+   double**** rotMat2ndDerivatives = NULL; //second derivatives of the rotMat
+   double*** tempDiaOverlap1stDerivs = NULL; // first derivatives of the diaOverlap. This derivatives are related to the all Cartesian coordinates.
+   double**** tempDiaOverlap2ndDerivs = NULL; //sedond derivatives of the diaOverlap. This derivatives are related to the all Cartesian coordinates.
 
    try{
-      this->MallocDiatomicOverlapSecondDeriTemps(&diaOverlapInDiaFrame,
-                                                 &diaOverlapFirstDerivInDiaFrame,
-                                                 &diaOverlapSecondDerivInDiaFrame,
+      this->MallocDiatomicOverlap2ndDeriTemps(&diaOverlapInDiaFrame,
+                                                 &diaOverlap1stDerivInDiaFrame,
+                                                 &diaOverlap2ndDerivInDiaFrame,
                                                  &rotMat,
-                                                 &rotMatFirstDerivatives,
-                                                 &rotMatSecondDerivatives,
-                                                 &tempDiaOverlapFirstDerivs,
-                                                 &tempDiaOverlapSecondDerivs);
+                                                 &rotMat1stDerivatives,
+                                                 &rotMat2ndDerivatives,
+                                                 &tempDiaOverlap1stDerivs,
+                                                 &tempDiaOverlap2ndDerivs);
       this->CalcDiatomicOverlapInDiatomicFrame(diaOverlapInDiaFrame, atomA, atomB);
-      this->CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(diaOverlapFirstDerivInDiaFrame, atomA, atomB);
-      this->CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(diaOverlapSecondDerivInDiaFrame, atomA, atomB);
+      this->CalcDiatomicOverlap1stDerivativeInDiatomicFrame(diaOverlap1stDerivInDiaFrame, atomA, atomB);
+      this->CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(diaOverlap2ndDerivInDiaFrame, atomA, atomB);
       this->CalcRotatingMatrix(rotMat, atomA, atomB);
-      this->CalcRotatingMatrixFirstDerivatives(rotMatFirstDerivatives, atomA, atomB);
-      this->CalcRotatingMatrixSecondDerivatives(rotMatSecondDerivatives, atomA, atomB);
+      this->CalcRotatingMatrix1stDerivatives(rotMat1stDerivatives, atomA, atomB);
+      this->CalcRotatingMatrix2ndDerivatives(rotMat2ndDerivatives, atomA, atomB);
 
       // calculate each element of first derivatives
       for(int i=0; i<OrbitalType_end; i++){
          for(int j=0; j<OrbitalType_end; j++){
             for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
-               tempDiaOverlapFirstDerivs[i][j][dimA1] = (cartesian[dimA1]/R)*diaOverlapFirstDerivInDiaFrame[i][j];
+               tempDiaOverlap1stDerivs[i][j][dimA1] = (cartesian[dimA1]/R)*diaOverlap1stDerivInDiaFrame[i][j];
             }
          }
       }
@@ -3550,9 +3550,9 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
          for(int j=0; j<OrbitalType_end; j++){
             for(int dimA1=XAxis; dimA1<CartesianType_end; dimA1++){
                for(int dimA2=XAxis; dimA2<CartesianType_end; dimA2++){
-                  tempDiaOverlapSecondDerivs[i][j][dimA1][dimA2] 
-                     = this->GetSecondDerivativeElementFromDistanceDerivatives(diaOverlapFirstDerivInDiaFrame[i][j],
-                                                                               diaOverlapSecondDerivInDiaFrame[i][j],
+                  tempDiaOverlap2ndDerivs[i][j][dimA1][dimA2] 
+                     = this->Get2ndDerivativeElementFromDistanceDerivatives(diaOverlap1stDerivInDiaFrame[i][j],
+                                                                               diaOverlap2ndDerivInDiaFrame[i][j],
                                                                                static_cast<CartesianType>(dimA1),
                                                                                static_cast<CartesianType>(dimA2),
                                                                                cartesian,
@@ -3567,7 +3567,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
          for(int j=0; j<OrbitalType_end; j++){
             for(int dimA1=XAxis; dimA1<CartesianType_end; dimA1++){
                for(int dimA2=XAxis; dimA2<CartesianType_end; dimA2++){
-                  diatomicOverlapSecondDerivs[i][j][dimA1][dimA2] = 0.0;
+                  diatomicOverlap2ndDerivs[i][j][dimA1][dimA2] = 0.0;
                
                   double temp1 = 0.0, temp2=0.0, temp3 = 0.0;
                   double temp4 = 0.0, temp5=0.0, temp6 = 0.0;
@@ -3575,37 +3575,37 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
                   for(int k=0; k<OrbitalType_end; k++){
                      for(int l=0; l<OrbitalType_end; l++){
               
-                        temp1 += rotMatSecondDerivatives[i][k][dimA1][dimA2]
+                        temp1 += rotMat2ndDerivatives[i][k][dimA1][dimA2]
                                 *rotMat[j][l]
                                 *diaOverlapInDiaFrame[k][l];
                         temp2 += rotMat[i][k]
-                                *rotMatSecondDerivatives[j][l][dimA1][dimA2]
+                                *rotMat2ndDerivatives[j][l][dimA1][dimA2]
                                 *diaOverlapInDiaFrame[k][l];
                         temp3 += rotMat[i][k]
                                 *rotMat[j][l]
-                                *tempDiaOverlapSecondDerivs[k][l][dimA1][dimA2];
-                        temp4 += rotMatFirstDerivatives[i][k][dimA1] 
-                                *rotMatFirstDerivatives[j][l][dimA2]
+                                *tempDiaOverlap2ndDerivs[k][l][dimA1][dimA2];
+                        temp4 += rotMat1stDerivatives[i][k][dimA1] 
+                                *rotMat1stDerivatives[j][l][dimA2]
                                 *diaOverlapInDiaFrame[k][l];
-                        temp5 += rotMatFirstDerivatives[i][k][dimA1] 
+                        temp5 += rotMat1stDerivatives[i][k][dimA1] 
                                 *rotMat[j][l]
-                                *tempDiaOverlapFirstDerivs[k][l][dimA2];
-                        temp6 += rotMatFirstDerivatives[i][k][dimA2] 
-                                *rotMatFirstDerivatives[j][l][dimA1]
+                                *tempDiaOverlap1stDerivs[k][l][dimA2];
+                        temp6 += rotMat1stDerivatives[i][k][dimA2] 
+                                *rotMat1stDerivatives[j][l][dimA1]
                                 *diaOverlapInDiaFrame[k][l];
                         temp7 += rotMat[i][k] 
-                                *rotMatFirstDerivatives[j][l][dimA1]
-                                *tempDiaOverlapFirstDerivs[k][l][dimA2];
-                        temp8 += rotMatFirstDerivatives[i][k][dimA2] 
+                                *rotMat1stDerivatives[j][l][dimA1]
+                                *tempDiaOverlap1stDerivs[k][l][dimA2];
+                        temp8 += rotMat1stDerivatives[i][k][dimA2] 
                                 *rotMat[j][l]
-                                *tempDiaOverlapFirstDerivs[k][l][dimA1];
+                                *tempDiaOverlap1stDerivs[k][l][dimA1];
                         temp9 += rotMat[i][k] 
-                                *rotMatFirstDerivatives[j][l][dimA2]
-                                *tempDiaOverlapFirstDerivs[k][l][dimA1];
+                                *rotMat1stDerivatives[j][l][dimA2]
+                                *tempDiaOverlap1stDerivs[k][l][dimA1];
                      }
                   }
 
-                  diatomicOverlapSecondDerivs[i][j][dimA1][dimA2] = temp1+temp2+temp3 
+                  diatomicOverlap2ndDerivs[i][j][dimA1][dimA2] = temp1+temp2+temp3 
                                                                    +temp4+temp5+temp6 
                                                                    +temp7+temp8+temp9;
                }
@@ -3616,30 +3616,30 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
    }
    catch(MolDSException ex){
       this->FreeDiatomicOverlap2ndDeriTemps(&diaOverlapInDiaFrame,
-                                            &diaOverlapFirstDerivInDiaFrame,
-                                            &diaOverlapSecondDerivInDiaFrame,
+                                            &diaOverlap1stDerivInDiaFrame,
+                                            &diaOverlap2ndDerivInDiaFrame,
                                             &rotMat,
-                                            &rotMatFirstDerivatives,
-                                            &rotMatSecondDerivatives,
-                                            &tempDiaOverlapFirstDerivs,
-                                            &tempDiaOverlapSecondDerivs);
+                                            &rotMat1stDerivatives,
+                                            &rotMat2ndDerivatives,
+                                            &tempDiaOverlap1stDerivs,
+                                            &tempDiaOverlap2ndDerivs);
       throw ex;
    }
    // free
    this->FreeDiatomicOverlap2ndDeriTemps(&diaOverlapInDiaFrame,
-                                         &diaOverlapFirstDerivInDiaFrame,
-                                         &diaOverlapSecondDerivInDiaFrame,
+                                         &diaOverlap1stDerivInDiaFrame,
+                                         &diaOverlap2ndDerivInDiaFrame,
                                          &rotMat,
-                                         &rotMatFirstDerivatives,
-                                         &rotMatSecondDerivatives,
-                                         &tempDiaOverlapFirstDerivs,
-                                         &tempDiaOverlapSecondDerivs);
+                                         &rotMat1stDerivatives,
+                                         &rotMat2ndDerivatives,
+                                         &tempDiaOverlap1stDerivs,
+                                         &tempDiaOverlap2ndDerivs);
    /*
    for(int i=0; i<OrbitalType_end; i++){
       for(int j=0; j<OrbitalType_end; j++){
          for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
             for(int dimA2=0; dimA2<CartesianType_end; dimA2++){
-               printf("i=%d j=%d dimA1=%d dimA2=%d: %e\n",i,j,dimA1,dimA2,overlapSecondDeri[i][j][dimA1][dimA2]);
+               printf("i=%d j=%d dimA1=%d dimA2=%d: %e\n",i,j,dimA1,dimA2,overlap2ndDeri[i][j][dimA1][dimA2]);
             }
          }
       }
@@ -3647,15 +3647,15 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
    */
 }
 
-void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecondDerivs, 
+void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDerivs, 
                                                  int indexAtomA, 
                                                  int indexAtomB) const{
-   this->CalcDiatomicOverlapSecondDerivatives(diatomicOverlapSecondDerivs,
+   this->CalcDiatomicOverlap2ndDerivatives(diatomicOverlap2ndDerivs,
                                               *this->molecule->GetAtom(indexAtomA),
                                               *this->molecule->GetAtom(indexAtomB));
 }
 
-double Cndo2::GetSecondDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
+double Cndo2::Get2ndDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
                                                                 double secondDistanceDeri,
                                                                 CartesianType axisA1,
                                                                 CartesianType axisA2,
@@ -3674,32 +3674,32 @@ double Cndo2::GetSecondDerivativeElementFromDistanceDerivatives(double firstDist
    return value;
 }
 
-void Cndo2::MallocDiatomicOverlapFirstDeriTemps(double*** diaOverlapInDiaFrame, 
-                                                double*** diaOverlapFirstDerivInDiaFrame,
+void Cndo2::MallocDiatomicOverlap1stDeriTemps(double*** diaOverlapInDiaFrame, 
+                                                double*** diaOverlap1stDerivInDiaFrame,
                                                 double*** rotMat,
-                                                double**** rotMatFirstDerivs) const{
+                                                double**** rotMat1stDerivs) const{
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlapInDiaFrame, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapFirstDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diaOverlap1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(rotMat, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMatFirstDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMat1stDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
 }
 
-void Cndo2::MallocDiatomicOverlapSecondDeriTemps(double*** diaOverlapInDiaFrame, 
-                                                 double*** diaOverlapFirstDerivInDiaFrame,
-                                                 double*** diaOverlapSecondDerivInDiaFrame,
+void Cndo2::MallocDiatomicOverlap2ndDeriTemps(double*** diaOverlapInDiaFrame, 
+                                                 double*** diaOverlap1stDerivInDiaFrame,
+                                                 double*** diaOverlap2ndDerivInDiaFrame,
                                                  double*** rotMat,
-                                                 double**** rotMatFirstDerivs,
-                                                 double***** rotMatSecondDerivs,
-                                                 double**** tempDiaOverlapFirstDerivs,
-                                                 double***** tempDiaOverlapSecondDerivs) const{
+                                                 double**** rotMat1stDerivs,
+                                                 double***** rotMat2ndDerivs,
+                                                 double**** tempDiaOverlap1stDerivs,
+                                                 double***** tempDiaOverlap2ndDerivs) const{
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlapInDiaFrame, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapFirstDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapSecondDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diaOverlap1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diaOverlap2ndDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(rotMat, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMatFirstDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMatSecondDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(tempDiaOverlapFirstDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(tempDiaOverlapSecondDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMat1stDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMat2ndDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tempDiaOverlap1stDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tempDiaOverlap2ndDerivs, OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
 }
 
 void Cndo2::FreeDiatomicOverlap1stDeriTemps(double*** diaOverlapInDiaFrame, 
@@ -4424,7 +4424,7 @@ double Cndo2::GetGaussianOverlap(AtomType atomTypeA,
 // calculate elements of analytic first derivative of the overlap matrix. 
 // The derivative is carried out related to the coordinate of atom A.
 // See Eqs. (34) - (44) in [DY_1977]
-double Cndo2::GetOverlapElementFirstDerivativeByGTOExpansion(const Atom& atomA, 
+double Cndo2::GetOverlapElement1stDerivativeByGTOExpansion(const Atom& atomA, 
                                                              int valenceIndexA, 
                                                              const Atom& atomB, 
                                                              int valenceIndexB,
@@ -4850,12 +4850,12 @@ void Cndo2::CalcRotatingMatrix(double** rotatingMatrix,
 // This method can not calculate d-orbital yet.
 // For rotating matirxi, see J. Mol. Struc. (Theochem), 419, 19 (1997) (ref. [BFB_1997])
 // we set gamma=0 always.
-void Cndo2::CalcRotatingMatrixFirstDerivatives(double*** rotMatFirstDerivatives, 
+void Cndo2::CalcRotatingMatrix1stDerivatives(double*** rotMat1stDerivatives, 
                                                const Atom& atomA, 
                                                const Atom& atomB) const{
 
    MallocerFreer::GetInstance()->Initialize<double>(
-                                 rotMatFirstDerivatives,  
+                                 rotMat1stDerivatives,  
                                  OrbitalType_end, 
                                  OrbitalType_end,
                                  CartesianType_end);
@@ -4867,48 +4867,48 @@ void Cndo2::CalcRotatingMatrixFirstDerivatives(double*** rotMatFirstDerivatives,
    double R = sqrt( pow(x,2.0) + pow(y,2.0) + pow(z,2.0) );
 
    // for s-function
-   rotMatFirstDerivatives[s][s][XAxis] = 0.0;
-   rotMatFirstDerivatives[s][s][YAxis] = 0.0;
-   rotMatFirstDerivatives[s][s][ZAxis] = 0.0;
+   rotMat1stDerivatives[s][s][XAxis] = 0.0;
+   rotMat1stDerivatives[s][s][YAxis] = 0.0;
+   rotMat1stDerivatives[s][s][ZAxis] = 0.0;
 
    // for p-function
-   rotMatFirstDerivatives[py][py][XAxis] = -1.0/r + pow(x,2.0)/pow(r,3.0);
-   rotMatFirstDerivatives[py][pz][XAxis] = x*y/pow(R,3.0);
-   rotMatFirstDerivatives[py][px][XAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*x*y*z;
+   rotMat1stDerivatives[py][py][XAxis] = -1.0/r + pow(x,2.0)/pow(r,3.0);
+   rotMat1stDerivatives[py][pz][XAxis] = x*y/pow(R,3.0);
+   rotMat1stDerivatives[py][px][XAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*x*y*z;
 
-   rotMatFirstDerivatives[pz][py][XAxis] = 0.0;
-   rotMatFirstDerivatives[pz][pz][XAxis] = x*z/pow(R,3.0);
-   rotMatFirstDerivatives[pz][px][XAxis] = x/(r*R) - x*r/pow(R,3.0);
+   rotMat1stDerivatives[pz][py][XAxis] = 0.0;
+   rotMat1stDerivatives[pz][pz][XAxis] = x*z/pow(R,3.0);
+   rotMat1stDerivatives[pz][px][XAxis] = x/(r*R) - x*r/pow(R,3.0);
 
-   rotMatFirstDerivatives[px][py][XAxis] = -1.0*x*y/pow(r,3.0);
-   rotMatFirstDerivatives[px][pz][XAxis] = -1.0/R + x*x/pow(R,3.0); 
-   rotMatFirstDerivatives[px][px][XAxis] = -1.0*z/(r*R) + 
+   rotMat1stDerivatives[px][py][XAxis] = -1.0*x*y/pow(r,3.0);
+   rotMat1stDerivatives[px][pz][XAxis] = -1.0/R + x*x/pow(R,3.0); 
+   rotMat1stDerivatives[px][px][XAxis] = -1.0*z/(r*R) + 
                                   (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*x*x*z;
 
-   rotMatFirstDerivatives[py][py][YAxis] = x*y/pow(r,3.0);
-   rotMatFirstDerivatives[py][pz][YAxis] = -1.0/R + y*y/pow(R,3.0);
-   rotMatFirstDerivatives[py][px][YAxis] = -1.0*z/(r*R) +
+   rotMat1stDerivatives[py][py][YAxis] = x*y/pow(r,3.0);
+   rotMat1stDerivatives[py][pz][YAxis] = -1.0/R + y*y/pow(R,3.0);
+   rotMat1stDerivatives[py][px][YAxis] = -1.0*z/(r*R) +
                                   (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*y*y*z;
 
-   rotMatFirstDerivatives[pz][py][YAxis] = 0.0;
-   rotMatFirstDerivatives[pz][pz][YAxis] = y*z/pow(R,3.0); 
-   rotMatFirstDerivatives[pz][px][YAxis] = y/(r*R) - y*r/pow(R,3.0);
+   rotMat1stDerivatives[pz][py][YAxis] = 0.0;
+   rotMat1stDerivatives[pz][pz][YAxis] = y*z/pow(R,3.0); 
+   rotMat1stDerivatives[pz][px][YAxis] = y/(r*R) - y*r/pow(R,3.0);
 
-   rotMatFirstDerivatives[px][py][YAxis] = 1.0/r - y*y/pow(r,3.0);
-   rotMatFirstDerivatives[px][pz][YAxis] = x*y/pow(R,3.0);
-   rotMatFirstDerivatives[px][px][YAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*x*y*z;
+   rotMat1stDerivatives[px][py][YAxis] = 1.0/r - y*y/pow(r,3.0);
+   rotMat1stDerivatives[px][pz][YAxis] = x*y/pow(R,3.0);
+   rotMat1stDerivatives[px][px][YAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*x*y*z;
 
-   rotMatFirstDerivatives[py][py][ZAxis] = 0.0;
-   rotMatFirstDerivatives[py][pz][ZAxis] = y*z/pow(R,3.0);
-   rotMatFirstDerivatives[py][px][ZAxis] = -1.0*y/(r*R) + y*z*z/(r*pow(R,3.0));
+   rotMat1stDerivatives[py][py][ZAxis] = 0.0;
+   rotMat1stDerivatives[py][pz][ZAxis] = y*z/pow(R,3.0);
+   rotMat1stDerivatives[py][px][ZAxis] = -1.0*y/(r*R) + y*z*z/(r*pow(R,3.0));
 
-   rotMatFirstDerivatives[pz][py][ZAxis] = 0.0;
-   rotMatFirstDerivatives[pz][pz][ZAxis] = -1.0/R + z*z/pow(R,3.0); 
-   rotMatFirstDerivatives[pz][px][ZAxis] = -1.0*z*r/pow(R,3.0);
+   rotMat1stDerivatives[pz][py][ZAxis] = 0.0;
+   rotMat1stDerivatives[pz][pz][ZAxis] = -1.0/R + z*z/pow(R,3.0); 
+   rotMat1stDerivatives[pz][px][ZAxis] = -1.0*z*r/pow(R,3.0);
 
-   rotMatFirstDerivatives[px][py][ZAxis] = 0.0;
-   rotMatFirstDerivatives[px][pz][ZAxis] = x*z/pow(R,3.0);
-   rotMatFirstDerivatives[px][px][ZAxis] = -1.0*x/(r*R) + x*z*z/(r*pow(R,3.0));
+   rotMat1stDerivatives[px][py][ZAxis] = 0.0;
+   rotMat1stDerivatives[px][pz][ZAxis] = x*z/pow(R,3.0);
+   rotMat1stDerivatives[px][px][ZAxis] = -1.0*x/(r*R) + x*z*z/(r*pow(R,3.0));
 
    // for d-function
    // ToDo: First derivative of rotating matrix for d-orbital...
@@ -4920,12 +4920,12 @@ void Cndo2::CalcRotatingMatrixFirstDerivatives(double*** rotMatFirstDerivatives,
 // This method can not calculate d-orbital yet.
 // For rotating matirxi, see J. Mol. Struc. (Theochem), 419, 19 (1997) (ref. [BFB_1997])
 // we set gamma=0 always.
-void Cndo2::CalcRotatingMatrixSecondDerivatives(double**** rotMatSecondDerivatives, 
+void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives, 
                                                 const Atom& atomA, 
                                                 const Atom& atomB) const{
 
    MallocerFreer::GetInstance()->Initialize<double>(
-                                 rotMatSecondDerivatives,  
+                                 rotMat2ndDerivatives,  
                                  OrbitalType_end, 
                                  OrbitalType_end,
                                  CartesianType_end,
@@ -4938,66 +4938,66 @@ void Cndo2::CalcRotatingMatrixSecondDerivatives(double**** rotMatSecondDerivativ
    double R = sqrt( pow(x,2.0) + pow(y,2.0) + pow(z,2.0) );
 
    // for s-function
-   rotMatSecondDerivatives[s][s][XAxis][XAxis] = 0.0;
-   rotMatSecondDerivatives[s][s][XAxis][YAxis] = 0.0;
-   rotMatSecondDerivatives[s][s][XAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[s][s][YAxis][XAxis] = 0.0;
-   rotMatSecondDerivatives[s][s][YAxis][YAxis] = 0.0;
-   rotMatSecondDerivatives[s][s][YAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[s][s][ZAxis][XAxis] = 0.0;
-   rotMatSecondDerivatives[s][s][ZAxis][YAxis] = 0.0;
-   rotMatSecondDerivatives[s][s][ZAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][XAxis][XAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][XAxis][YAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][XAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][YAxis][XAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][YAxis][YAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][YAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][ZAxis][XAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][ZAxis][YAxis] = 0.0;
+   rotMat2ndDerivatives[s][s][ZAxis][ZAxis] = 0.0;
 
    // for p-function, xx-derivatives
-   rotMatSecondDerivatives[py][py][XAxis][XAxis] = -3.0*x*pow(r,-3.0) + 3.0*pow(x,3.0)*pow(r,-5.0);
-   rotMatSecondDerivatives[py][pz][XAxis][XAxis] = -1.0*y*pow(R,-3.0) + 3.0*pow(x,2.0)*y*pow(R,-5.0);
-   rotMatSecondDerivatives[py][px][XAxis][XAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*y*z
+   rotMat2ndDerivatives[py][py][XAxis][XAxis] = -3.0*x*pow(r,-3.0) + 3.0*pow(x,3.0)*pow(r,-5.0);
+   rotMat2ndDerivatives[py][pz][XAxis][XAxis] = -1.0*y*pow(R,-3.0) + 3.0*pow(x,2.0)*y*pow(R,-5.0);
+   rotMat2ndDerivatives[py][px][XAxis][XAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*y*z
                                                    +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(x,2.0)*y*z;
                                                 
-   rotMatSecondDerivatives[pz][py][XAxis][XAxis] = 0.0;
-   rotMatSecondDerivatives[pz][pz][XAxis][XAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(x,2.0)*z*pow(R,-5.0);
-   rotMatSecondDerivatives[pz][px][XAxis][XAxis] = -1.0*pow(r*R,-1.0) + (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(x,2.0)
+   rotMat2ndDerivatives[pz][py][XAxis][XAxis] = 0.0;
+   rotMat2ndDerivatives[pz][pz][XAxis][XAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(x,2.0)*z*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][px][XAxis][XAxis] = -1.0*pow(r*R,-1.0) + (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(x,2.0)
                                                    +r*pow(R,-3.0) - 3.0*pow(x,2.0)*r*pow(R,-5.0) + pow(x,2.0)*pow(r,-1.0)*pow(R,-3.0);
                                                 
-   rotMatSecondDerivatives[px][py][XAxis][XAxis] = y*pow(r,-3.0) - 3.0*pow(x,2.0)*y*pow(r,-5.0);
-   rotMatSecondDerivatives[px][pz][XAxis][XAxis] = -3.0*x*pow(R,-3.0) + 3.0*pow(x,3.0)*pow(R,-5.0);
-   rotMatSecondDerivatives[px][px][XAxis][XAxis] = -3.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
+   rotMat2ndDerivatives[px][py][XAxis][XAxis] = y*pow(r,-3.0) - 3.0*pow(x,2.0)*y*pow(r,-5.0);
+   rotMat2ndDerivatives[px][pz][XAxis][XAxis] = -3.0*x*pow(R,-3.0) + 3.0*pow(x,3.0)*pow(R,-5.0);
+   rotMat2ndDerivatives[px][px][XAxis][XAxis] = -3.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
                                                    +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(x,3.0)*z;
 
    // for p-function, xy-derivatives
-   rotMatSecondDerivatives[py][py][XAxis][YAxis] = -1.0*y*pow(r,-3.0) + 3.0*pow(x,2.0)*y*pow(r,-5.0);
-   rotMatSecondDerivatives[py][pz][XAxis][YAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(y,2.0)*pow(R,-5.0);  
-   rotMatSecondDerivatives[py][px][XAxis][YAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
+   rotMat2ndDerivatives[py][py][XAxis][YAxis] = -1.0*y*pow(r,-3.0) + 3.0*pow(x,2.0)*y*pow(r,-5.0);
+   rotMat2ndDerivatives[py][pz][XAxis][YAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(y,2.0)*pow(R,-5.0);  
+   rotMat2ndDerivatives[py][px][XAxis][YAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
                                                    +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*x*pow(y,2.0)*z;
                                                 
-   rotMatSecondDerivatives[pz][py][XAxis][YAxis] = 0.0;
-   rotMatSecondDerivatives[pz][pz][XAxis][YAxis] = 3.0*x*y*z*pow(R,-5.0);
-   rotMatSecondDerivatives[pz][px][XAxis][YAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y + x*y*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*y*r*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][py][XAxis][YAxis] = 0.0;
+   rotMat2ndDerivatives[pz][pz][XAxis][YAxis] = 3.0*x*y*z*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][px][XAxis][YAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y + x*y*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*y*r*pow(R,-5.0);
                                                 
-   rotMatSecondDerivatives[px][py][XAxis][YAxis] = x*pow(r,-3.0) - 3.0*x*pow(y,2.0)*pow(R,-5.0);
-   rotMatSecondDerivatives[px][pz][XAxis][YAxis] = rotMatSecondDerivatives[py][pz][XAxis][XAxis];
-   rotMatSecondDerivatives[px][px][XAxis][YAxis] = rotMatSecondDerivatives[py][px][XAxis][XAxis];
+   rotMat2ndDerivatives[px][py][XAxis][YAxis] = x*pow(r,-3.0) - 3.0*x*pow(y,2.0)*pow(R,-5.0);
+   rotMat2ndDerivatives[px][pz][XAxis][YAxis] = rotMat2ndDerivatives[py][pz][XAxis][XAxis];
+   rotMat2ndDerivatives[px][px][XAxis][YAxis] = rotMat2ndDerivatives[py][px][XAxis][XAxis];
 
    // for p-function, yx-derivatives
    for(int i=py; i<=px; i++){
       for(int j=py; j<=px; j++){
-         rotMatSecondDerivatives[i][j][YAxis][XAxis] = rotMatSecondDerivatives[i][j][XAxis][YAxis];
+         rotMat2ndDerivatives[i][j][YAxis][XAxis] = rotMat2ndDerivatives[i][j][XAxis][YAxis];
       }
    }
 
    // for p-function, xz-derivatives
-   rotMatSecondDerivatives[py][py][XAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[py][pz][XAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][XAxis][YAxis];
-   rotMatSecondDerivatives[py][px][XAxis][ZAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y 
+   rotMat2ndDerivatives[py][py][XAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[py][pz][XAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][YAxis];
+   rotMat2ndDerivatives[py][px][XAxis][ZAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y 
                                                    +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*x*y*pow(z,2.0);
                                                 
-   rotMatSecondDerivatives[pz][py][XAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[pz][pz][XAxis][ZAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(z,2.0)*pow(R,-5.0); 
-   rotMatSecondDerivatives[pz][px][XAxis][ZAxis] = x*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*z*r*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][py][XAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[pz][pz][XAxis][ZAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(z,2.0)*pow(R,-5.0); 
+   rotMat2ndDerivatives[pz][px][XAxis][ZAxis] = x*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*z*r*pow(R,-5.0);
                                                 
-   rotMatSecondDerivatives[px][py][XAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[px][pz][XAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][XAxis][XAxis];
-   rotMatSecondDerivatives[px][px][XAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
+   rotMat2ndDerivatives[px][py][XAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[px][pz][XAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][XAxis];
+   rotMat2ndDerivatives[px][px][XAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
                                                    -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(x,2.0)
                                                    +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*pow(x*z,2.0);
 
@@ -5005,62 +5005,62 @@ void Cndo2::CalcRotatingMatrixSecondDerivatives(double**** rotMatSecondDerivativ
    // for p-function, zx-derivatives
    for(int i=py; i<=px; i++){
       for(int j=py; j<=px; j++){
-         rotMatSecondDerivatives[i][j][ZAxis][XAxis] = rotMatSecondDerivatives[i][j][XAxis][ZAxis];
+         rotMat2ndDerivatives[i][j][ZAxis][XAxis] = rotMat2ndDerivatives[i][j][XAxis][ZAxis];
       }
    }
 
    // for p-function, yy-derivatives
-   rotMatSecondDerivatives[py][py][YAxis][YAxis] = -1.0*x*pow(r,-3.0) + 3.0*x*pow(y,2.0)*pow(r,-5.0); 
-   rotMatSecondDerivatives[py][pz][YAxis][YAxis] = -3.0*y*pow(R,-3.0) + 3.0*pow(y,3.0)*pow(R,-5.0);
-   rotMatSecondDerivatives[py][px][YAxis][YAxis] = -3.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*y*z
+   rotMat2ndDerivatives[py][py][YAxis][YAxis] = -1.0*x*pow(r,-3.0) + 3.0*x*pow(y,2.0)*pow(r,-5.0); 
+   rotMat2ndDerivatives[py][pz][YAxis][YAxis] = -3.0*y*pow(R,-3.0) + 3.0*pow(y,3.0)*pow(R,-5.0);
+   rotMat2ndDerivatives[py][px][YAxis][YAxis] = -3.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*y*z
                                                    +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(y,3.0)*z;
                                                 
-   rotMatSecondDerivatives[pz][py][YAxis][YAxis] = 0.0;
-   rotMatSecondDerivatives[pz][pz][YAxis][YAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(y,2.0)*z*pow(R,-5.0);
-   rotMatSecondDerivatives[pz][px][YAxis][YAxis] = -1.0*pow(r*R,-1.0) + (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(y,2.0)
+   rotMat2ndDerivatives[pz][py][YAxis][YAxis] = 0.0;
+   rotMat2ndDerivatives[pz][pz][YAxis][YAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(y,2.0)*z*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][px][YAxis][YAxis] = -1.0*pow(r*R,-1.0) + (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(y,2.0)
                                                    +r*pow(R,-3.0) - 3.0*pow(y,2.0)*r*pow(R,-5.0) + pow(y,2.0)*pow(r,-1.0)*pow(R,-3.0);
                                                 
-   rotMatSecondDerivatives[px][py][YAxis][YAxis] = 3.0*y*pow(r,-3.0) - 3.0*pow(y,3.0)*pow(r,-5.0);
-   rotMatSecondDerivatives[px][pz][YAxis][YAxis] = rotMatSecondDerivatives[py][pz][XAxis][YAxis];
-   rotMatSecondDerivatives[px][px][YAxis][YAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
+   rotMat2ndDerivatives[px][py][YAxis][YAxis] = 3.0*y*pow(r,-3.0) - 3.0*pow(y,3.0)*pow(r,-5.0);
+   rotMat2ndDerivatives[px][pz][YAxis][YAxis] = rotMat2ndDerivatives[py][pz][XAxis][YAxis];
+   rotMat2ndDerivatives[px][px][YAxis][YAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
                                                    +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*x*pow(y,2.0)*z;
                
    // for p-function, yz-derivatives
-   rotMatSecondDerivatives[py][py][YAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[py][pz][YAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][YAxis][YAxis];
-   rotMatSecondDerivatives[py][px][YAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
+   rotMat2ndDerivatives[py][py][YAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[py][pz][YAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][YAxis][YAxis];
+   rotMat2ndDerivatives[py][px][YAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
                                                    -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(y,2.0)
                                                    +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*pow(y*z,2.0);
                                                 
-   rotMatSecondDerivatives[pz][py][YAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[pz][pz][YAxis][ZAxis] = -1.0*y*pow(R,-3.0) + 3.0*y*pow(z,2.0)*pow(R,-5.0);
-   rotMatSecondDerivatives[pz][px][YAxis][ZAxis] = y*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*y*z*r*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][py][YAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[pz][pz][YAxis][ZAxis] = -1.0*y*pow(R,-3.0) + 3.0*y*pow(z,2.0)*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][px][YAxis][ZAxis] = y*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*y*z*r*pow(R,-5.0);
                                                 
-   rotMatSecondDerivatives[px][py][YAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[px][pz][YAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][XAxis][YAxis];
-   rotMatSecondDerivatives[px][px][YAxis][ZAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y
+   rotMat2ndDerivatives[px][py][YAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[px][pz][YAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][YAxis];
+   rotMat2ndDerivatives[px][px][YAxis][ZAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y
                                                    +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*x*y*pow(z,2.0);
                                           
                
    // for p-function, zy-derivatives
    for(int i=py; i<=px; i++){
       for(int j=py; j<=px; j++){
-         rotMatSecondDerivatives[i][j][ZAxis][YAxis] = rotMatSecondDerivatives[i][j][YAxis][ZAxis];
+         rotMat2ndDerivatives[i][j][ZAxis][YAxis] = rotMat2ndDerivatives[i][j][YAxis][ZAxis];
       }
    }
 
    // for p-function, zz-derivatives
-   rotMatSecondDerivatives[py][py][ZAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[py][pz][ZAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][YAxis][ZAxis];
-   rotMatSecondDerivatives[py][px][ZAxis][ZAxis] = -3.0*y*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*y*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
+   rotMat2ndDerivatives[py][py][ZAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[py][pz][ZAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][YAxis][ZAxis];
+   rotMat2ndDerivatives[py][px][ZAxis][ZAxis] = -3.0*y*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*y*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
                                                 
-   rotMatSecondDerivatives[pz][py][ZAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[pz][pz][ZAxis][ZAxis] = -3.0*z*pow(R,-3.0) + 3.0*pow(z,3.0)*pow(R,-5.0); 
-   rotMatSecondDerivatives[pz][px][ZAxis][ZAxis] = -3.0*pow(z,2.0)*r*pow(R,-5.0) + r*pow(R,-3.0);
+   rotMat2ndDerivatives[pz][py][ZAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[pz][pz][ZAxis][ZAxis] = -3.0*z*pow(R,-3.0) + 3.0*pow(z,3.0)*pow(R,-5.0); 
+   rotMat2ndDerivatives[pz][px][ZAxis][ZAxis] = -3.0*pow(z,2.0)*r*pow(R,-5.0) + r*pow(R,-3.0);
                                                 
-   rotMatSecondDerivatives[px][py][ZAxis][ZAxis] = 0.0;
-   rotMatSecondDerivatives[px][pz][ZAxis][ZAxis] = rotMatSecondDerivatives[pz][pz][XAxis][ZAxis];
-   rotMatSecondDerivatives[px][px][ZAxis][ZAxis] = -3.0*x*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*x*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
+   rotMat2ndDerivatives[px][py][ZAxis][ZAxis] = 0.0;
+   rotMat2ndDerivatives[px][pz][ZAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][ZAxis];
+   rotMat2ndDerivatives[px][px][ZAxis][ZAxis] = -3.0*x*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*x*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
 
    // for d-function
    // ToDo: Second derivative of rotating matrix for d-orbital...
@@ -5141,7 +5141,7 @@ void Cndo2::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap,
 }
 
 // First derivative of (B.40) in J. A. Pople book.
-void Cndo2::CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(double** diatomicOverlapDeri, 
+void Cndo2::CalcDiatomicOverlap1stDerivativeInDiatomicFrame(double** diatomicOverlapDeri, 
                                                               const Atom& atomA, 
                                                               const Atom& atomB) const{
 
@@ -5152,8 +5152,8 @@ void Cndo2::CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(double** diatomicO
    double beta = 0.0;
    double pre = 0.0;
    double reducedOverlap = 0.0;
-   double reducedOverlapFirstDerivAlpha = 0.0;
-   double reducedOverlapFirstDerivBeta = 0.0;
+   double reducedOverlap1stDerivAlpha = 0.0;
+   double reducedOverlap1stDerivBeta = 0.0;
    double orbitalExponentA = 0.0;
    double orbitalExponentB = 0.0;
    double temp1=0.0;
@@ -5188,7 +5188,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(double** diatomicO
             reducedOverlap = this->GetReducedOverlap
                                    (na, realShpericalHarmonicsA.GetL(), m,
                                     nb, realShpericalHarmonicsB.GetL(), alpha, beta);
-            reducedOverlapFirstDerivAlpha = this->GetReducedOverlapFirstDerivativeAlpha(
+            reducedOverlap1stDerivAlpha = this->GetReducedOverlap1stDerivativeAlpha(
                                                   na, 
                                                   realShpericalHarmonicsA.GetL(), 
                                                   m,
@@ -5196,7 +5196,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(double** diatomicO
                                                   realShpericalHarmonicsB.GetL(), 
                                                   alpha, 
                                                   beta);
-            reducedOverlapFirstDerivBeta  = this->GetReducedOverlapFirstDerivativeBeta(
+            reducedOverlap1stDerivBeta  = this->GetReducedOverlap1stDerivativeBeta(
                                                   na, 
                                                   realShpericalHarmonicsA.GetL(), 
                                                   m,
@@ -5206,8 +5206,8 @@ void Cndo2::CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(double** diatomicO
                                                   beta);
 
             temp1 = static_cast<double>(na+nb+1)*pow(R,na+nb)*reducedOverlap;
-            temp2 = pow(R,na+nb+1)*(orbitalExponentA*reducedOverlapFirstDerivAlpha
-                                   +orbitalExponentB*reducedOverlapFirstDerivBeta);
+            temp2 = pow(R,na+nb+1)*(orbitalExponentA*reducedOverlap1stDerivAlpha
+                                   +orbitalExponentB*reducedOverlap1stDerivBeta);
 
             pre =  pow(2.0*orbitalExponentA, na+0.5);
             pre *= pow(2.0*orbitalExponentB, nb+0.5);
@@ -5232,7 +5232,7 @@ void Cndo2::CalcDiatomicOverlapFirstDerivativeInDiatomicFrame(double** diatomicO
 }
 
 // Second derivative of (B.40) in J. A. Pople book.
-void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomicOverlapSecondDeri, 
+void Cndo2::CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(double** diatomicOverlap2ndDeri, 
                                                                const Atom& atomA, 
                                                                const Atom& atomB) const{
 
@@ -5243,18 +5243,18 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
    double beta = 0.0;
    double pre = 0.0;
    double reducedOverlap = 0.0;
-   double reducedOverlapFirstDerivAlpha = 0.0;
-   double reducedOverlapFirstDerivBeta = 0.0;
-   double reducedOverlapSecondDerivAlpha = 0.0;
-   double reducedOverlapSecondDerivBeta = 0.0;
-   double reducedOverlapSecondDerivAlphaBeta = 0.0;
+   double reducedOverlap1stDerivAlpha = 0.0;
+   double reducedOverlap1stDerivBeta = 0.0;
+   double reducedOverlap2ndDerivAlpha = 0.0;
+   double reducedOverlap2ndDerivBeta = 0.0;
+   double reducedOverlap2ndDerivAlphaBeta = 0.0;
    double orbitalExponentA = 0.0;
    double orbitalExponentB = 0.0;
    double temp1=0.0;
    double temp2=0.0;
    double temp3=0.0;
 
-   MallocerFreer::GetInstance()->Initialize<double>(diatomicOverlapSecondDeri, 
+   MallocerFreer::GetInstance()->Initialize<double>(diatomicOverlap2ndDeri, 
                                                     OrbitalType_end, 
                                                     OrbitalType_end);
    double R = this->molecule->GetDistanceAtoms(atomA, atomB);
@@ -5283,7 +5283,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
             reducedOverlap = this->GetReducedOverlap
                                    (na, realShpericalHarmonicsA.GetL(), m,
                                     nb, realShpericalHarmonicsB.GetL(), alpha, beta);
-            reducedOverlapFirstDerivAlpha = this->GetReducedOverlapFirstDerivativeAlpha(
+            reducedOverlap1stDerivAlpha = this->GetReducedOverlap1stDerivativeAlpha(
                                                   na, 
                                                   realShpericalHarmonicsA.GetL(), 
                                                   m,
@@ -5291,7 +5291,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
                                                   realShpericalHarmonicsB.GetL(), 
                                                   alpha, 
                                                   beta);
-            reducedOverlapFirstDerivBeta  = this->GetReducedOverlapFirstDerivativeBeta(
+            reducedOverlap1stDerivBeta  = this->GetReducedOverlap1stDerivativeBeta(
                                                   na, 
                                                   realShpericalHarmonicsA.GetL(), 
                                                   m,
@@ -5299,7 +5299,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
                                                   realShpericalHarmonicsB.GetL(), 
                                                   alpha, 
                                                   beta);
-            reducedOverlapSecondDerivAlpha = this->GetReducedOverlapSecondDerivativeAlpha(
+            reducedOverlap2ndDerivAlpha = this->GetReducedOverlap2ndDerivativeAlpha(
                                                    na, 
                                                    realShpericalHarmonicsA.GetL(), 
                                                    m,
@@ -5307,7 +5307,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
                                                    realShpericalHarmonicsB.GetL(), 
                                                    alpha, 
                                                    beta);
-            reducedOverlapSecondDerivBeta = this->GetReducedOverlapSecondDerivativeBeta(
+            reducedOverlap2ndDerivBeta = this->GetReducedOverlap2ndDerivativeBeta(
                                                   na, 
                                                   realShpericalHarmonicsA.GetL(), 
                                                   m,
@@ -5315,7 +5315,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
                                                   realShpericalHarmonicsB.GetL(), 
                                                   alpha, 
                                                   beta);
-            reducedOverlapSecondDerivAlphaBeta = this->GetReducedOverlapSecondDerivativeAlphaBeta(
+            reducedOverlap2ndDerivAlphaBeta = this->GetReducedOverlap2ndDerivativeAlphaBeta(
                                                        na, 
                                                        realShpericalHarmonicsA.GetL(), 
                                                        m,
@@ -5328,12 +5328,12 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
                    *static_cast<double>(na+nb)
                    *pow(R,na+nb-1)*reducedOverlap;
             temp2 = 2.0*static_cast<double>(na+nb+1)*pow(R,na+nb)
-                       *(orbitalExponentA*reducedOverlapFirstDerivAlpha
-                        +orbitalExponentB*reducedOverlapFirstDerivBeta);
+                       *(orbitalExponentA*reducedOverlap1stDerivAlpha
+                        +orbitalExponentB*reducedOverlap1stDerivBeta);
             temp3 = pow(R,na+nb+1)
-                   *(pow(orbitalExponentA,2.0)*reducedOverlapSecondDerivAlpha
-                    +pow(orbitalExponentB,2.0)*reducedOverlapSecondDerivBeta
-                    +2.0*orbitalExponentA*orbitalExponentB*reducedOverlapSecondDerivAlphaBeta);
+                   *(pow(orbitalExponentA,2.0)*reducedOverlap2ndDerivAlpha
+                    +pow(orbitalExponentB,2.0)*reducedOverlap2ndDerivBeta
+                    +2.0*orbitalExponentA*orbitalExponentB*reducedOverlap2ndDerivAlphaBeta);
 
             pre =  pow(2.0*orbitalExponentA, na+0.5);
             pre *= pow(2.0*orbitalExponentB, nb+0.5);
@@ -5341,7 +5341,7 @@ void Cndo2::CalcDiatomicOverlapSecondDerivativeInDiatomicFrame(double** diatomic
             pre /= sqrt(factorials);
             pre /= pow(2.0, na+nb+1.0);
 
-            diatomicOverlapSecondDeri[valenceOrbitalA][valenceOrbitalB] = pre*(temp1+temp2+temp3);
+            diatomicOverlap2ndDeri[valenceOrbitalA][valenceOrbitalB] = pre*(temp1+temp2+temp3);
          }
          
       }
@@ -5477,7 +5477,7 @@ double Cndo2::GetReducedOverlap(int na, int nb, double alpha, double beta) const
 
 // First derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by alpha.
-double Cndo2::GetReducedOverlapFirstDerivativeAlpha(int na, 
+double Cndo2::GetReducedOverlap1stDerivativeAlpha(int na, 
                                                     int la, 
                                                     int m, 
                                                     int nb, 
@@ -5492,10 +5492,10 @@ double Cndo2::GetReducedOverlapFirstDerivativeAlpha(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryAFirstDerivative(i, 0.5*(alpha+beta))
+         temp1 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
                 *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
          temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryBFirstDerivative(j, 0.5*(alpha-beta));
+                *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
          value += Cndo2::ReducedOverlapParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2);
       }
    }
@@ -5506,7 +5506,7 @@ double Cndo2::GetReducedOverlapFirstDerivativeAlpha(int na,
 
 // First derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by Beta.
-double Cndo2::GetReducedOverlapFirstDerivativeBeta(int na, 
+double Cndo2::GetReducedOverlap1stDerivativeBeta(int na, 
                                                    int la, 
                                                    int m, 
                                                    int nb, 
@@ -5521,10 +5521,10 @@ double Cndo2::GetReducedOverlapFirstDerivativeBeta(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryAFirstDerivative(i, 0.5*(alpha+beta))
+         temp1 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
                 *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
          temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryBFirstDerivative(j, 0.5*(alpha-beta));
+                *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
          value += Cndo2::ReducedOverlapParameters::Y[na][nb][la][lb][m][i][j]*(temp1 - temp2);
       }
    }
@@ -5535,7 +5535,7 @@ double Cndo2::GetReducedOverlapFirstDerivativeBeta(int na,
 
 // Second derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by alpha twice.
-double Cndo2::GetReducedOverlapSecondDerivativeAlpha(int na, 
+double Cndo2::GetReducedOverlap2ndDerivativeAlpha(int na, 
                                                      int la, 
                                                      int m, 
                                                      int nb, 
@@ -5551,12 +5551,12 @@ double Cndo2::GetReducedOverlapSecondDerivativeAlpha(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryASecondDerivative(i, 0.5*(alpha+beta))
+         temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
                 *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
          temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryBSecondDerivative(j, 0.5*(alpha-beta));
-         temp3 = this->GetAuxiliaryAFirstDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryBFirstDerivative(j, 0.5*(alpha-beta));
+                *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
+         temp3 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
+                *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
          value += Cndo2::ReducedOverlapParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2 + 2.0*temp3);
       }
    }
@@ -5567,7 +5567,7 @@ double Cndo2::GetReducedOverlapSecondDerivativeAlpha(int na,
 
 // Second derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by beta twice.
-double Cndo2::GetReducedOverlapSecondDerivativeBeta(int na, 
+double Cndo2::GetReducedOverlap2ndDerivativeBeta(int na, 
                                                     int la, 
                                                     int m, 
                                                     int nb, 
@@ -5583,12 +5583,12 @@ double Cndo2::GetReducedOverlapSecondDerivativeBeta(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryASecondDerivative(i, 0.5*(alpha+beta))
+         temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
                 *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
          temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryBSecondDerivative(j, 0.5*(alpha-beta));
-         temp3 = this->GetAuxiliaryAFirstDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryBFirstDerivative(j, 0.5*(alpha-beta));
+                *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
+         temp3 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
+                *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
          value += Cndo2::ReducedOverlapParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2 - 2.0*temp3);
       }
    }
@@ -5599,7 +5599,7 @@ double Cndo2::GetReducedOverlapSecondDerivativeBeta(int na,
 
 // Second derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by alpha and beta.
-double Cndo2::GetReducedOverlapSecondDerivativeAlphaBeta(int na, 
+double Cndo2::GetReducedOverlap2ndDerivativeAlphaBeta(int na, 
                                                          int la, 
                                                          int m, 
                                                          int nb, 
@@ -5614,10 +5614,10 @@ double Cndo2::GetReducedOverlapSecondDerivativeAlphaBeta(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryASecondDerivative(i, 0.5*(alpha+beta))
+         temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
                 *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
          temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryBSecondDerivative(j, 0.5*(alpha-beta));
+                *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
          value += Cndo2::ReducedOverlapParameters::Y[na][nb][la][lb][m][i][j]*(temp1 - temp2);
       }
    }
@@ -5641,12 +5641,12 @@ double Cndo2::GetAuxiliaryA(int k, double rho) const{
 }
 
 // First derivative of (B.22) in J. A. Pople book.
-double Cndo2::GetAuxiliaryAFirstDerivative(int k, double rho) const{
+double Cndo2::GetAuxiliaryA1stDerivative(int k, double rho) const{
    return -1.0*this->GetAuxiliaryA(k+1, rho);
 }
 
 // Second derivative of (B.22) in J. A. Pople book.
-double Cndo2::GetAuxiliaryASecondDerivative(int k, double rho) const{
+double Cndo2::GetAuxiliaryA2ndDerivative(int k, double rho) const{
    return this->GetAuxiliaryA(k+2, rho);
 }
 
@@ -5681,12 +5681,12 @@ double Cndo2::GetAuxiliaryB(int k, double rho) const{
 }
 
 // First derivative of (B.23) in J. A. Pople book.
-double Cndo2::GetAuxiliaryBFirstDerivative(int k, double rho) const{
+double Cndo2::GetAuxiliaryB1stDerivative(int k, double rho) const{
    return -1.0*this->GetAuxiliaryB(k+1, rho);
 }
 
 // Second derivative of (B.23) in J. A. Pople book.
-double Cndo2::GetAuxiliaryBSecondDerivative(int k, double rho) const{
+double Cndo2::GetAuxiliaryB2ndDerivative(int k, double rho) const{
    return this->GetAuxiliaryB(k+2, rho);
 }
 

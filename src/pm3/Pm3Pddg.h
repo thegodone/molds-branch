@@ -31,23 +31,23 @@ protected:
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
    virtual double GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const;
-   virtual double GetDiatomCoreRepulsionFirstDerivative(int indexAtomA,
-                                                        int indexAtomB, 
-                                                        MolDS_base::CartesianType axisA) const;
-   virtual double GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
-                                                         int indexAtomB, 
-                                                         MolDS_base::CartesianType axisA1,
-                                                         MolDS_base::CartesianType axisA2) const;
+   virtual double GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
+                                                      int indexAtomB, 
+                                                      MolDS_base::CartesianType axisA) const;
+   virtual double GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
+                                                      int indexAtomB, 
+                                                      MolDS_base::CartesianType axisA1,
+                                                      MolDS_base::CartesianType axisA2) const;
 private:
    double GetPddgAdditonalDiatomCoreRepulsionTerm(int na, double pa, double da, 
                                                   int nb, double pb, double db,
                                                   double distance) const;
-   double GetPddgAdditonalDiatomCoreRepulsionTermFirstDerivative(int na, double pa, double da, 
-                                                                 int nb, double pb, double db,
-                                                                 double distance) const;
-   double GetPddgAdditonalDiatomCoreRepulsionTermSecondDerivative(int na, double pa, double da, 
-                                                                  int nb, double pb, double db,
-                                                                  double distance) const;
+   double GetPddgAdditonalDiatomCoreRepulsionTerm1stDerivative(int na, double pa, double da, 
+                                                               int nb, double pb, double db,
+                                                               double distance) const;
+   double GetPddgAdditonalDiatomCoreRepulsionTerm2ndDerivative(int na, double pa, double da, 
+                                                               int nb, double pb, double db,
+                                                               double distance) const;
                                                 
 };
 

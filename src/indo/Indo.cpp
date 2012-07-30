@@ -70,8 +70,8 @@ void Indo::SetMessages(){
    this->errorMessageExchangeInt = "Error in base_indo::Indo::GetExchangeInt: Invalid orbitalType.\n";
    this->errorMessageMolecularIntegralElement
       = "Error in indo::Indo::GetMolecularIntegralElement: Non available orbital is contained.\n";
-   this->errorMessageGetDiatomCoreRepulsionSecondDerivativeNotImplemented
-      = "Error in indo::Indo::GetDiatomCoreRepulsionSecondDerivative: Second derivative is not implemented for INDO.\n";
+   this->errorMessageGetDiatomCoreRepulsion2ndDerivativeNotImplemented
+      = "Error in indo::Indo::GetDiatomCoreRepulsion2ndDerivative: Second derivative is not implemented for INDO.\n";
    this->errorMessageCISNotImplemented 
       = "Error in indo::Indo::DoCIS: CIS is not implemented for INDO.\n";
    this->errorMessageCalcForceNotImplemented
