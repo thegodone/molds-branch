@@ -1272,7 +1272,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
 }
 
 double Cndo2::GetFockDiagElement(const Atom& atomA, 
-                                 int atomAIndex, 
+                                 int indexAtomA, 
                                  int mu, 
                                  const Molecule& molecule, 
                                  double const* const* gammaAB,
@@ -1283,19 +1283,19 @@ double Cndo2::GetFockDiagElement(const Atom& atomA,
    double value;
    int firstAOIndexA = atomA.GetFirstAOIndex();
    value = atomA.GetCoreIntegral(atomA.GetValence(mu-firstAOIndexA), 
-                                 gammaAB[atomAIndex][atomAIndex], 
+                                 gammaAB[indexAtomA][indexAtomA], 
                                  isGuess, this->theory);
    if(!isGuess){
-      double temp = atomicElectronPopulation[atomAIndex] 
+      double temp = atomicElectronPopulation[indexAtomA] 
                    -0.5*orbitalElectronPopulation[mu][mu];
-      value += temp*gammaAB[atomAIndex][atomAIndex];
+      value += temp*gammaAB[indexAtomA][indexAtomA];
 
       temp = 0.0;
       for(int BB=0; BB<molecule.GetNumberAtoms(); BB++){
-         if(BB != atomAIndex){
+         if(BB != indexAtomA){
             const Atom& atomBB = *molecule.GetAtom(BB);
             temp += ( atomicElectronPopulation[BB] - atomBB.GetCoreCharge()  )
-                     *gammaAB[atomAIndex][BB];
+                     *gammaAB[indexAtomA][BB];
          }
       }
       value += temp;
@@ -1306,8 +1306,8 @@ double Cndo2::GetFockDiagElement(const Atom& atomA,
 
 double Cndo2::GetFockOffDiagElement(const Atom& atomA, 
                                     const Atom& atomB, 
-                                    int atomAIndex, 
-                                    int atomBIndex, 
+                                    int indexAtomA, 
+                                    int indexAtomB, 
                                     int mu, 
                                     int nu, 
                                     const Molecule& molecule, 
@@ -1321,7 +1321,7 @@ double Cndo2::GetFockOffDiagElement(const Atom& atomA,
    double bondParameter = 0.5*K*(atomA.GetBondingParameter() + atomB.GetBondingParameter()); 
    value =  bondParameter*overlap[mu][nu];
    if(!isGuess){
-      value -= 0.5*orbitalElectronPopulation[mu][nu]*gammaAB[atomAIndex][atomBIndex];
+      value -= 0.5*orbitalElectronPopulation[mu][nu]*gammaAB[indexAtomA][indexAtomB];
    }
    return value;
 }
@@ -3476,11 +3476,11 @@ void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDe
 }
 
 void Cndo2::CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDerivs, 
-                                                int atomAIndex, 
-                                                int atomBIndex) const{
+                                                int indexAtomA, 
+                                                int indexAtomB) const{
    this->CalcDiatomicOverlapFirstDerivatives(diatomicOverlapFirstDerivs,
-                                             *this->molecule->GetAtom(atomAIndex),
-                                             *this->molecule->GetAtom(atomBIndex));
+                                             *this->molecule->GetAtom(indexAtomA),
+                                             *this->molecule->GetAtom(indexAtomB));
 }
 
 // Second derivative of diatomic overlap integrals between AOs in space fixed flame.
@@ -3634,11 +3634,11 @@ void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecon
 }
 
 void Cndo2::CalcDiatomicOverlapSecondDerivatives(double**** diatomicOverlapSecondDerivs, 
-                                                 int atomAIndex, 
-                                                 int atomBIndex) const{
+                                                 int indexAtomA, 
+                                                 int indexAtomB) const{
    this->CalcDiatomicOverlapSecondDerivatives(diatomicOverlapSecondDerivs,
-                                              *this->molecule->GetAtom(atomAIndex),
-                                              *this->molecule->GetAtom(atomBIndex));
+                                              *this->molecule->GetAtom(indexAtomA),
+                                              *this->molecule->GetAtom(indexAtomB));
 }
 
 double Cndo2::GetSecondDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,

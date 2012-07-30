@@ -165,19 +165,19 @@ double Am1::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
 
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
-double Am1::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
-                                                  int atomBIndex, 
+double Am1::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA,
+                                                  int indexAtomB, 
                                                   CartesianType axisA) const{
    // MNDO term
-   double mndoTerms = Mndo::GetDiatomCoreRepulsionFirstDerivative(atomAIndex, atomBIndex, axisA);
+   double mndoTerms = Mndo::GetDiatomCoreRepulsionFirstDerivative(indexAtomA, indexAtomB, axisA);
 
    // additional term, first derivative of eq. (4) in [S_1989]
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
-   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
-   const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double alphaA = atomA.GetNddoAlpha(this->theory);
    double alphaB = atomB.GetNddoAlpha(this->theory);
-   double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
+   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double dCartesian = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA]);
    double kA, lA, mA;
    double kB, lB, mB;
@@ -205,20 +205,20 @@ double Am1::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
 
 // Second derivative of diatomic core repulsion energy.
 // Both derivatives are related to the coordinate of atomA.
-double Am1::GetDiatomCoreRepulsionSecondDerivative(int atomAIndex,
-                                                   int atomBIndex, 
+double Am1::GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
+                                                   int indexAtomB, 
                                                    CartesianType axisA1,
                                                    CartesianType axisA2) const{
    // MNDO term
-   double mndoTerm = Mndo::GetDiatomCoreRepulsionSecondDerivative(atomAIndex, atomBIndex, axisA1, axisA2);
+   double mndoTerm = Mndo::GetDiatomCoreRepulsionSecondDerivative(indexAtomA, indexAtomB, axisA1, axisA2);
 
    // additional term, first derivative of eq. (4) in [S_1989]
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
-   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
-   const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double alphaA = atomA.GetNddoAlpha(this->theory);
    double alphaB = atomB.GetNddoAlpha(this->theory);
-   double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
+   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double kA, lA, mA;
    double kB, lB, mB;
    double temp1 = 0.0;

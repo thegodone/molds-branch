@@ -666,9 +666,9 @@ void Molecule::OutputTranslatingConditions(double const* translatingDifference) 
       % (translatingDifference[2]/angst2AU));
 }
 
-double Molecule::GetDistanceAtoms(int atomAIndex, int atomBIndex) const{
-   const Atom& atomA = *(*this->atomVect)[atomAIndex];
-   const Atom& atomB = *(*this->atomVect)[atomBIndex];
+double Molecule::GetDistanceAtoms(int indexAtomA, int indexAtomB) const{
+   const Atom& atomA = *(*this->atomVect)[indexAtomA];
+   const Atom& atomB = *(*this->atomVect)[indexAtomB];
    return this->GetDistanceAtoms(atomA, atomB);
 }
 

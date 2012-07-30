@@ -155,7 +155,7 @@ void ZindoS::SetEnableAtomTypes(){
 }
 
 double ZindoS::GetFockDiagElement(const Atom& atomA, 
-                                  int atomAIndex, 
+                                  int indexAtomA, 
                                   int mu, 
                                   const Molecule& molecule, 
                                   double const* const* gammaAB,
@@ -194,7 +194,7 @@ double ZindoS::GetFockDiagElement(const Atom& atomA,
       temp = 0.0;
       int totalNumberAtoms = molecule.GetNumberAtoms();
       for(int B=0; B<totalNumberAtoms; B++){
-         if(B != atomAIndex){
+         if(B != indexAtomA){
             const Atom& atomB = *molecule.GetAtom(B);
             OrbitalType orbitalSigma;
             int sigma;
@@ -220,8 +220,8 @@ double ZindoS::GetFockDiagElement(const Atom& atomA,
 
 double ZindoS::GetFockOffDiagElement(const Atom& atomA, 
                                      const Atom& atomB, 
-                                     int atomAIndex, 
-                                     int atomBIndex, 
+                                     int indexAtomA, 
+                                     int indexAtomB, 
                                      int mu, 
                                      int nu, 
                                      const Molecule& molecule, 
@@ -242,7 +242,7 @@ double ZindoS::GetFockOffDiagElement(const Atom& atomA,
    else{
       double coulomb = 0.0;
       double exchange = 0.0;
-      if(atomAIndex == atomBIndex){
+      if(indexAtomA == indexAtomB){
          coulomb  = this->GetCoulombInt(orbitalMu, orbitalNu, atomA); 
          exchange = this->GetExchangeInt(orbitalMu, orbitalNu, atomA); 
          value = (1.5*exchange - 0.5*coulomb)*orbitalElectronPopulation[mu][nu];
