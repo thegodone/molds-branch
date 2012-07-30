@@ -31,7 +31,7 @@ protected:
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
    virtual double GetFockDiagElement(const MolDS_base_atoms::Atom& atomA, 
-                                     int atomAIndex, 
+                                     int indexAtomA, 
                                      int mu, 
                                      const MolDS_base::Molecule& molecule, 
                                      double const* const* gammaAB,
@@ -41,8 +41,8 @@ protected:
                                      bool isGuess) const;
    virtual double GetFockOffDiagElement(const MolDS_base_atoms::Atom& atomA, 
                                         const MolDS_base_atoms::Atom& atomB, 
-                                        int atomAIndex, 
-                                        int atomBIndex, 
+                                        int indexAtomA, 
+                                        int indexAtomB, 
                                         int mu, 
                                         int nu, 
                                         const MolDS_base::Molecule& molecule, 

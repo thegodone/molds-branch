@@ -137,7 +137,7 @@ protected:
                            const MolDS_base_atoms::Atom& atomB) const;
    virtual void CalcGammaAB(double** gammaAB, const MolDS_base::Molecule& molecule) const;
    virtual double GetFockDiagElement(const MolDS_base_atoms::Atom& atomA, 
-                                     int atomAIndex, 
+                                     int indexAtomA, 
                                      int mu, 
                                      const MolDS_base::Molecule& molecule, 
                                      double const* const* gammaAB,
@@ -147,8 +147,8 @@ protected:
                                      bool isGuess) const;
    virtual double GetFockOffDiagElement(const MolDS_base_atoms::Atom& atomA, 
                                         const MolDS_base_atoms::Atom& atomB, 
-                                        int atomAIndex, 
-                                        int atomBIndex, 
+                                        int indexAtomA, 
+                                        int indexAtomB, 
                                         int mu, 
                                         int nu, 
                                         const MolDS_base::Molecule& molecule, 
@@ -170,14 +170,14 @@ protected:
                                             const MolDS_base_atoms::Atom& atomA, 
                                             const MolDS_base_atoms::Atom& atomB) const;
    void CalcDiatomicOverlapFirstDerivatives(double*** diatomicOverlapFirstDerivs, 
-                                            int atomAIndex, 
-                                            int atomBIndex) const;
+                                            int indexAtomA, 
+                                            int indexAtomB) const;
    void CalcDiatomicOverlapSecondDerivatives(double**** overlapSecondDeri, 
                                              const MolDS_base_atoms::Atom& atomA, 
                                              const MolDS_base_atoms::Atom& atomB) const;
    void CalcDiatomicOverlapSecondDerivatives(double**** overlapSecondDeri, 
-                                             int atomAIndex, 
-                                             int atomBIndex) const;
+                                             int indexAtomA, 
+                                             int indexAtomB) const;
    double GetSecondDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
                                                             double secondDistanceDeri,
                                                             MolDS_base::CartesianType axisA1,

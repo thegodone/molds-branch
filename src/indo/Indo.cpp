@@ -96,7 +96,7 @@ void Indo::SetEnableAtomTypes(){
 }
 
 double Indo::GetFockDiagElement(const Atom& atomA, 
-                                int atomAIndex, 
+                                int indexAtomA, 
                                 int mu, 
                                 const Molecule& molecule, 
                                 double const* const* gammaAB,
@@ -107,7 +107,7 @@ double Indo::GetFockDiagElement(const Atom& atomA,
    double value;
    int firstAOIndexA = atomA.GetFirstAOIndex();
    value = atomA.GetCoreIntegral(atomA.GetValence(mu-firstAOIndexA), 
-                                 gammaAB[atomAIndex][atomAIndex], 
+                                 gammaAB[indexAtomA][indexAtomA], 
                                  isGuess, this->theory);
 
    if(!isGuess){
@@ -118,8 +118,8 @@ double Indo::GetFockDiagElement(const Atom& atomA,
       OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
       for(int v=0; v<atomA.GetValenceSize(); v++){
          OrbitalType orbitalLam = atomA.GetValence(v);
-         coulomb  = this->GetCoulombInt(orbitalMu, orbitalLam, gammaAB[atomAIndex][atomAIndex], atomA);
-         exchange = this->GetExchangeInt(orbitalMu, orbitalLam, gammaAB[atomAIndex][atomAIndex], atomA);
+         coulomb  = this->GetCoulombInt(orbitalMu, orbitalLam, gammaAB[indexAtomA][indexAtomA], atomA);
+         exchange = this->GetExchangeInt(orbitalMu, orbitalLam, gammaAB[indexAtomA][indexAtomA], atomA);
          lammda = firstAOIndexA + v;
          temp += orbitalElectronPopulation[lammda][lammda]*(coulomb - 0.5*exchange);
       }
@@ -127,10 +127,10 @@ double Indo::GetFockDiagElement(const Atom& atomA,
    
       temp = 0.0;
       for(int B=0; B<molecule.GetNumberAtoms(); B++){
-         if(B != atomAIndex){
+         if(B != indexAtomA){
             const Atom& atomB = *molecule.GetAtom(B);
             temp += ( atomicElectronPopulation[B] - atomB.GetCoreCharge()  )
-                     *gammaAB[atomAIndex][B];
+                     *gammaAB[indexAtomA][B];
          }
       }
       value += temp;
@@ -141,8 +141,8 @@ double Indo::GetFockDiagElement(const Atom& atomA,
 
 double Indo::GetFockOffDiagElement(const Atom& atomA, 
                                    const Atom& atomB, 
-                                   int atomAIndex, 
-                                   int atomBIndex, 
+                                   int indexAtomA, 
+                                   int indexAtomB, 
                                    int mu, 
                                    int nu, 
                                    const Molecule& molecule, 
@@ -161,16 +161,16 @@ double Indo::GetFockOffDiagElement(const Atom& atomA,
    else{
       double coulomb = 0.0;
       double exchange = 0.0;
-      if(atomAIndex == atomBIndex){
+      if(indexAtomA == indexAtomB){
          OrbitalType orbitalMu = atomA.GetValence(mu-atomA.GetFirstAOIndex());
          OrbitalType orbitalNu = atomA.GetValence(nu-atomA.GetFirstAOIndex());
-         coulomb  = this->GetCoulombInt(orbitalMu, orbitalNu, gammaAB[atomAIndex][atomAIndex], atomA); 
-         exchange = this->GetExchangeInt(orbitalMu, orbitalNu, gammaAB[atomAIndex][atomAIndex], atomA); 
+         coulomb  = this->GetCoulombInt(orbitalMu, orbitalNu, gammaAB[indexAtomA][indexAtomA], atomA); 
+         exchange = this->GetExchangeInt(orbitalMu, orbitalNu, gammaAB[indexAtomA][indexAtomA], atomA); 
          value = (1.5*exchange - 0.5*coulomb)*orbitalElectronPopulation[mu][nu];
       }
       else{
          value = bondParameter*overlap[mu][nu];
-         value -= 0.5*orbitalElectronPopulation[mu][nu]*gammaAB[atomAIndex][atomBIndex];
+         value -= 0.5*orbitalElectronPopulation[mu][nu]*gammaAB[indexAtomA][indexAtomB];
       }
    }
 

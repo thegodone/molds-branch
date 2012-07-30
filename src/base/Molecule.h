@@ -47,7 +47,7 @@ public:
    void CalcPrincipalAxes();
    void Rotate();
    void Translate();
-   double GetDistanceAtoms(int atomAIndex, int atomBIndex) const;
+   double GetDistanceAtoms(int indexAtomA, int indexAtomB) const;
    double GetDistanceAtoms(const MolDS_base_atoms::Atom& atomA, 
                            const MolDS_base_atoms::Atom& atomB) const;
 private:

@@ -152,16 +152,16 @@ double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) con
 
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
-double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
-                                                      int atomBIndex, 
+double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int indexAtomA,
+                                                      int indexAtomB, 
                                                       CartesianType axisA) const{
    // PM3 term
-   double pm3Term = Pm3::GetDiatomCoreRepulsionFirstDerivative(atomAIndex, atomBIndex, axisA);
+   double pm3Term = Pm3::GetDiatomCoreRepulsionFirstDerivative(indexAtomA, indexAtomB, axisA);
 
    // pddg additional term, first derivative of eq. (4) in [RCJ_2002]
-   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
-   const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
-   double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double dCartesian = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA]);
    int na = atomA.GetNumberValenceElectrons();
    int nb = atomB.GetNumberValenceElectrons();
@@ -183,17 +183,17 @@ double Pm3Pddg::GetDiatomCoreRepulsionFirstDerivative(int atomAIndex,
 
 // Second derivative of diatomic core repulsion energy.
 // Both derivative are related to the coordinate of atomA.
-double Pm3Pddg::GetDiatomCoreRepulsionSecondDerivative(int atomAIndex,
-                                                       int atomBIndex, 
+double Pm3Pddg::GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
+                                                       int indexAtomB, 
                                                        CartesianType axisA1,
                                                        CartesianType axisA2) const{
    // PM3 term
-   double pm3Term = Pm3::GetDiatomCoreRepulsionSecondDerivative(atomAIndex, atomBIndex, axisA1, axisA2);
+   double pm3Term = Pm3::GetDiatomCoreRepulsionSecondDerivative(indexAtomA, indexAtomB, axisA1, axisA2);
 
    // pddg additional term, first derivative of eq. (4) in [RCJ_2002]
-   const Atom& atomA = *this->molecule->GetAtom(atomAIndex);
-   const Atom& atomB = *this->molecule->GetAtom(atomBIndex);
-   double distance = this->molecule->GetDistanceAtoms(atomAIndex, atomBIndex);
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double dCartesian1 = (atomA.GetXyz()[axisA1] - atomB.GetXyz()[axisA1]);
    double dCartesian2 = (atomA.GetXyz()[axisA2] - atomB.GetXyz()[axisA2]);
    int na = atomA.GetNumberValenceElectrons();
