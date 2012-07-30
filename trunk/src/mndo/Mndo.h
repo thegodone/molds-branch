@@ -402,29 +402,21 @@ private:
                                                    MolDS_base::OrbitalType sigma,
                                                    MolDS_base::CartesianType axisA1,
                                                    MolDS_base::CartesianType axisA2) const;
-   double GetSemiEmpiricalMultipoleInteraction(MolDS_base::MultipoleType multipoleA,
-                                               MolDS_base::MultipoleType multipoleB,
-                                               double rhoA,
-                                               double rhoB,
-                                               double DA,
-                                               double DB,
-                                               double Rab) const;
-   double GetSemiEmpiricalMultipoleInteractionFirstDerivative(
+   double GetSemiEmpiricalMultipoleInteraction(const MolDS_base_atoms::Atom& atomA,
+                                               const MolDS_base_atoms::Atom& atomB,
                                                MolDS_base::MultipoleType multipoleA,
                                                MolDS_base::MultipoleType multipoleB,
-                                               double rhoA,
-                                               double rhoB,
-                                               double DA,
-                                               double DB,
                                                double Rab) const;
-   double GetSemiEmpiricalMultipoleInteractionSecondDerivative(
-                                               MolDS_base::MultipoleType multipoleA,
-                                               MolDS_base::MultipoleType multipoleB,
-                                               double rhoA,
-                                               double rhoB,
-                                               double DA,
-                                               double DB,
-                                               double Rab) const;
+   double GetSemiEmpiricalMultipoleInteractionFirstDerivative(const MolDS_base_atoms::Atom& atomA,
+                                                              const MolDS_base_atoms::Atom& atomB,
+                                                              MolDS_base::MultipoleType multipoleA,
+                                                              MolDS_base::MultipoleType multipoleB,
+                                                              double Rab) const;
+   double GetSemiEmpiricalMultipoleInteractionSecondDerivative(const MolDS_base_atoms::Atom& atomA,
+                                                               const MolDS_base_atoms::Atom& atomB,
+                                                               MolDS_base::MultipoleType multipoleA,
+                                                               MolDS_base::MultipoleType multipoleB,
+                                                               double Rab) const;
    void MallocTempMatricesCalcForce(double**** diatomicOverlapFirstDerivs, 
                                     double****** diatomiTwoElecTwoCoreFirstDerivs) const;
    void FreeTempMatricesCalcForce(double**** diatomicOverlapFirstDerivs, 
