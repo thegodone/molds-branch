@@ -312,7 +312,7 @@ double Cndo2::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
 double Cndo2::GetDiatomCoreRepulsion1stDerivative(int indexAtomA, int indexAtomB, 
-                                                    CartesianType axisA) const{
+                                                  CartesianType axisA) const{
    double value=0.0;
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
@@ -326,9 +326,9 @@ double Cndo2::GetDiatomCoreRepulsion1stDerivative(int indexAtomA, int indexAtomB
 // Second derivative of diatomic core repulsion energy.
 // Both derivatives are related to the coordinate of atomA.
 double Cndo2::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
-                                                     int indexAtomB, 
-                                                     CartesianType axisA1,
-                                                     CartesianType axisA2) const{
+                                                  int indexAtomB, 
+                                                  CartesianType axisA1,
+                                                  CartesianType axisA2) const{
    stringstream ss;
    ss << this->errorMessageGetDiatomCoreRepulsion2ndDerivativeNotImplemented;
    throw MolDSException(ss.str());
@@ -386,7 +386,7 @@ double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const
 // First derivative of the vdW correction related to the coordinate of atom A.
 // See (2) in [G_2004] ((11) in [G_2006]).
 double Cndo2::GetDiatomVdWCorrection1stDerivative(int indexAtomA, int indexAtomB, 
-                                                    CartesianType axisA) const{
+                                                  CartesianType axisA) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
@@ -3423,8 +3423,8 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
 // Note that this method can not treat d-obitals 
 // because CalcRotatingMatrix1stDerivatives can not treat d-orbitals.
 void Cndo2::CalcDiatomicOverlap1stDerivatives(double*** diatomicOverlap1stDerivs, 
-                                                const Atom& atomA, 
-                                                const Atom& atomB) const{
+                                              const Atom& atomA, 
+                                              const Atom& atomB) const{
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
                                           atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
                                           atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
@@ -3439,9 +3439,9 @@ void Cndo2::CalcDiatomicOverlap1stDerivatives(double*** diatomicOverlap1stDerivs
 
    try{
       this->MallocDiatomicOverlap1stDeriTemps(&diaOverlapInDiaFrame,
-                                                &diaOverlap1stDerivInDiaFrame,
-                                                &rotMat,
-                                                &rotMat1stDerivs);
+                                              &diaOverlap1stDerivInDiaFrame,
+                                              &rotMat,
+                                              &rotMat1stDerivs);
       this->CalcDiatomicOverlapInDiatomicFrame(diaOverlapInDiaFrame, atomA, atomB);
       this->CalcDiatomicOverlap1stDerivativeInDiatomicFrame(diaOverlap1stDerivInDiaFrame, atomA, atomB);
       this->CalcRotatingMatrix(rotMat, atomA, atomB);
@@ -3490,11 +3490,11 @@ void Cndo2::CalcDiatomicOverlap1stDerivatives(double*** diatomicOverlap1stDerivs
 }
 
 void Cndo2::CalcDiatomicOverlap1stDerivatives(double*** diatomicOverlap1stDerivs, 
-                                                int indexAtomA, 
-                                                int indexAtomB) const{
+                                              int indexAtomA, 
+                                              int indexAtomB) const{
    this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs,
-                                             *this->molecule->GetAtom(indexAtomA),
-                                             *this->molecule->GetAtom(indexAtomB));
+                                           *this->molecule->GetAtom(indexAtomA),
+                                           *this->molecule->GetAtom(indexAtomB));
 }
 
 // Second derivative of diatomic overlap integrals between AOs in space fixed flame.
@@ -3502,8 +3502,8 @@ void Cndo2::CalcDiatomicOverlap1stDerivatives(double*** diatomicOverlap1stDerivs
 // Note that this method can not treat d-obitals 
 // because CalcRotatingMatrix1stDerivatives can not treat d-orbitals.
 void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDerivs, 
-                                                 const Atom& atomA, 
-                                                 const Atom& atomB) const{
+                                              const Atom& atomA, 
+                                              const Atom& atomB) const{
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
                                           atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
                                           atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
@@ -3522,13 +3522,13 @@ void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDeriv
 
    try{
       this->MallocDiatomicOverlap2ndDeriTemps(&diaOverlapInDiaFrame,
-                                                 &diaOverlap1stDerivInDiaFrame,
-                                                 &diaOverlap2ndDerivInDiaFrame,
-                                                 &rotMat,
-                                                 &rotMat1stDerivatives,
-                                                 &rotMat2ndDerivatives,
-                                                 &tempDiaOverlap1stDerivs,
-                                                 &tempDiaOverlap2ndDerivs);
+                                              &diaOverlap1stDerivInDiaFrame,
+                                              &diaOverlap2ndDerivInDiaFrame,
+                                              &rotMat,
+                                              &rotMat1stDerivatives,
+                                              &rotMat2ndDerivatives,
+                                              &tempDiaOverlap1stDerivs,
+                                              &tempDiaOverlap2ndDerivs);
       this->CalcDiatomicOverlapInDiatomicFrame(diaOverlapInDiaFrame, atomA, atomB);
       this->CalcDiatomicOverlap1stDerivativeInDiatomicFrame(diaOverlap1stDerivInDiaFrame, atomA, atomB);
       this->CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(diaOverlap2ndDerivInDiaFrame, atomA, atomB);
@@ -3552,11 +3552,11 @@ void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDeriv
                for(int dimA2=XAxis; dimA2<CartesianType_end; dimA2++){
                   tempDiaOverlap2ndDerivs[i][j][dimA1][dimA2] 
                      = this->Get2ndDerivativeElementFromDistanceDerivatives(diaOverlap1stDerivInDiaFrame[i][j],
-                                                                               diaOverlap2ndDerivInDiaFrame[i][j],
-                                                                               static_cast<CartesianType>(dimA1),
-                                                                               static_cast<CartesianType>(dimA2),
-                                                                               cartesian,
-                                                                               R);
+                                                                            diaOverlap2ndDerivInDiaFrame[i][j],
+                                                                            static_cast<CartesianType>(dimA1),
+                                                                            static_cast<CartesianType>(dimA2),
+                                                                            cartesian,
+                                                                            R);
                }
             }
          }
@@ -3606,8 +3606,8 @@ void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDeriv
                   }
 
                   diatomicOverlap2ndDerivs[i][j][dimA1][dimA2] = temp1+temp2+temp3 
-                                                                   +temp4+temp5+temp6 
-                                                                   +temp7+temp8+temp9;
+                                                                +temp4+temp5+temp6 
+                                                                +temp7+temp8+temp9;
                }
             }
          }
@@ -3648,19 +3648,19 @@ void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDeriv
 }
 
 void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDerivs, 
-                                                 int indexAtomA, 
-                                                 int indexAtomB) const{
+                                              int indexAtomA, 
+                                              int indexAtomB) const{
    this->CalcDiatomicOverlap2ndDerivatives(diatomicOverlap2ndDerivs,
-                                              *this->molecule->GetAtom(indexAtomA),
-                                              *this->molecule->GetAtom(indexAtomB));
+                                           *this->molecule->GetAtom(indexAtomA),
+                                           *this->molecule->GetAtom(indexAtomB));
 }
 
 double Cndo2::Get2ndDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
-                                                                double secondDistanceDeri,
-                                                                CartesianType axisA1,
-                                                                CartesianType axisA2,
-                                                                double* cartesian,
-                                                                double Rab) const{
+                                                             double secondDistanceDeri,
+                                                             CartesianType axisA1,
+                                                             CartesianType axisA2,
+                                                             double* cartesian,
+                                                             double Rab) const{
    double value=0.0;               
    if(axisA1 != axisA2){
       value = -1.0*pow(Rab, -3.0)*firstDistanceDeri;
@@ -3675,9 +3675,9 @@ double Cndo2::Get2ndDerivativeElementFromDistanceDerivatives(double firstDistanc
 }
 
 void Cndo2::MallocDiatomicOverlap1stDeriTemps(double*** diaOverlapInDiaFrame, 
-                                                double*** diaOverlap1stDerivInDiaFrame,
-                                                double*** rotMat,
-                                                double**** rotMat1stDerivs) const{
+                                              double*** diaOverlap1stDerivInDiaFrame,
+                                              double*** rotMat,
+                                              double**** rotMat1stDerivs) const{
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlapInDiaFrame, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlap1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(rotMat, OrbitalType_end, OrbitalType_end);
@@ -3685,13 +3685,13 @@ void Cndo2::MallocDiatomicOverlap1stDeriTemps(double*** diaOverlapInDiaFrame,
 }
 
 void Cndo2::MallocDiatomicOverlap2ndDeriTemps(double*** diaOverlapInDiaFrame, 
-                                                 double*** diaOverlap1stDerivInDiaFrame,
-                                                 double*** diaOverlap2ndDerivInDiaFrame,
-                                                 double*** rotMat,
-                                                 double**** rotMat1stDerivs,
-                                                 double***** rotMat2ndDerivs,
-                                                 double**** tempDiaOverlap1stDerivs,
-                                                 double***** tempDiaOverlap2ndDerivs) const{
+                                              double*** diaOverlap1stDerivInDiaFrame,
+                                              double*** diaOverlap2ndDerivInDiaFrame,
+                                              double*** rotMat,
+                                              double**** rotMat1stDerivs,
+                                              double***** rotMat2ndDerivs,
+                                              double**** tempDiaOverlap1stDerivs,
+                                              double***** tempDiaOverlap2ndDerivs) const{
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlapInDiaFrame, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlap1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlap2ndDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
@@ -4425,11 +4425,11 @@ double Cndo2::GetGaussianOverlap(AtomType atomTypeA,
 // The derivative is carried out related to the coordinate of atom A.
 // See Eqs. (34) - (44) in [DY_1977]
 double Cndo2::GetOverlapElement1stDerivativeByGTOExpansion(const Atom& atomA, 
-                                                             int valenceIndexA, 
-                                                             const Atom& atomB, 
-                                                             int valenceIndexB,
-                                                             STOnGType stonG, 
-                                                             CartesianType axisA) const{
+                                                           int valenceIndexA, 
+                                                           const Atom& atomB, 
+                                                           int valenceIndexB,
+                                                           STOnGType stonG, 
+                                                           CartesianType axisA) const{
 
    double value = 0.0;
    double dx = atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis];
@@ -4851,8 +4851,8 @@ void Cndo2::CalcRotatingMatrix(double** rotatingMatrix,
 // For rotating matirxi, see J. Mol. Struc. (Theochem), 419, 19 (1997) (ref. [BFB_1997])
 // we set gamma=0 always.
 void Cndo2::CalcRotatingMatrix1stDerivatives(double*** rotMat1stDerivatives, 
-                                               const Atom& atomA, 
-                                               const Atom& atomB) const{
+                                             const Atom& atomA, 
+                                             const Atom& atomB) const{
 
    MallocerFreer::GetInstance()->Initialize<double>(
                                  rotMat1stDerivatives,  
@@ -5142,8 +5142,8 @@ void Cndo2::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap,
 
 // First derivative of (B.40) in J. A. Pople book.
 void Cndo2::CalcDiatomicOverlap1stDerivativeInDiatomicFrame(double** diatomicOverlapDeri, 
-                                                              const Atom& atomA, 
-                                                              const Atom& atomB) const{
+                                                            const Atom& atomA, 
+                                                            const Atom& atomB) const{
 
    int na = atomA.GetValenceShellType() + 1;
    int nb = atomB.GetValenceShellType() + 1;
@@ -5478,12 +5478,12 @@ double Cndo2::GetReducedOverlap(int na, int nb, double alpha, double beta) const
 // First derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by alpha.
 double Cndo2::GetReducedOverlap1stDerivativeAlpha(int na, 
-                                                    int la, 
-                                                    int m, 
-                                                    int nb, 
-                                                    int lb, 
-                                                    double alpha, 
-                                                    double beta) const{
+                                                  int la, 
+                                                  int m, 
+                                                  int nb, 
+                                                  int lb, 
+                                                  double alpha, 
+                                                  double beta) const{
    double value = 0.0;
    double temp1 = 0.0;
    double temp2 = 0.0;
@@ -5507,12 +5507,12 @@ double Cndo2::GetReducedOverlap1stDerivativeAlpha(int na,
 // First derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by Beta.
 double Cndo2::GetReducedOverlap1stDerivativeBeta(int na, 
-                                                   int la, 
-                                                   int m, 
-                                                   int nb, 
-                                                   int lb, 
-                                                   double alpha, 
-                                                   double beta) const{
+                                                 int la, 
+                                                 int m, 
+                                                 int nb, 
+                                                 int lb, 
+                                                 double alpha, 
+                                                 double beta) const{
    double value = 0.0;
    double temp1 = 0.0;
    double temp2 = 0.0;
@@ -5536,12 +5536,12 @@ double Cndo2::GetReducedOverlap1stDerivativeBeta(int na,
 // Second derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by alpha twice.
 double Cndo2::GetReducedOverlap2ndDerivativeAlpha(int na, 
-                                                     int la, 
-                                                     int m, 
-                                                     int nb, 
-                                                     int lb, 
-                                                     double alpha, 
-                                                     double beta) const{
+                                                  int la, 
+                                                  int m, 
+                                                  int nb, 
+                                                  int lb, 
+                                                  double alpha, 
+                                                  double beta) const{
    double value = 0.0;
    double temp1 = 0.0;
    double temp2 = 0.0;
@@ -5600,12 +5600,12 @@ double Cndo2::GetReducedOverlap2ndDerivativeBeta(int na,
 // Second derivative of (B.24) in J. A. Pople book.
 // This derivative is carried out by alpha and beta.
 double Cndo2::GetReducedOverlap2ndDerivativeAlphaBeta(int na, 
-                                                         int la, 
-                                                         int m, 
-                                                         int nb, 
-                                                         int lb, 
-                                                         double alpha, 
-                                                         double beta) const{
+                                                      int la, 
+                                                      int m, 
+                                                      int nb, 
+                                                      int lb, 
+                                                      double alpha, 
+                                                      double beta) const{
    double value = 0.0;
    double temp1 = 0.0;
    double temp2 = 0.0;
