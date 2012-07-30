@@ -51,6 +51,7 @@ protected:
    std::string errorMessageCoulombInt;
    std::string errorMessageExchangeInt;
    std::string errorMessageMolecularIntegralElement;
+   std::string errorMessageGetDiatomCoreRepulsionSecondDerivativeNotImplemented;
    std::string errorMessageGetGaussianCartesianMatrixBadOrbital;
    std::string errorMessageGetGaussianOverlapBadOrbital;
    std::string errorMessageGetGaussianOverlap1stDerivativeOrbitalD;
@@ -105,6 +106,10 @@ protected:
    virtual double GetDiatomCoreRepulsionFirstDerivative(int indexAtomA, 
                                                         int indexAtomB, 
                                                         MolDS_base::CartesianType axisA) const;
+   virtual double GetDiatomCoreRepulsionSecondDerivative(int indexAtomA,
+                                                         int indexAtomB, 
+                                                         MolDS_base::CartesianType axisA1,
+                                                         MolDS_base::CartesianType axisA2) const;
    virtual double GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const;
    virtual double GetDiatomVdWCorrectionFirstDerivative(int indexAtomA, 
                                                         int indexAtomB, 
