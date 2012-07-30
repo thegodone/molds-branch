@@ -140,8 +140,8 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2::GetGaussianCartesianMatrix: Untreatable orbital is contained in atom A or B.\n";
    this->errorMessageGetGaussianOverlapBadOrbital 
       = "Error in cndo::Cndo2::GetGaussianOverlap: Untreatable orbital is contained in atom A or B.\n";
-   this->errorMessageGetGaussianOverlapFirstDerivativeOrbitalD 
-      = "Error in cndo::Cndo2::GetGaussianOverlapFirstDerivative: d-orbital is not treatable. The d-orbital is contained in atom A or B.\n";
+   this->errorMessageGetGaussianOverlap1stDerivativeOrbitalD 
+      = "Error in cndo::Cndo2::GetGaussianOverlap1stDerivative: d-orbital is not treatable. The d-orbital is contained in atom A or B.\n";
    this->errorMessageCISNotImplemented 
       = "Error in cndo::Cndo2: CIS is not implemented for CNDO2.\n";
    this->errorMessageCalcForceNotImplemented
@@ -4456,17 +4456,17 @@ double Cndo2::GetOverlapElementFirstDerivativeByGTOExpansion(const Atom& atomA,
                                                                          shellTypeB, 
                                                                          valenceOrbitalB, 
                                                                          j);
-         temp *= this->GetGaussianOverlapFirstDerivative(atomA.GetAtomType(), 
-                                                         valenceOrbitalA, 
-                                                         gaussianExponentA, 
-                                                         atomB.GetAtomType(), 
-                                                         valenceOrbitalB, 
-                                                         gaussianExponentB,
-                                                         dx, 
-                                                         dy, 
-                                                         dz, 
-                                                         Rab, 
-                                                         axisA);
+         temp *= this->GetGaussianOverlap1stDerivative(atomA.GetAtomType(), 
+                                                       valenceOrbitalA, 
+                                                       gaussianExponentA, 
+                                                       atomB.GetAtomType(), 
+                                                       valenceOrbitalB, 
+                                                       gaussianExponentB,
+                                                       dx, 
+                                                       dy, 
+                                                       dz, 
+                                                       Rab, 
+                                                       axisA);
          value += temp;
       }
    }
@@ -4475,15 +4475,14 @@ double Cndo2::GetOverlapElementFirstDerivativeByGTOExpansion(const Atom& atomA,
 
 // calculate first derivative of gaussian overlap integrals. 
 // See Eqs. (35) - (44) in [DY_1977]
-double Cndo2::GetGaussianOverlapFirstDerivative
-                                (AtomType atomTypeA, 
-                                 OrbitalType valenceOrbitalA, 
-                                 double gaussianExponentA, 
-                                 AtomType atomTypeB, 
-                                 OrbitalType valenceOrbitalB, 
-                                 double gaussianExponentB,
-                                 double dx, double dy, double dz, double Rab, 
-                                 CartesianType axisA) const{
+double Cndo2::GetGaussianOverlap1stDerivative(AtomType atomTypeA, 
+                                              OrbitalType valenceOrbitalA, 
+                                              double gaussianExponentA, 
+                                              AtomType atomTypeB, 
+                                              OrbitalType valenceOrbitalB, 
+                                              double gaussianExponentB,
+                                              double dx, double dy, double dz, double Rab, 
+                                              CartesianType axisA) const{
    double value = 0.0;
 
    if(valenceOrbitalA == s && valenceOrbitalB == s){
@@ -4727,7 +4726,7 @@ double Cndo2::GetGaussianOverlapFirstDerivative
    }
    else{
       stringstream ss;
-      ss << this->errorMessageGetGaussianOverlapFirstDerivativeOrbitalD;
+      ss << this->errorMessageGetGaussianOverlap1stDerivativeOrbitalD;
       ss << this->errorMessageAtomA;
       ss << this->errorMessageAtomType << AtomTypeStr(atomTypeA) << endl;
       ss << this->errorMessageOrbitalType << OrbitalTypeStr(valenceOrbitalA) << endl;
