@@ -1117,7 +1117,7 @@ void Cndo2::FreeElecEnergyMatrices(double*** fMatrix,
                                               this->molecule->GetNumberAtoms());
 }
 
-// The order of mol, moJ, moK, moL is consistent with Eq. (9) in [RZ_1973]
+// The order of moI, moJ, moK, moL is consistent with Eq. (9) in [RZ_1973]
 double Cndo2::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL, 
                                           const Molecule& molecule, 
                                           double const* const* fockMatrix, 
