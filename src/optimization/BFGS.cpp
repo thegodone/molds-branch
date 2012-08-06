@@ -125,7 +125,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             }
          }
          // Level shift Hessian redundant modes
-         this->ShiftHesssianRedundantMode(matrixHessian, molecule);
+         this->ShiftHessianRedundantMode(matrixHessian, molecule);
 
          // Limit the trustRadius to maxNormStep
          trustRadius=min(trustRadius,maxNormStep);
@@ -426,52 +426,60 @@ void BFGS::UpdateHessian(double **matrixHessian,
 }
 
 // Level shift eigenvalues of redandant modes to largeEigenvalue
-void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
-                                      const Molecule& molecule) const{
-   const double largeEigenvalue      = 1.0e3;
-   const int    numAtoms             = molecule.GetNumberAtoms();
-   const int    dimension            = numAtoms *CartesianType_end;
-   int          numIndependentModes  = CartesianType_end *2;
-   double** vectorsHessianModes      = NULL;
-   double*  vectorHessianEigenValues = NULL;
-   double** matrixesRedundantModes[CartesianType_end*2] = {NULL, NULL, NULL, NULL, NULL, NULL};
-   double*  vectorsRedundantModes[CartesianType_end *2] = {NULL, NULL, NULL, NULL, NULL, NULL};
-   double   matrixesRotationalModeGenerators[CartesianType_end]
-                                            [CartesianType_end]
-                                            [CartesianType_end] = {{{0,  0, 0}, {0, 0, -1}, { 0, 1, 0}},
-                                                                   {{0,  0, 1}, {0, 0,  0}, {-1, 0, 0}},
-                                                                   {{0, -1, 0}, {1, 0,  0}, { 0, 0, 0}}};
+
+void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
+                                     const Molecule& molecule) const{
+   const double largeEigenvalue       = 1.0e3;
+   const int    numAtoms              = molecule.GetNumberAtoms();
+   const int    dimension             = numAtoms *CartesianType_end;
+   const int    numTranslationalModes = 3;
+   const int    numRotationalModes    = 3;
+   int          numRedundantModes     = numTranslationalModes + numRotationalModes;
+   double** vectorsHessianModes       = NULL;
+   double*  vectorHessianEigenValues  = NULL;
+   double** matrixesRedundantModes[]  = {NULL, NULL, NULL, NULL, NULL, NULL};
+   double*   vectorsRedundantModes[]  = {NULL, NULL, NULL, NULL, NULL, NULL};
+   const double matrixesRotationalModeGenerators[numRotationalModes]
+                                                [CartesianType_end]
+                                                [CartesianType_end]
+                = {{{0,  0, 0}, {0, 0, -1}, { 0, 1, 0}},
+                   {{0,  0, 1}, {0, 0,  0}, {-1, 0, 0}},
+                   {{0, -1, 0}, {1, 0,  0}, { 0, 0, 0}}};
 
    try{
       // Prepare translational modes
-      for(int c=0; c<CartesianType_end;c++){
+      for(int c=0; c<numTranslationalModes;c++){
          MallocerFreer::GetInstance()->Malloc(&matrixesRedundantModes[c], numAtoms, CartesianType_end);
          vectorsRedundantModes[c] = &matrixesRedundantModes[c][0][0];
-         for(int n=0;n<numAtoms;n++){
+      }
+      for(int c=0; c<numTranslationalModes;c++){
 #pragma omp parallel for schedule(auto)
+         for(int n=0;n<numAtoms;n++){
             for(int d=0;d<CartesianType_end;d++){
                matrixesRedundantModes[c][n][d] = c==d? 1.0 : 0.0;
             }
          }
       }
       // Prepare rotational modes
-      for(int c=0; c<CartesianType_end;c++){
-         MallocerFreer::GetInstance()->Malloc(&matrixesRedundantModes[c+CartesianType_end], numAtoms, CartesianType_end);
-         vectorsRedundantModes[c+CartesianType_end] = &matrixesRedundantModes[c+CartesianType_end][0][0];
+      for(int c=0; c<numRotationalModes;c++){
+         MallocerFreer::GetInstance()->Malloc(&matrixesRedundantModes[c+numTranslationalModes], numAtoms, CartesianType_end);
+         vectorsRedundantModes[c+numTranslationalModes] = &matrixesRedundantModes[c+numTranslationalModes][0][0];
+      }
+      for(int c=0; c<numRotationalModes;c++){
+#pragma omp parallel for schedule(auto)
          for(int n=0;n<numAtoms;n++){
             const double* xyz = molecule.GetAtom(n)->GetXyz();
-#pragma omp parallel for schedule(auto)
             for(int d=0;d<CartesianType_end;d++){
-               matrixesRedundantModes[c+CartesianType_end][n][d] = 0.0;
+               matrixesRedundantModes[c+numTranslationalModes][n][d] = 0.0;
                for(int e=0;e<CartesianType_end;e++){
-                  matrixesRedundantModes[c+CartesianType_end][n][d] += matrixesRotationalModeGenerators[c][d][e] * xyz[e];
+                  matrixesRedundantModes[c+numTranslationalModes][n][d] += matrixesRotationalModeGenerators[c][d][e] * xyz[e];
                }
             }
          }
       }
       // Orthonormalize redundant modes
       // using Gram-Schmidt process
-      for(int c=0; c<numIndependentModes;c++){
+      for(int c=0; c<numRedundantModes;c++){
          for(int d=0;d<c;d++){
             double dotproduct = 0.0;
 #pragma omp parallel for schedule(auto) reduction(+:dotproduct)
@@ -491,8 +499,8 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
          norm = sqrt(norm);
          // Eliminate a linear dependent mode
          if(norm < 1e-5){
-            numIndependentModes--;
-            for(int d=c;d<numIndependentModes;d++){
+            numRedundantModes--;
+            for(int d=c;d<numRedundantModes;d++){
 #pragma omp parallel for schedule(auto)
                for(int i=0;i<dimension;i++){
                   vectorsRedundantModes[d][i] = vectorsRedundantModes[d+1][i];
@@ -510,8 +518,8 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       // Diagonalize hessian
       MallocerFreer::GetInstance()->Malloc(&vectorHessianEigenValues, dimension);
       MallocerFreer::GetInstance()->Malloc(&vectorsHessianModes, dimension, dimension);
-      for(int i=0; i<dimension; i++){
 #pragma omp parallel for schedule(auto)
+      for(int i=0; i<dimension; i++){
          for(int j=0; j<dimension; j++){
             vectorsHessianModes[i][j] = matrixHessian[i][j];
          }
@@ -535,24 +543,21 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       this->OutputLog("\n");
 
       // Orthogonalize vectorsHessianModes against vectorsRedundantModes
-      for(int i=0;i<dimension-numIndependentModes;i++){
-         for(int c=0; c<numIndependentModes;c++){
+#pragma omp parallel for schedule(auto)
+      for(int i=0;i<dimension-numRedundantModes;i++){
+         for(int c=0; c<numRedundantModes;c++){
             double dotproduct = 0.0;
-#pragma omp parallel for schedule(auto) reduction(+:dotproduct)
             for(int j=0;j<dimension;j++){
                dotproduct += vectorsHessianModes[i][j] * vectorsRedundantModes[c][j];
             }
-#pragma omp parallel for schedule(auto)
             for(int j=0;j<dimension;j++){
                vectorsHessianModes[i][j] -= dotproduct * vectorsRedundantModes[c][j];
             }
             double norm = 0.0;
-#pragma omp parallel for schedule(auto) reduction(+:norm)
             for(int j=0;j<dimension;j++){
                norm += vectorsHessianModes[i][j] * vectorsHessianModes[i][j];
             }
             norm = sqrt(norm);
-#pragma omp parallel for schedule(auto)
             for(int j=0;j<dimension;j++){
                vectorsHessianModes[i][j] /= norm;
             }
@@ -560,10 +565,11 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       }
 
       // Calculate projected eigenvalues of new modes
-      for(int i=0;i<dimension-numIndependentModes;i++){
+      // h_i' = x_i'^T * H * x_i'
+#pragma omp parallel for schedule(auto)
+      for(int i=0;i<dimension-numRedundantModes;i++){
          double tmp = 0.0;
          for(int j=0;j<dimension;j++){
-#pragma omp parallel for schedule(auto) reduction(+:tmp)
             for(int k=0;k<dimension;k++){
                tmp += vectorsHessianModes[i][j] * matrixHessian[j][k] * vectorsHessianModes[i][k];
             }
@@ -571,7 +577,7 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
          vectorHessianEigenValues[i] = tmp;
       }
 #pragma omp parallel for schedule(auto)
-      for(int i=dimension-numIndependentModes;i<dimension;i++){
+      for(int i=dimension-numRedundantModes;i<dimension;i++){
          vectorHessianEigenValues[i] = largeEigenvalue;
       }
 
@@ -588,15 +594,15 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
       this->OutputLog("\n");
 
       // Calculate shifted Hessian from eigenvalues and modes
+      // H' = sum x_i' h_i' x_i^T
+#pragma omp parallel for schedule(auto)
       for(int i=0;i<dimension;i++){
          for(int j=0;j<dimension;j++){
             double tmp = 0.0;
-#pragma omp parallel for schedule(auto) reduction(+:tmp)
-            for(int k=0;k<dimension-numIndependentModes;k++){
+            for(int k=0;k<dimension-numRedundantModes;k++){
                tmp += vectorsHessianModes[k][i] * vectorsHessianModes[k][j] * vectorHessianEigenValues[k];
             }
-#pragma omp parallel for schedule(auto) reduction(+:tmp)
-            for(int k=0;k<numIndependentModes;k++){
+            for(int k=0;k<numRedundantModes;k++){
                tmp += vectorsRedundantModes[k][i] * vectorsRedundantModes[k][j] * largeEigenvalue;
             }
             matrixHessian[i][j] = tmp;
@@ -605,13 +611,13 @@ void BFGS::ShiftHesssianRedundantMode(double** matrixHessian,
    }
    catch(MolDSException ex)
    {
-      for(int i=0;i<CartesianType_end*2;i++){
+      for(int i=0;i<numRedundantModes;i++){
          MallocerFreer::GetInstance()->Free(&matrixesRedundantModes[i], numAtoms, CartesianType_end);
       }
       MallocerFreer::GetInstance()->Free(&vectorHessianEigenValues, dimension);
       MallocerFreer::GetInstance()->Free(&vectorsHessianModes, dimension, dimension);
    }
-   for(int i=0;i<CartesianType_end*2;i++){
+   for(int i=0;i<numRedundantModes;i++){
       MallocerFreer::GetInstance()->Free(&matrixesRedundantModes[i], numAtoms, CartesianType_end);
    }
    MallocerFreer::GetInstance()->Free(&vectorHessianEigenValues, dimension);
