@@ -19,7 +19,7 @@
 #// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 #//************************************************************************//
 
-MolDSBin = "../src/MolDS_r954.out".freeze
+MolDSBin = "../src/MolDS.out".freeze
 
 module AllInclude
 	def include? *arg
