@@ -30,10 +30,10 @@
 #include"base/Molecule.h"
 #include"base/MolDS.h"
 using namespace std;
-int main(){
+int main(int argc, char *argv[]){
    try{
       boost::shared_ptr<MolDS_base::MolDS> molds(new MolDS_base::MolDS());
-      molds->Run();
+      molds->Run(argc, argv);
    }
    catch(exception ex){
       cout << ex.what();
