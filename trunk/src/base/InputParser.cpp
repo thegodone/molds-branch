@@ -19,6 +19,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
+#include<fstream>
 #include<sstream>
 #include<math.h>
 #include<string>
@@ -322,43 +323,57 @@ void InputParser::SetMessages(){
    this->stringOptimizationTimeWidth = "dt";
 }
 
-vector<string> InputParser::GetInputTerms() const{
-
-   string str;
-   string inputTerm;
+vector<string> InputParser::GetInputTerms(int argc, char *argv[]) const{
    vector<string> inputTerms;
-   bool isPreCharSpace = false;
-   while(getline(cin, str)){
-
-      // check comment out 
-      if(this->IsCommentOut(str)){
-         continue;
-      }
-
-      // get input terms
-      for(int i=0; i<str.length(); i++){
-         if(str.data()[i] != stringSpace.data()[0] && str.data()[i] != stringTab.data()[0]){
-            // change to lower case.
-            inputTerm += tolower(str.data()[i]);
-            isPreCharSpace = false;
-         }
-         else{
-            if(!isPreCharSpace){
-               inputTerms.push_back(inputTerm);
-               inputTerm = "";
-               isPreCharSpace = true;
-            }
-         }
-      }
-      if(inputTerm.length()>0){
-         inputTerms.push_back(inputTerm);
-         inputTerm = "";
-      }
-      isPreCharSpace = true;
+   if(argc==1){
+      this->AddInputTermsFromStdRedirect(inputTerms);
    }
-
+   else{
+      char* fileName = argv[1];
+      this->AddInputTermsFromFile(inputTerms,fileName);
+   }
    return inputTerms;
+}
 
+void InputParser::AddInputTermsFromStdRedirect(vector<string>& inputTerms) const{
+   string str;
+   while(getline(cin, str)){
+      this->AddInputTermsFromString(inputTerms, str);
+   }
+}
+
+void InputParser::AddInputTermsFromFile(vector<string>& inputTerms, char* fileName) const{
+   string str;
+   fstream ifs(fileName);
+   while(getline(ifs, str)){
+      this->AddInputTermsFromString(inputTerms, str);
+   }
+}
+
+void InputParser::AddInputTermsFromString(vector<string>& inputTerms, string str) const{
+   //skip comment
+   if(this->IsCommentOut(str)){return;}
+
+   string inputTerm;
+   bool isPreCharSpace = true;
+   // get input terms
+   for(int i=0; i<str.length(); i++){
+      if(str.data()[i] != stringSpace.data()[0] && str.data()[i] != stringTab.data()[0]){
+         // change to lower case.
+         inputTerm += tolower(str.data()[i]);
+         isPreCharSpace = false;
+      }
+      else{
+         if(!isPreCharSpace){
+            inputTerms.push_back(inputTerm);
+            inputTerm = "";
+            isPreCharSpace = true;
+         }
+      }
+   }
+   if(inputTerm.length()>0){
+      inputTerms.push_back(inputTerm);
+   }
 }
 
 int InputParser::ParseMolecularGeometry(Molecule* molecule, vector<string>* inputTerms, int parseIndex) const{
@@ -966,12 +981,12 @@ int InputParser::ParseConditionsMemory(vector<string>* inputTerms, int parseInde
    return parseIndex;
 }
 
-void InputParser::Parse(Molecule* molecule) const{
+void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
 
    this->OutputLog(messageStartParseInput);
 
    // read input
-   vector<string> inputTerms = this->GetInputTerms();
+   vector<string> inputTerms = this->GetInputTerms(argc, argv);
 
    // parse input
    for(int i=0; i<inputTerms.size();i++){

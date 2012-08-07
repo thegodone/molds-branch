@@ -54,7 +54,7 @@
 using namespace std;
 using namespace MolDS_base_factories;
 namespace MolDS_base{
-void MolDS::Run() const{
+void MolDS::Run(int argc, char *argv[]) const{
    // Welcome Messages
    this->OutputLog(Utilities::GetWelcomeMessage());
    
@@ -75,7 +75,7 @@ void MolDS::Run() const{
       MolDS_wrappers::Lapack::GetInstance();
       GTOExpansionSTO::GetInstance();
       // Parse input
-      InputParser::GetInstance()->Parse(molecule);
+      InputParser::GetInstance()->Parse(molecule, argc, argv);
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());

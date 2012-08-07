@@ -21,7 +21,7 @@
 namespace MolDS_base{
 class MolDS: public PrintController{
 public:
-   void Run() const;
+   void Run(int argc, char *argv[]) const;
 private:
    void CalculateElectronicStructureOnce(Molecule* molecule, bool* runningNormally) const;
    void DoMC(Molecule* molecule, bool* runningNormally) const;

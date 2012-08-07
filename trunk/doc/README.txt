@@ -60,8 +60,10 @@ COMPILE(using GNUmake):
 
 ==============================================================================
 CARRY OUT MolDS:
-   In the "src" directory in the MolDS package.
+   After the compile, in the "src" directory,
    $ ./MolDS.out < input.in
+   or
+   $ ./MolDS.out input.in
 
 ==============================================================================
 SAMPLE and TEST
