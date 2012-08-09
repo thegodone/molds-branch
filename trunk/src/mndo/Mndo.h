@@ -192,17 +192,8 @@ private:
    void CalcZMatrixForce(const std::vector<int>& elecStates);
    void CalcEtaMatrixForce(const std::vector<int>& elecStates);
    bool RequiresExcitedStatesForce(const std::vector<int>& elecStates) const;
-   double GetCISCoefficientMOEnergy(int k, 
-                                    int l, 
-                                    int r, 
-                                    int numberActiveVir) const;
-   double GetCISCoefficientTwoElecIntegral(int k, 
-                                           int l, 
-                                           int p, 
-                                           int q, 
-                                           int r, 
-                                           int s, 
-                                           int numberActiveVir) const;
+   double GetCISCoefficientMOEnergy(int k, int l, int r, int numberActiveVir) const;
+   double GetCISCoefficientTwoElecIntegral(int k, int l, int p, int q, int r, int s, int numberActiveVir) const;
    void CalcActiveSetVariablesQ(std::vector<MoIndexPair>* nonRedundantQIndeces, 
                                 std::vector<MoIndexPair>* redundantQIndeces,
                                 int numberActiveOcc,
@@ -211,29 +202,29 @@ private:
    double GetHessianElementSameAtomsSCF(int indexAtomA, 
                                         MolDS_base::CartesianType axisA1,
                                         MolDS_base::CartesianType axisA2,
-                                        double const* const* orbitalElectronPopulation,
+                                        double const* const*               orbitalElectronPopulation,
                                         double const* const* const* const* orbitalElectronPopulation1stDerivs,
-                                        double const* const* const* const* diatomicOverlap1stDerivs,
-                                        double const* const* const* const* const* diatomicOverlap2ndDerivs,
-                                        double const* const* const* const* const* const* diatomicTwoElecTwoCore1stDerivs,
+                                        double const* const* const* const*                      diatomicOverlap1stDerivs,
+                                        double const* const* const* const* const*               diatomicOverlap2ndDerivs,
+                                        double const* const* const* const* const* const*        diatomicTwoElecTwoCore1stDerivs,
                                         double const* const* const* const* const* const* const* diatomicTwoElecTwoCore2ndDerivs) const;
    double GetHessianElementDifferentAtomsSCF(int indexAtomA, 
                                              int indexAtomB,
                                              MolDS_base::CartesianType axisA,
                                              MolDS_base::CartesianType axisB,
-                                             double const* const* orbitalElectronPopulation,
+                                             double const* const*               orbitalElectronPopulation,
                                              double const* const* const* const* orbitalElectronPopulation1stDerivs,
-                                             double const* const* const* const* diatomicOverlap1stDerivs,
-                                             double const* const* const* const* const* diatomicOverlap2ndDerivs,
-                                             double const* const* const* const* const* const* diatomicTwoElecTwoCore1stDerivs,
+                                             double const* const* const* const*                      diatomicOverlap1stDerivs,
+                                             double const* const* const* const* const*               diatomicOverlap2ndDerivs,
+                                             double const* const* const* const* const* const*        diatomicTwoElecTwoCore1stDerivs,
                                              double const* const* const* const* const* const* const* diatomicTwoElecTwoCore2ndDerivs) const;
-   void MallocTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlap1stDerivs,
-                                                   double****** diatomicOverlap2ndDerivs,
-                                                   double******* diatomicTwoElecTwoCore1stDerivs,
+   void MallocTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverlap1stDerivs,
+                                                   double******   diatomicOverlap2ndDerivs,
+                                                   double*******  diatomicTwoElecTwoCore1stDerivs,
                                                    double******** diatomicTwoElecTwoCore2ndDerivs) const;
-   void FreeTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlap1stDerivs,
-                                                 double****** diatomicOverlap2ndDerivs,
-                                                 double******* diatomicTwoElecTwoCore1stDeriv,
+   void FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverlap1stDerivs,
+                                                 double******   diatomicOverlap2ndDerivs,
+                                                 double*******  diatomicTwoElecTwoCore1stDeriv,
                                                  double******** diatomicTwoElecTwoCore2ndDerivs) const;
    double GetAuxiliaryHessianElement1(int mu, 
                                       int nu, 
@@ -321,9 +312,9 @@ private:
                                  int indexAtomA,
                                  MolDS_base::CartesianType axisA) const;
    void MallocTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCore1stDeriv,
-                                               double**** diatomicOverlap1stDeriv) const;
+                                               double****   diatomicOverlap1stDeriv) const;
    void FreeTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCore1stDeriv,
-                                             double**** diatomicOverlap1stDeriv) const;
+                                             double****   diatomicOverlap1stDeriv) const;
    void CalcMatrixCPHF(double** matrixCPHF, 
                        const std::vector<MoIndexPair>& nonRedundantQIndeces,
                        const std::vector<MoIndexPair>& redundantQIndeces) const;
@@ -351,21 +342,21 @@ private:
    void CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix, 
                                                  int indexAtomA, 
                                                  int indexAtomB) const;
-   void MallocDiatomicTwoElecTwoCore1stDeriTemps(double*** rotatingMatrix,
-                                                 double**** rotMat1stDerivatives,
+   void MallocDiatomicTwoElecTwoCore1stDeriTemps(double***   rotatingMatrix,
+                                                 double****  rotMat1stDerivatives,
                                                  double***** diatomicTwoElecTwoCore) const;
-   void MallocDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
-                                                 double**** rotMat1stDerivatives,
-                                                 double***** rotMat2ndDerivatives,
-                                                 double***** diatomicTwoElecTwoCore,
+   void MallocDiatomicTwoElecTwoCore2ndDeriTemps(double***    rotatingMatrix,
+                                                 double****   rotMat1stDerivatives,
+                                                 double*****  rotMat2ndDerivatives,
+                                                 double*****  diatomicTwoElecTwoCore,
                                                  double****** diatomicTwoElecTwoCore1stDerivatives) const;
-   void FreeDiatomicTwoElecTwoCore1stDeriTemps(double*** rotatingMatrix,
-                                               double**** rotMat1stDerivatives,
+   void FreeDiatomicTwoElecTwoCore1stDeriTemps(double***   rotatingMatrix,
+                                               double****  rotMat1stDerivatives,
                                                double***** diatomicTwoElecTwoCore) const;
-   void FreeDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
-                                               double**** rotMat1stDerivatives,
-                                               double***** rotMat2ndDerivatives,
-                                               double***** diatomicTwoElecTwoCore,
+   void FreeDiatomicTwoElecTwoCore2ndDeriTemps(double***    rotatingMatrix,
+                                               double****   rotMat1stDerivatives,
+                                               double*****  rotMat2ndDerivatives,
+                                               double*****  diatomicTwoElecTwoCore,
                                                double****** diatomicTwoElecTwoCore1stDerivatives) const;
    void RotateDiatomicTwoElecTwoCoreToSpaceFramegc(double**** matrix, 
                                                    double const* const* rotatingMatrix) const;
@@ -376,7 +367,7 @@ private:
         double const* const* const* rotMat1stDerivatives) const;
    void RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
         double****** matrix, 
-        double const* const* const* const* diatomicTwoElecTwoCore,
+        double const* const* const* const*        diatomicTwoElecTwoCore,
         double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivatives,
         double const* const* rotatingMatrix,
         double const* const* const* rotMat1stDerivatives,
@@ -417,9 +408,9 @@ private:
                                                             MolDS_base::MultipoleType multipoleA,
                                                             MolDS_base::MultipoleType multipoleB,
                                                             double Rab) const;
-   void MallocTempMatricesCalcForce(double**** diatomicOverlap1stDerivs, 
+   void MallocTempMatricesCalcForce(double****   diatomicOverlap1stDerivs, 
                                     double****** diatomiTwoElecTwoCore1stDerivs) const;
-   void FreeTempMatricesCalcForce(double**** diatomicOverlap1stDerivs, 
+   void FreeTempMatricesCalcForce(double****   diatomicOverlap1stDerivs, 
                                   double****** diatomiTwoElecTwoCore1stDerivs) const;
    void CalcForceSCFElecCoreAttractionPart(double* force, 
                                            int indexAtomA,
