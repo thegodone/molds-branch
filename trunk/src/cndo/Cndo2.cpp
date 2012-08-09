@@ -365,7 +365,6 @@ double Cndo2::GetVdwDampingValue2ndDerivative(double vdWDistance, double distanc
    double exponent = -1.0*dampingFactor*(distance/vdWDistance - 1.0);
    double pre = dampingFactor/vdWDistance;
    double dominator = 1.0+exp(exponent);
-
    return 2.0*pow(dominator,-3.0)*pre*pre*exp(2.0*exponent) 
          -    pow(dominator,-2.0)*pre*pre*exp(    exponent);
 }
