@@ -1632,8 +1632,8 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
             int moB = this->GetActiveVirIndex(*this->molecule, l);
             double value=0.0;
          
-            // Fast algorith, but this is not easy to read. 
-            // Slow algorithm is alos written below.
+            // Fast algorithm, but this is not easy to read. 
+            // Slow algorithm is also written below.
             int firstAOIndexA;
             int firstAOIndexB;
             int numberAOsA;
