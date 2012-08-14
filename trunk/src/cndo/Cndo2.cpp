@@ -3576,32 +3576,32 @@ void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDeriv
                   for(int k=0; k<OrbitalType_end; k++){
                      for(int l=0; l<OrbitalType_end; l++){
               
-                        temp1 += rotMat2ndDerivatives[i][k][dimA1][dimA2]
-                                *rotMat[j][l]
-                                *diaOverlapInDiaFrame[k][l];
-                        temp2 += rotMat[i][k]
-                                *rotMat2ndDerivatives[j][l][dimA1][dimA2]
-                                *diaOverlapInDiaFrame[k][l];
-                        temp3 += rotMat[i][k]
-                                *rotMat[j][l]
+                        temp1 += rotMat2ndDerivatives   [i][k][dimA1][dimA2]
+                                *rotMat                 [j][l]
+                                *diaOverlapInDiaFrame   [k][l];
+                        temp2 += rotMat                 [i][k]
+                                *rotMat2ndDerivatives   [j][l][dimA1][dimA2]
+                                *diaOverlapInDiaFrame   [k][l];
+                        temp3 += rotMat                 [i][k]
+                                *rotMat                 [j][l]
                                 *tempDiaOverlap2ndDerivs[k][l][dimA1][dimA2];
-                        temp4 += rotMat1stDerivatives[i][k][dimA1] 
-                                *rotMat1stDerivatives[j][l][dimA2]
-                                *diaOverlapInDiaFrame[k][l];
-                        temp5 += rotMat1stDerivatives[i][k][dimA1] 
-                                *rotMat[j][l]
+                        temp4 += rotMat1stDerivatives   [i][k][dimA1] 
+                                *rotMat1stDerivatives   [j][l][dimA2]
+                                *diaOverlapInDiaFrame   [k][l];
+                        temp5 += rotMat1stDerivatives   [i][k][dimA1] 
+                                *rotMat                 [j][l]
                                 *tempDiaOverlap1stDerivs[k][l][dimA2];
-                        temp6 += rotMat1stDerivatives[i][k][dimA2] 
-                                *rotMat1stDerivatives[j][l][dimA1]
-                                *diaOverlapInDiaFrame[k][l];
-                        temp7 += rotMat[i][k] 
-                                *rotMat1stDerivatives[j][l][dimA1]
+                        temp6 += rotMat1stDerivatives   [i][k][dimA2] 
+                                *rotMat1stDerivatives   [j][l][dimA1]
+                                *diaOverlapInDiaFrame   [k][l];
+                        temp7 += rotMat                 [i][k] 
+                                *rotMat1stDerivatives   [j][l][dimA1]
                                 *tempDiaOverlap1stDerivs[k][l][dimA2];
-                        temp8 += rotMat1stDerivatives[i][k][dimA2] 
-                                *rotMat[j][l]
+                        temp8 += rotMat1stDerivatives   [i][k][dimA2] 
+                                *rotMat                 [j][l]
                                 *tempDiaOverlap1stDerivs[k][l][dimA1];
-                        temp9 += rotMat[i][k] 
-                                *rotMat1stDerivatives[j][l][dimA2]
+                        temp9 += rotMat                 [i][k] 
+                                *rotMat1stDerivatives   [j][l][dimA2]
                                 *tempDiaOverlap1stDerivs[k][l][dimA1];
                      }
                   }
