@@ -2127,11 +2127,11 @@ double Mndo::GetAuxiliaryHessianElement8(int mu,
 double Mndo::GetHessianElementSameAtomsSCF(int indexAtomA, 
                                            CartesianType axisA1,
                                            CartesianType axisA2,
-                                           double const* const* orbitalElectronPopulation,
+                                           double const* const*               orbitalElectronPopulation,
                                            double const* const* const* const* orbitalElectronPopulation1stDerivs,
-                                           double const* const* const* const* diatomicOverlap1stDerivs,
+                                           double const* const* const* const*        diatomicOverlap1stDerivs,
                                            double const* const* const* const* const* diatomicOverlap2ndDerivs,
-                                           double const* const* const* const* const* const* diatomicTwoElecTwoCore1stDerivs,
+                                           double const* const* const* const* const* const*        diatomicTwoElecTwoCore1stDerivs,
                                            double const* const* const* const* const* const* const* diatomicTwoElecTwoCore2ndDerivs) const{
    double value=0.0;
    int indexAtomB = indexAtomA;
@@ -2264,11 +2264,11 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int indexAtomA,
                                                 int indexAtomB,
                                                 CartesianType axisA,
                                                 CartesianType axisB,
-                                                double const* const* orbitalElectronPopulation,
+                                                double const* const*               orbitalElectronPopulation,
                                                 double const* const* const* const* orbitalElectronPopulation1stDerivs,
-                                                double const* const* const* const* diatomicOverlap1stDerivs,
+                                                double const* const* const* const*        diatomicOverlap1stDerivs,
                                                 double const* const* const* const* const* diatomicOverlap2ndDerivs,
-                                                double const* const* const* const* const* const* diatomicTwoElecTwoCore1stDerivs,
+                                                double const* const* const* const* const* const*        diatomicTwoElecTwoCore1stDerivs,
                                                 double const* const* const* const* const* const* const* diatomicTwoElecTwoCore2ndDerivs) const{
    double value=0.0;
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
