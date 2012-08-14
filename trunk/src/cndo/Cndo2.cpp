@@ -3515,10 +3515,10 @@ void Cndo2::CalcDiatomicOverlap2ndDerivatives(double**** diatomicOverlap2ndDeriv
    double** diaOverlapInDiaFrame = NULL;  // diatomic overlap in diatomic frame
    double** diaOverlap1stDerivInDiaFrame = NULL; // first derivative of the diaOverlap. This derivative is related to the distance between two atoms.
    double** diaOverlap2ndDerivInDiaFrame = NULL; // second derivative of the diaOverlap. This derivative is related to the distance between two atoms.
-   double**  rotMat = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
-   double*** rotMat1stDerivatives = NULL; //first derivatives of the rotMat
+   double**   rotMat = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
+   double***  rotMat1stDerivatives = NULL; //first derivatives of the rotMat
    double**** rotMat2ndDerivatives = NULL; //second derivatives of the rotMat
-   double*** tempDiaOverlap1stDerivs = NULL; // first derivatives of the diaOverlap. This derivatives are related to the all Cartesian coordinates.
+   double***  tempDiaOverlap1stDerivs = NULL; // first derivatives of the diaOverlap. This derivatives are related to the all Cartesian coordinates.
    double**** tempDiaOverlap2ndDerivs = NULL; //sedond derivatives of the diaOverlap. This derivatives are related to the all Cartesian coordinates.
 
    try{
