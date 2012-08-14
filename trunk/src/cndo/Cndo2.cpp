@@ -1161,9 +1161,11 @@ void Cndo2::UpdateOldOrbitalElectronPopulation(double** oldOrbitalElectronPopula
    }
 }
 
-bool Cndo2::SatisfyConvergenceCriterion(double const* const* oldOrbitalElectronPopulation, 
-                                        double const* const* orbitalElectronPopulation,
-                                        int numberAOs, double* rmsDensity, int times) const{
+bool Cndo2::SatisfyConvergenceCriterion(double const* const * oldOrbitalElectronPopulation,
+                                        double const* const * orbitalElectronPopulation,
+                                        int numberAOs,
+                                        double* rmsDensity,
+                                        int times) const{
    bool satisfy = false;
    double change = 0.0;
    stringstream ompErrors;
