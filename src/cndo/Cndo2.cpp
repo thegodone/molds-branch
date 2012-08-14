@@ -5261,67 +5261,69 @@ void Cndo2::CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(double** diatomicOve
    for(int a=0; a<atomA.GetValenceSize(); a++){
       OrbitalType valenceOrbitalA = atomA.GetValence(a);
       RealSphericalHarmonicsIndex realShpericalHarmonicsA(valenceOrbitalA);
-      orbitalExponentA = atomA.GetOrbitalExponent(
-                               atomA.GetValenceShellType(), 
-                               valenceOrbitalA,
-                               this->theory);
+      orbitalExponentA = atomA.GetOrbitalExponent(atomA.GetValenceShellType(),
+                                                  valenceOrbitalA,
+                                                  this->theory);
 
       for(int b=0; b<atomB.GetValenceSize(); b++){
          OrbitalType valenceOrbitalB = atomB.GetValence(b);
          RealSphericalHarmonicsIndex realShpericalHarmonicsB(valenceOrbitalB);
-         orbitalExponentB = atomB.GetOrbitalExponent(
-                                  atomB.GetValenceShellType(), 
-                                  valenceOrbitalB,
-                                  this->theory);
+         orbitalExponentB = atomB.GetOrbitalExponent(atomB.GetValenceShellType(),
+                                                     valenceOrbitalB,
+                                                     this->theory);
 
          if(realShpericalHarmonicsA.GetM() == realShpericalHarmonicsB.GetM()){
             m = abs(realShpericalHarmonicsA.GetM());
             alpha = orbitalExponentA * R;
             beta =  orbitalExponentB * R;
 
-            reducedOverlap = this->GetReducedOverlap
-                                   (na, realShpericalHarmonicsA.GetL(), m,
-                                    nb, realShpericalHarmonicsB.GetL(), alpha, beta);
-            reducedOverlap1stDerivAlpha = this->GetReducedOverlap1stDerivativeAlpha(
-                                                  na, 
-                                                  realShpericalHarmonicsA.GetL(), 
-                                                  m,
-                                                  nb, 
-                                                  realShpericalHarmonicsB.GetL(), 
-                                                  alpha, 
-                                                  beta);
-            reducedOverlap1stDerivBeta  = this->GetReducedOverlap1stDerivativeBeta(
-                                                  na, 
-                                                  realShpericalHarmonicsA.GetL(), 
-                                                  m,
-                                                  nb, 
-                                                  realShpericalHarmonicsB.GetL(), 
-                                                  alpha, 
-                                                  beta);
-            reducedOverlap2ndDerivAlpha = this->GetReducedOverlap2ndDerivativeAlpha(
-                                                   na, 
-                                                   realShpericalHarmonicsA.GetL(), 
-                                                   m,
-                                                   nb, 
-                                                   realShpericalHarmonicsB.GetL(), 
-                                                   alpha, 
-                                                   beta);
-            reducedOverlap2ndDerivBeta = this->GetReducedOverlap2ndDerivativeBeta(
-                                                  na, 
-                                                  realShpericalHarmonicsA.GetL(), 
-                                                  m,
-                                                  nb, 
-                                                  realShpericalHarmonicsB.GetL(), 
-                                                  alpha, 
-                                                  beta);
-            reducedOverlap2ndDerivAlphaBeta = this->GetReducedOverlap2ndDerivativeAlphaBeta(
-                                                       na, 
-                                                       realShpericalHarmonicsA.GetL(), 
-                                                       m,
-                                                       nb, 
-                                                       realShpericalHarmonicsB.GetL(), 
-                                                       alpha, 
-                                                       beta);
+            reducedOverlap = this->GetReducedOverlap(na,
+                                                     realShpericalHarmonicsA.GetL(),
+                                                     m,
+                                                     nb,
+                                                     realShpericalHarmonicsB.GetL(),
+                                                     alpha,
+                                                     beta);
+            reducedOverlap1stDerivAlpha
+               = this->GetReducedOverlap1stDerivativeAlpha(na,
+                                                           realShpericalHarmonicsA.GetL(),
+                                                           m,
+                                                           nb,
+                                                           realShpericalHarmonicsB.GetL(),
+                                                           alpha,
+                                                           beta);
+            reducedOverlap1stDerivBeta
+               = this->GetReducedOverlap1stDerivativeBeta(na,
+                                                          realShpericalHarmonicsA.GetL(),
+                                                          m,
+                                                          nb,
+                                                          realShpericalHarmonicsB.GetL(),
+                                                          alpha,
+                                                          beta);
+            reducedOverlap2ndDerivAlpha
+               = this->GetReducedOverlap2ndDerivativeAlpha(na,
+                                                           realShpericalHarmonicsA.GetL(),
+                                                           m,
+                                                           nb,
+                                                           realShpericalHarmonicsB.GetL(),
+                                                           alpha,
+                                                           beta);
+            reducedOverlap2ndDerivBeta
+               = this->GetReducedOverlap2ndDerivativeBeta(na,
+                                                          realShpericalHarmonicsA.GetL(),
+                                                          m,
+                                                          nb,
+                                                          realShpericalHarmonicsB.GetL(),
+                                                          alpha,
+                                                          beta);
+            reducedOverlap2ndDerivAlphaBeta
+               = this->GetReducedOverlap2ndDerivativeAlphaBeta(na,
+                                                               realShpericalHarmonicsA.GetL(),
+                                                               m,
+                                                               nb,
+                                                               realShpericalHarmonicsB.GetL(),
+                                                               alpha,
+                                                               beta);
 
             temp1 = static_cast<double>(na+nb+1)
                    *static_cast<double>(na+nb)
