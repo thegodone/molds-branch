@@ -2432,9 +2432,9 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
 
 			//#pragma omp parallel
 //{
-      double**** diatomicOverlap1stDerivs = NULL;
-      double***** diatomicOverlap2ndDerivs = NULL;
-      double****** diatomicTwoElecTwoCore1stDerivs = NULL;
+      double****    diatomicOverlap1stDerivs = NULL;
+      double*****   diatomicOverlap2ndDerivs = NULL;
+      double******  diatomicTwoElecTwoCore1stDerivs = NULL;
       double******* diatomicTwoElecTwoCore2ndDerivs = NULL;
       this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicOverlap1stDerivs,
                                                        &diatomicOverlap2ndDerivs,
