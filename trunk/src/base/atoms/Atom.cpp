@@ -369,6 +369,10 @@ void Atom::SetFirstAOIndex(int firstAOIndex){
    this->firstAOIndex = firstAOIndex;
 }
 
+int Atom::GetLastAOIndex() const{
+   return this->firstAOIndex + this->valence.size()-1;
+}
+
 ShellType Atom::GetValenceShellType() const{
    return this->valenceShellType;
 }
