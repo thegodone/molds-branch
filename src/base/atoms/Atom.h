@@ -46,6 +46,7 @@ public:
    double GetCoreCharge() const;
    int GetFirstAOIndex() const;
    void SetFirstAOIndex(int firstAOIndex);
+   int GetLastAOIndex() const;
    MolDS_base::ShellType GetValenceShellType() const;
    int GetNumberValenceElectrons() const;
    double GetOrbitalExponent(MolDS_base::ShellType shellType, 
