@@ -2679,20 +2679,20 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
    MallocerFreer::GetInstance()->Initialize<double>(staticFirstOrderFock,
                                                     nonRedundantQIndeces.size()+redundantQIndeces.size());
    double***** diatomicTwoElecTwoCore1stDerivs = NULL;
-   double*** diatomicOverlap1stDerivs = NULL;
+   double***   diatomicOverlap1stDerivs = NULL;
    
    try{
       this->MallocTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCore1stDerivs, &diatomicOverlap1stDerivs);
       const Atom& atomA = *molecule->GetAtom(indexAtomA);
       int firstAOIndexA = atomA.GetFirstAOIndex();
-      int lastAOIndexA =  atomA.GetLastAOIndex();
-      int coreChargeA = atomA.GetCoreCharge();
+      int lastAOIndexA  = atomA.GetLastAOIndex();
+      int coreChargeA   = atomA.GetCoreCharge();
       for(int indexAtomB=0; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
          if(indexAtomA != indexAtomB){
             const Atom& atomB = *molecule->GetAtom(indexAtomB);
             int firstAOIndexB = atomB.GetFirstAOIndex();
-            int lastAOIndexB =  atomB.GetLastAOIndex();
-            int coreChargeB = atomB.GetCoreCharge();
+            int lastAOIndexB  = atomB.GetLastAOIndex();
+            int coreChargeB   = atomB.GetCoreCharge();
 
             // calc. first derivative of two elec two core interaction
             this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, indexAtomA, indexAtomB);
@@ -2700,8 +2700,7 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
             this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs, atomA, atomB);
 
             for(int i=0; i<nonRedundantQIndeces.size()+redundantQIndeces.size();i++){
-               int moI;
-               int moJ;
+               int moI=0, moJ=0;
                if(i<nonRedundantQIndeces.size()){
                   moI = nonRedundantQIndeces[i].moI;
                   moJ = nonRedundantQIndeces[i].moJ;
