@@ -346,7 +346,7 @@ void Mndo::CalcHeatsFormation(double* heatsFormation,
 void Mndo::CalcSCFProperties(){
    MolDS_cndo::Cndo2::CalcSCFProperties();
    this->CalcHeatsFormation(&this->heatsFormation, *this->molecule);
-   
+  
    /*
    // test code for hessian
    int hessianDim = this->molecule->GetNumberAtoms()*3;
@@ -2430,6 +2430,28 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                    CartesianType_end);
       this->CalcOrbitalElectronPopulation1stDerivatives(orbitalElectronPopulation1stDerivs);
 
+/*
+//debug
+{
+   printf("orbitalpop\n");
+   for(int mu=0; mu<totalNumberAOs; mu++){
+      //for(int nu=0; nu<totalNumberAOs; nu++){
+         printf("%.14e\n",this->orbitalElectronPopulation[mu][mu]);
+      //}
+   }
+   printf("\n\n");
+
+   int indexDerivAtom=0;
+   CartesianType derivAxis=XAxis;
+   printf("orbitalpop 1st deriv atom:%d axis:%s\n",indexDerivAtom,CartesianTypeStr(static_cast<CartesianType>(derivAxis)));
+   for(int mu=0; mu<totalNumberAOs; mu++){
+      //for(int nu=0; nu<totalNumberAOs; nu++){
+         printf("%.14e\n",orbitalElectronPopulation1stDerivs[mu][mu][indexDerivAtom][derivAxis]);
+      //}
+   }
+   printf("\n\n");
+}
+*/
 			//#pragma omp parallel
 //{
       double****    diatomicOverlap1stDerivs = NULL;
@@ -2874,12 +2896,12 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          for(int j=i; j<nonRedundantQIndeces.size(); j++){
             int moK = nonRedundantQIndeces[j].moI;
             int moL = nonRedundantQIndeces[j].moJ;
-            matrixCPHF[i][j] = (this->GetGammaNRElement(moI, moJ, moK, moL)-this->GetKNRElement(moI, moJ, moK, moL))
+            matrixCPHF[i][j] = (this->GetGammaNRElement(moI, moJ, moK, moL)-0.5*this->GetKNRElement(moI, moJ, moK, moL))
                               *occupations[j];
 
          }
          for(int j=0; j<i; j++){
-            matrixCPHF[j][i] = matrixCPHF[i][j];
+            matrixCPHF[i][j] = matrixCPHF[j][i];
          }
       }
 
@@ -2889,7 +2911,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          for(int j=0; j<nonRedundantQIndeces.size(); j++){
             int moK = nonRedundantQIndeces[j].moI;
             int moL = nonRedundantQIndeces[j].moJ;
-            matrixCPHF[i][j] = -1.0*this->GetKRElement(moI, moJ, moK, moL)*occupations[j];
+            matrixCPHF[i][j] = -0.5*this->GetKRElement(moI, moJ, moK, moL)*occupations[j];
          }
       }
 
