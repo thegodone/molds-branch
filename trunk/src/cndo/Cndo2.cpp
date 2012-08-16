@@ -1122,25 +1122,19 @@ double Cndo2::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
                                           double const* const* fockMatrix, 
                                           double const* const* gammaAB) const{
    double value = 0.0;
-   int firstAOIndexA;
-   int firstAOIndexB;
-   int numberAOsA;
-   int numberAOsB;
-   double gamma;
-
    for(int A=0; A<molecule.GetNumberAtoms(); A++){
       const Atom& atomA = *molecule.GetAtom(A);
-      firstAOIndexA = atomA.GetFirstAOIndex();
-      numberAOsA = atomA.GetValenceSize();
+      int firstAOIndexA = atomA.GetFirstAOIndex();
+      int lastAOIndexA  = atomA.GetLastAOIndex();
 
       for(int B=0; B<molecule.GetNumberAtoms(); B++){
          const Atom& atomB = *molecule.GetAtom(B);
-         firstAOIndexB = atomB.GetFirstAOIndex();
-         numberAOsB = atomB.GetValenceSize();
-         gamma = gammaAB[A][B];
+         int firstAOIndexB = atomB.GetFirstAOIndex();
+         int lastAOIndexB  = atomB.GetLastAOIndex();
+         double gamma = gammaAB[A][B];
 
-         for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
-            for(int nu=firstAOIndexB; nu<firstAOIndexB+numberAOsB; nu++){
+         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+            for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
 
                value += gamma*fockMatrix[moI][mu]*fockMatrix[moJ][mu]*fockMatrix[moK][nu]*fockMatrix[moL][nu];
             }
@@ -1223,13 +1217,13 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
       try{
         const Atom& atomA = *molecule.GetAtom(A);
          int firstAOIndexA = atomA.GetFirstAOIndex();
-         int numberAOsA = atomA.GetValenceSize();
+         int lastAOIndexA  = atomA.GetLastAOIndex();
          for(int B=A; B<molecule.GetNumberAtoms(); B++){
             const Atom& atomB = *molecule.GetAtom(B);
             int firstAOIndexB = atomB.GetFirstAOIndex();
-            int numberAOsB = atomB.GetValenceSize();
-            for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){
-               for(int nu=firstAOIndexB; nu<firstAOIndexB+numberAOsB; nu++){
+            int lastAOIndexB  = atomB.GetLastAOIndex();
+            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+               for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
                   if(mu == nu){
                      // diagonal part
                      fockMatrix[mu][mu] = this->GetFockDiagElement(atomA, 
