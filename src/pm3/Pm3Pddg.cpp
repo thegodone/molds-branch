@@ -153,8 +153,8 @@ double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) con
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
 double Pm3Pddg::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
-                                                      int indexAtomB, 
-                                                      CartesianType axisA) const{
+                                                    int indexAtomB, 
+                                                    CartesianType axisA) const{
    // PM3 term
    double pm3Term = Pm3::GetDiatomCoreRepulsion1stDerivative(indexAtomA, indexAtomB, axisA);
 
