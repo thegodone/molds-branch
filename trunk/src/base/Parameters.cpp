@@ -37,18 +37,18 @@ namespace MolDS_base{
 
 Parameters* Parameters::parameters = NULL;
 // Physical constsnts
-const double Parameters::eV2AU = 0.03674903;
-const double Parameters::j2AU = pow(10.0,18.0)/4.35974394;
-const double Parameters::kcalMolin2AU = 0.00159360175;
-const double Parameters::angstrom2AU = 1.0/0.5291772;
-const double Parameters::nm2AU = 10.0*Parameters::angstrom2AU;
-const double Parameters::kayser2AU = 4.556336*pow(10.0,-6.0);
-const double Parameters::fs2AU = 1.0/(2.418884326505*pow(10.0,-2.0));
-const double Parameters::gMolin2AU = pow(10.0,5.0)/(6.0221415*9.1095);
+const double Parameters::eV2AU         = 0.03674903;
+const double Parameters::j2AU          = pow(10.0,18.0)/4.35974394;
+const double Parameters::kcalMolin2AU  = 0.00159360175;
+const double Parameters::angstrom2AU   = 1.0/0.5291772;
+const double Parameters::nm2AU         = 10.0*Parameters::angstrom2AU;
+const double Parameters::kayser2AU     = 4.556336*pow(10.0,-6.0);
+const double Parameters::fs2AU         = 1.0/(2.418884326505*pow(10.0,-2.0));
+const double Parameters::gMolin2AU     = pow(10.0,5.0)/(6.0221415*9.1095);
 const double Parameters::degree2Radian = M_PI / 180.0;
-const double Parameters::boltzmann = 3.166791*pow(10.0,-6.0);
-const double Parameters::avogadro = 6.0221415*pow(10.0, 23.0);
-const double Parameters::debye2AU = 0.393430191;
+const double Parameters::boltzmann     = 3.166791*pow(10.0,-6.0);
+const double Parameters::avogadro      = 6.0221415*pow(10.0, 23.0);
+const double Parameters::debye2AU      = 0.393430191;
 
 // constant
 const double Parameters::vdWScalingFactorSCFPM3DAM1D = 1.40;
@@ -58,8 +58,8 @@ const double Parameters::vdWDampingFactorSCFPM3DAM1D = 23.0;
 Parameters::Parameters(){
    this->SetDefaultValues();
    this->SetMessages();
-   this->indecesMOPlot = NULL;
-   this->elecIndecesHolePlot = NULL;
+   this->indecesMOPlot           = NULL;
+   this->elecIndecesHolePlot     = NULL;
    this->elecIndecesParticlePlot = NULL;
 }
 
@@ -103,37 +103,37 @@ void Parameters::SetDefaultValues(){
    this->currentSimulation = Once;
    this->currentTheory = CNDO2;
    // SCF
-   this->thresholdSCF = pow(10.0, -8.0);
-   this->maxIterationsSCF = 100;
-   this->dampingThreshSCF = 1.0;
-   this->dampingWeightSCF = 0.8;
+   this->thresholdSCF        = pow(10.0, -8.0);
+   this->maxIterationsSCF    = 100;
+   this->dampingThreshSCF    = 1.0;
+   this->dampingWeightSCF    = 0.8;
    this->diisNumErrorVectSCF = 5;
-   this->diisStartErrorSCF = pow(10.0, -2.0);
-   this->diisEndErrorSCF = pow(10.0, -8.0);
-   this->requiresVdWSCF = false;
+   this->diisStartErrorSCF   = pow(10.0, -2.0);
+   this->diisEndErrorSCF     = pow(10.0, -8.0);
+   this->requiresVdWSCF      = false;
    this->vdWScalingFactorSCF = 1.40;
    this->vdWDampingFactorSCF = 23.0;
    // MOPlot
-   this->fileNamePrefixMOPlot = "MO_";
-   this->gridNumberMOPlot[XAxis] = 25;
-   this->gridNumberMOPlot[YAxis] = 25;
-   this->gridNumberMOPlot[ZAxis] = 25;
+   this->fileNamePrefixMOPlot     = "MO_";
+   this->gridNumberMOPlot[XAxis]  = 25;
+   this->gridNumberMOPlot[YAxis]  = 25;
+   this->gridNumberMOPlot[ZAxis]  = 25;
    this->frameLengthMOPlot[XAxis] = 20.0;
    this->frameLengthMOPlot[YAxis] = 20.0;
    this->frameLengthMOPlot[ZAxis] = 20.0;
    // HolePlot
-   this->fileNamePrefixHolePlot = "hole_";
-   this->gridNumberHolePlot[XAxis] = 25;
-   this->gridNumberHolePlot[YAxis] = 25;
-   this->gridNumberHolePlot[ZAxis] = 25;
+   this->fileNamePrefixHolePlot     = "hole_";
+   this->gridNumberHolePlot[XAxis]  = 25;
+   this->gridNumberHolePlot[YAxis]  = 25;
+   this->gridNumberHolePlot[ZAxis]  = 25;
    this->frameLengthHolePlot[XAxis] = 20.0;
    this->frameLengthHolePlot[YAxis] = 20.0;
    this->frameLengthHolePlot[ZAxis] = 20.0;
    // ParticlePlot
-   this->fileNamePrefixParticlePlot = "particle_";
-   this->gridNumberParticlePlot[XAxis] = 25;
-   this->gridNumberParticlePlot[YAxis] = 25;
-   this->gridNumberParticlePlot[ZAxis] = 25;
+   this->fileNamePrefixParticlePlot     = "particle_";
+   this->gridNumberParticlePlot[XAxis]  = 25;
+   this->gridNumberParticlePlot[YAxis]  = 25;
+   this->gridNumberParticlePlot[ZAxis]  = 25;
    this->frameLengthParticlePlot[XAxis] = 20.0;
    this->frameLengthParticlePlot[YAxis] = 20.0;
    this->frameLengthParticlePlot[ZAxis] = 20.0;
@@ -144,53 +144,53 @@ void Parameters::SetDefaultValues(){
    // Principal axes
    this->inertiaTensorOrigin = NULL;
    // Rotation
-   this->rotatingOrigin = NULL;
+   this->rotatingOrigin  = NULL;
    this->rotatingAxis[0] = 0.0;
    this->rotatingAxis[1] = 0.0;
    this->rotatingAxis[2] = 1.0;
-   this->rotatingType = Axis;
+   this->rotatingType    = Axis;
    this->rotatingEularAngles.SetAlpha(0.0);
    this->rotatingEularAngles.SetBeta(0.0);
    this->rotatingEularAngles.SetGamma(0.0);
    // CIS
-   this->activeOccCIS = 10;
-   this->activeVirCIS = 10;
-   this->numberExcitedStatesCIS = 5;
-   this->requiresCIS = false;
-   this->isDavidsonCIS = true;
-   this->maxIterationsCIS = 100;
-   this->maxDimensionsCIS = 100;
-   this->normToleranceCIS = pow(10.0, -6.0);
-   this->numberPrintCoefficientsCIS = 1;
-   this->requiresExcitonEnergiesCIS = false;
+   this->activeOccCIS                          = 10;
+   this->activeVirCIS                          = 10;
+   this->numberExcitedStatesCIS                = 5;
+   this->requiresCIS                           = false;
+   this->isDavidsonCIS                         = true;
+   this->maxIterationsCIS                      = 100;
+   this->maxDimensionsCIS                      = 100;
+   this->normToleranceCIS                      = pow(10.0, -6.0);
+   this->numberPrintCoefficientsCIS            = 1;
+   this->requiresExcitonEnergiesCIS            = false;
    this->requiresAllTransitionDipoleMomentsCIS = false;
    // Memory
    this->limitHeapMemory = 256;
    // MD
    this->electronicStateIndexMD = 0;
-   this->totalStepsMD = 10;
-   this->timeWidthMD = 0.1*this->fs2AU;
+   this->totalStepsMD           = 10;
+   this->timeWidthMD            = 0.1*this->fs2AU;
    // MC
    this->electronicStateIndexMC = 0;
-   this->totalStepsMC = 10;
-   this->stepWidthMC = 0.05*this->angstrom2AU;
-   this->temperatureMC = 300;
-   this->seedMC = static_cast<unsigned long>(time(0));
+   this->totalStepsMC           = 10;
+   this->stepWidthMC            = 0.05*this->angstrom2AU;
+   this->temperatureMC          = 300;
+   this->seedMC                 = static_cast<unsigned long>(time(0));
    // RPMD
-   this->electronicStateIndexRPMD = 0;
+   this->electronicStateIndexRPMD   = 0;
    this->numberElectronicStatesRPMD = 1;
-   this->totalStepsRPMD = 10;
-   this->timeWidthRPMD = 0.1*this->fs2AU;
-   this->temperatureRPMD = 300;
-   this->numberBeadsRPMD = 10;
-   this->seedRPMD = static_cast<unsigned long>(time(0));
+   this->totalStepsRPMD             = 10;
+   this->timeWidthRPMD              = 0.1*this->fs2AU;
+   this->temperatureRPMD            = 300;
+   this->numberBeadsRPMD            = 10;
+   this->seedRPMD                   = static_cast<unsigned long>(time(0));
    // Optimization 
-   this->methodOptimization = ConjugateGradientMethod;
-   this->totalStepsOptimization = 50;
+   this->methodOptimization               = ConjugateGradientMethod;
+   this->totalStepsOptimization           = 50;
    this->electronicStateIndexOptimization = 0;
-   this->maxGradientOptimization = 0.00045;
-   this->rmsGradientOptimization = 0.00030;
-   this->timeWidthOptimization = 50.0*this->fs2AU;
+   this->maxGradientOptimization          = 0.00045;
+   this->rmsGradientOptimization          = 0.00030;
+   this->timeWidthOptimization            = 50.0*this->fs2AU;
 }
 
 void Parameters::SetMessages(){
