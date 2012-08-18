@@ -31,7 +31,7 @@ EularAngle::EularAngle(){
    this->SetMessage();
    // e the [BFB_1997] for defenitions of alpha, beta, gamma;
    this->alpha = 0.0; // (= "phi" in P25 in J. A. Pople book)
-   this->beta = 0.0;  // (= "theta" in P25 in J. A. Pople book)
+   this->beta  = 0.0; // (= "theta" in P25 in J. A. Pople book)
    this->gamma = 0.0;
 }
 
