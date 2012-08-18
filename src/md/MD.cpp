@@ -70,13 +70,13 @@ void MD::DoMD(){
    electronicStructure->SetCanOutputLogs(this->CanOutputLogs());
    this->molecule->SetCanOutputLogs(this->CanOutputLogs());
 
-   int totalSteps = Parameters::GetInstance()->GetTotalStepsMD();
-   int elecState = Parameters::GetInstance()->GetElectronicStateIndexMD();
-   double dt = Parameters::GetInstance()->GetTimeWidthMD();
-   double time = 0.0;
-   bool requireGuess = false;
+   int totalSteps       = Parameters::GetInstance()->GetTotalStepsMD();
+   int elecState        = Parameters::GetInstance()->GetElectronicStateIndexMD();
+   double dt            = Parameters::GetInstance()->GetTimeWidthMD();
+   double time          = 0.0;
+   bool requireGuess    = false;
    double** matrixForce = NULL;
-   double initialEnergy;
+   double initialEnergy = 0.0;
 
    // initial calculation
    electronicStructure->DoSCF();
