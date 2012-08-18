@@ -71,7 +71,6 @@ private:
    // Memory
    std::string messageMemoryConditions;
    std::string messageMemoryLimitHeap;
-   std::string messageMemoryMB;
    // MD
    std::string messageMdConditions;
    std::string messageMdTotalSteps;
@@ -123,6 +122,7 @@ private:
    std::string messageFs;
    std::string messageK;
    std::string messageAngst;
+   std::string messageMB;
    // others
    std::string stringYES;
    std::string stringNO;

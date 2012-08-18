@@ -65,9 +65,9 @@ void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> elect
                                     Molecule& molecule,
                                     double* lineSearchedEnergy,
                                     bool* obtainesOptimizedStructure) const{
-   int elecState = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
-   double dt = Parameters::GetInstance()->GetTimeWidthOptimization();
-   int totalSteps = Parameters::GetInstance()->GetTotalStepsOptimization();
+   int    elecState            = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
+   double dt                   = Parameters::GetInstance()->GetTimeWidthOptimization();
+   int    totalSteps           = Parameters::GetInstance()->GetTotalStepsOptimization();
    double maxGradientThreshold = Parameters::GetInstance()->GetMaxGradientOptimization();
    double rmsGradientThreshold = Parameters::GetInstance()->GetRmsGradientOptimization();
    double lineSearchCurrentEnergy = 0.0;

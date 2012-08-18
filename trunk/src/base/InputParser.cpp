@@ -91,236 +91,236 @@ void InputParser::SetMessages(){
    this->messageInputTerms = "Input terms:\n";
 
    // SCF
-   this->messageScfConditions = "\tSCF conditions:\n";
-   this->messageScfMaxIterations = "\t\tMax iterations: ";
-   this->messageScfRmsDensity = "\t\tRMS density: ";
-   this->messageScfDampingThresh = "\t\tDamping threshold: ";
-   this->messageScfDampingWeight = "\t\tDamping weight: ";
+   this->messageScfConditions       = "\tSCF conditions:\n";
+   this->messageScfMaxIterations    = "\t\tMax iterations: ";
+   this->messageScfRmsDensity       = "\t\tRMS density: ";
+   this->messageScfDampingThresh    = "\t\tDamping threshold: ";
+   this->messageScfDampingWeight    = "\t\tDamping weight: ";
    this->messageScfDiisNumErrorVect = "\t\tDIIS number of error vectors: ";
-   this->messageScfDiisStartError = "\t\tDIIS starting error: ";
-   this->messageScfDiisEndError = "\t\tDIIS ending error: ";
-   this->messageScfVdW = "\t\tvan der Waals (vdW) correction: ";
+   this->messageScfDiisStartError   = "\t\tDIIS starting error: ";
+   this->messageScfDiisEndError     = "\t\tDIIS ending error: ";
+   this->messageScfVdW              = "\t\tvan der Waals (vdW) correction: ";
    this->messageScfVdWScalingFactor = "\t\tvdW corr. scaling factor (s6): ";
    this->messageScfVdWDampingFactor = "\t\tvdW corr. damping factor (d): ";
 
    // CIS
-   this->messageCisConditions = "\tCIS conditions:\n";
-   this->messageCisNumberActiveOcc = "\t\tNumber of active Occ.: ";
-   this->messageCisNumberActiveVir = "\t\tNumber of active Vir.: ";
-   this->messageCisNumberExcitedStates = "\t\tNumber of excited states: ";
-   this->messageCisDavidson = "\t\tCIS-Davidson: ";
-   this->messageCisNormTolerance = "\t\tNorm tolerance for the residual of the Davidson: ";
-   this->messageCisMaxIterations = "\t\tMax iterations for the Davidson: ";
-   this->messageCisMaxDimensions = "\t\tMax dimensions for the Davidson: ";
-   this->messageCisExcitonEnergies = "\t\tExciton energies: ";
+   this->messageCisConditions                 = "\tCIS conditions:\n";
+   this->messageCisNumberActiveOcc            = "\t\tNumber of active Occ.: ";
+   this->messageCisNumberActiveVir            = "\t\tNumber of active Vir.: ";
+   this->messageCisNumberExcitedStates        = "\t\tNumber of excited states: ";
+   this->messageCisDavidson                   = "\t\tCIS-Davidson: ";
+   this->messageCisNormTolerance              = "\t\tNorm tolerance for the residual of the Davidson: ";
+   this->messageCisMaxIterations              = "\t\tMax iterations for the Davidson: ";
+   this->messageCisMaxDimensions              = "\t\tMax dimensions for the Davidson: ";
+   this->messageCisExcitonEnergies            = "\t\tExciton energies: ";
    this->messageCisAllTransitionDipoleMoments = "\t\tAll transition dipole moments: ";
-   this->messageCisNumPrintCoefficients = "\t\tNumber of printed coefficients of CIS-eigenvector: ";
+   this->messageCisNumPrintCoefficients       = "\t\tNumber of printed coefficients of CIS-eigenvector: ";
 
    // memory
    this->messageMemoryConditions = "\tMemory conditions:\n";
-   this->messageMemoryLimitHeap = "\t\tHeap limit: ";
-   this->messageMemoryMB = "[MB]\n";
+   this->messageMemoryLimitHeap  = "\t\tHeap limit: ";
 
    // MD
    this->messageMdConditions = "\tMD conditions:\n";
    this->messageMdTotalSteps = "\t\tTotal steps: ";
-   this->messageMdElecState = "\t\tElectronic eigenstate: ";
-   this->messageMdTimeWidth = "\t\tTime width(dt): ";
+   this->messageMdElecState  = "\t\tElectronic eigenstate: ";
+   this->messageMdTimeWidth  = "\t\tTime width(dt): ";
 
    // MC
-   this->messageMcConditions = "\tMC conditions:\n";
-   this->messageMcTotalSteps = "\t\tTotal steps: ";
-   this->messageMcElecState = "\t\tElectronic eigenstate: ";
-   this->messageMcStepWidth = "\t\tStep width: ";
+   this->messageMcConditions  = "\tMC conditions:\n";
+   this->messageMcTotalSteps  = "\t\tTotal steps: ";
+   this->messageMcElecState   = "\t\tElectronic eigenstate: ";
+   this->messageMcStepWidth   = "\t\tStep width: ";
    this->messageMcTemperature = "\t\tTemperature: ";
-   this->messageMcSeed = "\t\tSeed: ";
+   this->messageMcSeed        = "\t\tSeed: ";
 
    // RPMD
-   this->messageRpmdConditions = "\tRPMD conditions:\n";
-   this->messageRpmdTotalSteps = "\t\tTotal steps: ";
-   this->messageRpmdElecState = "\t\tElectronic eigenstate: ";
+   this->messageRpmdConditions    = "\tRPMD conditions:\n";
+   this->messageRpmdTotalSteps    = "\t\tTotal steps: ";
+   this->messageRpmdElecState     = "\t\tElectronic eigenstate: ";
    this->messageRpmdNumElecStates = "\t\tNumber of the electronic eigenstates: ";
-   this->messageRpmdTimeWidth = "\t\tTime width: ";
-   this->messageRpmdTemperature = "\t\tTemperature: ";
-   this->messageRpmdNumBeads = "\t\tNumber of the beads in the Ring Polymer: ";
-   this->messageRpmdSeed = "\t\tSeed: ";
+   this->messageRpmdTimeWidth     = "\t\tTime width: ";
+   this->messageRpmdTemperature   = "\t\tTemperature: ";
+   this->messageRpmdNumBeads      = "\t\tNumber of the beads in the Ring Polymer: ";
+   this->messageRpmdSeed          = "\t\tSeed: ";
 
    // Optimization
-   this->messageOptimizationConditions = "\tOptimization conditions:\n";
-   this->messageOptimizationMethod = "\t\tMethod: ";
-   this->messageOptimizationTotalSteps = "\t\tTotal steps: ";
-   this->messageOptimizationElecState = "\t\tElectronic eigenstate: ";
+   this->messageOptimizationConditions  = "\tOptimization conditions:\n";
+   this->messageOptimizationMethod      = "\t\tMethod: ";
+   this->messageOptimizationTotalSteps  = "\t\tTotal steps: ";
+   this->messageOptimizationElecState   = "\t\tElectronic eigenstate: ";
    this->messageOptimizationMaxGradient = "\t\tMax gradient: ";
    this->messageOptimizationRmsGradient = "\t\tRms gradient: ";
-   this->messageOptimizationTimeWidth = "\t\tFictious time width: ";
+   this->messageOptimizationTimeWidth   = "\t\tFictious time width: ";
 
    // MOPlot
-   this->messageMOPlotConditions = "\tMO plot conditions:\n";
-   this->messageMOPlotIndex = "\t\tMO index: ";
-   this->messageMOPlotGridNumber = "\t\tNumber of grid(x, y, z): ";
+   this->messageMOPlotConditions  = "\tMO plot conditions:\n";
+   this->messageMOPlotIndex       = "\t\tMO index: ";
+   this->messageMOPlotGridNumber  = "\t\tNumber of grid(x, y, z): ";
    this->messageMOPlotFrameLength = "\t\tFrame length[angst.](x, y, z): ";
-   this->messageMOPlotFilePrefix = "\t\tFile name prefix: ";
+   this->messageMOPlotFilePrefix  = "\t\tFile name prefix: ";
 
    // HolePlot
-   this->messageHolePlotConditions = "\tHole plot conditions:\n";
-   this->messageHolePlotElecIndex = "\t\tElectronic index: ";
-   this->messageHolePlotGridNumber = "\t\tNumber of grid(x, y, z): ";
+   this->messageHolePlotConditions  = "\tHole plot conditions:\n";
+   this->messageHolePlotElecIndex   = "\t\tElectronic index: ";
+   this->messageHolePlotGridNumber  = "\t\tNumber of grid(x, y, z): ";
    this->messageHolePlotFrameLength = "\t\tFrame length[angst.](x, y, z): ";
-   this->messageHolePlotFilePrefix = "\t\tFile name prefix: ";
+   this->messageHolePlotFilePrefix  = "\t\tFile name prefix: ";
 
    // ParticlePlot
-   this->messageParticlePlotConditions = "\tParticle plot conditions:\n";
-   this->messageParticlePlotElecIndex = "\t\tElectronic state: ";
-   this->messageParticlePlotGridNumber = "\t\tNumber of grid(x, y, z): ";
+   this->messageParticlePlotConditions  = "\tParticle plot conditions:\n";
+   this->messageParticlePlotElecIndex   = "\t\tElectronic state: ";
+   this->messageParticlePlotGridNumber  = "\t\tNumber of grid(x, y, z): ";
    this->messageParticlePlotFrameLength = "\t\tFrame length[angst.](x, y, z): ";
-   this->messageParticlePlotFilePrefix = "\t\tFile name prefix: ";
+   this->messageParticlePlotFilePrefix  = "\t\tFile name prefix: ";
 
    // unit
-   this->messageFs = "[fs]";
-   this->messageK = "[K]";
-   this->messageAngst = "[Angst.]";
+   this->messageFs     = "[fs]";
+   this->messageK      = "[K]";
+   this->messageAngst  = "[Angst.]";
+   this->messageMB     = "[MB]";
 
    // others
-   this->stringYES = "yes";
-   this->stringNO = "no";
+   this->stringYES   = "yes";
+   this->stringNO    = "no";
    this->stringSpace = " ";
-   this->stringTab = "\t";
+   this->stringTab   = "\t";
 
    // theory
-   this->stringCommentOut = "//";
-   this->stringTheoryCNDO2 = "cndo/2";
-   this->stringTheoryINDO = "indo";
-   this->stringTheoryZINDOS = "zindo/s";
-   this->stringTheoryMNDO = "mndo";
-   this->stringTheoryAM1 = "am1";
-   this->stringTheoryAM1D = "am1-d";
-   this->stringTheoryPM3 = "pm3";
-   this->stringTheoryPM3D = "pm3-d";
+   this->stringCommentOut    = "//";
+   this->stringTheoryCNDO2   = "cndo/2";
+   this->stringTheoryINDO    = "indo";
+   this->stringTheoryZINDOS  = "zindo/s";
+   this->stringTheoryMNDO    = "mndo";
+   this->stringTheoryAM1     = "am1";
+   this->stringTheoryAM1D    = "am1-d";
+   this->stringTheoryPM3     = "pm3";
+   this->stringTheoryPM3D    = "pm3-d";
    this->stringTheoryPM3PDDG = "pm3/pddg";
-   this->stringTheory = "theory";
-   this->stringTheoryEnd = "theory_end";
+   this->stringTheory        = "theory";
+   this->stringTheoryEnd     = "theory_end";
 
    // geometry
-   this->stringGeometry =    "geometry";
+   this->stringGeometry    = "geometry";
    this->stringGeometryEnd = "geometry_end";
 
    // SCF
-   this->stringScf = "scf";
-   this->stringScfEnd = "scf_end";
-   this->stringScfMaxIter = "max_iter";
-   this->stringScfRmsDensity = "rms_density";
-   this->stringScfDampingThresh = "damping_thresh";
-   this->stringScfDampingWeight = "damping_weight";
+   this->stringScf                 = "scf";
+   this->stringScfEnd              = "scf_end";
+   this->stringScfMaxIter          = "max_iter";
+   this->stringScfRmsDensity       = "rms_density";
+   this->stringScfDampingThresh    = "damping_thresh";
+   this->stringScfDampingWeight    = "damping_weight";
    this->stringScfDiisNumErrorVect = "diis_num_error_vect";
-   this->stringScfDiisStartError = "diis_start_error";
-   this->stringScfDiisEndError = "diis_end_error";
-   this->stringScfVdW = "vdw";
+   this->stringScfDiisStartError   = "diis_start_error";
+   this->stringScfDiisEndError     = "diis_end_error";
+   this->stringScfVdW              = "vdw";
    this->stringScfVdWScalingFactor = "vdw_s6";
    this->stringScfVdWDampingFactor = "vdw_d";
 
    // MO plot
-   this->stringMO = "mo";
-   this->stringMOPlot = "moplot";
-   this->stringMOPlotEnd = "moplot_end";
-   this->stringMOPlotGridNumber = "grid_number";
+   this->stringMO                = "mo";
+   this->stringMOPlot            = "moplot";
+   this->stringMOPlotEnd         = "moplot_end";
+   this->stringMOPlotGridNumber  = "grid_number";
    this->stringMOPlotFrameLength = "frame_length";
-   this->stringMOPlotFilePrefix = "file_prefix";
+   this->stringMOPlotFilePrefix  = "file_prefix";
 
    // Hole plot
-   this->stringHolePlot = "holeplot";
-   this->stringHolePlotEnd = "holeplot_end";
-   this->stringHolePlotElecIndex = "electronic_state";
-   this->stringHolePlotGridNumber = "grid_number";
+   this->stringHolePlot            = "holeplot";
+   this->stringHolePlotEnd         = "holeplot_end";
+   this->stringHolePlotElecIndex   = "electronic_state";
+   this->stringHolePlotGridNumber  = "grid_number";
    this->stringHolePlotFrameLength = "frame_length";
-   this->stringHolePlotFilePrefix = "file_prefix";
+   this->stringHolePlotFilePrefix  = "file_prefix";
 
    // MO plot
-   this->stringParticlePlot = "particleplot";
-   this->stringParticlePlotEnd = "particleplot_end";
-   this->stringParticlePlotElecIndex = "electronic_state";
-   this->stringParticlePlotGridNumber = "grid_number";
+   this->stringParticlePlot            = "particleplot";
+   this->stringParticlePlotEnd         = "particleplot_end";
+   this->stringParticlePlotElecIndex   = "electronic_state";
+   this->stringParticlePlotGridNumber  = "grid_number";
    this->stringParticlePlotFrameLength = "frame_length";
-   this->stringParticlePlotFilePrefix = "file_prefix";
+   this->stringParticlePlotFilePrefix  = "file_prefix";
 
    // Principal axes
-   this->stringInertiaTensor = "inertia";
-   this->stringInertiaTensorEnd = "inertia_end";
+   this->stringInertiaTensor       = "inertia";
+   this->stringInertiaTensorEnd    = "inertia_end";
    this->stringInertiaTensorOrigin = "origin";
 
    // Rotate
-   this->stringRotate = "rotate";
-   this->stringRotateEnd = "rotate_end";
-   this->stringRotatingOrigin = "origin";
-   this->stringRotatingAxis = "axis";
-   this->stringRotatingAngle = "angle";
-   this->stringRotatingAngles = "angles";
-   this->stringRotatingType = "type";
-   this->stringRotatingTypeAxis = "axis";
+   this->stringRotate                 = "rotate";
+   this->stringRotateEnd              = "rotate_end";
+   this->stringRotatingOrigin         = "origin";
+   this->stringRotatingAxis           = "axis";
+   this->stringRotatingAngle          = "angle";
+   this->stringRotatingAngles         = "angles";
+   this->stringRotatingType           = "type";
+   this->stringRotatingTypeAxis       = "axis";
    this->stringRotatingTypeEularAngle = "eular_angle";
 
    // Translate
-   this->stringTranslate = "translate";
-   this->stringTranslateEnd = "translate_end";
+   this->stringTranslate             = "translate";
+   this->stringTranslateEnd          = "translate_end";
    this->stringTranslatingDifference = "difference";
 
    // CIS
-   this->stringCIS = "cis";
-   this->stringCISEnd = "cis_end";
-   this->stringCISActiveOcc = "active_occ";
-   this->stringCISActiveVir = "active_vir";
-   this->stringCISNStates = "nstates";
-   this->stringCISDavidson = "davidson";
-   this->stringCISMaxIter = "max_iter";
-   this->stringCISMaxDimensions = "max_dim";
-   this->stringCISNormTolerance = "norm_tol";
-   this->stringCISExcitonEnergies = "exciton_energies";
+   this->stringCIS                           = "cis";
+   this->stringCISEnd                        = "cis_end";
+   this->stringCISActiveOcc                  = "active_occ";
+   this->stringCISActiveVir                  = "active_vir";
+   this->stringCISNStates                    = "nstates";
+   this->stringCISDavidson                   = "davidson";
+   this->stringCISMaxIter                    = "max_iter";
+   this->stringCISMaxDimensions              = "max_dim";
+   this->stringCISNormTolerance              = "norm_tol";
+   this->stringCISExcitonEnergies            = "exciton_energies";
    this->stringCISAllTransitionDipoleMoments = "all_transition_dipole_moments";
-   this->stringCISNumPrintCoefficients = "num_print_coefficients";
+   this->stringCISNumPrintCoefficients       = "num_print_coefficients";
 
    // Memory
-   this->stringMemory = "memory";
-   this->stringMemoryEnd = "memory_end";
+   this->stringMemory          = "memory";
+   this->stringMemoryEnd       = "memory_end";
    this->stringMemoryLimitHeap = "limit_heap";
 
    // MD
-   this->stringMD = "md";
-   this->stringMDEnd = "md_end";
+   this->stringMD           = "md";
+   this->stringMDEnd        = "md_end";
    this->stringMDTotalSteps = "total_steps";
-   this->stringMDElecState = "electronic_state";
-   this->stringMDTimeWidth = "dt";
+   this->stringMDElecState  = "electronic_state";
+   this->stringMDTimeWidth  = "dt";
 
    // MC
-   this->stringMC = "mc";
-   this->stringMCEnd = "mc_end";
-   this->stringMCTotalSteps = "total_steps";
-   this->stringMCElecState = "electronic_state";
-   this->stringMCStepWidth = "step_width";
+   this->stringMC            = "mc";
+   this->stringMCEnd         = "mc_end";
+   this->stringMCTotalSteps  = "total_steps";
+   this->stringMCElecState   = "electronic_state";
+   this->stringMCStepWidth   = "step_width";
    this->stringMCTemperature = "temperature";
-   this->stringMCSeed = "seed";
+   this->stringMCSeed        = "seed";
 
    // RPMD
-   this->stringRPMD = "rpmd";
-   this->stringRPMDEnd = "rpmd_end";
-   this->stringRPMDTotalSteps = "total_steps";
-   this->stringRPMDElecState = "electronic_state";
+   this->stringRPMD              = "rpmd";
+   this->stringRPMDEnd           = "rpmd_end";
+   this->stringRPMDTotalSteps    = "total_steps";
+   this->stringRPMDElecState     = "electronic_state";
    this->stringRPMDNumElecStates = "num_electronic_states";
-   this->stringRPMDTimeWidth = "dt";
-   this->stringRPMDTemperature = "temperature";
-   this->stringRPMDNumBeads = "num_beads";
-   this->stringRPMDSeed = "seed";
+   this->stringRPMDTimeWidth     = "dt";
+   this->stringRPMDTemperature   = "temperature";
+   this->stringRPMDNumBeads      = "num_beads";
+   this->stringRPMDSeed          = "seed";
 
    // Opt
-   this->stringOptimization = "optimization";
-   this->stringOptimizationEnd = "optimization_end";
-   this->stringOptimizationMethod = "method";
-   this->stringOptimizationBFGS = "bfgs";
+   this->stringOptimization                  = "optimization";
+   this->stringOptimizationEnd               = "optimization_end";
+   this->stringOptimizationMethod            = "method";
+   this->stringOptimizationBFGS              = "bfgs";
    this->stringOptimizationConjugateGradient = "conjugate_gradient";
-   this->stringOptimizationSteepestDescent = "steepest_descent";
-   this->stringOptimizationTotalSteps = "total_steps";
-   this->stringOptimizationElecState = "electronic_state";
-   this->stringOptimizationMaxGradient = "max_gradient";
-   this->stringOptimizationRmsGradient = "rms_gradient";
-   this->stringOptimizationTimeWidth = "dt";
+   this->stringOptimizationSteepestDescent   = "steepest_descent";
+   this->stringOptimizationTotalSteps        = "total_steps";
+   this->stringOptimizationElecState         = "electronic_state";
+   this->stringOptimizationMaxGradient       = "max_gradient";
+   this->stringOptimizationRmsGradient       = "rms_gradient";
+   this->stringOptimizationTimeWidth         = "dt";
 }
 
 vector<string> InputParser::GetInputTerms(int argc, char *argv[]) const{
@@ -1326,9 +1326,9 @@ void InputParser::OutputScfConditions() const{
 
 void InputParser::OutputMemoryConditions() const{
    this->OutputLog(this->messageMemoryConditions);
-   this->OutputLog(boost::format("%s%e%s") % this->messageMemoryLimitHeap.c_str() 
+   this->OutputLog(boost::format("%s%e%s\n") % this->messageMemoryLimitHeap.c_str() 
                                            % Parameters::GetInstance()->GetLimitHeapMemory()
-                                           % this->messageMemoryMB.c_str());
+                                           % this->messageMB.c_str());
    this->OutputLog("\n");
 }
 

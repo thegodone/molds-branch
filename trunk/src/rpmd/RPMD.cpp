@@ -90,15 +90,15 @@ void RPMD::UpdateMomenta(const vector<boost::shared_ptr<Molecule> >& molecularBe
                          double temperature){
    double kB = Parameters::GetInstance()->GetBoltzmann();
    int numBeads = molecularBeads.size();
-   int numAtom = molecularBeads[0]->GetNumberAtoms();
+   int numAtom  = molecularBeads[0]->GetNumberAtoms();
    for(int b=0; b<numBeads; b++){
       int preB  = b==0 ? numBeads-1 : b-1;
       int postB = b==numBeads-1 ? 0 : b+1;
       double** electronicForceMatrix = electronicStructureBeads[b]->GetForce(elecState);;
       for(int a=0; a<numAtom; a++){
-         Atom* atom = molecularBeads[b]->GetAtom(a);
-         Atom* preAtom = molecularBeads[preB]->GetAtom(a);
-         Atom* postAtom = molecularBeads[postB]->GetAtom(a);
+         Atom* atom      = molecularBeads[b]->GetAtom(a);
+         Atom* preAtom   = molecularBeads[preB]->GetAtom(a);
+         Atom* postAtom  = molecularBeads[postB]->GetAtom(a);
          double coreMass = atom->GetAtomicMass() - static_cast<double>(atom->GetNumberValenceElectrons());
          for(int i=0; i<CartesianType_end; i++){
             double beadsForce = -1.0*coreMass*pow(kB*temperature*static_cast<double>(numBeads),2.0)
@@ -153,11 +153,11 @@ void RPMD::DoRPMD(const Molecule& refferenceMolecule){
 
    double temperature = Parameters::GetInstance()->GetTemperatureRPMD();
    unsigned long seed = Parameters::GetInstance()->GetSeedRPMD();
-   int totalSteps = Parameters::GetInstance()->GetTotalStepsRPMD();
-   double dt = Parameters::GetInstance()->GetTimeWidthRPMD();
-   int numAtom = refferenceMolecule.GetNumberAtoms();
-   int numBeads = Parameters::GetInstance()->GetNumberBeadsRPMD();
-   double kB = Parameters::GetInstance()->GetBoltzmann();
+   int totalSteps     = Parameters::GetInstance()->GetTotalStepsRPMD();
+   double dt          = Parameters::GetInstance()->GetTimeWidthRPMD();
+   double kB          = Parameters::GetInstance()->GetBoltzmann();
+   int numBeads       = Parameters::GetInstance()->GetNumberBeadsRPMD();
+   int numAtom        = refferenceMolecule.GetNumberAtoms();
 
    // create Beads
    vector<boost::shared_ptr<Molecule> > molecularBeads;
@@ -254,7 +254,7 @@ double RPMD::OutputEnergies(const vector<boost::shared_ptr<Molecule> >& molecula
       double harmonicEnergy = 0.0;
       int preB = b==0 ? numBeads-1 : b-1;
       for(int a=0; a<numAtom; a++){
-         Atom* atom = molecularBeads[b]->GetAtom(a);
+         Atom* atom    = molecularBeads[b]->GetAtom(a);
          Atom* preAtom = molecularBeads[preB]->GetAtom(a);
          double coreMass = atom->GetAtomicMass() - static_cast<double>(atom->GetNumberValenceElectrons());
          double dx = atom->GetXyz()[XAxis] - preAtom->GetXyz()[XAxis];
