@@ -233,7 +233,7 @@ void Molecule::CalcXyzCOC(){
    for(int i=0; i<this->atomVect->size(); i++){
       const Atom& atom = *(*this->atomVect)[i]; 
       atomicXyz = atom.GetXyz();
-      coreMass = atom.GetCoreMass();
+      coreMass  = atom.GetCoreMass();
       totalCoreMass += coreMass;
       for(int j=0; j<3; j++){
          this->xyzCOC[j] += atomicXyz[j] * coreMass;
@@ -500,7 +500,6 @@ void Molecule::Rotate(){
       EularAngle setZAxisEularAngles(rotatingAxis[0], rotatingAxis[1], rotatingAxis[2]);
       EularAngle angleAroundAxis;
       angleAroundAxis.SetAlpha(rotatingAngle);
-
       this->Rotate(setZAxisEularAngles, rotatingOrigin, Frame);
       this->Rotate(angleAroundAxis, rotatingOrigin, System);
       this->Rotate(setZAxisEularAngles, rotatingOrigin, System);
