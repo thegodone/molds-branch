@@ -515,7 +515,7 @@ public:
             throw MolDSException(this->errorMessageMallocFailure);
          }
          p7d = new T******[size1];
-         if(p6d==NULL){
+         if(p7d==NULL){
             throw MolDSException(this->errorMessageMallocFailure);
          }
 
