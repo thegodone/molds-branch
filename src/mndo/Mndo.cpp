@@ -2858,7 +2858,6 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
             int moL = nonRedundantQIndeces[j].moJ;
             matrixCPHF[i][j] = (this->GetGammaNRElement(moI, moJ, moK, moL)-0.5*this->GetKNRElement(moI, moJ, moK, moL))
                               *occupations[j];
-
          }    
       }  
 
