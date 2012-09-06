@@ -2853,17 +2853,14 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
       for(int i=0; i<nonRedundantQIndeces.size(); i++){
          int moI = nonRedundantQIndeces[i].moI;
          int moJ = nonRedundantQIndeces[i].moJ;
-         for(int j=i; j<nonRedundantQIndeces.size(); j++){
+         for(int j=0; j<nonRedundantQIndeces.size(); j++){
             int moK = nonRedundantQIndeces[j].moI;
             int moL = nonRedundantQIndeces[j].moJ;
             matrixCPHF[i][j] = (this->GetGammaNRElement(moI, moJ, moK, moL)-0.5*this->GetKNRElement(moI, moJ, moK, moL))
                               *occupations[j];
 
-         }
-         for(int j=0; j<i; j++){
-            matrixCPHF[i][j] = matrixCPHF[j][i];
-         }
-      }
+         }    
+      }  
 
       for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
          int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
