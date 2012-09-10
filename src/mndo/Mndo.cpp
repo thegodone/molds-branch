@@ -235,16 +235,16 @@ double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy2ndDerivative(const Atom& atom
    double fact2=0.0;
    if(atomA.GetAtomType() == H && (atomB.GetAtomType() == N || 
                                    atomB.GetAtomType() == O)  ){
-      fact1 = -alphaA*exp(-alphaA*distanceAB);
+      fact1 = -alphaA*exp(-alphaA*distanceAB)
              +((1.0/ang2AU) - alphaB*(distanceAB/ang2AU))*exp(-alphaB*distanceAB);
-      fact2 = alphaA*alphaA*exp(-alphaA*distanceAB);
+      fact2 = alphaA*alphaA*exp(-alphaA*distanceAB)
              +(-2.0*alphaA/ang2AU + (distanceAB/ang2AU)*alphaA*alphaA)*exp(-alphaB*distanceAB);
    }
    else if(atomB.GetAtomType() == H && (atomA.GetAtomType() == N || 
                                         atomA.GetAtomType() == O)  ){
-      fact1 = -alphaB*exp(-alphaB*distanceAB);
+      fact1 = -alphaB*exp(-alphaB*distanceAB)
              +((1.0/ang2AU) - alphaA*(distanceAB/ang2AU))*exp(-alphaA*distanceAB);
-      fact2 = alphaB*alphaB*exp(-alphaB*distanceAB);
+      fact2 = alphaB*alphaB*exp(-alphaB*distanceAB)
              +(-2.0*alphaB/ang2AU + (distanceAB/ang2AU)*alphaB*alphaB)*exp(-alphaA*distanceAB);
    }
    else{
