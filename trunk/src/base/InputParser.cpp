@@ -153,6 +153,10 @@ void InputParser::SetMessages(){
    this->messageOptimizationRmsGradient = "\t\tRms gradient: ";
    this->messageOptimizationTimeWidth   = "\t\tFictious time width: ";
 
+   // RPMD
+   this->messageFrequenciesConditions    = "\tFrequencies (Normal modes) analysis conditions:\n";
+   this->messageFrequenciesElecState     = "\t\tElectronic eigenstate: ";
+
    // MOPlot
    this->messageMOPlotConditions  = "\tMO plot conditions:\n";
    this->messageMOPlotIndex       = "\t\tMO index: ";
@@ -321,6 +325,11 @@ void InputParser::SetMessages(){
    this->stringOptimizationMaxGradient       = "max_gradient";
    this->stringOptimizationRmsGradient       = "rms_gradient";
    this->stringOptimizationTimeWidth         = "dt";
+
+   // Frequencies (Normal modes)
+   this->stringFrequencies          = "frequencies";
+   this->stringFrequenciesEnd       = "frequencies_end";
+   this->stringFrequenciesElecState = "electronic_state";
 }
 
 vector<string> InputParser::GetInputTerms(int argc, char *argv[]) const{

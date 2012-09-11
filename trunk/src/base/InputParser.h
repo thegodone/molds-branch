@@ -100,6 +100,9 @@ private:
    std::string messageOptimizationTimeWidth;
    std::string messageOptimizationRmsGradient;
    std::string messageOptimizationMaxGradient;
+   // Frequencies (Normal modes)
+   std::string messageFrequenciesConditions;
+   std::string messageFrequenciesElecState;
    // MOPlot
    std::string messageMOPlotConditions;
    std::string messageMOPlotIndex;
@@ -123,6 +126,7 @@ private:
    std::string messageK;
    std::string messageAngst;
    std::string messageMB;
+
    // others
    std::string stringYES;
    std::string stringNO;
@@ -249,6 +253,10 @@ private:
    std::string stringOptimizationMaxGradient;
    std::string stringOptimizationRmsGradient;
    std::string stringOptimizationTimeWidth;
+   // Frequencies (Normal modes)
+   std::string stringFrequencies;
+   std::string stringFrequenciesEnd;
+   std::string stringFrequenciesElecState;
    void CalcMolecularBasics(Molecule* molecule) const;
    void ValidateVdWConditions() const;
    void ValidateCisConditions(const Molecule& molecule) const;
