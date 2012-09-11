@@ -80,6 +80,10 @@ void InputParser::SetMessages(){
       = "Error in base::InputParser::ValidateRpmdConditions: Excited state on which RPMD runs or CIS condition are wrong.\n";
    this->errorMessageNonValidExcitedStatesOptimization
       = "Error in base::InputParser::ValidateOptimizationConditions: Excited state on which optimization is carried out or CIS condition are wrong.\n";
+   this->errorMessageNonValidElectronicStateFrequencies
+      = "Error in base::InputParser::ValidateFrequenciesConditions: Excited states are not supported for the frequencies (normal modes) analysis.\n";
+   this->errorMessageNonValidTheoryFrequencies
+      = "Error in base::InputParser::ValidateFrequenciesConditions: CNDO2, INDO, and ZINDO/S are supported for the frequencies (normal modes) analysis.\n";
    this->errorMessageElecState = "Electronic eigenstate: ";
    this->errorMessageTheory = "Theory: ";
    this->errorMessageNumberExcitedStateCIS = "Number of CIS excited states: ";
@@ -153,7 +157,7 @@ void InputParser::SetMessages(){
    this->messageOptimizationRmsGradient = "\t\tRms gradient: ";
    this->messageOptimizationTimeWidth   = "\t\tFictious time width: ";
 
-   // RPMD
+   // Frequencies (Normal modes)
    this->messageFrequenciesConditions    = "\tFrequencies (Normal modes) analysis conditions:\n";
    this->messageFrequenciesElecState     = "\t\tElectronic eigenstate: ";
 
@@ -932,6 +936,21 @@ int InputParser::ParseConditionsOptimization(vector<string>* inputTerms, int par
    return parseIndex;
 }
 
+int InputParser::ParseConditionsFrequencies(vector<string>* inputTerms, int parseIndex) const{
+   Parameters::GetInstance()->SetRequiresFrequencies(true);
+   parseIndex++;
+   while((*inputTerms)[parseIndex].compare(this->stringFrequenciesEnd) != 0){
+      // electronic state on which the frequencies (normal modes) are calculated
+      if((*inputTerms)[parseIndex].compare(this->stringFrequenciesElecState) == 0){
+         int elecIndex = atoi((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetElectronicStateIndexFrequencies(elecIndex);
+         parseIndex++;
+      }
+      parseIndex++;   
+   }
+   return parseIndex;
+}
+
 int InputParser::ParseTheory(vector<string>* inputTerms, int parseIndex) const{
    parseIndex++;
    while((*inputTerms)[parseIndex].compare(this->stringTheoryEnd) != 0){
@@ -1075,6 +1094,11 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
          i = this->ParseConditionsOptimization(&inputTerms, i);
       }
 
+      // Frequencies
+      if(inputTerms[i].compare(this->stringFrequencies) == 0){
+         i = this->ParseConditionsFrequencies(&inputTerms, i);
+      }
+
    }
 
    // calculate basics and validate conditions
@@ -1082,6 +1106,9 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
    this->ValidateVdWConditions();
    if(Parameters::GetInstance()->RequiresCIS()){
       this->ValidateCisConditions(*molecule);
+   }
+   if(Parameters::GetInstance()->RequiresFrequencies()){
+      this->ValidateFrequenciesConditions();
    }
    if(Parameters::GetInstance()->GetCurrentSimulation()==MD){
       this->ValidateMdConditions(*molecule);
@@ -1102,6 +1129,9 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
    this->OutputMemoryConditions();
    if(Parameters::GetInstance()->RequiresCIS()){
       this->OutputCisConditions();
+   }
+   if(Parameters::GetInstance()->RequiresFrequencies()){
+      this->OutputFrequenciesConditions();
    }
    if(Parameters::GetInstance()->RequiresMOPlot()){
       this->OutputMOPlotConditions();
@@ -1296,6 +1326,26 @@ void InputParser::ValidateOptimizationConditions(const Molecule& molecule) const
    } 
 }
 
+void InputParser::ValidateFrequenciesConditions() const{
+   // validate theory
+   TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
+   if(theory == CNDO2 || theory == INDO || theory == ZINDOS){
+      stringstream ss;
+      ss << this->errorMessageNonValidTheoryFrequencies;
+      ss << this->errorMessageTheory << TheoryTypeStr(theory) << endl;
+      throw MolDSException(ss.str());
+   }
+   // validate electronic state
+   int groundStateIndex = 0;
+   int targetStateIndex = Parameters::GetInstance()->GetElectronicStateIndexFrequencies();
+   if(groundStateIndex < targetStateIndex){
+      stringstream ss;
+      ss << this->errorMessageNonValidElectronicStateFrequencies;
+      ss << this->errorMessageElecState << targetStateIndex << endl;
+      throw MolDSException(ss.str());
+   } 
+}
+
 void InputParser::OutputMolecularBasics(Molecule* molecule) const{
    molecule->OutputTotalNumberAtomsAOsValenceelectrons();
    molecule->OutputConfiguration();
@@ -1470,6 +1520,13 @@ void InputParser::OutputOptimizationConditions() const{
          break;
    }
 
+   this->OutputLog("\n");
+}
+
+void InputParser::OutputFrequenciesConditions() const{
+   this->OutputLog(this->messageFrequenciesConditions);
+   this->OutputLog(boost::format("%s%d\n") % this->messageFrequenciesElecState.c_str() 
+                                           % Parameters::GetInstance()->GetElectronicStateIndexFrequencies());
    this->OutputLog("\n");
 }
 
