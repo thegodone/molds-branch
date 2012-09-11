@@ -4932,6 +4932,9 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    double z = atomB.GetXyz()[2] - atomA.GetXyz()[2];
    double r = sqrt( pow(x,2.0) + pow(y,2.0) );
    double R = sqrt( pow(x,2.0) + pow(y,2.0) + pow(z,2.0) );
+   double temp1 = 1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0));
+   double temp2 = 2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0));
+   double temp3 = pow(r*R,-3.0) + 3.0/(r*pow(R,5.0));
 
    // for s-function
    rotMat2ndDerivatives[s][s][XAxis][XAxis] = 0.0;
@@ -4947,29 +4950,26 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    // for p-function, xx-derivatives
    rotMat2ndDerivatives[py][py][XAxis][XAxis] = -3.0*x*pow(r,-3.0) + 3.0*pow(x,3.0)*pow(r,-5.0);
    rotMat2ndDerivatives[py][pz][XAxis][XAxis] = -1.0*y*pow(R,-3.0) + 3.0*pow(x,2.0)*y*pow(R,-5.0);
-   rotMat2ndDerivatives[py][px][XAxis][XAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*y*z
-                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(x,2.0)*y*z;
-                                                
+   rotMat2ndDerivatives[py][px][XAxis][XAxis] = -1.0*temp1*y*z+temp2*pow(x,2.0)*y*z;
+                                              
    rotMat2ndDerivatives[pz][py][XAxis][XAxis] = 0.0;
    rotMat2ndDerivatives[pz][pz][XAxis][XAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(x,2.0)*z*pow(R,-5.0);
-   rotMat2ndDerivatives[pz][px][XAxis][XAxis] = -1.0*pow(r*R,-1.0) + (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(x,2.0)
+   rotMat2ndDerivatives[pz][px][XAxis][XAxis] = -1.0*pow(r*R,-1.0) + temp1*pow(x,2.0)
                                                    +r*pow(R,-3.0) - 3.0*pow(x,2.0)*r*pow(R,-5.0) + pow(x,2.0)*pow(r,-1.0)*pow(R,-3.0);
-                                                
+                                              
    rotMat2ndDerivatives[px][py][XAxis][XAxis] = y*pow(r,-3.0) - 3.0*pow(x,2.0)*y*pow(r,-5.0);
    rotMat2ndDerivatives[px][pz][XAxis][XAxis] = -3.0*x*pow(R,-3.0) + 3.0*pow(x,3.0)*pow(R,-5.0);
-   rotMat2ndDerivatives[px][px][XAxis][XAxis] = -3.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
-                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(x,3.0)*z;
+   rotMat2ndDerivatives[px][px][XAxis][XAxis] = -3.0*temp1*x*z+temp2*pow(x,3.0)*z;
 
    // for p-function, xy-derivatives
    rotMat2ndDerivatives[py][py][XAxis][YAxis] = -1.0*y*pow(r,-3.0) + 3.0*pow(x,2.0)*y*pow(r,-5.0);
    rotMat2ndDerivatives[py][pz][XAxis][YAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(y,2.0)*pow(R,-5.0);  
-   rotMat2ndDerivatives[py][px][XAxis][YAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
-                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*x*pow(y,2.0)*z;
-                                                
+   rotMat2ndDerivatives[py][px][XAxis][YAxis] = -1.0*temp1*x*z+temp2*x*pow(y,2.0)*z;
+                                              
    rotMat2ndDerivatives[pz][py][XAxis][YAxis] = 0.0;
    rotMat2ndDerivatives[pz][pz][XAxis][YAxis] = 3.0*x*y*z*pow(R,-5.0);
-   rotMat2ndDerivatives[pz][px][XAxis][YAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y + x*y*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*y*r*pow(R,-5.0);
-                                                
+   rotMat2ndDerivatives[pz][px][XAxis][YAxis] = temp1*x*y + x*y*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*y*r*pow(R,-5.0);
+                                              
    rotMat2ndDerivatives[px][py][XAxis][YAxis] = x*pow(r,-3.0) - 3.0*x*pow(y,2.0)*pow(r,-5.0);
    rotMat2ndDerivatives[px][pz][XAxis][YAxis] = rotMat2ndDerivatives[py][pz][XAxis][XAxis];
    rotMat2ndDerivatives[px][px][XAxis][YAxis] = rotMat2ndDerivatives[py][px][XAxis][XAxis];
@@ -4980,22 +4980,19 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
          rotMat2ndDerivatives[i][j][YAxis][XAxis] = rotMat2ndDerivatives[i][j][XAxis][YAxis];
       }
    }
-
    // for p-function, xz-derivatives
    rotMat2ndDerivatives[py][py][XAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[py][pz][XAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][YAxis];
-   rotMat2ndDerivatives[py][px][XAxis][ZAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y 
-                                                   +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*x*y*pow(z,2.0);
-                                                
+   rotMat2ndDerivatives[py][px][XAxis][ZAxis] = -1.0*temp1*x*y +temp3*x*y*pow(z,2.0);
+                                              
    rotMat2ndDerivatives[pz][py][XAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[pz][pz][XAxis][ZAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(z,2.0)*pow(R,-5.0); 
    rotMat2ndDerivatives[pz][px][XAxis][ZAxis] = x*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*z*r*pow(R,-5.0);
-                                                
+                                              
    rotMat2ndDerivatives[px][py][XAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[px][pz][XAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][XAxis];
    rotMat2ndDerivatives[px][px][XAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
-                                                   -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(x,2.0)
-                                                   +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*pow(x*z,2.0);
+                                                   -1.0*temp1*pow(x,2.0)+temp3*pow(x*z,2.0);
 
 
    // for p-function, zx-derivatives
@@ -5008,34 +5005,30 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    // for p-function, yy-derivatives
    rotMat2ndDerivatives[py][py][YAxis][YAxis] = -1.0*x*pow(r,-3.0) + 3.0*x*pow(y,2.0)*pow(r,-5.0); 
    rotMat2ndDerivatives[py][pz][YAxis][YAxis] = -3.0*y*pow(R,-3.0) + 3.0*pow(y,3.0)*pow(R,-5.0);
-   rotMat2ndDerivatives[py][px][YAxis][YAxis] = -3.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*y*z
-                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*pow(y,3.0)*z;
-                                                
+   rotMat2ndDerivatives[py][px][YAxis][YAxis] = -3.0*temp1*y*z+temp2*pow(y,3.0)*z;
+                                              
    rotMat2ndDerivatives[pz][py][YAxis][YAxis] = 0.0;
    rotMat2ndDerivatives[pz][pz][YAxis][YAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(y,2.0)*z*pow(R,-5.0);
-   rotMat2ndDerivatives[pz][px][YAxis][YAxis] = -1.0*pow(r*R,-1.0) + (1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(y,2.0)
+   rotMat2ndDerivatives[pz][px][YAxis][YAxis] = -1.0*pow(r*R,-1.0) + temp1*pow(y,2.0)
                                                    +r*pow(R,-3.0) - 3.0*pow(y,2.0)*r*pow(R,-5.0) + pow(y,2.0)*pow(r,-1.0)*pow(R,-3.0);
-                                                
+                                              
    rotMat2ndDerivatives[px][py][YAxis][YAxis] = 3.0*y*pow(r,-3.0) - 3.0*pow(y,3.0)*pow(r,-5.0);
    rotMat2ndDerivatives[px][pz][YAxis][YAxis] = rotMat2ndDerivatives[py][pz][XAxis][YAxis];
-   rotMat2ndDerivatives[px][px][YAxis][YAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*z
-                                                   +(2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0)))*x*pow(y,2.0)*z;
+   rotMat2ndDerivatives[px][px][YAxis][YAxis] = -1.0*temp1*x*z+temp2*x*pow(y,2.0)*z;
                
    // for p-function, yz-derivatives
    rotMat2ndDerivatives[py][py][YAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[py][pz][YAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][YAxis][YAxis];
    rotMat2ndDerivatives[py][px][YAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
-                                                   -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*pow(y,2.0)
-                                                   +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*pow(y*z,2.0);
-                                                
+                                                   -1.0*temp1*pow(y,2.0)+temp3*pow(y*z,2.0);
+                                              
    rotMat2ndDerivatives[pz][py][YAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[pz][pz][YAxis][ZAxis] = -1.0*y*pow(R,-3.0) + 3.0*y*pow(z,2.0)*pow(R,-5.0);
    rotMat2ndDerivatives[pz][px][YAxis][ZAxis] = y*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*y*z*r*pow(R,-5.0);
-                                                
+                                              
    rotMat2ndDerivatives[px][py][YAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[px][pz][YAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][YAxis];
-   rotMat2ndDerivatives[px][px][YAxis][ZAxis] = -1.0*(1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0)))*x*y
-                                                   +(pow(r*R,-3.0) + 3.0/(r*pow(R,5.0)))*x*y*pow(z,2.0);
+   rotMat2ndDerivatives[px][px][YAxis][ZAxis] = -1.0*temp1*x*y+temp3*x*y*pow(z,2.0);
                                           
                
    // for p-function, zy-derivatives
@@ -5049,11 +5042,11 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    rotMat2ndDerivatives[py][py][ZAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[py][pz][ZAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][YAxis][ZAxis];
    rotMat2ndDerivatives[py][px][ZAxis][ZAxis] = -3.0*y*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*y*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
-                                                
+                                              
    rotMat2ndDerivatives[pz][py][ZAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[pz][pz][ZAxis][ZAxis] = -3.0*z*pow(R,-3.0) + 3.0*pow(z,3.0)*pow(R,-5.0); 
    rotMat2ndDerivatives[pz][px][ZAxis][ZAxis] = -3.0*pow(z,2.0)*r*pow(R,-5.0) + r*pow(R,-3.0);
-                                                
+                                              
    rotMat2ndDerivatives[px][py][ZAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[px][pz][ZAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][ZAxis];
    rotMat2ndDerivatives[px][px][ZAxis][ZAxis] = -3.0*x*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*x*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
