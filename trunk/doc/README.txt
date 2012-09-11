@@ -32,7 +32,7 @@ REQUIREMENTS:
 COMPILE(using GNUmake): 
    In the "src" directory in the MolDS package.
 
-   Case i) Use Intel c/c++ compiler (icpc)
+   Case i) Using Intel c/c++ compiler (icpc)
       Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
       boost-libraries in your systems.
 
@@ -44,16 +44,15 @@ COMPILE(using GNUmake):
       $ make depend INTEL=64
       $ make INTEL=64
 
-   Case ii) Use GNU c/c++ compiler (g++)
-      Rename "Makefile_GNU" to "Makefile".
-      Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
+   Case ii) Using GNU c/c++ compiler (g++)
+      Change the "BOOST_TOP_DIR" in "Makefile_GNU" to the top directory of the 
       boost-libraries in your systems.
-      Change the "OPENBLAS_TOP_DIR" in Makefile to the top directory of the 
+      Change the "OPENBLAS_TOP_DIR" in "Makefile_GNU" to the top directory of the 
       boost-libraries in your systems.
       
       Then, just type: 
-      $ make depend
-      $ make 
+      $ make -f Makefile_GNU depend
+      $ make -f Makefile_GNU 
 
    For both case, the compile succeeded if you could fine "MolDS.out" in the "src" directory. 
    Type "$ make clean" when you wanna clean the compilation.
