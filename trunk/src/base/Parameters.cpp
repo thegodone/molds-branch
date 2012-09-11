@@ -191,6 +191,9 @@ void Parameters::SetDefaultValues(){
    this->maxGradientOptimization          = 0.00045;
    this->rmsGradientOptimization          = 0.00030;
    this->timeWidthOptimization            = 50.0*this->fs2AU;
+   // Frequencies
+   this->requiresFrequencies             = false;
+   this->electronicStateIndexFrequencies = 0;
 }
 
 void Parameters::SetMessages(){
@@ -845,6 +848,22 @@ void Parameters::SetTimeWidthOptimization(double timeWidth){
    this->timeWidthOptimization = timeWidth;
 }
 
+// Frequencies
+bool Parameters::RequiresFrequencies() const{
+   return this->requiresFrequencies;
+}
+
+void Parameters::SetRequiresFrequencies(bool requiresFrequencies){
+   this->requiresFrequencies = requiresFrequencies;
+}
+
+int Parameters::GetElectronicStateIndexFrequencies() const{
+   return this->electronicStateIndexFrequencies;
+}
+
+void Parameters::SetElectronicStateIndexFrequencies(int electronicStateIndex){
+   this->electronicStateIndexFrequencies = electronicStateIndex;
+}
 }
 
 

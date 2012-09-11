@@ -35,6 +35,8 @@ private:
    std::string errorMessageNonValidExcitedStatesMC;
    std::string errorMessageNonValidExcitedStatesRPMD;
    std::string errorMessageNonValidExcitedStatesOptimization;
+   std::string errorMessageNonValidElectronicStateFrequencies;
+   std::string errorMessageNonValidTheoryFrequencies;
    std::string errorMessageElecState;
    std::string errorMessageTheory;
    std::string errorMessageNumberExcitedStateCIS;
@@ -264,6 +266,7 @@ private:
    void ValidateMcConditions(const Molecule& molecule) const;
    void ValidateRpmdConditions(const Molecule& molecule) const;
    void ValidateOptimizationConditions(const Molecule& molecule) const;
+   void ValidateFrequenciesConditions() const;
    void OutputMolecularBasics(Molecule* molecule) const;
    void OutputScfConditions() const;
    void OutputMemoryConditions() const;
@@ -272,6 +275,7 @@ private:
    void OutputMcConditions() const;
    void OutputRpmdConditions() const;
    void OutputOptimizationConditions() const;
+   void OutputFrequenciesConditions() const;
    void OutputMOPlotConditions() const;
    void OutputHolePlotConditions() const;
    void OutputParticlePlotConditions() const;
@@ -295,6 +299,7 @@ private:
    int ParseConditionsMD(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsRPMD(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsOptimization(std::vector<std::string>* inputTerms, int parseIndex) const;
+   int ParseConditionsFrequencies(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsMemory(std::vector<std::string>* inputTerms, int parseIndex) const;
 };
 

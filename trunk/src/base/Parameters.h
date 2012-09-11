@@ -186,6 +186,12 @@ public:
    void SetRmsGradientOptimization(double rmsGradient);
    double GetTimeWidthOptimization() const;
    void SetTimeWidthOptimization(double timeWidth);
+   // Frequencies 
+   bool RequiresFrequencies() const;
+   void SetRequiresFrequencies(bool requiresFrequencies);
+   int  GetElectronicStateIndexFrequencies() const;
+   void SetElectronicStateIndexFrequencies(int electronicStateIndex);
+
 private:
    static Parameters* parameters;
    Parameters();
@@ -285,6 +291,9 @@ private:
    double maxGradientOptimization;
    double rmsGradientOptimization;
    double timeWidthOptimization;
+   // Frequencies
+   bool requiresFrequencies;
+   int  electronicStateIndexFrequencies;
    // Other
    void SetDefaultValues();
    void SetMessages();
