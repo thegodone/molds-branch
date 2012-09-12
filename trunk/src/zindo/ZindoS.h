@@ -124,7 +124,7 @@ private:
    std::string messageElectronicDipoleMoment;
    std::string messageTransitionDipoleMomentsTitle;
    std::string messageTransitionDipoleMoment;
-   int matrixForceElecStatesNum;
+   int    matrixForceElecStatesNum;
    double nishimotoMatagaParamA;
    double nishimotoMatagaParamB;
    double overlapCorrectionSigma;

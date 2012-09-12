@@ -59,30 +59,35 @@ namespace MolDS_cndo{
  *  Refferences for Cndo2 are [PB_1970], [PSS_1965], and [PS_1965].
  */
 Cndo2::Cndo2(){
+   //protected variables
+   this->molecule = NULL;
    this->theory = CNDO2;
-   this->SetMessages();
-   this->SetEnableAtomTypes();
-   this->gammaAB = NULL;
+   this->coreRepulsionEnergy = 0.0;
+   this->vdWCorrectionEnergy = 0.0;
+   this->matrixCISdimension = 0;
+   this->fockMatrix = NULL;
+   this->energiesMO = NULL;
+   this->orbitalElectronPopulation = NULL;
+   this->atomicElectronPopulation = NULL;
    this->overlap = NULL;
+   this->twoElecTwoCore = NULL;
    this->cartesianMatrix = NULL;
    this->electronicTransitionDipoleMoments = NULL;
    this->coreDipoleMoment = NULL;
-   this->twoElecTwoCore = NULL;
-   this->orbitalElectronPopulation = NULL;
-   this->atomicElectronPopulation = NULL;
-   this->fockMatrix = NULL;
-   this->energiesMO = NULL;
-   this->molecule = NULL;
-   this->matrixForce = NULL;
-   this->bondingAdjustParameterK[0] = 1.000; //see (3.79) in J. A. Pople book
-   this->bondingAdjustParameterK[1] = 0.750; //see (3.79) in J. A. Pople book
-   this->elecSCFEnergy = 0.0;
-   this->coreRepulsionEnergy = 0.0;
-   this->vdWCorrectionEnergy = 0.0;
    this->matrixCIS = NULL;
    this->excitedEnergies = NULL;
    this->freeExcitonEnergiesCIS = NULL;
-   this->matrixCISdimension = 0;
+   this->matrixForce = NULL;
+
+   //protected methods
+   this->SetMessages();
+   this->SetEnableAtomTypes();
+
+   //private variables
+   this->elecSCFEnergy = 0.0;
+   this->bondingAdjustParameterK[0] = 1.000; //see (3.79) in J. A. Pople book
+   this->bondingAdjustParameterK[1] = 0.750; //see (3.79) in J. A. Pople book
+   this->gammaAB = NULL;
    //this->OutputLog("Cndo created\n");
 }
 

@@ -107,11 +107,11 @@ private:
    std::string messageHeatsFormation;
    std::string messageHeatsFormationTitle;
    struct MoIndexPair{int moI; int moJ; bool isMoICIMO; bool isMoJCIMO;};
+   double    heatsFormation;
+   int       zMatrixForceElecStatesNum;
+   int       etaMatrixForceElecStatesNum;
    double*** zMatrixForce;
    double*** etaMatrixForce;
-   int zMatrixForceElecStatesNum;
-   int etaMatrixForceElecStatesNum;
-   double heatsFormation;
    double GetAuxiliaryDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
                                                 const MolDS_base_atoms::Atom& atomB,
                                                 double distanceAB) const;
