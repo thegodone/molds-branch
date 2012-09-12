@@ -211,7 +211,7 @@ void Cndo2::SetMessages(){
    this->messageNormalModesUnitsMassWeighted = "\t\t\t\t| i-th |    [a.u.]    |    [cm-1]       |   [a.u.] in mass-weighted coordinates ...\n";
    this->messageNormalModesMassWeighted = "Normal mode(mw):";
    this->messageNormalModesNonMassWeighted = "Normal mode(nmw):";
-   this->messageNormalModesImaginaryFrequencies = "\t\t\t'i' just after the frequency means the imaginary frequency.\n";
+   this->messageNormalModesImaginaryFrequencies = "\t\t\t\t\t'i' following the frequency means the imaginary frequency.\n";
 }
 
 void Cndo2::SetEnableAtomTypes(){
