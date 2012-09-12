@@ -70,24 +70,24 @@ protected:
    std::string messageOmpElapsedTimeSCF;
    std::string messageUnitSec; 
    std::vector<MolDS_base::AtomType> enableAtomTypes;
-   MolDS_base::TheoryType theory;
    MolDS_base::Molecule* molecule;
+   MolDS_base::TheoryType theory;
    double       coreRepulsionEnergy;
    double       vdWCorrectionEnergy;
+   int          matrixCISdimension;
    double**     fockMatrix;
    double*      energiesMO;
-   double***    matrixForce;
-   double****** twoElecTwoCore;
    double**     orbitalElectronPopulation; //P_{\mu\nu} of (2.50) in J. A. Pople book.
    double*      atomicElectronPopulation; //P_{AB} of (3.21) in J. A. Pople book.
-   double**     matrixCIS;
-   double*      excitedEnergies;
-   double*      freeExcitonEnergiesCIS;
    double**     overlap; // overlap integral between AOs
+   double****** twoElecTwoCore;
    double***    cartesianMatrix; // cartesian matrix represented by AOs
    double***    electronicTransitionDipoleMoments; // Diagnonal terms are electronic dipole moments of each eigenstates (i.e. electronicDipole[0][0][XAxis] is the x-component of the electronic dipole moment of the ground state. electronicDipole[10][10][XAxis] is the x-component of the electronic dipole moment of the 10-th excited state). Off-diagonal terms are transition dipole moments between eigenstates (i.e. electronicDipole[10][0][XAxis] is the x-component of the transition dipole moment from the ground state to 10-th excited state.).
    double*      coreDipoleMoment; // dipole moment of configuration.
-   int          matrixCISdimension;
+   double**     matrixCIS;
+   double*      excitedEnergies;
+   double*      freeExcitonEnergiesCIS;
+   double***    matrixForce;
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
    virtual void CalcSCFProperties();
@@ -245,8 +245,8 @@ private:
    std::string messageTotalDipoleMomentTitle;
    std::string messageTotalDipoleMoment;
    double elecSCFEnergy;
-   double** gammaAB;
    double bondingAdjustParameterK[2]; //see (3.79) in J. A. Pople book
+   double** gammaAB;
    class ReducedOverlapParameters : private MolDS_base::Uncopyable{
    public:
       // use Y[na][nb][la][lb][m][i][j] 

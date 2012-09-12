@@ -59,9 +59,12 @@ namespace MolDS_zindo{
  */
 
 ZindoS::ZindoS() : MolDS_cndo::Cndo2(){
+   //protected variables and methods
    this->theory = ZINDOS;
    this->SetMessages();
    this->SetEnableAtomTypes();
+
+   //private variables
    this->matrixForceElecStatesNum = 0;
    this->nishimotoMatagaParamA = 1.2;
    this->nishimotoMatagaParamB = 2.4;
