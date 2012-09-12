@@ -192,8 +192,8 @@ void Cndo2::SetMessages(){
    this->messageMullikenAtoms = "\tMulliken charge:";
    this->messageMullikenAtomsTitle = "\t\t\t\t| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| \n";
    this->messageElecEnergy = "\tElectronic energy(SCF):";
-   this->messageNoteElecEnergy = "\tNote that this electronic energy includs core-repulsions.\n\n";
-   this->messageNoteElecEnergyVdW = "\tNote that this electronic energy includs core-repulsions and vdW correction.\n\n";
+   this->messageNoteElecEnergy = "\tNote that this electronic energy includes core-repulsions.\n\n";
+   this->messageNoteElecEnergyVdW = "\tNote that this electronic energy includes core-repulsions and vdW correction.\n\n";
    this->messageElecEnergyTitle = "\t\t\t\t|   [a.u.]   |   [eV]   |\n";
    this->messageUnitSec = "[s].";
    this->messageCoreRepulsionTitle = "\t\t\t\t|   [a.u.]   |   [eV]   |\n";
