@@ -72,22 +72,22 @@ protected:
    std::vector<MolDS_base::AtomType> enableAtomTypes;
    MolDS_base::TheoryType theory;
    MolDS_base::Molecule* molecule;
-   double coreRepulsionEnergy;
-   double vdWCorrectionEnergy;
-   double** fockMatrix;
-   double* energiesMO;
-   double*** matrixForce;
+   double       coreRepulsionEnergy;
+   double       vdWCorrectionEnergy;
+   double**     fockMatrix;
+   double*      energiesMO;
+   double***    matrixForce;
    double****** twoElecTwoCore;
-   double** orbitalElectronPopulation; //P_{\mu\nu} of (2.50) in J. A. Pople book.
-   double*   atomicElectronPopulation; //P_{AB} of (3.21) in J. A. Pople book.
-   double** matrixCIS;
-   double* excitedEnergies;
-   double* freeExcitonEnergiesCIS;
-   double** overlap; // overlap integral between AOs
-   double*** cartesianMatrix; // cartesian matrix represented by AOs
-   double*** electronicTransitionDipoleMoments; // Diagnonal terms are electronic dipole moments of each eigenstates (i.e. electronicDipole[0][0][XAxis] is the x-component of the electronic dipole moment of the ground state. electronicDipole[10][10][XAxis] is the x-component of the electronic dipole moment of the 10-th excited state). Off-diagonal terms are transition dipole moments between eigenstates (i.e. electronicDipole[10][0][XAxis] is the x-component of the transition dipole moment from the ground state to 10-th excited state.).
-   double* coreDipoleMoment; // dipole moment of configuration.
-   int matrixCISdimension;
+   double**     orbitalElectronPopulation; //P_{\mu\nu} of (2.50) in J. A. Pople book.
+   double*      atomicElectronPopulation; //P_{AB} of (3.21) in J. A. Pople book.
+   double**     matrixCIS;
+   double*      excitedEnergies;
+   double*      freeExcitonEnergiesCIS;
+   double**     overlap; // overlap integral between AOs
+   double***    cartesianMatrix; // cartesian matrix represented by AOs
+   double***    electronicTransitionDipoleMoments; // Diagnonal terms are electronic dipole moments of each eigenstates (i.e. electronicDipole[0][0][XAxis] is the x-component of the electronic dipole moment of the ground state. electronicDipole[10][10][XAxis] is the x-component of the electronic dipole moment of the 10-th excited state). Off-diagonal terms are transition dipole moments between eigenstates (i.e. electronicDipole[10][0][XAxis] is the x-component of the transition dipole moment from the ground state to 10-th excited state.).
+   double*      coreDipoleMoment; // dipole moment of configuration.
+   int          matrixCISdimension;
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
    virtual void CalcSCFProperties();
