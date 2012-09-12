@@ -248,6 +248,12 @@ private:
    std::string messageCoreDipoleMoment;
    std::string messageTotalDipoleMomentTitle;
    std::string messageTotalDipoleMoment;
+   std::string messageNormalModesTitle;
+   std::string messageNormalModesUnitsMassWeighted;
+   std::string messageNormalModesUnitsNonMassWeighted;
+   std::string messageNormalModesMassWeighted;
+   std::string messageNormalModesNonMassWeighted;
+   std::string messageNormalModesImaginaryFrequencies;
    double elecSCFEnergy;
    double bondingAdjustParameterK[2]; //see (3.79) in J. A. Pople book
    double** gammaAB;
@@ -274,6 +280,9 @@ private:
    void OutputSCFEnergies() const;
    void OutputSCFDipole() const;
    void OutputSCFMulliken() const;
+   void OutputNormalModes(double const* const* normalModes, 
+                          double const* normalForceConstants, 
+                          const MolDS_base::Molecule& molecule) const;
    void CalcCoreRepulsionEnergy();
    void CalcVdWCorrectionEnergy();
    double GetVdwDampingValue(double vdWDistance, double distance) const;

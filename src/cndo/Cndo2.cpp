@@ -206,6 +206,12 @@ void Cndo2::SetMessages(){
    this->messageCoreDipoleMoment = "\tCore Dipole moment:";
    this->messageTotalDipoleMomentTitle = "\t\t\t\t\t|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |\t\t|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |\n";
    this->messageTotalDipoleMoment = "\tTotal Dipole moment(SCF):";
+   this->messageNormalModesTitle = "\t\t\t\t       |    normal frequencies          |   normalized normal mode ...\n";
+   this->messageNormalModesUnitsNonMassWeighted = "\t\t\t\t| i-th |    [a.u.]    |    [cm-1]       |   [angst.] in non-mass-weighted coordinates ...\n";
+   this->messageNormalModesUnitsMassWeighted = "\t\t\t\t| i-th |    [a.u.]    |    [cm-1]       |   [a.u.] in mass-weighted coordinates ...\n";
+   this->messageNormalModesMassWeighted = "Normal mode(mw):";
+   this->messageNormalModesNonMassWeighted = "Normal mode(nmw):";
+   this->messageNormalModesImaginaryFrequencies = "\t\t\t'i' just after the frequency means the imaginary frequency.\n";
 }
 
 void Cndo2::SetEnableAtomTypes(){
@@ -605,7 +611,8 @@ void Cndo2::CalcSCFProperties(){
                                                this->orbitalElectronPopulation,
                                                this->overlap);
    const int groundState = 0;
-   if(Parameters::GetInstance()->RequiresFrequencies() && Parameters::GetInstance()->GetElectronicStateIndexFrequencies() == groundState){
+   if(Parameters::GetInstance()->RequiresFrequencies() && 
+      Parameters::GetInstance()->GetElectronicStateIndexFrequencies() == groundState){
       this->CalcNormalModes(this->normalModes, this->normalForceConstants, *this->molecule);
    }
 }
@@ -1016,12 +1023,95 @@ void Cndo2::OutputSCFMulliken() const{
    this->OutputLog("\n");
 }
 
+void Cndo2::OutputNormalModes(double const* const* normalModes, 
+                              double const* normalForceConstants, 
+                              const Molecule& molecule) const{
+
+   int hessianDim = CartesianType_end*molecule.GetNumberAtoms();
+   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
+   double kayser2AU = Parameters::GetInstance()->GetKayser2AU();
+
+   // output in mass-weighted coordinates
+   this->OutputLog(this->messageNormalModesTitle);
+   this->OutputLog(this->messageNormalModesUnitsMassWeighted);
+   for(int i=0; i<hessianDim; i++){
+      // normal frequencies
+      if(normalForceConstants[i]>0)
+         this->OutputLog(boost::format("\t%s\t%d\t%e\t%e\t") % this->messageNormalModesMassWeighted
+                                                             % i
+                                                             % sqrt(normalForceConstants[i])
+                                                             % (sqrt(normalForceConstants[i])/kayser2AU));
+      else
+         this->OutputLog(boost::format("\t%s\t%d\t%ei\t%ei\t") % this->messageNormalModesMassWeighted
+                                                               % i
+                                                               % sqrt(fabs(normalForceConstants[i]))
+                                                               % (sqrt(fabs(normalForceConstants[i]))/kayser2AU));
+      // normal modes
+      for(int a=0; a<molecule.GetNumberAtoms(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+         for(int j=XAxis; j<CartesianType_end; j++){
+            int hessianIndex = CartesianType_end*a+j;
+            this->OutputLog(boost::format("\t%e") % normalModes[i][hessianIndex]);
+         }
+      }
+      this->OutputLog("\n");
+   }
+   this->OutputLog(this->messageNormalModesImaginaryFrequencies);
+   this->OutputLog("\n");
+
+   // output in non-mass-weighted coordinates
+   this->OutputLog(this->messageNormalModesTitle);
+   this->OutputLog(this->messageNormalModesUnitsNonMassWeighted);
+   for(int i=0; i<hessianDim; i++){
+      // normal frequencies
+      if(normalForceConstants[i]>0)
+         this->OutputLog(boost::format("\t%s\t%d\t%e\t%e\t") % this->messageNormalModesNonMassWeighted
+                                                             % i
+                                                             % sqrt(normalForceConstants[i])
+                                                             % (sqrt(normalForceConstants[i])/kayser2AU));
+      else
+         this->OutputLog(boost::format("\t%s\t%d\t%ei\t%ei\t") % this->messageNormalModesNonMassWeighted
+                                                               % i
+                                                               % sqrt(fabs(normalForceConstants[i]))
+                                                               % (sqrt(fabs(normalForceConstants[i]))/kayser2AU));
+
+      double normSquare=0.0;
+      for(int a=0; a<molecule.GetNumberAtoms(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+         for(int j=XAxis; j<CartesianType_end; j++){
+            int hessianIndex = CartesianType_end*a+j;
+            normSquare += pow(normalModes[i][hessianIndex]/(sqrtCoreMass*ang2AU),2.0);
+         }
+      }
+      double norm = sqrt(normSquare);
+
+      // normal modes
+      for(int a=0; a<molecule.GetNumberAtoms(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+         for(int j=XAxis; j<CartesianType_end; j++){
+            int hessianIndex = CartesianType_end*a+j;
+            this->OutputLog(boost::format("\t%e") % (normalModes[i][hessianIndex]/(sqrtCoreMass*ang2AU*norm)));
+         }
+      }
+      this->OutputLog("\n");
+   }
+   this->OutputLog(this->messageNormalModesImaginaryFrequencies);
+   this->OutputLog("\n");
+}
+
 void Cndo2::OutputSCFResults() const{
    this->OutputMOEnergies();
    this->OutputSCFEnergies();
    this->OutputSCFDipole();
    this->OutputSCFMulliken();
    // ToDo: output eigen-vectors of the Hartree Fock matrix
+
+   // Normal modes and frequencies  
+   const int groundState = 0;
+   if(Parameters::GetInstance()->RequiresFrequencies() && 
+      Parameters::GetInstance()->GetElectronicStateIndexFrequencies() == groundState){
+      this->OutputNormalModes(this->normalModes, this->normalForceConstants, *this->molecule);
+   }
 
    // output MOs
    if(Parameters::GetInstance()->RequiresMOPlot()){
