@@ -74,6 +74,8 @@ Cndo2::Cndo2(){
    this->cartesianMatrix = NULL;
    this->electronicTransitionDipoleMoments = NULL;
    this->coreDipoleMoment = NULL;
+   this->frequencies = NULL;
+   this->normalModes = NULL;
    this->matrixCIS = NULL;
    this->excitedEnergies = NULL;
    this->freeExcitonEnergiesCIS = NULL;
@@ -173,6 +175,8 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2::SetOverlapElement: diatomicOverlap is NULL.\n";
    this->errorMessageGetElectronicTransitionDipoleMomentBadState
       = "Error in cndo::Cndo2::GetElectronicTransitionDipoleMoment: Bad eigen state is set. In SCF module, the transition dipole moment of only between ground states can be calculated. Note taht state=0 means the ground state and other state = i means the i-th excited state in below.\n";
+   this->errorMessageCalcFrequenciesNormalModesBadTheory
+      = "Error in cndo::Cndo2::CalcFrequenciesNormalModesBadTheory: CNDO2 is not supported for frequency (normal mode) analysis.\n";
    this->errorMessageFromState = "\tfrom state = ";
    this->errorMessageToState = "\tto state = ";
    this->messageSCFMetConvergence = "\n\n\n\t\tCNDO/2-SCF met convergence criterion(^^b\n\n\n";
@@ -600,6 +604,16 @@ void Cndo2::CalcSCFProperties(){
                                                *this->molecule, 
                                                this->orbitalElectronPopulation,
                                                this->overlap);
+   const int groundState = 0;
+   if(Parameters::GetInstance()->RequiresFrequencies() && Parameters::GetInstance()->GetElectronicStateIndexFrequencies() == groundState){
+      this->CalcFrequenciesNormalModes();
+   }
+}
+
+void Cndo2::CalcFrequenciesNormalModes() const{
+   stringstream ss;
+   ss << this->errorMessageCalcFrequenciesNormalModesBadTheory;
+   throw MolDSException(ss.str());
 }
 
 double Cndo2::GetBondingAdjustParameterK(ShellType shellA, ShellType shellB) const{
