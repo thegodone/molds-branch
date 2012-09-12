@@ -62,6 +62,7 @@ protected:
    std::string errorMessageGetElectronicEnergyNumberCISStates;
    std::string errorMessageGetElectronicEnergySetElecState;
    std::string errorMessageGetElectronicTransitionDipoleMomentBadState;
+   std::string errorMessageCalcFrequenciesNormalModesBadTheory;
    std::string errorMessageFromState;
    std::string errorMessageToState;
    std::string messageSCFMetConvergence;
@@ -84,6 +85,8 @@ protected:
    double***    cartesianMatrix; // cartesian matrix represented by AOs
    double***    electronicTransitionDipoleMoments; // Diagnonal terms are electronic dipole moments of each eigenstates (i.e. electronicDipole[0][0][XAxis] is the x-component of the electronic dipole moment of the ground state. electronicDipole[10][10][XAxis] is the x-component of the electronic dipole moment of the 10-th excited state). Off-diagonal terms are transition dipole moments between eigenstates (i.e. electronicDipole[10][0][XAxis] is the x-component of the transition dipole moment from the ground state to 10-th excited state.).
    double*      coreDipoleMoment; // dipole moment of configuration.
+   double*      frequencies;
+   double**     normalModes; // normal modes in non-mass-weighted coordinates
    double**     matrixCIS;
    double*      excitedEnergies;
    double*      freeExcitonEnergiesCIS;
@@ -92,6 +95,7 @@ protected:
    virtual void SetEnableAtomTypes();
    virtual void CalcSCFProperties();
    virtual void CalcCISProperties();
+   virtual void CalcFrequenciesNormalModes() const;
    virtual double GetElectronicTransitionDipoleMoment(int to, int from, MolDS_base::CartesianType axis,
                                                       double const* const* fockMatrix,
                                                       double const* const* matrixCIS,

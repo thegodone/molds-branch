@@ -85,6 +85,11 @@ Mndo::~Mndo(){
                                               this->etaMatrixForceElecStatesNum,
                                               this->molecule->GetTotalNumberAOs(),
                                               this->molecule->GetTotalNumberAOs());
+   MallocerFreer::GetInstance()->Free<double>(&this->frequencies,
+                                              CartesianType_end*molecule->GetNumberAtoms());
+   MallocerFreer::GetInstance()->Free<double>(&this->normalModes,
+                                              CartesianType_end*molecule->GetNumberAtoms(),
+                                              CartesianType_end*molecule->GetNumberAtoms());
 }
 
 void Mndo::SetMolecule(Molecule* molecule){
@@ -93,6 +98,11 @@ void Mndo::SetMolecule(Molecule* molecule){
                                                 molecule->GetNumberAtoms(),
                                                 molecule->GetNumberAtoms(),
                                                 dxy, dxy, dxy, dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(&this->frequencies,
+                                                CartesianType_end*molecule->GetNumberAtoms());
+   MallocerFreer::GetInstance()->Malloc<double>(&this->normalModes,
+                                                CartesianType_end*molecule->GetNumberAtoms(),
+                                                CartesianType_end*molecule->GetNumberAtoms());
 }
 void Mndo::SetMessages(){
    this->errorMessageSCFNotConverged 
