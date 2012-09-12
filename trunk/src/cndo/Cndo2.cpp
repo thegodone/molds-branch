@@ -92,8 +92,15 @@ Cndo2::Cndo2(){
 }
 
 Cndo2::~Cndo2(){
-   MallocerFreer::GetInstance()->Free<double>(&this->gammaAB, 
-                                              this->molecule->GetNumberAtoms(),
+   MallocerFreer::GetInstance()->Free<double>(&this->fockMatrix, 
+                                              this->molecule->GetTotalNumberAOs(),
+                                              this->molecule->GetTotalNumberAOs());
+   MallocerFreer::GetInstance()->Free<double>(&this->energiesMO, 
+                                              this->molecule->GetTotalNumberAOs());
+   MallocerFreer::GetInstance()->Free<double>(&this->orbitalElectronPopulation, 
+                                              this->molecule->GetTotalNumberAOs(),
+                                              this->molecule->GetTotalNumberAOs());
+   MallocerFreer::GetInstance()->Free<double>(&this->atomicElectronPopulation, 
                                               this->molecule->GetNumberAtoms());
    MallocerFreer::GetInstance()->Free<double>(&this->overlap, 
                                               this->molecule->GetTotalNumberAOs(),
@@ -112,16 +119,9 @@ Cndo2::~Cndo2(){
                                               CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(&this->coreDipoleMoment, 
                                               CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(&this->orbitalElectronPopulation, 
-                                              this->molecule->GetTotalNumberAOs(),
-                                              this->molecule->GetTotalNumberAOs());
-   MallocerFreer::GetInstance()->Free<double>(&this->atomicElectronPopulation, 
+   MallocerFreer::GetInstance()->Free<double>(&this->gammaAB, 
+                                              this->molecule->GetNumberAtoms(),
                                               this->molecule->GetNumberAtoms());
-   MallocerFreer::GetInstance()->Free<double>(&this->fockMatrix, 
-                                              this->molecule->GetTotalNumberAOs(),
-                                              this->molecule->GetTotalNumberAOs());
-   MallocerFreer::GetInstance()->Free<double>(&this->energiesMO, 
-                                              this->molecule->GetTotalNumberAOs());
    //this->OutputLog("cndo deleted\n");
 }
 
@@ -236,11 +236,16 @@ void Cndo2::SetMolecule(Molecule* molecule){
 
    // set molecule and malloc
    this->molecule = molecule;
-   if(this->theory == CNDO2 || this->theory == INDO){
-      MallocerFreer::GetInstance()->Malloc<double>(&this->gammaAB,
-                                                   this->molecule->GetNumberAtoms(), 
-                                                   this->molecule->GetNumberAtoms());
-   }
+   MallocerFreer::GetInstance()->Malloc<double>(&this->fockMatrix,
+                                                this->molecule->GetTotalNumberAOs(), 
+                                                this->molecule->GetTotalNumberAOs());
+   MallocerFreer::GetInstance()->Malloc<double>(&this->energiesMO,
+                                                this->molecule->GetTotalNumberAOs());
+   MallocerFreer::GetInstance()->Malloc<double>(&this->orbitalElectronPopulation,
+                                                this->molecule->GetTotalNumberAOs(), 
+                                                this->molecule->GetTotalNumberAOs());
+   MallocerFreer::GetInstance()->Malloc<double>(&this->atomicElectronPopulation,
+                                                this->molecule->GetNumberAtoms());
    MallocerFreer::GetInstance()->Malloc<double>(&this->overlap, 
                                                 this->molecule->GetTotalNumberAOs(), 
                                                 this->molecule->GetTotalNumberAOs());
@@ -258,16 +263,11 @@ void Cndo2::SetMolecule(Molecule* molecule){
                                                 CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(&this->coreDipoleMoment, 
                                                 CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(&this->orbitalElectronPopulation,
-                                                this->molecule->GetTotalNumberAOs(), 
-                                                this->molecule->GetTotalNumberAOs());
-   MallocerFreer::GetInstance()->Malloc<double>(&this->atomicElectronPopulation,
-                                                this->molecule->GetNumberAtoms());
-   MallocerFreer::GetInstance()->Malloc<double>(&this->fockMatrix,
-                                                this->molecule->GetTotalNumberAOs(), 
-                                                this->molecule->GetTotalNumberAOs());
-   MallocerFreer::GetInstance()->Malloc<double>(&this->energiesMO,
-                                                this->molecule->GetTotalNumberAOs());
+   if(this->theory == CNDO2 || this->theory == INDO){
+      MallocerFreer::GetInstance()->Malloc<double>(&this->gammaAB,
+                                                   this->molecule->GetNumberAtoms(), 
+                                                   this->molecule->GetNumberAtoms());
+   }
 }
 
 void Cndo2::CheckNumberValenceElectrons(const Molecule& molecule) const{
