@@ -74,7 +74,7 @@ Cndo2::Cndo2(){
    this->cartesianMatrix = NULL;
    this->electronicTransitionDipoleMoments = NULL;
    this->coreDipoleMoment = NULL;
-   this->frequencies = NULL;
+   this->normalForceConstants = NULL;
    this->normalModes = NULL;
    this->matrixCIS = NULL;
    this->excitedEnergies = NULL;
@@ -606,11 +606,11 @@ void Cndo2::CalcSCFProperties(){
                                                this->overlap);
    const int groundState = 0;
    if(Parameters::GetInstance()->RequiresFrequencies() && Parameters::GetInstance()->GetElectronicStateIndexFrequencies() == groundState){
-      this->CalcFrequenciesNormalModes();
+      this->CalcNormalModes(this->normalModes, this->normalForceConstants, *this->molecule);
    }
 }
 
-void Cndo2::CalcFrequenciesNormalModes() const{
+void Cndo2::CalcNormalModes(double** normalModes, double* normalForceConstants, const Molecule& molecule) const{
    stringstream ss;
    ss << this->errorMessageCalcFrequenciesNormalModesBadTheory;
    throw MolDSException(ss.str());

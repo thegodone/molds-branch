@@ -85,7 +85,7 @@ Mndo::~Mndo(){
                                               this->etaMatrixForceElecStatesNum,
                                               this->molecule->GetTotalNumberAOs(),
                                               this->molecule->GetTotalNumberAOs());
-   MallocerFreer::GetInstance()->Free<double>(&this->frequencies,
+   MallocerFreer::GetInstance()->Free<double>(&this->normalForceConstants,
                                               CartesianType_end*molecule->GetNumberAtoms());
    MallocerFreer::GetInstance()->Free<double>(&this->normalModes,
                                               CartesianType_end*molecule->GetNumberAtoms(),
@@ -98,7 +98,7 @@ void Mndo::SetMolecule(Molecule* molecule){
                                                 molecule->GetNumberAtoms(),
                                                 molecule->GetNumberAtoms(),
                                                 dxy, dxy, dxy, dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&this->frequencies,
+   MallocerFreer::GetInstance()->Malloc<double>(&this->normalForceConstants,
                                                 CartesianType_end*molecule->GetNumberAtoms());
    MallocerFreer::GetInstance()->Malloc<double>(&this->normalModes,
                                                 CartesianType_end*molecule->GetNumberAtoms(),
@@ -359,27 +359,83 @@ void Mndo::CalcSCFProperties(){
    MolDS_cndo::Cndo2::CalcSCFProperties();
    this->CalcHeatsFormation(&this->heatsFormation, *this->molecule);
  
-   /*
-   // test code for hessian
-   int hessianDim = this->molecule->GetNumberAtoms()*3;
-   double** hessian = NULL;
-   double* forceCons = NULL;
+}
+
+void Mndo::CalcNormalModes(double** normalModes, double* normalForceConstants, const Molecule& molecule) const{
    bool isMassWeighted = true;
-   MallocerFreer::GetInstance()->Malloc<double>(&hessian, hessianDim, hessianDim);
-   MallocerFreer::GetInstance()->Malloc<double>(&forceCons, hessianDim);
-   this->CalcHessianSCF(hessian, isMassWeighted);
+   this->CalcHessianSCF(normalModes, isMassWeighted);
    bool calcEigenVectors = true;
-   MolDS_wrappers::Lapack::GetInstance()->Dsyevd(hessian,
-                                                 forceCons,
+   int hessianDim = CartesianType_end*molecule.GetNumberAtoms();
+   MolDS_wrappers::Lapack::GetInstance()->Dsyevd(normalModes,
+                                                 normalForceConstants,
                                                  hessianDim,
                                                  calcEigenVectors);
+
+   // output normal frequencies and normal modes
+   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
+   double kayser2AU = Parameters::GetInstance()->GetKayser2AU();
+
+   // output in mass-weighted coordinates
+   printf("\t\t\t\t       |        frequencies             |   normalized normal mode ...\n");
+   printf("\t\t\t\t| i-th |    [a.u.]    |    [cm-1]       |   [a.u.] in mass-weighted coordinates ...\n");
    for(int i=0; i<hessianDim; i++){
-      printf("force cons: %d %e\n",i,forceCons[i]);
+      // normal frequencies
+      if(normalForceConstants[i]>0)
+         printf("\tNormal mode(mw):\t%d\t%e\t%e\t",  i,
+                                                     sqrt(normalForceConstants[i]),
+                                                     sqrt(normalForceConstants[i])/kayser2AU);
+      else
+         printf("\tNormal mode(mw):\t%d\t%ei\t%ei\t",i,
+                                                     sqrt(fabs(normalForceConstants[i])),
+                                                     sqrt(fabs(normalForceConstants[i]))/kayser2AU);
+
+      // normal modes
+      for(int a=0; a<molecule.GetNumberAtoms(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+         for(int j=XAxis; j<CartesianType_end; j++){
+            int hessianIndex = CartesianType_end*a+j;
+            printf("\t%e",normalModes[i][hessianIndex]);
+         }
+      }
+      printf("\n");
    }
-   cout << endl << endl;
-   MallocerFreer::GetInstance()->Free<double>(&hessian, hessianDim, hessianDim);
-   MallocerFreer::GetInstance()->Free<double>(&forceCons, hessianDim);
-   */
+   printf("\n\n");
+
+   // output in non-mass-weighted coordinates
+   printf("\t\t\t\t       |        frequencies             |   normalized normal mode ...\n");
+   printf("\t\t\t\t| i-th |    [a.u.]    |    [cm-1]       |   [angst.] in non-mass-weighted coordinates ...\n");
+   for(int i=0; i<hessianDim; i++){
+      // normal frequencies
+      if(normalForceConstants[i]>0)
+         printf("\tNormal mode(nmw):\t%d\t%e\t%e\t",  i,
+                                                      sqrt(normalForceConstants[i]),
+                                                      sqrt(normalForceConstants[i])/kayser2AU);
+      else
+         printf("\tNormal mode(nmw):\t%d\t%ei\t%ei\t",i,
+                                                      sqrt(fabs(normalForceConstants[i])),
+                                                      sqrt(fabs(normalForceConstants[i]))/kayser2AU);
+
+      double normSquare=0.0;
+      for(int a=0; a<molecule.GetNumberAtoms(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+         for(int j=XAxis; j<CartesianType_end; j++){
+            int hessianIndex = CartesianType_end*a+j;
+            normSquare += pow(normalModes[i][hessianIndex]/(sqrtCoreMass*ang2AU),2.0);
+         }
+      }
+      double norm = sqrt(normSquare);
+
+      // normal modes
+      for(int a=0; a<molecule.GetNumberAtoms(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+         for(int j=XAxis; j<CartesianType_end; j++){
+            int hessianIndex = CartesianType_end*a+j;
+            printf("\t%e",normalModes[i][hessianIndex]/(sqrtCoreMass*ang2AU*norm));
+         }
+      }
+      printf("\n");
+   }
+   printf("\n\n");
 }
 
 void Mndo::OutputSCFResults() const{
@@ -2442,26 +2498,6 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                    CartesianType_end);
       this->CalcOrbitalElectronPopulation1stDerivatives(orbitalElectronPopulation1stDerivs);
 
-//debug
-{
-   printf("orbitalpop\n");
-   for(int mu=0; mu<totalNumberAOs; mu++){
-      //for(int nu=0; nu<totalNumberAOs; nu++){
-         printf("%.14e\n",this->orbitalElectronPopulation[mu][mu]);
-      //}
-   }
-   printf("\n\n");
-
-   int indexDerivAtom=0;
-   CartesianType derivAxis=XAxis;
-   printf("orbitalpop 1st deriv atom:%d axis:%s\n",indexDerivAtom,CartesianTypeStr(static_cast<CartesianType>(derivAxis)));
-   for(int mu=0; mu<totalNumberAOs; mu++){
-      //for(int nu=0; nu<totalNumberAOs; nu++){
-         printf("%.14e\n",orbitalElectronPopulation1stDerivs[mu][mu][indexDerivAtom][derivAxis]);
-      //}
-   }
-   printf("\n\n");
-}
 			//#pragma omp parallel
 //{
       double****    diatomicOverlap1stDerivs = NULL;
@@ -2563,16 +2599,17 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                               totalNumberAOs,
                                               this->molecule->GetNumberAtoms(),
                                               CartesianType_end);
-
+   /*
    int hessianDim = this->molecule->GetNumberAtoms()*3;
    for(int i=0; i<hessianDim; i++){
       for(int j=0; j<hessianDim; j++){
-         //printf("hess elem: %d %d %e\n",i,j,hessianSCF[i][j]);
+         printf("hess elem: %d %d %e\n",i,j,hessianSCF[i][j]);
          printf("%e ",hessianSCF[i][j]);
       }
       cout << endl;
    }
    cout << endl << endl;
+   */
 }
 
 void Mndo::CalcOrbitalElectronPopulation1stDerivatives(double**** orbitalElectronPopulation1stDerivs) const{
