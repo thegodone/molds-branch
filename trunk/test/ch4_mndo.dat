@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/6/20(Wed.) 14:37:10  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:34  <<<<<
 
 
 **********  START: Parse input  **********
@@ -51,11 +51,11 @@ SCF iter=2: RMS density=0.903407246772068
 SCF iter=3: RMS density=0.450146321692658
 SCF iter=4: RMS density=0.224665008752335
 SCF iter=5: RMS density=0.112188252643855
-SCF iter=6: RMS density=0.000328729796625
-SCF iter=7: RMS density=0.000130814840432
-SCF iter=8: RMS density=0.000019805158616
-SCF iter=9: RMS density=0.000001034061617
-SCF iter=10: RMS density=0.000000304869355
+SCF iter=6: RMS density=0.000328729796747
+SCF iter=7: RMS density=0.000130814839980
+SCF iter=8: RMS density=0.000019805158747
+SCF iter=9: RMS density=0.000001034061628
+SCF iter=10: RMS density=0.000000304869273
 
 
 
@@ -74,7 +74,7 @@ SCF iter=10: RMS density=0.000000304869355
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-6.797482e+00	-1.849704e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	7.660119e+00	2.084441e+02
@@ -98,19 +98,19 @@ SCF iter=10: RMS density=0.000000304869355
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-1.457507e-02	-9.145991e+00
 
-	Elapsed time(omp) for the SCF = 0.027584[s].
+	Elapsed time(omp) for the SCF = 0.023257[s].
 **********  DONE: MNDO-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.064024[MB].
+		Max Heap: 0.068640[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.04[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.032304[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0269861[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

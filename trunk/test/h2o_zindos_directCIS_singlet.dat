@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:11  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:32  <<<<<
 
 
 **********  START: Parse input  **********
@@ -52,13 +52,13 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 
 
 **********  START: ZINDO/S-SCF  **********
-SCF iter=0: RMS density=3.999999999999999
-SCF iter=1: RMS density=1.820469685866095
-SCF iter=2: RMS density=0.051730180818300
-SCF iter=3: RMS density=0.009085352363056
+SCF iter=0: RMS density=4.000000000000001
+SCF iter=1: RMS density=1.820469685866096
+SCF iter=2: RMS density=0.051730180818298
+SCF iter=3: RMS density=0.009085352363055
 SCF iter=4: RMS density=0.001684274045780
-SCF iter=5: RMS density=0.000313126337604
-SCF iter=6: RMS density=0.000000632747142
+SCF iter=5: RMS density=0.000313126337605
+SCF iter=6: RMS density=0.000000632747141
 
 
 
@@ -75,7 +75,7 @@ SCF iter=6: RMS density=0.000000632747142
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.045092e+01	-2.843863e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	6.926433e+00	1.884793e+02
@@ -94,13 +94,13 @@ SCF iter=6: RMS density=0.000000632747142
 	Mulliken charge:	1	H	1.000000e+00	2.567713e-01
 	Mulliken charge:	2	H	1.000000e+00	2.567165e-01
 
-	Elapsed time(omp) for the SCF = 0.005399[s].
+	Elapsed time(omp) for the SCF = 0.012009[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000175[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.002167[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -151,19 +151,19 @@ SCF iter=6: RMS density=0.000000632747142
 	Transition dipole moment:	0 -> 8		-4.878901e-01	3.146245e-01	-3.700473e-03	5.805506e-01		-1.240093e+00	7.996959e-01	-9.405666e-03	1.475613e+00
 
 
-	Elapsed time(omp) for the CIS = 0.001565[s].
+	Elapsed time(omp) for the CIS = 0.004482[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.009408[MB].
+		Max Heap: 0.010704[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.01[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.007864[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.019793[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

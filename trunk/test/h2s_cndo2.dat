@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:9  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:27  <<<<<
 
 
 **********  START: Parse input  **********
@@ -42,14 +42,14 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 
 
 **********  START: CNDO/2-SCF  **********
-SCF iter=0: RMS density=3.999999999999999
+SCF iter=0: RMS density=3.999999999999998
 SCF iter=1: RMS density=0.004357636108853
 SCF iter=2: RMS density=0.000849439366198
-SCF iter=3: RMS density=0.000329969077287
+SCF iter=3: RMS density=0.000329969077288
 SCF iter=4: RMS density=0.000174134515761
 SCF iter=5: RMS density=0.000098690640918
-SCF iter=6: RMS density=0.000002020855255
-SCF iter=7: RMS density=0.000000473889781
+SCF iter=6: RMS density=0.000002020855247
+SCF iter=7: RMS density=0.000000473889782
 
 
 
@@ -71,7 +71,7 @@ SCF iter=7: RMS density=0.000000473889781
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.234141e+01	-3.358296e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	4.873186e+00	1.326072e+02
@@ -90,19 +90,19 @@ SCF iter=7: RMS density=0.000000473889781
 	Mulliken charge:	1	H	1.000000e+00	5.963133e-03
 	Mulliken charge:	2	H	1.000000e+00	2.543626e-03
 
-	Elapsed time(omp) for the SCF = 0.012563[s].
+	Elapsed time(omp) for the SCF = 0.019853[s].
 **********  DONE: CNDO/2-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.020144[MB].
+		Max Heap: 0.021104[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.01[s].  <<<<<
+     >>>>>  CPU time: 0.04[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0136998[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0229268[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
