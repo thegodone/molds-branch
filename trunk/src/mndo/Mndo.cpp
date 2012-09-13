@@ -4089,7 +4089,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
          }
       }
    }
-   
+
    // rotate (fast algorythm, see also slow algorythm shown later)
    int numberTerms = 25;
    double* tempIJK = NULL;
@@ -4100,13 +4100,12 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
    MallocerFreer::GetInstance()->Malloc<double>(&tempI, numberTerms);
    try{ 
       for(int mu=s; mu<dxy; mu++){
-         for(int nu=s; nu<dxy; nu++){
+         for(int nu=mu; nu<dxy; nu++){
             for(int lambda=s; lambda<dxy; lambda++){
-               for(int sigma=s; sigma<dxy; sigma++){
+               for(int sigma=lambda; sigma<dxy; sigma++){
                   for(int dimA1=XAxis; dimA1<CartesianType_end; dimA1++){
-                     for(int dimA2=XAxis; dimA2<CartesianType_end; dimA2++){
+                     for(int dimA2=dimA1; dimA2<CartesianType_end; dimA2++){
 
-                        matrix[mu][nu][lambda][sigma][dimA1][dimA2] = 0.0;
                         double value=0.0;
                         for(int i=s; i<dxy; i++){
                            MallocerFreer::GetInstance()->Initialize<double>(tempI, numberTerms);
@@ -4190,8 +4189,14 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
                            value += tempI[1] *rotMat2ndDerivatives[mu][i][dimA1][dimA2];
                         }
                         matrix[mu][nu][lambda][sigma][dimA1][dimA2] = value;
+                        matrix[mu][nu][sigma][lambda][dimA1][dimA2] = value;
+                        matrix[nu][mu][lambda][sigma][dimA1][dimA2] = value;
+                        matrix[nu][mu][sigma][lambda][dimA1][dimA2] = value;
 
-
+                        matrix[mu][nu][lambda][sigma][dimA2][dimA1] = value;
+                        matrix[mu][nu][sigma][lambda][dimA2][dimA1] = value;
+                        matrix[nu][mu][lambda][sigma][dimA2][dimA1] = value;
+                        matrix[nu][mu][sigma][lambda][dimA2][dimA1] = value;
                      }
                   }
                }
@@ -4208,7 +4213,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
    MallocerFreer::GetInstance()->Free<double>(&tempIJK, numberTerms);
    MallocerFreer::GetInstance()->Free<double>(&tempIJ, numberTerms);
    MallocerFreer::GetInstance()->Free<double>(&tempI, numberTerms);
-  
+
    /*
    // rotate (slow algorythm shown later)
    for(int mu=s; mu<dxy; mu++){
@@ -4392,8 +4397,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
          }
       }
    }
-   */
-   
+   */ 
 }
 
 // See Apendix in [DT_1977]
