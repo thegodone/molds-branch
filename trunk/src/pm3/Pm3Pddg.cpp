@@ -231,7 +231,8 @@ double Pm3Pddg::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
 double Pm3Pddg::GetPddgAdditonalDiatomCoreRepulsionTerm(int na, double pa, double da,
                                                         int nb, double pb, double db,
                                                         double distance) const{
-   double pddgExponent = -10.0;
+   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
+   double pddgExponent = -10.0/(ang2AU*ang2AU);
    return (static_cast<double>(na)*pa +static_cast<double>(nb)*pb)*exp(pddgExponent*pow((distance-da-db),2.0));
 }
 
@@ -239,7 +240,8 @@ double Pm3Pddg::GetPddgAdditonalDiatomCoreRepulsionTerm(int na, double pa, doubl
 double Pm3Pddg::GetPddgAdditonalDiatomCoreRepulsionTerm1stDerivative(int na, double pa, double da,
                                                                        int nb, double pb, double db,
                                                                        double distance) const{
-   double pddgExponent = -10.0;
+   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
+   double pddgExponent = -10.0/(ang2AU*ang2AU);
    return (static_cast<double>(na)*pa +static_cast<double>(nb)*pb)*exp(pddgExponent*pow((distance-da-db),2.0))
          *(2.0*pddgExponent*(distance-da-db));
 }
@@ -248,7 +250,8 @@ double Pm3Pddg::GetPddgAdditonalDiatomCoreRepulsionTerm1stDerivative(int na, dou
 double Pm3Pddg::GetPddgAdditonalDiatomCoreRepulsionTerm2ndDerivative(int na, double pa, double da,
                                                                         int nb, double pb, double db,
                                                                         double distance) const{
-   double pddgExponent = -10.0;
+   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
+   double pddgExponent = -10.0/(ang2AU*ang2AU);
    return (static_cast<double>(na)*pa +static_cast<double>(nb)*pb)
          *(2.0*pddgExponent + pow(2.0*pddgExponent*(distance-da-db),2.0))
          *exp(pddgExponent*pow((distance-da-db),2.0));
