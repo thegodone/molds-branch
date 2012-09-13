@@ -3956,12 +3956,12 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFramegc(
    
    // rotate (fast algorythm, see also slow algorythm shown later)
    for(int mu=0; mu<dxy; mu++){
-      for(int nu=0; nu<dxy; nu++){
+      for(int nu=mu; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
-            for(int sigma=0; sigma<dxy; sigma++){
+            for(int sigma=lambda; sigma<dxy; sigma++){
                for(int c=0; c<CartesianType_end; c++){
 
-                  matrix[mu][nu][lambda][sigma][c] = 0.0;
+                  double value=0.0;
                   for(int i=0; i<dxy; i++){
                      double tempI_1 = 0.0;
                      double tempI_2 = 0.0;
@@ -3999,13 +3999,16 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFramegc(
                         tempI_4 += tempIJ_4*rotatingMatrix[nu][j];
                         tempI_5 += tempIJ_5*rotatingMatrix[nu][j];
                      }
-                     matrix[mu][nu][lambda][sigma][c] += tempI_1*rotatingMatrix[mu][i];
-                     matrix[mu][nu][lambda][sigma][c] += tempI_2*rotMat1stDerivatives[mu][i][c];
-                     matrix[mu][nu][lambda][sigma][c] += tempI_3*rotatingMatrix[mu][i];
-                     matrix[mu][nu][lambda][sigma][c] += tempI_4*rotatingMatrix[mu][i];
-                     matrix[mu][nu][lambda][sigma][c] += tempI_5*rotatingMatrix[mu][i];
+                     value += tempI_1*rotatingMatrix[mu][i];
+                     value += tempI_2*rotMat1stDerivatives[mu][i][c];
+                     value += tempI_3*rotatingMatrix[mu][i];
+                     value += tempI_4*rotatingMatrix[mu][i];
+                     value += tempI_5*rotatingMatrix[mu][i];
                   }
-
+                  matrix[mu][nu][lambda][sigma][c] = value;
+                  matrix[mu][nu][sigma][lambda][c] = value;
+                  matrix[nu][mu][lambda][sigma][c] = value;
+                  matrix[nu][mu][sigma][lambda][c] = value;
                }
             }
          }
