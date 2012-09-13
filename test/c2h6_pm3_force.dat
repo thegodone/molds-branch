@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:53  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:8:26  <<<<<
 
 
 **********  START: Parse input  **********
@@ -57,18 +57,18 @@ geometry_end |
 **********  START: Molecular dynamics  **********
 **********  START: PM3-SCF  **********
 SCF iter=0: RMS density=5.291502622129181
-SCF iter=1: RMS density=1.910456125626946
-SCF iter=2: RMS density=1.044203238495392
-SCF iter=3: RMS density=0.569275110921828
+SCF iter=1: RMS density=1.910456125626943
+SCF iter=2: RMS density=1.044203238495391
+SCF iter=3: RMS density=0.569275110921829
 SCF iter=4: RMS density=0.308641545774631
-SCF iter=5: RMS density=0.166813060251973
-SCF iter=6: RMS density=0.000657312351884
-SCF iter=7: RMS density=0.000224796079740
-SCF iter=8: RMS density=0.000083564976808
-SCF iter=9: RMS density=0.000026986732830
-SCF iter=10: RMS density=0.000004938275856
-SCF iter=11: RMS density=0.000002003884715
-SCF iter=12: RMS density=0.000000169506348
+SCF iter=5: RMS density=0.166813060251974
+SCF iter=6: RMS density=0.000657312351883
+SCF iter=7: RMS density=0.000224796079670
+SCF iter=8: RMS density=0.000083564976964
+SCF iter=9: RMS density=0.000026986732821
+SCF iter=10: RMS density=0.000004938275877
+SCF iter=11: RMS density=0.000002003884716
+SCF iter=12: RMS density=0.000000169506347
 
 
 
@@ -93,7 +93,7 @@ SCF iter=12: RMS density=0.000000169506348
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.212596e+01	-3.299667e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.185489e+01	5.947066e+02
@@ -117,7 +117,7 @@ SCF iter=12: RMS density=0.000000169506348
 	Mulliken charge:	6	H	1.000000e+00	3.744313e-02
 	Mulliken charge:	7	H	1.000000e+00	4.258006e-02
 
-	Elapsed time(omp) for the SCF = 0.042148[s].
+	Elapsed time(omp) for the SCF = 0.034959[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -162,7 +162,7 @@ SCF iter=12: RMS density=0.000000169506348
 **********  START: PM3-SCF  **********
 SCF iter=0: RMS density=0.000006941604621
 SCF iter=1: RMS density=0.000002089746326
-SCF iter=2: RMS density=0.000000729632414
+SCF iter=2: RMS density=0.000000729632415
 
 
 
@@ -187,7 +187,7 @@ SCF iter=2: RMS density=0.000000729632414
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.212596e+01	-3.299668e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.185491e+01	5.947072e+02
@@ -211,7 +211,7 @@ SCF iter=2: RMS density=0.000000729632414
 	Mulliken charge:	6	H	1.000000e+00	3.744282e-02
 	Mulliken charge:	7	H	1.000000e+00	4.257957e-02
 
-	Elapsed time(omp) for the SCF = 0.037761[s].
+	Elapsed time(omp) for the SCF = 0.019129[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -222,7 +222,7 @@ SCF iter=2: RMS density=0.000000729632414
 		Electronic
 		(inc. core rep.):	-1.212596e+01	-3.299668e+02
 		Total:            	-1.212596e+01	-3.299667e+02
-		Error:            	1.925820e-10	5.240464e-09
+		Error:            	1.925748e-10	5.240270e-09
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	-4.640395e-07	3.779167e-02	-6.709492e-07		-2.455591e-07	1.999849e-02	-3.550510e-07
@@ -255,10 +255,10 @@ SCF iter=2: RMS density=0.000000729632414
 
 	========== START: MD step 2
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.000021046101622
-SCF iter=1: RMS density=0.000006380790340
-SCF iter=2: RMS density=0.000002247867459
-SCF iter=3: RMS density=0.000000900612188
+SCF iter=0: RMS density=0.000021046101621
+SCF iter=1: RMS density=0.000006380790341
+SCF iter=2: RMS density=0.000002247867458
+SCF iter=3: RMS density=0.000000900612187
 
 
 
@@ -283,7 +283,7 @@ SCF iter=3: RMS density=0.000000900612188
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.212596e+01	-3.299669e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.185498e+01	5.947090e+02
@@ -307,7 +307,7 @@ SCF iter=3: RMS density=0.000000900612188
 	Mulliken charge:	6	H	1.000000e+00	3.744189e-02
 	Mulliken charge:	7	H	1.000000e+00	4.257782e-02
 
-	Elapsed time(omp) for the SCF = 0.037895[s].
+	Elapsed time(omp) for the SCF = 0.018968[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -351,10 +351,10 @@ SCF iter=3: RMS density=0.000000900612188
 
 	========== START: MD step 3
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.000034948782918
-SCF iter=1: RMS density=0.000010593145635
-SCF iter=2: RMS density=0.000003732214205
-SCF iter=3: RMS density=0.000001495837114
+SCF iter=0: RMS density=0.000034948782917
+SCF iter=1: RMS density=0.000010593145636
+SCF iter=2: RMS density=0.000003732214206
+SCF iter=3: RMS density=0.000001495837113
 SCF iter=4: RMS density=0.000000657597544
 
 
@@ -380,7 +380,7 @@ SCF iter=4: RMS density=0.000000657597544
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.212597e+01	-3.299671e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.185509e+01	5.947119e+02
@@ -404,7 +404,7 @@ SCF iter=4: RMS density=0.000000657597544
 	Mulliken charge:	6	H	1.000000e+00	3.744032e-02
 	Mulliken charge:	7	H	1.000000e+00	4.257474e-02
 
-	Elapsed time(omp) for the SCF = 0.036811[s].
+	Elapsed time(omp) for the SCF = 0.019456[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -450,9 +450,9 @@ SCF iter=4: RMS density=0.000000657597544
 **********  START: PM3-SCF  **********
 SCF iter=0: RMS density=0.000048719169623
 SCF iter=1: RMS density=0.000014736017800
-SCF iter=2: RMS density=0.000005178632954
-SCF iter=3: RMS density=0.000002070636311
-SCF iter=4: RMS density=0.000000908676307
+SCF iter=2: RMS density=0.000005178632955
+SCF iter=3: RMS density=0.000002070636310
+SCF iter=4: RMS density=0.000000908676308
 
 
 
@@ -477,7 +477,7 @@ SCF iter=4: RMS density=0.000000908676307
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.212598e+01	-3.299673e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.185524e+01	5.947161e+02
@@ -501,7 +501,7 @@ SCF iter=4: RMS density=0.000000908676307
 	Mulliken charge:	6	H	1.000000e+00	3.743813e-02
 	Mulliken charge:	7	H	1.000000e+00	4.257054e-02
 
-	Elapsed time(omp) for the SCF = 0.036944[s].
+	Elapsed time(omp) for the SCF = 0.019244[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -512,7 +512,7 @@ SCF iter=4: RMS density=0.000000908676307
 		Electronic
 		(inc. core rep.):	-1.212598e+01	-3.299673e+02
 		Total:            	-1.212596e+01	-3.299667e+02
-		Error:            	3.068886e-09	8.350930e-08
+		Error:            	3.068878e-09	8.350910e-08
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	-7.419948e-06	3.774885e-02	-1.072788e-05		-3.926468e-06	1.997583e-02	-5.676947e-06
@@ -545,12 +545,12 @@ SCF iter=4: RMS density=0.000000908676307
 
 	========== START: MD step 5
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.000062607770553
-SCF iter=1: RMS density=0.000018943591287
+SCF iter=0: RMS density=0.000062607770552
+SCF iter=1: RMS density=0.000018943591288
 SCF iter=2: RMS density=0.000006660018087
 SCF iter=3: RMS density=0.000002663946545
-SCF iter=4: RMS density=0.000001169374475
-SCF iter=5: RMS density=0.000000544380517
+SCF iter=4: RMS density=0.000001169374476
+SCF iter=5: RMS density=0.000000544380516
 
 
 
@@ -575,7 +575,7 @@ SCF iter=5: RMS density=0.000000544380517
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.212599e+01	-3.299676e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.185543e+01	5.947214e+02
@@ -599,7 +599,7 @@ SCF iter=5: RMS density=0.000000544380517
 	Mulliken charge:	6	H	1.000000e+00	3.743528e-02
 	Mulliken charge:	7	H	1.000000e+00	4.256496e-02
 
-	Elapsed time(omp) for the SCF = 0.036879[s].
+	Elapsed time(omp) for the SCF = 0.019705[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -642,14 +642,14 @@ SCF iter=5: RMS density=0.000000544380517
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.163680[MB].
+		Max Heap: 0.172232[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 5.47[s].  <<<<<
-     >>>>>  Elapsed time: 6[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 5.47967[s].  <<<<<
+     >>>>>  CPU time: 2.96[s].  <<<<<
+     >>>>>  Elapsed time: 2[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.49234[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

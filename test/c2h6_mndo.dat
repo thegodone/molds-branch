@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:11  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:34  <<<<<
 
 
 **********  START: Parse input  **********
@@ -49,18 +49,18 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=5.291502622129183
+SCF iter=0: RMS density=5.291502622129180
 SCF iter=1: RMS density=2.406832383581160
-SCF iter=2: RMS density=1.097693927705066
+SCF iter=2: RMS density=1.097693927705069
 SCF iter=3: RMS density=0.485996526273500
-SCF iter=4: RMS density=0.217393982341883
-SCF iter=5: RMS density=0.097852276195716
-SCF iter=6: RMS density=0.000404257453006
-SCF iter=7: RMS density=0.000094990567957
-SCF iter=8: RMS density=0.000036084327903
+SCF iter=4: RMS density=0.217393982341886
+SCF iter=5: RMS density=0.097852276195714
+SCF iter=6: RMS density=0.000404257452987
+SCF iter=7: RMS density=0.000094990567951
+SCF iter=8: RMS density=0.000036084327902
 SCF iter=9: RMS density=0.000007701726070
-SCF iter=10: RMS density=0.000002052101675
-SCF iter=11: RMS density=0.000000358204690
+SCF iter=10: RMS density=0.000002052101667
+SCF iter=11: RMS density=0.000000358204692
 
 
 
@@ -85,7 +85,7 @@ SCF iter=11: RMS density=0.000000358204690
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.255203e+01	-3.415609e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.207380e+01	6.006635e+02
@@ -112,19 +112,19 @@ SCF iter=11: RMS density=0.000000358204690
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.050343[s].
+	Elapsed time(omp) for the SCF = 0.038467[s].
 **********  DONE: MNDO-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.163488[MB].
+		Max Heap: 0.169560[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.05[s].  <<<<<
+     >>>>>  CPU time: 0.08[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0519869[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0432448[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

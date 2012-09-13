@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:11  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:32  <<<<<
 
 
 **********  START: Parse input  **********
@@ -63,15 +63,15 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
 **********  START: ZINDO/S-SCF  **********
-SCF iter=0: RMS density=5.291502622129184
-SCF iter=1: RMS density=3.838492151665709
-SCF iter=2: RMS density=0.639670447585092
-SCF iter=3: RMS density=0.104551025859929
-SCF iter=4: RMS density=0.017838263308201
+SCF iter=0: RMS density=5.291502622129181
+SCF iter=1: RMS density=3.838492151665708
+SCF iter=2: RMS density=0.639670447585090
+SCF iter=3: RMS density=0.104551025859927
+SCF iter=4: RMS density=0.017838263308202
 SCF iter=5: RMS density=0.002973046733475
-SCF iter=6: RMS density=0.000074147072849
-SCF iter=7: RMS density=0.000011993148173
-SCF iter=8: RMS density=0.000000782384955
+SCF iter=6: RMS density=0.000074147072848
+SCF iter=7: RMS density=0.000011993148176
+SCF iter=8: RMS density=0.000000782384954
 
 
 
@@ -96,7 +96,7 @@ SCF iter=8: RMS density=0.000000782384955
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-5.340728e+00	-1.453298e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.671333e+01	7.269124e+02
@@ -120,13 +120,13 @@ SCF iter=8: RMS density=0.000000782384955
 	Mulliken charge:	6	H	1.000000e+00	1.599949e-02
 	Mulliken charge:	7	H	1.000000e+00	2.221343e-02
 
-	Elapsed time(omp) for the SCF = 0.022491[s].
+	Elapsed time(omp) for the SCF = 0.023963[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.029404[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.019557[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -264,7 +264,7 @@ SCF iter=8: RMS density=0.000000782384955
 	Ef and Eb:	4	6.686693e-01	1.819556e+01	-2.117335e-01	-5.761607e+00
 	Ef and Eb:	5	7.082086e-01	1.927149e+01	-2.094630e-01	-5.699823e+00
 
-	Elapsed time(omp) for the CIS = 0.126305[s].
+	Elapsed time(omp) for the CIS = 0.102314[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -274,9 +274,9 @@ SCF iter=8: RMS density=0.000000782384955
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.14[s].  <<<<<
+     >>>>>  CPU time: 0.26[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.150215[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.130124[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

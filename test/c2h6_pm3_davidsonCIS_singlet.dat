@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:53  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:8:23  <<<<<
 
 
 **********  START: Parse input  **********
@@ -62,19 +62,19 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=5.291502622129180
+SCF iter=0: RMS density=5.291502622129181
 SCF iter=1: RMS density=1.910456125626943
-SCF iter=2: RMS density=1.044203238495390
-SCF iter=3: RMS density=0.569275110921830
-SCF iter=4: RMS density=0.308641545774630
-SCF iter=5: RMS density=0.166813060251973
-SCF iter=6: RMS density=0.000657312351886
-SCF iter=7: RMS density=0.000224796079705
-SCF iter=8: RMS density=0.000083564977040
-SCF iter=9: RMS density=0.000026986732818
-SCF iter=10: RMS density=0.000004938275857
+SCF iter=2: RMS density=1.044203238495391
+SCF iter=3: RMS density=0.569275110921829
+SCF iter=4: RMS density=0.308641545774631
+SCF iter=5: RMS density=0.166813060251974
+SCF iter=6: RMS density=0.000657312351885
+SCF iter=7: RMS density=0.000224796079735
+SCF iter=8: RMS density=0.000083564976969
+SCF iter=9: RMS density=0.000026986732814
+SCF iter=10: RMS density=0.000004938275845
 SCF iter=11: RMS density=0.000002003884717
-SCF iter=12: RMS density=0.000000169506349
+SCF iter=12: RMS density=0.000000169506348
 
 
 
@@ -99,7 +99,7 @@ SCF iter=12: RMS density=0.000000169506349
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.212596e+01	-3.299667e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.185489e+01	5.947066e+02
@@ -123,13 +123,13 @@ SCF iter=12: RMS density=0.000000169506349
 	Mulliken charge:	6	H	1.000000e+00	3.744313e-02
 	Mulliken charge:	7	H	1.000000e+00	4.258006e-02
 
-	Elapsed time(omp) for the SCF = 0.043323[s].
+	Elapsed time(omp) for the SCF = 0.036784[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.038706[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.028203[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -240,19 +240,19 @@ SCF iter=12: RMS density=0.000000169506349
 	Transition dipole moment:	0 -> 4		1.748246e-03	9.050517e-02	1.317124e-01	1.598199e-01		4.443600e-03	2.300413e-01	3.347796e-01	4.062217e-01
 
 
-	Elapsed time(omp) for the CIS = 0.169273[s].
+	Elapsed time(omp) for the CIS = 0.129172[s].
 **********  DONE: PM3-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.195752[MB].
+		Max Heap: 0.200552[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.21[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.214701[s].  <<<<<
+     >>>>>  CPU time: 0.33[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.170806[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

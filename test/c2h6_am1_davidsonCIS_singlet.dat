@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:32  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:8:0  <<<<<
 
 
 **********  START: Parse input  **********
@@ -62,18 +62,18 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 
 
 **********  START: AM1-SCF  **********
-SCF iter=0: RMS density=5.291502622129176
-SCF iter=1: RMS density=2.251392923186923
-SCF iter=2: RMS density=1.066360223936914
-SCF iter=3: RMS density=0.485163652173428
-SCF iter=4: RMS density=0.221525604336857
-SCF iter=5: RMS density=0.101527699951395
-SCF iter=6: RMS density=0.000475612652614
-SCF iter=7: RMS density=0.000114151272382
-SCF iter=8: RMS density=0.000045086399349
-SCF iter=9: RMS density=0.000008220727840
-SCF iter=10: RMS density=0.000002287341923
-SCF iter=11: RMS density=0.000000372121780
+SCF iter=0: RMS density=5.291502622129175
+SCF iter=1: RMS density=2.251392923186922
+SCF iter=2: RMS density=1.066360223936913
+SCF iter=3: RMS density=0.485163652173430
+SCF iter=4: RMS density=0.221525604336856
+SCF iter=5: RMS density=0.101527699951396
+SCF iter=6: RMS density=0.000475612652630
+SCF iter=7: RMS density=0.000114151272380
+SCF iter=8: RMS density=0.000045086399330
+SCF iter=9: RMS density=0.000008220727845
+SCF iter=10: RMS density=0.000002287341936
+SCF iter=11: RMS density=0.000000372121779
 
 
 
@@ -98,7 +98,7 @@ SCF iter=11: RMS density=0.000000372121780
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.246035e+01	-3.390661e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.193282e+01	5.968271e+02
@@ -122,13 +122,13 @@ SCF iter=11: RMS density=0.000000372121780
 	Mulliken charge:	6	H	1.000000e+00	7.029841e-02
 	Mulliken charge:	7	H	1.000000e+00	7.579838e-02
 
-	Elapsed time(omp) for the SCF = 0.045124[s].
+	Elapsed time(omp) for the SCF = 0.032695[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.038346[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027804[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -239,19 +239,19 @@ SCF iter=11: RMS density=0.000000372121780
 	Transition dipole moment:	0 -> 4		9.497513e-02	2.198469e-01	1.478815e-01	2.814639e-01		2.414027e-01	5.587953e-01	3.758775e-01	7.154099e-01
 
 
-	Elapsed time(omp) for the CIS = 0.171790[s].
+	Elapsed time(omp) for the CIS = 0.131399[s].
 **********  DONE: AM1-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.197864[MB].
+		Max Heap: 0.202664[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.21[s].  <<<<<
-     >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.218627[s].  <<<<<
+     >>>>>  CPU time: 0.33[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.168808[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

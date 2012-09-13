@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/6/20(Wed.) 14:38:7  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:35  <<<<<
 
 
 **********  START: Parse input  **********
@@ -64,11 +64,11 @@ SCF iter=2: RMS density=0.903407295849118
 SCF iter=3: RMS density=0.450146306548522
 SCF iter=4: RMS density=0.224664981670208
 SCF iter=5: RMS density=0.112188229875059
-SCF iter=6: RMS density=0.000328730136471
-SCF iter=7: RMS density=0.000130815055799
-SCF iter=8: RMS density=0.000019805128640
-SCF iter=9: RMS density=0.000001034064955
-SCF iter=10: RMS density=0.000000304866922
+SCF iter=6: RMS density=0.000328730136386
+SCF iter=7: RMS density=0.000130815056534
+SCF iter=8: RMS density=0.000019805128718
+SCF iter=9: RMS density=0.000001034064941
+SCF iter=10: RMS density=0.000000304866914
 
 
 
@@ -87,7 +87,7 @@ SCF iter=10: RMS density=0.000000304866922
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-6.797482e+00	-1.849704e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	7.660118e+00	2.084441e+02
@@ -111,13 +111,13 @@ SCF iter=10: RMS density=0.000000304866922
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-1.457510e-02	-9.146013e+00
 
-	Elapsed time(omp) for the SCF = 0.023735[s].
+	Elapsed time(omp) for the SCF = 0.016751[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.001969[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001015[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -140,10 +140,10 @@ SCF iter=10: RMS density=0.000000304866922
 	  4-th excited: norm of the residual = 3.768079e-03
 
 	Davidson iter=3
-	  1-th excited: norm of the residual = 3.050013e-15
-	  2-th excited: norm of the residual = 9.595968e-16
-	  3-th excited: norm of the residual = 1.295554e-15
-	  4-th excited: norm of the residual = 1.496437e-15
+	  1-th excited: norm of the residual = 1.850991e-15
+	  2-th excited: norm of the residual = 1.270838e-15
+	  3-th excited: norm of the residual = 1.337445e-15
+	  4-th excited: norm of the residual = 1.801766e-15
 
 
 
@@ -180,19 +180,19 @@ SCF iter=10: RMS density=0.000000304866922
 	Transition dipole moment:	0 -> 4		6.864590e-01	4.646068e-01	-8.923818e-01	1.217962e+00		1.744805e+00	1.180913e+00	-2.268209e+00	3.095750e+00
 
 
-	Elapsed time(omp) for the CIS = 0.005440[s].
+	Elapsed time(omp) for the CIS = 0.004225[s].
 **********  DONE: MNDO-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.064600[MB].
+		Max Heap: 0.069216[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.04[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.034086[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0248029[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

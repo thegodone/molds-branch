@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/5/20(Sun.) 11:52:24  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:54  <<<<<
 
 
 **********  START: Parse input  **********
@@ -69,18 +69,18 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 
 **********  START: Molecular dynamics  **********
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=5.291502622129183
+SCF iter=0: RMS density=5.291502622129180
 SCF iter=1: RMS density=2.406832383581160
-SCF iter=2: RMS density=1.097693927705066
+SCF iter=2: RMS density=1.097693927705069
 SCF iter=3: RMS density=0.485996526273500
-SCF iter=4: RMS density=0.217393982341883
-SCF iter=5: RMS density=0.097852276195716
-SCF iter=6: RMS density=0.000404257453006
-SCF iter=7: RMS density=0.000094990567957
-SCF iter=8: RMS density=0.000036084327903
-SCF iter=9: RMS density=0.000007701726070
-SCF iter=10: RMS density=0.000002052101675
-SCF iter=11: RMS density=0.000000358204690
+SCF iter=4: RMS density=0.217393982341886
+SCF iter=5: RMS density=0.097852276195714
+SCF iter=6: RMS density=0.000404257452988
+SCF iter=7: RMS density=0.000094990568308
+SCF iter=8: RMS density=0.000036084327977
+SCF iter=9: RMS density=0.000007701726077
+SCF iter=10: RMS density=0.000002052101659
+SCF iter=11: RMS density=0.000000358204693
 
 
 
@@ -105,7 +105,7 @@ SCF iter=11: RMS density=0.000000358204690
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.255203e+01	-3.415609e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.207380e+01	6.006635e+02
@@ -132,13 +132,13 @@ SCF iter=11: RMS density=0.000000358204690
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.044438[s].
+	Elapsed time(omp) for the SCF = 0.030589[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.039738[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.028077[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -249,7 +249,7 @@ SCF iter=11: RMS density=0.000000358204690
 	Transition dipole moment:	0 -> 4		3.995670e-01	5.793551e-01	-5.636816e-01	9.016890e-01		1.015598e+00	1.472574e+00	-1.432736e+00	2.291865e+00
 
 
-	Elapsed time(omp) for the CIS = 0.176773[s].
+	Elapsed time(omp) for the CIS = 0.132013[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -292,9 +292,9 @@ SCF iter=11: RMS density=0.000000358204690
 
 	========== START: MD step 1
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000019883412559
-SCF iter=1: RMS density=0.000006027131274
-SCF iter=2: RMS density=0.000002054138206
+SCF iter=0: RMS density=0.000019883412561
+SCF iter=1: RMS density=0.000006027131273
+SCF iter=2: RMS density=0.000002054138205
 SCF iter=3: RMS density=0.000000754773563
 
 
@@ -320,7 +320,7 @@ SCF iter=3: RMS density=0.000000754773563
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.255204e+01	-3.415610e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.207368e+01	6.006601e+02
@@ -347,13 +347,13 @@ SCF iter=3: RMS density=0.000000754773563
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736965e-02	-1.717471e+01
 
-	Elapsed time(omp) for the SCF = 0.037993[s].
+	Elapsed time(omp) for the SCF = 0.019206[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.038869[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027743[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -464,7 +464,7 @@ SCF iter=3: RMS density=0.000000754773563
 	Transition dipole moment:	0 -> 4		3.983700e-01	5.788900e-01	-5.638231e-01	9.009488e-01		1.012556e+00	1.471392e+00	-1.433096e+00	2.289984e+00
 
 
-	Elapsed time(omp) for the CIS = 0.170762[s].
+	Elapsed time(omp) for the CIS = 0.128727[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -475,7 +475,7 @@ SCF iter=3: RMS density=0.000000754773563
 		Electronic
 		(inc. core rep.):	-1.225091e+01	-3.333670e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	-5.259562e-09	-1.431211e-07
+		Error:            	-5.259549e-09	-1.431208e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	5.629569e-06	3.779274e-02	-1.975699e-07		2.979040e-06	1.999906e-02	-1.045495e-07
@@ -509,8 +509,8 @@ SCF iter=3: RMS density=0.000000754773563
 	========== START: MD step 2
 **********  START: MNDO-SCF  **********
 SCF iter=0: RMS density=0.000059688817609
-SCF iter=1: RMS density=0.000018105242508
-SCF iter=2: RMS density=0.000006173798046
+SCF iter=1: RMS density=0.000018105242506
+SCF iter=2: RMS density=0.000006173798047
 SCF iter=3: RMS density=0.000002269190308
 SCF iter=4: RMS density=0.000000880710272
 
@@ -537,7 +537,7 @@ SCF iter=4: RMS density=0.000000880710272
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.255204e+01	-3.415611e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.207330e+01	6.006498e+02
@@ -564,13 +564,13 @@ SCF iter=4: RMS density=0.000000880710272
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737462e-02	-1.717783e+01
 
-	Elapsed time(omp) for the SCF = 0.037074[s].
+	Elapsed time(omp) for the SCF = 0.019337[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.038869[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027861[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -681,7 +681,7 @@ SCF iter=4: RMS density=0.000000880710272
 	Transition dipole moment:	0 -> 4		3.948246e-01	5.775156e-01	-5.642300e-01	8.987582e-01		1.003544e+00	1.467898e+00	-1.434130e+00	2.284416e+00
 
 
-	Elapsed time(omp) for the CIS = 0.172485[s].
+	Elapsed time(omp) for the CIS = 0.129011[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -692,7 +692,7 @@ SCF iter=4: RMS density=0.000000880710272
 		Electronic
 		(inc. core rep.):	-1.225093e+01	-3.333674e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	-2.812927e-09	-7.654425e-08
+		Error:            	-2.812943e-09	-7.654468e-08
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	2.251674e-05	3.778741e-02	-7.901913e-07		1.191535e-05	1.999623e-02	-4.181512e-07
@@ -727,10 +727,10 @@ SCF iter=4: RMS density=0.000000880710272
 **********  START: MNDO-SCF  **********
 SCF iter=0: RMS density=0.000099316546804
 SCF iter=1: RMS density=0.000030114857256
-SCF iter=2: RMS density=0.000010266355950
-SCF iter=3: RMS density=0.000003772624634
+SCF iter=2: RMS density=0.000010266355949
+SCF iter=3: RMS density=0.000003772624635
 SCF iter=4: RMS density=0.000001463933794
-SCF iter=5: RMS density=0.000000593352745
+SCF iter=5: RMS density=0.000000593352744
 
 
 
@@ -755,7 +755,7 @@ SCF iter=5: RMS density=0.000000593352745
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.255205e+01	-3.415614e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.207267e+01	6.006326e+02
@@ -782,13 +782,13 @@ SCF iter=5: RMS density=0.000000593352745
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738286e-02	-1.718300e+01
 
-	Elapsed time(omp) for the SCF = 0.038182[s].
+	Elapsed time(omp) for the SCF = 0.019502[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.040212[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.028026[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -905,7 +905,7 @@ SCF iter=5: RMS density=0.000000593352745
 	Transition dipole moment:	0 -> 4		3.890735e-01	5.752958e-01	-5.648539e-01	8.952114e-01		9.889264e-01	1.462256e+00	-1.435716e+00	2.275401e+00
 
 
-	Elapsed time(omp) for the CIS = 0.201991[s].
+	Elapsed time(omp) for the CIS = 0.150731[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -916,7 +916,7 @@ SCF iter=5: RMS density=0.000000593352745
 		Electronic
 		(inc. core rep.):	-1.225095e+01	-3.333681e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	5.607564e-09	1.525908e-07
+		Error:            	5.607562e-09	1.525908e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	5.065693e-05	3.777851e-02	-1.777602e-06		2.680649e-05	1.999153e-02	-9.406664e-07
@@ -949,11 +949,11 @@ SCF iter=5: RMS density=0.000000593352745
 
 	========== START: MD step 4
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000138771218104
+SCF iter=0: RMS density=0.000138771218103
 SCF iter=1: RMS density=0.000042052626365
-SCF iter=2: RMS density=0.000014327427043
+SCF iter=2: RMS density=0.000014327427042
 SCF iter=3: RMS density=0.000005261786284
-SCF iter=4: RMS density=0.000002040544176
+SCF iter=4: RMS density=0.000002040544175
 SCF iter=5: RMS density=0.000000826577855
 
 
@@ -979,7 +979,7 @@ SCF iter=5: RMS density=0.000000826577855
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.255206e+01	-3.415617e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.207178e+01	6.006086e+02
@@ -1006,13 +1006,13 @@ SCF iter=5: RMS density=0.000000826577855
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739430e-02	-1.719018e+01
 
-	Elapsed time(omp) for the SCF = 0.037576[s].
+	Elapsed time(omp) for the SCF = 0.021208[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.038749[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.028251[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1129,7 +1129,7 @@ SCF iter=5: RMS density=0.000000826577855
 	Transition dipole moment:	0 -> 4		-3.813531e-01	-5.723404e-01	5.656246e-01	8.904689e-01		-9.693030e-01	-1.454744e+00	1.437675e+00	2.263347e+00
 
 
-	Elapsed time(omp) for the CIS = 0.201400[s].
+	Elapsed time(omp) for the CIS = 0.153394[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1140,7 +1140,7 @@ SCF iter=5: RMS density=0.000000826577855
 		Electronic
 		(inc. core rep.):	-1.225099e+01	-3.333690e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	1.006526e-08	2.738918e-07
+		Error:            	1.006525e-08	2.738915e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	9.004249e-05	3.776607e-02	-3.159367e-06		4.764843e-05	1.998495e-02	-1.671865e-06
@@ -1173,13 +1173,13 @@ SCF iter=5: RMS density=0.000000826577855
 
 	========== START: MD step 5
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000178272450160
+SCF iter=0: RMS density=0.000178272450161
 SCF iter=1: RMS density=0.000054029947733
 SCF iter=2: RMS density=0.000018409464669
-SCF iter=3: RMS density=0.000006761007837
-SCF iter=4: RMS density=0.000002621853540
+SCF iter=3: RMS density=0.000006761007838
+SCF iter=4: RMS density=0.000002621853541
 SCF iter=5: RMS density=0.000001061977460
-SCF iter=6: RMS density=0.000000004595329
+SCF iter=6: RMS density=0.000000004595327
 
 
 
@@ -1204,7 +1204,7 @@ SCF iter=6: RMS density=0.000000004595329
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.255207e+01	-3.415621e+02
-	Note that this electronic energy includs core-repulsions.
+	Note that this electronic energy includes core-repulsions.
 
 				|   [a.u.]   |   [eV]   |
 	Core repulsion energy:	2.207065e+01	6.005778e+02
@@ -1231,13 +1231,13 @@ SCF iter=6: RMS density=0.000000004595329
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740883e-02	-1.719930e+01
 
-	Elapsed time(omp) for the SCF = 0.037560[s].
+	Elapsed time(omp) for the SCF = 0.020310[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.038968[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027605[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1354,7 +1354,7 @@ SCF iter=6: RMS density=0.000000004595329
 	Transition dipole moment:	0 -> 4		-3.719761e-01	-5.688125e-01	5.664619e-01	8.847559e-01		-9.454692e-01	-1.445777e+00	1.439803e+00	2.248826e+00
 
 
-	Elapsed time(omp) for the CIS = 0.197910[s].
+	Elapsed time(omp) for the CIS = 0.148394[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1365,7 +1365,7 @@ SCF iter=6: RMS density=0.000000004595329
 		Electronic
 		(inc. core rep.):	-1.225103e+01	-3.333703e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	2.625167e-08	7.143501e-07
+		Error:            	2.625166e-08	7.143498e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	1.406627e-04	3.775010e-02	-4.934875e-06		7.443550e-05	1.997649e-02	-2.611423e-06
@@ -1397,14 +1397,14 @@ SCF iter=6: RMS density=0.000000004595329
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.210280[MB].
+		Max Heap: 0.215080[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 7.55[s].  <<<<<
-     >>>>>  Elapsed time: 8[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 7.58407[s].  <<<<<
+     >>>>>  CPU time: 6.07[s].  <<<<<
+     >>>>>  Elapsed time: 4[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 3.07951[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
