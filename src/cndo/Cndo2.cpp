@@ -5182,14 +5182,10 @@ void Cndo2::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap,
    double reducedOverlap = 0.0;
    double orbitalExponentA = 0.0;
    double orbitalExponentB = 0.0;
-   double R = 0.0; // Inter nuclear distance between aton A and B.
+   double rAB = 0.0; // Inter nuclear distance between aton A and B.
 
    MallocerFreer::GetInstance()->Initialize<double>(diatomicOverlap, OrbitalType_end, OrbitalType_end);
-   R = sqrt( 
-            pow( atomA.GetXyz()[0] - atomB.GetXyz()[0], 2.0)
-           +pow( atomA.GetXyz()[1] - atomB.GetXyz()[1], 2.0)
-           +pow( atomA.GetXyz()[2] - atomB.GetXyz()[2], 2.0)
-           );
+   rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
 
    for(int a=0; a<atomA.GetValenceSize(); a++){
       OrbitalType valenceOrbitalA = atomA.GetValence(a);
@@ -5209,8 +5205,8 @@ void Cndo2::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap,
 
          if(realShpericalHarmonicsA.GetM() == realShpericalHarmonicsB.GetM()){
             m = abs(realShpericalHarmonicsA.GetM());
-            alpha = orbitalExponentA * R;
-            beta =  orbitalExponentB * R;
+            alpha = orbitalExponentA * rAB;
+            beta =  orbitalExponentB * rAB;
 
             reducedOverlap = this->GetReducedOverlap
                                    (na, realShpericalHarmonicsA.GetL(), m,
@@ -5221,7 +5217,7 @@ void Cndo2::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap,
             pre *= pow(2.0*orbitalExponentB, nb+0.5);
             double factorials = Factorial(2*na)*Factorial(2*nb);
             pre /= sqrt(factorials);
-            pre *= pow(R/2.0, na+nb+1.0);
+            pre *= pow(rAB/2.0, na+nb+1.0);
 
             diatomicOverlap[valenceOrbitalA][valenceOrbitalB] = pre*reducedOverlap;
          }
