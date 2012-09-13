@@ -161,11 +161,9 @@ double Pm3Pddg::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
    // pddg additional term, first derivative of eq. (4) in [RCJ_2002]
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
-   double dCartesian = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA]);
    int na = atomA.GetNumberValenceElectrons();
    int nb = atomB.GetNumberValenceElectrons();
-   double pddgExponent = -10.0;
+   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double temp = 0.0;
    for(int i=0; i<2; i++){
       double pa = atomA.GetPm3PddgParameterPa(i);
@@ -176,6 +174,7 @@ double Pm3Pddg::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
          temp += this->GetPddgAdditonalDiatomCoreRepulsionTerm1stDerivative(na, pa, da, nb, pb, db, distance);
       }
    }
+   double dCartesian = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA]);
    double additionalTerm = temp*dCartesian/(distance*(na+nb));
 
    return pm3Term + additionalTerm;
