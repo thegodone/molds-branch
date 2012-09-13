@@ -3623,18 +3623,18 @@ void Mndo::CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix,
                                                        CartesianType_end);
    } 
 
-   double** rotatingMatrix = NULL;
-   double*** rotMat1stDerivatives = NULL;
+   double**   rotatingMatrix = NULL;
+   double***  rotMat1stDerivatives = NULL;
    double**** diatomicTwoElecTwoCore = NULL;
    try{
       this->MallocDiatomicTwoElecTwoCore1stDeriTemps(&rotatingMatrix,
-                                                       &rotMat1stDerivatives,
-                                                       &diatomicTwoElecTwoCore);
+                                                     &rotMat1stDerivatives,
+                                                     &diatomicTwoElecTwoCore);
       // calclation in diatomic frame
       for(int mu=0; mu<atomA.GetValenceSize(); mu++){
-         for(int nu=0; nu<atomA.GetValenceSize(); nu++){
+         for(int nu=mu; nu<atomA.GetValenceSize(); nu++){
             for(int lambda=0; lambda<atomB.GetValenceSize(); lambda++){
-               for(int sigma=0; sigma<atomB.GetValenceSize(); sigma++){
+               for(int sigma=lambda; sigma<atomB.GetValenceSize(); sigma++){
                   for(int dimA=0; dimA<CartesianType_end; dimA++){
                      matrix[mu][nu][lambda][sigma][dimA] 
                         = this->GetNddoRepulsionIntegral1stDerivative(
@@ -3645,6 +3645,9 @@ void Mndo::CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix,
                                 atomB.GetValence(lambda),
                                 atomB.GetValence(sigma),
                                 static_cast<CartesianType>(dimA));
+                     matrix[nu][mu][lambda][sigma][dimA] = matrix[mu][nu][lambda][sigma][dimA];
+                     matrix[nu][mu][sigma][lambda][dimA] = matrix[mu][nu][lambda][sigma][dimA];
+                     matrix[mu][nu][sigma][lambda][dimA] = matrix[mu][nu][lambda][sigma][dimA];
                   }  
                   diatomicTwoElecTwoCore[mu][nu][lambda][sigma] 
                      = this->GetNddoRepulsionIntegral(
@@ -3654,6 +3657,9 @@ void Mndo::CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix,
                              atomB, 
                              atomB.GetValence(lambda),
                              atomB.GetValence(sigma));
+                  diatomicTwoElecTwoCore[nu][mu][lambda][sigma] = diatomicTwoElecTwoCore[mu][nu][lambda][sigma];
+                  diatomicTwoElecTwoCore[nu][mu][sigma][lambda] = diatomicTwoElecTwoCore[mu][nu][lambda][sigma];
+                  diatomicTwoElecTwoCore[mu][nu][sigma][lambda] = diatomicTwoElecTwoCore[mu][nu][lambda][sigma];
                }
             }
          }
