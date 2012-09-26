@@ -1,0 +1,134 @@
+
+
+     >>>>>  Welcome to the MolDS world at 2012/9/26(Wed.) 13:29:37  <<<<<
+
+
+**********  START: Parse input  **********
+	Total number of atoms: 3
+	Total number of valence AOs: 6
+	Total number of valence electrons: 8
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	O	3.225806e-01	1.270832e-03	5.562358e-01		1.707023e-01	6.724952e-04	2.943473e-01
+	Atom coordinates:	1	H	2.115150e+00	3.927497e-02	8.480768e-01		1.119289e+00	2.078342e-02	4.487829e-01
+	Atom coordinates:	2	H	3.122032e-02	1.457807e+00	-4.894858e-01		1.652108e-02	7.714382e-01	-2.590247e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	4.065720e-01	8.488912e-02	5.140568e-01		2.151486e-01	4.492139e-02	2.720271e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	4.065467e-01	8.486398e-02	5.140695e-01		2.151353e-01	4.490808e-02	2.720339e-01
+
+	SCF conditions:
+		Max iterations: 50
+		RMS density: 1.000000e-06
+		Damping threshold: 1.000000e+00
+		Damping weight: 0.000000e+00
+		DIIS number of error vectors: 5
+		DIIS starting error: 1.000000e-01
+		DIIS ending error: 1.000000e-08
+		van der Waals (vdW) correction: no
+
+	Memory conditions:
+		Heap limit: 2.560000e+02[MB]
+
+	Frequencies (Normal modes) analysis conditions:
+		Electronic eigenstate: 0
+
+Input terms:
+theory | am1 | theory_end | scf | max_iter | 50 | rms_density | 1e-06 | damping_thresh | 1.0 | 
+damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 1e-08 | scf_end | frequencies | 
+electronic_state | 0 | frequencies_end | geometry | o | 1.707023e-01 | 6.724952e-04 | 2.943473e-01 | h | 1.119289e+00 | 
+2.078342e-02 | 4.487829e-01 | h | 1.652108e-02 | 7.714382e-01 | -2.590247e-01 | geometry_end | 
+
+**********  DONE: Parse input  ***********
+
+
+**********  START: AM1-SCF  **********
+SCF iter=0: RMS density=4.000000000000000
+SCF iter=1: RMS density=1.466574369390399
+SCF iter=2: RMS density=0.559316907065698
+SCF iter=3: RMS density=0.197796187024970
+SCF iter=4: RMS density=0.070346886082112
+SCF iter=5: RMS density=0.025928423760731
+SCF iter=6: RMS density=0.000696849839108
+SCF iter=7: RMS density=0.000048052831718
+SCF iter=8: RMS density=0.000008330624725
+SCF iter=9: RMS density=0.000000242006506
+
+
+
+		AM1-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.338554e+00	-3.642421e+01
+	Energy of MO:	1	occ	-6.688260e-01	-1.819983e+01
+	Energy of MO:	2	occ	-5.494979e-01	-1.495272e+01
+	Energy of MO:	3	occ	-4.580491e-01	-1.246425e+01
+	Energy of MO:	4	unocc	1.623713e-01	4.418383e+00
+	Energy of MO:	5	unocc	2.275365e-01	6.191632e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.280936e+01	-3.485632e+02
+	Note that this electronic energy includes core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	5.317961e+00	1.447102e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	-2.775695e-01	-2.763567e-01	1.394367e-01	4.157649e-01		-7.055115e-01	-7.024288e-01	3.544128e-01	1.056769e+00
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	-1.107049e+00	-1.102152e+00	5.559868e-01	1.658137e+00		-2.813839e+00	-2.801391e+00	1.413178e+00	4.214565e+00
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		8.294798e-01	8.257951e-01	-4.165501e-01	1.242372e+00		2.108328e+00	2.098962e+00	-1.058765e+00	3.157795e+00
+
+				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	O	6.000000e+00	-3.827134e-01
+	Mulliken charge:	1	H	1.000000e+00	1.913567e-01
+	Mulliken charge:	2	H	1.000000e+00	1.913567e-01
+
+				       |    normal frequencies          |   normalized normal mode ...
+				| i-th |    [a.u.]    |    [cm-1]       |   [a.u.] in mass-weighted coordinates ...
+	Normal mode(mw):	0	1.316451e-05i	2.889275e+00i		4.435303e-02	-1.707539e-01	-2.501928e-01	-1.296277e-01	4.990515e-01	7.312223e-01	-4.711085e-02	1.813712e-01	2.657495e-01
+	Normal mode(mw):	1	9.908724e-06i	2.174713e+00i		-1.456004e-01	9.911035e-02	-9.345313e-02	-8.894650e-02	-5.748261e-01	3.765447e-01	6.691368e-01	1.798898e-01	-4.151396e-03
+	Normal mode(mw):	2	7.193894e-06i	1.578877e+00i		1.951526e-02	-7.513144e-02	-1.100844e-01	5.488721e-02	-2.113093e-01	-3.096155e-01	-1.326519e-01	5.106941e-01	7.482813e-01
+	Normal mode(mw):	3	1.677010e-10i	3.680610e-05i		1.484213e-01	-1.414329e-02	9.305409e-01	3.724673e-02	-3.549296e-03	2.335218e-01	3.724673e-02	-3.549296e-03	2.335218e-01
+	Normal mode(mw):	4	1.552082e-10	3.406425e-05		-9.956664e-02	9.366508e-01	3.011703e-02	-2.498652e-02	2.350551e-01	7.557952e-03	-2.498652e-02	2.350551e-01	7.557951e-03
+	Normal mode(mw):	5	2.274760e-10	4.992519e-05		9.253069e-01	1.030559e-01	-1.460201e-01	2.322083e-01	2.586216e-02	-3.664415e-02	2.322083e-01	2.586216e-02	-3.664415e-02
+	Normal mode(mw):	6	8.590618e-03	1.885422e+03		-1.811051e-01	-1.803004e-01	9.094767e-02	5.875598e-02	5.648569e-01	-3.750929e-01	6.629141e-01	1.536068e-01	1.268331e-02
+	Normal mode(mw):	7	1.597174e-02	3.505391e+03		-1.960882e-01	1.334813e-01	-1.258612e-01	6.721247e-01	1.425052e-02	1.094254e-01	1.092505e-01	-5.461485e-01	3.921080e-01
+	Normal mode(mw):	8	1.633179e-02	3.584413e+03		-1.306428e-01	-1.300565e-01	6.560243e-02	6.790702e-01	-2.592742e-02	1.380776e-01	-1.584829e-01	5.441784e-01	-3.994911e-01
+					'i' following the frequency means the imaginary frequency.
+
+				       |    normal frequencies          |   normalized normal mode ...
+				| i-th |    [a.u.]    |    [cm-1]       |   [angst.] in non-mass-weighted coordinates ...
+	Normal mode(nmw):	0	1.316451e-05i	2.889275e+00i		1.165399e-02	-4.486648e-02	-6.573945e-02	-1.357242e-01	5.225221e-01	7.656120e-01	-4.932650e-02	1.899012e-01	2.782478e-01
+	Normal mode(nmw):	1	9.908724e-06i	2.174713e+00i		-3.723901e-02	2.534864e-02	-2.390174e-02	-9.065100e-02	-5.858416e-01	3.837605e-01	6.819596e-01	1.833371e-01	-4.230949e-03
+	Normal mode(nmw):	2	7.193894e-06i	1.578877e+00i		4.939577e-03	-1.901679e-02	-2.786386e-02	5.535982e-02	-2.131288e-01	-3.122815e-01	-1.337941e-01	5.150915e-01	7.547245e-01
+	Normal mode(nmw):	3	1.677010e-10i	3.680610e-05i		9.092767e-02	-8.664632e-03	5.700793e-01	9.092767e-02	-8.664632e-03	5.700793e-01	9.092767e-02	-8.664632e-03	5.700793e-01
+	Normal mode(nmw):	4	1.552082e-10	3.406425e-05		-6.099773e-02	5.738224e-01	1.845066e-02	-6.099773e-02	5.738224e-01	1.845066e-02	-6.099773e-02	5.738224e-01	1.845066e-02
+	Normal mode(nmw):	5	2.274760e-10	4.992519e-05		5.668728e-01	6.313536e-02	-8.945663e-02	5.668728e-01	6.313536e-02	-8.945663e-02	5.668728e-01	6.313536e-02	-8.945663e-02
+	Normal mode(nmw):	6	8.590618e-03	1.885422e+03		-4.710152e-02	-4.689225e-02	2.365352e-02	6.089258e-02	5.853973e-01	-3.887327e-01	6.870203e-01	1.591926e-01	1.314453e-02
+	Normal mode(nmw):	7	1.597174e-02	3.505391e+03		-5.096064e-02	3.468994e-02	-3.270959e-02	6.960512e-01	1.475782e-02	1.133207e-01	1.131396e-01	-5.655905e-01	4.060664e-01
+	Normal mode(nmw):	8	1.633179e-02	3.584413e+03		-3.338956e-02	-3.323971e-02	1.676661e-02	6.915888e-01	-2.640539e-02	1.406231e-01	-1.614046e-01	5.542102e-01	-4.068557e-01
+					'i' following the frequency means the imaginary frequency.
+
+	Elapsed time(omp) for the SCF = 0.580722[s].
+**********  DONE: AM1-SCF  **********
+
+
+	Summary for memory usage:
+		Max Heap: 0.143136[MB].
+		Current Heap(Leaked): 0.000000[MB].
+
+
+     >>>>>  The MolDS finished normally!  <<<<<
+     >>>>>  CPU time: 0.59[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.587124[s].  <<<<<
+     >>>>>  See you.  <<<<<
+
+

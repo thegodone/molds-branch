@@ -1,0 +1,26 @@
+THEORY
+  mndo
+THEORY_END
+
+SCF
+ max_iter 50
+ rms_density 1e-06
+ damping_thresh 1.0
+ damping_weight 0.0
+ diis_num_error_vect 5
+ diis_start_error 0.1
+ diis_end_error 1e-08 
+SCF_END
+
+FREQUENCIES
+   electronic_state 0
+FREQUENCIES_END
+
+GEOMETRY
+ C         .0000     .0000     .0000
+ H        1.1043     .0000     .0000
+ H        -.3681    1.0411     .0000
+ H        -.3681    -.5205    -.9016
+ H        -.3681    -.5205     .9016
+GEOMETRY_END
+

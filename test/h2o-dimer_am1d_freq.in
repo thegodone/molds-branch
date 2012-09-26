@@ -1,0 +1,37 @@
+THEORY
+  am1-d
+THEORY_END
+
+SCF
+ max_iter 500
+ rms_density 1e-6
+ damping_thresh 1.0
+ damping_weight 0.9
+ diis_num_error_vect 5
+ diis_start_error 0.1
+ diis_end_error 0.00000002
+SCF_END
+
+FREQUENCIES
+   electronic_state 0
+FREQUENCIES_END
+
+// H2O-dimer (optimized with am1-d)
+GEOMETRY
+	O	-1.080379e+00	4.712875e-02	6.189828e-02
+	H	-1.068907e+00	-7.868164e-01	3.091350e-02
+	H	-1.877592e+00	2.798552e-01	1.153278e-01
+	O	1.235191e+00	-4.573278e-02	-7.342284e-02
+	H	8.608524e-01	2.189891e-01	6.245930e-01
+	H	7.851547e-01	2.674100e-01	-7.033772e-01
+GEOMETRY_END
+
+
+
+
+
+
+
+
+
+
