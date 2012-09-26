@@ -2420,6 +2420,7 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int indexAtomA,
 
    return value;
 }
+
 void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
    int totalNumberAOs = this->molecule->GetTotalNumberAOs();
    double**** orbitalElectronPopulation1stDerivs = NULL;
@@ -2470,7 +2471,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
 
             // calculation of each hessian element
             int k = indexAtomA*CartesianType_end + axisA; // hessian index, i.e. hessian[k][l]
-            for(int indexAtomB=0; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
+            for(int indexAtomB=indexAtomA; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
                // hessian element (atomA != atomB)
                if(indexAtomA!=indexAtomB){
                   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
@@ -2493,7 +2494,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                }
                // hessian element (atomA == atomB)
                else{
-                  for(int axisA2 = XAxis; axisA2<CartesianType_end; axisA2++){
+                  for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
                      int l = indexAtomA*CartesianType_end + axisA2; // hessian index, i.e. hessian[k][l]
                      hessianSCF[k][l] = this->GetHessianElementSameAtomsSCF(indexAtomA, 
                                                                             static_cast<CartesianType>(axisA), 
@@ -2533,8 +2534,14 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                               totalNumberAOs,
                                               this->molecule->GetNumberAtoms(),
                                               CartesianType_end);
+   int hessianDim = this->molecule->GetNumberAtoms()*CartesianType_end;
+   for(int k=0; k<hessianDim; k++){
+      for(int l=k; l<hessianDim; l++){
+         hessianSCF[l][k] = hessianSCF[k][l];
+      }
+   }
    /*
-   int hessianDim = this->molecule->GetNumberAtoms()*3;
+   int hessianDim = this->molecule->GetNumberAtoms()*CartesianType_end;
    for(int i=0; i<hessianDim; i++){
       for(int j=0; j<hessianDim; j++){
          printf("hess elem: %d %d %e\n",i,j,hessianSCF[i][j]);
