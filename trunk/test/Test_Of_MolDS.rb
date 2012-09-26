@@ -951,6 +951,151 @@ mklNumThreads = "2"
 ompNumThreads = "2"
 testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
 
+prefix = "h2o_mndo_freq"
+testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+------  Test of MNDO/HF/FREQUENCIES   -----
+-------------------------------------------
+SECTION
+\t\t\t>>> H2O <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "c2h2_mndo_freq"
+testerOmp = TesterOmp.new(prefix, <<"TITLE")
+\t\t\t>>> C2H2 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "nh3_mndo_freq"
+testerOmp = TesterOmp.new(prefix, <<"TITLE")
+\t\t\t>>> NH3 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "ch4_mndo_freq"
+testerOmp = TesterOmp.new(prefix, <<"TITLE")
+\t\t\t>>> CH4 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "h2o_am1_freq"
+testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+------   Test of AM1/HF/FREQUENCIES   -----
+-------------------------------------------
+SECTION
+\t\t\t>>> H2O <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "c2h6_am1_freq"
+testerOmp = TesterOmp.new(prefix, <<"TITLE")
+\t\t\t>>> C2H6 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "h2o-dimer_am1d_freq"
+testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+------  Test of AM1-D/HF/FREQUENCIES  -----
+-------------------------------------------
+SECTION
+\t\t\t>>> H2O dimer <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "nh3_pm3_freq"
+testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+------   Test of PM3/HF/FREQUENCIES   -----
+-------------------------------------------
+SECTION
+\t\t\t>>> NH3 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "c2h6_pm3_freq"
+testerOmp = TesterOmp.new(prefix, <<"TITLE")
+\t\t\t>>> C2H6 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "h2o-dimer_pddg_freq"
+testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+----   Test of PM3/PDDG/HF/FREQUENCIES  ---
+-------------------------------------------
+SECTION
+\t\t\t>>> H2O dimer <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "h2o-dimer_pm3d_freq"
+testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+-----   Test of PM3-D/HF/FREQUENCIES   ----
+-------------------------------------------
+SECTION
+\t\t\t>>> H2O dimer <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
 prefix = "c2h6_mndo_directCIS_singlet_force_heap_limit"
 testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
 ---------------------------------------------------
