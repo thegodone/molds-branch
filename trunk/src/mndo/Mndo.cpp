@@ -2579,31 +2579,44 @@ void Mndo::CalcOrbitalElectronPopulation1stDerivatives(double**** orbitalElectro
       MallocerFreer::GetInstance()->Malloc<double>(&transposedFockMatrix, totalNumberAOs, totalNumberAOs);
       this->SolveCPHF(solutionsCPHF, nonRedundantQIndeces, redundantQIndeces);
       this->TransposeFockMatrixMatrix(transposedFockMatrix);
+      stringstream ompErrors;
+#pragma omp parallel for schedule(auto)
       for(int mu=0; mu<totalNumberAOs; mu++){
-         for(int nu=0; nu<totalNumberAOs; nu++){
-            for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
-               for(int axis=XAxis; axis<CartesianType_end; axis++){
-
-                  int moI, moJ;
-                  double nI, nJ;
-                  int indexSolutionCPHF = indexAtomA*CartesianType_end+axis;
-                  orbitalElectronPopulation1stDerivs[mu][nu][indexAtomA][axis] = 0.0;
-                  for(int k=0; k<nonRedundantQIndeces.size(); k++){
-                     moI = nonRedundantQIndeces[k].moI;
-                     moJ = nonRedundantQIndeces[k].moJ;
-                     nI = moI<numberOcc ? 2.0 : 0.0;
-                     nJ = moJ<numberOcc ? 2.0 : 0.0;
-                     orbitalElectronPopulation1stDerivs[mu][nu][indexAtomA][axis]
-                        += (nJ-nI)*
-                           (transposedFockMatrix[mu][moJ]*transposedFockMatrix[nu][moI]+
-                            transposedFockMatrix[mu][moI]*transposedFockMatrix[nu][moJ])*
-                           solutionsCPHF[indexSolutionCPHF][k];
+         try{
+            for(int nu=0; nu<totalNumberAOs; nu++){
+               for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
+                  for(int axis=XAxis; axis<CartesianType_end; axis++){
+         
+                     int moI, moJ;
+                     double nI, nJ;
+                     int indexSolutionCPHF = indexAtomA*CartesianType_end+axis;
+                     orbitalElectronPopulation1stDerivs[mu][nu][indexAtomA][axis] = 0.0;
+                     for(int k=0; k<nonRedundantQIndeces.size(); k++){
+                        moI = nonRedundantQIndeces[k].moI;
+                        moJ = nonRedundantQIndeces[k].moJ;
+                        nI = moI<numberOcc ? 2.0 : 0.0;
+                        nJ = moJ<numberOcc ? 2.0 : 0.0;
+                        orbitalElectronPopulation1stDerivs[mu][nu][indexAtomA][axis]
+                           += (nJ-nI)*
+                              (transposedFockMatrix[mu][moJ]*transposedFockMatrix[nu][moI]+
+                               transposedFockMatrix[mu][moI]*transposedFockMatrix[nu][moJ])*
+                              solutionsCPHF[indexSolutionCPHF][k];
+                     }
+         
                   }
-
                }
             }
          }
+         catch(MolDSException ex){
+#pragma omp critical
+            ompErrors << ex.what() << endl;
+         }
       }
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException(ompErrors.str());
+      }
+
       /*
       // check the CPHF's solutions 
       for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
