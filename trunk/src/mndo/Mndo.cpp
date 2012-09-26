@@ -2433,92 +2433,102 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                    CartesianType_end);
       this->CalcOrbitalElectronPopulation1stDerivatives(orbitalElectronPopulation1stDerivs);
 
-			//#pragma omp parallel
-//{
-      double****    diatomicOverlap1stDerivs = NULL;
-      double*****   diatomicOverlap2ndDerivs = NULL;
-      double******  diatomicTwoElecTwoCore1stDerivs = NULL;
-      double******* diatomicTwoElecTwoCore2ndDerivs = NULL;
-      this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicOverlap1stDerivs,
-                                                       &diatomicOverlap2ndDerivs,
-                                                       &diatomicTwoElecTwoCore1stDerivs, 
-                                                       &diatomicTwoElecTwoCore2ndDerivs);
-
-			//#pragma omp for schedule(auto)                                                 
-      for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
-         const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-         int firstAOIndexA = atomA.GetFirstAOIndex();
-         int lastAOIndexA  = atomA.GetLastAOIndex();
-         for(int axisA = XAxis; axisA<CartesianType_end; axisA++){
-
-            // calculation of derivatives of the overlaps and two electron integrals
-            for(int indexAtomB=0; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
-               if(indexAtomA != indexAtomB){
-                  this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs[indexAtomB], 
-                                                          indexAtomA, 
-                                                          indexAtomB);
-                  this->CalcDiatomicOverlap2ndDerivatives(diatomicOverlap2ndDerivs[indexAtomB], 
-                                                          indexAtomA, 
-                                                          indexAtomB);
-                  this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs[indexAtomB], 
-                                                                 indexAtomA, 
-                                                                 indexAtomB);
-                  this->CalcDiatomicTwoElecTwoCore2ndDerivatives(diatomicTwoElecTwoCore2ndDerivs[indexAtomB], 
-                                                                 indexAtomA, 
-                                                                 indexAtomB);
-               }
-            }
-
-            // calculation of each hessian element
-            int k = indexAtomA*CartesianType_end + axisA; // hessian index, i.e. hessian[k][l]
-            for(int indexAtomB=indexAtomA; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
-               // hessian element (atomA != atomB)
-               if(indexAtomA!=indexAtomB){
-                  const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
-                  for(int axisB = XAxis; axisB<CartesianType_end; axisB++){
-                     int l = indexAtomB*CartesianType_end + axisB; // hessian index, i.e. hessian[k][l]
-                     hessianSCF[k][l] = this->GetHessianElementDifferentAtomsSCF(indexAtomA, 
-                                                                                 indexAtomB,
-                                                                                 static_cast<CartesianType>(axisA), 
-                                                                                 static_cast<CartesianType>(axisB), 
-                                                                                 orbitalElectronPopulation,
-                                                                                 orbitalElectronPopulation1stDerivs,
-                                                                                 diatomicOverlap1stDerivs,
-                                                                                 diatomicOverlap2ndDerivs,
-                                                                                 diatomicTwoElecTwoCore1stDerivs,
-                                                                                 diatomicTwoElecTwoCore2ndDerivs);
-                     if(isMassWeighted){
-                        hessianSCF[k][l] /= sqrt(atomA.GetCoreMass()*atomB.GetCoreMass());
+      stringstream ompErrors;
+#pragma omp parallel
+      {
+         double****    diatomicOverlap1stDerivs = NULL;
+         double*****   diatomicOverlap2ndDerivs = NULL;
+         double******  diatomicTwoElecTwoCore1stDerivs = NULL;
+         double******* diatomicTwoElecTwoCore2ndDerivs = NULL;
+         this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicOverlap1stDerivs,
+                                                          &diatomicOverlap2ndDerivs,
+                                                          &diatomicTwoElecTwoCore1stDerivs, 
+                                                          &diatomicTwoElecTwoCore2ndDerivs);
+         try{
+#pragma omp for schedule(auto)                                                 
+            for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
+               const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+               int firstAOIndexA = atomA.GetFirstAOIndex();
+               int lastAOIndexA  = atomA.GetLastAOIndex();
+               for(int axisA = XAxis; axisA<CartesianType_end; axisA++){
+            
+                  // calculation of derivatives of the overlaps and two electron integrals
+                  for(int indexAtomB=0; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
+                     if(indexAtomA != indexAtomB){
+                        this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs[indexAtomB], 
+                                                                indexAtomA, 
+                                                                indexAtomB);
+                        this->CalcDiatomicOverlap2ndDerivatives(diatomicOverlap2ndDerivs[indexAtomB], 
+                                                                indexAtomA, 
+                                                                indexAtomB);
+                        this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs[indexAtomB], 
+                                                                       indexAtomA, 
+                                                                       indexAtomB);
+                        this->CalcDiatomicTwoElecTwoCore2ndDerivatives(diatomicTwoElecTwoCore2ndDerivs[indexAtomB], 
+                                                                       indexAtomA, 
+                                                                       indexAtomB);
                      }
                   }
-               }
-               // hessian element (atomA == atomB)
-               else{
-                  for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
-                     int l = indexAtomA*CartesianType_end + axisA2; // hessian index, i.e. hessian[k][l]
-                     hessianSCF[k][l] = this->GetHessianElementSameAtomsSCF(indexAtomA, 
-                                                                            static_cast<CartesianType>(axisA), 
-                                                                            static_cast<CartesianType>(axisA2), 
-                                                                            orbitalElectronPopulation,
-                                                                            orbitalElectronPopulation1stDerivs,
-                                                                            diatomicOverlap1stDerivs,
-                                                                            diatomicOverlap2ndDerivs,
-                                                                            diatomicTwoElecTwoCore1stDerivs,
-                                                                            diatomicTwoElecTwoCore2ndDerivs);
-                     if(isMassWeighted){
-                        hessianSCF[k][l] /= atomA.GetCoreMass();
+            
+                  // calculation of each hessian element
+                  int k = indexAtomA*CartesianType_end + axisA; // hessian index, i.e. hessian[k][l]
+                  for(int indexAtomB=indexAtomA; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
+                     // hessian element (atomA != atomB)
+                     if(indexAtomA!=indexAtomB){
+                        const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+                        for(int axisB = XAxis; axisB<CartesianType_end; axisB++){
+                           int l = indexAtomB*CartesianType_end + axisB; // hessian index, i.e. hessian[k][l]
+                           hessianSCF[k][l] = this->GetHessianElementDifferentAtomsSCF(indexAtomA, 
+                                                                                       indexAtomB,
+                                                                                       static_cast<CartesianType>(axisA), 
+                                                                                       static_cast<CartesianType>(axisB), 
+                                                                                       orbitalElectronPopulation,
+                                                                                       orbitalElectronPopulation1stDerivs,
+                                                                                       diatomicOverlap1stDerivs,
+                                                                                       diatomicOverlap2ndDerivs,
+                                                                                       diatomicTwoElecTwoCore1stDerivs,
+                                                                                       diatomicTwoElecTwoCore2ndDerivs);
+                           if(isMassWeighted){
+                              hessianSCF[k][l] /= sqrt(atomA.GetCoreMass()*atomB.GetCoreMass());
+                           }
+                        }
+                     }
+                     // hessian element (atomA == atomB)
+                     else{
+                        for(int axisA2 = axisA; axisA2<CartesianType_end; axisA2++){
+                           int l = indexAtomA*CartesianType_end + axisA2; // hessian index, i.e. hessian[k][l]
+                           hessianSCF[k][l] = this->GetHessianElementSameAtomsSCF(indexAtomA, 
+                                                                                  static_cast<CartesianType>(axisA), 
+                                                                                  static_cast<CartesianType>(axisA2), 
+                                                                                  orbitalElectronPopulation,
+                                                                                  orbitalElectronPopulation1stDerivs,
+                                                                                  diatomicOverlap1stDerivs,
+                                                                                  diatomicOverlap2ndDerivs,
+                                                                                  diatomicTwoElecTwoCore1stDerivs,
+                                                                                  diatomicTwoElecTwoCore2ndDerivs);
+                           if(isMassWeighted){
+                              hessianSCF[k][l] /= atomA.GetCoreMass();
+                           }
+                        }
                      }
                   }
+            
                }
             }
-
          }
+         catch(MolDSException ex){
+#pragma omp critical
+            ompErrors << ex.what() << endl;
+         }
+         this->FreeTempMatricesEachThreadCalcHessianSCF(&diatomicOverlap1stDerivs,
+                                                        &diatomicOverlap2ndDerivs,
+                                                        &diatomicTwoElecTwoCore1stDerivs, 
+                                                        &diatomicTwoElecTwoCore2ndDerivs);
+      }// end of omp-region
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException(ompErrors.str());
       }
-      this->FreeTempMatricesEachThreadCalcHessianSCF(&diatomicOverlap1stDerivs,
-                                                     &diatomicOverlap2ndDerivs,
-                                                     &diatomicTwoElecTwoCore1stDerivs, 
-                                                     &diatomicTwoElecTwoCore2ndDerivs);
-//}
 
    }
    catch(MolDSException ex){
