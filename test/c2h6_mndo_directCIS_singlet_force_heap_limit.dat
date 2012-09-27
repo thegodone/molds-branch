@@ -65,7 +65,10 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 
 
 **********  START: Molecular dynamics  **********
-Error in base::MallocFreer::Malloc: Reaches limit of heap. Change the "limit_heap" option in the memory-directive, machine you using, or your study!!!
+Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the "limit_heap" option in the memory-directive, machine you using, or your study!!!
+		Heap Limit:    0.19[MB].
+		Current Heap:  0.07004[MB].
+		Required Heap: 0.131072[MB].
 
 	Summary for memory usage:
 		Max Heap: 0.070040[MB].

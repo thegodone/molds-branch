@@ -19,6 +19,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
+#include<sstream>
 #include<math.h>
 #include<string>
 #include<vector>
@@ -38,13 +39,17 @@ namespace MolDS_base{
 MallocerFreer* MallocerFreer::mallocerFreer = NULL;
 double MallocerFreer::currentMalloced = 0.0;
 double MallocerFreer::maxMalloced = 0.0;
+const double MallocerFreer::byte2MByte = 1e-06;
 
 MallocerFreer::MallocerFreer(){
    this->errorMessageMallocFailure = "Error in base::MallocerFreer::Malloc: Malloc failure...\n";
    this->errorMessageReachHeapLimit = "Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the \"limit_heap\" option in the memory-directive, machine you using, or your study!!!\n";
-   this->messageMemoryUsage = "\tSummary for memory usage:\n";
-   this->messageMemoryMaxHeap = "\t\tMax Heap: ";
-   this->messageMemoryCurrentHeap = "\t\tCurrent Heap(Leaked): ";
+   this->messageMemoryUsage =        "\tSummary for memory usage:\n";
+   this->messageMemoryMaxHeap =      "\t\tMax Heap: ";
+   this->messageMemoryLeakedHeap =   "\t\tCurrent Heap(Leaked): ";
+   this->messageMemoryCurrentHeap =  "\t\tCurrent Heap:  ";
+   this->messageMemoryRequiredHeap = "\t\tRequired Heap: ";
+   this->messageMemoryLimitHeap =    "\t\tHeap Limit:    ";
    this->messageMByte = "[MB].\n";
 }
 
@@ -54,18 +59,23 @@ MallocerFreer::~MallocerFreer(){
 
 void MallocerFreer::CheckLimitHeap(double requiredMalloc) const{
    double limit = Parameters::GetInstance()->GetLimitHeapMemory();
-   if(limit < (MallocerFreer::currentMalloced + requiredMalloc)/pow(10.0,6.0)){
-      throw MolDSException(this->errorMessageReachHeapLimit);
+   if(limit < (MallocerFreer::currentMalloced + requiredMalloc)*MallocerFreer::byte2MByte){
+      stringstream ss;
+      ss << this->errorMessageReachHeapLimit;
+      ss << this->messageMemoryLimitHeap    << limit                                                    << this->messageMByte;
+      ss << this->messageMemoryCurrentHeap  << MallocerFreer::currentMalloced*MallocerFreer::byte2MByte << this->messageMByte;
+      ss << this->messageMemoryRequiredHeap << requiredMalloc                *MallocerFreer::byte2MByte << this->messageMByte;
+      throw MolDSException(ss.str());
    }
 }
 
 void MallocerFreer::OutputMemoryUsage() const{
    this->OutputLog(this->messageMemoryUsage);
    this->OutputLog(boost::format("%s%lf%s") % this->messageMemoryMaxHeap.c_str() 
-                                            % (MallocerFreer::maxMalloced/pow(10.0,6.0))
+                                            % (MallocerFreer::maxMalloced*MallocerFreer::byte2MByte)
                                             % this->messageMByte.c_str());
-   this->OutputLog(boost::format("%s%lf%s") % this->messageMemoryCurrentHeap.c_str() 
-                                            % (MallocerFreer::currentMalloced/pow(10.0,6.0))
+   this->OutputLog(boost::format("%s%lf%s") % this->messageMemoryLeakedHeap.c_str() 
+                                            % (MallocerFreer::currentMalloced*MallocerFreer::byte2MByte)
                                             % this->messageMByte.c_str());
 }
 
