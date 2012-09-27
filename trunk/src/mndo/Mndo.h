@@ -359,14 +359,14 @@ private:
                                                double*****  rotMat2ndDerivatives,
                                                double*****  diatomicTwoElecTwoCore,
                                                double****** diatomicTwoElecTwoCore1stDerivatives) const;
-   void RotateDiatomicTwoElecTwoCoreToSpaceFramegc(double**** matrix, 
+   void RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix, 
                                                    double const* const* rotatingMatrix) const;
-   void RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFramegc(
+   void RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
         double***** matrix, 
         double const* const* const* const* diatomicTwoElecTwoCore,
         double const* const* rotatingMatrix,
         double const* const* const* rotMat1stDerivatives) const;
-   void RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
+   void RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(
         double****** matrix, 
         double const* const* const* const*        diatomicTwoElecTwoCore,
         double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivatives,
