@@ -3590,7 +3590,7 @@ void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, int indexAtomA, int ind
       MallocerFreer::GetInstance()->Malloc<double>(&rotatingMatrix,
                                                    OrbitalType_end, OrbitalType_end);
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
-      this->RotateDiatomicTwoElecTwoCoreToSpaceFramegc(matrix, rotatingMatrix);
+      this->RotateDiatomicTwoElecTwoCoreToSpaceFrame(matrix, rotatingMatrix);
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&rotatingMatrix, OrbitalType_end, OrbitalType_end);
@@ -3698,10 +3698,10 @@ void Mndo::CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix,
       // rotate matirix into the space frame
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
       this->CalcRotatingMatrix1stDerivatives(rotMat1stDerivatives, atomA, atomB);
-      this->RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFramegc(matrix, 
-                                                                     diatomicTwoElecTwoCore,
-                                                                     rotatingMatrix,
-                                                                     rotMat1stDerivatives);
+      this->RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(matrix, 
+                                                                   diatomicTwoElecTwoCore,
+                                                                   rotatingMatrix,
+                                                                   rotMat1stDerivatives);
    }
    catch(MolDSException ex){
       this->FreeDiatomicTwoElecTwoCore1stDeriTemps(&rotatingMatrix,
@@ -3808,12 +3808,12 @@ void Mndo::CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix,
       this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
       this->CalcRotatingMatrix1stDerivatives(rotMat1stDerivatives, atomA, atomB);
       this->CalcRotatingMatrix2ndDerivatives(rotMat2ndDerivatives, atomA, atomB);
-      this->RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(matrix, 
-                                                                     diatomicTwoElecTwoCore,
-                                                                     diatomicTwoElecTwoCore1stDerivatives,
-                                                                     rotatingMatrix,
-                                                                     rotMat1stDerivatives,
-                                                                     rotMat2ndDerivatives);
+      this->RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(matrix, 
+                                                                   diatomicTwoElecTwoCore,
+                                                                   diatomicTwoElecTwoCore1stDerivatives,
+                                                                   rotatingMatrix,
+                                                                   rotMat1stDerivatives,
+                                                                   rotMat2ndDerivatives);
    }
    catch(MolDSException ex){
       this->FreeDiatomicTwoElecTwoCore2ndDeriTemps(&rotatingMatrix,
@@ -3898,8 +3898,8 @@ void Mndo::FreeDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
 
 // Rotate 4-dimensional matrix from diatomic frame to space frame
 // Note tha in this method d-orbitals can not be treatable.
-void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFramegc(double**** matrix, 
-                                                      double const* const* rotatingMatrix) const{
+void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix, 
+                                                    double const* const* rotatingMatrix) const{
    double oldMatrix[dxy][dxy][dxy][dxy];
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
@@ -3966,7 +3966,7 @@ void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFramegc(double**** matrix,
 
 // Rotate 5-dimensional matrix from diatomic frame to space frame
 // Note tha in this method d-orbitals can not be treatable.
-void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFramegc(
+void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
            double***** matrix, 
            double const* const* const* const* diatomicTwoElecTwoCore,
            double const* const* rotatingMatrix,
@@ -4101,7 +4101,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFramegc(
 
 // Rotate 6-dimensional matrix from diatomic frame to space frame
 // Note tha in this method d-orbitals can not be treatable.
-void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFramegc(
+void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(
            double****** matrix, 
            double const* const* const* const* diatomicTwoElecTwoCore,
            double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivatives,
