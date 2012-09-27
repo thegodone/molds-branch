@@ -1115,7 +1115,8 @@ double Mndo::GetKNRElement(int moI, int moJ, int moK, int moL) const{
    if(nI!=nJ && nK!=nL){
       value = this->GetAuxiliaryKNRKRElement(moI, moJ, moK, moL);
    }
-   return value;
+   //See (24) in [DL_1990] about "0.5" multiplied to "GetKNRElement".
+   return 0.5*value;
 }
 
 // Dager of (45) in [PT_1996]. Note taht the (45) is real number.
@@ -1135,7 +1136,8 @@ double Mndo::GetKRElement(int moI, int moJ, int moK, int moL) const{
    if(nI==nJ && nK!=nL){
       value = this->GetAuxiliaryKNRKRElement(moI, moJ, moK, moL);
    }
-   return value;
+   //See (24) in [DL_1990] about "0.5" multiplied to "GetKRElement".
+   return 0.5*value;
 }
 
 double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
@@ -1659,9 +1661,8 @@ void Mndo::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<MoIn
          for(int j=i; j<nonRedundantQIndeces.size(); j++){
             int moK = nonRedundantQIndeces[j].moI;
             int moL = nonRedundantQIndeces[j].moJ;
-            //See (24) in [DL_1990] about "0.5" multiplied to "GetKNRElement".
             gammaNRMinusKNR[i][j] = this->GetGammaNRElement(moI, moJ, moK, moL)
-                                   -0.5*this->GetKNRElement(moI, moJ, moK, moL);
+                                   -this->GetKNRElement(moI, moJ, moK, moL);
          }
       }
       catch(MolDSException ex){
@@ -1690,8 +1691,7 @@ void Mndo::CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv,
          for(int j=0; j<redundantQIndeces.size(); j++){
             int moK = redundantQIndeces[j].moI;
             int moL = redundantQIndeces[j].moJ;
-            //See (24) in [DL_1990] about "0.5" multiplied to "GetKRDagerElement".
-            kRDagerGammaRInv[i][j] = 0.5*this->GetKRDagerElement(moI, moJ, moK, moL)
+            kRDagerGammaRInv[i][j] = this->GetKRDagerElement(moI, moJ, moK, moL)
                                     /this->GetGammaRElement(moK, moL, moK, moL);
          }
       }
@@ -2869,7 +2869,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          for(int j=0; j<nonRedundantQIndeces.size(); j++){
             int moK = nonRedundantQIndeces[j].moI;
             int moL = nonRedundantQIndeces[j].moJ;
-            matrixCPHF[i][j] = (this->GetGammaNRElement(moI, moJ, moK, moL)-0.5*this->GetKNRElement(moI, moJ, moK, moL))
+            matrixCPHF[i][j] = (this->GetGammaNRElement(moI, moJ, moK, moL)-this->GetKNRElement(moI, moJ, moK, moL))
                               *occupations[j];
          }    
       }  
@@ -2880,7 +2880,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          for(int j=0; j<nonRedundantQIndeces.size(); j++){
             int moK = nonRedundantQIndeces[j].moI;
             int moL = nonRedundantQIndeces[j].moJ;
-            matrixCPHF[i][j] = -0.5*this->GetKRElement(moI, moJ, moK, moL)*occupations[j];
+            matrixCPHF[i][j] = -this->GetKRElement(moI, moJ, moK, moL)*occupations[j];
          }
       }
 
