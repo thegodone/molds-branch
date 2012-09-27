@@ -32,11 +32,11 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double wannaMalloc = static_cast<double>(size1*sizeof(T));
-      this->CheckLimitHeap(wannaMalloc);
+      double requiredMalloc = static_cast<double>(size1*sizeof(T));
+      this->CheckLimitHeap(requiredMalloc);
 
       *matrix = new T[size1];
-      MallocerFreer::AddCurrentMalloced(wannaMalloc);
+      MallocerFreer::AddCurrentMalloced(requiredMalloc);
       this->Initialize<T>(*matrix, size1);
    }
 
@@ -60,8 +60,8 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double wannaMalloc = static_cast<double>(size1*size2*sizeof(T));
-      this->CheckLimitHeap(wannaMalloc);
+      double requiredMalloc = static_cast<double>(size1*size2*sizeof(T));
+      this->CheckLimitHeap(requiredMalloc);
 
       // Continuous allocation is necessary for matrix to vector conversion.
       *matrix = new T*[size1];
@@ -75,7 +75,7 @@ public:
       for(int i=0;i<size1;i++) {
          (*matrix)[i] = &buf[i*size2];
       }
-      MallocerFreer::AddCurrentMalloced(wannaMalloc);
+      MallocerFreer::AddCurrentMalloced(requiredMalloc);
       this->Initialize<T>(*matrix, size1, size2);
    }
 
@@ -102,8 +102,8 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double wannaMalloc = static_cast<double>(size1*size2*size3*sizeof(T));
-      this->CheckLimitHeap(wannaMalloc);
+      double requiredMalloc = static_cast<double>(size1*size2*size3*sizeof(T));
+      this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL;
       try{
@@ -127,7 +127,7 @@ public:
             }
          }
          *matrix = p3d;
-         MallocerFreer::AddCurrentMalloced(wannaMalloc);
+         MallocerFreer::AddCurrentMalloced(requiredMalloc);
          this->Initialize<T>(*matrix, size1, size2, size3);
       }
       catch(MolDSException ex){
@@ -174,8 +174,8 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double wannaMalloc = static_cast<double>(size1*size2*size3*size4*sizeof(T));
-      this->CheckLimitHeap(wannaMalloc);
+      double requiredMalloc = static_cast<double>(size1*size2*size3*size4*sizeof(T));
+      this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL;
       try{
@@ -206,7 +206,7 @@ public:
             }
          }
          *matrix = p4d;
-         MallocerFreer::AddCurrentMalloced(wannaMalloc);
+         MallocerFreer::AddCurrentMalloced(requiredMalloc);
          this->Initialize<T>(*matrix, size1, size2, size3, size4);
       }
       catch(MolDSException ex){
@@ -260,8 +260,8 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double wannaMalloc = static_cast<double>(size1*size2*size3*size4*size5*sizeof(T));
-      this->CheckLimitHeap(wannaMalloc);
+      double requiredMalloc = static_cast<double>(size1*size2*size3*size4*size5*sizeof(T));
+      this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL, *****p5d=NULL;
       try{
@@ -302,7 +302,7 @@ public:
             }
          }
          *matrix = p5d;
-         MallocerFreer::AddCurrentMalloced(wannaMalloc);
+         MallocerFreer::AddCurrentMalloced(requiredMalloc);
          this->Initialize<T>(*matrix, size1, size2, size3, size4, size5);
       }
       catch(MolDSException ex){
@@ -364,8 +364,8 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double wannaMalloc = static_cast<double>(size1*size2*size3*size4*size5*size6*sizeof(T));
-      this->CheckLimitHeap(wannaMalloc);
+      double requiredMalloc = static_cast<double>(size1*size2*size3*size4*size5*size6*sizeof(T));
+      this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL, *****p5d=NULL, ******p6d=NULL;
       try{
@@ -417,7 +417,7 @@ public:
             }
          }
          *matrix = p6d;
-         MallocerFreer::AddCurrentMalloced(wannaMalloc);
+         MallocerFreer::AddCurrentMalloced(requiredMalloc);
          this->Initialize<T>(*matrix, size1, size2, size3, size4, size5, size6);
       }
       catch(MolDSException ex){
@@ -485,8 +485,8 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double wannaMalloc = static_cast<double>(size1*size2*size3*size4*size5*size6*size7*sizeof(T));
-      this->CheckLimitHeap(wannaMalloc);
+      double requiredMalloc = static_cast<double>(size1*size2*size3*size4*size5*size6*size7*sizeof(T));
+      this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL, *****p5d=NULL, ******p6d=NULL, *******p7d=NULL;
       try{
@@ -550,7 +550,7 @@ public:
             }
          }
          *matrix = p7d;
-         MallocerFreer::AddCurrentMalloced(wannaMalloc);
+         MallocerFreer::AddCurrentMalloced(requiredMalloc);
          this->Initialize<T>(*matrix, size1, size2, size3, size4, size5, size6, size7);
       }
       catch(MolDSException ex){
@@ -634,7 +634,7 @@ private:
    std::string messageMemoryMaxHeap;
    std::string messageMByte;
    void OutputMemoryUsage() const;
-   void CheckLimitHeap(double wannaMalloc) const;
+   void CheckLimitHeap(double requiredMalloc) const;
 };
 }
 #endif

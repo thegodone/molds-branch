@@ -52,9 +52,9 @@ MallocerFreer::~MallocerFreer(){
    this->OutputMemoryUsage();
 }
 
-void MallocerFreer::CheckLimitHeap(double wannaMalloc) const{
+void MallocerFreer::CheckLimitHeap(double requiredMalloc) const{
    double limit = Parameters::GetInstance()->GetLimitHeapMemory();
-   if(limit < (MallocerFreer::currentMalloced + wannaMalloc)/pow(10.0,6.0)){
+   if(limit < (MallocerFreer::currentMalloced + requiredMalloc)/pow(10.0,6.0)){
       throw MolDSException(this->errorMessageReachHeapLimit);
    }
 }
