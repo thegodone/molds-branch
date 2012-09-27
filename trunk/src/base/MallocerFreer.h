@@ -625,13 +625,17 @@ private:
    static MallocerFreer* mallocerFreer;
    static double currentMalloced;
    static double maxMalloced;
+   static const double byte2MByte;
    static void AddCurrentMalloced(double amount);
    static void SubtCurrentMalloced(double amount);
    std::string errorMessageMallocFailure;
    std::string errorMessageReachHeapLimit;
    std::string messageMemoryUsage;
-   std::string messageMemoryCurrentHeap;
+   std::string messageMemoryLeakedHeap;
    std::string messageMemoryMaxHeap;
+   std::string messageMemoryCurrentHeap;
+   std::string messageMemoryRequiredHeap;
+   std::string messageMemoryLimitHeap;
    std::string messageMByte;
    void OutputMemoryUsage() const;
    void CheckLimitHeap(double requiredMalloc) const;
