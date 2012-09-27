@@ -2850,17 +2850,17 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
    double* occupations = NULL;
    MallocerFreer::GetInstance()->Malloc<double>(&occupations, nonRedundantQIndeces.size()+redundantQIndeces.size());
    stringstream ompErrors;
-   #pragma omp parallel 
+#pragma omp parallel 
    {
       try{
          // calc diagonal part of N
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int i=0; i<nonRedundantQIndeces.size(); i++){
             int moI = nonRedundantQIndeces[i].moI;
             int moJ = nonRedundantQIndeces[i].moJ;
             occupations[i] = this->GetNNRElement(moI, moJ, moI, moJ);
          }
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
             int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
             int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
@@ -2868,7 +2868,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          }
    
          // calc (\Gamma - K)N
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int i=0; i<nonRedundantQIndeces.size(); i++){
             int moI = nonRedundantQIndeces[i].moI;
             int moJ = nonRedundantQIndeces[i].moJ;
@@ -2880,7 +2880,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
             }    
          }  
    
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
             int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
             int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
@@ -2891,7 +2891,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
             }
          }
    
-         #pragma omp for schedule(auto)
+#pragma omp for schedule(auto)
          for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
             int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
             int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
@@ -2899,7 +2899,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          }
       }
       catch(MolDSException ex){
-         #pragma omp critical
+#pragma omp critical
          ompErrors << ex.what() << endl;
       }
    }
