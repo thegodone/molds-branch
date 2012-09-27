@@ -40,8 +40,8 @@ double MallocerFreer::currentMalloced = 0.0;
 double MallocerFreer::maxMalloced = 0.0;
 
 MallocerFreer::MallocerFreer(){
-   this->errorMessageMallocFailure = "Error in base::MallocFreer::Malloc: Malloc failure...\n";
-   this->errorMessageReachHeapLimit = "Error in base::MallocFreer::Malloc: Reaches limit of heap. Change the \"limit_heap\" option in the memory-directive, machine you using, or your study!!!\n";
+   this->errorMessageMallocFailure = "Error in base::MallocerFreer::Malloc: Malloc failure...\n";
+   this->errorMessageReachHeapLimit = "Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the \"limit_heap\" option in the memory-directive, machine you using, or your study!!!\n";
    this->messageMemoryUsage = "\tSummary for memory usage:\n";
    this->messageMemoryMaxHeap = "\t\tMax Heap: ";
    this->messageMemoryCurrentHeap = "\t\tCurrent Heap(Leaked): ";
