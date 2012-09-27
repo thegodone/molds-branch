@@ -2670,16 +2670,29 @@ void Mndo::SolveCPHF(double** solutionsCPHF,
 void Mndo::CalcStaticFirstOrderFocks(double** staticFirstOrderFocks,
                                      const vector<MoIndexPair>& nonRedundantQIndeces,
                                      const vector<MoIndexPair>& redundantQIndeces) const{
+   stringstream ompErrors;
+#pragma omp parallel for schedule(auto)
    for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
-      for(int axisA=XAxis; axisA<CartesianType_end; axisA++){
-         int k=indexAtomA*CartesianType_end + axisA;
-         this->CalcStaticFirstOrderFock(staticFirstOrderFocks[k], 
-                                        nonRedundantQIndeces,
-                                        redundantQIndeces,
-                                        indexAtomA,
-                                        static_cast<CartesianType>(axisA));
+      try{
+         for(int axisA=XAxis; axisA<CartesianType_end; axisA++){
+            int k=indexAtomA*CartesianType_end + axisA;
+            this->CalcStaticFirstOrderFock(staticFirstOrderFocks[k], 
+                                           nonRedundantQIndeces,
+                                           redundantQIndeces,
+                                           indexAtomA,
+                                           static_cast<CartesianType>(axisA));
+         }
+      }
+      catch(MolDSException ex){
+#pragma omp critical
+         ompErrors << ex.what() << endl;
       }
    }
+   // Exception throwing for omp-region
+   if(!ompErrors.str().empty()){
+      throw MolDSException(ompErrors.str());
+   }
+
 }
 
 // clac right side hand of CPHF, (34) in [PT_1996]
