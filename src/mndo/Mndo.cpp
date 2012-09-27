@@ -2849,52 +2849,65 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
                           const vector<MoIndexPair>& redundantQIndeces) const{
    double* occupations = NULL;
    MallocerFreer::GetInstance()->Malloc<double>(&occupations, nonRedundantQIndeces.size()+redundantQIndeces.size());
-   try{   
-      // calc diagonal part of N
-      for(int i=0; i<nonRedundantQIndeces.size(); i++){
-         int moI = nonRedundantQIndeces[i].moI;
-         int moJ = nonRedundantQIndeces[i].moJ;
-         occupations[i] = this->GetNNRElement(moI, moJ, moI, moJ);
-      }
-      for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
-         int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
-         int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
-         occupations[i] = this->GetNRElement(moI, moJ, moI, moJ);
-      }
-
-      // calc (\Gamma - K)N
-      for(int i=0; i<nonRedundantQIndeces.size(); i++){
-         int moI = nonRedundantQIndeces[i].moI;
-         int moJ = nonRedundantQIndeces[i].moJ;
-         for(int j=0; j<nonRedundantQIndeces.size(); j++){
-            int moK = nonRedundantQIndeces[j].moI;
-            int moL = nonRedundantQIndeces[j].moJ;
-            matrixCPHF[i][j] = (this->GetGammaNRElement(moI, moJ, moK, moL)-this->GetKNRElement(moI, moJ, moK, moL))
-                              *occupations[j];
-         }    
-      }  
-
-      for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
-         int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
-         int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
-         for(int j=0; j<nonRedundantQIndeces.size(); j++){
-            int moK = nonRedundantQIndeces[j].moI;
-            int moL = nonRedundantQIndeces[j].moJ;
-            matrixCPHF[i][j] = -this->GetKRElement(moI, moJ, moK, moL)*occupations[j];
+   stringstream ompErrors;
+   #pragma omp parallel 
+   {
+      try{
+         // calc diagonal part of N
+         #pragma omp for schedule(auto)
+         for(int i=0; i<nonRedundantQIndeces.size(); i++){
+            int moI = nonRedundantQIndeces[i].moI;
+            int moJ = nonRedundantQIndeces[i].moJ;
+            occupations[i] = this->GetNNRElement(moI, moJ, moI, moJ);
+         }
+         #pragma omp for schedule(auto)
+         for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
+            int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+            int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+            occupations[i] = this->GetNRElement(moI, moJ, moI, moJ);
+         }
+   
+         // calc (\Gamma - K)N
+         #pragma omp for schedule(auto)
+         for(int i=0; i<nonRedundantQIndeces.size(); i++){
+            int moI = nonRedundantQIndeces[i].moI;
+            int moJ = nonRedundantQIndeces[i].moJ;
+            for(int j=0; j<nonRedundantQIndeces.size(); j++){
+               int moK = nonRedundantQIndeces[j].moI;
+               int moL = nonRedundantQIndeces[j].moJ;
+               matrixCPHF[i][j] = (this->GetGammaNRElement(moI, moJ, moK, moL)-this->GetKNRElement(moI, moJ, moK, moL))
+                                 *occupations[j];
+            }    
+         }  
+   
+         #pragma omp for schedule(auto)
+         for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
+            int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+            int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+            for(int j=0; j<nonRedundantQIndeces.size(); j++){
+               int moK = nonRedundantQIndeces[j].moI;
+               int moL = nonRedundantQIndeces[j].moJ;
+               matrixCPHF[i][j] = -this->GetKRElement(moI, moJ, moK, moL)*occupations[j];
+            }
+         }
+   
+         #pragma omp for schedule(auto)
+         for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
+            int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+            int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+            matrixCPHF[i][i] = this->GetGammaRElement(moI, moJ, moI, moJ)*occupations[i];
          }
       }
-
-      for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
-         int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
-         int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
-         matrixCPHF[i][i] = this->GetGammaRElement(moI, moJ, moI, moJ)*occupations[i];
+      catch(MolDSException ex){
+         #pragma omp critical
+         ompErrors << ex.what() << endl;
       }
    }
-   catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&occupations, nonRedundantQIndeces.size()+redundantQIndeces.size());
-      throw ex;
-   }
    MallocerFreer::GetInstance()->Free<double>(&occupations, nonRedundantQIndeces.size()+redundantQIndeces.size());
+   // Exception throwing for omp-region
+   if(!ompErrors.str().empty()){
+      throw MolDSException(ompErrors.str());
+   }
 
    /*
    printf("matrixCPHF\n");
