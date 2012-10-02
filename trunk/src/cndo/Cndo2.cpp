@@ -313,6 +313,22 @@ void Cndo2::CheckEnableAtomType(const Molecule& molecule) const{
    }
 }
 
+double const* const* Cndo2::GetFockMatrix() const{
+   return this->fockMatrix;
+}
+
+double const* Cndo2::GetEnergiesMO() const{
+   return this->energiesMO;
+}
+
+double const* const* Cndo2::GetMatrixCIS() const{
+   return this->matrixCIS;
+}
+
+double const* Cndo2::GetExcitedEnergies() const{
+   return this->excitedEnergies;
+}
+
 void Cndo2::CalcCoreRepulsionEnergy(){
    double energy = 0.0;
    for(int i=0; i<this->molecule->GetNumberAtoms(); i++){

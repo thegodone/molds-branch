@@ -30,8 +30,12 @@ public:
    virtual void SetMolecule(MolDS_base::Molecule* molecule);
    void DoSCF(bool requiresGuess=true);
    virtual void OutputSCFResults() const;
+   double const* const* GetFockMatrix() const;
+   double const*        GetEnergiesMO() const;
    virtual void DoCIS();
    virtual void OutputCISResults() const;
+   double const* const* GetMatrixCIS() const;
+   double const*        GetExcitedEnergies() const;
    double** GetForce(int elecState);
    double*** GetForce(const std::vector<int>& elecStates);
    double GetElectronicEnergy(int elecState) const;
