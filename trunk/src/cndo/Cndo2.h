@@ -374,8 +374,7 @@ private:
    void SetOverlapElement(double** overlap, 
                           double const* const* diatomicOverlap, 
                           const MolDS_base_atoms::Atom& atomA, 
-                          const MolDS_base_atoms::Atom& atomB,
-                          bool isSymmetricOverlap) const;
+                          const MolDS_base_atoms::Atom& atomB) const;
    double GetAuxiliaryA(int k, double rho) const;
    double GetAuxiliaryB(int k, double rho) const;
    double GetAuxiliaryD(int la, int lb, int m) const;
