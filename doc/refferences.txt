@@ -59,5 +59,5 @@
 [S_2007] J. J. P. Stewart, J. Mol. Model. 13, 1173 (2007)
 [MH_2007] J. P. McNamara and I. H. Hillier, Phys. Chem. Chem. Phys. 9, 2362 (2007)
 [MMHBV_2007] C. A. Morgado, J. P. McNamara, I. H. Hillier, N. A. Burton, and M. A. Vincent, J. Chem. Theory Comput. 3, 1656 (2007)
-
+[F_2011] M. Fujii, J. Chem. Phys. 135, 114102-1 (2011)
 
