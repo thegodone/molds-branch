@@ -37,6 +37,9 @@ public:
    double GetElectronicEnergy(int elecState) const;
    double GetCoreRepulsionEnergy() const;
    double GetVdWCorrectionEnergy() const;
+   void CalcOverlapDifferentConfigurations(double** overlap,
+                                           const MolDS_base::Molecule& lhsMolecule,
+                                           const MolDS_base::Molecule& rhsMolecule) const;
    MolDS_base::TheoryType GetTheoryType() const;
 protected:
    std::string errorMessageAtomA;
@@ -226,6 +229,10 @@ private:
    std::string errorMessageRotDiaOverlapToSpaceFrameNullDiaMatrix;
    std::string errorMessageRotDiaOverlapToSpaceFrameNullRotMatrix;
    std::string errorMessageSetOverlapElementNullDiaMatrix;
+   std::string errorMessageCalcOverlapDifferentConfigurationsDiffAOs;
+   std::string errorMessageCalcOverlapDifferentConfigurationsDiffAtoms;
+   std::string errorMessageLhs;
+   std::string errorMessageRhs;
    std::string messageIterSCF;
    std::string messageDensityRMS;
    std::string messageEnergyMO;
@@ -374,7 +381,8 @@ private:
    void SetOverlapElement(double** overlap, 
                           double const* const* diatomicOverlap, 
                           const MolDS_base_atoms::Atom& atomA, 
-                          const MolDS_base_atoms::Atom& atomB) const;
+                          const MolDS_base_atoms::Atom& atomB,
+                          bool isSymmetricOverlap = true) const;
    double GetAuxiliaryA(int k, double rho) const;
    double GetAuxiliaryB(int k, double rho) const;
    double GetAuxiliaryD(int la, int lb, int m) const;

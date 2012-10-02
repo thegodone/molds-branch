@@ -177,6 +177,12 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2::GetElectronicTransitionDipoleMoment: Bad eigen state is set. In SCF module, the transition dipole moment of only between ground states can be calculated. Note taht state=0 means the ground state and other state = i means the i-th excited state in below.\n";
    this->errorMessageCalcFrequenciesNormalModesBadTheory
       = "Error in cndo::Cndo2::CalcFrequenciesNormalModesBadTheory: CNDO2 is not supported for frequency (normal mode) analysis.\n";
+   this->errorMessageCalcOverlapDifferentConfigurationsDiffAOs
+      = "Error in cndo::Cndo2::CalcOverlapDifferentConfigurations: Total number of AOs in lhs and rhs are different.\n";
+   this->errorMessageCalcOverlapDifferentConfigurationsDiffAtoms
+      = "Error in cndo::Cndo2::CalcOverlapDifferentConfigurations: Number Atoms in lhs and rhs are different.\n";
+   this->errorMessageLhs = "lhs: ";
+   this->errorMessageRhs = "rhs: ";
    this->errorMessageFromState = "\tfrom state = ";
    this->errorMessageToState = "\tto state = ";
    this->messageSCFMetConvergence = "\n\n\n\t\tCNDO/2-SCF met convergence criterion(^^b\n\n\n";
@@ -3466,6 +3472,74 @@ void Cndo2::FreeDiatomicOverlapAndRotatingMatrix(double*** diatomicOverlap,
    MallocerFreer::GetInstance()->Free<double>(rotatingMatrix,  OrbitalType_end, OrbitalType_end);
 }
 
+// calculate Overlap matrix between different configurations, S_{\mu\nu}.
+// \mu and \nu belong left and right hand side configurations, respectively.
+// S_{\mu\nu} = 0 when \mu and \nu belong different atom.
+void Cndo2::CalcOverlapDifferentConfigurations(double** overlap, 
+                                               const Molecule& lhsMolecule,
+                                               const Molecule& rhsMolecule) const{
+   if(lhsMolecule.GetTotalNumberAOs() != rhsMolecule.GetTotalNumberAOs()){
+      stringstream ss;
+      ss << this->errorMessageCalcOverlapDifferentConfigurationsDiffAOs;
+      ss << this->errorMessageLhs << lhsMolecule.GetTotalNumberAOs() << endl;
+      ss << this->errorMessageRhs << rhsMolecule.GetTotalNumberAOs() << endl;
+      throw MolDSException(ss.str());
+   }
+   if(lhsMolecule.GetNumberAtoms() != rhsMolecule.GetNumberAtoms()){
+      stringstream ss;
+      ss << this->errorMessageCalcOverlapDifferentConfigurationsDiffAtoms;
+      ss << this->errorMessageLhs << lhsMolecule.GetNumberAtoms() << endl;
+      ss << this->errorMessageRhs << rhsMolecule.GetNumberAtoms() << endl;
+      throw MolDSException(ss.str());
+   }
+   int totalAONumber = lhsMolecule.GetTotalNumberAOs();
+   int totalAtomNumber = lhsMolecule.GetNumberAtoms();
+
+   stringstream ompErrors;
+#pragma omp parallel 
+   {
+      double** diatomicOverlap = NULL;
+      double** rotatingMatrix = NULL;
+      try{
+         // malloc
+         MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlap,
+                                                      OrbitalType_end, 
+                                                      OrbitalType_end);
+         MallocerFreer::GetInstance()->Malloc<double>(&rotatingMatrix,
+                                                      OrbitalType_end, 
+                                                      OrbitalType_end);
+         // calculation overlap matrix
+         for(int mu=0; mu<totalAONumber; mu++){
+            overlap[mu][mu] = 1.0;
+         }
+         bool isSymmetricOverlap = false;
+#pragma omp for schedule(auto)
+         for(int A=0; A<totalAtomNumber; A++){
+            const Atom& lhsAtom = *lhsMolecule.GetAtom(A);
+            const Atom& rhsAtom = *rhsMolecule.GetAtom(A);
+            double rAtoms = sqrt( pow(lhsAtom.GetXyz()[XAxis] - rhsAtom.GetXyz()[XAxis], 2.0)
+                                 +pow(lhsAtom.GetXyz()[YAxis] - rhsAtom.GetXyz()[YAxis], 2.0)
+                                 +pow(lhsAtom.GetXyz()[ZAxis] - rhsAtom.GetXyz()[ZAxis], 2.0));
+            if(rAtoms > 1.0e-13){
+               this->CalcDiatomicOverlapInDiatomicFrame(diatomicOverlap, lhsAtom, rhsAtom);
+               this->CalcRotatingMatrix(rotatingMatrix, lhsAtom, rhsAtom);
+               this->RotateDiatmicOverlapToSpaceFrame(diatomicOverlap, rotatingMatrix);
+               this->SetOverlapElement(overlap, diatomicOverlap, lhsAtom, rhsAtom);
+            }
+         }
+      }
+      catch(MolDSException ex){
+#pragma omp critical
+         ompErrors << ex.what() << endl ;
+      }
+      this->FreeDiatomicOverlapAndRotatingMatrix(&diatomicOverlap, &rotatingMatrix);
+   }
+   // Exception throwing for omp-region
+   if(!ompErrors.str().empty()){
+      throw MolDSException(ompErrors.str());
+   }
+}
+
 // calculate Overlap matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book.
 void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
    int totalAONumber = molecule.GetTotalNumberAOs();
@@ -5509,7 +5583,8 @@ void Cndo2::RotateDiatmicOverlapToSpaceFrame(double** diatomicOverlap,
 void Cndo2::SetOverlapElement(double** overlap, 
                               double const* const* diatomicOverlap, 
                               const Atom& atomA, 
-                              const Atom& atomB) const{
+                              const Atom& atomB,
+                              bool isSymmetricOverlap) const{
    if(diatomicOverlap==NULL){
       stringstream ss;
       ss << this->errorMessageSetOverlapElementNullDiaMatrix;
@@ -5530,7 +5605,9 @@ void Cndo2::SetOverlapElement(double** overlap,
          mu = firstAOIndexAtomA + i;      
          nu = firstAOIndexAtomB + j;      
          overlap[mu][nu] = diatomicOverlap[orbitalA][orbitalB];
-         overlap[nu][mu] = diatomicOverlap[orbitalA][orbitalB];
+         if(isSymmetricOverlap){
+            overlap[nu][mu] = diatomicOverlap[orbitalA][orbitalB];
+         }
       }
    }
 
