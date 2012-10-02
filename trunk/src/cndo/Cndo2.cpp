@@ -3488,7 +3488,8 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
          for(int mu=0; mu<totalAONumber; mu++){
             overlap[mu][mu] = 1.0;
          }
-
+         
+         bool isSymmetircOverlap = true;
 #pragma omp for schedule(auto)
          for(int A=0; A<totalAtomNumber; A++){
             const Atom& atomA = *molecule.GetAtom(A);
@@ -3497,7 +3498,7 @@ void Cndo2::CalcOverlap(double** overlap, const Molecule& molecule) const{
                this->CalcDiatomicOverlapInDiatomicFrame(diatomicOverlap, atomA, atomB);
                this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
                this->RotateDiatmicOverlapToSpaceFrame(diatomicOverlap, rotatingMatrix);
-               this->SetOverlapElement(overlap, diatomicOverlap, atomA, atomB);
+               this->SetOverlapElement(overlap, diatomicOverlap, atomA, atomB, isSymmetircOverlap);
             }
          }
       }
@@ -5509,7 +5510,8 @@ void Cndo2::RotateDiatmicOverlapToSpaceFrame(double** diatomicOverlap,
 void Cndo2::SetOverlapElement(double** overlap, 
                               double const* const* diatomicOverlap, 
                               const Atom& atomA, 
-                              const Atom& atomB) const{
+                              const Atom& atomB,
+                              bool isSymmetircOverlap) const{
    if(diatomicOverlap==NULL){
       stringstream ss;
       ss << this->errorMessageSetOverlapElementNullDiaMatrix;
@@ -5530,7 +5532,9 @@ void Cndo2::SetOverlapElement(double** overlap,
          mu = firstAOIndexAtomA + i;      
          nu = firstAOIndexAtomB + j;      
          overlap[mu][nu] = diatomicOverlap[orbitalA][orbitalB];
-         overlap[nu][mu] = diatomicOverlap[orbitalA][orbitalB];
+         if(isSymmetircOverlap){
+            overlap[nu][mu] = diatomicOverlap[orbitalA][orbitalB];
+         }
       }
    }
 
