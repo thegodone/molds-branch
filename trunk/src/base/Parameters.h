@@ -173,6 +173,15 @@ public:
    void          SetNumberBeadsRPMD(int numberBeads);
    unsigned long GetSeedRPMD() const;
    void          SetSeedRPMD(unsigned long seed);
+   // NASCO
+   int           GetTotalStepsNASCO() const;
+   void          SetTotalStepsNASCO(int totalSteps);
+   int           GetNumberElectronicStatesNASCO() const;
+   void          SetNumberElectronicStatesNASCO(int NumberElectronicStates);
+   unsigned long GetSeedNASCO() const;
+   void          SetSeedNASCO(unsigned long seed);
+   double        GetTimeWidthNASCO() const;
+   void          SetTimeWidthNASCO(double stepWidth);
    // Optimization
    OptimizationMethodType GetMethodOptimization() const;
    void                   SetMethodOptimization(OptimizationMethodType method);
@@ -284,6 +293,11 @@ private:
    double        timeWidthRPMD;
    int           numberBeadsRPMD;
    unsigned long seedRPMD;
+   // NASCO
+   int           totalStepsNASCO;
+   int           numberElectronicStatesNASCO;
+   double        timeWidthNASCO;
+   unsigned long seedNASCO;
    // Optimization
    OptimizationMethodType methodOptimization;
    int                    totalStepsOptimization;

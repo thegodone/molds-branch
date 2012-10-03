@@ -48,6 +48,7 @@
 #include"../md/MD.h"
 #include"../mc/MC.h"
 #include"../rpmd/RPMD.h"
+#include"../nasco/NASCO.h"
 #include"../optimization/Optimizer.h"
 #include"factories/OptimizerFactory.h"
 #include"MolDS.h"
@@ -100,6 +101,11 @@ void MolDS::Run(int argc, char *argv[]) const{
    // RPMD
    else if(runningNormally && Parameters::GetInstance()->GetCurrentSimulation() == RPMD){
       this->DoRPMD(molecule, &runningNormally);
+   }
+
+   // NASCO
+   else if(runningNormally && Parameters::GetInstance()->GetCurrentSimulation() == NASCO){
+      this->DoNASCO(molecule, &runningNormally);
    }
 
    // Optimization
@@ -177,6 +183,17 @@ void MolDS::DoRPMD(Molecule* molecule, bool* runningNormally) const{
    try{
       boost::shared_ptr<MolDS_rpmd::RPMD> rpmd(new MolDS_rpmd::RPMD());
       rpmd->DoRPMD(*molecule);
+   }
+   catch(MolDSException ex){
+      this->OutputLog(boost::format("%s\n") % ex.what());
+      *runningNormally = false;
+   }
+}
+
+void MolDS::DoNASCO(Molecule* molecule, bool* runningNormally) const{
+   try{
+      boost::shared_ptr<MolDS_nasco::NASCO> nasco(new MolDS_nasco::NASCO());
+      nasco->DoNASCO(*molecule);
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
