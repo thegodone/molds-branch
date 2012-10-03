@@ -555,7 +555,7 @@ HOW TO WRITE INPUT:
          RPMD 
             total_steps 20
             electronic_state 0
-            num_electronic_state 10
+            num_electronic_states 10
             temperature 100
             seed 398
             num_beads 20
