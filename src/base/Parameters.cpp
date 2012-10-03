@@ -184,6 +184,11 @@ void Parameters::SetDefaultValues(){
    this->temperatureRPMD            = 300;
    this->numberBeadsRPMD            = 10;
    this->seedRPMD                   = static_cast<unsigned long>(time(0));
+   // NASCO
+   this->numberElectronicStatesNASCO = 3;
+   this->totalStepsNASCO             = 10;
+   this->timeWidthNASCO              = 0.1*this->fs2AU;
+   this->seedNASCO                   = static_cast<unsigned long>(time(0));
    // Optimization 
    this->methodOptimization               = ConjugateGradientMethod;
    this->totalStepsOptimization           = 50;
@@ -797,6 +802,39 @@ unsigned long Parameters::GetSeedRPMD() const{
 
 void Parameters::SetSeedRPMD(unsigned long seed){
    this->seedRPMD = seed;
+}
+
+// methods for NASCO
+int Parameters::GetTotalStepsNASCO() const{
+   return this->totalStepsNASCO;
+}
+
+void Parameters::SetTotalStepsNASCO(int totalSteps){
+   this->totalStepsNASCO = totalSteps;
+}
+
+int Parameters::GetNumberElectronicStatesNASCO() const{
+   return this->numberElectronicStatesNASCO;
+}
+
+void Parameters::SetNumberElectronicStatesNASCO(int numberElectronicStates){
+   this->numberElectronicStatesNASCO = numberElectronicStates;
+}
+
+double Parameters::GetTimeWidthNASCO() const{
+   return this->timeWidthNASCO;
+}
+
+void Parameters::SetTimeWidthNASCO(double timeWidth){
+   this->timeWidthNASCO = timeWidth;
+}
+
+unsigned long Parameters::GetSeedNASCO() const{
+   return this->seedNASCO;
+}
+
+void Parameters::SetSeedNASCO(unsigned long seed){
+   this->seedNASCO = seed;
 }
 
 // Optimization

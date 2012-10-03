@@ -28,8 +28,7 @@ class NASCO : public MolDS_base::PrintController{
 public:
    NASCO();
    ~NASCO();
-   void SetMolecule(MolDS_base::Molecule* molecule);
-   void DoNASCO();
+   void DoNASCO(MolDS_base::Molecule& molecule);
 private:
    std::string messageinitialConditionNASCO;
    std::string messageStartNASCO;
@@ -48,14 +47,13 @@ private:
    std::string messageTime;
    std::string errorMessageNotEnebleTheoryType;
    std::string errorMessageTheoryType;
-   MolDS_base::Molecule* molecule;
    std::vector<MolDS_base::TheoryType> enableTheoryTypes;
    void CheckEnableTheoryType(MolDS_base::TheoryType theoryType);
    void SetMessages();
    void SetEnableTheoryTypes();
-   void UpdateMomenta(const MolDS_base::Molecule& molecule, double const* const* matrixForce, double dt) const;
-   void OutputEnergies(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, double initialEnergy);
-   double OutputEnergies(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure);
+   void UpdateMomenta(MolDS_base::Molecule& molecule, double const* const* matrixForce, double dt) const;
+   void OutputEnergies(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, double initialEnergy, const MolDS_base::Molecule& molecule);
+   double OutputEnergies(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, const MolDS_base::Molecule& molecule);
 };
 
 }
