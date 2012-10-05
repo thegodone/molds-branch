@@ -359,23 +359,23 @@ void InputParser::SetMessages(){
 vector<string> InputParser::GetInputTerms(int argc, char *argv[]) const{
    vector<string> inputTerms;
    if(argc==1){
-      this->AddInputTermsFromStdRedirect(inputTerms);
+      this->StoreInputTermsFromRedirect(inputTerms);
    }
    else{
       char* fileName = argv[1];
-      this->AddInputTermsFromFile(inputTerms,fileName);
+      this->StoreInputTermsFromFile(inputTerms,fileName);
    }
    return inputTerms;
 }
 
-void InputParser::AddInputTermsFromStdRedirect(vector<string>& inputTerms) const{
+void InputParser::StoreInputTermsFromRedirect(vector<string>& inputTerms) const{
    string str;
    while(getline(cin, str)){
       this->AddInputTermsFromString(inputTerms, str);
    }
 }
 
-void InputParser::AddInputTermsFromFile(vector<string>& inputTerms, char* fileName) const{
+void InputParser::StoreInputTermsFromFile(vector<string>& inputTerms, char* fileName) const{
    string str;
    fstream ifs(fileName);
    while(getline(ifs, str)){

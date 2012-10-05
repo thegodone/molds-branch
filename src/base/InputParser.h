@@ -300,8 +300,8 @@ private:
    void OutputInputTerms(std::vector<std::string> inputTerms) const;
    bool IsCommentOut(std::string str) const;
    std::vector<std::string> GetInputTerms(int argc, char *argv[]) const;
-   void AddInputTermsFromStdRedirect(std::vector<std::string>& inputTerms) const;
-   void AddInputTermsFromFile(std::vector<std::string>& inputTerms, char* fileName) const;
+   void StoreInputTermsFromRedirect(std::vector<std::string>& inputTerms) const;
+   void StoreInputTermsFromFile(std::vector<std::string>& inputTerms, char* fileName) const;
    void AddInputTermsFromString(std::vector<std::string>& inputTerms, std::string str) const;
    int ParseMolecularGeometry(Molecule* molecule, std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseTheory(std::vector<std::string>* inputTerms, int parseIndex) const;
