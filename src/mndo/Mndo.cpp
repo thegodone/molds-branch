@@ -2860,26 +2860,28 @@ void Mndo::FreeTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoC
 void Mndo::CalcMatrixCPHF(double** matrixCPHF, 
                           const vector<MoIndexPair>& nonRedundantQIndeces,
                           const vector<MoIndexPair>& redundantQIndeces) const{
+   int dimensionCPHF = nonRedundantQIndeces.size() + redundantQIndeces.size();
    double* occupations = NULL;
-   MallocerFreer::GetInstance()->Malloc<double>(&occupations, nonRedundantQIndeces.size()+redundantQIndeces.size());
+   MallocerFreer::GetInstance()->Malloc<double>(&occupations, dimensionCPHF);
    stringstream ompErrors;
 #pragma omp parallel 
    {
       try{
          // calc diagonal part of N
 #pragma omp for schedule(auto)
-         for(int i=0; i<nonRedundantQIndeces.size(); i++){
-            int moI = nonRedundantQIndeces[i].moI;
-            int moJ = nonRedundantQIndeces[i].moJ;
-            occupations[i] = this->GetNNRElement(moI, moJ, moI, moJ);
+         for(int i=0; i<dimensionCPHF; i++){
+            if(i<nonRedundantQIndeces.size()){
+               int moI = nonRedundantQIndeces[i].moI;
+               int moJ = nonRedundantQIndeces[i].moJ;
+               occupations[i] = this->GetNNRElement(moI, moJ, moI, moJ);
+            }
+            else{
+               int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
+               int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
+               occupations[i] = this->GetNRElement(moI, moJ, moI, moJ);
+            }
          }
-#pragma omp for schedule(auto)
-         for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
-            int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
-            int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
-            occupations[i] = this->GetNRElement(moI, moJ, moI, moJ);
-         }
-   
+
          // calc (\Gamma - K)N
 #pragma omp for schedule(auto)
          for(int i=0; i<nonRedundantQIndeces.size(); i++){
@@ -2894,7 +2896,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          }  
    
 #pragma omp for schedule(auto)
-         for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
+         for(int i=nonRedundantQIndeces.size(); i<dimensionCPHF; i++){
             int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
             int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
             for(int j=0; j<nonRedundantQIndeces.size(); j++){
@@ -2905,7 +2907,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          }
    
 #pragma omp for schedule(auto)
-         for(int i=nonRedundantQIndeces.size(); i<nonRedundantQIndeces.size()+redundantQIndeces.size(); i++){
+         for(int i=nonRedundantQIndeces.size(); i<dimensionCPHF; i++){
             int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
             int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
             matrixCPHF[i][i] = this->GetGammaRElement(moI, moJ, moI, moJ)*occupations[i];
@@ -2916,7 +2918,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          ompErrors << ex.what() << endl;
       }
    }
-   MallocerFreer::GetInstance()->Free<double>(&occupations, nonRedundantQIndeces.size()+redundantQIndeces.size());
+   MallocerFreer::GetInstance()->Free<double>(&occupations, dimensionCPHF);
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
       throw MolDSException(ompErrors.str());
