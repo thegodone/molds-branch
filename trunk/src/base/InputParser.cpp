@@ -72,6 +72,8 @@ void InputParser::DeleteInstance(){
 }
 
 void InputParser::SetMessages(){
+   this->errorMessageNotFoundInputFile
+      = "Error in base::InputParser::StoreInputTermsFromFile: Not found.\n"; 
    this->errorMessageNonValidExcitedStatesMD
       = "Error in base::InputParser::ValidateMdConditions: Excited state on which MD runs or CIS condition are wrong.\n";
    this->errorMessageNonValidExcitedStatesMC
@@ -89,6 +91,7 @@ void InputParser::SetMessages(){
    this->errorMessageNonValidTheoryFrequencies
       = "Error in base::InputParser::ValidateFrequenciesConditions: CNDO2, INDO, and ZINDO/S are supported for the frequencies (normal modes) analysis.\n";
    this->errorMessageElecState = "Electronic eigenstate: ";
+   this->errorMessageInputFile = "Inputfile: "; 
    this->errorMessageTheory = "Theory: ";
    this->errorMessageNumberExcitedStateCIS = "Number of CIS excited states: ";
    this->errorMessageNumberElectronicStatesNASCO = "Number of electronic states for NASCO: ";
@@ -378,6 +381,13 @@ void InputParser::StoreInputTermsFromRedirect(vector<string>& inputTerms) const{
 void InputParser::StoreInputTermsFromFile(vector<string>& inputTerms, char* fileName) const{
    string str;
    fstream ifs(fileName);
+   if (ifs.fail()) { 
+      stringstream ss;
+      ss << this->errorMessageNotFoundInputFile; 
+      ss << this->errorMessageInputFile << fileName << endl; 
+      throw MolDSException(ss.str()); 
+   }
+
    while(getline(ifs, str)){
       this->AddInputTermsFromString(inputTerms, str);
    }
