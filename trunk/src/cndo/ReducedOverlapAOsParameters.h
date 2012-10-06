@@ -16,14 +16,14 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_REDUCED_OVERLAP_PARAMETERS
-#define INCLUDED_REDUCED_OVERLAP_PARAMETERS
+#ifndef INCLUDED_REDUCED_OVERLAP_AOS_PARAMETERS
+#define INCLUDED_REDUCED_OVERLAP_AOS_PARAMETERS
 
 namespace MolDS_cndo{
 // These parameters are calculated with {$MolDS_TOP}/tools/paramYZ 
-const double Cndo2::ReducedOverlapParameters::Z[2*MolDS_base::ShellType_end]
-                                               [2*MolDS_base::ShellType_end]
-                                               [4*MolDS_base::ShellType_end-1] = {
+const double Cndo2::ReducedOverlapAOsParameters::Z[2*MolDS_base::ShellType_end]
+                                                  [2*MolDS_base::ShellType_end]
+                                                  [4*MolDS_base::ShellType_end-1] = {
 	1.000000, 
 	0.000000, 
 	0.000000, 
@@ -423,13 +423,13 @@ const double Cndo2::ReducedOverlapParameters::Z[2*MolDS_base::ShellType_end]
 };
 
 // These parameters are calculated with {$MolDS_TOP}/tools/paramYZ 
-const double Cndo2::ReducedOverlapParameters::Y[MolDS_base::ShellType_end+1]
-                                               [MolDS_base::ShellType_end+1]
-                                               [MolDS_base::ShellType_end]
-                                               [MolDS_base::ShellType_end]
-                                               [MolDS_base::ShellType_end]
-                                               [2*MolDS_base::ShellType_end+1]
-                                               [2*MolDS_base::ShellType_end+1] = {
+const double Cndo2::ReducedOverlapAOsParameters::Y[MolDS_base::ShellType_end+1]
+                                                  [MolDS_base::ShellType_end+1]
+                                                  [MolDS_base::ShellType_end]
+                                                  [MolDS_base::ShellType_end]
+                                                  [MolDS_base::ShellType_end]
+                                                  [2*MolDS_base::ShellType_end+1]
+                                                  [2*MolDS_base::ShellType_end+1] = {
 	0.000000, 
 	0.000000, 
 	0.000000, 

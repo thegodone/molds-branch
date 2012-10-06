@@ -151,7 +151,7 @@ double Indo::GetFockOffDiagElement(const Atom& atomA,
                                    int nu, 
                                    const Molecule& molecule, 
                                    double const* const* gammaAB, 
-                                   double const* const* overlap,
+                                   double const* const* overlapAOs,
                                    double const* const* orbitalElectronPopulation, 
                                    double const* const* const* const* const* const* twoElecTwoCore,
                                    bool isGuess) const{
@@ -160,7 +160,7 @@ double Indo::GetFockOffDiagElement(const Atom& atomA,
    double bondParameter = 0.5*K*(atomA.GetBondingParameter() + atomB.GetBondingParameter()); 
 
    if(isGuess){
-      value = bondParameter*overlap[mu][nu];
+      value = bondParameter*overlapAOs[mu][nu];
    }
    else{
       double coulomb = 0.0;
@@ -173,7 +173,7 @@ double Indo::GetFockOffDiagElement(const Atom& atomA,
          value = (1.5*exchange - 0.5*coulomb)*orbitalElectronPopulation[mu][nu];
       }
       else{
-         value = bondParameter*overlap[mu][nu];
+         value = bondParameter*overlapAOs[mu][nu];
          value -= 0.5*orbitalElectronPopulation[mu][nu]*gammaAB[indexAtomA][indexAtomB];
       }
    }

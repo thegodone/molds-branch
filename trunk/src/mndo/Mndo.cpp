@@ -440,7 +440,7 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
                                    int nu, 
                                    const Molecule& molecule, 
                                    double const* const* gammaAB, 
-                                   double const* const* overlap,
+                                   double const* const* overlapAOs,
                                    double const* const* orbitalElectronPopulation, 
                                    double const* const* const* const* const* const* twoElecTwoCore, 
                                    bool isGuess) const{
@@ -454,7 +454,7 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
    double bondParameter = 0.5*(atomA.GetBondingParameter(this->theory, orbitalMu) 
                               +atomB.GetBondingParameter(this->theory, orbitalNu)); 
    if(isGuess){
-      value = bondParameter*overlap[mu+firstAOIndexA][nu+firstAOIndexB];
+      value = bondParameter*overlapAOs[mu+firstAOIndexA][nu+firstAOIndexB];
    }
    else{
       double coulomb = 0.0;
@@ -485,7 +485,7 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
          }
       }
       else{
-         temp = bondParameter*overlap[mu+firstAOIndexA][nu+firstAOIndexB];
+         temp = bondParameter*overlapAOs[mu+firstAOIndexA][nu+firstAOIndexB];
          for(int sigma=0; sigma<atomA.GetValenceSize(); sigma++){
             for(int lambda=0; lambda<atomB.GetValenceSize(); lambda++){
                temp -= 0.5*orbitalElectronPopulation[lambda+firstAOIndexB]
@@ -585,26 +585,26 @@ double Mndo::GetElectronCoreAttraction1stDerivative(int indexAtomA,
    return value;
 }
 
-void Mndo::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap, 
-                                              const Atom& atomA, 
-                                              const Atom& atomB) const{
-   MolDS_cndo::Cndo2::CalcDiatomicOverlapInDiatomicFrame(diatomicOverlap, atomA, atomB);
+void Mndo::CalcDiatomicOverlapAOsInDiatomicFrame(double** diatomicOverlapAOs, 
+                                                 const Atom& atomA, 
+                                                 const Atom& atomB) const{
+   MolDS_cndo::Cndo2::CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, atomA, atomB);
 }
 
 // First derivative of (B.40) in J. A. Pople book without bond corrections.
-void Mndo::CalcDiatomicOverlap1stDerivativeInDiatomicFrame(double** diatomicOverlapDeri, 
-                                                           const Atom& atomA, 
-                                                           const Atom& atomB) const{
-   MolDS_cndo::Cndo2::CalcDiatomicOverlap1stDerivativeInDiatomicFrame(
-                      diatomicOverlapDeri,atomA, atomB);
+void Mndo::CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(double** diatomicOverlapAOsDeri, 
+                                                              const Atom& atomA, 
+                                                              const Atom& atomB) const{
+   MolDS_cndo::Cndo2::CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(
+                      diatomicOverlapAOsDeri,atomA, atomB);
 }
 
 // Second derivative of (B.40) in J. A. Pople book without bond corrections.
-void Mndo::CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(double** diatomicOverlap2ndDeri, 
+void Mndo::CalcDiatomicOverlapAOs2ndDerivativeInDiatomicFrame(double** diatomicOverlapAOs2ndDeri, 
                                                               const Atom& atomA, 
                                                               const Atom& atomB) const{
-   MolDS_cndo::Cndo2::CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(
-                      diatomicOverlap2ndDeri,atomA, atomB);
+   MolDS_cndo::Cndo2::CalcDiatomicOverlapAOs2ndDerivativeInDiatomicFrame(
+                      diatomicOverlapAOs2ndDeri,atomA, atomB);
 }
 
 // The order of mol, moJ, moK, moL is consistent with Eq. (9) in [RZ_1973]
@@ -1833,16 +1833,16 @@ void Mndo::CalcXiMatrices(double** xiOcc,
    }
 }
 
-void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlap1stDerivs,
-                                                      double****** diatomicOverlap2ndDerivs,
+void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlapAOs1stDerivs,
+                                                      double****** diatomicOverlapAOs2ndDerivs,
                                                       double******* diatomicTwoElecTwoCore1stDerivs,
                                                       double******** diatomicTwoElecTwoCore2ndDerivs) const{
-   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlap1stDerivs,
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDerivs,
                                                 this->molecule->GetNumberAtoms(),
                                                 OrbitalType_end,
                                                 OrbitalType_end,
                                                 CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlap2ndDerivs,
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs2ndDerivs,
                                                 this->molecule->GetNumberAtoms(),
                                                 OrbitalType_end,
                                                 OrbitalType_end,
@@ -1865,16 +1865,16 @@ void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverla
                                                 CartesianType_end);
 }
 
-void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double***** diatomicOverlap1stDerivs,
-                                                    double****** diatomicOverlap2ndDerivs,
-                                                    double******* diatomicTwoElecTwoCore1stDerivs,
+void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverlapAOs1stDerivs,
+                                                    double******   diatomicOverlapAOs2ndDerivs,
+                                                    double*******  diatomicTwoElecTwoCore1stDerivs,
                                                     double******** diatomicTwoElecTwoCore2ndDerivs) const{
-   MallocerFreer::GetInstance()->Free<double>(diatomicOverlap1stDerivs,
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDerivs,
                                               this->molecule->GetNumberAtoms(),
                                               OrbitalType_end,
                                               OrbitalType_end,
                                               CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(diatomicOverlap2ndDerivs,
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs2ndDerivs,
                                               this->molecule->GetNumberAtoms(),
                                               OrbitalType_end,
                                               OrbitalType_end,
@@ -2011,7 +2011,7 @@ double Mndo::GetAuxiliaryHessianElement5(int mu,
                                          CartesianType axisA1,
                                          CartesianType axisA2,
                                          double const* const* orbitalElectronPopulation,
-                                         double const* const* const* const* diatomicOverlap2ndDerivs) const{
+                                         double const* const* const* const* diatomicOverlapAOs2ndDerivs) const{
    const Atom& atomA = *molecule->GetAtom(indexAtomA);
    const Atom& atomC = *molecule->GetAtom(indexAtomC);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -2021,7 +2021,7 @@ double Mndo::GetAuxiliaryHessianElement5(int mu,
    double sumBondParameters = bondParameterA+bondParameterC;
    double value = orbitalElectronPopulation[mu][lambda]
                  *sumBondParameters
-                 *diatomicOverlap2ndDerivs[mu-firstAOIndexA]
+                 *diatomicOverlapAOs2ndDerivs[mu-firstAOIndexA]
                                              [lambda-firstAOIndexC]
                                              [axisA1]
                                              [axisA2];
@@ -2039,7 +2039,7 @@ double Mndo::GetAuxiliaryHessianElement6(int mu,
                                          CartesianType axisA,
                                          CartesianType axisB,
                                          double const* const* const* const* orbitalElectronPopulation1stDerivs,
-                                         double const* const* const* diatomicOverlap1stDerivs) const{
+                                         double const* const* const* diatomicOverlapAOs1stDerivs) const{
    const Atom& atomA = *molecule->GetAtom(indexAtomA);
    const Atom& atomC = *molecule->GetAtom(indexAtomC);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -2052,9 +2052,9 @@ double Mndo::GetAuxiliaryHessianElement6(int mu,
                                                     [indexAtomB]
                                                     [axisB]
                  *sumBondParameters
-                 *diatomicOverlap1stDerivs[mu-firstAOIndexA]
-                                          [lambda-firstAOIndexC]
-                                          [axisA];
+                 *diatomicOverlapAOs1stDerivs[mu-firstAOIndexA]
+                                             [lambda-firstAOIndexC]
+                                             [axisA];
    return value;
 }
 
@@ -2131,8 +2131,8 @@ double Mndo::GetHessianElementSameAtomsSCF(int indexAtomA,
                                            CartesianType axisA2,
                                            double const* const*               orbitalElectronPopulation,
                                            double const* const* const* const* orbitalElectronPopulation1stDerivs,
-                                           double const* const* const* const*        diatomicOverlap1stDerivs,
-                                           double const* const* const* const* const* diatomicOverlap2ndDerivs,
+                                           double const* const* const* const*        diatomicOverlapAOs1stDerivs,
+                                           double const* const* const* const* const* diatomicOverlapAOs2ndDerivs,
                                            double const* const* const* const* const* const*        diatomicTwoElecTwoCore1stDerivs,
                                            double const* const* const* const* const* const* const* diatomicTwoElecTwoCore2ndDerivs) const{
    double value=0.0;
@@ -2198,7 +2198,7 @@ double Mndo::GetHessianElementSameAtomsSCF(int indexAtomA,
                                                           static_cast<CartesianType>(axisA1), 
                                                           static_cast<CartesianType>(axisA2), 
                                                           orbitalElectronPopulation,
-                                                          diatomicOverlap2ndDerivs[indexAtomC]);
+                                                          diatomicOverlapAOs2ndDerivs[indexAtomC]);
                value += this->GetAuxiliaryHessianElement6(mu, 
                                                           lambda, 
                                                           indexAtomA,
@@ -2207,7 +2207,7 @@ double Mndo::GetHessianElementSameAtomsSCF(int indexAtomA,
                                                           static_cast<CartesianType>(axisA1), 
                                                           static_cast<CartesianType>(axisA2), 
                                                           orbitalElectronPopulation1stDerivs,
-                                                          diatomicOverlap1stDerivs[indexAtomC]);
+                                                          diatomicOverlapAOs1stDerivs[indexAtomC]);
             }
          }
          for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
@@ -2268,8 +2268,8 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int indexAtomA,
                                                 CartesianType axisB,
                                                 double const* const*               orbitalElectronPopulation,
                                                 double const* const* const* const* orbitalElectronPopulation1stDerivs,
-                                                double const* const* const* const*        diatomicOverlap1stDerivs,
-                                                double const* const* const* const* const* diatomicOverlap2ndDerivs,
+                                                double const* const* const* const*        diatomicOverlapAOs1stDerivs,
+                                                double const* const* const* const* const* diatomicOverlapAOs2ndDerivs,
                                                 double const* const* const* const* const* const*        diatomicTwoElecTwoCore1stDerivs,
                                                 double const* const* const* const* const* const* const* diatomicTwoElecTwoCore2ndDerivs) const{
    double value=0.0;
@@ -2314,7 +2314,7 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int indexAtomA,
                                                     static_cast<CartesianType>(axisA), 
                                                     static_cast<CartesianType>(axisB), 
                                                     orbitalElectronPopulation,
-                                                    diatomicOverlap2ndDerivs[indexAtomB]);
+                                                    diatomicOverlapAOs2ndDerivs[indexAtomB]);
       }
    }
    for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
@@ -2379,7 +2379,7 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int indexAtomA,
                                                           static_cast<CartesianType>(axisA), 
                                                           static_cast<CartesianType>(axisB), 
                                                           orbitalElectronPopulation1stDerivs,
-                                                          diatomicOverlap1stDerivs[indexAtomC]);
+                                                          diatomicOverlapAOs1stDerivs[indexAtomC]);
             }
          }
          for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
@@ -2436,12 +2436,12 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
       stringstream ompErrors;
 #pragma omp parallel
       {
-         double****    diatomicOverlap1stDerivs = NULL;
-         double*****   diatomicOverlap2ndDerivs = NULL;
+         double****    diatomicOverlapAOs1stDerivs = NULL;
+         double*****   diatomicOverlapAOs2ndDerivs = NULL;
          double******  diatomicTwoElecTwoCore1stDerivs = NULL;
          double******* diatomicTwoElecTwoCore2ndDerivs = NULL;
-         this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicOverlap1stDerivs,
-                                                          &diatomicOverlap2ndDerivs,
+         this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicOverlapAOs1stDerivs,
+                                                          &diatomicOverlapAOs2ndDerivs,
                                                           &diatomicTwoElecTwoCore1stDerivs, 
                                                           &diatomicTwoElecTwoCore2ndDerivs);
          try{
@@ -2452,15 +2452,15 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                int lastAOIndexA  = atomA.GetLastAOIndex();
                for(int axisA = XAxis; axisA<CartesianType_end; axisA++){
             
-                  // calculation of derivatives of the overlaps and two electron integrals
+                  // calculation of derivatives of the overlapAOss and two electron integrals
                   for(int indexAtomB=0; indexAtomB<this->molecule->GetNumberAtoms(); indexAtomB++){
                      if(indexAtomA != indexAtomB){
-                        this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs[indexAtomB], 
-                                                                indexAtomA, 
-                                                                indexAtomB);
-                        this->CalcDiatomicOverlap2ndDerivatives(diatomicOverlap2ndDerivs[indexAtomB], 
-                                                                indexAtomA, 
-                                                                indexAtomB);
+                        this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs[indexAtomB], 
+                                                                   indexAtomA, 
+                                                                   indexAtomB);
+                        this->CalcDiatomicOverlapAOs2ndDerivatives(diatomicOverlapAOs2ndDerivs[indexAtomB], 
+                                                                   indexAtomA, 
+                                                                   indexAtomB);
                         this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs[indexAtomB], 
                                                                        indexAtomA, 
                                                                        indexAtomB);
@@ -2484,8 +2484,8 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                                                        static_cast<CartesianType>(axisB), 
                                                                                        orbitalElectronPopulation,
                                                                                        orbitalElectronPopulation1stDerivs,
-                                                                                       diatomicOverlap1stDerivs,
-                                                                                       diatomicOverlap2ndDerivs,
+                                                                                       diatomicOverlapAOs1stDerivs,
+                                                                                       diatomicOverlapAOs2ndDerivs,
                                                                                        diatomicTwoElecTwoCore1stDerivs,
                                                                                        diatomicTwoElecTwoCore2ndDerivs);
                            if(isMassWeighted){
@@ -2502,8 +2502,8 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                                                   static_cast<CartesianType>(axisA2), 
                                                                                   orbitalElectronPopulation,
                                                                                   orbitalElectronPopulation1stDerivs,
-                                                                                  diatomicOverlap1stDerivs,
-                                                                                  diatomicOverlap2ndDerivs,
+                                                                                  diatomicOverlapAOs1stDerivs,
+                                                                                  diatomicOverlapAOs2ndDerivs,
                                                                                   diatomicTwoElecTwoCore1stDerivs,
                                                                                   diatomicTwoElecTwoCore2ndDerivs);
                            if(isMassWeighted){
@@ -2520,8 +2520,8 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
 #pragma omp critical
             ompErrors << ex.what() << endl;
          }
-         this->FreeTempMatricesEachThreadCalcHessianSCF(&diatomicOverlap1stDerivs,
-                                                        &diatomicOverlap2ndDerivs,
+         this->FreeTempMatricesEachThreadCalcHessianSCF(&diatomicOverlapAOs1stDerivs,
+                                                        &diatomicOverlapAOs2ndDerivs,
                                                         &diatomicTwoElecTwoCore1stDerivs, 
                                                         &diatomicTwoElecTwoCore2ndDerivs);
       }// end of omp-region
@@ -2705,10 +2705,10 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
    MallocerFreer::GetInstance()->Initialize<double>(staticFirstOrderFock,
                                                     nonRedundantQIndeces.size()+redundantQIndeces.size());
    double***** diatomicTwoElecTwoCore1stDerivs = NULL;
-   double***   diatomicOverlap1stDerivs = NULL;
+   double***   diatomicOverlapAOs1stDerivs = NULL;
    
    try{
-      this->MallocTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCore1stDerivs, &diatomicOverlap1stDerivs);
+      this->MallocTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCore1stDerivs, &diatomicOverlapAOs1stDerivs);
       const Atom& atomA = *molecule->GetAtom(indexAtomA);
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
@@ -2722,8 +2722,8 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
 
             // calc. first derivative of two elec two core interaction
             this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, indexAtomA, indexAtomB);
-            // calc. first derivative of overlap.
-            this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs, atomA, atomB);
+            // calc. first derivative of overlapAOs.
+            this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
 
             for(int i=0; i<nonRedundantQIndeces.size()+redundantQIndeces.size();i++){
                int moI=0, moJ=0;
@@ -2804,7 +2804,7 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                      *this->fockMatrix[moJ][mu]
                                     )
                                     *bondParameter
-                                    *diatomicOverlap1stDerivs[mu-firstAOIndexA][lambda-firstAOIndexB][axisA];
+                                    *diatomicOverlapAOs1stDerivs[mu-firstAOIndexA][lambda-firstAOIndexB][axisA];
                      staticFirstOrderFock[i] += temp4;
                         
                   } //lambda-loop
@@ -2814,10 +2814,10 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
       }
    }
    catch(MolDSException ex){
-      this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCore1stDerivs, &diatomicOverlap1stDerivs);
+      this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCore1stDerivs, &diatomicOverlapAOs1stDerivs);
       throw ex;
    }
-   this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCore1stDerivs, &diatomicOverlap1stDerivs);
+   this->FreeTempMatricesStaticFirstOrderFock(&diatomicTwoElecTwoCore1stDerivs, &diatomicOverlapAOs1stDerivs);
 
    /*
    printf("staticFirstOrderFock(atomA:%d axis:%s)\n",indexAtomA,CartesianTypeStr(axisA));
@@ -2828,28 +2828,28 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
 }
 
 void Mndo::MallocTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCore1stDeriv,
-                                                  double**** diatomicOverlap1stDeriv)const{
+                                                  double**** diatomicOverlapAOs1stDeriv)const{
    MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCore1stDeriv,
                                                 dxy,
                                                 dxy,
                                                 dxy,
                                                 dxy,
                                                 CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlap1stDeriv,
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDeriv,
                                                 OrbitalType_end, 
                                                 OrbitalType_end, 
                                                 CartesianType_end);
 }
 
 void Mndo::FreeTempMatricesStaticFirstOrderFock(double****** diatomicTwoElecTwoCore1stDeriv,
-                                                double**** diatomicOverlap1stDeriv)const{
+                                                double****   diatomicOverlapAOs1stDeriv)const{
    MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCore1stDeriv,
                                               dxy,
                                               dxy,
                                               dxy,
                                               dxy,
                                               CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(diatomicOverlap1stDeriv,
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDeriv,
                                               OrbitalType_end, 
                                               OrbitalType_end, 
                                               CartesianType_end);
@@ -3143,10 +3143,10 @@ void Mndo::CalcForceSCFElecCoreAttractionPart(double* force,
    }
 }
 
-void Mndo::CalcForceSCFOverlapPart(double* force, 
-                                  int indexAtomA, 
-                                  int indexAtomB,
-                                  double const* const* const* diatomicOverlap1stDerivs) const{
+void Mndo::CalcForceSCFOverlapAOsPart(double* force, 
+                                     int indexAtomA, 
+                                     int indexAtomB,
+                                     double const* const* const* diatomicOverlapAOs1stDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -3166,7 +3166,7 @@ void Mndo::CalcForceSCFOverlapPart(double* force,
             force[i] += -1.0
                        *this->orbitalElectronPopulation[mu][nu]
                        *bondParameter
-                       *diatomicOverlap1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
+                       *diatomicOverlapAOs1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
          }
       }
    }
@@ -3267,11 +3267,11 @@ void Mndo::CalcForceExcitedElecCoreAttractionPart(double* force,
    }
 }
 
-void Mndo::CalcForceExcitedOverlapPart(double* force, 
-                                       int elecStateIndex,
-                                       int indexAtomA, 
-                                       int indexAtomB,
-                                       double const* const* const* diatomicOverlap1stDerivs) const{
+void Mndo::CalcForceExcitedOverlapAOsPart(double* force, 
+                                          int elecStateIndex,
+                                          int indexAtomA, 
+                                          int indexAtomB,
+                                          double const* const* const* diatomicOverlapAOs1stDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -3291,7 +3291,7 @@ void Mndo::CalcForceExcitedOverlapPart(double* force,
             force[i] += -1.0
                        *this->zMatrixForce[elecStateIndex][mu][nu]
                        *bondParameter
-                       *diatomicOverlap1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
+                       *diatomicOverlapAOs1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
          }
       }
    }
@@ -3347,9 +3347,9 @@ void Mndo::CalcForce(const vector<int>& elecStates){
 #pragma omp parallel
    {
       double***** diatomicTwoElecTwoCore1stDerivs = NULL;
-      double*** diatomicOverlap1stDerivs = NULL;
+      double*** diatomicOverlapAOs1stDerivs = NULL;
       try{
-         this->MallocTempMatricesCalcForce(&diatomicOverlap1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
+         this->MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
 #pragma omp for schedule(auto)
          for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
             const Atom& atomA = *molecule->GetAtom(a);
@@ -3361,8 +3361,8 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                   int firstAOIndexB = atomB.GetFirstAOIndex();
                   int lastAOIndexB  = atomB.GetLastAOIndex();
 
-                  // calc. first derivative of overlap.
-                  this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs, atomA, atomB);
+                  // calc. first derivative of overlapAOs.
+                  this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
                   // calc. first derivative of two elec two core interaction
                   this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, a, b);
 
@@ -3382,12 +3382,12 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                            a,
                                                            b,
                                                            diatomicTwoElecTwoCore1stDerivs);
-                  // overlap part (ground state)
-                  double forceOverlapPart[CartesianType_end] = {0.0,0.0,0.0};
-                  this->CalcForceSCFOverlapPart(forceOverlapPart, 
-                                                a,
-                                                b,
-                                                diatomicOverlap1stDerivs);
+                  // overlapAOs part (ground state)
+                  double forceOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
+                  this->CalcForceSCFOverlapAOsPart(forceOverlapAOsPart, 
+                                                   a,
+                                                   b,
+                                                   diatomicOverlapAOs1stDerivs);
                   // two electron part (ground state)
                   double forceTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
                   this->CalcForceSCFTwoElecPart(forceTwoElecPart,
@@ -3401,10 +3401,10 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                         for(int i=0; i<CartesianType_end; i++){
                            this->matrixForce[n][a][i] -= coreRepulsion[i];
                            this->matrixForce[n][a][i] += forceElecCoreAttPart[i];
-                           this->matrixForce[n][a][i] += forceOverlapPart[i];
+                           this->matrixForce[n][a][i] += forceOverlapAOsPart[i];
                            this->matrixForce[n][a][i] += forceTwoElecPart[i];
                            this->matrixForce[n][b][i] -= forceElecCoreAttPart[i];
-                           this->matrixForce[n][b][i] -= forceOverlapPart[i];
+                           this->matrixForce[n][b][i] -= forceOverlapAOsPart[i];
                            this->matrixForce[n][b][i] -= forceTwoElecPart[i];
                         }
                      }
@@ -3437,29 +3437,29 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                    a,
                                                    b,
                                                    diatomicTwoElecTwoCore1stDerivs);
-                        // overlap part (excited state)
-                        double forceExcitedOverlapPart[CartesianType_end] = {0.0,0.0,0.0};
-                        this->CalcForceExcitedOverlapPart(forceExcitedOverlapPart, 
-                                                          n,
-                                                          a,
-                                                          b,
-                                                          diatomicOverlap1stDerivs);
+                        // overlapAOs part (excited state)
+                        double forceExcitedOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
+                        this->CalcForceExcitedOverlapAOsPart(forceExcitedOverlapAOsPart, 
+                                                             n,
+                                                             a,
+                                                             b,
+                                                             diatomicOverlapAOs1stDerivs);
                         // two electron part (ground state)
                         double forceExcitedTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
                         this->CalcForceExcitedTwoElecPart(forceExcitedTwoElecPart,
-                                                          n,
-                                                          a,
-                                                          b,
-                                                          diatomicTwoElecTwoCore1stDerivs);
+                                                             n,
+                                                             a,
+                                                             b,
+                                                             diatomicTwoElecTwoCore1stDerivs);
                         // sum up contributions from response part (excited state)
 #pragma omp critical
                         {
                            for(int i=0; i<CartesianType_end; i++){
                               this->matrixForce[n][a][i] += forceExcitedElecCoreAttPart[i];
-                              this->matrixForce[n][a][i] += forceExcitedOverlapPart[i];
+                              this->matrixForce[n][a][i] += forceExcitedOverlapAOsPart[i];
                               this->matrixForce[n][a][i] += forceExcitedTwoElecPart[i];
                               this->matrixForce[n][b][i] -= forceExcitedElecCoreAttPart[i];
-                              this->matrixForce[n][b][i] -= forceExcitedOverlapPart[i];
+                              this->matrixForce[n][b][i] -= forceExcitedOverlapAOsPart[i];
                               this->matrixForce[n][b][i] -= forceExcitedTwoElecPart[i];
                            }
                         }
@@ -3474,7 +3474,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
 #pragma omp critical
          ompErrors << ex.what() << endl ;
       }
-      this->FreeTempMatricesCalcForce(&diatomicOverlap1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
+      this->FreeTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
@@ -3482,8 +3482,8 @@ void Mndo::CalcForce(const vector<int>& elecStates){
    }
 }
 
-void Mndo::MallocTempMatricesCalcForce(double**** diatomicOverlap1stDerivs, double****** diatomicTwoElecTwoCore1stDerivs) const{
-   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlap1stDerivs, 
+void Mndo::MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, double****** diatomicTwoElecTwoCore1stDerivs) const{
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDerivs, 
                                                 OrbitalType_end,
                                                 OrbitalType_end,
                                                 CartesianType_end);
@@ -3495,8 +3495,8 @@ void Mndo::MallocTempMatricesCalcForce(double**** diatomicOverlap1stDerivs, doub
                                                 CartesianType_end);
 }
 
-void Mndo::FreeTempMatricesCalcForce(double**** diatomicOverlap1stDerivs, double****** diatomicTwoElecTwoCore1stDerivs) const{
-   MallocerFreer::GetInstance()->Free<double>(diatomicOverlap1stDerivs, 
+void Mndo::FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, double****** diatomicTwoElecTwoCore1stDerivs) const{
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDerivs, 
                                               OrbitalType_end,
                                               OrbitalType_end,
                                               CartesianType_end);
