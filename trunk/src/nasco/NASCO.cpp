@@ -56,18 +56,33 @@ NASCO::~NASCO(){
 
 void NASCO::DoNASCO(Molecule& molecule){
    this->OutputLog(this->messageStartNASCO);
-
-   // malloc electornic structure
    TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
    this->CheckEnableTheoryType(theory);
-   boost::shared_ptr<ElectronicStructure> electronicStructure(ElectronicStructureFactory::Create());
-   electronicStructure->SetMolecule(&molecule);
-   electronicStructure->SetCanOutputLogs(this->CanOutputLogs());
+
+   // create tmp molecule and electronic structure
+   Molecule tmpMolecule(molecule);
+
+   // malloc electornic structure 
+   boost::shared_ptr<ElectronicStructure> electronicStructure1(ElectronicStructureFactory::Create());
+   ElectronicStructure* currentES = electronicStructure1.get();
+   currentES->SetMolecule(&molecule);
+   currentES->SetCanOutputLogs(this->CanOutputLogs());
    molecule.SetCanOutputLogs(this->CanOutputLogs());
+
+   // create temporary electronic structure
+   boost::shared_ptr<ElectronicStructure> electronicStructure2(ElectronicStructureFactory::Create());
+   ElectronicStructure* tmpES = electronicStructure2.get();
+   tmpES->SetMolecule(&tmpMolecule);
+   tmpES->SetCanOutputLogs(this->CanOutputLogs());
+   tmpMolecule.SetCanOutputLogs(this->CanOutputLogs());
+
+   // create real random generator
+	boost::mt19937 realGenerator(Parameters::GetInstance()->GetSeedNASCO());
+	boost::uniform_real<> range(0, 1);
+	boost::variate_generator<boost::mt19937&, boost::uniform_real<> > realRand( realGenerator, range );
 
    const int totalSteps         = Parameters::GetInstance()->GetTotalStepsNASCO();
    const double dt              = Parameters::GetInstance()->GetTimeWidthNASCO();
-   const unsigned long seed     = Parameters::GetInstance()->GetSeedNASCO();
    const int numElecStatesNASCO = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
    int elecState                = 0; //Parameters::GetInstance()->GetElectronicStateIndexNASCO();
    double time                  = 0.0;
@@ -75,19 +90,14 @@ void NASCO::DoNASCO(Molecule& molecule){
    double** matrixForce         = NULL;
    double initialEnergy         = 0.0;
 
-   // create real random generator
-	boost::mt19937 realGenerator(seed);
-	boost::uniform_real<> range(0, 1);
-	boost::variate_generator<boost::mt19937&, boost::uniform_real<> > realRand( realGenerator, range );
-
    // initial calculation
-   electronicStructure->DoSCF();
-   electronicStructure->DoCIS();
-   matrixForce = electronicStructure->GetForce(elecState);
+   currentES->DoSCF();
+   currentES->DoCIS();
+   matrixForce = currentES->GetForce(elecState);
 
    // output initial conditions
    this->OutputLog(this->messageinitialConditionNASCO);
-   initialEnergy = this->OutputEnergies(electronicStructure, molecule);
+   initialEnergy = this->OutputEnergies(*currentES, molecule);
    this->OutputLog("\n");
    molecule.OutputConfiguration();
    molecule.OutputXyzCOM();
@@ -103,26 +113,34 @@ void NASCO::DoNASCO(Molecule& molecule){
       // update coordinates
       for(int a=0; a<molecule.GetNumberAtoms(); a++){
          Atom* atom = molecule.GetAtom(a);
-         double coreMass = atom->GetAtomicMass() - static_cast<double>(atom->GetNumberValenceElectrons());
+         Atom* tmpAtom  = tmpMolecule.GetAtom(a);
+         double coreMass = tmpAtom->GetAtomicMass() - static_cast<double>(tmpAtom->GetNumberValenceElectrons());
          for(int i=0; i<CartesianType_end; i++){
-            atom->GetXyz()[i] += dt*atom->GetPxyz()[i]/coreMass;
+            tmpAtom->GetXyz()[i] =  atom->GetXyz()[i] + dt*atom->GetPxyz()[i]/coreMass;
          }
       }
-      molecule.CalcXyzCOM();
-      molecule.CalcXyzCOC();
+      tmpMolecule.CalcXyzCOM();
+      tmpMolecule.CalcXyzCOC();
 
       // update electronic structure
-      electronicStructure->DoSCF(requireGuess);
-      electronicStructure->DoCIS();
+      requireGuess = (s==0);
+      tmpES->DoSCF(requireGuess);
+      tmpES->DoCIS();
 
       // update force
-      matrixForce = electronicStructure->GetForce(elecState);
+      matrixForce = tmpES->GetForce(elecState);
 
       // update momenta
       this->UpdateMomenta(molecule, matrixForce, dt);
 
+      // Synchronous molecular configuration and electronic states
+      this->SynchronousMolecularConfiguration(molecule, tmpMolecule);
+      swap(currentES, tmpES);
+      currentES->SetMolecule(&molecule);
+      tmpES->SetMolecule(&tmpMolecule);
+
       // output results
-      this->OutputEnergies(electronicStructure, initialEnergy, molecule);
+      this->OutputEnergies(*currentES, initialEnergy, molecule);
       molecule.OutputConfiguration();
       molecule.OutputXyzCOM();
       molecule.OutputXyzCOC();
@@ -142,6 +160,19 @@ void NASCO::UpdateMomenta(Molecule& molecule, double const* const* matrixForce, 
          atom->GetPxyz()[i] += 0.5*dt*(matrixForce[a][i]);
       }
    }
+}
+
+void NASCO::SynchronousMolecularConfiguration(Molecule& target, 
+                                              const Molecule& refference) const{
+   for(int a=0; a<target.GetNumberAtoms(); a++){
+      Atom& targetAtom = *target.GetAtom(a);
+      const Atom& refferenceAtom = *refference.GetAtom(a);
+      for(int i=0; i<CartesianType_end; i++){
+         targetAtom.GetXyz()[i] = refferenceAtom.GetXyz()[i];
+      }
+   }
+   target.CalcXyzCOC();
+   target.CalcXyzCOM();
 }
 
 void NASCO::SetMessages(){
@@ -165,8 +196,7 @@ void NASCO::SetMessages(){
    this->messageTime = "\tTime in [fs]: ";
 }
 
-double NASCO::OutputEnergies(boost::shared_ptr<ElectronicStructure> electronicStructure, 
-                             const Molecule& molecule){
+double NASCO::OutputEnergies(const ElectronicStructure& electronicStructure, const Molecule& molecule){
    int elecState = 0; //Parameters::GetInstance()->GetElectronicStateIndexNASCO();
    double eV2AU = Parameters::GetInstance()->GetEV2AU();
    double coreKineticEnergy = 0.0;
@@ -184,30 +214,28 @@ double NASCO::OutputEnergies(boost::shared_ptr<ElectronicStructure> electronicSt
                                                      % coreKineticEnergy
                                                      % (coreKineticEnergy/eV2AU));
    this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageCoreRepulsionEnergy.c_str()
-                                                     % electronicStructure->GetCoreRepulsionEnergy()
-                                                     % (electronicStructure->GetCoreRepulsionEnergy()/eV2AU));
+                                                     % electronicStructure.GetCoreRepulsionEnergy()
+                                                     % (electronicStructure.GetCoreRepulsionEnergy()/eV2AU));
    if(Parameters::GetInstance()->RequiresVdWSCF()){
       this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageVdWCorrectionEnergy.c_str()
-                                                        % electronicStructure->GetVdWCorrectionEnergy()
-                                                        % (electronicStructure->GetVdWCorrectionEnergy()/eV2AU));
+                                                        % electronicStructure.GetVdWCorrectionEnergy()
+                                                        % (electronicStructure.GetVdWCorrectionEnergy()/eV2AU));
       this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergyVdW.c_str()
-                                                        % electronicStructure->GetElectronicEnergy(elecState)
-                                                        % (electronicStructure->GetElectronicEnergy(elecState)/eV2AU));
+                                                        % electronicStructure.GetElectronicEnergy(elecState)
+                                                        % (electronicStructure.GetElectronicEnergy(elecState)/eV2AU));
    }
    else{
       this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageElectronicEnergy.c_str()
-                                                        % electronicStructure->GetElectronicEnergy(elecState)
-                                                        % (electronicStructure->GetElectronicEnergy(elecState)/eV2AU));
+                                                        % electronicStructure.GetElectronicEnergy(elecState)
+                                                        % (electronicStructure.GetElectronicEnergy(elecState)/eV2AU));
    }
    this->OutputLog(boost::format("\t\t%s\t%e\t%e\n") % this->messageTotalEnergy.c_str()
-                                                     % (coreKineticEnergy + electronicStructure->GetElectronicEnergy(elecState))
-                                                     % ((coreKineticEnergy + electronicStructure->GetElectronicEnergy(elecState))/eV2AU));
-   return (coreKineticEnergy + electronicStructure->GetElectronicEnergy(elecState));
+                                                     % (coreKineticEnergy + electronicStructure.GetElectronicEnergy(elecState))
+                                                     % ((coreKineticEnergy + electronicStructure.GetElectronicEnergy(elecState))/eV2AU));
+   return (coreKineticEnergy + electronicStructure.GetElectronicEnergy(elecState));
 }
 
-void NASCO::OutputEnergies(boost::shared_ptr<ElectronicStructure> electronicStructure, 
-                           double initialEnergy, 
-                           const Molecule& molecule){
+void NASCO::OutputEnergies(const ElectronicStructure& electronicStructure, double initialEnergy, const Molecule& molecule){
    double energy = this->OutputEnergies(electronicStructure, molecule);
    double eV2AU = Parameters::GetInstance()->GetEV2AU();
    this->OutputLog(boost::format("\t\t%s\t%e\t%e\n\n") % this->messageErrorEnergy.c_str()
