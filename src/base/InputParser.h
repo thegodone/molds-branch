@@ -31,6 +31,7 @@ private:
    InputParser();
    ~InputParser();
    void SetMessages();
+   std::string errorMessageNotFoundInputFile; 
    std::string errorMessageNonValidExcitedStatesMD;
    std::string errorMessageNonValidExcitedStatesMC;
    std::string errorMessageNonValidExcitedStatesRPMD;
@@ -40,6 +41,7 @@ private:
    std::string errorMessageNonValidElectronicStateFrequencies;
    std::string errorMessageNonValidTheoryFrequencies;
    std::string errorMessageElecState;
+   std::string errorMessageInputFile; 
    std::string errorMessageTheory;
    std::string errorMessageNumberExcitedStateCIS;
    std::string errorMessageNumberElectronicStatesNASCO;
