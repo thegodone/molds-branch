@@ -48,7 +48,7 @@ protected:
                                                       double const* const* const* cartesianMatrix,
                                                       const MolDS_base::Molecule& molecule, 
                                                       double const* const* orbitalElectronPopulation,
-                                                      double const* const* overlap,
+                                                      double const* const* overlapAOs,
                                                       double const* groundStateDipole) const;
    virtual void CalcGammaAB(double** gammaAB, const MolDS_base::Molecule& molecule) const;
    virtual double GetFockDiagElement(const MolDS_base_atoms::Atom& atomA, 
@@ -71,15 +71,15 @@ protected:
                                         double const* const* orbitalElectronPopulation, 
                                         double const* const* const* const* const* const* twoElecTwoCore,
                                         bool isGuess) const;
-   virtual void CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap, 
-                                                   const MolDS_base_atoms::Atom& atomA, 
-                                                   const MolDS_base_atoms::Atom& atomB) const;
-   virtual void CalcDiatomicOverlap1stDerivativeInDiatomicFrame(double** diatomicOverlapDeri, 
-                                                                const MolDS_base_atoms::Atom& atomA, 
-                                                                const MolDS_base_atoms::Atom& atomB) const;
-   virtual void CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(double** diatomicOverlap2ndDeri, 
-                                                                const MolDS_base_atoms::Atom& atomA, 
-                                                                const MolDS_base_atoms::Atom& atomB) const;
+   virtual void CalcDiatomicOverlapAOsInDiatomicFrame(double** diatomicOverlapAOs, 
+                                                      const MolDS_base_atoms::Atom& atomA, 
+                                                      const MolDS_base_atoms::Atom& atomB) const;
+   virtual void CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(double** diatomicOverlapAOsDeri, 
+                                                                   const MolDS_base_atoms::Atom& atomA, 
+                                                                   const MolDS_base_atoms::Atom& atomB) const;
+   virtual void CalcDiatomicOverlapAOs2ndDerivativeInDiatomicFrame(double** diatomicOverlapAOs2ndDeri, 
+                                                                   const MolDS_base_atoms::Atom& atomA, 
+                                                                   const MolDS_base_atoms::Atom& atomB) const;
    virtual double GetCoulombInt(MolDS_base::OrbitalType orbital1, 
                                 MolDS_base::OrbitalType orbital2, 
                                 const MolDS_base_atoms::Atom& atom) const; // Apendix in [BZ_1979]
@@ -127,8 +127,8 @@ private:
    int    matrixForceElecStatesNum;
    double nishimotoMatagaParamA;
    double nishimotoMatagaParamB;
-   double overlapCorrectionSigma;
-   double overlapCorrectionPi;
+   double overlapAOsCorrectionSigma;
+   double overlapAOsCorrectionPi;
    void DoCISDirect();
    void DoCISDavidson();
    void OutputCISDipole() const;
@@ -144,14 +144,14 @@ private:
                                                 double const* const* const* cartesianMatrix,
                                                 const MolDS_base::Molecule& molecule, 
                                                 double const* const* orbitalElectronPopulation,
-                                                double const* const* overlap) const;
+                                                double const* const* overlapAOs) const;
    void CalcElectronicTransitionDipoleMoments(double*** electronicTransitionDipoleMoments,
                                               double const* const* fockMatrix,
                                               double const* const* matrixCIS,
                                               double const* const* const* cartesianMatrix,
                                               const MolDS_base::Molecule& molecule, 
                                               double const* const* orbitalElectronPopulation,
-                                              double const* const* overlap) const;
+                                              double const* const* overlapAOs) const;
    double GetNishimotoMatagaTwoEleInt(const MolDS_base_atoms::Atom& atomA, 
                                       MolDS_base::OrbitalType orbitalA, 
                                       const MolDS_base_atoms::Atom& atomB, 

@@ -68,8 +68,8 @@ ZindoS::ZindoS() : MolDS_cndo::Cndo2(){
    this->matrixForceElecStatesNum = 0;
    this->nishimotoMatagaParamA = 1.2;
    this->nishimotoMatagaParamB = 2.4;
-   this->overlapCorrectionSigma = 1.267;
-   this->overlapCorrectionPi = 0.585;
+   this->overlapAOsCorrectionSigma = 1.267;
+   this->overlapAOsCorrectionPi = 0.585;
    //this->OutputLog("ZindoS created\n");
 }
 
@@ -233,7 +233,7 @@ double ZindoS::GetFockOffDiagElement(const Atom& atomA,
                                      int nu, 
                                      const Molecule& molecule, 
                                      double const* const* gammaAB, 
-                                     double const* const* overlap,
+                                     double const* const* overlapAOs,
                                      double const* const* orbitalElectronPopulation, 
                                      double const* const* const* const* const* const* twoElecTwoCore, 
                                      bool isGuess) const{
@@ -244,7 +244,7 @@ double ZindoS::GetFockOffDiagElement(const Atom& atomA,
                               +atomB.GetBondingParameter(this->theory, orbitalNu)); 
 
    if(isGuess){
-      value = bondParameter*overlap[mu][nu];
+      value = bondParameter*overlapAOs[mu][nu];
    }
    else{
       double coulomb = 0.0;
@@ -255,7 +255,7 @@ double ZindoS::GetFockOffDiagElement(const Atom& atomA,
          value = (1.5*exchange - 0.5*coulomb)*orbitalElectronPopulation[mu][nu];
       }
       else{
-         value = bondParameter*overlap[mu][nu];
+         value = bondParameter*overlapAOs[mu][nu];
          value -= 0.5*orbitalElectronPopulation[mu][nu]
                   *this->GetNishimotoMatagaTwoEleInt(atomA, orbitalMu, atomB, orbitalNu);
       }
@@ -651,49 +651,49 @@ double ZindoS::GetNishimotoMatagaTwoEleInt1stDerivative(const Atom& atomA,
    return value;
 }
 
-void ZindoS::CalcDiatomicOverlapInDiatomicFrame(double** diatomicOverlap, 
-                                                const Atom& atomA, 
-                                                const Atom& atomB) const{
-   MolDS_cndo::Cndo2::CalcDiatomicOverlapInDiatomicFrame(diatomicOverlap, atomA, atomB);
+void ZindoS::CalcDiatomicOverlapAOsInDiatomicFrame(double** diatomicOverlapAOs, 
+                                                   const Atom& atomA, 
+                                                   const Atom& atomB) const{
+   MolDS_cndo::Cndo2::CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, atomA, atomB);
 
    // see (4f) in [AEZ_1986]
-   diatomicOverlap[pz][pz] *= this->overlapCorrectionSigma;
-   diatomicOverlap[py][py] *= this->overlapCorrectionPi;
-   diatomicOverlap[px][px] *= this->overlapCorrectionPi;
+   diatomicOverlapAOs[pz][pz] *= this->overlapAOsCorrectionSigma;
+   diatomicOverlapAOs[py][py] *= this->overlapAOsCorrectionPi;
+   diatomicOverlapAOs[px][px] *= this->overlapAOsCorrectionPi;
    
    for(int i=0;i<OrbitalType_end;i++){
       for(int j=0;j<OrbitalType_end;j++){
-         //this->OutputLog(boost::format("diatomicOverlap[%d][%d]=%lf\n") % i % j % diatomicOverlap[i][j]);
+         //this->OutputLog(boost::format("diatomicOverlapAOs[%d][%d]=%lf\n") % i % j % diatomicOverlapAOs[i][j]);
       }
    }
    
 }
 
 // First derivative of (B.40) in J. A. Pople book with bond correction.
-void ZindoS::CalcDiatomicOverlap1stDerivativeInDiatomicFrame(double** diatomicOverlapDeri, 
-                                                               const Atom& atomA, 
-                                                               const Atom& atomB) const{
+void ZindoS::CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(double** diatomicOverlapAOsDeri, 
+                                                                const Atom& atomA, 
+                                                                const Atom& atomB) const{
 
-   MolDS_cndo::Cndo2::CalcDiatomicOverlap1stDerivativeInDiatomicFrame(diatomicOverlapDeri,atomA, atomB);
+   MolDS_cndo::Cndo2::CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(diatomicOverlapAOsDeri,atomA, atomB);
 
-   // see (4f) in [AEZ_1986] like as overlap integlral
-   diatomicOverlapDeri[pz][pz] *= this->overlapCorrectionSigma;
-   diatomicOverlapDeri[py][py] *= this->overlapCorrectionPi;
-   diatomicOverlapDeri[px][px] *= this->overlapCorrectionPi;
+   // see (4f) in [AEZ_1986] like as overlapAOs integlral
+   diatomicOverlapAOsDeri[pz][pz] *= this->overlapAOsCorrectionSigma;
+   diatomicOverlapAOsDeri[py][py] *= this->overlapAOsCorrectionPi;
+   diatomicOverlapAOsDeri[px][px] *= this->overlapAOsCorrectionPi;
 }
 
 // Second derivative of (B.40) in J. A. Pople book with bond correction.
-void ZindoS::CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(double** diatomicOverlap2ndDeri, 
-                                                             const Atom& atomA, 
-                                                             const Atom& atomB) const{
+void ZindoS::CalcDiatomicOverlapAOs2ndDerivativeInDiatomicFrame(double** diatomicOverlapAOs2ndDeri, 
+                                                                const Atom& atomA, 
+                                                                const Atom& atomB) const{
 
-   MolDS_cndo::Cndo2::CalcDiatomicOverlap2ndDerivativeInDiatomicFrame(
-                      diatomicOverlap2ndDeri,atomA, atomB);
+   MolDS_cndo::Cndo2::CalcDiatomicOverlapAOs2ndDerivativeInDiatomicFrame(
+                      diatomicOverlapAOs2ndDeri,atomA, atomB);
 
-   // see (4f) in [AEZ_1986] like as overlap integlral
-   diatomicOverlap2ndDeri[pz][pz] *= this->overlapCorrectionSigma;
-   diatomicOverlap2ndDeri[py][py] *= this->overlapCorrectionPi;
-   diatomicOverlap2ndDeri[px][px] *= this->overlapCorrectionPi;
+   // see (4f) in [AEZ_1986] like as overlapAOs integlral
+   diatomicOverlapAOs2ndDeri[pz][pz] *= this->overlapAOsCorrectionSigma;
+   diatomicOverlapAOs2ndDeri[py][py] *= this->overlapAOsCorrectionPi;
+   diatomicOverlapAOs2ndDeri[px][px] *= this->overlapAOsCorrectionPi;
 }
 
 // The order of mol, moJ, moK, moL is consistent with Eq. (9) in [RZ_1973]
@@ -849,7 +849,7 @@ void ZindoS::CalcCISProperties(){
                                                  this->cartesianMatrix,
                                                  *this->molecule, 
                                                  this->orbitalElectronPopulation,
-                                                 this->overlap);
+                                                 this->overlapAOs);
    
    // transition dipole moment
    this->CalcElectronicTransitionDipoleMoments(this->electronicTransitionDipoleMoments,
@@ -858,7 +858,7 @@ void ZindoS::CalcCISProperties(){
                                                this->cartesianMatrix,
                                                *this->molecule, 
                                                this->orbitalElectronPopulation,
-                                               this->overlap);
+                                               this->overlapAOs);
 
 
    // free exciton energies
@@ -875,7 +875,7 @@ void ZindoS::CalcElectronicDipoleMomentsExcitedState(double*** electronicTransit
                                                      double const* const* const* cartesianMatrix,
                                                      const MolDS_base::Molecule& molecule, 
                                                      double const* const* orbitalElectronPopulation,
-                                                     double const* const* overlap) const{
+                                                     double const* const* overlapAOs) const{
    int groundState = 0;
    // dipole moment of excited states
    for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS(); k++){
@@ -890,7 +890,7 @@ void ZindoS::CalcElectronicDipoleMomentsExcitedState(double*** electronicTransit
                                                                                      cartesianMatrix,
                                                                                      molecule,
                                                                                      orbitalElectronPopulation,
-                                                                                     overlap,
+                                                                                     overlapAOs,
                                                                                      electronicTransitionDipoleMoments[groundState][groundState]);
       }
    }
@@ -902,7 +902,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoments(double*** electronicTransitio
                                                    double const* const* const* cartesianMatrix,
                                                    const MolDS_base::Molecule& molecule, 
                                                    double const* const* orbitalElectronPopulation,
-                                                   double const* const* overlap) const{
+                                                   double const* const* overlapAOs) const{
    int groundState = 0;
    // transition dipole moments from ground state to excited states
    for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS(); k++){
@@ -917,7 +917,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoments(double*** electronicTransitio
                                                                                           this->cartesianMatrix,
                                                                                           *this->molecule,
                                                                                           this->orbitalElectronPopulation,
-                                                                                          this->overlap,
+                                                                                          this->overlapAOs,
                                                                                           this->electronicTransitionDipoleMoments[groundState][groundState]);
       }
    }
@@ -936,7 +936,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoments(double*** electronicTransitio
                                                                                              this->cartesianMatrix,
                                                                                              *this->molecule,
                                                                                              this->orbitalElectronPopulation,
-                                                                                             this->overlap,
+                                                                                             this->overlapAOs,
                                                                                              this->electronicTransitionDipoleMoments[groundState][groundState]);
          }
       }
@@ -957,7 +957,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoments(double*** electronicTransitio
                                                                  this->cartesianMatrix,
                                                                  *this->molecule,
                                                                  this->orbitalElectronPopulation,
-                                                                 this->overlap,
+                                                                 this->overlapAOs,
                                                                  this->electronicTransitionDipoleMoments[groundState][groundState]);
                }
             }
@@ -973,7 +973,7 @@ double ZindoS::GetElectronicTransitionDipoleMoment(int to, int from, CartesianTy
                                                    double const* const* const* cartesianMatrix,
                                                    const MolDS_base::Molecule& molecule, 
                                                    double const* const* orbitalElectronPopulation,
-                                                   double const* const* overlap,
+                                                   double const* const* overlapAOs,
                                                    double const* groundStateDipole) const{
    double value = 0.0;
    int groundState = 0;
@@ -998,7 +998,7 @@ double ZindoS::GetElectronicTransitionDipoleMoment(int to, int from, CartesianTy
          for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
             for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
                temp += (-1.0*fockMatrix[moI][mu]*fockMatrix[moI][nu] + fockMatrix[moA][mu]*fockMatrix[moA][nu])
-                       *(cartesianMatrix[mu][nu][axis] - molecule.GetXyzCOC()[axis]*overlap[mu][nu]);
+                       *(cartesianMatrix[mu][nu][axis] - molecule.GetXyzCOC()[axis]*overlapAOs[mu][nu]);
             }
          }
          value += matrixCIS[from-1][l]*matrixCIS[to-1][l]*temp;
@@ -1014,7 +1014,7 @@ double ZindoS::GetElectronicTransitionDipoleMoment(int to, int from, CartesianTy
          for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
             for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
                temp += fockMatrix[moA][mu]
-                       *(cartesianMatrix[mu][nu][axis] - molecule.GetXyzCOC()[axis]*overlap[mu][nu])
+                       *(cartesianMatrix[mu][nu][axis] - molecule.GetXyzCOC()[axis]*overlapAOs[mu][nu])
                        *fockMatrix[moI][nu];
             }
          }
@@ -1031,7 +1031,7 @@ double ZindoS::GetElectronicTransitionDipoleMoment(int to, int from, CartesianTy
          for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
             for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
                temp += fockMatrix[moI][mu]
-                       *(cartesianMatrix[mu][nu][axis] - molecule.GetXyzCOC()[axis]*overlap[mu][nu])
+                       *(cartesianMatrix[mu][nu][axis] - molecule.GetXyzCOC()[axis]*overlapAOs[mu][nu])
                        *fockMatrix[moA][nu];
             }
          }
@@ -1049,7 +1049,7 @@ double ZindoS::GetElectronicTransitionDipoleMoment(int to, int from, CartesianTy
             for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
                for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
                   temp += (-1.0*fockMatrix[moI][mu]*fockMatrix[moI][nu] + fockMatrix[moA][mu]*fockMatrix[moA][nu])
-                          *(cartesianMatrix[mu][nu][axis] - molecule.GetXyzCOC()[axis]*overlap[mu][nu]);
+                          *(cartesianMatrix[mu][nu][axis] - molecule.GetXyzCOC()[axis]*overlapAOs[mu][nu]);
                }
             }
             value += matrixCIS[from-1][l]*matrixCIS[to-1][l]*temp;
@@ -1066,7 +1066,7 @@ double ZindoS::GetElectronicTransitionDipoleMoment(int to, int from, CartesianTy
                                                             cartesianMatrix,
                                                             molecule,
                                                             orbitalElectronPopulation,
-                                                            overlap,
+                                                            overlapAOs,
                                                             NULL);
          }
    }
@@ -1338,12 +1338,12 @@ void ZindoS::UpdateExpansionVectors(double** expansionVectors,
 
    // orthonormalize old expansion vectors and new expansion vector
    for(int k=0; k<interactionMatrixDimension+*notConvergedStates; k++){
-      double overlap=0.0;
+      double overlapAOs=0.0;
       for(int j=0; j<this->matrixCISdimension; j++){
-         overlap += expansionVectors[j][k] * newExpansionVector[j];
+         overlapAOs += expansionVectors[j][k] * newExpansionVector[j];
       }
       for(int j=0; j<this->matrixCISdimension; j++){
-         newExpansionVector[j] -= overlap*expansionVectors[j][k];
+         newExpansionVector[j] -= overlapAOs*expansionVectors[j][k];
       }
    }
 
@@ -1940,9 +1940,9 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    stringstream ompErrors;
 #pragma omp parallel 
    {
-      double*** diatomicOverlap1stDerivs=NULL;
+      double*** diatomicOverlapAOs1stDerivs=NULL;
       try{
-         MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlap1stDerivs,
+         MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs1stDerivs,
                                                       OrbitalType_end, 
                                                       OrbitalType_end, 
                                                       CartesianType_end);
@@ -1962,8 +1962,8 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                   int firstAOIndexB = atomB.GetFirstAOIndex();
                   int lastAOIndexB  = atomB.GetLastAOIndex();
 
-                  // calc. first derivative of overlap.
-                  this->CalcDiatomicOverlap1stDerivatives(diatomicOverlap1stDerivs, atomA, atomB);
+                  // calc. first derivative of overlapAOs.
+                  this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
 
                   for(int i=0; i<CartesianType_end; i++){
                      coreRepulsion[i] += this->GetDiatomCoreRepulsion1stDerivative(
@@ -1991,7 +1991,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                         for(int i=0; i<CartesianType_end; i++){
                            electronicForce2[i] += 2.0*this->orbitalElectronPopulation[mu][nu]
                                                  *bondParameter
-                                                 *diatomicOverlap1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
+                                                 *diatomicOverlapAOs1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
                            electronicForce3[i] += (this->orbitalElectronPopulation[mu][mu]
                                                   *this->orbitalElectronPopulation[nu][nu]
                                                   -0.5*pow(this->orbitalElectronPopulation[mu][nu],2.0))
@@ -2015,7 +2015,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
 #pragma omp critical
          ompErrors << ex.what() << endl ;
       }
-      MallocerFreer::GetInstance()->Free<double>(&diatomicOverlap1stDerivs, 
+      MallocerFreer::GetInstance()->Free<double>(&diatomicOverlapAOs1stDerivs, 
                                                  OrbitalType_end,
                                                  OrbitalType_end,
                                                  CartesianType_end);
@@ -2026,7 +2026,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    }
   
    /*
-   // Calculate force. First derivative of overlap integral is
+   // Calculate force. First derivative of overlapAOs integral is
    // calculated with GTO expansion technique.
    stringstream ompErrors;
 #pragma omp parallel for schedule(auto)
@@ -2073,7 +2073,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
 
                         electronicForce2 += 2.0*this->orbitalElectronPopulation[mu][nu]
                                             *bondParameter
-                                            *this->GetOverlapElement1stDerivativeByGTOExpansion
+                                            *this->GetOverlapAOsElement1stDerivativeByGTOExpansion
                                                    (atomA, mu-firstAOIndexA, 
                                                     atomB, nu-firstAOIndexB,
                                                     STO6G, (CartesianType)i);
