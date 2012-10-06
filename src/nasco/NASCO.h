@@ -52,8 +52,10 @@ private:
    void SetMessages();
    void SetEnableTheoryTypes();
    void UpdateMomenta(MolDS_base::Molecule& molecule, double const* const* matrixForce, double dt) const;
-   void OutputEnergies(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, double initialEnergy, const MolDS_base::Molecule& molecule);
-   double OutputEnergies(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, const MolDS_base::Molecule& molecule);
+   void SynchronousMolecularConfiguration(MolDS_base::Molecule& target, 
+                                          const MolDS_base::Molecule& refference) const;
+   void OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, double initialEnergy, const MolDS_base::Molecule& molecule);
+   double OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, const MolDS_base::Molecule& molecule);
 };
 
 }
