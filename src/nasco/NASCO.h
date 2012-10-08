@@ -56,6 +56,14 @@ private:
                                           const MolDS_base::Molecule& refference) const;
    void OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, double initialEnergy, const MolDS_base::Molecule& molecule);
    double OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, const MolDS_base::Molecule& molecule);
+   void MallocOverlapsDifferentMolecules(double*** overlapAOs,
+                                         double*** overlapMOs, 
+                                         double*** overlapESs, 
+                                         const MolDS_base::Molecule& molecule) const;
+   void FreeOverlapsDifferentMolecules(double*** overlapAOs,
+                                       double*** overlapMOs, 
+                                       double*** overlapESs, 
+                                       const MolDS_base::Molecule& molecule) const;
 };
 
 }
