@@ -57,4 +57,75 @@ void Blas::DeleteInstance(){
    blas = NULL;
 }
 
+// matrixC = matrixA*matrixB
+//    matrixA: m*k-matrix (matrixA[m][k] in row-major (C/C++ style))
+//    matrixB: k*n-matrix (matrixB[k][n] in row-major (C/C++ style))
+//    matrixC: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
+void Blas::Dgemm(int m, int n, int k, 
+                 double const* const* matrixA, 
+                 double const* const* matrixB, 
+                 double**             matrixC) const{
+   bool isColumnMajorMatrixA = false; // because, in general, C/C++ style is row-major.
+   bool isColumnMajorMatrixB = false; // because, in general, C/C++ style is row-major.
+   double alpha=1.0;
+   double beta =1.0;
+   this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixB, m, n, k, alpha, matrixA, matrixB, beta, matrixC);
+}
+
+// matrixC = alpha*matrixA*matrixB + beta*matrixC
+//    matrixA: m*k-matrix (matrixA[m][k] in row-major (C/C++ style))
+//    matrixB: k*n-matrix (matrixB[k][n] in row-major (C/C++ style))
+//    matrixC: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
+void Blas::Dgemm(bool isColumnMajorMatrixA, 
+                 bool isColumnMajorMatrixB, 
+                 int m, int n, int k,  
+                 double alpha,
+                 double const* const* matrixA,
+                 double const* const* matrixB,
+                 double beta,
+                 double** matrixC) const{
+   double* a = const_cast<double*>(&matrixA[0][0]);
+   double* b = const_cast<double*>(&matrixB[0][0]);
+   double*       c = &matrixC[0][0];
+
+   int lda;
+   CBLAS_TRANSPOSE transA;
+   if(isColumnMajorMatrixA){
+      transA = CblasNoTrans;
+      lda = m;
+   }
+   else{
+      transA = CblasTrans;
+      lda = k;
+   }
+
+   int ldb;
+   CBLAS_TRANSPOSE transB;
+   if(isColumnMajorMatrixB){
+      transB = CblasNoTrans;
+      ldb = k;
+   }
+   else{
+      transB = CblasTrans;
+      ldb = n;
+   }
+
+   double* tmpC;
+   tmpC = (double*)malloc( sizeof(double)*m*n);
+   for(int i=0; i<m; i++){
+      for(int j=0; j<n; j++){
+         tmpC[i+j*m] = matrixC[i][j];
+      }
+   }
+   int ldc = m;
+   //call blas
+   cblas_dgemm(CblasColMajor, transA, transB, m, n, k, alpha, a, lda, b, ldb, beta, tmpC, ldc);
+   for(int i=0; i<m; i++){
+      for(int j=0; j<n; j++){
+         matrixC[i][j] = tmpC[i+j*m];
+      }
+   }
+   free(tmpC);
+}
+
 }
