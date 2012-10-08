@@ -24,6 +24,18 @@ class Blas: public MolDS_base::PrintController, private MolDS_base::Uncopyable{
 public:
    static Blas* GetInstance();
    static void DeleteInstance();
+   void Dgemm(int m, int n, int k, 
+              double const* const* matrixA, 
+              double const* const* matrixB, 
+              double**             matrixC) const;
+   void Dgemm(bool isColumnMajorMatrixA, 
+              bool isColumnMajorMatrixB, 
+              int m, int n, int k, 
+              double alpha,
+              double const* const* matrixA,
+              double const* const* matrixB,
+              double beta,
+              double**             matrixC) const;
 private:
    Blas();
    ~Blas();
