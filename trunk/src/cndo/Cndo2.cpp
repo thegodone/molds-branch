@@ -181,6 +181,8 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2::CalcOverlapAOsDifferentConfigurations: Total number of AOs in lhs and rhs are different.\n";
    this->errorMessageCalcOverlapAOsDifferentConfigurationsDiffAtoms
       = "Error in cndo::Cndo2::CalcOverlapAOsDifferentConfigurations: Number Atoms in lhs and rhs are different.\n";
+   this->errorMessageCalcOverlapAOsDifferentConfigurationsOverlapAOsNULL
+      = "Error in cndo::Cndo2::CalcOverlapAOsDifferentConfigurations: ovelrapAOs is NULL.\n";
    this->errorMessageLhs = "lhs: ";
    this->errorMessageRhs = "rhs: ";
    this->errorMessageFromState = "\tfrom state = ";
@@ -3488,28 +3490,37 @@ void Cndo2::FreeDiatomicOverlapAOsAndRotatingMatrix(double*** diatomicOverlapAOs
    MallocerFreer::GetInstance()->Free<double>(rotatingMatrix,  OrbitalType_end, OrbitalType_end);
 }
 
-// calculate OverlapAOs matrix between different configurations, S_{\mu\nu}.
-// \mu and \nu belong left and right hand side configurations, respectively.
-// S_{\mu\nu} = 0 when \mu and \nu belong different atom.
-void Cndo2::CalcOverlapAOsDifferentConfigurations(double** overlapAOs, 
-                                                  const Molecule& lhsMolecule,
-                                                  const Molecule& rhsMolecule) const{
-   if(lhsMolecule.GetTotalNumberAOs() != rhsMolecule.GetTotalNumberAOs()){
+// calculate OverlapAOs matrix between different configurations, S^{AO}_{\mu\nu}.
+// \mu and \nu are AOs belonging to left and right hand side configurations, respectively.
+// S^{AO}_{\mu\nu} = 0 when \mu and \nu belong different atom.
+// Note that rhs-moledule is this->molecule (current configuration) 
+// and lhs-molecule is another molecule (another configuration).
+void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs, 
+                                                   const Molecule& lhsMolecule) const{
+   const Molecule* rhsMolecule = this->molecule;
+   if(lhsMolecule.GetTotalNumberAOs() != rhsMolecule->GetTotalNumberAOs()){
       stringstream ss;
       ss << this->errorMessageCalcOverlapAOsDifferentConfigurationsDiffAOs;
       ss << this->errorMessageLhs << lhsMolecule.GetTotalNumberAOs() << endl;
-      ss << this->errorMessageRhs << rhsMolecule.GetTotalNumberAOs() << endl;
+      ss << this->errorMessageRhs << rhsMolecule->GetTotalNumberAOs() << endl;
       throw MolDSException(ss.str());
    }
-   if(lhsMolecule.GetNumberAtoms() != rhsMolecule.GetNumberAtoms()){
+   if(lhsMolecule.GetNumberAtoms() != rhsMolecule->GetNumberAtoms()){
       stringstream ss;
       ss << this->errorMessageCalcOverlapAOsDifferentConfigurationsDiffAtoms;
       ss << this->errorMessageLhs << lhsMolecule.GetNumberAtoms() << endl;
-      ss << this->errorMessageRhs << rhsMolecule.GetNumberAtoms() << endl;
+      ss << this->errorMessageRhs << rhsMolecule->GetNumberAtoms() << endl;
       throw MolDSException(ss.str());
    }
+   if(overlapAOs == NULL){
+      stringstream ss;
+      ss << this->errorMessageCalcOverlapAOsDifferentConfigurationsOverlapAOsNULL;
+      throw MolDSException(ss.str());
+   }
+   
    int totalAONumber = lhsMolecule.GetTotalNumberAOs();
    int totalAtomNumber = lhsMolecule.GetNumberAtoms();
+   MallocerFreer::GetInstance()->Initialize<double>(overlapAOs, totalAONumber, totalAONumber);
 
    stringstream ompErrors;
 #pragma omp parallel 
@@ -3532,7 +3543,7 @@ void Cndo2::CalcOverlapAOsDifferentConfigurations(double** overlapAOs,
 #pragma omp for schedule(auto)
          for(int A=0; A<totalAtomNumber; A++){
             const Atom& lhsAtom = *lhsMolecule.GetAtom(A);
-            const Atom& rhsAtom = *rhsMolecule.GetAtom(A);
+            const Atom& rhsAtom = *rhsMolecule->GetAtom(A);
             double rAtoms = sqrt( pow(lhsAtom.GetXyz()[XAxis] - rhsAtom.GetXyz()[XAxis], 2.0)
                                  +pow(lhsAtom.GetXyz()[YAxis] - rhsAtom.GetXyz()[YAxis], 2.0)
                                  +pow(lhsAtom.GetXyz()[ZAxis] - rhsAtom.GetXyz()[ZAxis], 2.0));
@@ -3549,6 +3560,42 @@ void Cndo2::CalcOverlapAOsDifferentConfigurations(double** overlapAOs,
          ompErrors << ex.what() << endl ;
       }
       this->FreeDiatomicOverlapAOsAndRotatingMatrix(&diatomicOverlapAOs, &rotatingMatrix);
+   }
+   // Exception throwing for omp-region
+   if(!ompErrors.str().empty()){
+      throw MolDSException(ompErrors.str());
+   }
+}
+
+// calculate OverlapMOs matrix between different electronic-structure, S^{MO}_{ij}.
+// i and j are MOs belonging to left and right hand side electronic-structures, respectively.
+// Note that rhs-electronic-structure is this electronic-structure  
+// and lhs-electronic-structure is another electronic-structure.
+void Cndo2::CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs, 
+                                                         double const* const* overlapAOs,
+                                                         const ElectronicStructure& lhsElectronicStructure) const{
+   const ElectronicStructure* rhsElectronicStructure = this;
+   double const* const* rhsFockMatrix = this->fockMatrix;
+   double const* const* lhsFockMatrix = lhsElectronicStructure.GetFockMatrix();
+   int totalAONumber = this->molecule->GetTotalNumberAOs();
+   stringstream ompErrors;
+#pragma omp parallel for schedule(auto)
+   for(int i=0; i<totalAONumber; i++){
+      try{
+         for(int j=0; j<totalAONumber; j++){
+            double value=0.0;
+            for(int k=0; k<totalAONumber; k++){
+               for(int l=0; l<totalAONumber; l++){
+                  value += lhsFockMatrix[i][k]*rhsFockMatrix[j][l]*overlapAOs[k][l];
+               }
+            }
+            overlapMOs[i][j] = value;
+         }
+      }
+      catch(MolDSException ex){
+#pragma omp critical
+         ompErrors << ex.what() << endl ;
+      }
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){

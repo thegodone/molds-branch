@@ -41,9 +41,11 @@ public:
    double GetElectronicEnergy(int elecState) const;
    double GetCoreRepulsionEnergy() const;
    double GetVdWCorrectionEnergy() const;
-   void CalcOverlapAOsDifferentConfigurations(double** overlapAOs,
-                                              const MolDS_base::Molecule& lhsMolecule,
-                                              const MolDS_base::Molecule& rhsMolecule) const;
+   void CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
+                                               const MolDS_base::Molecule& lhsMolecule) const;
+   void CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs,
+                                                     double const* const* overlapAOs,
+                                                     const MolDS_base::ElectronicStructure& lhsElectronicStructure) const;
    MolDS_base::TheoryType GetTheoryType() const;
 protected:
    std::string errorMessageAtomA;
@@ -235,6 +237,7 @@ private:
    std::string errorMessageSetOverlapAOsElementNullDiaMatrix;
    std::string errorMessageCalcOverlapAOsDifferentConfigurationsDiffAOs;
    std::string errorMessageCalcOverlapAOsDifferentConfigurationsDiffAtoms;
+   std::string errorMessageCalcOverlapAOsDifferentConfigurationsOverlapAOsNULL;
    std::string errorMessageLhs;
    std::string errorMessageRhs;
    std::string messageIterSCF;
