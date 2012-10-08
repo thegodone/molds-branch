@@ -152,7 +152,6 @@ void NASCO::DoNASCO(Molecule& molecule){
             cout << endl;
          }
             
-
          // Synchronous molecular configuration and electronic states
          this->SynchronousMolecularConfiguration(molecule, tmpMolecule);
          swap(currentES, tmpES);
