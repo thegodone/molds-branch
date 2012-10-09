@@ -57,6 +57,50 @@ void Blas::DeleteInstance(){
    blas = NULL;
 }
 
+// vectorY = matrixA*vectorX
+//    matrixA: m*n-matrix (matrixA[m][n] in row-major (C/C++ style))
+//    vectorX: n-vector
+//    vectorY: m-vector
+void Blas::Dgemv(int m, int n,
+                 double const* const* matrixA,
+                 double const* vectorX,
+                 double*       vectorY) const{
+   bool isColumnMajorMatrixA = false; // because, in general, C/C++ style is row-major.
+   int incrementX=1;
+   int incrementY=1;
+   double alpha  =1.0; 
+   double beta   =0.0; 
+   this->Dgemv(isColumnMajorMatrixA, m, n, alpha, matrixA, vectorX, incrementX, beta, vectorY, incrementY);
+}
+
+// vectorY = alpha*matrixA*vectorX + beta*vectorY
+//    matrixA: m*n-matrix (matrixA[m][n] in row-major (C/C++ style))
+//    vectorX: n-vector
+//    vectorY: m-vector
+void Blas::Dgemv(bool isColumnMajorMatrixA,
+                 int m, int n,
+                 double alpha,
+                 double const* const* matrixA,
+                 double const* vectorX,
+                 int incrementX,
+                 double beta,
+                 double* vectorY,
+                 int incrementY) const{
+   double* a = const_cast<double*>(&matrixA[0][0]);
+   double* x = const_cast<double*>(&vectorX[0]);
+   CBLAS_TRANSPOSE transA;
+   if(isColumnMajorMatrixA){
+      transA = CblasNoTrans;
+   }
+   else{
+      transA = CblasTrans;
+      swap(m,n);
+   }
+   int lda = m;
+   cblas_dgemv(CblasColMajor, transA, m, n, alpha, a, lda, x, incrementX, beta, vectorY, incrementY);
+
+}
+
 // matrixC = matrixA*matrixB
 //    matrixA: m*k-matrix (matrixA[m][k] in row-major (C/C++ style))
 //    matrixB: k*n-matrix (matrixB[k][n] in row-major (C/C++ style))
