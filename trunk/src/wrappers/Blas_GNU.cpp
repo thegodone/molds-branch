@@ -112,7 +112,7 @@ void Blas::Dgemm(int m, int n, int k,
    bool isColumnMajorMatrixA = false; // because, in general, C/C++ style is row-major.
    bool isColumnMajorMatrixB = false; // because, in general, C/C++ style is row-major.
    double alpha=1.0;
-   double beta =1.0;
+   double beta =0.0;
    this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixB, m, n, k, alpha, matrixA, matrixB, beta, matrixC);
 }
 
