@@ -143,6 +143,15 @@ void NASCO::DoNASCO(Molecule& molecule){
 
          // calculate overlaps
          currentES->CalcOverlapAOsWithAnotherConfiguration(overlapAOs, tmpMolecule);
+         cout << "overlapAOs" << endl;
+         for(int i=0; i<molecule.GetTotalNumberAOs(); i++){
+            for(int j=0; j<molecule.GetTotalNumberAOs(); j++){
+               printf("%e\t",overlapAOs[i][j]);
+            }
+            cout << endl;
+         }
+         cout << endl;
+            
          currentES->CalcOverlapMOsWithAnotherElectronicStructure(overlapMOs, overlapAOs, *tmpES);
          cout << "overlapMOs" << endl;
          for(int i=0; i<molecule.GetTotalNumberAOs(); i++){

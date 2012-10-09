@@ -29,6 +29,7 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/Uncopyable.h"
+#include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"../base/Enums.h"
 #include"../base/MathUtilities.h"
@@ -3547,11 +3548,36 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
             double rAtoms = sqrt( pow(lhsAtom.GetXyz()[XAxis] - rhsAtom.GetXyz()[XAxis], 2.0)
                                  +pow(lhsAtom.GetXyz()[YAxis] - rhsAtom.GetXyz()[YAxis], 2.0)
                                  +pow(lhsAtom.GetXyz()[ZAxis] - rhsAtom.GetXyz()[ZAxis], 2.0));
-            if(rAtoms > 1.0e-13){
+printf("hoge-rAtoms: %e dx:%e dy:%e dz:%e\n", rAtoms, lhsAtom.GetXyz()[XAxis] - rhsAtom.GetXyz()[XAxis], lhsAtom.GetXyz()[YAxis] - rhsAtom.GetXyz()[YAxis], lhsAtom.GetXyz()[ZAxis] - rhsAtom.GetXyz()[ZAxis]);
+            if(rAtoms > 1.0e-12){
                this->CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, lhsAtom, rhsAtom);
                this->CalcRotatingMatrix(rotatingMatrix, lhsAtom, rhsAtom);
+if(A==0){
+   cout  << "hoge-atomA 1\n";
+   for(int i=0; i<lhsAtom.GetValenceSize(); i++){
+      OrbitalType orbitalA = lhsAtom.GetValence(i);
+      for(int j=0; j<rhsAtom.GetValenceSize(); j++){
+         OrbitalType orbitalB = rhsAtom.GetValence(j);
+         printf("%e\t",diatomicOverlapAOs[orbitalA][orbitalB]);
+      }
+      cout << endl;
+   }
+   cout << endl;
+}
                this->RotateDiatmicOverlapAOsToSpaceFrame(diatomicOverlapAOs, rotatingMatrix);
-               this->SetOverlapAOsElement(overlapAOs, diatomicOverlapAOs, lhsAtom, rhsAtom);
+if(A==0){
+   cout  << "hoge-atomA 2\n";
+   for(int i=0; i<lhsAtom.GetValenceSize(); i++){
+      OrbitalType orbitalA = lhsAtom.GetValence(i);
+      for(int j=0; j<rhsAtom.GetValenceSize(); j++){
+         OrbitalType orbitalB = rhsAtom.GetValence(j);
+         printf("%e\t",diatomicOverlapAOs[orbitalA][orbitalB]);
+      }
+      cout << endl;
+   }
+   cout << endl;
+}
+               this->SetOverlapAOsElement(overlapAOs, diatomicOverlapAOs, lhsAtom, rhsAtom, isSymmetricOverlapAOs);
             }
          }
       }
@@ -3578,29 +3604,32 @@ void Cndo2::CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs,
    double const* const* rhsFockMatrix = this->fockMatrix;
    double const* const* lhsFockMatrix = lhsElectronicStructure.GetFockMatrix();
    int totalAONumber = this->molecule->GetTotalNumberAOs();
-   stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
-   for(int i=0; i<totalAONumber; i++){
-      try{
-         for(int j=0; j<totalAONumber; j++){
-            double value=0.0;
-            for(int k=0; k<totalAONumber; k++){
-               for(int l=0; l<totalAONumber; l++){
-                  value += lhsFockMatrix[i][k]*rhsFockMatrix[j][l]*overlapAOs[k][l];
-               }
-            }
-            overlapMOs[i][j] = value;
-         }
-      }
-      catch(MolDSException ex){
-#pragma omp critical
-         ompErrors << ex.what() << endl ;
-      }
+   double** tmpMatrix=NULL;
+   try{
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix,totalAONumber,totalAONumber);
+      bool isColumnMajorOverlapAOs = false;
+      bool isColumnMajorRhsFock = true;
+      double alpha=1.0;
+      double beta=0.0;
+      MolDS_wrappers::Blas::GetInstance()->Dgemm(isColumnMajorOverlapAOs,
+                                                 isColumnMajorRhsFock,
+                                                 totalAONumber,totalAONumber,totalAONumber,
+                                                 alpha,
+                                                 overlapAOs,
+                                                 rhsFockMatrix,
+                                                 beta,
+                                                 tmpMatrix);
+      MolDS_wrappers::Blas::GetInstance()->Dgemm(totalAONumber,totalAONumber,totalAONumber,
+                                                 lhsFockMatrix,
+                                                 tmpMatrix,
+                                                 overlapMOs);
+                                                 
    }
-   // Exception throwing for omp-region
-   if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,totalAONumber,totalAONumber);
+      throw ex;
    }
+   MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,totalAONumber,totalAONumber);
 }
 
 // calculate OverlapAOs matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book.
