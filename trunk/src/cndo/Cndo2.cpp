@@ -3545,39 +3545,15 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
          for(int A=0; A<totalAtomNumber; A++){
             const Atom& lhsAtom = *lhsMolecule.GetAtom(A);
             const Atom& rhsAtom = *rhsMolecule->GetAtom(A);
-            double rAtoms = sqrt( pow(lhsAtom.GetXyz()[XAxis] - rhsAtom.GetXyz()[XAxis], 2.0)
-                                 +pow(lhsAtom.GetXyz()[YAxis] - rhsAtom.GetXyz()[YAxis], 2.0)
-                                 +pow(lhsAtom.GetXyz()[ZAxis] - rhsAtom.GetXyz()[ZAxis], 2.0));
-printf("hoge-rAtoms: %e dx:%e dy:%e dz:%e\n", rAtoms, lhsAtom.GetXyz()[XAxis] - rhsAtom.GetXyz()[XAxis], lhsAtom.GetXyz()[YAxis] - rhsAtom.GetXyz()[YAxis], lhsAtom.GetXyz()[ZAxis] - rhsAtom.GetXyz()[ZAxis]);
-            if(rAtoms > 1.0e-12){
-               this->CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, lhsAtom, rhsAtom);
-               this->CalcRotatingMatrix(rotatingMatrix, lhsAtom, rhsAtom);
-if(A==0){
-   cout  << "hoge-atomA 1\n";
-   for(int i=0; i<lhsAtom.GetValenceSize(); i++){
-      OrbitalType orbitalA = lhsAtom.GetValence(i);
-      for(int j=0; j<rhsAtom.GetValenceSize(); j++){
-         OrbitalType orbitalB = rhsAtom.GetValence(j);
-         printf("%e\t",diatomicOverlapAOs[orbitalA][orbitalB]);
-      }
-      cout << endl;
-   }
-   cout << endl;
-}
-               this->RotateDiatmicOverlapAOsToSpaceFrame(diatomicOverlapAOs, rotatingMatrix);
-if(A==0){
-   cout  << "hoge-atomA 2\n";
-   for(int i=0; i<lhsAtom.GetValenceSize(); i++){
-      OrbitalType orbitalA = lhsAtom.GetValence(i);
-      for(int j=0; j<rhsAtom.GetValenceSize(); j++){
-         OrbitalType orbitalB = rhsAtom.GetValence(j);
-         printf("%e\t",diatomicOverlapAOs[orbitalA][orbitalB]);
-      }
-      cout << endl;
-   }
-   cout << endl;
-}
-               this->SetOverlapAOsElement(overlapAOs, diatomicOverlapAOs, lhsAtom, rhsAtom, isSymmetricOverlapAOs);
+            int firstAOIndexLhsAtom = lhsAtom.GetFirstAOIndex();
+            int firstAOIndexRhsAtom = rhsAtom.GetFirstAOIndex();
+            for(int i=0; i<lhsAtom.GetValenceSize(); i++){
+               for(int j=0; j<rhsAtom.GetValenceSize(); j++){
+                  int mu = firstAOIndexLhsAtom + i;      
+                  int nu = firstAOIndexRhsAtom + j;      
+                  double value = this->GetOverlapAOsElementByGTOExpansion(lhsAtom, i, rhsAtom, j, STO6G);
+                  overlapAOs[mu][nu] = value;
+               }
             }
          }
       }
