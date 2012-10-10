@@ -27,6 +27,7 @@ public:
    int Dsyevd(double** matrix, double* eigenValues, int size, bool calcEigenVectors);
    int Dsysv(double const* const* matrix, double* b, int size);
    int Dgetrs(double const* const* matrix, double** b, int size, int nrhs) const;
+   int Dgetrf(double** matrix, int sizeM, int sizeN) const;
 private:
    Lapack();
    ~Lapack();
