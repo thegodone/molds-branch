@@ -316,6 +316,28 @@ int Lapack::Dgetrs(double const* const* matrix, double** b, int size, int nrhs) 
    return info;
 }
 
+// Argument "matrix" is sizeM*sizeN matrix.
+// Argument "matrix" will be LU-decomposed.
+int Lapack::Dgetrf(double** matrix, int sizeM, int sizeN) const{
+   int*    ipiv            = (int*)   LAPACKE_malloc( sizeof(int)*2*sizeM );
+   double* convertedMatrix = (double*)LAPACKE_malloc( sizeof(double)*sizeM*sizeN );
+   for(int i=0; i<sizeM; i++){
+      for(int j=0; j<sizeN; j++){
+         convertedMatrix[i+j*sizeM] = matrix[i][j];
+      }
+   }
+   this->Dgetrf(convertedMatrix, ipiv, sizeM, sizeN);
+   for(int i=0; i<sizeM; i++){
+      for(int j=0; j<sizeN; j++){
+         matrix[i][j] = convertedMatrix[i+j*sizeM];
+      }
+   }
+   LAPACKE_free(convertedMatrix);
+   LAPACKE_free(ipiv);
+   int info = 0;
+   return info;
+}
+
 // Argument "matrix" means sizeM * sizeN matrix.
 // The each element of "matrix" should be stored in 1-dimensional vecotre with column major (Fortran type).
 int Lapack::Dgetrf(double* matrix, int* ipiv, int sizeM, int sizeN) const{
