@@ -115,8 +115,8 @@ void Blas::Dgemm(int m, int n, int k,
 }
 
 // matrixC = alpha*matrixA*matrixB + beta*matrixC
-//    matrixA: m*k-matrix (matrixA[m][k] in row-major (C/C++ style))
-//    matrixB: k*n-matrix (matrixB[k][n] in row-major (C/C++ style))
+//    matrixA: m*k-matrix 
+//    matrixB: k*n-matrix
 //    matrixC: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
 void Blas::Dgemm(bool isColumnMajorMatrixA, 
                  bool isColumnMajorMatrixB, 
