@@ -74,7 +74,7 @@ void Blas::Dgemv(int m, int n,
 }
 
 // vectorY = alpha*matrixA*vectorX + beta*vectorY
-//    matrixA: m*n-matrix (matrixA[m][n] in row-major (C/C++ style))
+//    matrixA: m*n-matrix
 //    vectorX: n-vector
 //    vectorY: m-vector
 void Blas::Dgemv(bool isColumnMajorMatrixA,
