@@ -64,6 +64,12 @@ public:
               double const* vectorX, int incrementX,
               double beta,
               double*       vectorY, int incrementY) const;
+   void Dsyr(int n, double alpha,
+             double const* vectorX,
+             double ** matrixA)const;
+   void Dsyr(int n, double alpha,
+             double const* vectorX, int incrementX,
+             double ** matrixA)const;
    void Dgemm(int m, int n, int k, 
               double const* const* matrixA, 
               double const* const* matrixB, 
