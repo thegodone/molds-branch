@@ -195,6 +195,32 @@ void Blas::Dsymv(int n, double alpha,
    cblas_dsymv(CblasRowMajor, uploA, n, alpha, a, lda, x, incrementX, beta, vectorY, incrementY);
 }
 
+// matrixA = alpha*vectorX*vectorX^T + matrixA
+//    matrixA: n*n-matrix,symmetric (Use the upper triangular part, and copy it to the lower part.)
+//    vectorX: n-matrix
+void Blas::Dsyr(int n, double alpha,
+          double const* vectorX,
+          double ** matrixA)const{
+   int incrementX=1;
+   this->Dsyr(n, alpha, vectorX, incrementX, matrixA);
+}
+
+void Blas::Dsyr(int n, double alpha,
+          double const* vectorX, int incrementX,
+          double ** matrixA)const{
+   double* a = &matrixA[0][0];
+   double* x = const_cast<double*>(&vectorX[0]);
+   CBLAS_UPLO uploA=CblasUpper;
+   int lda = n;
+   cblas_dsyr(CblasRowMajor, uploA, n, alpha, x, incrementX, a, lda);
+#pragma omp parallel for schedule(auto)
+   for(int i=0;i<n;i++){
+      for(int j=i+1;j<n;j++){
+         matrixA[j][i] = matrixA[i][j];
+      }
+   }
+}
+
 // matrixC = matrixA*matrixB
 //    matrixA: m*k-matrix (matrixA[m][k] in row-major (C/C++ style))
 //    matrixB: k*n-matrix (matrixB[k][n] in row-major (C/C++ style))
