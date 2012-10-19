@@ -30,6 +30,12 @@ public:
    void Dcopy(int n,
               double const* vectorX, int incrementX,
               double*       vectorY, int incrementY) const;
+   void Daxpy(int n, double alpha,
+              double const* vectorX,
+              double*       vectorY) const;
+   void Daxpy(int n, double alpha,
+              double const* vectorX, int incrementX,
+              double*       vectorY, int incrementY) const;
    void Dgemv(int m, int n,
               double const* const* matrixA,
               double const* vectorX,
