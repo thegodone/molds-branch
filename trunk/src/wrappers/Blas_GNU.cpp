@@ -57,6 +57,27 @@ void Blas::DeleteInstance(){
    blas = NULL;
 }
 
+// vectorY = vectorX
+//    vectorX: n-vector
+//    vectorY: n-vector
+void Blas::Dcopy(int n,
+                 double const* vectorX,
+                 double *      vectorY)const{
+   int incrementX=1;
+   int incrementY=1;
+   this->Dcopy(n, vectorX, incrementX, vectorY, incrementY);
+}
+
+// vectorY = vectorX
+//    vectorX: n-vector
+//    vectorY: n-vector
+void Blas::Dcopy(int n,
+                 double const* vectorX, int incrementX,
+                 double*       vectorY, int incrementY) const{
+   double* x = const_cast<double*>(&vectorX[0]);
+   cblas_dcopy(n, x, incrementX, vectorY, incrementY);
+}
+
 // vectorY = matrixA*vectorX
 //    matrixA: m*n-matrix (matrixA[m][n] in row-major (C/C++ style))
 //    vectorX: n-vector

@@ -24,6 +24,12 @@ class Blas: public MolDS_base::PrintController, private MolDS_base::Uncopyable{
 public:
    static Blas* GetInstance();
    static void DeleteInstance();
+   void Dcopy(int n,
+              double const* vectorX,
+              double*       vectorY) const;
+   void Dcopy(int n,
+              double const* vectorX, int incrementX,
+              double*       vectorY, int incrementY) const;
    void Dgemv(int m, int n,
               double const* const* matrixA,
               double const* vectorX,
