@@ -31,6 +31,7 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/Uncopyable.h"
+#include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"../base/Enums.h"
 #include"../base/MallocerFreer.h"
@@ -339,90 +340,40 @@ void BFGS::UpdateHessian(double **matrixHessian,
                          double const* vectorOldForce,
                          double const* vectorDisplacement) const{
    double const* const K = &vectorDisplacement[0]; // K_k in eq. 15 on [SJTO_1983]
-   double*  P    = NULL;                           // P_k in eq. 14 on [SJTO_1983]
-   double** PP   = NULL;                           // P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
-   double*  HK   = NULL;                           // H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-   double** HKKH = NULL;                           // H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
+   double *P  = NULL;                              // P_k in eq. 14 on [SJTO_1983]
+   double *HK = NULL;                              // H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
    try{
       MallocerFreer::GetInstance()->Malloc(&P, dimension);
-      MallocerFreer::GetInstance()->Malloc(&PP, dimension, dimension);
       MallocerFreer::GetInstance()->Malloc(&HK, dimension);
-      MallocerFreer::GetInstance()->Malloc(&HKKH, dimension,dimension);
       double KHK = 0;
       double PK = 0;
-#pragma omp parallel for schedule(auto)
-      for(int i=0; i<dimension; i++){
-         // initialize P_k according to Eq. (14) in [SJTO_1983]
-         // note: gradient = -1 * force
-         P[i] = - (vectorForce[i] - vectorOldForce[i]);
-      }
+      // initialize P_k according to Eq. (14) in [SJTO_1983]
+      // note: gradient = -1 * force
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension, vectorOldForce, P);
+      MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension, -1.0, vectorForce, P);
 
       // P_k^T K_k at second term at RHS of Eq. (13) in [SJTO_1983]
-#pragma omp parallel
-      {
-#pragma omp for schedule(auto) reduction(+:PK)
-         for(int i=0; i<dimension;i++){
-            PK += P[i] * K[i];
-         }
+      PK = MolDS_wrappers::Blas::GetInstance()->Ddot(dimension, P, K);
 
-         //P_k P_k^T at second term in RHS of Eq. (13) in [SJTO_1983]
-         for(int i=0; i<dimension;i++){
-#pragma omp for schedule(auto)
-            for(int j=i;j<dimension;j++){
-               PP[i][j] = PP[j][i] = P[i] * P[j];
-            }
-         }
-
-         //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-#pragma omp for schedule(auto)
-         for(int i=0; i<dimension; i++){
-            double tmp=0;
-            for(int j=0; j<dimension; j++){
-               tmp += matrixHessian[i][j] * K[j];
-            }
-            HK[i] = tmp;
-         }
-      }
+      //H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
+      MolDS_wrappers::Blas::GetInstance()->Dsymv(dimension, matrixHessian, K, HK);
 
       //K_k^T H_k K_k at third term on RHS of Eq. (13) in [SJTO_1983]
-#pragma omp parallel
-      {
-#pragma omp for schedule(auto) reduction(+:KHK)
-         for(int i=0;i<dimension;i++){
-            KHK += K[i]*HK[i];
-         }
-
-         //H_k K_k K_k^T H_k at third term on RHS of Eq. (13) in [SJTO_1983]
-         for(int i=0;i<dimension;i++){
-#pragma omp for schedule(auto)
-            for(int j=i;j<dimension;j++){
-               // H_k K_k = (K_k^T H_k)^T because H_k^T = H_k
-               HKKH[i][j] = HKKH[j][i] = HK[i] * HK[j];
-            }
-         }
-      }
+      KHK = MolDS_wrappers::Blas::GetInstance()->Ddot(dimension, K, HK);
 
       // Calculate H_k+1 according to Eq. (13) in [SJTO_1983]
-      for(int i=0;i<dimension;i++){
-#pragma omp parallel for schedule(auto)
-         for(int j=i;j<dimension;j++){
-            matrixHessian[i][j]+= (PP[i][j] / PK
-                                - HKKH[i][j] / KHK);
-            matrixHessian[j][i] = matrixHessian[i][j];
-         }
-      }
+      // Add second term in RHS of Eq. (13) in [SJTO_1983]
+      MolDS_wrappers::Blas::GetInstance()->Dsyr(dimension,  1.0/PK,  P,  matrixHessian);
+      // Add third term in RHS of Eq. (13) in [SJTO_1983]
+      MolDS_wrappers::Blas::GetInstance()->Dsyr(dimension, -1.0/KHK, HK, matrixHessian);
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free(&P, dimension);
-      MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
       MallocerFreer::GetInstance()->Free(&HK, dimension);
-      MallocerFreer::GetInstance()->Free(&HKKH, dimension,dimension);
       throw ex;
    }
    MallocerFreer::GetInstance()->Free(&P, dimension);
-   MallocerFreer::GetInstance()->Free(&PP, dimension, dimension);
    MallocerFreer::GetInstance()->Free(&HK, dimension);
-   MallocerFreer::GetInstance()->Free(&HKKH, dimension,dimension);
 }
 
 // Level shift eigenvalues of redandant modes to largeEigenvalue
