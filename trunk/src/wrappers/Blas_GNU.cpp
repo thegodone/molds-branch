@@ -99,6 +99,28 @@ void Blas::Daxpy(int n, double alpha,
    cblas_daxpy(n, alpha, x, incrementX, vectorY, incrementY);
 }
 
+// returns vectorX^T*vectorY
+//    vectorX: n-vector
+//    vectorY: n-vector
+double Blas::Ddot(int n,
+            double const* vectorX,
+            double const* vectorY) const{
+   int incrementX=1;
+   int incrementY=1;
+   return this->Ddot(n, vectorX, incrementX, vectorY, incrementY);
+}
+
+// returns vectorX^T*vectorY
+//    vectorX: n-vector
+//    vectorY: n-vector
+double Blas::Ddot(int n,
+            double const* vectorX, int incrementX,
+            double const* vectorY, int incrementY)const{
+   double* x=const_cast<double*>(vectorX),
+         * y=const_cast<double*>(vectorY);
+   return cblas_ddot(n, x, incrementX, y, incrementY);
+}
+
 // vectorY = matrixA*vectorX
 //    matrixA: m*n-matrix (matrixA[m][n] in row-major (C/C++ style))
 //    vectorX: n-vector

@@ -36,6 +36,12 @@ public:
    void Daxpy(int n, double alpha,
               double const* vectorX, int incrementX,
               double*       vectorY, int incrementY) const;
+   double Ddot(int n,
+               double const* vectorX,
+               double const* vectorY) const;
+   double Ddot(int n,
+               double const* vectorX, int incrementX,
+               double const* vectorY, int incrementY)const;
    void Dgemv(int m, int n,
               double const* const* matrixA,
               double const* vectorX,
