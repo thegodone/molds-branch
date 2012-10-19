@@ -77,6 +77,26 @@ void Blas::Dcopy(int n,
    dcopy(&n, vectorX, &incrementX, vectorY, &incrementY);
 }
 
+// vectorY = alpha*vectorX + vectorY
+//    vectorX: n-vector
+//    vectorY: n-vector
+void Blas::Daxpy(int n, double alpha,
+           double const* vectorX,
+           double*       vectorY) const{
+   int incrementX=1;
+   int incrementY=1;
+   this->Daxpy(n, alpha, vectorX, incrementX, vectorY, incrementY);
+}
+
+// vectorY = alpha*vectorX + vectorY
+//    vectorX: n-vector
+//    vectorY: n-vector
+void Blas::Daxpy(int n, double alpha,
+           double const* vectorX, int incrementX,
+           double*       vectorY, int incrementY) const{
+   daxpy(&n, &alpha, vectorX, &incrementX, vectorY, &incrementY);
+}
+
 // vectorY = matrixA*vectorX
 //    matrixA: m*n-matrix (matrixA[m][n] in row-major (C/C++ style))
 //    vectorX: n-vector
