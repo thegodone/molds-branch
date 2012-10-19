@@ -55,6 +55,15 @@ public:
               double beta,
               double* vectorY,
               int incrementY) const;
+   void Dsymv(int n,
+              double const* const* matrixA,
+              double const* vectorX,
+              double* vectorY) const;
+   void Dsymv(int n, double alpha,
+              double const* const* matrixA,
+              double const* vectorX, int incrementX,
+              double beta,
+              double*       vectorY, int incrementY) const;
    void Dgemm(int m, int n, int k, 
               double const* const* matrixA, 
               double const* const* matrixB, 

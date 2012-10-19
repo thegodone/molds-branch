@@ -165,6 +165,36 @@ void Blas::Dgemv(bool isColumnMajorMatrixA,
 
 }
 
+// vectorY = matrixA*vectorX
+//    matrixA: n*n-matrix,symmetric (Use the upper triangular part)
+//    vectorX: n-vector
+//    vectorY: n-vector
+void Blas::Dsymv(int n,
+           double const* const* matrixA,
+           double const* vectorX,
+           double*       vectorY) const{
+   bool isColumnMajorMatrixA = false; // because, in general, C/C++ style is row-major.
+   int incrementX=1, incrementY=1;
+   double alpha=1.0, beta=0.0;
+   this->Dsymv(n, alpha, matrixA, vectorX, incrementX, beta, vectorY, incrementY);
+}
+
+// vectorY = alpha*matrixA*vectorX + beta*vectorY
+//    matrixA: n*n-matrix,symmetric (Use the upper triangular part)
+//    vectorX: n-vector
+//    vectorY: n-vector
+void Blas::Dsymv(int n, double alpha,
+           double const* const* matrixA,
+           double const* vectorX, int incrementX,
+           double beta,
+           double*       vectorY, int incrementY) const{
+   double* a = const_cast<double*>(&matrixA[0][0]);
+   double* x = const_cast<double*>(&vectorX[0]);
+   CBLAS_UPLO uploA=CblasUpper;
+   int lda = n;
+   cblas_dsymv(CblasRowMajor, uploA, n, alpha, a, lda, x, incrementX, beta, vectorY, incrementY);
+}
+
 // matrixC = matrixA*matrixB
 //    matrixA: m*k-matrix (matrixA[m][k] in row-major (C/C++ style))
 //    matrixB: k*n-matrix (matrixB[k][n] in row-major (C/C++ style))
