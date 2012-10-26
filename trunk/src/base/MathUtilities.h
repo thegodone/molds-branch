@@ -29,6 +29,8 @@ template <typename T> T Max(T a, T b);
 template <typename T> T min(T a, T b);
 // rotating matrix
 void CalcRotatingMatrix(double matrix[][3], double sita, CartesianType cartesianType);
+// calculate determinant of the matrix. Note taht the matrix will be destroid
+double GetDeterminant(double** matrix, int dim);
 }
 #endif
  
