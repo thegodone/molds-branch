@@ -22,9 +22,14 @@
 #include<sstream>
 #include<math.h>
 #include<stdexcept>
+#include<boost/format.hpp>
+#include"PrintController.h"
 #include"MolDSException.h"
+#include"Uncopyable.h"
+#include"../wrappers/Lapack.h"
 #include"Enums.h"
 #include"MathUtilities.h"
+#include"MallocerFreer.h"
 using namespace std;
 
 namespace MolDS_base{
@@ -132,6 +137,22 @@ void CalcRotatingMatrix(double matrix[][3], double sita, CartesianType cartesian
       ss << "Error in base::MathUtility::CalcRotatingMatrix: invalid cartesianType \n";
       throw MolDSException(ss.str());
    }
+}
+
+// calculate determinant of the matrix
+double GetDeterminant(double** matrix, int dim){
+   double determinant=1.0;
+   int* ipiv=NULL;
+   MallocerFreer::GetInstance()->Malloc<int>(&ipiv, dim);
+   MolDS_wrappers::Lapack::GetInstance()->Dgetrf(matrix, ipiv, dim, dim);
+   for(int i=0; i<dim; i++){
+      determinant*=matrix[i][i];
+      if(ipiv[i] != i-1){
+         determinant *= -1.0;
+      }
+   }
+   MallocerFreer::GetInstance()->Free<int>(&ipiv, dim);
+   return determinant;
 }
 }
  

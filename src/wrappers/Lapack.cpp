@@ -320,7 +320,16 @@ int Lapack::Dgetrs(double const* const* matrix, double** b, int size, int nrhs) 
 // Argument "matrix" is sizeM*sizeN matrix.
 // Argument "matrix" will be LU-decomposed.
 int Lapack::Dgetrf(double** matrix, int sizeM, int sizeN) const{
-   int*    ipiv            = (int*)   mkl_malloc( sizeof(int)*2*sizeM,        16 );
+   int* ipiv = (int*)mkl_malloc( sizeof(int)*2*sizeM,        16 );
+   this->Dgetrf(matrix, ipiv, sizeM, sizeN);
+   mkl_free(ipiv);
+   int info = 0;
+   return info;
+}
+
+// Argument "matrix" is sizeM*sizeN matrix.
+// Argument "matrix" will be LU-decomposed.
+int Lapack::Dgetrf(double** matrix, int* ipiv, int sizeM, int sizeN) const{
    double* convertedMatrix = (double*)mkl_malloc( sizeof(double)*sizeM*sizeN, 16 );
    for(int i=0; i<sizeM; i++){
       for(int j=0; j<sizeN; j++){
@@ -334,7 +343,6 @@ int Lapack::Dgetrf(double** matrix, int sizeM, int sizeN) const{
       }
    }
    mkl_free(convertedMatrix);
-   mkl_free(ipiv);
    int info = 0;
    return info;
 }

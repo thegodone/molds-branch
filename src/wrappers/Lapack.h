@@ -28,6 +28,7 @@ public:
    int Dsysv(double const* const* matrix, double* b, int size);
    int Dgetrs(double const* const* matrix, double** b, int size, int nrhs) const;
    int Dgetrf(double** matrix, int sizeM, int sizeN) const;
+   int Dgetrf(double** matrix, int* ipiv, int sizeM, int sizeN) const;
 private:
    Lapack();
    ~Lapack();
