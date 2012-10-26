@@ -1,5 +1,6 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+// Copyright (C) 2011-2012 Michihiro Okuyama                              // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -72,6 +73,8 @@ void InputParser::DeleteInstance(){
 }
 
 void InputParser::SetMessages(){
+   this->errorMessageInputFileEmpty
+      = "Error in base::InputParser::GetInputTerms: Input file is empty.\n"; 
    this->errorMessageNotFoundInputFile
       = "Error in base::InputParser::StoreInputTermsFromFile: Not found.\n"; 
    this->errorMessageNonValidExcitedStatesMD
@@ -367,6 +370,15 @@ vector<string> InputParser::GetInputTerms(int argc, char *argv[]) const{
    else{
       char* fileName = argv[1];
       this->StoreInputTermsFromFile(inputTerms,fileName);
+   }
+   if (inputTerms.size() == 0) {
+      char* fileName = argv[1];
+      stringstream ss; 
+      ss << this->errorMessageInputFileEmpty;  
+      if (argc > 1) {
+         ss << this->errorMessageInputFile << fileName << endl; 
+      }
+      throw MolDSException(ss.str()); 
    }
    return inputTerms;
 }

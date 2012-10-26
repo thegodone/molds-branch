@@ -1,5 +1,6 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+// Copyright (C) 2011-2012 Michihiro Okuyama                              // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -31,6 +32,7 @@ private:
    InputParser();
    ~InputParser();
    void SetMessages();
+   std::string errorMessageInputFileEmpty;
    std::string errorMessageNotFoundInputFile; 
    std::string errorMessageNonValidExcitedStatesMD;
    std::string errorMessageNonValidExcitedStatesMC;
