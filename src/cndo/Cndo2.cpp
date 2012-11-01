@@ -184,6 +184,8 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2::CalcOverlapAOsDifferentConfigurations: Number Atoms in lhs and rhs are different.\n";
    this->errorMessageCalcOverlapAOsDifferentConfigurationsOverlapAOsNULL
       = "Error in cndo::Cndo2::CalcOverlapAOsDifferentConfigurations: ovelrapAOs is NULL.\n";
+   this->errorMessageNonExcitedStates 
+      = "Error in cndo::CNDO2::Excited states can not be calculated with CNDO2.\n";
    this->errorMessageLhs = "lhs: ";
    this->errorMessageRhs = "rhs: ";
    this->errorMessageFromState = "\tfrom state = ";
@@ -3606,6 +3608,13 @@ void Cndo2::CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs,
       throw ex;
    }
    MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,totalAONumber,totalAONumber);
+}
+
+void Cndo2::CalcOverlapSingletSDsWithAnotherElectronicStructure(double** overlapSingletSDs, 
+                                                                double const* const* overlapMOs) const{
+      stringstream ss;
+      ss << this->errorMessageNonExcitedStates;
+      throw MolDSException(ss.str());
 }
 
 // calculate OverlapAOs matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book.

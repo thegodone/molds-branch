@@ -105,13 +105,14 @@ void NASCO::DoNASCO(Molecule& molecule){
    molecule.OutputXyzCOC();
    molecule.OutputMomenta();
 
-   // malloc ovelap AOs, MOs, ESs between differentMolecules
+   // malloc ovelap AOs, MOs, Singlet Slater Determinants, and Eigenstates between differentMolecules
    double** overlapAOs = NULL;
    double** overlapMOs = NULL;
+   double** overlapSingletSDs = NULL;
    double** overlapESs = NULL;
 
    try{
-      this->MallocOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapESs, molecule);
+      this->MallocOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapSingletSDs, &overlapESs, molecule);
       for(int s=0; s<totalSteps; s++){
          this->OutputLog(boost::format("%s%d\n") % this->messageStartStepNASCO.c_str() % (s+1) );
 
@@ -160,6 +161,17 @@ void NASCO::DoNASCO(Molecule& molecule){
             }
             cout << endl;
          }
+
+         currentES->CalcOverlapSingletSDsWithAnotherElectronicStructure(overlapSingletSDs, overlapMOs);
+         int dimOverlapSingleSDs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
+         cout << "overlap singlet slater determinants" << endl;
+         for(int i=0; i<dimOverlapSingleSDs; i++){
+            for(int j=0; j<dimOverlapSingleSDs; j++){
+               printf("%e\t",overlapSingletSDs[i][j]);
+            }
+            cout << endl;
+         }
+
             
          // Synchronous molecular configuration and electronic states
          this->SynchronousMolecularConfiguration(molecule, tmpMolecule);
@@ -179,10 +191,10 @@ void NASCO::DoNASCO(Molecule& molecule){
       }
    }
    catch(MolDSException ex){
-      this->FreeOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapESs, molecule);
+      this->FreeOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapSingletSDs, &overlapESs, molecule);
       throw ex;
    }
-   this->FreeOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapESs, molecule);
+   this->FreeOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapSingletSDs, &overlapESs, molecule);
    this->OutputLog(this->messageEndNASCO);
 }
 
@@ -305,26 +317,32 @@ void NASCO::CheckEnableTheoryType(TheoryType theoryType){
 
 void NASCO::MallocOverlapsDifferentMolecules(double*** overlapAOs,
                                              double*** overlapMOs, 
+                                             double*** overlapSingletSDs, 
                                              double*** overlapESs, 
                                              const Molecule& molecule) const{
    int dimOverlapAOs = molecule.GetTotalNumberAOs();
    int dimOverlapMOs = dimOverlapAOs;
-   int dimOverlapESs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
-   MallocerFreer::GetInstance()->Malloc<double>(overlapAOs, dimOverlapAOs, dimOverlapAOs);
-   MallocerFreer::GetInstance()->Malloc<double>(overlapMOs, dimOverlapMOs, dimOverlapMOs);
-   MallocerFreer::GetInstance()->Malloc<double>(overlapESs, dimOverlapESs, dimOverlapESs);
+   int dimOverlapSingleSDs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
+   int dimOverlapESs = dimOverlapSingleSDs;
+   MallocerFreer::GetInstance()->Malloc<double>(overlapAOs,        dimOverlapAOs,       dimOverlapAOs);
+   MallocerFreer::GetInstance()->Malloc<double>(overlapMOs,        dimOverlapMOs,       dimOverlapMOs);
+   MallocerFreer::GetInstance()->Malloc<double>(overlapSingletSDs, dimOverlapSingleSDs, dimOverlapSingleSDs);
+   MallocerFreer::GetInstance()->Malloc<double>(overlapESs,        dimOverlapESs,       dimOverlapESs);
 }
 
 void NASCO::FreeOverlapsDifferentMolecules(double*** overlapAOs,
                                            double*** overlapMOs, 
+                                           double*** overlapSingletSDs, 
                                            double*** overlapESs, 
                                            const MolDS_base::Molecule& molecule) const{
    int dimOverlapAOs = molecule.GetTotalNumberAOs();
    int dimOverlapMOs = dimOverlapAOs;
-   int dimOverlapESs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
-   MallocerFreer::GetInstance()->Free<double>(overlapAOs, dimOverlapAOs, dimOverlapAOs);
-   MallocerFreer::GetInstance()->Free<double>(overlapMOs, dimOverlapMOs, dimOverlapMOs);
-   MallocerFreer::GetInstance()->Free<double>(overlapESs, dimOverlapESs, dimOverlapESs);
+   int dimOverlapSingleSDs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
+   int dimOverlapESs = dimOverlapSingleSDs;
+   MallocerFreer::GetInstance()->Free<double>(overlapAOs,        dimOverlapAOs,       dimOverlapAOs);
+   MallocerFreer::GetInstance()->Free<double>(overlapMOs,        dimOverlapMOs,       dimOverlapMOs);
+   MallocerFreer::GetInstance()->Free<double>(overlapSingletSDs, dimOverlapSingleSDs, dimOverlapSingleSDs);
+   MallocerFreer::GetInstance()->Free<double>(overlapESs,        dimOverlapESs,       dimOverlapESs);
 }
 
 }
