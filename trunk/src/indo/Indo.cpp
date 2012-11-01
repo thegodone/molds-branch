@@ -82,6 +82,8 @@ void Indo::SetMessages(){
       = "Error in indo::Indo::GetElectronicEnergy: excitedEnergies is NULL\n";
    this->errorMessageCalcFrequenciesNormalModesBadTheory
       = "Error in indo::Indo::CalcFrequenciesNormalModesBadTheory: INDO is not supported for frequency (normal mode) analysis.\n";
+   this->errorMessageNonExcitedStates 
+      = "Error in indo::Indo::Excited states can not be calculated with INDO.\n";
    this->messageSCFMetConvergence = "\n\n\n\t\tINDO-SCF met convergence criterion(^^b\n\n\n";
    this->messageStartSCF = "**********  START: INDO-SCF  **********\n";
    this->messageDoneSCF = "**********  DONE: INDO-SCF  **********\n\n\n";
