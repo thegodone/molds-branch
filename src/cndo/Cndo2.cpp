@@ -3582,6 +3582,8 @@ void Cndo2::CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs,
    double const* const* rhsFockMatrix = this->fockMatrix;
    double const* const* lhsFockMatrix = lhsElectronicStructure.GetFockMatrix();
    int totalAONumber = this->molecule->GetTotalNumberAOs();
+   int usedMONumber = this->molecule->GetTotalNumberValenceElectrons()/2
+                     +Parameters::GetInstance()->GetActiveVirCIS();
    double** tmpMatrix=NULL;
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix,totalAONumber,totalAONumber);
@@ -3591,13 +3593,13 @@ void Cndo2::CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs,
       double beta=0.0;
       MolDS_wrappers::Blas::GetInstance()->Dgemm(isColumnMajorOverlapAOs,
                                                  isColumnMajorRhsFock,
-                                                 totalAONumber,totalAONumber,totalAONumber,
+                                                 totalAONumber,usedMONumber,totalAONumber,
                                                  alpha,
                                                  overlapAOs,
                                                  rhsFockMatrix,
                                                  beta,
                                                  tmpMatrix);
-      MolDS_wrappers::Blas::GetInstance()->Dgemm(totalAONumber,totalAONumber,totalAONumber,
+      MolDS_wrappers::Blas::GetInstance()->Dgemm(usedMONumber,totalAONumber,totalAONumber,
                                                  lhsFockMatrix,
                                                  tmpMatrix,
                                                  overlapMOs);
