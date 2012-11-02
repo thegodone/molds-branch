@@ -3612,6 +3612,12 @@ void Cndo2::CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs,
    MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,totalAONumber,totalAONumber);
 }
 
+// calculate OverlapSingletSDs matrix between different electronic-structure, S^{SSD}_{ij}.
+// i and j are singlet SDs belonging to left and right hand side electronic-structures, respectively.
+// The index i=0 means the Hartree-Fock state.
+// This overlapsingletSDs are calculated from overlapMOs.
+// Note that rhs-electronic-structure is this electronic-structure  
+// and lhs-electronic-structure is another electronic-structure.
 void Cndo2::CalcOverlapSingletSDsWithAnotherElectronicStructure(double** overlapSingletSDs, 
                                                                 double const* const* overlapMOs) const{
       stringstream ss;
