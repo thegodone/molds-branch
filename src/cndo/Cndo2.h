@@ -48,6 +48,9 @@ public:
                                                      const MolDS_base::ElectronicStructure& lhsElectronicStructure) const;
    virtual void CalcOverlapSingletSDsWithAnotherElectronicStructure(double** overlapSingletSDs, 
                                                                     double const* const* overlapMOs) const;
+   virtual void CalcOverlapESsWithAnotherElectronicStructure(double** overlapESs, 
+                                                             double const* const* overlapSingletSDs,
+                                                             const MolDS_base::ElectronicStructure& lhsElectronicStructure) const;
    MolDS_base::TheoryType GetTheoryType() const;
 protected:
    std::string errorMessageAtomA;

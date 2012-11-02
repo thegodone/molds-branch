@@ -3625,6 +3625,20 @@ void Cndo2::CalcOverlapSingletSDsWithAnotherElectronicStructure(double** overlap
       throw MolDSException(ss.str());
 }
 
+// calculate overlapESs (ES means eigenstate) matrix between different electronic-structure, S^{ES}_{ij}.
+// i and j are singlet SDs belonging to left and right hand side electronic-structures, respectively.
+// The index i=0 means the ground state.
+// This overlapESs is calculated from the overlapsingletSDs.
+// Note that rhs-electronic-structure is this electronic-structure  
+// and lhs-electronic-structure is another electronic-structure.
+void Cndo2::CalcOverlapESsWithAnotherElectronicStructure(double** overlapESs, 
+                                                         double const* const* overlapSingletSDs,
+                                                         const MolDS_base::ElectronicStructure& lhsElectronicStructure) const{
+      stringstream ss;
+      ss << this->errorMessageNonExcitedStates;
+      throw MolDSException(ss.str());
+}
+
 // calculate OverlapAOs matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book.
 void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
    int totalAONumber = molecule.GetTotalNumberAOs();
