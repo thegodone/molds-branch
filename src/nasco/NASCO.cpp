@@ -322,8 +322,10 @@ void NASCO::MallocOverlapsDifferentMolecules(double*** overlapAOs,
                                              const Molecule& molecule) const{
    int dimOverlapAOs = molecule.GetTotalNumberAOs();
    int dimOverlapMOs = dimOverlapAOs;
-   int dimOverlapSingleSDs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
-   int dimOverlapESs = dimOverlapSingleSDs;
+   int dimOverlapSingleSDs = Parameters::GetInstance()->GetActiveOccCIS()
+                            *Parameters::GetInstance()->GetActiveVirCIS()
+                            +1;
+   int dimOverlapESs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
    MallocerFreer::GetInstance()->Malloc<double>(overlapAOs,        dimOverlapAOs,       dimOverlapAOs);
    MallocerFreer::GetInstance()->Malloc<double>(overlapMOs,        dimOverlapMOs,       dimOverlapMOs);
    MallocerFreer::GetInstance()->Malloc<double>(overlapSingletSDs, dimOverlapSingleSDs, dimOverlapSingleSDs);
@@ -337,8 +339,10 @@ void NASCO::FreeOverlapsDifferentMolecules(double*** overlapAOs,
                                            const MolDS_base::Molecule& molecule) const{
    int dimOverlapAOs = molecule.GetTotalNumberAOs();
    int dimOverlapMOs = dimOverlapAOs;
-   int dimOverlapSingleSDs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
-   int dimOverlapESs = dimOverlapSingleSDs;
+   int dimOverlapSingleSDs = Parameters::GetInstance()->GetActiveOccCIS()
+                            *Parameters::GetInstance()->GetActiveVirCIS()
+                            +1;
+   int dimOverlapESs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
    MallocerFreer::GetInstance()->Free<double>(overlapAOs,        dimOverlapAOs,       dimOverlapAOs);
    MallocerFreer::GetInstance()->Free<double>(overlapMOs,        dimOverlapMOs,       dimOverlapMOs);
    MallocerFreer::GetInstance()->Free<double>(overlapSingletSDs, dimOverlapSingleSDs, dimOverlapSingleSDs);
