@@ -30,6 +30,7 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/Uncopyable.h"
+#include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"../base/Enums.h"
 #include"../base/MathUtilities.h"
@@ -761,6 +762,58 @@ void ZindoS::CalcOverlapSingletSDsWithAnotherElectronicStructure(double** overla
    MallocerFreer::GetInstance()->Free<double>(&tmpMatrix1, numberOcc, numberOcc);
    MallocerFreer::GetInstance()->Free<double>(&tmpMatrix2, numberOcc, numberOcc);
    MallocerFreer::GetInstance()->Free<double>(&tmpMatrix3, numberOcc, numberOcc);
+}
+
+// calculate overlapESs (ES means eigenstate) matrix between different electronic-structure, S^{ES}_{ij}.
+// i and j are singlet SDs belonging to left and right hand side electronic-structures, respectively.
+// The index i=0 means the ground state.
+// This overlapESs is calculated from the overlapsingletSDs.
+// Note that rhs-electronic-structure is this electronic-structure  
+// and lhs-electronic-structure is another electronic-structure.
+void ZindoS::CalcOverlapESsWithAnotherElectronicStructure(double** overlapESs, 
+                                                          double const* const* overlapSingletSDs,
+                                                          const MolDS_base::ElectronicStructure& lhsElectronicStructure) const{
+   const ElectronicStructure* rhsElectronicStructure = this;
+   double const* const* rhsMatrixCIS = this->matrixCIS;
+   double const* const* lhsMatrixCIS = lhsElectronicStructure.GetMatrixCIS();
+   int dimOverlapSingletSDs = this->matrixCISdimension + 1;
+   int dimOverlapESs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
+   int groundstate = 0;
+   // extended CIS matrix includes groundstate althoug matrixCIS does not include groundstate.
+   double** lhsExtendedMatrixCIS=NULL;
+   double** rhsExtendedMatrixCIS=NULL;
+   double** tmpMatrix=NULL;
+   MallocerFreer::GetInstance()->Malloc<double>(&lhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
+   MallocerFreer::GetInstance()->Malloc<double>(&rhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
+   MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix,            dimOverlapSingletSDs, dimOverlapESs);
+   lhsExtendedMatrixCIS[groundstate][groundstate] = 1.0;
+   rhsExtendedMatrixCIS[groundstate][groundstate] = 1.0;
+   for(int i=1; i<dimOverlapESs; i++){
+      for(int j=1; j<dimOverlapSingletSDs; j++){
+         rhsExtendedMatrixCIS[i][j] = rhsMatrixCIS[i-1][j-1];
+         lhsExtendedMatrixCIS[i][j] = lhsMatrixCIS[i-1][j-1];
+      }
+   }
+   // calc. overlap between eigenstates
+   bool isColumnMajorOverlapSingletSDs = false;
+   bool isColumnMajorRhsMatrixCIS = true;
+   double alpha=1.0;
+   double beta=0.0;
+   MolDS_wrappers::Blas::GetInstance()->Dgemm(isColumnMajorOverlapSingletSDs,
+                                              isColumnMajorRhsMatrixCIS,
+                                              dimOverlapSingletSDs, dimOverlapESs, dimOverlapSingletSDs,
+                                              alpha,
+                                              overlapSingletSDs,
+                                              rhsExtendedMatrixCIS,
+                                              beta,
+                                              tmpMatrix);
+   MolDS_wrappers::Blas::GetInstance()->Dgemm(dimOverlapESs, dimOverlapESs, dimOverlapSingletSDs,
+                                              lhsExtendedMatrixCIS,
+                                              tmpMatrix,
+                                              overlapESs);
+   MallocerFreer::GetInstance()->Free<double>(&lhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
+   MallocerFreer::GetInstance()->Free<double>(&rhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
+   MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,            dimOverlapSingletSDs, dimOverlapESs);
 }
 
 // The order of mol, moJ, moK, moL is consistent with Eq. (9) in [RZ_1973]
