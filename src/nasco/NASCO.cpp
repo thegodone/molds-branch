@@ -161,9 +161,12 @@ void NASCO::DoNASCO(Molecule& molecule){
             }
             cout << endl;
          }
+         cout << endl;
 
          currentES->CalcOverlapSingletSDsWithAnotherElectronicStructure(overlapSingletSDs, overlapMOs);
-         int dimOverlapSingleSDs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
+         int dimOverlapSingleSDs = Parameters::GetInstance()->GetActiveOccCIS()
+                                  *Parameters::GetInstance()->GetActiveOccCIS()
+                                  +1;
          cout << "overlap singlet slater determinants" << endl;
          for(int i=0; i<dimOverlapSingleSDs; i++){
             for(int j=0; j<dimOverlapSingleSDs; j++){
@@ -171,6 +174,7 @@ void NASCO::DoNASCO(Molecule& molecule){
             }
             cout << endl;
          }
+         cout << endl;
 
             
          // Synchronous molecular configuration and electronic states

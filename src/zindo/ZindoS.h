@@ -29,6 +29,8 @@ public:
    virtual ~ZindoS();
    void DoCIS();
    void OutputCISResults() const;
+   void CalcOverlapSingletSDsWithAnotherElectronicStructure(double** overlapSingletSDs, 
+                                                            double const* const* overlapMOs) const;
 protected:
    std::string errorMessageDavidsonNotConverged;
    std::string errorMessageCalcCISMatrix;
