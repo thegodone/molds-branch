@@ -45,7 +45,7 @@
 [S_1991] J. J. P. Stewart, J. Comp. Chem. 12, 320 (1991)
 [MOPAC_1990] J. J. P. Stewart, J. Computer-Aided Molecular Design 4, 1 (1990)
 [PT_1996] S. Patchkovskii and W. Thiel, Theor. Chim. Acta 93, 87 (1996)
-[EPW_1997] F. Eckert, P. Pulay and H. J. Werner, J. Comp. Chem. 23, 1473 (1997)
+[EPW_1997] F. Eckert, P. Pulay and H. J. Werner, J. Comput. Chem. 18, 1473 (1997)
 [PT_1997] S. Patchkovskii and W. Thiel, Theor. Chim. Acta 98, 1 (1997)
 [BFB_1997] M. A. Blanco, M. Fl{\'o}rez, and M. Bermejo, J. Mol. Struct. 419, 19 (1997)
 [BB_1998] E. Besalu, J. M. Bofill, Theor. Chem. Acc. 100, 265 (1998)
