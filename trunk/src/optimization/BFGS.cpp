@@ -62,6 +62,8 @@ void BFGS::SetMessages(){
       = "Error in optimization::BFGS::CheckEnableTheoryType: Non available theory is set.\n";
    this->errorMessageGeometyrOptimizationNotConverged
       = "Error in optimization::BFGS::Optimize: Optimization did not met convergence criterion.\n";
+   this->errorMessageNaNInRFOStep
+      = "Error in optimization::BFGS::Optimize: RFO step has gone NaN.\n";
    this->messageStartBFGSStep = "\n==========  START: BFGS step ";
 }
 
@@ -302,6 +304,9 @@ void BFGS::CalcRFOStep(double* vectorStep,
             // [vectorStep, 1] is the eigenvector of augmented Hessian.
             // See Eq. (4) in [EPW_1997].
             vectorStep[i] = matrixAugmentedHessian[0][i] / matrixAugmentedHessian[0][dimension] / alpha;
+            if(isnan(vectorStep[i])){
+               throw MolDSException(this->errorMessageNaNInRFOStep);
+            }
          }
          //
          // Calculate size of the RFO step
