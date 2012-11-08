@@ -18,10 +18,14 @@
 //************************************************************************//
 #include<string>
 #include<stdexcept>
+#include<boost/format.hpp>
 #include"MolDSException.h"
 using namespace std;
 namespace MolDS_base{
 MolDSException::MolDSException(string cause) : domain_error(cause){
+}
+
+MolDSException::MolDSException(const boost::format& cause) : domain_error(cause.str()){
 }
 }
 

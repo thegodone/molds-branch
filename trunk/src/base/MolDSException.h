@@ -22,6 +22,9 @@ namespace MolDS_base{
 class MolDSException : public std::domain_error {
 public:
    explicit MolDSException(std::string cause);
+#ifdef BOOST_FORMAT_HPP
+   MolDSException(const boost::format& cause);
+#endif
 private:
 };
 }
