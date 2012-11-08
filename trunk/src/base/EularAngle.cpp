@@ -66,7 +66,7 @@ EularAngle::EularAngle(double x, double y, double z){
 EularAngle::EularAngle(double* angles){
    this->SetMessage();
    this->alpha = angles[0];
-   this->beta = angles[1];
+   this->beta  = angles[1];
    this->gamma = angles[2];
 }
 
