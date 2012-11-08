@@ -302,7 +302,7 @@ void BFGS::CalcRFOStep(double* vectorStep,
          for(int i=0;i<dimension;i++){
             // Scale last element of eigenvector to 1/alpha because
             // [vectorStep, 1] is the eigenvector of augmented Hessian.
-            // See Eq. (4) in [EPW_1997].
+            // See Eq. (7) in [EPW_1997].
             vectorStep[i] = matrixAugmentedHessian[0][i] / matrixAugmentedHessian[0][dimension] / alpha;
             if(isnan(vectorStep[i])){
                throw MolDSException(boost::format(this->errorMessageNaNInRFOStep)
