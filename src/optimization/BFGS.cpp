@@ -63,7 +63,7 @@ void BFGS::SetMessages(){
    this->errorMessageGeometyrOptimizationNotConverged
       = "Error in optimization::BFGS::Optimize: Optimization did not met convergence criterion.\n";
    this->errorMessageNaNInRFOStep
-      = "Error in optimization::BFGS::Optimize: RFO step has gone NaN.\n";
+      = "Error in optimization::BFGS::Optimize: RFO step has gone NaN. (lambda * s[%d] = %e, lambda = %e, alpha = %e)\n";
    this->messageStartBFGSStep = "\n==========  START: BFGS step ";
 }
 
@@ -305,7 +305,8 @@ void BFGS::CalcRFOStep(double* vectorStep,
             // See Eq. (4) in [EPW_1997].
             vectorStep[i] = matrixAugmentedHessian[0][i] / matrixAugmentedHessian[0][dimension] / alpha;
             if(isnan(vectorStep[i])){
-               throw MolDSException(this->errorMessageNaNInRFOStep);
+               throw MolDSException(boost::format(this->errorMessageNaNInRFOStep)
+                     % i % matrixAugmentedHessian[0][i] % matrixAugmentedHessian[0][dimension] % alpha);
             }
          }
          //
