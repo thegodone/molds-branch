@@ -178,6 +178,8 @@ public:
    void          SetTotalStepsNASCO(int totalSteps);
    int           GetNumberElectronicStatesNASCO() const;
    void          SetNumberElectronicStatesNASCO(int NumberElectronicStates);
+   int           GetInitialElectronicStateNASCO() const;
+   void          SetInitialElectronicStateNASCO(int initialElectronicState);
    unsigned long GetSeedNASCO() const;
    void          SetSeedNASCO(unsigned long seed);
    double        GetTimeWidthNASCO() const;
@@ -296,6 +298,7 @@ private:
    // NASCO
    int           totalStepsNASCO;
    int           numberElectronicStatesNASCO;
+   int           initialElectronicStateNASCO;
    double        timeWidthNASCO;
    unsigned long seedNASCO;
    // Optimization

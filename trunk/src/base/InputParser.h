@@ -39,6 +39,7 @@ private:
    std::string errorMessageNonValidExcitedStatesRPMD;
    std::string errorMessageNonValidTheoriesNASCO;
    std::string errorMessageNonValidNumberExcitedStatesNASCO;
+   std::string errorMessageNonValidInitialElectronicStateNASCO;
    std::string errorMessageNonValidExcitedStatesOptimization;
    std::string errorMessageNonValidElectronicStateFrequencies;
    std::string errorMessageNonValidTheoryFrequencies;
@@ -47,6 +48,7 @@ private:
    std::string errorMessageTheory;
    std::string errorMessageNumberExcitedStateCIS;
    std::string errorMessageNumberElectronicStatesNASCO;
+   std::string errorMessageInitialElectronicStateNASCO;
    std::string messageStartParseInput;
    std::string messageDoneParseInput;
    std::string messageTotalNumberAOs;
@@ -105,6 +107,7 @@ private:
    std::string messageNascoConditions;
    std::string messageNascoTotalSteps;
    std::string messageNascoNumElecStates;
+   std::string messageNascoInitialElecState;
    std::string messageNascoTimeWidth;
    std::string messageNascoSeed;
    // Optimization
@@ -261,6 +264,7 @@ private:
    std::string stringNASCOEnd;
    std::string stringNASCOTotalSteps;
    std::string stringNASCONumElecStates;
+   std::string stringNASCOInitialElecState;
    std::string stringNASCOTimeWidth;
    std::string stringNASCOSeed;
    // Optimization
