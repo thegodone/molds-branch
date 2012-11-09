@@ -30,7 +30,7 @@ public:
    ~NASCO();
    void DoNASCO(MolDS_base::Molecule& molecule);
 private:
-   std::string messageinitialConditionNASCO;
+   std::string messageInitialConditionNASCO;
    std::string messageStartNASCO;
    std::string messageEndNASCO;
    std::string messageStartStepNASCO;
@@ -44,6 +44,7 @@ private:
    std::string messageElectronicEnergyVdW;
    std::string messageTotalEnergy;
    std::string messageErrorEnergy;
+   std::string messageElectronicState;
    std::string messageTime;
    std::string errorMessageNotEnebleTheoryType;
    std::string errorMessageTheoryType;
@@ -51,11 +52,29 @@ private:
    void CheckEnableTheoryType(MolDS_base::TheoryType theoryType);
    void SetMessages();
    void SetEnableTheoryTypes();
-   void UpdateMomenta(MolDS_base::Molecule& molecule, double const* const* matrixForce, double dt) const;
+   void UpdateMomenta(MolDS_base::Molecule& molecule, 
+                      double const* const* matrixForce, 
+                      const double dt) const;
+   void UpdateCoordinates(MolDS_base::Molecule& tmpMolecule, 
+                          const MolDS_base::Molecule& molecule,
+                          const double dt) const;
    void SynchronousMolecularConfiguration(MolDS_base::Molecule& target, 
                                           const MolDS_base::Molecule& refference) const;
-   void OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, double initialEnergy, const MolDS_base::Molecule& molecule);
-   double OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, const MolDS_base::Molecule& molecule);
+   void DecideNextElecState(int* elecState, 
+                            int* nonAdiabaticPhaseIndex,
+                            int numElecStates,
+                            double const* const* overlapESs,
+                            boost::random::variate_generator<
+                               boost::random::mt19937&,
+                               boost::uniform_real<>
+                            > (*realRand)) const;
+   void OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, 
+                       const MolDS_base::Molecule& molecule, 
+                       const double initialEnergy, 
+                       const int elecState) const;
+   double OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, 
+                         const MolDS_base::Molecule& molecule, 
+                         const int elecState) const;
    void MallocOverlapsDifferentMolecules(double*** overlapAOs,
                                          double*** overlapMOs, 
                                          double*** overlapSingleSDs,
