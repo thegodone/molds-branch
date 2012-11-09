@@ -3583,6 +3583,7 @@ void Cndo2::CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs,
    int totalAONumber = this->molecule->GetTotalNumberAOs();
    int usedMONumber = this->molecule->GetTotalNumberValenceElectrons()/2
                      +Parameters::GetInstance()->GetActiveVirCIS();
+   MallocerFreer::GetInstance()->Initialize<double>(overlapMOs, totalAONumber, totalAONumber);
    double** tmpMatrix=NULL;
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix,totalAONumber,totalAONumber);

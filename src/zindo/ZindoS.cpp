@@ -707,14 +707,17 @@ void ZindoS::CalcDiatomicOverlapAOs2ndDerivativeInDiatomicFrame(double** diatomi
 void ZindoS::CalcOverlapSingletSDsWithAnotherElectronicStructure(double** overlapSingletSDs, 
                                                                  double const* const* overlapMOs) const{
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
+   MallocerFreer::GetInstance()->Initialize<double>(overlapSingletSDs, 
+                                                    this->matrixCISdimension, 
+                                                    this->matrixCISdimension);
    double** tmpMatrix1=NULL;
    double** tmpMatrix2=NULL;
    double** tmpMatrix3=NULL;
-   MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix1, numberOcc, numberOcc);
-   MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix2, numberOcc, numberOcc);
-   MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix3, numberOcc, numberOcc);
    double sqrtGroundStateOverlap;
    try{
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix1, numberOcc, numberOcc);
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix2, numberOcc, numberOcc);
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix3, numberOcc, numberOcc);
       // between ground state
       for(int i=0; i<numberOcc; i++){
          for(int j=0; j<numberOcc; j++){
@@ -779,38 +782,47 @@ void ZindoS::CalcOverlapESsWithAnotherElectronicStructure(double** overlapESs,
    int dimOverlapSingletSDs = this->matrixCISdimension + 1;
    int dimOverlapESs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
    int groundstate = 0;
+   MallocerFreer::GetInstance()->Initialize<double>(overlapESs, dimOverlapESs, dimOverlapESs);
    // extended CIS matrix includes groundstate althoug matrixCIS does not include groundstate.
    double** lhsExtendedMatrixCIS=NULL;
    double** rhsExtendedMatrixCIS=NULL;
    double** tmpMatrix=NULL;
-   MallocerFreer::GetInstance()->Malloc<double>(&lhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
-   MallocerFreer::GetInstance()->Malloc<double>(&rhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
-   MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix,            dimOverlapSingletSDs, dimOverlapESs);
-   lhsExtendedMatrixCIS[groundstate][groundstate] = 1.0;
-   rhsExtendedMatrixCIS[groundstate][groundstate] = 1.0;
-   for(int i=1; i<dimOverlapESs; i++){
-      for(int j=1; j<dimOverlapSingletSDs; j++){
-         rhsExtendedMatrixCIS[i][j] = rhsMatrixCIS[i-1][j-1];
-         lhsExtendedMatrixCIS[i][j] = lhsMatrixCIS[i-1][j-1];
+   try{
+      MallocerFreer::GetInstance()->Malloc<double>(&lhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
+      MallocerFreer::GetInstance()->Malloc<double>(&rhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix,            dimOverlapSingletSDs, dimOverlapESs);
+      lhsExtendedMatrixCIS[groundstate][groundstate] = 1.0;
+      rhsExtendedMatrixCIS[groundstate][groundstate] = 1.0;
+      for(int i=1; i<dimOverlapESs; i++){
+         for(int j=1; j<dimOverlapSingletSDs; j++){
+            rhsExtendedMatrixCIS[i][j] = rhsMatrixCIS[i-1][j-1];
+            lhsExtendedMatrixCIS[i][j] = lhsMatrixCIS[i-1][j-1];
+         }
       }
+      // calc. overlap between eigenstates
+      bool isColumnMajorOverlapSingletSDs = false;
+      bool isColumnMajorRhsMatrixCIS = true;
+      double alpha=1.0;
+      double beta=0.0;
+      MolDS_wrappers::Blas::GetInstance()->Dgemm(isColumnMajorOverlapSingletSDs,
+                                                 isColumnMajorRhsMatrixCIS,
+                                                 dimOverlapSingletSDs, dimOverlapESs, dimOverlapSingletSDs,
+                                                 alpha,
+                                                 overlapSingletSDs,
+                                                 rhsExtendedMatrixCIS,
+                                                 beta,
+                                                 tmpMatrix);
+      MolDS_wrappers::Blas::GetInstance()->Dgemm(dimOverlapESs, dimOverlapESs, dimOverlapSingletSDs,
+                                                 lhsExtendedMatrixCIS,
+                                                 tmpMatrix,
+                                                 overlapESs);
    }
-   // calc. overlap between eigenstates
-   bool isColumnMajorOverlapSingletSDs = false;
-   bool isColumnMajorRhsMatrixCIS = true;
-   double alpha=1.0;
-   double beta=0.0;
-   MolDS_wrappers::Blas::GetInstance()->Dgemm(isColumnMajorOverlapSingletSDs,
-                                              isColumnMajorRhsMatrixCIS,
-                                              dimOverlapSingletSDs, dimOverlapESs, dimOverlapSingletSDs,
-                                              alpha,
-                                              overlapSingletSDs,
-                                              rhsExtendedMatrixCIS,
-                                              beta,
-                                              tmpMatrix);
-   MolDS_wrappers::Blas::GetInstance()->Dgemm(dimOverlapESs, dimOverlapESs, dimOverlapSingletSDs,
-                                              lhsExtendedMatrixCIS,
-                                              tmpMatrix,
-                                              overlapESs);
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free<double>(&lhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
+      MallocerFreer::GetInstance()->Free<double>(&rhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
+      MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,            dimOverlapSingletSDs, dimOverlapESs);
+      throw ex;
+   }
    MallocerFreer::GetInstance()->Free<double>(&lhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
    MallocerFreer::GetInstance()->Free<double>(&rhsExtendedMatrixCIS, dimOverlapSingletSDs, dimOverlapSingletSDs);
    MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,            dimOverlapSingletSDs, dimOverlapESs);
