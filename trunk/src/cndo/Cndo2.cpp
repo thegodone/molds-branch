@@ -1544,7 +1544,6 @@ void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
    for(int A=0; A<totalNumberAtoms; A++){
       firstAOIndex = molecule.GetAtom(A)->GetFirstAOIndex();
       numberAOs = molecule.GetAtom(A)->GetValenceSize();
-      atomicElectronPopulation[A] = 0.0;
       for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
          atomicElectronPopulation[A] += orbitalElectronPopulation[i][i];
       }
