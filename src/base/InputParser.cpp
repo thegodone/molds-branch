@@ -87,6 +87,8 @@ void InputParser::SetMessages(){
       = "Error in base::InputParser::ValidateNascoConditions: Theory you set is not supported for NASCO.\n";
    this->errorMessageNonValidNumberExcitedStatesNASCO
       = "Error in base::InputParser::ValidateNascoConditions: The Number of electronic states of NASCO should be not over the number of CIS excited states plus 1.\n";
+   this->errorMessageNonValidInitialElectronicStateNASCO
+      = "Error in base::InputParser::ValidateNascoConditions: The initial electronic states for NASCO should be set to one of the electronic eigenstates used in NASCO.\n";
    this->errorMessageNonValidExcitedStatesOptimization
       = "Error in base::InputParser::ValidateOptimizationConditions: Excited state on which optimization is carried out or CIS condition are wrong.\n";
    this->errorMessageNonValidElectronicStateFrequencies
@@ -98,6 +100,7 @@ void InputParser::SetMessages(){
    this->errorMessageTheory = "Theory: ";
    this->errorMessageNumberExcitedStateCIS = "Number of CIS excited states: ";
    this->errorMessageNumberElectronicStatesNASCO = "Number of electronic states for NASCO: ";
+   this->errorMessageInitialElectronicStateNASCO = "Initial electronic state for NASCO: ";
    this->messageStartParseInput = "**********  START: Parse input  **********\n";
    this->messageDoneParseInput =  "**********  DONE: Parse input  ***********\n\n\n";
    this->messageTotalNumberAOs = "\tTotal number of valence AOs: ";
@@ -160,11 +163,12 @@ void InputParser::SetMessages(){
    this->messageRpmdSeed          = "\t\tSeed: ";
 
    // NASCO
-   this->messageNascoConditions    = "\tNasco conditions:\n";
-   this->messageNascoTotalSteps    = "\t\tTotal steps: ";
-   this->messageNascoNumElecStates = "\t\tNumber of the electronic eigenstates: ";
-   this->messageNascoTimeWidth     = "\t\tTime width: ";
-   this->messageNascoSeed          = "\t\tSeed: ";
+   this->messageNascoConditions       = "\tNasco conditions:\n";
+   this->messageNascoTotalSteps       = "\t\tTotal steps: ";
+   this->messageNascoNumElecStates    = "\t\tNumber of the electronic eigenstates: ";
+   this->messageNascoInitialElecState = "\t\tInitial electronic eigenstate: ";
+   this->messageNascoTimeWidth        = "\t\tTime width: ";
+   this->messageNascoSeed             = "\t\tSeed: ";
 
    // Optimization
    this->messageOptimizationConditions  = "\tOptimization conditions:\n";
@@ -336,12 +340,13 @@ void InputParser::SetMessages(){
    this->stringRPMDSeed          = "seed";
 
    // NASCO
-   this->stringNASCO              = "nasco";
-   this->stringNASCOEnd           = "nasco_end";
-   this->stringNASCOTotalSteps    = "total_steps";
-   this->stringNASCONumElecStates = "num_electronic_states";
-   this->stringNASCOTimeWidth     = "dt";
-   this->stringNASCOSeed          = "seed";
+   this->stringNASCO                 = "nasco";
+   this->stringNASCOEnd              = "nasco_end";
+   this->stringNASCOTotalSteps       = "total_steps";
+   this->stringNASCONumElecStates    = "num_electronic_states";
+   this->stringNASCOInitialElecState = "initial_electronic_state";
+   this->stringNASCOTimeWidth        = "dt";
+   this->stringNASCOSeed             = "seed";
 
    // Opt
    this->stringOptimization                  = "optimization";
@@ -940,6 +945,12 @@ int InputParser::ParseConditionsNASCO(vector<string>* inputTerms, int parseIndex
          Parameters::GetInstance()->SetNumberElectronicStatesNASCO(numElecStates);
          parseIndex++;
       }
+      // initial electronic eigenstates for NASCO.
+      if((*inputTerms)[parseIndex].compare(this->stringNASCOInitialElecState) == 0){
+         int initElecState = atoi((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetInitialElectronicStateNASCO(initElecState);
+         parseIndex++;
+      }
       // time width for NASCO.
       if((*inputTerms)[parseIndex].compare(this->stringNASCOTimeWidth) == 0){
          double timeWidth = atof((*inputTerms)[parseIndex+1].c_str()) * Parameters::GetInstance()->GetFs2AU();
@@ -1408,6 +1419,16 @@ void InputParser::ValidateNascoConditions(const Molecule& molecule) const{
       ss << this->errorMessageNumberExcitedStateCIS << numberExcitedStatesCIS << endl;
       throw MolDSException(ss.str());
    } 
+   // Validate initial electronic eigenstate
+   int initialElectronicStateNASCO = Parameters::GetInstance()->GetInitialElectronicStateNASCO();
+   int numberElectronicStatesNASCO = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
+   if(numberElectronicStatesNASCO<=initialElectronicStateNASCO){
+      stringstream ss;
+      ss << this->errorMessageNonValidInitialElectronicStateNASCO;
+      ss << this->errorMessageNumberElectronicStatesNASCO << numberElectronicStatesNASCO << endl;
+      ss << this->errorMessageInitialElectronicStateNASCO << initialElectronicStateNASCO << endl;
+      throw MolDSException(ss.str());
+   }
 }
 
 void InputParser::ValidateOptimizationConditions(const Molecule& molecule) const{
@@ -1613,6 +1634,8 @@ void InputParser::OutputNascoConditions() const{
                                            % Parameters::GetInstance()->GetTotalStepsNASCO());
    this->OutputLog(boost::format("%s%d\n") % this->messageNascoNumElecStates.c_str() 
                                            % Parameters::GetInstance()->GetNumberElectronicStatesNASCO());
+   this->OutputLog(boost::format("%s%d\n") % this->messageNascoInitialElecState.c_str() 
+                                           % Parameters::GetInstance()->GetInitialElectronicStateNASCO());
    this->OutputLog(boost::format("%s%lf%s\n") % this->messageNascoTimeWidth.c_str() 
                                               % (Parameters::GetInstance()->GetTimeWidthNASCO()/Parameters::GetInstance()->GetFs2AU()) 
                                               % this->messageFs.c_str());

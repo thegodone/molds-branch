@@ -186,6 +186,7 @@ void Parameters::SetDefaultValues(){
    this->seedRPMD                   = static_cast<unsigned long>(time(0));
    // NASCO
    this->numberElectronicStatesNASCO = 3;
+   this->initialElectronicStateNASCO = 0;
    this->totalStepsNASCO             = 10;
    this->timeWidthNASCO              = 0.1*this->fs2AU;
    this->seedNASCO                   = static_cast<unsigned long>(time(0));
@@ -819,6 +820,14 @@ int Parameters::GetNumberElectronicStatesNASCO() const{
 
 void Parameters::SetNumberElectronicStatesNASCO(int numberElectronicStates){
    this->numberElectronicStatesNASCO = numberElectronicStates;
+}
+
+int Parameters::GetInitialElectronicStateNASCO() const{
+   return this->initialElectronicStateNASCO;
+}
+
+void Parameters::SetInitialElectronicStateNASCO(int initialElectronicState){
+   this->initialElectronicStateNASCO = initialElectronicState;
 }
 
 double Parameters::GetTimeWidthNASCO() const{
