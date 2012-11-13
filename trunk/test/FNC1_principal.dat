@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:26  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:34:46  <<<<<
 
 
 **********  START: Parse input  **********
@@ -105,14 +105,14 @@ inertia | origin | 1.0 | 2.0 | 3.0 | inertia_end | geometry | c | 0.16025 | 6.24
 
 
 	Summary for memory usage:
-		Max Heap: 0.002088[MB].
+		Max Heap: 0.002100[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 0[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0134799[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.01561[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

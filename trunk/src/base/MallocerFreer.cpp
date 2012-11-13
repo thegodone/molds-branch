@@ -97,15 +97,10 @@ void MallocerFreer::AddCurrentMalloced(double amount){
 #pragma omp critical
    {
       MallocerFreer::currentMalloced += amount;
-      if(MallocerFreer::maxMalloced < MallocerFreer::currentMalloced){
+      if(0 < amount && MallocerFreer::maxMalloced < MallocerFreer::currentMalloced){
          MallocerFreer::maxMalloced = MallocerFreer::currentMalloced;
       }
    }
-}
-
-void MallocerFreer::SubtCurrentMalloced(double amount){
-#pragma omp critical
-   MallocerFreer::currentMalloced -= amount;
 }
 
 }

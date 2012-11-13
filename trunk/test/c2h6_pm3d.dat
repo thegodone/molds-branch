@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:8:47  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:36:31  <<<<<
 
 
 **********  START: Parse input  **********
@@ -57,13 +57,13 @@ SCF iter=2: RMS density=1.042074036615134
 SCF iter=3: RMS density=0.567769925750909
 SCF iter=4: RMS density=0.307638312855062
 SCF iter=5: RMS density=0.166166935711443
-SCF iter=6: RMS density=0.000652209313777
-SCF iter=7: RMS density=0.000222275567772
-SCF iter=8: RMS density=0.000082223740766
+SCF iter=6: RMS density=0.000652209313775
+SCF iter=7: RMS density=0.000222275567804
+SCF iter=8: RMS density=0.000082223740774
 SCF iter=9: RMS density=0.000026766691316
-SCF iter=10: RMS density=0.000004948181334
-SCF iter=11: RMS density=0.000001971850501
-SCF iter=12: RMS density=0.000000164386595
+SCF iter=10: RMS density=0.000004948181346
+SCF iter=11: RMS density=0.000001971850503
+SCF iter=12: RMS density=0.000000164386593
 
 
 
@@ -115,19 +115,19 @@ SCF iter=12: RMS density=0.000000164386595
 	Mulliken charge:	6	H	1.000000e+00	3.963546e-02
 	Mulliken charge:	7	H	1.000000e+00	4.472049e-02
 
-	Elapsed time(omp) for the SCF = 0.029695[s].
+	Elapsed time(omp) for the SCF = 0.043063[s].
 **********  DONE: PM3-D-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.169560[MB].
+		Max Heap: 0.192040[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.07[s].  <<<<<
+     >>>>>  CPU time: 0.05[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0340679[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.047543[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

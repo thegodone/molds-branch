@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:34  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:34:50  <<<<<
 
 
 **********  START: Parse input  **********
@@ -49,18 +49,18 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=5.291502622129180
-SCF iter=1: RMS density=2.406832383581160
+SCF iter=0: RMS density=5.291502622129181
+SCF iter=1: RMS density=2.406832383581161
 SCF iter=2: RMS density=1.097693927705069
 SCF iter=3: RMS density=0.485996526273500
 SCF iter=4: RMS density=0.217393982341886
 SCF iter=5: RMS density=0.097852276195714
-SCF iter=6: RMS density=0.000404257452987
-SCF iter=7: RMS density=0.000094990567951
-SCF iter=8: RMS density=0.000036084327902
-SCF iter=9: RMS density=0.000007701726070
-SCF iter=10: RMS density=0.000002052101667
-SCF iter=11: RMS density=0.000000358204692
+SCF iter=6: RMS density=0.000404257452990
+SCF iter=7: RMS density=0.000094990568101
+SCF iter=8: RMS density=0.000036084327894
+SCF iter=9: RMS density=0.000007701726077
+SCF iter=10: RMS density=0.000002052101670
+SCF iter=11: RMS density=0.000000358204691
 
 
 
@@ -112,19 +112,19 @@ SCF iter=11: RMS density=0.000000358204692
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.038467[s].
+	Elapsed time(omp) for the SCF = 0.041862[s].
 **********  DONE: MNDO-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.169560[MB].
+		Max Heap: 0.192040[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.08[s].  <<<<<
+     >>>>>  CPU time: 0.04[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0432448[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.046514[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

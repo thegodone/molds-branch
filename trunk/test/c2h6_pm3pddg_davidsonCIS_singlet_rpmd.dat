@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 14:46:56  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:36:8  <<<<<
 
 
 **********  START: Parse input  **********
@@ -138,13 +138,13 @@ SCF iter=12: RMS density=0.000000161379730
 	Mulliken charge:	6	H	1.000000e+00	8.796440e-02
 	Mulliken charge:	7	H	1.000000e+00	9.335190e-02
 
-	Elapsed time(omp) for the SCF = 0.034258[s].
+	Elapsed time(omp) for the SCF = 0.033706[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055607[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055601[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -249,7 +249,7 @@ SCF iter=12: RMS density=0.000000161379730
 	Transition dipole moment:	0 -> 4		9.387976e-03	3.209008e-02	1.259478e-01	1.303102e-01		2.386186e-02	8.156485e-02	3.201275e-01	3.312157e-01
 
 
-	Elapsed time(omp) for the CIS = 0.203118[s].
+	Elapsed time(omp) for the CIS = 0.203305[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -316,13 +316,13 @@ SCF iter=12: RMS density=0.000000147167389
 	Mulliken charge:	6	H	1.000000e+00	8.975525e-02
 	Mulliken charge:	7	H	1.000000e+00	9.209319e-02
 
-	Elapsed time(omp) for the SCF = 0.034313[s].
+	Elapsed time(omp) for the SCF = 0.033751[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055567[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055091[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -421,7 +421,7 @@ SCF iter=12: RMS density=0.000000147167389
 	Transition dipole moment:	0 -> 4		1.121201e-03	-1.093366e-01	-1.462496e-01	1.826053e-01		2.849808e-03	-2.779059e-01	-3.717296e-01	4.641365e-01
 
 
-	Elapsed time(omp) for the CIS = 0.172705[s].
+	Elapsed time(omp) for the CIS = 0.175473[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -487,13 +487,13 @@ SCF iter=11: RMS density=0.000000636082912
 	Mulliken charge:	6	H	1.000000e+00	8.764107e-02
 	Mulliken charge:	7	H	1.000000e+00	9.254755e-02
 
-	Elapsed time(omp) for the SCF = 0.034355[s].
+	Elapsed time(omp) for the SCF = 0.033852[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055111[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055591[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -598,7 +598,7 @@ SCF iter=11: RMS density=0.000000636082912
 	Transition dipole moment:	0 -> 4		-1.852355e-03	1.975531e-02	3.444948e-02	3.975513e-02		-4.708217e-03	5.021300e-02	8.756186e-02	1.010475e-01
 
 
-	Elapsed time(omp) for the CIS = 0.202686[s].
+	Elapsed time(omp) for the CIS = 0.203411[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -678,13 +678,13 @@ SCF iter=12: RMS density=0.000000161387877
 	Mulliken charge:	6	H	1.000000e+00	8.796371e-02
 	Mulliken charge:	7	H	1.000000e+00	9.335145e-02
 
-	Elapsed time(omp) for the SCF = 0.034183[s].
+	Elapsed time(omp) for the SCF = 0.033600[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055787[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055170[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -789,7 +789,7 @@ SCF iter=12: RMS density=0.000000161387877
 	Transition dipole moment:	0 -> 4		9.384553e-03	3.209749e-02	1.259364e-01	1.303008e-01		2.385316e-02	8.158371e-02	3.200986e-01	3.311917e-01
 
 
-	Elapsed time(omp) for the CIS = 0.206530[s].
+	Elapsed time(omp) for the CIS = 0.207007[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -856,13 +856,13 @@ SCF iter=12: RMS density=0.000000147146753
 	Mulliken charge:	6	H	1.000000e+00	8.975477e-02
 	Mulliken charge:	7	H	1.000000e+00	9.209265e-02
 
-	Elapsed time(omp) for the SCF = 0.034500[s].
+	Elapsed time(omp) for the SCF = 0.033646[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055158[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055274[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -961,7 +961,7 @@ SCF iter=12: RMS density=0.000000147146753
 	Transition dipole moment:	0 -> 4		1.117754e-03	-1.093319e-01	-1.462340e-01	1.825899e-01		2.841049e-03	-2.778939e-01	-3.716897e-01	4.640973e-01
 
 
-	Elapsed time(omp) for the CIS = 0.172327[s].
+	Elapsed time(omp) for the CIS = 0.174922[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1027,13 +1027,13 @@ SCF iter=11: RMS density=0.000000635504318
 	Mulliken charge:	6	H	1.000000e+00	8.764060e-02
 	Mulliken charge:	7	H	1.000000e+00	9.254706e-02
 
-	Elapsed time(omp) for the SCF = 0.033985[s].
+	Elapsed time(omp) for the SCF = 0.033488[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055085[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055036[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1138,7 +1138,7 @@ SCF iter=11: RMS density=0.000000635504318
 	Transition dipole moment:	0 -> 4		-1.852253e-03	1.975028e-02	3.445396e-02	3.975650e-02		-4.707959e-03	5.020022e-02	8.757324e-02	1.010510e-01
 
 
-	Elapsed time(omp) for the CIS = 0.202122[s].
+	Elapsed time(omp) for the CIS = 0.205279[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1217,13 +1217,13 @@ SCF iter=12: RMS density=0.000000161412239
 	Mulliken charge:	6	H	1.000000e+00	8.796163e-02
 	Mulliken charge:	7	H	1.000000e+00	9.335010e-02
 
-	Elapsed time(omp) for the SCF = 0.034400[s].
+	Elapsed time(omp) for the SCF = 0.033673[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055972[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.054946[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1328,7 +1328,7 @@ SCF iter=12: RMS density=0.000000161412239
 	Transition dipole moment:	0 -> 4		9.374292e-03	3.211974e-02	1.259024e-01	1.302726e-01		2.382708e-02	8.164026e-02	3.200120e-01	3.311201e-01
 
 
-	Elapsed time(omp) for the CIS = 0.206260[s].
+	Elapsed time(omp) for the CIS = 0.206611[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1395,13 +1395,13 @@ SCF iter=12: RMS density=0.000000147085088
 	Mulliken charge:	6	H	1.000000e+00	8.975333e-02
 	Mulliken charge:	7	H	1.000000e+00	9.209104e-02
 
-	Elapsed time(omp) for the SCF = 0.033909[s].
+	Elapsed time(omp) for the SCF = 0.033813[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055130[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.054770[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1500,7 +1500,7 @@ SCF iter=12: RMS density=0.000000147085088
 	Transition dipole moment:	0 -> 4		1.107418e-03	-1.093176e-01	-1.461869e-01	1.825437e-01		2.814776e-03	-2.778578e-01	-3.715702e-01	4.639798e-01
 
 
-	Elapsed time(omp) for the CIS = 0.172778[s].
+	Elapsed time(omp) for the CIS = 0.174379[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1566,13 +1566,13 @@ SCF iter=11: RMS density=0.000000633768587
 	Mulliken charge:	6	H	1.000000e+00	8.763919e-02
 	Mulliken charge:	7	H	1.000000e+00	9.254559e-02
 
-	Elapsed time(omp) for the SCF = 0.033782[s].
+	Elapsed time(omp) for the SCF = 0.033247[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055680[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055133[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1677,7 +1677,7 @@ SCF iter=11: RMS density=0.000000633768587
 	Transition dipole moment:	0 -> 4		-1.851950e-03	1.973521e-02	3.446739e-02	3.976065e-02		-4.707187e-03	5.016190e-02	8.760738e-02	1.010615e-01
 
 
-	Elapsed time(omp) for the CIS = 0.203082[s].
+	Elapsed time(omp) for the CIS = 0.204431[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1756,13 +1756,13 @@ SCF iter=12: RMS density=0.000000161452555
 	Mulliken charge:	6	H	1.000000e+00	8.795816e-02
 	Mulliken charge:	7	H	1.000000e+00	9.334785e-02
 
-	Elapsed time(omp) for the SCF = 0.034773[s].
+	Elapsed time(omp) for the SCF = 0.034070[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055565[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.054750[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1867,7 +1867,7 @@ SCF iter=12: RMS density=0.000000161452555
 	Transition dipole moment:	0 -> 4		9.357219e-03	3.215679e-02	1.258458e-01	1.302259e-01		2.378368e-02	8.173443e-02	3.198683e-01	3.310014e-01
 
 
-	Elapsed time(omp) for the CIS = 0.206232[s].
+	Elapsed time(omp) for the CIS = 0.206983[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1934,13 +1934,13 @@ SCF iter=12: RMS density=0.000000146983091
 	Mulliken charge:	6	H	1.000000e+00	8.975093e-02
 	Mulliken charge:	7	H	1.000000e+00	9.208835e-02
 
-	Elapsed time(omp) for the SCF = 0.033820[s].
+	Elapsed time(omp) for the SCF = 0.034100[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055711[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055389[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2039,7 +2039,7 @@ SCF iter=12: RMS density=0.000000146983091
 	Transition dipole moment:	0 -> 4		1.090197e-03	-1.092940e-01	-1.461086e-01	1.824666e-01		2.771004e-03	-2.777976e-01	-3.713711e-01	4.637840e-01
 
 
-	Elapsed time(omp) for the CIS = 0.172415[s].
+	Elapsed time(omp) for the CIS = 0.175082[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2105,13 +2105,13 @@ SCF iter=11: RMS density=0.000000630875852
 	Mulliken charge:	6	H	1.000000e+00	8.763683e-02
 	Mulliken charge:	7	H	1.000000e+00	9.254314e-02
 
-	Elapsed time(omp) for the SCF = 0.033762[s].
+	Elapsed time(omp) for the SCF = 0.033315[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055309[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055287[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2216,7 +2216,7 @@ SCF iter=11: RMS density=0.000000630875852
 	Transition dipole moment:	0 -> 4		-1.851447e-03	1.971009e-02	3.448979e-02	3.976759e-02		-4.705911e-03	5.009807e-02	8.766432e-02	1.010792e-01
 
 
-	Elapsed time(omp) for the CIS = 0.201194[s].
+	Elapsed time(omp) for the CIS = 0.205325[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2295,13 +2295,13 @@ SCF iter=12: RMS density=0.000000161508381
 	Mulliken charge:	6	H	1.000000e+00	8.795329e-02
 	Mulliken charge:	7	H	1.000000e+00	9.334472e-02
 
-	Elapsed time(omp) for the SCF = 0.034279[s].
+	Elapsed time(omp) for the SCF = 0.034010[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055315[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055245[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2406,7 +2406,7 @@ SCF iter=12: RMS density=0.000000161508381
 	Transition dipole moment:	0 -> 4		9.333380e-03	3.220860e-02	1.257672e-01	1.301610e-01		2.372309e-02	8.186612e-02	3.196684e-01	3.308364e-01
 
 
-	Elapsed time(omp) for the CIS = 0.205998[s].
+	Elapsed time(omp) for the CIS = 0.205369[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2473,13 +2473,13 @@ SCF iter=12: RMS density=0.000000146841933
 	Mulliken charge:	6	H	1.000000e+00	8.974758e-02
 	Mulliken charge:	7	H	1.000000e+00	9.208460e-02
 
-	Elapsed time(omp) for the SCF = 0.033751[s].
+	Elapsed time(omp) for the SCF = 0.033549[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055843[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055021[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2578,7 +2578,7 @@ SCF iter=12: RMS density=0.000000146841933
 	Transition dipole moment:	0 -> 4		1.066100e-03	-1.092608e-01	-1.459990e-01	1.823589e-01		2.709757e-03	-2.777133e-01	-3.710926e-01	4.635102e-01
 
 
-	Elapsed time(omp) for the CIS = 0.196257[s].
+	Elapsed time(omp) for the CIS = 0.174930[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2644,13 +2644,13 @@ SCF iter=11: RMS density=0.000000626826376
 	Mulliken charge:	6	H	1.000000e+00	8.763352e-02
 	Mulliken charge:	7	H	1.000000e+00	9.253971e-02
 
-	Elapsed time(omp) for the SCF = 0.033727[s].
+	Elapsed time(omp) for the SCF = 0.033999[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055521[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055195[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2755,7 +2755,7 @@ SCF iter=11: RMS density=0.000000626826376
 	Transition dipole moment:	0 -> 4		-1.850753e-03	1.967497e-02	3.452116e-02	3.977739e-02		-4.704145e-03	5.000880e-02	8.774406e-02	1.011041e-01
 
 
-	Elapsed time(omp) for the CIS = 0.202209[s].
+	Elapsed time(omp) for the CIS = 0.206306[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2834,13 +2834,13 @@ SCF iter=12: RMS density=0.000000161579114
 	Mulliken charge:	6	H	1.000000e+00	8.794700e-02
 	Mulliken charge:	7	H	1.000000e+00	9.334071e-02
 
-	Elapsed time(omp) for the SCF = 0.034760[s].
+	Elapsed time(omp) for the SCF = 0.034065[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.056348[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055441[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2945,7 +2945,7 @@ SCF iter=12: RMS density=0.000000161579114
 	Transition dipole moment:	0 -> 4		9.302840e-03	3.227512e-02	1.256669e-01	1.300784e-01		2.364547e-02	8.203519e-02	3.194134e-01	3.306264e-01
 
 
-	Elapsed time(omp) for the CIS = 0.207489[s].
+	Elapsed time(omp) for the CIS = 0.207267[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -3012,13 +3012,13 @@ SCF iter=12: RMS density=0.000000146663249
 	Mulliken charge:	6	H	1.000000e+00	8.974326e-02
 	Mulliken charge:	7	H	1.000000e+00	9.207976e-02
 
-	Elapsed time(omp) for the SCF = 0.034017[s].
+	Elapsed time(omp) for the SCF = 0.033542[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.057030[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055559[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -3117,7 +3117,7 @@ SCF iter=12: RMS density=0.000000146663249
 	Transition dipole moment:	0 -> 4		1.035142e-03	-1.092181e-01	-1.458584e-01	1.822206e-01		2.631068e-03	-2.776049e-01	-3.707352e-01	4.631587e-01
 
 
-	Elapsed time(omp) for the CIS = 0.177460[s].
+	Elapsed time(omp) for the CIS = 0.177840[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -3183,13 +3183,13 @@ SCF iter=11: RMS density=0.000000621620590
 	Mulliken charge:	6	H	1.000000e+00	8.762927e-02
 	Mulliken charge:	7	H	1.000000e+00	9.253530e-02
 
-	Elapsed time(omp) for the SCF = 0.034310[s].
+	Elapsed time(omp) for the SCF = 0.034213[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055242[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055383[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -3294,7 +3294,7 @@ SCF iter=11: RMS density=0.000000621620590
 	Transition dipole moment:	0 -> 4		-1.849874e-03	1.962987e-02	3.456153e-02	3.979012e-02		-4.701911e-03	4.989416e-02	8.784668e-02	1.011364e-01
 
 
-	Elapsed time(omp) for the CIS = 0.223367[s].
+	Elapsed time(omp) for the CIS = 0.205775[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -3310,14 +3310,14 @@ SCF iter=11: RMS density=0.000000621620590
 ==========  DONE: RPMD step 5
 **********  DONE: Ring Polymer Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.807592[MB].
+		Max Heap: 0.923436[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 30.57[s].  <<<<<
-     >>>>>  Elapsed time: 30[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 30.6705[s].  <<<<<
+     >>>>>  CPU time: 23.64[s].  <<<<<
+     >>>>>  Elapsed time: 23[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 23.6742[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
