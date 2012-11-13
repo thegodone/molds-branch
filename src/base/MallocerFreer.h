@@ -32,7 +32,7 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double requiredMalloc = this->GetMemoryAmount(matrix, size1);
+      double requiredMalloc = this->GetMemoryAmount<T>(size1);
       this->CheckLimitHeap(requiredMalloc);
 
       *matrix = new T[size1];
@@ -54,12 +54,12 @@ public:
          return;
       }
       delete [] *matrix;
-      double freedMalloc = this->GetMemoryAmount(matrix, size1);
+      double freedMalloc = this->GetMemoryAmount<T>(size1);
       MallocerFreer::AddCurrentMalloced(-1.0*freedMalloc);
       *matrix = NULL;
    }
 
-   template<typename T> double GetMemoryAmount(T** matrix, size_t size1) const{
+   template<typename T> double GetMemoryAmount(size_t size1) const{
       double amount = static_cast<double>(sizeof(T))
                      *static_cast<double>(size1);
       return amount;
@@ -70,7 +70,7 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double requiredMalloc = this->GetMemoryAmount(matrix, size1, size2);
+      double requiredMalloc = this->GetMemoryAmount<T>(size1, size2);
       this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL;
@@ -116,16 +116,16 @@ public:
       }
       delete [] (*matrix)[0];
       delete [] *matrix;
-      double freedMalloc = this->GetMemoryAmount(matrix, size1, size2);
+      double freedMalloc = this->GetMemoryAmount<T>(size1, size2);
       MallocerFreer::AddCurrentMalloced(-1.0*freedMalloc);
       *matrix = NULL;
    }
 
-   template<typename T> double GetMemoryAmount(T*** matrix, size_t size1, size_t size2) const{
+   template<typename T> double GetMemoryAmount(size_t size1, size_t size2) const{
       double amount = static_cast<double>(sizeof(T))
                      *static_cast<double>(size1)
                      *static_cast<double>(size2);
-      amount += this->GetMemoryAmount(matrix, size1);
+      amount += this->GetMemoryAmount<T*>(size1);
       return amount;
    }
 
@@ -134,7 +134,7 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double requiredMalloc = this->GetMemoryAmount(matrix, size1, size2, size3);
+      double requiredMalloc = this->GetMemoryAmount<T>(size1, size2, size3);
       this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL;
@@ -197,17 +197,17 @@ public:
       delete [] p3d;
       delete [] p2d;
       delete [] p1d;
-      double freedMalloc = this->GetMemoryAmount(matrix, size1, size2, size3);
+      double freedMalloc = this->GetMemoryAmount<T>(size1, size2, size3);
       MallocerFreer::AddCurrentMalloced(-1.0*freedMalloc);
       *matrix = NULL;
    }
 
-   template<typename T> double GetMemoryAmount(T**** matrix, size_t size1, size_t size2, size_t size3) const{
+   template<typename T> double GetMemoryAmount(size_t size1, size_t size2, size_t size3) const{
       double amount = static_cast<double>(sizeof(T))
                      *static_cast<double>(size1)
                      *static_cast<double>(size2)
                      *static_cast<double>(size3);
-      amount += this->GetMemoryAmount(matrix, size1, size2);
+      amount += this->GetMemoryAmount<T*>(size1, size2);
       return amount;
    }
 
@@ -216,7 +216,7 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double requiredMalloc = this->GetMemoryAmount(matrix, size1, size2, size3, size4);
+      double requiredMalloc = this->GetMemoryAmount<T>(size1, size2, size3, size4);
       this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL;
@@ -293,18 +293,18 @@ public:
       delete [] p3d;
       delete [] p2d;
       delete [] p1d;
-      double freedMalloc = this->GetMemoryAmount(matrix, size1, size2, size3, size4);
+      double freedMalloc = this->GetMemoryAmount<T>(size1, size2, size3, size4);
       MallocerFreer::AddCurrentMalloced(-1.0*freedMalloc);
       *matrix = NULL;
    }
 
-   template<typename T> double GetMemoryAmount(T***** matrix, size_t size1, size_t size2, size_t size3, size_t size4) const{
+   template<typename T> double GetMemoryAmount(size_t size1, size_t size2, size_t size3, size_t size4) const{
       double amount = static_cast<double>(sizeof(T))
                      *static_cast<double>(size1)
                      *static_cast<double>(size2)
                      *static_cast<double>(size3)
                      *static_cast<double>(size4);
-      amount += this->GetMemoryAmount(matrix, size1, size2, size3);
+      amount += this->GetMemoryAmount<T*>(size1, size2, size3);
       return amount;
    }
 
@@ -313,7 +313,7 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double requiredMalloc = this->GetMemoryAmount(matrix, size1, size2, size3, size4, size5);
+      double requiredMalloc = this->GetMemoryAmount<T>(size1, size2, size3, size4, size5);
       this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL, *****p5d=NULL;
@@ -408,19 +408,19 @@ public:
       delete [] p3d;
       delete [] p2d;
       delete [] p1d;
-      double freedMalloc = this->GetMemoryAmount(matrix, size1, size2, size3, size4, size5);
+      double freedMalloc = this->GetMemoryAmount<T>(size1, size2, size3, size4, size5);
       MallocerFreer::AddCurrentMalloced(-1.0*freedMalloc);
       *matrix = NULL;
    }
 
-   template<typename T> double GetMemoryAmount(T****** matrix, size_t size1, size_t size2, size_t size3, size_t size4, size_t size5) const{
+   template<typename T> double GetMemoryAmount(size_t size1, size_t size2, size_t size3, size_t size4, size_t size5) const{
       double amount = static_cast<double>(sizeof(T))
                      *static_cast<double>(size1)
                      *static_cast<double>(size2)
                      *static_cast<double>(size3)
                      *static_cast<double>(size4)
                      *static_cast<double>(size5);
-      amount += this->GetMemoryAmount(matrix, size1, size2, size3, size4);
+      amount += this->GetMemoryAmount<T*>(size1, size2, size3, size4);
       return amount;
    }
 
@@ -429,7 +429,7 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double requiredMalloc = this->GetMemoryAmount(matrix, size1, size2, size3, size4, size5, size6);
+      double requiredMalloc = this->GetMemoryAmount<T>(size1, size2, size3, size4, size5, size6);
       this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL, *****p5d=NULL, ******p6d=NULL;
@@ -541,12 +541,12 @@ public:
       delete [] p3d;
       delete [] p2d;
       delete [] p1d;
-      double freedMalloc = this->GetMemoryAmount(matrix, size1, size2, size3, size4, size5, size6);
+      double freedMalloc = this->GetMemoryAmount<T>(size1, size2, size3, size4, size5, size6);
       MallocerFreer::AddCurrentMalloced(-1.0*freedMalloc);
       *matrix = NULL;
    }
 
-   template<typename T> double GetMemoryAmount(T******* matrix, size_t size1, size_t size2, size_t size3, size_t size4, size_t size5, size_t size6) const{
+   template<typename T> double GetMemoryAmount(size_t size1, size_t size2, size_t size3, size_t size4, size_t size5, size_t size6) const{
       double amount = static_cast<double>(sizeof(T))
                      *static_cast<double>(size1)
                      *static_cast<double>(size2)
@@ -554,7 +554,7 @@ public:
                      *static_cast<double>(size4)
                      *static_cast<double>(size5)
                      *static_cast<double>(size6);
-      amount += this->GetMemoryAmount(matrix, size1, size2, size3, size4, size5);
+      amount += this->GetMemoryAmount<T*>(size1, size2, size3, size4, size5);
       return amount;
    }
 
@@ -563,7 +563,7 @@ public:
       if(*matrix!=NULL){
          return;
       }
-      double requiredMalloc = this->GetMemoryAmount(matrix, size1, size2, size3, size4, size5, size6, size7);
+      double requiredMalloc = this->GetMemoryAmount<T>(size1, size2, size3, size4, size5, size6, size7);
       this->CheckLimitHeap(requiredMalloc);
 
       T *p1d=NULL, **p2d=NULL, ***p3d=NULL, ****p4d=NULL, *****p5d=NULL, ******p6d=NULL, *******p7d=NULL;
@@ -694,12 +694,12 @@ public:
       delete [] p3d;
       delete [] p2d;
       delete [] p1d;
-      double freedMalloc = this->GetMemoryAmount(matrix, size1, size2, size3, size4, size5, size6, size7);
+      double freedMalloc = this->GetMemoryAmount<T>(size1, size2, size3, size4, size5, size6, size7);
       MallocerFreer::AddCurrentMalloced(-1.0*freedMalloc);
       *matrix = NULL;
    }
 
-   template<typename T> double GetMemoryAmount(T******** matrix, size_t size1, size_t size2, size_t size3, size_t size4, size_t size5, size_t size6, size_t size7) const{
+   template<typename T> double GetMemoryAmount(size_t size1, size_t size2, size_t size3, size_t size4, size_t size5, size_t size6, size_t size7) const{
       double amount = static_cast<double>(sizeof(T))
                      *static_cast<double>(size1)
                      *static_cast<double>(size2)
@@ -708,7 +708,7 @@ public:
                      *static_cast<double>(size5)
                      *static_cast<double>(size6)
                      *static_cast<double>(size7);
-      amount += this->GetMemoryAmount(matrix, size1, size2, size3, size4, size5, size6);
+      amount += this->GetMemoryAmount<T*>(size1, size2, size3, size4, size5, size6);
       return amount;
    }
 private:
