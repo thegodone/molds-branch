@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/26(Wed.) 13:35:22  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:36:55  <<<<<
 
 
 **********  START: Parse input  **********
@@ -155,19 +155,19 @@ SCF iter=17: RMS density=0.000000281479857
 	Normal mode(nmw):	17	1.809712e-02	3.971858e+03		-1.267950e-02	1.025031e-04	-1.692540e-02	1.406018e-01	3.114870e-01	1.351327e-01	1.406261e-01	-3.130981e-01	1.313404e-01	2.031889e-02	1.878863e-04	-3.046165e-02	2.401195e-01	-3.125220e-03	5.069459e-01	-6.426512e-01	1.252941e-04	-2.097214e-02
 					'i' following the frequency means the imaginary frequency.
 
-	Elapsed time(omp) for the SCF = 2.996434[s].
+	Elapsed time(omp) for the SCF = 2.968694[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.330552[MB].
+		Max Heap: 0.396900[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 3[s].  <<<<<
+     >>>>>  CPU time: 2.96[s].  <<<<<
      >>>>>  Elapsed time: 3[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 3.00361[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 2.97261[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

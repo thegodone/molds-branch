@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 14:49:39  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:33  <<<<<
 
 
 **********  START: Parse input  **********
@@ -120,7 +120,7 @@ SCF iter=12: RMS density=0.000000435961070
 	Mulliken charge:	6	H	1.000000e+00	9.774623e-02
 	Mulliken charge:	7	H	1.000000e+00	1.088898e-01
 
-	Elapsed time(omp) for the SCF = 0.040611[s].
+	Elapsed time(omp) for the SCF = 0.042640[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1362,7 +1362,7 @@ SCF iter=12: RMS density=0.000000435961070
 	Total Dipole moment(SCF):	-4.678187e-04	7.772591e-03	-2.842268e-05	7.786708e-03		-1.189077e-03	1.975596e-02	-7.224327e-05	1.979184e-02
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Electronic Dipole moment(SCF):	4.650242e-04	2.053091e-02	-1.145956e-03	2.056812e-02		1.181974e-03	5.218437e-02	-2.912731e-03	5.227896e-02
+	Electronic Dipole moment(SCF):	4.650243e-04	2.053091e-02	-1.145956e-03	2.056812e-02		1.181974e-03	5.218437e-02	-2.912731e-03	5.227896e-02
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-9.328430e-04	-1.275832e-02	1.117534e-03	1.284110e-02		-2.371051e-03	-3.242841e-02	2.840488e-03	3.263881e-02
@@ -1729,7 +1729,7 @@ SCF iter=12: RMS density=0.000000435961070
 
 
 	====== Optimization Logs ======
-	Energy difference:  -9.291858e-07 [a.u.]
+	Energy difference:  -9.291859e-07 [a.u.]
 	Max gradient:  3.415713e-04 [a.u.]
 	Rms gradient:  1.493324e-04 [a.u.]
 
@@ -1739,14 +1739,14 @@ SCF iter=12: RMS density=0.000000435961070
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.168480[MB].
+		Max Heap: 0.192268[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 14.9[s].  <<<<<
-     >>>>>  Elapsed time: 15[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 14.9437[s].  <<<<<
+     >>>>>  CPU time: 9.46[s].  <<<<<
+     >>>>>  Elapsed time: 9[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 9.48686[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

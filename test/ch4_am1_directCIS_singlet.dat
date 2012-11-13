@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:58  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:1  <<<<<
 
 
 **********  START: Parse input  **********
@@ -57,15 +57,15 @@ geometry_end |
 **********  START: AM1-SCF  **********
 SCF iter=0: RMS density=4.000000000000001
 SCF iter=1: RMS density=1.699064918786531
-SCF iter=2: RMS density=0.860963005115502
+SCF iter=2: RMS density=0.860963005115501
 SCF iter=3: RMS density=0.427429334990106
 SCF iter=4: RMS density=0.212223351849659
 SCF iter=5: RMS density=0.105406806288199
-SCF iter=6: RMS density=0.000491821124496
-SCF iter=7: RMS density=0.000144353255819
-SCF iter=8: RMS density=0.000016945425571
-SCF iter=9: RMS density=0.000003541300551
-SCF iter=10: RMS density=0.000000554330689
+SCF iter=6: RMS density=0.000491821124493
+SCF iter=7: RMS density=0.000144353256255
+SCF iter=8: RMS density=0.000016945425396
+SCF iter=9: RMS density=0.000003541300442
+SCF iter=10: RMS density=0.000000554330652
 
 
 
@@ -105,13 +105,13 @@ SCF iter=10: RMS density=0.000000554330689
 	Mulliken charge:	3	H	1.000000e+00	7.034583e-02
 	Mulliken charge:	4	H	1.000000e+00	6.455937e-02
 
-	Elapsed time(omp) for the SCF = 0.020538[s].
+	Elapsed time(omp) for the SCF = 0.023939[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000993[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001948[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -194,19 +194,19 @@ SCF iter=10: RMS density=0.000000554330689
 	Transition dipole moment:	0 -> 16		1.440794e-04	8.417293e-04	2.581277e-02	2.582689e-02		3.662135e-04	2.139463e-03	6.560952e-02	6.564542e-02
 
 
-	Elapsed time(omp) for the CIS = 0.007128[s].
+	Elapsed time(omp) for the CIS = 0.007810[s].
 **********  DONE: AM1-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.076200[MB].
+		Max Heap: 0.083868[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 0.05[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.031666[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0365789[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 14:45:7  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:23  <<<<<
 
 
 **********  START: Parse input  **********
@@ -123,13 +123,13 @@ SCF iter=12: RMS density=0.000000190761143
 	Mulliken charge:	6	H	1.000000e+00	8.849413e-02
 	Mulliken charge:	7	H	1.000000e+00	9.338598e-02
 
-	Elapsed time(omp) for the SCF = 0.046599[s].
+	Elapsed time(omp) for the SCF = 0.043933[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055461[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055198[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -234,19 +234,19 @@ SCF iter=12: RMS density=0.000000190761143
 	Transition dipole moment:	0 -> 4		-4.556279e-03	-4.980071e-02	-8.575193e-02	9.926865e-02		-1.158091e-02	-1.265808e-01	-2.179597e-01	2.523158e-01
 
 
-	Elapsed time(omp) for the CIS = 0.203928[s].
+	Elapsed time(omp) for the CIS = 0.206131[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.199880[MB].
+		Max Heap: 0.223452[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 0.26[s].  <<<<<
-     >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.260125[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.255012[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:8:52  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:36:33  <<<<<
 
 
 **********  START: Parse input  **********
@@ -62,18 +62,18 @@ geometry_end |
 **********  START: Monte Carlo  **********
 **********  START: PM3-SCF  **********
 SCF iter=0: RMS density=5.291502622129181
-SCF iter=1: RMS density=1.910456125626944
+SCF iter=1: RMS density=1.910456125626943
 SCF iter=2: RMS density=1.044203238495391
 SCF iter=3: RMS density=0.569275110921829
 SCF iter=4: RMS density=0.308641545774631
 SCF iter=5: RMS density=0.166813060251974
 SCF iter=6: RMS density=0.000657312351885
-SCF iter=7: RMS density=0.000224796079716
-SCF iter=8: RMS density=0.000083564976994
-SCF iter=9: RMS density=0.000026986732833
-SCF iter=10: RMS density=0.000004938275843
-SCF iter=11: RMS density=0.000002003884717
-SCF iter=12: RMS density=0.000000169506348
+SCF iter=7: RMS density=0.000224796079703
+SCF iter=8: RMS density=0.000083564976884
+SCF iter=9: RMS density=0.000026986732816
+SCF iter=10: RMS density=0.000004938275875
+SCF iter=11: RMS density=0.000002003884716
+SCF iter=12: RMS density=0.000000169506347
 
 
 
@@ -125,7 +125,7 @@ SCF iter=12: RMS density=0.000000169506348
 	Mulliken charge:	6	H	1.000000e+00	3.744313e-02
 	Mulliken charge:	7	H	1.000000e+00	4.258006e-02
 
-	Elapsed time(omp) for the SCF = 0.031761[s].
+	Elapsed time(omp) for the SCF = 0.041751[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -155,19 +155,19 @@ SCF iter=12: RMS density=0.000000169506348
 	========== START: MC step 1
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=5.291502622129178
+SCF iter=0: RMS density=5.291502622129181
 SCF iter=1: RMS density=1.903193717221935
-SCF iter=2: RMS density=1.041663226876397
+SCF iter=2: RMS density=1.041663226876398
 SCF iter=3: RMS density=0.569732144751598
 SCF iter=4: RMS density=0.310012794711906
 SCF iter=5: RMS density=0.168187496154966
-SCF iter=6: RMS density=0.000957818190237
-SCF iter=7: RMS density=0.000407933075975
-SCF iter=8: RMS density=0.000143630981185
-SCF iter=9: RMS density=0.000046259144672
-SCF iter=10: RMS density=0.000008336690907
-SCF iter=11: RMS density=0.000002748787966
-SCF iter=12: RMS density=0.000000330165343
+SCF iter=6: RMS density=0.000957818190236
+SCF iter=7: RMS density=0.000407933075982
+SCF iter=8: RMS density=0.000143630981199
+SCF iter=9: RMS density=0.000046259144687
+SCF iter=10: RMS density=0.000008336690895
+SCF iter=11: RMS density=0.000002748787967
+SCF iter=12: RMS density=0.000000330165339
 
 
 
@@ -219,7 +219,7 @@ SCF iter=12: RMS density=0.000000330165343
 	Mulliken charge:	6	H	1.000000e+00	3.876166e-02
 	Mulliken charge:	7	H	1.000000e+00	4.011921e-02
 
-	Elapsed time(omp) for the SCF = 0.021580[s].
+	Elapsed time(omp) for the SCF = 0.034195[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -249,14 +249,14 @@ SCF iter=12: RMS density=0.000000330165343
 	========== START: MC step 2
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.020355665157565
-SCF iter=1: RMS density=0.007503243042569
-SCF iter=2: RMS density=0.003176480683968
+SCF iter=0: RMS density=0.020355665157566
+SCF iter=1: RMS density=0.007503243042570
+SCF iter=2: RMS density=0.003176480683967
 SCF iter=3: RMS density=0.001440267560209
-SCF iter=4: RMS density=0.000674519468048
+SCF iter=4: RMS density=0.000674519468047
 SCF iter=5: RMS density=0.000321084866702
-SCF iter=6: RMS density=0.000001271065998
-SCF iter=7: RMS density=0.000000485534181
+SCF iter=6: RMS density=0.000001271065995
+SCF iter=7: RMS density=0.000000485534184
 
 
 
@@ -308,7 +308,7 @@ SCF iter=7: RMS density=0.000000485534181
 	Mulliken charge:	6	H	1.000000e+00	3.956646e-02
 	Mulliken charge:	7	H	1.000000e+00	4.000530e-02
 
-	Elapsed time(omp) for the SCF = 0.020362[s].
+	Elapsed time(omp) for the SCF = 0.032507[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -338,15 +338,15 @@ SCF iter=7: RMS density=0.000000485534181
 	========== START: MC step 3
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.020596390769112
+SCF iter=0: RMS density=0.020596390769111
 SCF iter=1: RMS density=0.007676171339015
-SCF iter=2: RMS density=0.003342643776385
+SCF iter=2: RMS density=0.003342643776384
 SCF iter=3: RMS density=0.001548654762877
 SCF iter=4: RMS density=0.000735218163392
-SCF iter=5: RMS density=0.000353116741401
-SCF iter=6: RMS density=0.000003103492145
-SCF iter=7: RMS density=0.000001034361780
-SCF iter=8: RMS density=0.000000255221986
+SCF iter=5: RMS density=0.000353116741402
+SCF iter=6: RMS density=0.000003103492143
+SCF iter=7: RMS density=0.000001034361783
+SCF iter=8: RMS density=0.000000255221983
 
 
 
@@ -398,7 +398,7 @@ SCF iter=8: RMS density=0.000000255221986
 	Mulliken charge:	6	H	1.000000e+00	3.860427e-02
 	Mulliken charge:	7	H	1.000000e+00	4.015956e-02
 
-	Elapsed time(omp) for the SCF = 0.020871[s].
+	Elapsed time(omp) for the SCF = 0.032616[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -428,14 +428,14 @@ SCF iter=8: RMS density=0.000000255221986
 	========== START: MC step 4
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.022984626077747
-SCF iter=1: RMS density=0.006752398483275
-SCF iter=2: RMS density=0.002524255514431
+SCF iter=0: RMS density=0.022984626077746
+SCF iter=1: RMS density=0.006752398483274
+SCF iter=2: RMS density=0.002524255514432
 SCF iter=3: RMS density=0.001093924913864
-SCF iter=4: RMS density=0.000506088266002
+SCF iter=4: RMS density=0.000506088266003
 SCF iter=5: RMS density=0.000240432199604
-SCF iter=6: RMS density=0.000001536771311
-SCF iter=7: RMS density=0.000000626265067
+SCF iter=6: RMS density=0.000001536771301
+SCF iter=7: RMS density=0.000000626265063
 
 
 
@@ -487,7 +487,7 @@ SCF iter=7: RMS density=0.000000626265067
 	Mulliken charge:	6	H	1.000000e+00	3.881106e-02
 	Mulliken charge:	7	H	1.000000e+00	4.017300e-02
 
-	Elapsed time(omp) for the SCF = 0.020389[s].
+	Elapsed time(omp) for the SCF = 0.032966[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -518,13 +518,13 @@ SCF iter=7: RMS density=0.000000626265067
 
 **********  START: PM3-SCF  **********
 SCF iter=0: RMS density=0.018179349495263
-SCF iter=1: RMS density=0.004842607767374
+SCF iter=1: RMS density=0.004842607767375
 SCF iter=2: RMS density=0.001642750972961
-SCF iter=3: RMS density=0.000677545461654
-SCF iter=4: RMS density=0.000312441401529
-SCF iter=5: RMS density=0.000152320438788
-SCF iter=6: RMS density=0.000002854282070
-SCF iter=7: RMS density=0.000000877371487
+SCF iter=3: RMS density=0.000677545461652
+SCF iter=4: RMS density=0.000312441401530
+SCF iter=5: RMS density=0.000152320438789
+SCF iter=6: RMS density=0.000002854282062
+SCF iter=7: RMS density=0.000000877371489
 
 
 
@@ -576,7 +576,7 @@ SCF iter=7: RMS density=0.000000877371487
 	Mulliken charge:	6	H	1.000000e+00	3.903480e-02
 	Mulliken charge:	7	H	1.000000e+00	3.977403e-02
 
-	Elapsed time(omp) for the SCF = 0.020010[s].
+	Elapsed time(omp) for the SCF = 0.032731[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -607,14 +607,14 @@ SCF iter=7: RMS density=0.000000877371487
 **********  DONE: Monte Carlo  **********
 
 	Summary for memory usage:
-		Max Heap: 0.315496[MB].
+		Max Heap: 0.360880[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.28[s].  <<<<<
-     >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.143673[s].  <<<<<
+     >>>>>  CPU time: 0.22[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.215816[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

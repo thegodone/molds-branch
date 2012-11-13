@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:8:23  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:12  <<<<<
 
 
 **********  START: Parse input  **********
@@ -59,16 +59,16 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 
 **********  START: PM3-SCF  **********
 SCF iter=0: RMS density=3.999999999999999
-SCF iter=1: RMS density=1.406267853790505
+SCF iter=1: RMS density=1.406267853790504
 SCF iter=2: RMS density=0.809638190579181
 SCF iter=3: RMS density=0.477935710038236
 SCF iter=4: RMS density=0.283514051639097
 SCF iter=5: RMS density=0.168259970063173
-SCF iter=6: RMS density=0.000343116552025
-SCF iter=7: RMS density=0.000114493061012
-SCF iter=8: RMS density=0.000095997949727
-SCF iter=9: RMS density=0.000038109673055
-SCF iter=10: RMS density=0.000001602438552
+SCF iter=6: RMS density=0.000343116552016
+SCF iter=7: RMS density=0.000114493060962
+SCF iter=8: RMS density=0.000095997949200
+SCF iter=9: RMS density=0.000038109672599
+SCF iter=10: RMS density=0.000001602438546
 SCF iter=11: RMS density=0.000000280665934
 
 
@@ -109,13 +109,13 @@ SCF iter=11: RMS density=0.000000280665934
 	Mulliken charge:	3	H	1.000000e+00	3.244095e-02
 	Mulliken charge:	4	H	1.000000e+00	2.649409e-02
 
-	Elapsed time(omp) for the SCF = 0.019323[s].
+	Elapsed time(omp) for the SCF = 0.020442[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000998[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001903[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -138,10 +138,10 @@ SCF iter=11: RMS density=0.000000280665934
 	  4-th excited: norm of the residual = 4.157231e-02
 
 	Davidson iter=3
-	  1-th excited: norm of the residual = 3.634229e-16
-	  2-th excited: norm of the residual = 3.161166e-16
-	  3-th excited: norm of the residual = 2.609985e-16
-	  4-th excited: norm of the residual = 9.201551e-16
+	  1-th excited: norm of the residual = 2.501649e-16
+	  2-th excited: norm of the residual = 3.060040e-16
+	  3-th excited: norm of the residual = 4.391328e-16
+	  4-th excited: norm of the residual = 1.081924e-15
 
 
 
@@ -178,19 +178,19 @@ SCF iter=11: RMS density=0.000000280665934
 	Transition dipole moment:	0 -> 4		-2.256321e-01	8.233477e-01	-9.739750e-01	1.295160e+00		-5.734996e-01	2.092742e+00	-2.475598e+00	3.291968e+00
 
 
-	Elapsed time(omp) for the CIS = 0.004157[s].
+	Elapsed time(omp) for the CIS = 0.005494[s].
 **********  DONE: PM3-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.069216[MB].
+		Max Heap: 0.076428[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 0.04[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0279951[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0301058[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

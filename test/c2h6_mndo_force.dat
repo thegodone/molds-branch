@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:39  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:34:51  <<<<<
 
 
 **********  START: Parse input  **********
@@ -56,18 +56,18 @@ geometry_end |
 
 **********  START: Molecular dynamics  **********
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=5.291502622129180
-SCF iter=1: RMS density=2.406832383581160
-SCF iter=2: RMS density=1.097693927705070
+SCF iter=0: RMS density=5.291502622129181
+SCF iter=1: RMS density=2.406832383581161
+SCF iter=2: RMS density=1.097693927705069
 SCF iter=3: RMS density=0.485996526273500
 SCF iter=4: RMS density=0.217393982341886
 SCF iter=5: RMS density=0.097852276195714
-SCF iter=6: RMS density=0.000404257452987
-SCF iter=7: RMS density=0.000094990567828
-SCF iter=8: RMS density=0.000036084327833
-SCF iter=9: RMS density=0.000007701726070
-SCF iter=10: RMS density=0.000002052101648
-SCF iter=11: RMS density=0.000000358204696
+SCF iter=6: RMS density=0.000404257452990
+SCF iter=7: RMS density=0.000094990568101
+SCF iter=8: RMS density=0.000036084327894
+SCF iter=9: RMS density=0.000007701726077
+SCF iter=10: RMS density=0.000002052101670
+SCF iter=11: RMS density=0.000000358204691
 
 
 
@@ -119,7 +119,7 @@ SCF iter=11: RMS density=0.000000358204696
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.030382[s].
+	Elapsed time(omp) for the SCF = 0.041881[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -162,8 +162,8 @@ SCF iter=11: RMS density=0.000000358204696
 
 	========== START: MD step 1
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000009924289645
-SCF iter=1: RMS density=0.000002901935969
+SCF iter=0: RMS density=0.000009924289644
+SCF iter=1: RMS density=0.000002901935967
 SCF iter=2: RMS density=0.000000979764641
 
 
@@ -216,7 +216,7 @@ SCF iter=2: RMS density=0.000000979764641
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736950e-02	-1.717462e+01
 
-	Elapsed time(omp) for the SCF = 0.019223[s].
+	Elapsed time(omp) for the SCF = 0.031543[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -227,7 +227,7 @@ SCF iter=2: RMS density=0.000000979764641
 		Electronic
 		(inc. core rep.):	-1.255204e+01	-3.415610e+02
 		Total:            	-1.255203e+01	-3.415609e+02
-		Error:            	2.902674e-10	7.898640e-09
+		Error:            	2.902603e-10	7.898447e-09
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	-1.346471e-06	3.779129e-02	-7.994195e-07		-7.125219e-07	1.999829e-02	-4.230346e-07
@@ -261,10 +261,10 @@ SCF iter=2: RMS density=0.000000979764641
 	========== START: MD step 2
 **********  START: MNDO-SCF  **********
 SCF iter=0: RMS density=0.000030012836303
-SCF iter=1: RMS density=0.000008815637315
-SCF iter=2: RMS density=0.000002989897477
+SCF iter=1: RMS density=0.000008815637316
+SCF iter=2: RMS density=0.000002989897476
 SCF iter=3: RMS density=0.000001129680543
-SCF iter=4: RMS density=0.000000458886002
+SCF iter=4: RMS density=0.000000458886003
 
 
 
@@ -316,7 +316,7 @@ SCF iter=4: RMS density=0.000000458886002
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737405e-02	-1.717747e+01
 
-	Elapsed time(omp) for the SCF = 0.019190[s].
+	Elapsed time(omp) for the SCF = 0.031807[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -327,7 +327,7 @@ SCF iter=4: RMS density=0.000000458886002
 		Electronic
 		(inc. core rep.):	-1.255204e+01	-3.415611e+02
 		Total:            	-1.255203e+01	-3.415609e+02
-		Error:            	1.157701e-09	3.150291e-08
+		Error:            	1.157687e-09	3.150253e-08
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	-5.385979e-06	3.778159e-02	-3.197081e-06		-2.850137e-06	1.999316e-02	-1.691822e-06
@@ -361,9 +361,9 @@ SCF iter=4: RMS density=0.000000458886002
 	========== START: MD step 3
 **********  START: MNDO-SCF  **********
 SCF iter=0: RMS density=0.000049637780703
-SCF iter=1: RMS density=0.000014538371810
-SCF iter=2: RMS density=0.000004917373274
-SCF iter=3: RMS density=0.000001853917143
+SCF iter=1: RMS density=0.000014538371811
+SCF iter=2: RMS density=0.000004917373273
+SCF iter=3: RMS density=0.000001853917144
 SCF iter=4: RMS density=0.000000751870881
 
 
@@ -416,7 +416,7 @@ SCF iter=4: RMS density=0.000000751870881
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738162e-02	-1.718222e+01
 
-	Elapsed time(omp) for the SCF = 0.019379[s].
+	Elapsed time(omp) for the SCF = 0.032284[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -427,7 +427,7 @@ SCF iter=4: RMS density=0.000000751870881
 		Electronic
 		(inc. core rep.):	-1.255205e+01	-3.415613e+02
 		Total:            	-1.255203e+01	-3.415609e+02
-		Error:            	2.598657e-09	7.071363e-08
+		Error:            	2.598643e-09	7.071324e-08
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	-1.211879e-05	3.776543e-02	-7.191206e-06		-6.412987e-06	1.998460e-02	-3.805422e-06
@@ -463,9 +463,9 @@ SCF iter=4: RMS density=0.000000751870881
 SCF iter=0: RMS density=0.000069459236423
 SCF iter=1: RMS density=0.000020351739767
 SCF iter=2: RMS density=0.000006886520203
-SCF iter=3: RMS density=0.000002597229748
-SCF iter=4: RMS density=0.000001053607059
-SCF iter=5: RMS density=0.000000448103295
+SCF iter=3: RMS density=0.000002597229747
+SCF iter=4: RMS density=0.000001053607060
+SCF iter=5: RMS density=0.000000448103296
 
 
 
@@ -517,7 +517,7 @@ SCF iter=5: RMS density=0.000000448103295
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739219e-02	-1.718885e+01
 
-	Elapsed time(omp) for the SCF = 0.019827[s].
+	Elapsed time(omp) for the SCF = 0.031986[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -562,10 +562,10 @@ SCF iter=5: RMS density=0.000000448103295
 	========== START: MD step 5
 **********  START: MNDO-SCF  **********
 SCF iter=0: RMS density=0.000089060775403
-SCF iter=1: RMS density=0.000026069366510
+SCF iter=1: RMS density=0.000026069366508
 SCF iter=2: RMS density=0.000008811634667
 SCF iter=3: RMS density=0.000003320008024
-SCF iter=4: RMS density=0.000001345731441
+SCF iter=4: RMS density=0.000001345731442
 SCF iter=5: RMS density=0.000000571981872
 
 
@@ -618,7 +618,7 @@ SCF iter=5: RMS density=0.000000571981872
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740571e-02	-1.719734e+01
 
-	Elapsed time(omp) for the SCF = 0.019356[s].
+	Elapsed time(omp) for the SCF = 0.032174[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -629,7 +629,7 @@ SCF iter=5: RMS density=0.000000571981872
 		Electronic
 		(inc. core rep.):	-1.255207e+01	-3.415620e+02
 		Total:            	-1.255203e+01	-3.415609e+02
-		Error:            	7.172696e-09	1.951806e-07
+		Error:            	7.172675e-09	1.951800e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	-3.366630e-05	3.771379e-02	-1.995579e-05		-1.781544e-05	1.995728e-02	-1.056015e-05
@@ -661,14 +661,14 @@ SCF iter=5: RMS density=0.000000571981872
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.172232[MB].
+		Max Heap: 0.192268[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 2.9[s].  <<<<<
+     >>>>>  CPU time: 1.43[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.45795[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.42719[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

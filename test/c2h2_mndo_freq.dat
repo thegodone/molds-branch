@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/26(Wed.) 13:22:18  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:36:34  <<<<<
 
 
 **********  START: Parse input  **********
@@ -131,19 +131,19 @@ SCF iter=8: RMS density=0.000000815090308
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	9.222365e-02	5.787120e+01
 
-	Elapsed time(omp) for the SCF = 1.310014[s].
+	Elapsed time(omp) for the SCF = 1.233655[s].
 **********  DONE: MNDO-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.206152[MB].
+		Max Heap: 0.248332[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 1.32[s].  <<<<<
+     >>>>>  CPU time: 1.23[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.31782[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.23832[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

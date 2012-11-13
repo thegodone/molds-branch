@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 14:50:8  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:36:0  <<<<<
 
 
 **********  START: Parse input  **********
@@ -124,7 +124,7 @@ SCF iter=12: RMS density=0.000000208044933
 	Mulliken charge:	6	H	1.000000e+00	8.795855e-02
 	Mulliken charge:	7	H	1.000000e+00	9.365443e-02
 
-	Elapsed time(omp) for the SCF = 0.033780[s].
+	Elapsed time(omp) for the SCF = 0.034723[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -191,7 +191,7 @@ SCF iter=12: RMS density=0.000000183625984
 	Mulliken charge:	6	H	1.000000e+00	8.863738e-02
 	Mulliken charge:	7	H	1.000000e+00	9.460133e-02
 
-	Elapsed time(omp) for the SCF = 0.033733[s].
+	Elapsed time(omp) for the SCF = 0.034356[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -258,7 +258,7 @@ SCF iter=12: RMS density=0.000000242311108
 	Mulliken charge:	6	H	1.000000e+00	8.848772e-02
 	Mulliken charge:	7	H	1.000000e+00	9.308310e-02
 
-	Elapsed time(omp) for the SCF = 0.034066[s].
+	Elapsed time(omp) for the SCF = 0.035221[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -338,7 +338,7 @@ SCF iter=12: RMS density=0.000000208054568
 	Mulliken charge:	6	H	1.000000e+00	8.795840e-02
 	Mulliken charge:	7	H	1.000000e+00	9.365387e-02
 
-	Elapsed time(omp) for the SCF = 0.034211[s].
+	Elapsed time(omp) for the SCF = 0.033927[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -405,7 +405,7 @@ SCF iter=12: RMS density=0.000000183642467
 	Mulliken charge:	6	H	1.000000e+00	8.863714e-02
 	Mulliken charge:	7	H	1.000000e+00	9.460064e-02
 
-	Elapsed time(omp) for the SCF = 0.034347[s].
+	Elapsed time(omp) for the SCF = 0.033827[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -472,7 +472,7 @@ SCF iter=12: RMS density=0.000000242304845
 	Mulliken charge:	6	H	1.000000e+00	8.848748e-02
 	Mulliken charge:	7	H	1.000000e+00	9.308259e-02
 
-	Elapsed time(omp) for the SCF = 0.034015[s].
+	Elapsed time(omp) for the SCF = 0.033732[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -551,7 +551,7 @@ SCF iter=12: RMS density=0.000000208083428
 	Mulliken charge:	6	H	1.000000e+00	8.795793e-02
 	Mulliken charge:	7	H	1.000000e+00	9.365220e-02
 
-	Elapsed time(omp) for the SCF = 0.069832[s].
+	Elapsed time(omp) for the SCF = 0.034445[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -618,7 +618,7 @@ SCF iter=12: RMS density=0.000000183691937
 	Mulliken charge:	6	H	1.000000e+00	8.863639e-02
 	Mulliken charge:	7	H	1.000000e+00	9.459856e-02
 
-	Elapsed time(omp) for the SCF = 0.034345[s].
+	Elapsed time(omp) for the SCF = 0.033574[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -685,7 +685,7 @@ SCF iter=12: RMS density=0.000000242286003
 	Mulliken charge:	6	H	1.000000e+00	8.848675e-02
 	Mulliken charge:	7	H	1.000000e+00	9.308103e-02
 
-	Elapsed time(omp) for the SCF = 0.034306[s].
+	Elapsed time(omp) for the SCF = 0.033724[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -764,7 +764,7 @@ SCF iter=12: RMS density=0.000000208131395
 	Mulliken charge:	6	H	1.000000e+00	8.795716e-02
 	Mulliken charge:	7	H	1.000000e+00	9.364941e-02
 
-	Elapsed time(omp) for the SCF = 0.035357[s].
+	Elapsed time(omp) for the SCF = 0.046404[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -831,7 +831,7 @@ SCF iter=12: RMS density=0.000000183774496
 	Mulliken charge:	6	H	1.000000e+00	8.863514e-02
 	Mulliken charge:	7	H	1.000000e+00	9.459509e-02
 
-	Elapsed time(omp) for the SCF = 0.034422[s].
+	Elapsed time(omp) for the SCF = 0.036567[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -898,7 +898,7 @@ SCF iter=12: RMS density=0.000000242254417
 	Mulliken charge:	6	H	1.000000e+00	8.848554e-02
 	Mulliken charge:	7	H	1.000000e+00	9.307844e-02
 
-	Elapsed time(omp) for the SCF = 0.034610[s].
+	Elapsed time(omp) for the SCF = 0.037101[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -977,7 +977,7 @@ SCF iter=12: RMS density=0.000000208198274
 	Mulliken charge:	6	H	1.000000e+00	8.795608e-02
 	Mulliken charge:	7	H	1.000000e+00	9.364550e-02
 
-	Elapsed time(omp) for the SCF = 0.034284[s].
+	Elapsed time(omp) for the SCF = 0.033883[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1044,7 +1044,7 @@ SCF iter=12: RMS density=0.000000183890283
 	Mulliken charge:	6	H	1.000000e+00	8.863339e-02
 	Mulliken charge:	7	H	1.000000e+00	9.459023e-02
 
-	Elapsed time(omp) for the SCF = 0.033950[s].
+	Elapsed time(omp) for the SCF = 0.033917[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1111,7 +1111,7 @@ SCF iter=12: RMS density=0.000000242209779
 	Mulliken charge:	6	H	1.000000e+00	8.848384e-02
 	Mulliken charge:	7	H	1.000000e+00	9.307481e-02
 
-	Elapsed time(omp) for the SCF = 0.033714[s].
+	Elapsed time(omp) for the SCF = 0.033575[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1190,7 +1190,7 @@ SCF iter=12: RMS density=0.000000208283773
 	Mulliken charge:	6	H	1.000000e+00	8.795469e-02
 	Mulliken charge:	7	H	1.000000e+00	9.364048e-02
 
-	Elapsed time(omp) for the SCF = 0.034599[s].
+	Elapsed time(omp) for the SCF = 0.033939[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1257,7 +1257,7 @@ SCF iter=12: RMS density=0.000000184039502
 	Mulliken charge:	6	H	1.000000e+00	8.863115e-02
 	Mulliken charge:	7	H	1.000000e+00	9.458399e-02
 
-	Elapsed time(omp) for the SCF = 0.034053[s].
+	Elapsed time(omp) for the SCF = 0.034177[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1324,7 +1324,7 @@ SCF iter=12: RMS density=0.000000242151696
 	Mulliken charge:	6	H	1.000000e+00	8.848165e-02
 	Mulliken charge:	7	H	1.000000e+00	9.307015e-02
 
-	Elapsed time(omp) for the SCF = 0.033690[s].
+	Elapsed time(omp) for the SCF = 0.034156[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1340,14 +1340,14 @@ SCF iter=12: RMS density=0.000000242151696
 ==========  DONE: RPMD step 5
 **********  DONE: Ring Polymer Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.752032[MB].
+		Max Heap: 0.867400[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 14.57[s].  <<<<<
-     >>>>>  Elapsed time: 15[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 14.6246[s].  <<<<<
+     >>>>>  CPU time: 7.73[s].  <<<<<
+     >>>>>  Elapsed time: 8[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 7.77784[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

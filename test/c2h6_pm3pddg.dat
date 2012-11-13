@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 14:41:24  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:22  <<<<<
 
 
 **********  START: Parse input  **********
@@ -110,19 +110,19 @@ SCF iter=12: RMS density=0.000000190761143
 	Mulliken charge:	6	H	1.000000e+00	8.849413e-02
 	Mulliken charge:	7	H	1.000000e+00	9.338598e-02
 
-	Elapsed time(omp) for the SCF = 0.054028[s].
+	Elapsed time(omp) for the SCF = 0.042972[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.168288[MB].
+		Max Heap: 0.192040[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.05[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.060111[s].  <<<<<
+     >>>>>  CPU time: 0.06[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0492909[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

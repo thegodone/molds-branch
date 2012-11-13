@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 14:48:32  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:23  <<<<<
 
 
 **********  START: Parse input  **********
@@ -117,7 +117,7 @@ SCF iter=12: RMS density=0.000000190761143
 	Mulliken charge:	6	H	1.000000e+00	8.849413e-02
 	Mulliken charge:	7	H	1.000000e+00	9.338598e-02
 
-	Elapsed time(omp) for the SCF = 0.042219[s].
+	Elapsed time(omp) for the SCF = 0.041782[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -211,7 +211,7 @@ SCF iter=2: RMS density=0.000000712722293
 	Mulliken charge:	6	H	1.000000e+00	8.849388e-02
 	Mulliken charge:	7	H	1.000000e+00	9.338552e-02
 
-	Elapsed time(omp) for the SCF = 0.031579[s].
+	Elapsed time(omp) for the SCF = 0.032400[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -307,7 +307,7 @@ SCF iter=3: RMS density=0.000000896547956
 	Mulliken charge:	6	H	1.000000e+00	8.849319e-02
 	Mulliken charge:	7	H	1.000000e+00	9.338391e-02
 
-	Elapsed time(omp) for the SCF = 0.032188[s].
+	Elapsed time(omp) for the SCF = 0.032976[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -404,7 +404,7 @@ SCF iter=4: RMS density=0.000000664631244
 	Mulliken charge:	6	H	1.000000e+00	8.849203e-02
 	Mulliken charge:	7	H	1.000000e+00	9.338109e-02
 
-	Elapsed time(omp) for the SCF = 0.032856[s].
+	Elapsed time(omp) for the SCF = 0.032471[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -501,7 +501,7 @@ SCF iter=4: RMS density=0.000000918069451
 	Mulliken charge:	6	H	1.000000e+00	8.849041e-02
 	Mulliken charge:	7	H	1.000000e+00	9.337724e-02
 
-	Elapsed time(omp) for the SCF = 0.032601[s].
+	Elapsed time(omp) for the SCF = 0.032207[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -599,7 +599,7 @@ SCF iter=5: RMS density=0.000000553282789
 	Mulliken charge:	6	H	1.000000e+00	8.848833e-02
 	Mulliken charge:	7	H	1.000000e+00	9.337212e-02
 
-	Elapsed time(omp) for the SCF = 0.032740[s].
+	Elapsed time(omp) for the SCF = 0.032499[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -642,14 +642,14 @@ SCF iter=5: RMS density=0.000000553282789
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.168480[MB].
+		Max Heap: 0.192268[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 2.81[s].  <<<<<
-     >>>>>  Elapsed time: 3[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 2.82144[s].  <<<<<
+     >>>>>  CPU time: 1.44[s].  <<<<<
+     >>>>>  Elapsed time: 2[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.44207[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

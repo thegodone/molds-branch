@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:7:27  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:34:47  <<<<<
 
 
 **********  START: Parse input  **********
@@ -51,7 +51,7 @@ SCF iter=2: RMS density=0.021157051921269
 SCF iter=3: RMS density=0.005803474154268
 SCF iter=4: RMS density=0.001609546849158
 SCF iter=5: RMS density=0.000451750920311
-SCF iter=6: RMS density=0.000000162246025
+SCF iter=6: RMS density=0.000000162246018
 
 
 
@@ -91,19 +91,19 @@ SCF iter=6: RMS density=0.000000162246025
 	Mulliken charge:	3	H	1.000000e+00	-5.403399e-03
 	Mulliken charge:	4	H	1.000000e+00	-8.439929e-03
 
-	Elapsed time(omp) for the SCF = 0.013272[s].
+	Elapsed time(omp) for the SCF = 0.014519[s].
 **********  DONE: INDO-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.013568[MB].
+		Max Heap: 0.012560[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 0.01[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.016607[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0179112[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

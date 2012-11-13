@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 16:8:22  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:12  <<<<<
 
 
 **********  START: Parse input  **********
@@ -56,17 +56,17 @@ geometry_end |
 
 **********  START: PM3-SCF  **********
 SCF iter=0: RMS density=3.999999999999999
-SCF iter=1: RMS density=1.406267853790505
+SCF iter=1: RMS density=1.406267853790504
 SCF iter=2: RMS density=0.809638190579181
 SCF iter=3: RMS density=0.477935710038236
 SCF iter=4: RMS density=0.283514051639097
 SCF iter=5: RMS density=0.168259970063173
-SCF iter=6: RMS density=0.000343116552032
-SCF iter=7: RMS density=0.000114493060981
-SCF iter=8: RMS density=0.000095997950101
-SCF iter=9: RMS density=0.000038109672712
-SCF iter=10: RMS density=0.000001602438532
-SCF iter=11: RMS density=0.000000280665931
+SCF iter=6: RMS density=0.000343116552016
+SCF iter=7: RMS density=0.000114493060962
+SCF iter=8: RMS density=0.000095997949200
+SCF iter=9: RMS density=0.000038109672599
+SCF iter=10: RMS density=0.000001602438546
+SCF iter=11: RMS density=0.000000280665934
 
 
 
@@ -106,13 +106,13 @@ SCF iter=11: RMS density=0.000000280665931
 	Mulliken charge:	3	H	1.000000e+00	3.244095e-02
 	Mulliken charge:	4	H	1.000000e+00	2.649409e-02
 
-	Elapsed time(omp) for the SCF = 0.016187[s].
+	Elapsed time(omp) for the SCF = 0.021482[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.001020[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001924[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -195,19 +195,19 @@ SCF iter=11: RMS density=0.000000280665931
 	Transition dipole moment:	0 -> 16		-1.167658e-02	5.795660e-02	-6.328188e-02	8.660200e-02		-2.967890e-02	1.473110e-01	-1.608465e-01	2.201204e-01
 
 
-	Elapsed time(omp) for the CIS = 0.006827[s].
+	Elapsed time(omp) for the CIS = 0.007514[s].
 **********  DONE: PM3-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.075552[MB].
+		Max Heap: 0.083868[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.04[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0269701[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0329039[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
