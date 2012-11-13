@@ -574,7 +574,8 @@ HOW TO WRITE INPUT:
          NASCO_END
   
       -options
-       "total_steps", "num_electronic_states", "seed", and "dt" are prepared as options.
+       "total_steps", "num_electronic_states", "initial_electronic_state", "seed", 
+       and "dt" are prepared as options.
 
        The default value of the "total_steps" is 10. 
 
@@ -583,6 +584,13 @@ HOW TO WRITE INPUT:
        "num_electronic_states" minus 1 should be not over "nstates" in CIS-conditons.
        The default value of the "num_electronic_states" is 3, 
        that is, ground, 1st, and 2nd excited states.
+
+       "initial_electronic_state" means the electronc eigenstates 
+       form which trajectories start to run.
+       "initial_electronic_state=0" means that the trajectories run from ground state.
+       The "initial_electronic_state should be less than the "num_electronic_states".
+       i.e., "initial_electronic_state=3" with "num_electronic_states=3" leads to error.
+       The default value of the "initial_electronic_state" is 0.
 
        "seed" means the seed of the random-number-generator.
        The random numbers are used for trajectory-hopping.
