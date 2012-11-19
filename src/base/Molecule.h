@@ -50,6 +50,9 @@ public:
    double GetDistanceAtoms(int indexAtomA, int indexAtomB) const;
    double GetDistanceAtoms(const MolDS_base_atoms::Atom& atomA, 
                            const MolDS_base_atoms::Atom& atomB) const;
+   void SynchronizeConfigurationTo  (const Molecule& ref);
+   void SynchronizeMomentaTo        (const Molecule& ref);
+   void SynchronizePhaseSpacePointTo(const Molecule& ref);
 private:
    std::vector<MolDS_base_atoms::Atom*>* atomVect;
    double* xyzCOM; // x, y, z coordinates of Center of Mass;

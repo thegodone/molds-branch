@@ -625,7 +625,6 @@ void Molecule::OutputRotatingConditions(RotatingType rotatingType,
    }
 }
 
-
 void Molecule::Translate(){
    this->OutputLog(this->messageStartTranslate);
    double x = Parameters::GetInstance()->GetTranslatingDifference()[0];
@@ -679,6 +678,41 @@ double Molecule::GetDistanceAtoms(const Atom& atomA, const Atom& atomB) const{
                    +pow(atomA.GetXyz()[2] - atomB.GetXyz()[2], 2.0) );
    return distance;
 
+}
+
+void Molecule::SynchronizeConfigurationTo(const Molecule& ref){
+   for(int a=0; a<this->GetNumberAtoms(); a++){
+      Atom& atom = *this->GetAtom(a);
+      const Atom& refAtom = *ref.GetAtom(a);
+      for(int i=0; i<CartesianType_end; i++){
+         atom.GetXyz()[i] = refAtom.GetXyz()[i];
+      }
+   }
+   this->CalcXyzCOC();
+   this->CalcXyzCOM();
+}
+
+void Molecule::SynchronizeMomentaTo(const Molecule& ref){
+   for(int a=0; a<this->GetNumberAtoms(); a++){
+      Atom& atom = *this->GetAtom(a);
+      const Atom& refAtom = *ref.GetAtom(a);
+      for(int i=0; i<CartesianType_end; i++){
+         atom.GetPxyz()[i] = refAtom.GetPxyz()[i];
+      }
+   }
+}
+
+void Molecule::SynchronizePhaseSpacePointTo(const Molecule& ref){
+   for(int a=0; a<this->GetNumberAtoms(); a++){
+      Atom& atom = *this->GetAtom(a);
+      const Atom& refAtom = *ref.GetAtom(a);
+      for(int i=0; i<CartesianType_end; i++){
+         atom.GetXyz() [i] = refAtom.GetXyz() [i];
+         atom.GetPxyz()[i] = refAtom.GetPxyz()[i];
+      }
+   }
+   this->CalcXyzCOC();
+   this->CalcXyzCOM();
 }
 
 }

@@ -55,8 +55,6 @@ private:
                                     boost::uniform_real<>
                                  > (*realRand),
                                  double dr) const;
-   void SynchronousMolecularConfiguration(MolDS_base::Molecule* target, 
-                                          const MolDS_base::Molecule& refference) const;
    bool UsesTrial(const MolDS_base::ElectronicStructure& currentES, 
                   const MolDS_base::ElectronicStructure& trialES,
                   int elecState,
