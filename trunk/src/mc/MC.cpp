@@ -126,14 +126,14 @@ void MC::DoMC(int totalSteps, int elecState, double temperature, double stepWidt
 
       // which Electronic Structure is used?
       if(UsesTrial(*currentES, *trialES, elecState, &realRand, temperature)){
-         this->SynchronousMolecularConfiguration(this->molecule, trialMolecule);
+         this->molecule->SynchronizeConfigurationTo(trialMolecule);
          swap(currentES, trialES);
          currentES->SetMolecule(this->molecule);
          trialES->SetMolecule(&trialMolecule);
          transitionRate += 1.0;
       }
       else{
-         this->SynchronousMolecularConfiguration(&trialMolecule, *this->molecule);
+         trialMolecule.SynchronizeConfigurationTo(*this->molecule);
       }
       
       // output molecular states
@@ -203,19 +203,6 @@ bool MC::UsesTrial(const ElectronicStructure& currentES,
          return false;
       }
    }
-}
-
-void MC::SynchronousMolecularConfiguration(Molecule* target, 
-                                           const Molecule& refference) const{
-   for(int a=0; a<target->GetNumberAtoms(); a++){
-      Atom* targetAtom = target->GetAtom(a);
-      const Atom& refferenceAtom = *refference.GetAtom(a);
-      for(int i=0; i<CartesianType_end; i++){
-         targetAtom->GetXyz()[i] = refferenceAtom.GetXyz()[i];
-      }
-   }
-   target->CalcXyzCOC();
-   target->CalcXyzCOM();
 }
 
 void MC::OutputMolecule(const ElectronicStructure& electronicStructure,

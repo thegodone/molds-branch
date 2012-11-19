@@ -145,8 +145,8 @@ void NASCO::DoNASCO(Molecule& molecule){
          // decide next eigenstates
          this->DecideNextElecState(&elecState, &nonAdiabaticPhaseIndex, numElecStates, overlapESs, &realRand);
 
-         // Synchronous molecular configuration and electronic states
-         this->SynchronousMolecularConfiguration(molecule, tmpMolecule);
+         // Synchronize molecular configuration and electronic states
+         molecule.SynchronizeConfigurationTo(tmpMolecule);
          swap(currentES, tmpES);
          currentES->SetMolecule(&molecule);
          tmpES->SetMolecule(&tmpMolecule);
@@ -195,19 +195,6 @@ void NASCO::UpdateCoordinates(Molecule& tmpMolecule,
    }
    tmpMolecule.CalcXyzCOM();
    tmpMolecule.CalcXyzCOC();
-}
-
-void NASCO::SynchronousMolecularConfiguration(Molecule& target, 
-                                              const Molecule& refference) const{
-   for(int a=0; a<target.GetNumberAtoms(); a++){
-      Atom& targetAtom = *target.GetAtom(a);
-      const Atom& refferenceAtom = *refference.GetAtom(a);
-      for(int i=0; i<CartesianType_end; i++){
-         targetAtom.GetXyz()[i] = refferenceAtom.GetXyz()[i];
-      }
-   }
-   target.CalcXyzCOC();
-   target.CalcXyzCOM();
 }
 
 void NASCO::DecideNextElecState(int* elecState, 

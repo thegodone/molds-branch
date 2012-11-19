@@ -58,8 +58,6 @@ private:
    void UpdateCoordinates(MolDS_base::Molecule& tmpMolecule, 
                           const MolDS_base::Molecule& molecule,
                           const double dt) const;
-   void SynchronousMolecularConfiguration(MolDS_base::Molecule& target, 
-                                          const MolDS_base::Molecule& refference) const;
    void DecideNextElecState(int* elecState, 
                             int* nonAdiabaticPhaseIndex,
                             int numElecStates,
