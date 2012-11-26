@@ -183,7 +183,7 @@ void Blas::Dsymv(int n, double alpha,
            double beta,
            double*       vectorY, int incrementY) const{
    double const* a = &matrixA[0][0];
-   char uploA='U';
+   char uploA='L';
    int lda = n;
    dsymv(&uploA, &n, &alpha, a, &lda, vectorX, &incrementX, &beta, vectorY, &incrementY);
 }
