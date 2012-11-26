@@ -197,6 +197,10 @@ public:
    void                   SetRmsGradientOptimization(double rmsGradient);
    double                 GetTimeWidthOptimization() const;
    void                   SetTimeWidthOptimization(double timeWidth);
+   double                 GetInitialTrustRadiusOptimization() const;
+   void                   SetInitialTrustRadiusOptimization(double initialTrustRadius);
+   double                 GetMaxNormStepOptimization() const;
+   void                   SetMaxNormStepOptimization(double maxNormStep);
    // Frequencies 
    bool RequiresFrequencies() const;
    void SetRequiresFrequencies(bool requiresFrequencies);
@@ -308,6 +312,8 @@ private:
    double                 maxGradientOptimization;
    double                 rmsGradientOptimization;
    double                 timeWidthOptimization;
+   double                 initialTrustRadiusOptimization;
+   double                 maxNormStepOptimization;
    // Frequencies
    bool requiresFrequencies;
    int  electronicStateIndexFrequencies;

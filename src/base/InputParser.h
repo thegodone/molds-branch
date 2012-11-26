@@ -118,6 +118,8 @@ private:
    std::string messageOptimizationTimeWidth;
    std::string messageOptimizationRmsGradient;
    std::string messageOptimizationMaxGradient;
+   std::string messageOptimizationInitialTrustRadius;
+   std::string messageOptimizationMaxNormStep;
    // Frequencies (Normal modes)
    std::string messageFrequenciesConditions;
    std::string messageFrequenciesElecState;
@@ -279,6 +281,8 @@ private:
    std::string stringOptimizationMaxGradient;
    std::string stringOptimizationRmsGradient;
    std::string stringOptimizationTimeWidth;
+   std::string stringOptimizationInitialTrustRadius;
+   std::string stringOptimizationMaxNormStep;
    // Frequencies (Normal modes)
    std::string stringFrequencies;
    std::string stringFrequenciesEnd;

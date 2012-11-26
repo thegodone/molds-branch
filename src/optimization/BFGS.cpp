@@ -88,8 +88,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double** matrixOldCoordinates = NULL;
    double*  vectorOldCoordinates = NULL;
    double** matrixDisplacement   = NULL;
-   double       trustRadius     = 0.3;
-   const double maxNormStep     = 0.3;
+   double       trustRadius      = Parameters::GetInstance()->GetInitialTrustRadiusOptimization();
+   const double maxNormStep      = Parameters::GetInstance()->GetMaxNormStepOptimization();
 
    try{
       // initialize Hessian with unit matrix
