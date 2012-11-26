@@ -402,7 +402,7 @@ HOW TO WRITE INPUT:
   
       -options
        "method", "total_steps", "electronic_state", "max_gradient", "rms_gradient", 
-       and "dt" are prepared as options.
+        "dt", "initial_trust_radius" and "max_norm_step" are prepared as options.
 
        "method" should be set as "conjugate_gradient", "steepest_descent", or "bfgs". 
        The default of the "method" is conjugate gradient.
@@ -427,6 +427,14 @@ HOW TO WRITE INPUT:
       "dt" is initial fictious time steps for the steepest descent algorythms.
       The default value of the "dt" is 50[fs].
       This parameter have no effect if method is "bfgs".
+
+      "initial_trust_radius" is an initial value for trust radius used by BFGS method.
+      The default value of the "initial_trust_radius" is 0.3.
+      This parameter have no effect if method is "steepest_descent" or "conjugate_gradient".
+
+      "max_norm_step" is the maximum value for trust radius used by BFGS method.
+      The default value of the "max_norm_step" is 0.3.
+      This parameter have no effect if method is "steepest_descent" or "conjugate_gradient".
 
       E.g.
          OPTIMIZE
