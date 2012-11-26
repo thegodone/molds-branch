@@ -362,8 +362,8 @@ void InputParser::SetMessages(){
    this->stringOptimizationMaxGradient       = "max_gradient";
    this->stringOptimizationRmsGradient       = "rms_gradient";
    this->stringOptimizationTimeWidth         = "dt";
-   this->stringOptimizationInitialTrustRadius = "initialtrustradius";
-   this->stringOptimizationMaxNormStep        = "maxnormstep";
+   this->stringOptimizationInitialTrustRadius = "initial_trust_radius";
+   this->stringOptimizationMaxNormStep        = "max_norm_step";
 
    // Frequencies (Normal modes)
    this->stringFrequencies          = "frequencies";
