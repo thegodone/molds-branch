@@ -178,6 +178,8 @@ void InputParser::SetMessages(){
    this->messageOptimizationMaxGradient = "\t\tMax gradient: ";
    this->messageOptimizationRmsGradient = "\t\tRms gradient: ";
    this->messageOptimizationTimeWidth   = "\t\tFictious time width: ";
+   this->messageOptimizationInitialTrustRadius = "\t\tInitial trust radius: ";
+   this->messageOptimizationMaxNormStep        = "\t\tMax size of the optimization step: ";
 
    // Frequencies (Normal modes)
    this->messageFrequenciesConditions    = "\tFrequencies (Normal modes) analysis conditions:\n";
@@ -360,6 +362,8 @@ void InputParser::SetMessages(){
    this->stringOptimizationMaxGradient       = "max_gradient";
    this->stringOptimizationRmsGradient       = "rms_gradient";
    this->stringOptimizationTimeWidth         = "dt";
+   this->stringOptimizationInitialTrustRadius = "initialtrustradius";
+   this->stringOptimizationMaxNormStep        = "maxnormstep";
 
    // Frequencies (Normal modes)
    this->stringFrequencies          = "frequencies";
@@ -1017,6 +1021,18 @@ int InputParser::ParseConditionsOptimization(vector<string>* inputTerms, int par
          Parameters::GetInstance()->SetRmsGradientOptimization(rmsGradient);
          parseIndex++;
       }
+      // Initial trust radius.
+      if((*inputTerms)[parseIndex].compare(this->stringOptimizationInitialTrustRadius) == 0){
+         double initialTrustRadius = atof((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetInitialTrustRadiusOptimization(initialTrustRadius);
+         parseIndex++;
+      }
+      // Max size of optimization step.
+      if((*inputTerms)[parseIndex].compare(this->stringOptimizationMaxNormStep) == 0){
+         double maxNormStep = atof((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetMaxNormStepOptimization(maxNormStep);
+         parseIndex++;
+      }
       parseIndex++;   
    }
    return parseIndex;
@@ -1667,6 +1683,11 @@ void InputParser::OutputOptimizationConditions() const{
                                                     % (Parameters::GetInstance()->GetTimeWidthOptimization()/Parameters::GetInstance()->GetFs2AU())
                                                     % this->messageFs.c_str());
          break;
+			case BFGSMethod:
+         this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationInitialTrustRadius.c_str()
+                                                    % Parameters::GetInstance()->GetInitialTrustRadiusOptimization());
+         this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationMaxNormStep.c_str()
+                                                    % Parameters::GetInstance()->GetMaxNormStepOptimization());
       default:
          break;
    }
