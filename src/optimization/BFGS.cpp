@@ -64,7 +64,36 @@ void BFGS::SetMessages(){
       = "Error in optimization::BFGS::Optimize: Optimization did not met convergence criterion.\n";
    this->errorMessageNaNInRFOStep
       = "Error in optimization::BFGS::Optimize: RFO step has gone NaN. (lambda * s[%d] = %e, lambda = %e, alpha = %e)\n";
-   this->messageStartBFGSStep = "\n==========  START: BFGS step ";
+
+   this->messageStartBFGSStep
+      = "\n==========  START: BFGS step ";
+   this->messageHillClimbing =
+      "Detected hill climbing.\n"
+      "Rolling back molecular geometry.\n";
+   this->messageRecalculateRFOStep
+      = "Recalculating RFO step...\n";
+   this->messageRawHessianEigenvalues
+      = "Eigenvalues of the raw Hessian:";
+   this->messageShiftedHessianEigenvalues
+      = "Eigenvalues of the level shifted hessian:";
+
+   this->formatEnergyChangeComparison =
+      "\n"
+      "actual energy change          = %e\n"
+      "expected energy change        = %e\n"
+      "actual/expected energy change = %f\n";
+   this->formatLowestHessianEigenvalue
+      = "Lowest eigenvalue of the augmented Hessian     = %f\n";
+   this->format2ndLowestHessianEigenvalue
+      = "2nd lowest eigenvalue of the augmented Hessian = %f\n";
+   this->format3rdLowestHessianEigenvalue
+      = "3rd lowest eigenvalue of the augmented Hessian = %f\n";
+   this->formatRFOStepSize
+      = "Calculated RFO step size                       = %f\n";
+   this->formatTrustRadiusIs
+      = "Trust radius is %f\n";
+   this->formatIncreaseScalingFactor
+      = "Scaling factor is increased to %e.\n";
 }
 
 void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
@@ -168,16 +197,12 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
 
          // Calculate the correctness of the approximation
          double r = (lineSearchCurrentEnergy - lineSearchInitialEnergy)
-                  / approximateChange; // correctness of the step
+            / approximateChange; // correctness of the step
          bool aproxcheckCanOutputLogs = true;
          tempCanOutputLogs = molecule.CanOutputLogs();
          molecule.SetCanOutputLogs(aproxcheckCanOutputLogs);
-         this->OutputLog(boost::format("\n"
-                                       "actual energy change          = %e\n"
-                                       "expected energy change        = %e\n"
-                                       "actual/expected energy change = %f\n")
-                                       % (lineSearchCurrentEnergy-lineSearchInitialEnergy)
-                                       % approximateChange % r);
+         this->OutputLog(boost::format(this->formatEnergyChangeComparison)
+               % (lineSearchCurrentEnergy-lineSearchInitialEnergy) % approximateChange % r);
          molecule.SetCanOutputLogs(tempCanOutputLogs);
 
          // check convergence
@@ -198,8 +223,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             bool tempCanOutputLogs = molecule.CanOutputLogs();
             bool rollbackCanOutputLogs = true;
             molecule.SetCanOutputLogs(rollbackCanOutputLogs);
-            this->OutputLog("Detected hill climbing.\n"
-                            "Rolling back molecular geometry.\n");
+            this->OutputLog(this->messageHillClimbing);
             for(int i=0;i<molecule.GetNumberAtoms();i++){
                const Atom* atom = molecule.GetAtom(i);
                double*     xyz  = atom->GetXyz();
@@ -317,17 +341,17 @@ void BFGS::CalcRFOStep(double* vectorStep,
          }
          normStep = sqrt(normStep);
 
-         this->OutputLog(boost::format("Lowest eigenvalue of the augmented Hessian     = %f\n") % vectorEigenValues[0]);
-         this->OutputLog(boost::format("2nd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[1]);
-         this->OutputLog(boost::format("3rd lowest eigenvalue of the augmented Hessian = %f\n") % vectorEigenValues[2]);
-         this->OutputLog(boost::format("Calculated RFO step size                       = %f\n") % normStep);
+         this->OutputLog(boost::format(this->formatLowestHessianEigenvalue)    % vectorEigenValues[0]);
+         this->OutputLog(boost::format(this->format2ndLowestHessianEigenvalue) % vectorEigenValues[1]);
+         this->OutputLog(boost::format(this->format3rdLowestHessianEigenvalue) % vectorEigenValues[2]);
+         this->OutputLog(boost::format(this->formatRFOStepSize)                % normStep);
+         this->OutputLog(boost::format(this->formatTrustRadiusIs)              % trustRadius);
 
-         this->OutputLog(boost::format("Trust radius is %f\n") % trustRadius);
          // Limit the step size to trustRadius
          if(normStep > trustRadius){
             alpha *= normStep / trustRadius * 1.1; // 1.1 is speed up factor
-            this->OutputLog(boost::format("Scaling factor is increased to %e.\n") % alpha);
-            this->OutputLog("Recalculating RFO step...\n");
+            this->OutputLog(boost::format(this->formatTrustRadiusIs) % alpha);
+            this->OutputLog(this->messageRecalculateRFOStep);
          }
       }while(normStep > trustRadius);
    }
@@ -488,7 +512,7 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
                                                     calcEigenVectors);
 
       // Output eigenvalues of the raw Hessianto the log
-      this->OutputLog("Eigenvalues of the raw Hessian:");
+      this->OutputLog(this->messageRawHessianEigenvalues);
       for(int i=0;i<dimension;i++){
          if((i%6) == 0){
             this->OutputLog(boost::format("\n%e")%vectorHessianEigenValues[i]);
@@ -539,7 +563,7 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
       }
 
       // Output eigenvalues of the raw Hessianto the log
-      this->OutputLog("Eigenvalues of the level shifted hessian:");
+      this->OutputLog(this->messageShiftedHessianEigenvalues);
       for(int i=0;i<dimension;i++){
          if((i%6) == 0){
             this->OutputLog(boost::format("\n%e")%vectorHessianEigenValues[i]);

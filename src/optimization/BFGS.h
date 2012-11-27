@@ -29,7 +29,21 @@ protected:
    void SetMessages();
 private:
    std::string errorMessageNaNInRFOStep;
+
    std::string messageStartBFGSStep;
+   std::string messageHillClimbing;
+   std::string messageRecalculateRFOStep;
+   std::string messageRawHessianEigenvalues;
+   std::string messageShiftedHessianEigenvalues;
+
+   std::string formatEnergyChangeComparison;
+   std::string formatLowestHessianEigenvalue;
+   std::string format2ndLowestHessianEigenvalue;
+   std::string format3rdLowestHessianEigenvalue;
+   std::string formatRFOStepSize;
+   std::string formatTrustRadiusIs;
+   std::string formatIncreaseScalingFactor;
+
    virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
                               MolDS_base::Molecule& molecule,
                               double* lineSearchedEnergy,
