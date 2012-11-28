@@ -41,8 +41,6 @@ namespace MolDS_wrappers{
 Lapack* Lapack::lapack = NULL;
 
 Lapack::Lapack(){
-   this->calculatedDsysvBlockSize = false;
-   this->dsysvBlockSize = 64;
    this->errorMessageDsyevdInfo = "Error in wrappers::Lapack::Dsyevd: info != 0: info = ";
    this->errorMessageDsyevdSize = "Error in wrappers::Lapack::Dsyevd: size of matirx < 1\n";
    this->errorMessageDsysvInfo = "Error in wrappers::Lapack::Dsysv: info != 0: info = ";
@@ -220,18 +218,16 @@ molds_lapack_int Lapack::Dsysv(double const* const* matrix, double* b, molds_lap
    }
 
    // calc. lwork
+   double blockSize=0.0;
 #pragma omp critical
    {
-      if(!this->calculatedDsysvBlockSize){
-         lwork = -1;
-         double tempWork[3]={0.0, 0.0, 0.0};
-         info = LAPACKE_dsysv_work(LAPACK_COL_MAJOR, uplo, size, nrhs, convertedMatrix, lda, ipiv, tempB, ldb, tempWork, lwork);
-         this->calculatedDsysvBlockSize = true;
-         this->dsysvBlockSize = tempWork[0]/size;
-      }
+      lwork = -1;
+      double tempWork[3]={0.0, 0.0, 0.0};
+      info = LAPACKE_dsysv_work(LAPACK_COL_MAJOR, uplo, size, nrhs, convertedMatrix, lda, ipiv, tempB, ldb, tempWork, lwork);
+      blockSize = tempWork[0]/size;
    }
    info = 0;
-   lwork = this->dsysvBlockSize*size;
+   lwork = blockSize*size;
    work = (double*)LAPACKE_malloc( sizeof(double)*lwork );
 
    // call Lapack

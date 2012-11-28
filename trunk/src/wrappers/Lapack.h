@@ -35,8 +35,6 @@ private:
    Lapack();
    ~Lapack();
    static Lapack* lapack;
-   bool calculatedDsysvBlockSize;
-   int dsysvBlockSize;
    std::string errorMessageDsyevdInfo;
    std::string errorMessageDsyevdSize;
    std::string errorMessageDsysvInfo;
