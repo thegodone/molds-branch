@@ -19,16 +19,18 @@
 #ifndef INCLUDED_LAPACK
 #define INCLUDED_LAPACK
 namespace MolDS_wrappers{
+//typedef intptr_t molds_lapack_int;
+typedef intptr_t molds_lapack_int;
 // Lapacke is singleton
 class Lapack: public MolDS_base::PrintController, private MolDS_base::Uncopyable{
 public:
    static Lapack* GetInstance();
    static void DeleteInstance();
-   int Dsyevd(double** matrix, double* eigenValues, int size, bool calcEigenVectors);
-   int Dsysv(double const* const* matrix, double* b, int size);
-   int Dgetrs(double const* const* matrix, double** b, int size, int nrhs) const;
-   int Dgetrf(double** matrix, int sizeM, int sizeN) const;
-   int Dgetrf(double** matrix, int* ipiv, int sizeM, int sizeN) const;
+   molds_lapack_int Dsyevd(double** matrix, double* eigenValues, molds_lapack_int size, bool calcEigenVectors);
+   molds_lapack_int Dsysv(double const* const* matrix, double* b, molds_lapack_int size);
+   molds_lapack_int Dgetrs(double const* const* matrix, double** b, molds_lapack_int size, molds_lapack_int nrhs) const;
+   molds_lapack_int Dgetrf(double** matrix, molds_lapack_int sizeM, molds_lapack_int sizeN) const;
+   molds_lapack_int Dgetrf(double** matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const;
 private:
    Lapack();
    ~Lapack();
@@ -42,7 +44,7 @@ private:
    std::string errorMessageDgetrsInfo;
    std::string errorMessageDgetrsSize;
    std::string errorMessageDgetrfInfo;
-   int Dgetrf(double* matrix, int* ipiv, int sizeM, int sizeN) const;
+   molds_lapack_int Dgetrf(double* matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const;
 };
 }
 #endif

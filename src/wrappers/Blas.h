@@ -19,64 +19,66 @@
 #ifndef INCLUDED_BLAS
 #define INCLUDED_BLAS
 namespace MolDS_wrappers{
+//typedef intptr_t molds_blas_int;
+typedef intptr_t molds_blas_int;
 // Blas is singleton
 class Blas: public MolDS_base::PrintController, private MolDS_base::Uncopyable{
 public:
    static Blas* GetInstance();
    static void DeleteInstance();
-   void Dcopy(int n,
+   void Dcopy(molds_blas_int n,
               double const* vectorX,
               double*       vectorY) const;
-   void Dcopy(int n,
-              double const* vectorX, int incrementX,
-              double*       vectorY, int incrementY) const;
-   void Daxpy(int n, double alpha,
+   void Dcopy(molds_blas_int n,
+              double const* vectorX, molds_blas_int incrementX,
+              double*       vectorY, molds_blas_int incrementY) const;
+   void Daxpy(molds_blas_int n, double alpha,
               double const* vectorX,
               double*       vectorY) const;
-   void Daxpy(int n, double alpha,
-              double const* vectorX, int incrementX,
-              double*       vectorY, int incrementY) const;
-   double Ddot(int n,
+   void Daxpy(molds_blas_int n, double alpha,
+              double const* vectorX, molds_blas_int incrementX,
+              double*       vectorY, molds_blas_int incrementY) const;
+   double Ddot(molds_blas_int n,
                double const* vectorX,
                double const* vectorY) const;
-   double Ddot(int n,
-               double const* vectorX, int incrementX,
-               double const* vectorY, int incrementY)const;
-   void Dgemv(int m, int n,
+   double Ddot(molds_blas_int n,
+               double const* vectorX, molds_blas_int incrementX,
+               double const* vectorY, molds_blas_int incrementY)const;
+   void Dgemv(molds_blas_int m, molds_blas_int n,
               double const* const* matrixA,
               double const* vectorX,
               double* vectorY) const;
    void Dgemv(bool isColumnMajorMatrixA,
-              int m, int n,
+              molds_blas_int m, molds_blas_int n,
               double alpha,
               double const* const* matrixA,
               double const* vectorX,
-              int incrementX,
+              molds_blas_int incrementX,
               double beta,
               double* vectorY,
-              int incrementY) const;
-   void Dsymv(int n,
+              molds_blas_int incrementY) const;
+   void Dsymv(molds_blas_int n,
               double const* const* matrixA,
               double const* vectorX,
               double* vectorY) const;
-   void Dsymv(int n, double alpha,
+   void Dsymv(molds_blas_int n, double alpha,
               double const* const* matrixA,
-              double const* vectorX, int incrementX,
+              double const* vectorX, molds_blas_int incrementX,
               double beta,
-              double*       vectorY, int incrementY) const;
-   void Dsyr(int n, double alpha,
+              double*       vectorY, molds_blas_int incrementY) const;
+   void Dsyr(molds_blas_int n, double alpha,
              double const* vectorX,
              double ** matrixA)const;
-   void Dsyr(int n, double alpha,
-             double const* vectorX, int incrementX,
+   void Dsyr(molds_blas_int n, double alpha,
+             double const* vectorX, molds_blas_int incrementX,
              double ** matrixA)const;
-   void Dgemm(int m, int n, int k, 
+   void Dgemm(molds_blas_int m, molds_blas_int n, molds_blas_int k, 
               double const* const* matrixA, 
               double const* const* matrixB, 
               double**             matrixC) const;
    void Dgemm(bool isColumnMajorMatrixA, 
               bool isColumnMajorMatrixB, 
-              int m, int n, int k, 
+              molds_blas_int m, molds_blas_int n, molds_blas_int k, 
               double alpha,
               double const* const* matrixA,
               double const* const* matrixB,
