@@ -21,12 +21,17 @@
 ==============================================================================
 REQUIREMENTS:
    MolDS requires c/c++ compiler of Intel (icpc) or GNU (g++) and boost-libraries. 
-   Valid versions of these compiler are icpc 11.0, g++ 4.4, or later because the
-   MolDS is implemented with openMP 3.0. To compile MolDS with g++, furthermore, 
-   openBLAS is also required. The default compiler is set as icpc. 
+   Valid versions of these compiler are icpc 12.0.4(MkL 10.3 update 4), g++ 4.4, or later 
+   because the MolDS is implemented with openMP 3.0. 
+   To compile MolDS with g++, furthermore, openBLAS (version 0.2.5 or later) is also required. 
+   The default compiler is the intel c++ compiler (icpc). 
 
-   To get the boost-libraries, see the HP: http://www.boost.org/
-   To get the openBLAS-libraries, see the HP: http://xianyi.github.com/OpenBLAS/
+   To get and install the boost-libraries, see the HP:<http://www.boost.org/>.
+   The version of the boost would be no problem if 1.48.0 or later is used.
+
+   To get and install the openBLAS-libraries, see the HP:<http://xianyi.github.com/OpenBLAS/>.
+   Note that "USE_OPENMP = 1" should be set for the installation of the opneBLAS.
+   Furthermore, "INTERFACE64 = 1" is also needed when you install the openBLAS into 64-bits machines
 
 ==============================================================================
 COMPILE(using GNUmake): 

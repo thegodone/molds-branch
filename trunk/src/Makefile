@@ -18,9 +18,9 @@
 #//************************************************************************//
 CC = icpc
 LIBSBASE = -lmkl_intel_thread -lmkl_core -liomp5 -lpthread
-LIBS32 = -lmkl_intel      $(LIBSBASE)
-LIBS64 = -lmkl_intel_lp64 $(LIBSBASE)
-CFLAGS = -O0 -openmp -openmp-report2
+LIBS32 = -lmkl_intel       $(LIBSBASE)
+LIBS64 = -lmkl_intel_ilp64 $(LIBSBASE)
+CFLAGS = -O0 -openmp -openmp-report2 -DMKL_INT=intptr_t -DMKL_INT64
 BOOST_TOP_DIR = /usr/local/boost/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)include/
 EXENAME = MolDS.out

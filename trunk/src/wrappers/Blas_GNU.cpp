@@ -60,20 +60,20 @@ void Blas::DeleteInstance(){
 // vectorY = vectorX
 //    vectorX: n-vector
 //    vectorY: n-vector
-void Blas::Dcopy(int n,
+void Blas::Dcopy(molds_blas_int n,
                  double const* vectorX,
                  double *      vectorY)const{
-   int incrementX=1;
-   int incrementY=1;
+   molds_blas_int incrementX=1;
+   molds_blas_int incrementY=1;
    this->Dcopy(n, vectorX, incrementX, vectorY, incrementY);
 }
 
 // vectorY = vectorX
 //    vectorX: n-vector
 //    vectorY: n-vector
-void Blas::Dcopy(int n,
-                 double const* vectorX, int incrementX,
-                 double*       vectorY, int incrementY) const{
+void Blas::Dcopy(molds_blas_int n,
+                 double const* vectorX, molds_blas_int incrementX,
+                 double*       vectorY, molds_blas_int incrementY) const{
    double* x = const_cast<double*>(&vectorX[0]);
    cblas_dcopy(n, x, incrementX, vectorY, incrementY);
 }
@@ -81,20 +81,20 @@ void Blas::Dcopy(int n,
 // vectorY = alpha*vectorX + vectorY
 //    vectorX: n-vector
 //    vectorY: n-vector
-void Blas::Daxpy(int n, double alpha,
+void Blas::Daxpy(molds_blas_int n, double alpha,
            double const* vectorX,
            double*       vectorY) const{
-   int incrementX=1;
-   int incrementY=1;
+   molds_blas_int incrementX=1;
+   molds_blas_int incrementY=1;
    this->Daxpy(n, alpha, vectorX, incrementX, vectorY, incrementY);
 }
 
 // vectorY = alpha*vectorX + vectorY
 //    vectorX: n-vector
 //    vectorY: n-vector
-void Blas::Daxpy(int n, double alpha,
-           double const* vectorX, int incrementX,
-           double*       vectorY, int incrementY) const{
+void Blas::Daxpy(molds_blas_int n, double alpha,
+           double const* vectorX, molds_blas_int incrementX,
+           double*       vectorY, molds_blas_int incrementY) const{
    double* x = const_cast<double*>(&vectorX[0]);
    cblas_daxpy(n, alpha, x, incrementX, vectorY, incrementY);
 }
@@ -102,20 +102,20 @@ void Blas::Daxpy(int n, double alpha,
 // returns vectorX^T*vectorY
 //    vectorX: n-vector
 //    vectorY: n-vector
-double Blas::Ddot(int n,
+double Blas::Ddot(molds_blas_int n,
             double const* vectorX,
             double const* vectorY) const{
-   int incrementX=1;
-   int incrementY=1;
+   molds_blas_int incrementX=1;
+   molds_blas_int incrementY=1;
    return this->Ddot(n, vectorX, incrementX, vectorY, incrementY);
 }
 
 // returns vectorX^T*vectorY
 //    vectorX: n-vector
 //    vectorY: n-vector
-double Blas::Ddot(int n,
-            double const* vectorX, int incrementX,
-            double const* vectorY, int incrementY)const{
+double Blas::Ddot(molds_blas_int n,
+            double const* vectorX, molds_blas_int incrementX,
+            double const* vectorY, molds_blas_int incrementY)const{
    double* x=const_cast<double*>(vectorX),
          * y=const_cast<double*>(vectorY);
    return cblas_ddot(n, x, incrementX, y, incrementY);
@@ -125,13 +125,13 @@ double Blas::Ddot(int n,
 //    matrixA: m*n-matrix (matrixA[m][n] in row-major (C/C++ style))
 //    vectorX: n-vector
 //    vectorY: m-vector
-void Blas::Dgemv(int m, int n,
+void Blas::Dgemv(molds_blas_int m, molds_blas_int n,
                  double const* const* matrixA,
                  double const* vectorX,
                  double*       vectorY) const{
    bool isColumnMajorMatrixA = false; // because, in general, C/C++ style is row-major.
-   int incrementX=1;
-   int incrementY=1;
+   molds_blas_int incrementX=1;
+   molds_blas_int incrementY=1;
    double alpha  =1.0; 
    double beta   =0.0; 
    this->Dgemv(isColumnMajorMatrixA, m, n, alpha, matrixA, vectorX, incrementX, beta, vectorY, incrementY);
@@ -142,14 +142,14 @@ void Blas::Dgemv(int m, int n,
 //    vectorX: n-vector
 //    vectorY: m-vector
 void Blas::Dgemv(bool isColumnMajorMatrixA,
-                 int m, int n,
+                 molds_blas_int m, molds_blas_int n,
                  double alpha,
                  double const* const* matrixA,
                  double const* vectorX,
-                 int incrementX,
+                 molds_blas_int incrementX,
                  double beta,
                  double* vectorY,
-                 int incrementY) const{
+                 molds_blas_int incrementY) const{
    double* a = const_cast<double*>(&matrixA[0][0]);
    double* x = const_cast<double*>(&vectorX[0]);
    CBLAS_TRANSPOSE transA;
@@ -160,7 +160,7 @@ void Blas::Dgemv(bool isColumnMajorMatrixA,
       transA = CblasTrans;
       swap(m,n);
    }
-   int lda = m;
+   molds_blas_int lda = m;
    cblas_dgemv(CblasColMajor, transA, m, n, alpha, a, lda, x, incrementX, beta, vectorY, incrementY);
 
 }
@@ -169,12 +169,12 @@ void Blas::Dgemv(bool isColumnMajorMatrixA,
 //    matrixA: n*n-matrix,symmetric (Use the upper triangular part)
 //    vectorX: n-vector
 //    vectorY: n-vector
-void Blas::Dsymv(int n,
+void Blas::Dsymv(molds_blas_int n,
            double const* const* matrixA,
            double const* vectorX,
            double*       vectorY) const{
    bool isColumnMajorMatrixA = false; // because, in general, C/C++ style is row-major.
-   int incrementX=1, incrementY=1;
+   molds_blas_int incrementX=1, incrementY=1;
    double alpha=1.0, beta=0.0;
    this->Dsymv(n, alpha, matrixA, vectorX, incrementX, beta, vectorY, incrementY);
 }
@@ -183,39 +183,39 @@ void Blas::Dsymv(int n,
 //    matrixA: n*n-matrix,symmetric (Use the upper triangular part)
 //    vectorX: n-vector
 //    vectorY: n-vector
-void Blas::Dsymv(int n, double alpha,
+void Blas::Dsymv(molds_blas_int n, double alpha,
            double const* const* matrixA,
-           double const* vectorX, int incrementX,
+           double const* vectorX, molds_blas_int incrementX,
            double beta,
-           double*       vectorY, int incrementY) const{
+           double*       vectorY, molds_blas_int incrementY) const{
    double* a = const_cast<double*>(&matrixA[0][0]);
    double* x = const_cast<double*>(&vectorX[0]);
    CBLAS_UPLO uploA=CblasUpper;
-   int lda = n;
+   molds_blas_int lda = n;
    cblas_dsymv(CblasRowMajor, uploA, n, alpha, a, lda, x, incrementX, beta, vectorY, incrementY);
 }
 
 // matrixA = alpha*vectorX*vectorX^T + matrixA
 //    matrixA: n*n-matrix,symmetric (Use the upper triangular part, and copy it to the lower part.)
 //    vectorX: n-matrix
-void Blas::Dsyr(int n, double alpha,
+void Blas::Dsyr(molds_blas_int n, double alpha,
           double const* vectorX,
           double ** matrixA)const{
-   int incrementX=1;
+   molds_blas_int incrementX=1;
    this->Dsyr(n, alpha, vectorX, incrementX, matrixA);
 }
 
-void Blas::Dsyr(int n, double alpha,
-          double const* vectorX, int incrementX,
+void Blas::Dsyr(molds_blas_int n, double alpha,
+          double const* vectorX, molds_blas_int incrementX,
           double ** matrixA)const{
    double* a = &matrixA[0][0];
    double* x = const_cast<double*>(&vectorX[0]);
    CBLAS_UPLO uploA=CblasUpper;
-   int lda = n;
+   molds_blas_int lda = n;
    cblas_dsyr(CblasRowMajor, uploA, n, alpha, x, incrementX, a, lda);
 #pragma omp parallel for schedule(auto)
-   for(int i=0;i<n;i++){
-      for(int j=i+1;j<n;j++){
+   for(molds_blas_int i=0;i<n;i++){
+      for(molds_blas_int j=i+1;j<n;j++){
          matrixA[j][i] = matrixA[i][j];
       }
    }
@@ -225,7 +225,7 @@ void Blas::Dsyr(int n, double alpha,
 //    matrixA: m*k-matrix (matrixA[m][k] in row-major (C/C++ style))
 //    matrixB: k*n-matrix (matrixB[k][n] in row-major (C/C++ style))
 //    matrixC: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
-void Blas::Dgemm(int m, int n, int k, 
+void Blas::Dgemm(molds_blas_int m, molds_blas_int n, molds_blas_int k, 
                  double const* const* matrixA, 
                  double const* const* matrixB, 
                  double**             matrixC) const{
@@ -242,7 +242,7 @@ void Blas::Dgemm(int m, int n, int k,
 //    matrixC: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
 void Blas::Dgemm(bool isColumnMajorMatrixA, 
                  bool isColumnMajorMatrixB, 
-                 int m, int n, int k,  
+                 molds_blas_int m, molds_blas_int n, molds_blas_int k,  
                  double alpha,
                  double const* const* matrixA,
                  double const* const* matrixB,
@@ -252,7 +252,7 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
    double* b = const_cast<double*>(&matrixB[0][0]);
    double*       c = &matrixC[0][0];
 
-   int lda;
+   molds_blas_int lda;
    CBLAS_TRANSPOSE transA;
    if(isColumnMajorMatrixA){
       transA = CblasNoTrans;
@@ -263,7 +263,7 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
       lda = k;
    }
 
-   int ldb;
+   molds_blas_int ldb;
    CBLAS_TRANSPOSE transB;
    if(isColumnMajorMatrixB){
       transB = CblasNoTrans;
@@ -276,16 +276,16 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
 
    double* tmpC;
    tmpC = (double*)malloc( sizeof(double)*m*n);
-   for(int i=0; i<m; i++){
-      for(int j=0; j<n; j++){
+   for(molds_blas_int i=0; i<m; i++){
+      for(molds_blas_int j=0; j<n; j++){
          tmpC[i+j*m] = matrixC[i][j];
       }
    }
-   int ldc = m;
+   molds_blas_int ldc = m;
    //call blas
    cblas_dgemm(CblasColMajor, transA, transB, m, n, k, alpha, a, lda, b, ldb, beta, tmpC, ldc);
-   for(int i=0; i<m; i++){
-      for(int j=0; j<n; j++){
+   for(molds_blas_int i=0; i<m; i++){
+      for(molds_blas_int j=0; j<n; j++){
          matrixC[i][j] = tmpC[i+j*m];
       }
    }

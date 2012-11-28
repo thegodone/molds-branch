@@ -24,6 +24,11 @@
 #include<string>
 #include<stdexcept>
 #include<boost/format.hpp>
+#if ( LONG_MAX == 2147483648 )
+#else
+#define HAVE_LAPACK_CONFIG_H
+#define LAPACK_ILP64
+#endif
 #include"lapacke.h"
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
@@ -74,18 +79,18 @@ void Lapack::DeleteInstance(){
  *    i-th eigen vector is (matirx[i][0], matirx[i][1], matirx[i][2], ....).
  *
  * ***/
-int Lapack::Dsyevd(double** matrix, double* eigenValues, int size, bool calcEigenVectors){
-   int info = 0;
-   int k = 0;
-   int lwork;
-   int liwork;
+molds_lapack_int Lapack::Dsyevd(double** matrix, double* eigenValues, molds_lapack_int size, bool calcEigenVectors){
+   molds_lapack_int info = 0;
+   molds_lapack_int k = 0;
+   molds_lapack_int lwork;
+   molds_lapack_int liwork;
    char job;
    char uplo = 'U';
-   int lda = size;
+   molds_lapack_int lda = size;
    double* convertedMatrix;
    double* tempEigenValues;
    double* work;
-   int* iwork;
+   molds_lapack_int* iwork;
 
    // set job type
    if(calcEigenVectors){
@@ -112,11 +117,11 @@ int Lapack::Dsyevd(double** matrix, double* eigenValues, int size, bool calcEige
    else{
       // calc. k
       double temp = log((double)size)/log(2.0);
-      if( (double)((int)temp) < temp ){
-         k = (int)temp + 1;
+      if( (double)((molds_lapack_int)temp) < temp ){
+         k = (molds_lapack_int)temp + 1;
       }
       else{
-         k = (int)temp;
+         k = (molds_lapack_int)temp;
       }
       lwork = 3*size*size + (5+2*k)*size + 1;
       liwork = 5*size + 3;
@@ -124,12 +129,12 @@ int Lapack::Dsyevd(double** matrix, double* eigenValues, int size, bool calcEige
 
    // malloc
    work = (double*)LAPACKE_malloc( sizeof(double)*lwork );
-   iwork = (int*)LAPACKE_malloc( sizeof(int)*liwork );
+   iwork = (molds_lapack_int*)LAPACKE_malloc( sizeof(molds_lapack_int)*liwork );
    convertedMatrix = (double*)LAPACKE_malloc( sizeof(double)*size*size );
    tempEigenValues = (double*)LAPACKE_malloc( sizeof(double)*size );
 
-   for(int i = 0; i < size; i++){
-      for(int j = i; j < size; j++){
+   for(molds_lapack_int i = 0; i < size; i++){
+      for(molds_lapack_int j = i; j < size; j++){
          convertedMatrix[i+j*size] = matrix[i][j];
       }
    }
@@ -137,26 +142,26 @@ int Lapack::Dsyevd(double** matrix, double* eigenValues, int size, bool calcEige
    // call Lapack
    info = LAPACKE_dsyevd_work(LAPACK_COL_MAJOR, job, uplo, size, convertedMatrix, lda, tempEigenValues, work, lwork, iwork, liwork);
 
-   for(int i = 0; i < size; i++){
-      for(int j = 0; j < size; j++){
+   for(molds_lapack_int i = 0; i < size; i++){
+      for(molds_lapack_int j = 0; j < size; j++){
          matrix[i][j] = convertedMatrix[j+i*size];  //i-th row is i-th eigen vector
          //matrix[j][i] = convertedMatrix[j+i*size];  //i-th column is i-th eigen vector
       }
    }
 
-   for(int i=0;i<size;i++){
+   for(molds_lapack_int i=0;i<size;i++){
       double temp = 0.0;
-      for(int j=0;j<size;j++){
+      for(molds_lapack_int j=0;j<size;j++){
          temp += matrix[i][j];
       }
       if(temp<0){
-         for(int j=0;j<size;j++){
+         for(molds_lapack_int j=0;j<size;j++){
             matrix[i][j]*=-1.0;
          }
       }
    }   
 
-   for(int i = 0; i < size; i++){
+   for(molds_lapack_int i = 0; i < size; i++){
       eigenValues[i] = tempEigenValues[i];
    }
    //this->OutputLog(boost::format("size=%d lwork=%d liwork=%d k=%d info=%d\n") % size % lwork % liwork % k % info);
@@ -182,17 +187,17 @@ int Lapack::Dsyevd(double** matrix, double* eigenValues, int size, bool calcEige
  * The X is stored in b.
  *
  */
-int Lapack::Dsysv(double const* const* matrix, double* b, int size){
-   int info = 0;
-   int lwork;
+molds_lapack_int Lapack::Dsysv(double const* const* matrix, double* b, molds_lapack_int size){
+   molds_lapack_int info = 0;
+   molds_lapack_int lwork;
    char uplo = 'U';
-   int lda = size;
-   int ldb = size;
-   int nrhs = 1;
+   molds_lapack_int lda = size;
+   molds_lapack_int ldb = size;
+   molds_lapack_int nrhs = 1;
    double* convertedMatrix;
    double* work;
    double* tempB;
-   int* ipiv;
+   molds_lapack_int* ipiv;
 
    if(size < 1 ){
       stringstream ss;
@@ -201,16 +206,16 @@ int Lapack::Dsysv(double const* const* matrix, double* b, int size){
    }
 
    // malloc
-   ipiv = (int*)LAPACKE_malloc( sizeof(int)*2*size );
+   ipiv = (molds_lapack_int*)LAPACKE_malloc( sizeof(molds_lapack_int)*2*size );
    convertedMatrix = (double*)LAPACKE_malloc( sizeof(double)*size*size );
    tempB = (double*)LAPACKE_malloc( sizeof(double)*size );
 
-   for(int i = 0; i < size; i++){
-      for(int j = i; j < size; j++){
+   for(molds_lapack_int i = 0; i < size; i++){
+      for(molds_lapack_int j = i; j < size; j++){
          convertedMatrix[i+j*size] = matrix[i][j];
       }
    }
-   for(int i = 0; i < size; i++){
+   for(molds_lapack_int i = 0; i < size; i++){
       tempB[i] = b[i];
    }
 
@@ -231,7 +236,7 @@ int Lapack::Dsysv(double const* const* matrix, double* b, int size){
 
    // call Lapack
    info = LAPACKE_dsysv_work(LAPACK_COL_MAJOR, uplo, size, nrhs, convertedMatrix, lda, ipiv, tempB, ldb, work, lwork);
-   for(int i = 0; i < size; i++){
+   for(molds_lapack_int i = 0; i < size; i++){
       b[i] = tempB[i];
    }
 
@@ -257,14 +262,14 @@ int Lapack::Dsysv(double const* const* matrix, double* b, int size){
  * b[i][j] is j-th element of i-th solution, b[i].
  *
  */
-int Lapack::Dgetrs(double const* const* matrix, double** b, int size, int nrhs) const{
-   int info = 0;
+molds_lapack_int Lapack::Dgetrs(double const* const* matrix, double** b, molds_lapack_int size, molds_lapack_int nrhs) const{
+   molds_lapack_int info = 0;
    char trans = 'N';
-   int lda = size;
-   int ldb = size;
+   molds_lapack_int lda = size;
+   molds_lapack_int ldb = size;
    double* convertedMatrix;
    double* convertedB;
-   int* ipiv;
+   molds_lapack_int* ipiv;
 
    if(size < 1 ){
       stringstream ss;
@@ -274,23 +279,23 @@ int Lapack::Dgetrs(double const* const* matrix, double** b, int size, int nrhs) 
 
    try{
       // malloc
-      ipiv = (int*)LAPACKE_malloc( sizeof(int)*2*size);
+      ipiv = (molds_lapack_int*)LAPACKE_malloc( sizeof(molds_lapack_int)*2*size);
       convertedMatrix = (double*)LAPACKE_malloc( sizeof(double)*size*size);
       convertedB = (double*)LAPACKE_malloc( sizeof(double)*nrhs*size);
-      for(int i = 0; i < size; i++){
-         for(int j = 0; j < size; j++){
+      for(molds_lapack_int i = 0; i < size; i++){
+         for(molds_lapack_int j = 0; j < size; j++){
             convertedMatrix[i+j*size] = matrix[i][j];
          }
       }
-      for(int i = 0; i < nrhs; i++){
-         for(int j = 0; j < size; j++){
+      for(molds_lapack_int i = 0; i < nrhs; i++){
+         for(molds_lapack_int j = 0; j < size; j++){
             convertedB[j+i*size] = b[i][j];
          }
       }
       this->Dgetrf(convertedMatrix, ipiv, size, size);
       info = LAPACKE_dgetrs_work(LAPACK_COL_MAJOR, trans, size, nrhs, convertedMatrix, lda, ipiv, convertedB, ldb);
-      for(int i = 0; i < nrhs; i++){
-         for(int j = 0; j < size; j++){
+      for(molds_lapack_int i = 0; i < nrhs; i++){
+         for(molds_lapack_int j = 0; j < size; j++){
             b[i][j] = convertedB[j+i*size];
          }
       }
@@ -318,39 +323,39 @@ int Lapack::Dgetrs(double const* const* matrix, double** b, int size, int nrhs) 
 
 // Argument "matrix" is sizeM*sizeN matrix.
 // Argument "matrix" will be LU-decomposed.
-int Lapack::Dgetrf(double** matrix, int sizeM, int sizeN) const{
-   int* ipiv = (int*)LAPACKE_malloc( sizeof(int)*2*sizeM );
+molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
+   molds_lapack_int* ipiv = (molds_lapack_int*)LAPACKE_malloc( sizeof(molds_lapack_int)*2*sizeM );
    this->Dgetrf(matrix, ipiv, sizeM, sizeN);
    LAPACKE_free(ipiv);
-   int info = 0;
+   molds_lapack_int info = 0;
    return info;
 }
 
 // Argument "matrix" is sizeM*sizeN matrix.
 // Argument "matrix" will be LU-decomposed.
-int Lapack::Dgetrf(double** matrix, int* ipiv, int sizeM, int sizeN) const{
+molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
    double* convertedMatrix = (double*)LAPACKE_malloc( sizeof(double)*sizeM*sizeN );
-   for(int i=0; i<sizeM; i++){
-      for(int j=0; j<sizeN; j++){
+   for(molds_lapack_int i=0; i<sizeM; i++){
+      for(molds_lapack_int j=0; j<sizeN; j++){
          convertedMatrix[i+j*sizeM] = matrix[i][j];
       }
    }
    this->Dgetrf(convertedMatrix, ipiv, sizeM, sizeN);
-   for(int i=0; i<sizeM; i++){
-      for(int j=0; j<sizeN; j++){
+   for(molds_lapack_int i=0; i<sizeM; i++){
+      for(molds_lapack_int j=0; j<sizeN; j++){
          matrix[i][j] = convertedMatrix[i+j*sizeM];
       }
    }
    LAPACKE_free(convertedMatrix);
-   int info = 0;
+   molds_lapack_int info = 0;
    return info;
 }
 
 // Argument "matrix" means sizeM * sizeN matrix.
 // The each element of "matrix" should be stored in 1-dimensional vecotre with column major (Fortran type).
-int Lapack::Dgetrf(double* matrix, int* ipiv, int sizeM, int sizeN) const{
-   int info = 0;
-   int lda = sizeM;
+molds_lapack_int Lapack::Dgetrf(double* matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
+   molds_lapack_int info = 0;
+   molds_lapack_int lda = sizeM;
    info = LAPACKE_dgetrf_work(LAPACK_COL_MAJOR, sizeM, sizeN, matrix, lda, ipiv);
    if(info != 0){
       stringstream ss;
