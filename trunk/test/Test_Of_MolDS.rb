@@ -41,7 +41,7 @@ class TesterOmp
    @@tempFile = "temp.dat"
    @@moldsBin = MolDSBin
    @@command = "command: "
-   @@deleteDiff = " | gawk '{if(($4!=\"RMS\")){print $0}}' | gawk '{if(($4!=\"time:\")){print $0}}' | gawk '{if(($3!=\"Elapsed\")){print $0}}' | gawk '{if(($2!=\"Elapsed\")){print $0}}' | gawk '{if(($3!=\"Welcome\")){print $0}}' | gawk '{if(($7!=\"residual\")){print $0}}'"
+   @@deleteDiff = " | gawk '{if(($4!=\"RMS\")){print $0}}' | gawk '{if(($4!=\"time:\")){print $0}}' | gawk '{if(($3!=\"Elapsed\")){print $0}}' | gawk '{if(($2!=\"Elapsed\")){print $0}}' | gawk '{if(($3!=\"Welcome\")){print $0}}' | gawk '{if(($7!=\"residual\")){print $0}}' | gawk '{if(($3!=\"mode(nmw):\") ){print $0}}' | gawk '{if( !(($3==\"mode(mw):\")&&($4<6)) ){print $0}}'" 
 	 @@printed_section = []
    def doesTestOmp(mklNumThreads, ompNumThreads)
       return unless should_run?
@@ -951,128 +951,13 @@ mklNumThreads = "2"
 ompNumThreads = "2"
 testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
 
-prefix = "h2o_mndo_freq"
-testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
--------------------------------------------
-------  Test of MNDO/HF/FREQUENCIES   -----
--------------------------------------------
-SECTION
-\t\t\t>>> H2O <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "c2h2_mndo_freq"
-testerOmp = TesterOmp.new(prefix, <<"TITLE")
-\t\t\t>>> C2H2 <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "nh3_mndo_freq"
-testerOmp = TesterOmp.new(prefix, <<"TITLE")
-\t\t\t>>> NH3 <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "ch4_mndo_freq"
-testerOmp = TesterOmp.new(prefix, <<"TITLE")
-\t\t\t>>> CH4 <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "h2o_am1_freq"
-testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
--------------------------------------------
-------   Test of AM1/HF/FREQUENCIES   -----
--------------------------------------------
-SECTION
-\t\t\t>>> H2O <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "c2h6_am1_freq"
-testerOmp = TesterOmp.new(prefix, <<"TITLE")
-\t\t\t>>> C2H6 <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "h2o-dimer_am1d_freq"
-testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
--------------------------------------------
-------  Test of AM1-D/HF/FREQUENCIES  -----
--------------------------------------------
-SECTION
-\t\t\t>>> H2O dimer <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "nh3_pm3_freq"
-testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
--------------------------------------------
-------   Test of PM3/HF/FREQUENCIES   -----
--------------------------------------------
-SECTION
-\t\t\t>>> NH3 <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "c2h6_pm3_freq"
-testerOmp = TesterOmp.new(prefix, <<"TITLE")
-\t\t\t>>> C2H6 <<<
-TITLE
-mklNumThreads = "1"
-ompNumThreads = "1"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-mklNumThreads = "2"
-ompNumThreads = "2"
-testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
-
-prefix = "h2o-dimer_pddg_freq"
+prefix = "c2h6-h2o-cluster_pm3pddg_freq"
 testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
 -------------------------------------------
 ----   Test of PM3/PDDG/HF/FREQUENCIES  ---
 -------------------------------------------
 SECTION
-\t\t\t>>> H2O dimer <<<
+\t\t\t>>> C2H6 H2O cluster <<<
 TITLE
 mklNumThreads = "1"
 ompNumThreads = "1"
@@ -1081,13 +966,13 @@ mklNumThreads = "2"
 ompNumThreads = "2"
 testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
 
-prefix = "h2o-dimer_pm3d_freq"
+prefix = "c2h6-nh3-cluster_pm3d_freq"
 testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
 -------------------------------------------
 -----   Test of PM3-D/HF/FREQUENCIES   ----
 -------------------------------------------
 SECTION
-\t\t\t>>> H2O dimer <<<
+\t\t\t>>> C2H6 NH3 cluster <<<
 TITLE
 mklNumThreads = "1"
 ompNumThreads = "1"
