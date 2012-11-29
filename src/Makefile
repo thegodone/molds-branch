@@ -20,7 +20,9 @@ CC = icpc
 LIBSBASE = -lmkl_intel_thread -lmkl_core -liomp5 -lpthread
 LIBS32 = -lmkl_intel       $(LIBSBASE)
 LIBS64 = -lmkl_intel_ilp64 $(LIBSBASE)
-CFLAGS = -O0 -openmp -openmp-report2 -DMKL_INT=intptr_t -DMKL_INT64
+CFLAGSBASE = -O0 -openmp -openmp-report2 -DMKL_INT=intptr_t 
+CFLAGS32   = $(CFLAGSBASE)
+CFLAGS64   = $(CFLAGSBASE) -DMKL_INT64
 BOOST_TOP_DIR = /usr/local/boost/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)include/
 EXENAME = MolDS.out
@@ -43,9 +45,9 @@ endif
 
 depend: $(ALL_HEAD_FILES) $(ALL_CPP_FILES)
 ifeq ($(INTEL), 64)
-	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS) -c /g' > $(DEPFILE)
+	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS64) -c /g' > $(DEPFILE)
 else
-	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS) -c /g' > $(DEPFILE)
+	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS32) -c /g' > $(DEPFILE)
 endif
 
 .PHONY: clean
