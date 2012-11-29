@@ -1,0 +1,36 @@
+THEORY
+  pm3-d
+THEORY_END
+
+SCF
+ max_iter 500
+ rms_density 1e-6
+ damping_thresh 1.0
+ damping_weight 0.9
+ diis_num_error_vect 5
+ diis_start_error 0.1
+ diis_end_error 0.00000002
+SCF_END
+
+FREQUENCIES
+   electronic_state 0
+FREQUENCIES_END
+
+// c2h6-nh3 cluster (optimized with pm3-d)
+GEOMETRY
+	C	3.355284e-02	-3.429145e-02	-6.950791e-02
+	C	1.521010e+00	3.312518e-02	6.794435e-02
+	H	-4.186633e-01	9.571554e-01	-4.906945e-02
+	H	-2.540791e-01	-5.072493e-01	-1.008334e+00
+	H	-4.106716e-01	-6.146940e-01	7.389559e-01
+	H	1.966792e+00	6.113421e-01	-7.398448e-01
+	H	1.810317e+00	5.039846e-01	1.006119e+00
+	H	1.976887e+00	-9.822872e-01	4.636385e-02
+	N	2.650863e+00	-2.658168e+00	3.721047e-03
+	H	1.914828e+00	-3.291358e+00	-1.010495e-01
+	H	3.266869e+00	-2.764738e+00	-7.463073e-01
+	H	3.125594e+00	-2.861722e+00	8.323088e-01
+GEOMETRY_END
+
+
+
