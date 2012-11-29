@@ -18,13 +18,14 @@
 //************************************************************************//
 #include<stdio.h>
 #include<stdlib.h>
+#include<limits.h>
 #include<iostream>
 #include<sstream>
 #include<math.h>
 #include<string>
 #include<stdexcept>
 #include<boost/format.hpp>
-#if ( LONG_MAX == 2147483648 )
+#if ( __WORDSIZE == 32 )
 #else
 #define HAVE_LAPACK_CONFIG_H
 #define LAPACK_ILP64
