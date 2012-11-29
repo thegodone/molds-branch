@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/9/13(Thu.) 14:48:47  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/11/29(Thu.) 12:46:30  <<<<<
 
 
 **********  START: Parse input  **********
@@ -43,6 +43,8 @@
 		Electronic eigenstate: 0
 		Max gradient: 0.000450
 		Rms gradient: 0.000300
+		Initial trust radius: 0.300000
+		Max size of the optimization step: 0.300000
 
 Input terms:
 theory | pm3/pddg | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
@@ -58,19 +60,19 @@ h | 1.7519 | -1.0401 | -0.1000 | geometry_end |
 
 **********  START: Geometry optimization  **********
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=5.291502622129184
+SCF iter=0: RMS density=5.291502622129181
 SCF iter=1: RMS density=1.776302500713477
-SCF iter=2: RMS density=0.953825787215979
-SCF iter=3: RMS density=0.523019383342596
-SCF iter=4: RMS density=0.287694781515639
-SCF iter=5: RMS density=0.158473555927061
-SCF iter=6: RMS density=0.001365259404965
-SCF iter=7: RMS density=0.000269846866975
-SCF iter=8: RMS density=0.000098252575194
-SCF iter=9: RMS density=0.000042078671256
-SCF iter=10: RMS density=0.000013333148837
-SCF iter=11: RMS density=0.000002624318416
-SCF iter=12: RMS density=0.000000435961070
+SCF iter=2: RMS density=0.953825787215982
+SCF iter=3: RMS density=0.523019383342597
+SCF iter=4: RMS density=0.287694781515640
+SCF iter=5: RMS density=0.158473555927059
+SCF iter=6: RMS density=0.001365259404937
+SCF iter=7: RMS density=0.000269846866901
+SCF iter=8: RMS density=0.000098252575166
+SCF iter=9: RMS density=0.000042078671248
+SCF iter=10: RMS density=0.000013333148836
+SCF iter=11: RMS density=0.000002624318414
+SCF iter=12: RMS density=0.000000435961069
 
 
 
@@ -119,7 +121,7 @@ SCF iter=12: RMS density=0.000000435961070
 	Mulliken charge:	6	H	1.000000e+00	9.774623e-02
 	Mulliken charge:	7	H	1.000000e+00	1.088898e-01
 
-	Elapsed time(omp) for the SCF = 0.045704[s].
+	Elapsed time(omp) for the SCF = 0.191386[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -221,7 +223,7 @@ actual/expected energy change = 1.197396
 ==========  START: BFGS step 2
 
 Eigenvalues of the raw Hessian:
--9.997299e-15,	9.043752e-02,	2.937907e-01,	3.295345e-01,	4.360719e-01,	6.517775e-01
+-9.575227e-14,	9.043752e-02,	2.937907e-01,	3.295345e-01,	4.360719e-01,	6.517775e-01
 8.583470e-01,	1.188766e+00,	1.244581e+00,	1.253923e+00,	1.265613e+00,	1.280728e+00
 1.299607e+00,	1.370861e+00,	1.373263e+00,	1.434081e+00,	1.445124e+00,	1.577504e+00
 1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
@@ -1923,12 +1925,12 @@ Trust radius is 0.300000
 	Mulliken charge:	7	H	1.000000e+00	8.566561e-02
 
 
-actual energy change          = -6.032881e-06
+actual energy change          = -6.032882e-06
 expected energy change        = -4.208176e-06
 actual/expected energy change = 1.433610
 
 	====== Optimization Logs ======
-	Energy difference:  -6.032881e-06 [a.u.]
+	Energy difference:  -6.032882e-06 [a.u.]
 	Max gradient:  1.024811e-03 [a.u.]
 	Rms gradient:  4.592333e-04 [a.u.]
 
@@ -2272,7 +2274,7 @@ Trust radius is 0.300000
 
 
 actual energy change          = -2.875061e-06
-expected energy change        = -1.998988e-06
+expected energy change        = -1.998989e-06
 actual/expected energy change = 1.438258
 
 	====== Optimization Logs ======
@@ -2532,12 +2534,12 @@ Trust radius is 0.300000
 	Mulliken charge:	7	H	1.000000e+00	8.543411e-02
 
 
-actual energy change          = -1.922559e-07
+actual energy change          = -1.922560e-07
 expected energy change        = -1.519187e-07
-actual/expected energy change = 1.265518
+actual/expected energy change = 1.265519
 
 	====== Optimization Logs ======
-	Energy difference:  -1.922559e-07 [a.u.]
+	Energy difference:  -1.922560e-07 [a.u.]
 	Max gradient:  2.189467e-04 [a.u.]
 	Rms gradient:  1.038228e-04 [a.u.]
 
@@ -2547,14 +2549,14 @@ actual/expected energy change = 1.265518
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.173856[MB].
+		Max Heap: 0.304280[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 12.65[s].  <<<<<
-     >>>>>  Elapsed time: 13[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 12.6738[s].  <<<<<
+     >>>>>  CPU time: 5.91[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.40282[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
