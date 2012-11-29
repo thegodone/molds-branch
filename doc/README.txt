@@ -49,12 +49,10 @@ COMPILE(using GNUmake):
       Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
       boost-libraries in your systems.
 
-      To compile MolDS on 32 bit archtecture,
-      $ make depend INTEL=32
+      To compile MolDS on 32 bits machine,
       $ make INTEL=32
 
-      To compile MolDS on 64 bit archtecture,
-      $ make depend INTEL=64
+      To compile MolDS on 64 bits machine,
       $ make INTEL=64
 
    Case ii) Using GNU c/c++ compiler (g++)
@@ -64,7 +62,6 @@ COMPILE(using GNUmake):
       boost-libraries in your systems.
       
       Then, just type: 
-      $ make -f Makefile_GNU depend
       $ make -f Makefile_GNU 
 
    For both case, the compile succeeded if you could fine "MolDS.out" in the "src" directory. 
