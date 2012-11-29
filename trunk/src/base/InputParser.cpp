@@ -1,6 +1,7 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
-// Copyright (C) 2011-2012 Michihiro Okuyama                              // 
+// Copyright (C) 2012-2012 Katsuhiko Nishimra                             // 
+// Copyright (C) 2012-2012 Michihiro Okuyama                              // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
