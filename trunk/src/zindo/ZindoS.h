@@ -138,11 +138,20 @@ private:
    void DoCISDavidson();
    void OutputCISDipole() const;
    void OutputCISTransitionDipole() const;
+   void OutputCISMulliken() const;
    void CalcFreeExcitonEnergies(double** freeExcitonEnergiesCIS, 
                                 const MolDS_base::Molecule& molecule, 
                                 double const* energiesMO, 
                                 double const* const* matrixCIS,
                                 int matrixCISdimension) const;
+   void CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulationCIS, 
+                                         double const* const* orbitalElectronPopulation, 
+                                         const MolDS_base::Molecule& molecule, 
+                                         double const* const* fockMatrix,
+                                         double const* const* matrixCIS) const;
+   void CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationCIS,
+                                        double const* const* const* orbitalElectronPopulationCIS, 
+                                        const MolDS_base::Molecule& molecule) const;
    void CalcElectronicDipoleMomentsExcitedState(double*** electronicTransitionDipoleMoments,
                                                 double const* const* fockMatrix,
                                                 double const* const* matrixCIS,

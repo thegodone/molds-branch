@@ -68,8 +68,10 @@ Cndo2::Cndo2(){
    this->matrixCISdimension = 0;
    this->fockMatrix = NULL;
    this->energiesMO = NULL;
-   this->orbitalElectronPopulation = NULL;
-   this->atomicElectronPopulation = NULL;
+   this->orbitalElectronPopulation    = NULL;
+   this->orbitalElectronPopulationCIS = NULL;
+   this->atomicElectronPopulation     = NULL;
+   this->atomicElectronPopulationCIS  = NULL;
    this->overlapAOs = NULL;
    this->twoElecTwoCore = NULL;
    this->cartesianMatrix = NULL;

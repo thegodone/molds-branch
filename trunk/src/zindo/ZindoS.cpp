@@ -87,6 +87,15 @@ ZindoS::~ZindoS(){
                                               this->matrixForceElecStatesNum,
                                               this->molecule->GetNumberAtoms(),
                                               CartesianType_end);
+   if(Parameters::GetInstance()->RequiresMullikenCIS()){
+      MallocerFreer::GetInstance()->Free<double>(&this->orbitalElectronPopulationCIS, 
+                                                 Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS()->size(),
+                                                 this->molecule->GetTotalNumberAOs(),
+                                                 this->molecule->GetTotalNumberAOs());
+      MallocerFreer::GetInstance()->Free<double>(&this->atomicElectronPopulationCIS, 
+                                                 Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS()->size(),
+                                                 this->molecule->GetNumberAtoms());
+   }
    //this->OutputLog("ZindoS deleted\n");
 }
 
@@ -999,6 +1008,18 @@ void ZindoS::CalcCISProperties(){
                                  this->energiesMO, 
                                  this->matrixCIS,
                                  this->matrixCISdimension);
+   
+   // orbital electron population
+   this->CalcOrbitalElectronPopulationCIS(&this->orbitalElectronPopulationCIS, 
+                                          this->orbitalElectronPopulation,
+                                          *this->molecule, 
+                                          this->fockMatrix,
+                                          this->matrixCIS);
+
+   // atomic electron population
+   this->CalcAtomicElectronPopulationCIS(&this->atomicElectronPopulationCIS,
+                                         this->orbitalElectronPopulationCIS, 
+                                         *this->molecule);
 }
 
 void ZindoS::CalcElectronicDipoleMomentsExcitedState(double*** electronicTransitionDipoleMoments,
@@ -1271,6 +1292,96 @@ void ZindoS::CalcFreeExcitonEnergies(double** freeExcitonEnergiesCIS,
    }
 }
 
+void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulationCIS, 
+                                              double const* const* orbitalElectronPopulation, 
+                                              const MolDS_base::Molecule& molecule, 
+                                              double const* const* fockMatrix,
+                                              double const* const* matrixCIS) const{
+   if(!Parameters::GetInstance()->RequiresMullikenCIS()){
+      return;
+   }
+   vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
+   // malloc or initialize free exciton energies
+   if(*orbitalElectronPopulationCIS == NULL){
+      MallocerFreer::GetInstance()->Malloc<double>(orbitalElectronPopulationCIS, 
+                                                   elecStates->size(),
+                                                   molecule.GetTotalNumberAOs(),
+                                                   molecule.GetTotalNumberAOs());
+   }
+   else{
+      MallocerFreer::GetInstance()->Initialize<double>(*orbitalElectronPopulationCIS, 
+                                                       elecStates->size(),
+                                                       molecule.GetTotalNumberAOs(),
+                                                       molecule.GetTotalNumberAOs());
+   }
+   // clac orbital electron population
+   int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
+   int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
+   int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
+   for(int k=0; k<elecStates->size(); k++){
+      int excitedStateIndex = (*elecStates)[k]-1;
+      for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
+         for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
+            double value = orbitalElectronPopulation[mu][nu];
+            for(int moI=0; moI<numberActiveOcc; moI++){
+               for(int moA=numberOcc; moA<numberOcc+numberActiveVir; moA++){
+                  int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(moI,moA);
+                  value += pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
+                          *(-fockMatrix[moI][mu]*fockMatrix[moI][nu] 
+                            +fockMatrix[moA][mu]*fockMatrix[moA][nu]);
+                  double tmpVal1=0.0;
+                  for(int moB=numberOcc; moB<numberOcc+numberActiveVir; moB++){
+                     if(moB==moA) continue;
+                     int tmpSDIndex = this->GetSlaterDeterminantIndex(moI,moB);
+                     tmpVal1 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][nu];
+                  }
+                  double tmpVal2=0.0;
+                  for(int moJ=0; moJ<numberActiveOcc; moJ++){
+                     if(moJ==moI) continue;
+                     int tmpSDIndex = this->GetSlaterDeterminantIndex(moJ,moA);
+                     tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
+                  }
+                  value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
+                          *(fockMatrix[moA][mu]*tmpVal1 + fockMatrix[moI][nu]*tmpVal2);
+               }
+            }
+            (*orbitalElectronPopulationCIS)[k][mu][nu] = value;
+         }
+      }
+   }
+}
+
+void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationCIS,
+                                             double const* const* const* orbitalElectronPopulationCIS, 
+                                             const Molecule& molecule) const{
+   if(!Parameters::GetInstance()->RequiresMullikenCIS()){
+      return;
+   }
+   int totalNumberAtoms = molecule.GetNumberAtoms();
+   vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
+   // malloc or initialize free exciton energies
+   if(*atomicElectronPopulationCIS == NULL){
+      MallocerFreer::GetInstance()->Malloc<double>(atomicElectronPopulationCIS, 
+                                                   elecStates->size(),
+                                                   totalNumberAtoms);
+   }
+   else{
+      MallocerFreer::GetInstance()->Initialize<double>(*atomicElectronPopulationCIS,
+                                                       elecStates->size(),
+                                                       totalNumberAtoms);
+   }
+   // clac atomic electron population
+   for(int k=0; k<elecStates->size(); k++){
+      for(int a=0; a<totalNumberAtoms; a++){
+         int firstAOIndex = molecule.GetAtom(a)->GetFirstAOIndex();
+         int numberAOs = molecule.GetAtom(a)->GetValenceSize();
+         for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
+            (*atomicElectronPopulationCIS)[k][a] += orbitalElectronPopulationCIS[k][i][i];
+         }
+      }
+   }
+}
+
 void ZindoS::OutputCISResults() const{
    int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
    int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
@@ -1302,6 +1413,9 @@ void ZindoS::OutputCISResults() const{
 
    // output transition dipole moment
    this->OutputCISTransitionDipole();
+
+   // output mulliken population
+   this->OutputCISMulliken();
 
    // output exciton energies
    if(Parameters::GetInstance()->RequiresExcitonEnergiesCIS()){
@@ -1427,8 +1541,29 @@ void ZindoS::OutputCISTransitionDipole() const{
       }
    }
    this->OutputLog("\n");
-
 }
+
+void ZindoS::OutputCISMulliken() const{
+   if(!Parameters::GetInstance()->RequiresMullikenCIS()){
+      return;
+   }
+   int totalNumberAtoms = this->molecule->GetNumberAtoms();
+   this->OutputLog(this->messageMullikenAtomsTitle);
+   vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
+   for(int k=0; k<elecStates->size(); k++){
+      for(int a=0; a<totalNumberAtoms; a++){
+         const Atom& atom = *this->molecule->GetAtom(a);
+         this->OutputLog(boost::format("%s\t%d\t%d\t%s\t%e\t%e\n") % this->messageMullikenAtoms
+                                                                   % (*elecStates)[k]
+                                                                   % a
+                                                                   % AtomTypeStr(atom.GetAtomType())
+                                                                   % atom.GetCoreCharge()
+                                                                   % (atom.GetCoreCharge()-this->atomicElectronPopulationCIS[k][a]));
+      }
+      this->OutputLog("\n");
+   }
+}
+
 void ZindoS::SortCISEigenVectorCoefficients(vector<CISEigenVectorCoefficient>* cisEigenVectorCoefficients,
                                             double* cisEigenVector) const{
    for(int l=0; l<this->matrixCISdimension; l++){

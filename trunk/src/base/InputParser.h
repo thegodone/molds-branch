@@ -80,6 +80,7 @@ private:
    std::string messageCisExcitonEnergies;
    std::string messageCisAllTransitionDipoleMoments;
    std::string messageCisNumPrintCoefficients;
+   std::string messageCisMulliken;
    // Memory
    std::string messageMemoryConditions;
    std::string messageMemoryLimitHeap;
@@ -234,6 +235,7 @@ private:
    std::string stringCISExcitonEnergies;
    std::string stringCISAllTransitionDipoleMoments;
    std::string stringCISNumPrintCoefficients;
+   std::string stringCISMulliken;
    // Memory
    std::string stringMemory;
    std::string stringMemoryEnd;
