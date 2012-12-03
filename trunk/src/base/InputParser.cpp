@@ -1616,8 +1616,8 @@ void InputParser::OutputCisConditions() const{
          this->OutputLog(boost::format("%s%d\n") % this->messageCisMulliken.c_str()
                                                  % (*indeces)[i]);
       }
+      this->OutputLog("\n");
    }
-   this->OutputLog("\n");
    
    this->OutputLog("\n");
 }

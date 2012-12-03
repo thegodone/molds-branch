@@ -203,7 +203,7 @@ void Cndo2::SetMessages(){
    this->messageOcc = "occ";
    this->messageUnOcc = "unocc";
    this->messageMullikenAtoms = "\tMulliken charge:";
-   this->messageMullikenAtomsTitle = "\t\t\t\t| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| \n";
+   this->messageMullikenAtomsTitle = "\t\t\t\t| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| \n";
    this->messageElecEnergy = "\tElectronic energy(SCF):";
    this->messageNoteElecEnergy = "\tNote that this electronic energy includes core-repulsions.\n\n";
    this->messageNoteElecEnergyVdW = "\tNote that this electronic energy includes core-repulsions and vdW correction.\n\n";
@@ -1040,14 +1040,16 @@ void Cndo2::OutputSCFDipole() const{
 }
 
 void Cndo2::OutputSCFMulliken() const{
+   int groundState = 0;
    this->OutputLog(this->messageMullikenAtomsTitle);
    for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
       Atom* atom = this->molecule->GetAtom(a);
-      this->OutputLog(boost::format("%s\t%d\t%s\t%e\t%e\n") % this->messageMullikenAtoms
-                                                            % a
-                                                            % AtomTypeStr(atom->GetAtomType())
-                                                            % atom->GetCoreCharge()
-                                                            % (atom->GetCoreCharge()-atomicElectronPopulation[a]));
+      this->OutputLog(boost::format("%s\t%d\t%d\t%s\t%e\t%e\n") % this->messageMullikenAtoms
+                                                                % groundState
+                                                                % a
+                                                                % AtomTypeStr(atom->GetAtomType())
+                                                                % atom->GetCoreCharge()
+                                                                % (atom->GetCoreCharge()-atomicElectronPopulation[a]));
    }
    this->OutputLog("\n");
 }
