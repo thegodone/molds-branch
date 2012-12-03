@@ -87,7 +87,7 @@ Parameters::~Parameters(){
    if(this->electronicStateIndecesMullikenCIS != NULL){
       delete this->electronicStateIndecesMullikenCIS;
       this->electronicStateIndecesMullikenCIS= NULL;
-      this->OutputLog("electronicStateIndecesMullikenCIS deleted\n");
+      //this->OutputLog("electronicStateIndecesMullikenCIS deleted\n");
    }
 }
 
