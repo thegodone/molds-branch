@@ -84,6 +84,8 @@ protected:
    std::string messageStartSCF;
    std::string messageDoneSCF;
    std::string messageOmpElapsedTimeSCF;
+   std::string messageMullikenAtoms;
+   std::string messageMullikenAtomsTitle;
    std::string messageUnitSec; 
    std::vector<MolDS_base::AtomType> enableAtomTypes;
    MolDS_base::Molecule* molecule;
@@ -94,7 +96,9 @@ protected:
    double**     fockMatrix;
    double*      energiesMO;
    double**     orbitalElectronPopulation; //P_{\mu\nu} of (2.50) in J. A. Pople book.
+   double***    orbitalElectronPopulationCIS; 
    double*      atomicElectronPopulation; //P_{AB} of (3.21) in J. A. Pople book.
+   double**     atomicElectronPopulationCIS; 
    double**     overlapAOs; // overlap integral between AOs
    double****** twoElecTwoCore;
    double***    cartesianMatrix; // cartesian matrix represented by AOs
@@ -250,8 +254,6 @@ private:
    std::string messageDensityRMS;
    std::string messageEnergyMO;
    std::string messageEnergyMOTitle;
-   std::string messageMullikenAtoms;
-   std::string messageMullikenAtomsTitle;
    std::string messageElecEnergy;
    std::string messageNoteElecEnergy;
    std::string messageNoteElecEnergyVdW;

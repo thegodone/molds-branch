@@ -115,28 +115,31 @@ public:
    void         SetRotatingEularAngles(double alpha, double beta, double gamma);
    EularAngle   GetRotatingEularAngles() const;
    // CIS
-   int    GetActiveOccCIS() const;
-   void   SetActiveOccCIS(int activeOccCIS);
-   int    GetActiveVirCIS() const;
-   void   SetActiveVirCIS(int activeOccCIS);
-   int    GetNumberExcitedStatesCIS() const;
-   void   SetNumberExcitedStatesCIS(int nStates);
-   bool   RequiresCIS() const;
-   void   SetRequiresCIS(bool requiresCIS);
-   bool   IsDavidsonCIS() const;
-   void   SetIsDavidsonCIS(bool isDavidsonCIS);
-   int    GetMaxIterationsCIS() const;
-   void   SetMaxIterationsCIS(int maxIterationsCIS);
-   int    GetMaxDimensionsCIS() const;
-   void   SetMaxDimensionsCIS(int maxDimensionsCIS);
-   double GetNormToleranceCIS() const;
-   void   SetNormToleranceCIS(double normToleranceCIS);
-   int    GetNumberPrintCoefficientsCIS() const;
-   void   SetNumberPrintCoefficientsCIS(int numberPrintCoefficientsCIS);
-   bool   RequiresExcitonEnergiesCIS() const;
-   void   SetRequiresExcitonEnergiesCIS(bool requiresExcitonEnergiesCIS);
-   bool   RequiresAllTransitionDipoleMomentsCIS() const;
-   void   SetRequiresAllTransitionDipoleMomentsCIS(bool requiresAllTransitionDipoleMomentsCIS);
+   int               GetActiveOccCIS() const;
+   void              SetActiveOccCIS(int activeOccCIS);
+   int               GetActiveVirCIS() const;
+   void              SetActiveVirCIS(int activeOccCIS);
+   int               GetNumberExcitedStatesCIS() const;
+   void              SetNumberExcitedStatesCIS(int nStates);
+   bool              RequiresCIS() const;
+   void              SetRequiresCIS(bool requiresCIS);
+   bool              IsDavidsonCIS() const;
+   void              SetIsDavidsonCIS(bool isDavidsonCIS);
+   int               GetMaxIterationsCIS() const;
+   void              SetMaxIterationsCIS(int maxIterationsCIS);
+   int               GetMaxDimensionsCIS() const;
+   void              SetMaxDimensionsCIS(int maxDimensionsCIS);
+   double            GetNormToleranceCIS() const;
+   void              SetNormToleranceCIS(double normToleranceCIS);
+   int               GetNumberPrintCoefficientsCIS() const;
+   void              SetNumberPrintCoefficientsCIS(int numberPrintCoefficientsCIS);
+   bool              RequiresExcitonEnergiesCIS() const;
+   void              SetRequiresExcitonEnergiesCIS(bool requiresExcitonEnergiesCIS);
+   bool              RequiresAllTransitionDipoleMomentsCIS() const;
+   void              SetRequiresAllTransitionDipoleMomentsCIS(bool requiresAllTransitionDipoleMomentsCIS);
+   std::vector<int>* GetElectronicStateIndecesMullikenCIS() const;
+   void              AddElectronicStateIndexMullikenCIS(int electronicStateIndex);
+   bool              RequiresMullikenCIS() const;
    // Memory
    double GetLimitHeapMemory() const;
    void   SetLimitHeapMemory(double limitHeap);
@@ -214,6 +217,7 @@ private:
    std::string errorMessageGetIndecesMOPlotNull;
    std::string errorMessageGetIndecesHolePlotNull;
    std::string errorMessageGetIndecesParticlePlotNull;
+   std::string errorMessageGetElectronicStateIndecesMullikenCISNull;
    SimulationType currentSimulation;
    TheoryType currentTheory;
    // Physical constants
@@ -268,17 +272,18 @@ private:
    RotatingType rotatingType;
    EularAngle   rotatingEularAngles;
    // CIS
-   int    activeOccCIS;
-   int    activeVirCIS;
-   int    numberExcitedStatesCIS;
-   int    maxIterationsCIS;
-   int    maxDimensionsCIS;
-   double normToleranceCIS;
-   bool   requiresCIS;
-   bool   isDavidsonCIS;
-   int    numberPrintCoefficientsCIS;
-   bool   requiresExcitonEnergiesCIS;
-   bool   requiresAllTransitionDipoleMomentsCIS;
+   int               activeOccCIS;
+   int               activeVirCIS;
+   int               numberExcitedStatesCIS;
+   int               maxIterationsCIS;
+   int               maxDimensionsCIS;
+   double            normToleranceCIS;
+   bool              requiresCIS;
+   bool              isDavidsonCIS;
+   int               numberPrintCoefficientsCIS;
+   bool              requiresExcitonEnergiesCIS;
+   bool              requiresAllTransitionDipoleMomentsCIS;
+   std::vector<int>* electronicStateIndecesMullikenCIS;
    // Memory
    double limitHeapMemory;
    // MD

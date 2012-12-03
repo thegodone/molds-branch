@@ -134,6 +134,7 @@ void InputParser::SetMessages(){
    this->messageCisExcitonEnergies            = "\t\tExciton energies: ";
    this->messageCisAllTransitionDipoleMoments = "\t\tAll transition dipole moments: ";
    this->messageCisNumPrintCoefficients       = "\t\tNumber of printed coefficients of CIS-eigenvector: ";
+   this->messageCisMulliken                   = "\t\tMulliken population of excited states: ";
 
    // memory
    this->messageMemoryConditions = "\tMemory conditions:\n";
@@ -309,6 +310,7 @@ void InputParser::SetMessages(){
    this->stringCISExcitonEnergies            = "exciton_energies";
    this->stringCISAllTransitionDipoleMoments = "all_transition_dipole_moments";
    this->stringCISNumPrintCoefficients       = "num_print_coefficients";
+   this->stringCISMulliken                   = "mulliken";
 
    // Memory
    this->stringMemory          = "memory";
@@ -809,6 +811,15 @@ int InputParser::ParseConditionsCIS(vector<string>* inputTerms, int parseIndex) 
          }
          else{
             Parameters::GetInstance()->SetRequiresAllTransitionDipoleMomentsCIS(false);
+         }
+         parseIndex++;
+      }
+      // mulliken
+      if((*inputTerms)[parseIndex].compare(this->stringCISMulliken) == 0){
+         int groundStateIndex = 0;
+         int elecStateIndex = atoi((*inputTerms)[parseIndex+1].c_str());
+         if(groundStateIndex<elecStateIndex){
+            Parameters::GetInstance()->AddElectronicStateIndexMullikenCIS(elecStateIndex);
          }
          parseIndex++;
       }
@@ -1326,6 +1337,20 @@ void InputParser::ValidateCisConditions(const Molecule& molecule) const{
       Parameters::GetInstance()->SetNumberPrintCoefficientsCIS(numberSlaterDeterminants);
    }   
 
+   // Validate electronic state for Mulliken population analysis
+   if(Parameters::GetInstance()->RequiresMullikenCIS()){
+      vector<int>* indecesMulliken = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
+      int numExcitedStates = Parameters::GetInstance()->GetNumberExcitedStatesCIS();
+      vector<int>::iterator it=(*indecesMulliken).begin();
+      vector<int>::iterator end=(*indecesMulliken).end();
+      while(it<end){
+         if(numExcitedStates<*it){
+            it  = (*indecesMulliken).erase(it);
+            end = (*indecesMulliken).end();
+         }
+         ++it;
+      }
+   }
 }
 
 void InputParser::ValidateMdConditions(const Molecule& molecule) const{
@@ -1585,6 +1610,15 @@ void InputParser::OutputCisConditions() const{
    }
    this->OutputLog("\n");
 
+   if(Parameters::GetInstance()->RequiresMullikenCIS()){
+      vector<int>* indeces = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
+      for(int i=0; i<indeces->size(); i++){
+         this->OutputLog(boost::format("%s%d\n") % this->messageCisMulliken.c_str()
+                                                 % (*indeces)[i]);
+      }
+   }
+   this->OutputLog("\n");
+   
    this->OutputLog("\n");
 }
 
