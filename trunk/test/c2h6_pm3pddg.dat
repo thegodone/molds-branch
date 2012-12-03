@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:22  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:42  <<<<<
 
 
 **********  START: Parse input  **********
@@ -100,17 +100,17 @@ SCF iter=12: RMS density=0.000000190761143
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.698941e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.685647e-01
-	Mulliken charge:	2	H	1.000000e+00	9.258123e-02
-	Mulliken charge:	3	H	1.000000e+00	8.741240e-02
-	Mulliken charge:	4	H	1.000000e+00	8.820231e-02
-	Mulliken charge:	5	H	1.000000e+00	8.838277e-02
-	Mulliken charge:	6	H	1.000000e+00	8.849413e-02
-	Mulliken charge:	7	H	1.000000e+00	9.338598e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.698941e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.685647e-01
+	Mulliken charge:	0	2	H	1.000000e+00	9.258123e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.741240e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.820231e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.838277e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.849413e-02
+	Mulliken charge:	0	7	H	1.000000e+00	9.338598e-02
 
-	Elapsed time(omp) for the SCF = 0.042972[s].
+	Elapsed time(omp) for the SCF = 0.041609[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -120,9 +120,9 @@ SCF iter=12: RMS density=0.000000190761143
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.06[s].  <<<<<
-     >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0492909[s].  <<<<<
+     >>>>>  CPU time: 0.04[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0465589[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

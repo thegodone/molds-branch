@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/11/29(Thu.) 18:52:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:3:0  <<<<<
 
 
 **********  START: Parse input  **********
@@ -129,19 +129,19 @@ SCF iter=20: RMS density=0.000000515535680
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		5.214427e-01	-1.198433e+00	-2.695403e-02	1.307238e+00		1.325375e+00	-3.046113e+00	-6.851031e-02	3.322668e+00
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-9.695207e-02
-	Mulliken charge:	1	C	4.000000e+00	-2.054075e-01
-	Mulliken charge:	2	H	1.000000e+00	2.854991e-02
-	Mulliken charge:	3	H	1.000000e+00	2.998772e-02
-	Mulliken charge:	4	H	1.000000e+00	2.998767e-02
-	Mulliken charge:	5	H	1.000000e+00	3.529261e-02
-	Mulliken charge:	6	H	1.000000e+00	3.529256e-02
-	Mulliken charge:	7	H	1.000000e+00	1.050448e-01
-	Mulliken charge:	8	N	5.000000e+00	3.170090e-02
-	Mulliken charge:	9	H	1.000000e+00	2.937824e-03
-	Mulliken charge:	10	H	1.000000e+00	1.782875e-03
-	Mulliken charge:	11	H	1.000000e+00	1.782698e-03
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-9.695207e-02
+	Mulliken charge:	0	1	C	4.000000e+00	-2.054075e-01
+	Mulliken charge:	0	2	H	1.000000e+00	2.854991e-02
+	Mulliken charge:	0	3	H	1.000000e+00	2.998772e-02
+	Mulliken charge:	0	4	H	1.000000e+00	2.998767e-02
+	Mulliken charge:	0	5	H	1.000000e+00	3.529261e-02
+	Mulliken charge:	0	6	H	1.000000e+00	3.529256e-02
+	Mulliken charge:	0	7	H	1.000000e+00	1.050448e-01
+	Mulliken charge:	0	8	N	5.000000e+00	3.170090e-02
+	Mulliken charge:	0	9	H	1.000000e+00	2.937824e-03
+	Mulliken charge:	0	10	H	1.000000e+00	1.782875e-03
+	Mulliken charge:	0	11	H	1.000000e+00	1.782698e-03
 
 				       |    normal frequencies          |   normalized normal mode ...
 				| i-th |    [a.u.]    |    [cm-1]       |   [a.u.] in mass-weighted coordinates ...
@@ -223,7 +223,7 @@ SCF iter=20: RMS density=0.000000515535680
 	Normal mode(nmw):	35	1.739850e-02	3.818528e+03		-1.217616e-05	4.101158e-06	-8.398439e-07	-2.273563e-04	4.422180e-04	6.815728e-06	-2.587448e-06	2.501735e-05	1.305569e-06	-3.655192e-05	-2.120345e-05	-1.348910e-05	-3.812992e-05	-2.230283e-05	4.131890e-06	1.471396e-04	6.308266e-04	-5.300632e-04	4.403365e-05	5.600783e-04	6.204216e-04	4.742329e-03	-1.164934e-02	-2.912424e-04	1.214871e-02	-3.150965e-02	-8.473527e-04	4.589785e-01	3.393463e-01	6.192406e-02	-3.577799e-01	2.249524e-02	4.538701e-01	-2.720818e-01	8.133856e-02	-5.038771e-01
 					'i' following the frequency means the imaginary frequency.
 
-	Elapsed time(omp) for the SCF = 15.572702[s].
+	Elapsed time(omp) for the SCF = 15.719322[s].
 **********  DONE: PM3-D-SCF  **********
 
 
@@ -233,9 +233,9 @@ SCF iter=20: RMS density=0.000000515535680
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 15.58[s].  <<<<<
+     >>>>>  CPU time: 15.7[s].  <<<<<
      >>>>>  Elapsed time: 16[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 15.5956[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 15.7257[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

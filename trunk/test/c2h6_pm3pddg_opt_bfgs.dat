@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/11/29(Thu.) 12:46:30  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:2:6  <<<<<
 
 
 **********  START: Parse input  **********
@@ -60,19 +60,19 @@ h | 1.7519 | -1.0401 | -0.1000 | geometry_end |
 
 **********  START: Geometry optimization  **********
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=5.291502622129181
+SCF iter=0: RMS density=5.291502622129184
 SCF iter=1: RMS density=1.776302500713477
-SCF iter=2: RMS density=0.953825787215982
-SCF iter=3: RMS density=0.523019383342597
-SCF iter=4: RMS density=0.287694781515640
-SCF iter=5: RMS density=0.158473555927059
-SCF iter=6: RMS density=0.001365259404937
-SCF iter=7: RMS density=0.000269846866901
-SCF iter=8: RMS density=0.000098252575166
-SCF iter=9: RMS density=0.000042078671248
-SCF iter=10: RMS density=0.000013333148836
-SCF iter=11: RMS density=0.000002624318414
-SCF iter=12: RMS density=0.000000435961069
+SCF iter=2: RMS density=0.953825787215979
+SCF iter=3: RMS density=0.523019383342596
+SCF iter=4: RMS density=0.287694781515639
+SCF iter=5: RMS density=0.158473555927061
+SCF iter=6: RMS density=0.001365259404965
+SCF iter=7: RMS density=0.000269846866975
+SCF iter=8: RMS density=0.000098252575194
+SCF iter=9: RMS density=0.000042078671256
+SCF iter=10: RMS density=0.000013333148837
+SCF iter=11: RMS density=0.000002624318416
+SCF iter=12: RMS density=0.000000435961070
 
 
 
@@ -111,17 +111,17 @@ SCF iter=12: RMS density=0.000000435961069
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-2.436649e-01	-1.424472e-01	-5.273559e-16	2.822477e-01		-6.193345e-01	-3.620646e-01	-1.340405e-15	7.174023e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-3.160865e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.859222e-01
-	Mulliken charge:	2	H	1.000000e+00	1.131464e-01
-	Mulliken charge:	3	H	1.000000e+00	9.016184e-02
-	Mulliken charge:	4	H	1.000000e+00	9.227697e-02
-	Mulliken charge:	5	H	1.000000e+00	9.978754e-02
-	Mulliken charge:	6	H	1.000000e+00	9.774623e-02
-	Mulliken charge:	7	H	1.000000e+00	1.088898e-01
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-3.160865e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.859222e-01
+	Mulliken charge:	0	2	H	1.000000e+00	1.131464e-01
+	Mulliken charge:	0	3	H	1.000000e+00	9.016184e-02
+	Mulliken charge:	0	4	H	1.000000e+00	9.227697e-02
+	Mulliken charge:	0	5	H	1.000000e+00	9.978754e-02
+	Mulliken charge:	0	6	H	1.000000e+00	9.774623e-02
+	Mulliken charge:	0	7	H	1.000000e+00	1.088898e-01
 
-	Elapsed time(omp) for the SCF = 0.191386[s].
+	Elapsed time(omp) for the SCF = 0.041303[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -198,15 +198,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-1.384361e-01	-1.616697e-01	1.912319e-02	2.136992e-01		-3.518696e-01	-4.109235e-01	4.860632e-02	5.431693e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.996847e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.833299e-01
-	Mulliken charge:	2	H	1.000000e+00	1.092978e-01
-	Mulliken charge:	3	H	1.000000e+00	8.872746e-02
-	Mulliken charge:	4	H	1.000000e+00	8.750461e-02
-	Mulliken charge:	5	H	1.000000e+00	9.345043e-02
-	Mulliken charge:	6	H	1.000000e+00	9.695804e-02
-	Mulliken charge:	7	H	1.000000e+00	1.070763e-01
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.996847e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.833299e-01
+	Mulliken charge:	0	2	H	1.000000e+00	1.092978e-01
+	Mulliken charge:	0	3	H	1.000000e+00	8.872746e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.750461e-02
+	Mulliken charge:	0	5	H	1.000000e+00	9.345043e-02
+	Mulliken charge:	0	6	H	1.000000e+00	9.695804e-02
+	Mulliken charge:	0	7	H	1.000000e+00	1.070763e-01
 
 
 actual energy change          = -2.740029e-02
@@ -223,7 +223,7 @@ actual/expected energy change = 1.197396
 ==========  START: BFGS step 2
 
 Eigenvalues of the raw Hessian:
--9.575227e-14,	9.043752e-02,	2.937907e-01,	3.295345e-01,	4.360719e-01,	6.517775e-01
+-2.005371e-14,	9.043752e-02,	2.937907e-01,	3.295345e-01,	4.360719e-01,	6.517775e-01
 8.583470e-01,	1.188766e+00,	1.244581e+00,	1.253923e+00,	1.265613e+00,	1.280728e+00
 1.299607e+00,	1.370861e+00,	1.373263e+00,	1.434081e+00,	1.445124e+00,	1.577504e+00
 1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03,	1.000000e+03
@@ -292,15 +292,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-5.865198e-02	-1.279389e-01	-1.249206e-02	1.412957e-01		-1.490785e-01	-3.251884e-01	-3.175167e-02	3.591379e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.767182e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.679725e-01
-	Mulliken charge:	2	H	1.000000e+00	1.044788e-01
-	Mulliken charge:	3	H	1.000000e+00	8.792623e-02
-	Mulliken charge:	4	H	1.000000e+00	7.944211e-02
-	Mulliken charge:	5	H	1.000000e+00	8.580303e-02
-	Mulliken charge:	6	H	1.000000e+00	9.012815e-02
-	Mulliken charge:	7	H	1.000000e+00	9.691231e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.767182e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.679725e-01
+	Mulliken charge:	0	2	H	1.000000e+00	1.044788e-01
+	Mulliken charge:	0	3	H	1.000000e+00	8.792623e-02
+	Mulliken charge:	0	4	H	1.000000e+00	7.944211e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.580303e-02
+	Mulliken charge:	0	6	H	1.000000e+00	9.012815e-02
+	Mulliken charge:	0	7	H	1.000000e+00	9.691231e-02
 
 
 actual energy change          = -2.081834e-02
@@ -379,15 +379,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-5.605631e-02	-9.005758e-02	-2.943361e-02	1.100864e-01		-1.424810e-01	-2.289036e-01	-7.481278e-02	2.798118e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.715342e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.647897e-01
-	Mulliken charge:	2	H	1.000000e+00	1.003122e-01
-	Mulliken charge:	3	H	1.000000e+00	8.532559e-02
-	Mulliken charge:	4	H	1.000000e+00	7.935571e-02
-	Mulliken charge:	5	H	1.000000e+00	8.098805e-02
-	Mulliken charge:	6	H	1.000000e+00	9.256607e-02
-	Mulliken charge:	7	H	1.000000e+00	9.777627e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.715342e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.647897e-01
+	Mulliken charge:	0	2	H	1.000000e+00	1.003122e-01
+	Mulliken charge:	0	3	H	1.000000e+00	8.532559e-02
+	Mulliken charge:	0	4	H	1.000000e+00	7.935571e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.098805e-02
+	Mulliken charge:	0	6	H	1.000000e+00	9.256607e-02
+	Mulliken charge:	0	7	H	1.000000e+00	9.777627e-02
 
 
 actual energy change          = -5.543080e-04
@@ -494,15 +494,15 @@ Trust radius is 0.075000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-3.524692e-02	-1.166625e-01	-1.480036e-02	1.227662e-01		-8.958874e-02	-2.965267e-01	-3.761876e-02	3.120407e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.702199e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.649532e-01
-	Mulliken charge:	2	H	1.000000e+00	1.002891e-01
-	Mulliken charge:	3	H	1.000000e+00	8.538787e-02
-	Mulliken charge:	4	H	1.000000e+00	8.042376e-02
-	Mulliken charge:	5	H	1.000000e+00	8.374958e-02
-	Mulliken charge:	6	H	1.000000e+00	9.025262e-02
-	Mulliken charge:	7	H	1.000000e+00	9.507009e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.702199e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.649532e-01
+	Mulliken charge:	0	2	H	1.000000e+00	1.002891e-01
+	Mulliken charge:	0	3	H	1.000000e+00	8.538787e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.042376e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.374958e-02
+	Mulliken charge:	0	6	H	1.000000e+00	9.025262e-02
+	Mulliken charge:	0	7	H	1.000000e+00	9.507009e-02
 
 
 actual energy change          = -2.868199e-03
@@ -609,15 +609,15 @@ Trust radius is 0.150000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		1.203134e-02	-1.633964e-01	1.654801e-02	1.646723e-01		3.058062e-02	-4.153123e-01	4.206085e-02	4.185553e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.646770e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.637350e-01
-	Mulliken charge:	2	H	1.000000e+00	9.851082e-02
-	Mulliken charge:	3	H	1.000000e+00	8.508072e-02
-	Mulliken charge:	4	H	1.000000e+00	8.236647e-02
-	Mulliken charge:	5	H	1.000000e+00	8.848358e-02
-	Mulliken charge:	6	H	1.000000e+00	8.540036e-02
-	Mulliken charge:	7	H	1.000000e+00	8.857003e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.646770e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.637350e-01
+	Mulliken charge:	0	2	H	1.000000e+00	9.851082e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.508072e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.236647e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.848358e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.540036e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.857003e-02
 
 
 actual energy change          = -3.419128e-03
@@ -696,15 +696,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		4.552205e-02	-1.762242e-01	4.026566e-02	1.864096e-01		1.157055e-01	-4.479172e-01	1.023451e-01	4.738060e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.600065e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.628194e-01
-	Mulliken charge:	2	H	1.000000e+00	9.657722e-02
-	Mulliken charge:	3	H	1.000000e+00	8.500428e-02
-	Mulliken charge:	4	H	1.000000e+00	8.311083e-02
-	Mulliken charge:	5	H	1.000000e+00	9.044399e-02
-	Mulliken charge:	6	H	1.000000e+00	8.297639e-02
-	Mulliken charge:	7	H	1.000000e+00	8.471323e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.600065e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.628194e-01
+	Mulliken charge:	0	2	H	1.000000e+00	9.657722e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.500428e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.311083e-02
+	Mulliken charge:	0	5	H	1.000000e+00	9.044399e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.297639e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.471323e-02
 
 
 actual energy change          = -7.310711e-04
@@ -783,15 +783,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		5.365576e-02	-1.672326e-01	4.446913e-02	1.811717e-01		1.363794e-01	-4.250629e-01	1.130293e-01	4.604926e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.584069e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.623707e-01
-	Mulliken charge:	2	H	1.000000e+00	9.524234e-02
-	Mulliken charge:	3	H	1.000000e+00	8.510654e-02
-	Mulliken charge:	4	H	1.000000e+00	8.332327e-02
-	Mulliken charge:	5	H	1.000000e+00	9.040045e-02
-	Mulliken charge:	6	H	1.000000e+00	8.292009e-02
-	Mulliken charge:	7	H	1.000000e+00	8.378492e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.584069e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.623707e-01
+	Mulliken charge:	0	2	H	1.000000e+00	9.524234e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.510654e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.332327e-02
+	Mulliken charge:	0	5	H	1.000000e+00	9.040045e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.292009e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.378492e-02
 
 
 actual energy change          = -2.742828e-04
@@ -870,15 +870,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		5.867616e-02	-1.225594e-01	3.867776e-02	1.412787e-01		1.491399e-01	-3.115151e-01	9.830907e-02	3.590948e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.552706e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.606066e-01
-	Mulliken charge:	2	H	1.000000e+00	9.064295e-02
-	Mulliken charge:	3	H	1.000000e+00	8.569474e-02
-	Mulliken charge:	4	H	1.000000e+00	8.396114e-02
-	Mulliken charge:	5	H	1.000000e+00	8.901187e-02
-	Mulliken charge:	6	H	1.000000e+00	8.437344e-02
-	Mulliken charge:	7	H	1.000000e+00	8.219304e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.552706e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.606066e-01
+	Mulliken charge:	0	2	H	1.000000e+00	9.064295e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.569474e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.396114e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.901187e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.437344e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.219304e-02
 
 
 actual energy change          = -6.625807e-04
@@ -957,15 +957,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		4.289850e-02	-9.127474e-02	2.003275e-02	1.028235e-01		1.090371e-01	-2.319973e-01	5.091819e-02	2.613513e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.550340e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.591330e-01
-	Mulliken charge:	2	H	1.000000e+00	8.796553e-02
-	Mulliken charge:	3	H	1.000000e+00	8.610205e-02
-	Mulliken charge:	4	H	1.000000e+00	8.433814e-02
-	Mulliken charge:	5	H	1.000000e+00	8.762466e-02
-	Mulliken charge:	6	H	1.000000e+00	8.603172e-02
-	Mulliken charge:	7	H	1.000000e+00	8.210490e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.550340e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.591330e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.796553e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.610205e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.433814e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.762466e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.603172e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.210490e-02
 
 
 actual energy change          = -2.968889e-04
@@ -1044,15 +1044,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		1.090413e-02	-6.151449e-02	-9.080361e-03	6.312991e-02		2.771554e-02	-1.563543e-01	-2.307998e-02	1.604602e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.561618e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.573131e-01
-	Mulliken charge:	2	H	1.000000e+00	8.571650e-02
-	Mulliken charge:	3	H	1.000000e+00	8.634551e-02
-	Mulliken charge:	4	H	1.000000e+00	8.468977e-02
-	Mulliken charge:	5	H	1.000000e+00	8.608635e-02
-	Mulliken charge:	6	H	1.000000e+00	8.789836e-02
-	Mulliken charge:	7	H	1.000000e+00	8.273838e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.561618e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.573131e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.571650e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.634551e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.468977e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.608635e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.789836e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.273838e-02
 
 
 actual energy change          = -2.232559e-04
@@ -1131,15 +1131,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-8.867881e-03	-5.280586e-02	-2.313152e-02	5.832808e-02		-2.253991e-02	-1.342191e-01	-5.879447e-02	1.482552e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.571347e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.564350e-01
-	Mulliken charge:	2	H	1.000000e+00	8.523469e-02
-	Mulliken charge:	3	H	1.000000e+00	8.617965e-02
-	Mulliken charge:	4	H	1.000000e+00	8.483509e-02
-	Mulliken charge:	5	H	1.000000e+00	8.562494e-02
-	Mulliken charge:	6	H	1.000000e+00	8.838705e-02
-	Mulliken charge:	7	H	1.000000e+00	8.330825e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.571347e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.564350e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.523469e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.617965e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.483509e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.562494e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.838705e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.330825e-02
 
 
 actual energy change          = -7.790420e-05
@@ -1218,15 +1218,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-1.998621e-02	-4.983838e-02	-2.826951e-02	6.068342e-02		-5.079988e-02	-1.266765e-01	-7.185395e-02	1.542419e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.576568e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.559235e-01
-	Mulliken charge:	2	H	1.000000e+00	8.526301e-02
-	Mulliken charge:	3	H	1.000000e+00	8.584861e-02
-	Mulliken charge:	4	H	1.000000e+00	8.497230e-02
-	Mulliken charge:	5	H	1.000000e+00	8.561003e-02
-	Mulliken charge:	6	H	1.000000e+00	8.818521e-02
-	Mulliken charge:	7	H	1.000000e+00	8.370114e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.576568e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.559235e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.526301e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.584861e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.497230e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.561003e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.818521e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.370114e-02
 
 
 actual energy change          = -4.571932e-05
@@ -1305,15 +1305,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-2.296253e-02	-4.663758e-02	-2.704468e-02	5.859826e-02		-5.836495e-02	-1.185409e-01	-6.874074e-02	1.489420e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.576680e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.556594e-01
-	Mulliken charge:	2	H	1.000000e+00	8.538306e-02
-	Mulliken charge:	3	H	1.000000e+00	8.549682e-02
-	Mulliken charge:	4	H	1.000000e+00	8.515053e-02
-	Mulliken charge:	5	H	1.000000e+00	8.575004e-02
-	Mulliken charge:	6	H	1.000000e+00	8.760067e-02
-	Mulliken charge:	7	H	1.000000e+00	8.394631e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.576680e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.556594e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.538306e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.549682e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.515053e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.575004e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.760067e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.394631e-02
 
 
 actual energy change          = -3.508659e-05
@@ -1392,15 +1392,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-1.883925e-02	-3.955149e-02	-2.126689e-02	4.869824e-02		-4.788460e-02	-1.005299e-01	-5.405505e-02	1.237786e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.572047e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.555759e-01
-	Mulliken charge:	2	H	1.000000e+00	8.548294e-02
-	Mulliken charge:	3	H	1.000000e+00	8.511866e-02
-	Mulliken charge:	4	H	1.000000e+00	8.541343e-02
-	Mulliken charge:	5	H	1.000000e+00	8.589699e-02
-	Mulliken charge:	6	H	1.000000e+00	8.667196e-02
-	Mulliken charge:	7	H	1.000000e+00	8.419670e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.572047e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.555759e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.548294e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.511866e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.541343e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.589699e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.667196e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.419670e-02
 
 
 actual energy change          = -3.755520e-05
@@ -1479,15 +1479,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-8.872454e-03	-2.953224e-02	-1.434761e-02	3.401069e-02		-2.255153e-02	-7.506347e-02	-3.646800e-02	8.644658e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.564562e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.557356e-01
-	Mulliken charge:	2	H	1.000000e+00	8.550777e-02
-	Mulliken charge:	3	H	1.000000e+00	8.488193e-02
-	Mulliken charge:	4	H	1.000000e+00	8.565480e-02
-	Mulliken charge:	5	H	1.000000e+00	8.588536e-02
-	Mulliken charge:	6	H	1.000000e+00	8.580187e-02
-	Mulliken charge:	7	H	1.000000e+00	8.446009e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.564562e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.557356e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.550777e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.488193e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.565480e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.588536e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.580187e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.446009e-02
 
 
 actual energy change          = -3.005136e-05
@@ -1566,15 +1566,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		1.608757e-03	-1.990109e-02	-1.002782e-02	2.234276e-02		4.089053e-03	-5.058354e-02	-2.548818e-02	5.678964e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.557947e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.560107e-01
-	Mulliken charge:	2	H	1.000000e+00	8.549353e-02
-	Mulliken charge:	3	H	1.000000e+00	8.481757e-02
-	Mulliken charge:	4	H	1.000000e+00	8.578528e-02
-	Mulliken charge:	5	H	1.000000e+00	8.569257e-02
-	Mulliken charge:	6	H	1.000000e+00	8.528675e-02
-	Mulliken charge:	7	H	1.000000e+00	8.472966e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.557947e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.560107e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.549353e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.481757e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.578528e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.569257e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.528675e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.472966e-02
 
 
 actual energy change          = -1.954453e-05
@@ -1653,15 +1653,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		7.068063e-03	-1.415978e-02	-9.653880e-03	1.853792e-02		1.796523e-02	-3.599058e-02	-2.453772e-02	4.711869e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.555123e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.561969e-01
-	Mulliken charge:	2	H	1.000000e+00	8.549555e-02
-	Mulliken charge:	3	H	1.000000e+00	8.484341e-02
-	Mulliken charge:	4	H	1.000000e+00	8.578694e-02
-	Mulliken charge:	5	H	1.000000e+00	8.544745e-02
-	Mulliken charge:	6	H	1.000000e+00	8.517844e-02
-	Mulliken charge:	7	H	1.000000e+00	8.495738e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.555123e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.561969e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.549555e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.484341e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.578694e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.544745e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.517844e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.495738e-02
 
 
 actual energy change          = -1.021362e-05
@@ -1740,15 +1740,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		7.989898e-03	-1.111901e-02	-1.119084e-02	1.768349e-02		2.030830e-02	-2.826172e-02	-2.844429e-02	4.494696e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.555109e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.562516e-01
-	Mulliken charge:	2	H	1.000000e+00	8.552817e-02
-	Mulliken charge:	3	H	1.000000e+00	8.486456e-02
-	Mulliken charge:	4	H	1.000000e+00	8.572547e-02
-	Mulliken charge:	5	H	1.000000e+00	8.523227e-02
-	Mulliken charge:	6	H	1.000000e+00	8.524076e-02
-	Mulliken charge:	7	H	1.000000e+00	8.517132e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.555109e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.562516e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.552817e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.486456e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.572547e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.523227e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.524076e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.517132e-02
 
 
 actual energy change          = -6.710283e-06
@@ -1827,15 +1827,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		5.732576e-03	-8.932145e-03	-1.308454e-02	1.684787e-02		1.457076e-02	-2.270325e-02	-3.325759e-02	4.282303e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.556838e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.561931e-01
-	Mulliken charge:	2	H	1.000000e+00	8.558328e-02
-	Mulliken charge:	3	H	1.000000e+00	8.485462e-02
-	Mulliken charge:	4	H	1.000000e+00	8.563172e-02
-	Mulliken charge:	5	H	1.000000e+00	8.505063e-02
-	Mulliken charge:	6	H	1.000000e+00	8.534012e-02
-	Mulliken charge:	7	H	1.000000e+00	8.541655e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.556838e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.561931e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.558328e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.485462e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.563172e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.505063e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.534012e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.541655e-02
 
 
 actual energy change          = -6.306395e-06
@@ -1914,15 +1914,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		1.175837e-03	-6.862128e-03	-1.389717e-02	1.554358e-02		2.988679e-03	-1.744179e-02	-3.532310e-02	3.950784e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.559626e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.560376e-01
-	Mulliken charge:	2	H	1.000000e+00	8.563331e-02
-	Mulliken charge:	3	H	1.000000e+00	8.482085e-02
-	Mulliken charge:	4	H	1.000000e+00	8.553029e-02
-	Mulliken charge:	5	H	1.000000e+00	8.494089e-02
-	Mulliken charge:	6	H	1.000000e+00	8.540925e-02
-	Mulliken charge:	7	H	1.000000e+00	8.566561e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.559626e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.560376e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.563331e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.482085e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.553029e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.494089e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.540925e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.566561e-02
 
 
 actual energy change          = -6.032882e-06
@@ -2001,15 +2001,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-3.433295e-03	-4.829836e-03	-1.259147e-02	1.391617e-02		-8.726566e-03	-1.227622e-02	-3.200432e-02	3.537139e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.562179e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.558653e-01
-	Mulliken charge:	2	H	1.000000e+00	8.563924e-02
-	Mulliken charge:	3	H	1.000000e+00	8.480454e-02
-	Mulliken charge:	4	H	1.000000e+00	8.545783e-02
-	Mulliken charge:	5	H	1.000000e+00	8.494135e-02
-	Mulliken charge:	6	H	1.000000e+00	8.541470e-02
-	Mulliken charge:	7	H	1.000000e+00	8.582559e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.562179e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.558653e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.563924e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.480454e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.545783e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.494135e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.541470e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.582559e-02
 
 
 actual energy change          = -4.727007e-06
@@ -2088,15 +2088,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-6.004048e-03	-3.046589e-03	-9.749428e-03	1.184828e-02		-1.526077e-02	-7.743659e-03	-2.478058e-02	3.011532e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.563558e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.557711e-01
-	Mulliken charge:	2	H	1.000000e+00	8.559663e-02
-	Mulliken charge:	3	H	1.000000e+00	8.484386e-02
-	Mulliken charge:	4	H	1.000000e+00	8.542606e-02
-	Mulliken charge:	5	H	1.000000e+00	8.502329e-02
-	Mulliken charge:	6	H	1.000000e+00	8.538309e-02
-	Mulliken charge:	7	H	1.000000e+00	8.585393e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.563558e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.557711e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.559663e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.484386e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.542606e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.502329e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.538309e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.585393e-02
 
 
 actual energy change          = -3.300550e-06
@@ -2175,15 +2175,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-6.482048e-03	-1.443705e-03	-6.243663e-03	9.115073e-03		-1.647573e-02	-3.669532e-03	-1.586981e-02	2.316821e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.563983e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.557774e-01
-	Mulliken charge:	2	H	1.000000e+00	8.552638e-02
-	Mulliken charge:	3	H	1.000000e+00	8.495011e-02
-	Mulliken charge:	4	H	1.000000e+00	8.541576e-02
-	Mulliken charge:	5	H	1.000000e+00	8.514347e-02
-	Mulliken charge:	6	H	1.000000e+00	8.535385e-02
-	Mulliken charge:	7	H	1.000000e+00	8.578614e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.563983e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.557774e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.552638e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.495011e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.541576e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.514347e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.535385e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.578614e-02
 
 
 actual energy change          = -2.832662e-06
@@ -2260,17 +2260,17 @@ Trust radius is 0.300000
 	Electronic Dipole moment(SCF):	4.654107e-03	3.090388e-04	6.676211e-03	8.144201e-03		1.182956e-02	7.854984e-04	1.696924e-02	2.070050e-02
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Core Dipole moment:		-5.077211e-03	-2.342905e-05	-2.543621e-03	5.678788e-03		-1.290499e-02	-5.955072e-05	-6.465242e-03	1.443404e-02
+	Core Dipole moment:		-5.077211e-03	-2.342905e-05	-2.543621e-03	5.678788e-03		-1.290499e-02	-5.955071e-05	-6.465242e-03	1.443404e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.563769e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.558949e-01
-	Mulliken charge:	2	H	1.000000e+00	8.544673e-02
-	Mulliken charge:	3	H	1.000000e+00	8.513134e-02
-	Mulliken charge:	4	H	1.000000e+00	8.541220e-02
-	Mulliken charge:	5	H	1.000000e+00	8.528466e-02
-	Mulliken charge:	6	H	1.000000e+00	8.535020e-02
-	Mulliken charge:	7	H	1.000000e+00	8.564670e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.563769e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.558949e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.544673e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.513134e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.541220e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.528466e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.535020e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.564670e-02
 
 
 actual energy change          = -2.875061e-06
@@ -2349,15 +2349,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-2.466041e-03	5.687258e-04	-2.842528e-04	2.546685e-03		-6.268051e-03	1.445557e-03	-7.224987e-04	6.473029e-03
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.563211e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.560875e-01
-	Mulliken charge:	2	H	1.000000e+00	8.540262e-02
-	Mulliken charge:	3	H	1.000000e+00	8.532282e-02
-	Mulliken charge:	4	H	1.000000e+00	8.540929e-02
-	Mulliken charge:	5	H	1.000000e+00	8.539103e-02
-	Mulliken charge:	6	H	1.000000e+00	8.538325e-02
-	Mulliken charge:	7	H	1.000000e+00	8.549966e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.563211e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.560875e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.540262e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.532282e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.540929e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.539103e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.538325e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.549966e-02
 
 
 actual energy change          = -2.159730e-06
@@ -2436,23 +2436,23 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-5.931602e-04	1.640000e-04	-3.117420e-04	6.898682e-04		-1.507663e-03	4.168465e-04	-7.923692e-04	1.753470e-03
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.562831e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.562262e-01
-	Mulliken charge:	2	H	1.000000e+00	8.541509e-02
-	Mulliken charge:	3	H	1.000000e+00	8.541323e-02
-	Mulliken charge:	4	H	1.000000e+00	8.540683e-02
-	Mulliken charge:	5	H	1.000000e+00	8.541817e-02
-	Mulliken charge:	6	H	1.000000e+00	8.542212e-02
-	Mulliken charge:	7	H	1.000000e+00	8.543391e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.562831e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.562262e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.541509e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.541323e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.540683e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.541817e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.542212e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.543391e-02
 
 
-actual energy change          = -8.728449e-07
+actual energy change          = -8.728448e-07
 expected energy change        = -6.901185e-07
 actual/expected energy change = 1.264775
 
 	====== Optimization Logs ======
-	Energy difference:  -8.728449e-07 [a.u.]
+	Energy difference:  -8.728448e-07 [a.u.]
 	Max gradient:  6.092018e-04 [a.u.]
 	Rms gradient:  2.258762e-04 [a.u.]
 
@@ -2523,15 +2523,15 @@ Trust radius is 0.300000
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-1.025752e-04	-3.637224e-04	-1.005836e-03	1.074487e-03		-2.607202e-04	-9.244904e-04	-2.556582e-03	2.731075e-03
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.562761e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.562661e-01
-	Mulliken charge:	2	H	1.000000e+00	8.544081e-02
-	Mulliken charge:	3	H	1.000000e+00	8.541589e-02
-	Mulliken charge:	4	H	1.000000e+00	8.540722e-02
-	Mulliken charge:	5	H	1.000000e+00	8.540826e-02
-	Mulliken charge:	6	H	1.000000e+00	8.543589e-02
-	Mulliken charge:	7	H	1.000000e+00	8.543411e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.562761e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.562661e-01
+	Mulliken charge:	0	2	H	1.000000e+00	8.544081e-02
+	Mulliken charge:	0	3	H	1.000000e+00	8.541589e-02
+	Mulliken charge:	0	4	H	1.000000e+00	8.540722e-02
+	Mulliken charge:	0	5	H	1.000000e+00	8.540826e-02
+	Mulliken charge:	0	6	H	1.000000e+00	8.543589e-02
+	Mulliken charge:	0	7	H	1.000000e+00	8.543411e-02
 
 
 actual energy change          = -1.922560e-07
@@ -2549,14 +2549,14 @@ actual/expected energy change = 1.265519
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.304280[MB].
+		Max Heap: 0.197836[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 5.91[s].  <<<<<
-     >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.40282[s].  <<<<<
+     >>>>>  CPU time: 6.5[s].  <<<<<
+     >>>>>  Elapsed time: 6[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 6.50888[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
