@@ -275,7 +275,8 @@ HOW TO WRITE INPUT:
    
       -options
        "davidson", "active_occ", "active_vir", "max_iter", "max_dim", "norm_tol", 
-       "nstates", "exciton_energies", "all_transition_dipole_moments", and "num_print_coefficients" are prepared as options.
+       "nstates", "exciton_energies", "all_transition_dipole_moments", 
+       "mulliken", and "num_print_coefficients" are prepared as options.
 
        "davidson" should be set as "yes" or "no". 
        The default value of the "davidson" is "yes".
@@ -315,6 +316,12 @@ HOW TO WRITE INPUT:
        including between excited states would be calculated. 
        Otherwise "no", transition dipole moments from ground state to each excited state are calculated.
 
+       "mulliken" is a option of mulliken popultaion analysis of the excited state.
+       When "mulliken x" is included in CIS-directive, the mulliken popultaion of xth excited state is calculated.
+       Mulitiple indication of these mulliken options is possible. 
+       Note that "mulliken 0" is ignored because 0th excited state is the ground state.
+       Default settign of this "mulliken" option is nothing.
+
        "num_print_coefficients" is a number of the coefficients of CIS-eigenvector shown in output.
        The default value of the "num_print_coefficients" is 1.
 
@@ -327,6 +334,8 @@ HOW TO WRITE INPUT:
             max_iter 100
             max_dim 100
             norm_tol 0.000001
+            mulliken 1 
+            mulliken 2
          CIS_END
 
    <Hole Plot>
