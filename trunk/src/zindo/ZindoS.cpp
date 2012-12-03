@@ -1320,33 +1320,45 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
    int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
    for(int k=0; k<elecStates->size(); k++){
       int excitedStateIndex = (*elecStates)[k]-1;
+      stringstream ompErrors;
+#pragma omp parallel for schedule(auto)
       for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
-         for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
-            double value = orbitalElectronPopulation[mu][nu];
-            for(int moI=0; moI<numberActiveOcc; moI++){
-               for(int moA=numberOcc; moA<numberOcc+numberActiveVir; moA++){
-                  int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(moI,moA);
-                  value += pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
-                          *(-fockMatrix[moI][mu]*fockMatrix[moI][nu] 
-                            +fockMatrix[moA][mu]*fockMatrix[moA][nu]);
-                  double tmpVal1=0.0;
-                  for(int moB=numberOcc; moB<numberOcc+numberActiveVir; moB++){
-                     if(moB==moA) continue;
-                     int tmpSDIndex = this->GetSlaterDeterminantIndex(moI,moB);
-                     tmpVal1 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][nu];
+         try{
+            for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
+               double value = orbitalElectronPopulation[mu][nu];
+               for(int moI=0; moI<numberActiveOcc; moI++){
+                  for(int moA=numberOcc; moA<numberOcc+numberActiveVir; moA++){
+                     int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(moI,moA);
+                     value += pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
+                             *(-fockMatrix[moI][mu]*fockMatrix[moI][nu] 
+                               +fockMatrix[moA][mu]*fockMatrix[moA][nu]);
+                     double tmpVal1=0.0;
+                     for(int moB=numberOcc; moB<numberOcc+numberActiveVir; moB++){
+                        if(moB==moA) continue;
+                        int tmpSDIndex = this->GetSlaterDeterminantIndex(moI,moB);
+                        tmpVal1 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][nu];
+                     }
+                     double tmpVal2=0.0;
+                     for(int moJ=0; moJ<numberActiveOcc; moJ++){
+                        if(moJ==moI) continue;
+                        int tmpSDIndex = this->GetSlaterDeterminantIndex(moJ,moA);
+                        tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
+                     }
+                     value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
+                             *(fockMatrix[moA][mu]*tmpVal1 + fockMatrix[moI][nu]*tmpVal2);
                   }
-                  double tmpVal2=0.0;
-                  for(int moJ=0; moJ<numberActiveOcc; moJ++){
-                     if(moJ==moI) continue;
-                     int tmpSDIndex = this->GetSlaterDeterminantIndex(moJ,moA);
-                     tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
-                  }
-                  value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
-                          *(fockMatrix[moA][mu]*tmpVal1 + fockMatrix[moI][nu]*tmpVal2);
                }
+               (*orbitalElectronPopulationCIS)[k][mu][nu] = value;
             }
-            (*orbitalElectronPopulationCIS)[k][mu][nu] = value;
          }
+         catch(MolDSException ex){
+#pragma omp critical
+            ompErrors << ex.what() << endl ;
+         }
+      }
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException(ompErrors.str());
       }
    }
 }
@@ -1372,12 +1384,24 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
    }
    // clac atomic electron population
    for(int k=0; k<elecStates->size(); k++){
+      stringstream ompErrors;
+#pragma omp parallel for schedule(auto)
       for(int a=0; a<totalNumberAtoms; a++){
-         int firstAOIndex = molecule.GetAtom(a)->GetFirstAOIndex();
-         int numberAOs = molecule.GetAtom(a)->GetValenceSize();
-         for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
-            (*atomicElectronPopulationCIS)[k][a] += orbitalElectronPopulationCIS[k][i][i];
+         try{
+            int firstAOIndex = molecule.GetAtom(a)->GetFirstAOIndex();
+            int numberAOs = molecule.GetAtom(a)->GetValenceSize();
+            for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
+               (*atomicElectronPopulationCIS)[k][a] += orbitalElectronPopulationCIS[k][i][i];
+            }
          }
+         catch(MolDSException ex){
+#pragma omp critical
+            ompErrors << ex.what() << endl ;
+         }
+      }
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException(ompErrors.str());
       }
    }
 }
