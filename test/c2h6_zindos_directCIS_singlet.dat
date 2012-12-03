@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/11/16(Fri.) 19:2:14  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:9  <<<<<
 
 
 **********  START: Parse input  **********
@@ -106,23 +106,23 @@ SCF iter=8: RMS density=0.000000782384958
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-5.161364e-02
-	Mulliken charge:	1	C	4.000000e+00	-5.270958e-02
-	Mulliken charge:	2	H	1.000000e+00	2.326294e-02
-	Mulliken charge:	3	H	1.000000e+00	1.219345e-02
-	Mulliken charge:	4	H	1.000000e+00	1.486507e-02
-	Mulliken charge:	5	H	1.000000e+00	1.578885e-02
-	Mulliken charge:	6	H	1.000000e+00	1.599949e-02
-	Mulliken charge:	7	H	1.000000e+00	2.221343e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-5.161364e-02
+	Mulliken charge:	0	1	C	4.000000e+00	-5.270958e-02
+	Mulliken charge:	0	2	H	1.000000e+00	2.326294e-02
+	Mulliken charge:	0	3	H	1.000000e+00	1.219345e-02
+	Mulliken charge:	0	4	H	1.000000e+00	1.486507e-02
+	Mulliken charge:	0	5	H	1.000000e+00	1.578885e-02
+	Mulliken charge:	0	6	H	1.000000e+00	1.599949e-02
+	Mulliken charge:	0	7	H	1.000000e+00	2.221343e-02
 
-	Elapsed time(omp) for the SCF = 0.034192[s].
+	Elapsed time(omp) for the SCF = 0.026443[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.038726[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.038410[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1564,7 +1564,7 @@ SCF iter=8: RMS density=0.000000782384958
 	Ef and Eb:	48	1.651957e+00	4.495239e+01	-1.988551e-01	-5.411166e+00
 	Ef and Eb:	49	1.719393e+00	4.678744e+01	-1.661728e-01	-4.521828e+00
 
-	Elapsed time(omp) for the CIS = 0.963243[s].
+	Elapsed time(omp) for the CIS = 0.973020[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -1574,9 +1574,9 @@ SCF iter=8: RMS density=0.000000782384958
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 1[s].  <<<<<
+     >>>>>  CPU time: 0.99[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.00351[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.00361[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

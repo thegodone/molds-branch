@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:34:50  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:11  <<<<<
 
 
 **********  START: Parse input  **********
@@ -109,26 +109,26 @@ SCF iter=11: RMS density=0.000000358204691
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	1.051263e-02
-	Mulliken charge:	1	C	4.000000e+00	1.158935e-02
-	Mulliken charge:	2	H	1.000000e+00	9.430652e-04
-	Mulliken charge:	3	H	1.000000e+00	-7.290803e-03
-	Mulliken charge:	4	H	1.000000e+00	-5.763001e-03
-	Mulliken charge:	5	H	1.000000e+00	-5.527947e-03
-	Mulliken charge:	6	H	1.000000e+00	-5.927617e-03
-	Mulliken charge:	7	H	1.000000e+00	1.464318e-03
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	1.051263e-02
+	Mulliken charge:	0	1	C	4.000000e+00	1.158935e-02
+	Mulliken charge:	0	2	H	1.000000e+00	9.430652e-04
+	Mulliken charge:	0	3	H	1.000000e+00	-7.290803e-03
+	Mulliken charge:	0	4	H	1.000000e+00	-5.763001e-03
+	Mulliken charge:	0	5	H	1.000000e+00	-5.527947e-03
+	Mulliken charge:	0	6	H	1.000000e+00	-5.927617e-03
+	Mulliken charge:	0	7	H	1.000000e+00	1.464318e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.042291[s].
+	Elapsed time(omp) for the SCF = 0.041087[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055115[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.054790[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -343,7 +343,7 @@ SCF iter=11: RMS density=0.000000358204691
 	Transition dipole moment:	0 -> 49		7.218388e-03	6.059728e-03	2.367815e-03	9.717611e-03		1.834732e-02	1.540229e-02	6.018388e-03	2.469971e-02
 
 
-	Elapsed time(omp) for the CIS = 0.124103[s].
+	Elapsed time(omp) for the CIS = 0.126743[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -353,9 +353,9 @@ SCF iter=11: RMS density=0.000000358204691
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.18[s].  <<<<<
-     >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.172585[s].  <<<<<
+     >>>>>  CPU time: 0.17[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.173415[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

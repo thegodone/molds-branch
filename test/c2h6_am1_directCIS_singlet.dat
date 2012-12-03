@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:2  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:22  <<<<<
 
 
 **********  START: Parse input  **********
@@ -109,23 +109,23 @@ SCF iter=11: RMS density=0.000000372121779
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.164414e-01
-	Mulliken charge:	1	C	4.000000e+00	-2.148205e-01
-	Mulliken charge:	2	H	1.000000e+00	7.497916e-02
-	Mulliken charge:	3	H	1.000000e+00	6.945058e-02
-	Mulliken charge:	4	H	1.000000e+00	7.030679e-02
-	Mulliken charge:	5	H	1.000000e+00	7.042860e-02
-	Mulliken charge:	6	H	1.000000e+00	7.029841e-02
-	Mulliken charge:	7	H	1.000000e+00	7.579838e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.164414e-01
+	Mulliken charge:	0	1	C	4.000000e+00	-2.148205e-01
+	Mulliken charge:	0	2	H	1.000000e+00	7.497916e-02
+	Mulliken charge:	0	3	H	1.000000e+00	6.945058e-02
+	Mulliken charge:	0	4	H	1.000000e+00	7.030679e-02
+	Mulliken charge:	0	5	H	1.000000e+00	7.042860e-02
+	Mulliken charge:	0	6	H	1.000000e+00	7.029841e-02
+	Mulliken charge:	0	7	H	1.000000e+00	7.579838e-02
 
-	Elapsed time(omp) for the SCF = 0.045511[s].
+	Elapsed time(omp) for the SCF = 0.041453[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.057775[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055111[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -340,7 +340,7 @@ SCF iter=11: RMS density=0.000000372121779
 	Transition dipole moment:	0 -> 49		-5.633091e-03	6.752569e-03	2.285303e-03	9.085786e-03		-1.431789e-02	1.716332e-02	5.808661e-03	2.309377e-02
 
 
-	Elapsed time(omp) for the CIS = 0.127282[s].
+	Elapsed time(omp) for the CIS = 0.127668[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -350,9 +350,9 @@ SCF iter=11: RMS density=0.000000372121779
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.18[s].  <<<<<
+     >>>>>  CPU time: 0.17[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.178334[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.174354[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

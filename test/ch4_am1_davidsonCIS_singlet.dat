@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/11/13(Thu.) 17:35:2  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:22  <<<<<
 
 
 **********  START: Parse input  **********
@@ -101,20 +101,20 @@ SCF iter=10: RMS density=0.000000554330652
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		3.552714e-15	-9.401387e-07	9.401387e-02	9.401387e-02		9.030099e-15	-2.389595e-06	2.389595e-01	2.389595e-01
 
-				| i-th | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	C	4.000000e+00	-2.593347e-01
-	Mulliken charge:	1	H	1.000000e+00	6.519691e-02
-	Mulliken charge:	2	H	1.000000e+00	5.923258e-02
-	Mulliken charge:	3	H	1.000000e+00	7.034583e-02
-	Mulliken charge:	4	H	1.000000e+00	6.455937e-02
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	0	0	C	4.000000e+00	-2.593347e-01
+	Mulliken charge:	0	1	H	1.000000e+00	6.519691e-02
+	Mulliken charge:	0	2	H	1.000000e+00	5.923258e-02
+	Mulliken charge:	0	3	H	1.000000e+00	7.034583e-02
+	Mulliken charge:	0	4	H	1.000000e+00	6.455937e-02
 
-	Elapsed time(omp) for the SCF = 0.019625[s].
+	Elapsed time(omp) for the SCF = 0.019728[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.001895[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001921[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -177,7 +177,7 @@ SCF iter=10: RMS density=0.000000554330652
 	Transition dipole moment:	0 -> 4		1.986186e-01	8.672251e-01	-1.100983e+00	1.415518e+00		5.048382e-01	2.204267e+00	-2.798420e+00	3.597889e+00
 
 
-	Elapsed time(omp) for the CIS = 0.005592[s].
+	Elapsed time(omp) for the CIS = 0.005466[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -187,9 +187,9 @@ SCF iter=10: RMS density=0.000000554330652
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.03[s].  <<<<<
+     >>>>>  CPU time: 0.02[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.029289[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.02918[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
