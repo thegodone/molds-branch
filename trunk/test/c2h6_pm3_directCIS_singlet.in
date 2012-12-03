@@ -17,6 +17,9 @@ CIS
    active_occ 7
    active_vir 7
    nstates 49
+   mulliken 3
+   mulliken 100
+   mulliken 20
 CIS_END
 
 GEOMETRY

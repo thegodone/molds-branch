@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:32  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 22:57:28  <<<<<
 
 
 **********  START: Parse input  **********
@@ -45,33 +45,36 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
+		Mulliken population of excited states: 3
+		Mulliken population of excited states: 20
+
 
 Input terms:
 theory | pm3 | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
 damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.00000002 | scf_end | cis | 
-davidson | no | active_occ | 7 | active_vir | 7 | nstates | 49 | cis_end | geometry | 
-c | 0.0000 | 0.0200 | 0.0000 | c | 1.4938 | -0.0150 | 0.0020 | h | -0.3500 | 
-1.0411 | 0.0010 | h | -0.3681 | -0.5205 | -0.9200 | h | -0.3700 | -0.5208 | 0.9016 | 
-h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | 
--1.0401 | 0.0000 | geometry_end | 
+davidson | no | active_occ | 7 | active_vir | 7 | nstates | 49 | mulliken | 3 | 
+mulliken | 100 | mulliken | 20 | cis_end | geometry | c | 0.0000 | 0.0200 | 0.0000 | 
+c | 1.4938 | -0.0150 | 0.0020 | h | -0.3500 | 1.0411 | 0.0010 | h | -0.3681 | 
+-0.5205 | -0.9200 | h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | 
+h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end | 
 
 **********  DONE: Parse input  ***********
 
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=5.291502622129181
-SCF iter=1: RMS density=1.910456125626943
+SCF iter=0: RMS density=5.291502622129180
+SCF iter=1: RMS density=1.910456125626944
 SCF iter=2: RMS density=1.044203238495391
 SCF iter=3: RMS density=0.569275110921829
 SCF iter=4: RMS density=0.308641545774631
-SCF iter=5: RMS density=0.166813060251974
-SCF iter=6: RMS density=0.000657312351885
-SCF iter=7: RMS density=0.000224796079703
-SCF iter=8: RMS density=0.000083564976884
-SCF iter=9: RMS density=0.000026986732816
-SCF iter=10: RMS density=0.000004938275875
-SCF iter=11: RMS density=0.000002003884716
-SCF iter=12: RMS density=0.000000169506347
+SCF iter=5: RMS density=0.166813060251975
+SCF iter=6: RMS density=0.000657312351891
+SCF iter=7: RMS density=0.000224796079707
+SCF iter=8: RMS density=0.000083564976841
+SCF iter=9: RMS density=0.000026986732846
+SCF iter=10: RMS density=0.000004938275825
+SCF iter=11: RMS density=0.000002003884721
+SCF iter=12: RMS density=0.000000169506350
 
 
 
@@ -120,13 +123,13 @@ SCF iter=12: RMS density=0.000000169506347
 	Mulliken charge:	0	6	H	1.000000e+00	3.744313e-02
 	Mulliken charge:	0	7	H	1.000000e+00	4.258006e-02
 
-	Elapsed time(omp) for the SCF = 0.041854[s].
+	Elapsed time(omp) for the SCF = 0.069779[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055852[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.075480[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -340,20 +343,40 @@ SCF iter=12: RMS density=0.000000169506347
 	Transition dipole moment:	0 -> 48		2.403466e-03	-4.424992e-03	-6.947175e-03	8.580235e-03		6.109001e-03	-1.124721e-02	-1.765796e-02	2.180879e-02
 	Transition dipole moment:	0 -> 49		-1.125057e-03	5.033922e-03	-3.464235e-03	6.213457e-03		-2.859611e-03	1.279496e-02	-8.805209e-03	1.579304e-02
 
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge:	3	0	C	4.000000e+00	-1.533075e-01
+	Mulliken charge:	3	1	C	4.000000e+00	-2.723264e-02
+	Mulliken charge:	3	2	H	1.000000e+00	-5.589352e-02
+	Mulliken charge:	3	3	H	1.000000e+00	3.053844e-02
+	Mulliken charge:	3	4	H	1.000000e+00	6.428780e-02
+	Mulliken charge:	3	5	H	1.000000e+00	1.309610e-01
+	Mulliken charge:	3	6	H	1.000000e+00	8.314686e-02
+	Mulliken charge:	3	7	H	1.000000e+00	-7.250044e-02
 
-	Elapsed time(omp) for the CIS = 0.128518[s].
+	Mulliken charge:	20	0	C	4.000000e+00	-3.361024e-02
+	Mulliken charge:	20	1	C	4.000000e+00	-1.645112e-01
+	Mulliken charge:	20	2	H	1.000000e+00	-3.173884e-02
+	Mulliken charge:	20	3	H	1.000000e+00	9.266728e-02
+	Mulliken charge:	20	4	H	1.000000e+00	8.303080e-02
+	Mulliken charge:	20	5	H	1.000000e+00	6.495484e-02
+	Mulliken charge:	20	6	H	1.000000e+00	6.650230e-02
+	Mulliken charge:	20	7	H	1.000000e+00	-7.729498e-02
+
+
+	Elapsed time(omp) for the CIS = 0.141161[s].
 **********  DONE: PM3-CIS  **********
 
 
+electronicStateIndecesMullikenCIS deleted
 	Summary for memory usage:
-		Max Heap: 0.262208[MB].
+		Max Heap: 0.296152[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.17[s].  <<<<<
+     >>>>>  CPU time: 0.21[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.175375[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.224406[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
