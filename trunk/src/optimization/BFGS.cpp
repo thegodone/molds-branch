@@ -496,12 +496,7 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
       // Diagonalize hessian
       MallocerFreer::GetInstance()->Malloc(&vectorHessianEigenValues, dimension);
       MallocerFreer::GetInstance()->Malloc(&vectorsHessianModes, dimension, dimension);
-#pragma omp parallel for schedule(auto)
-      for(int i=0; i<dimension; i++){
-         for(int j=0; j<dimension; j++){
-            vectorsHessianModes[i][j] = matrixHessian[i][j];
-         }
-      }
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension*dimension, &matrixHessian[0][0], &vectorsHessianModes[0][0]);
       bool calcEigenVectors = true;
       MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&vectorsHessianModes[0],
                                                     &vectorHessianEigenValues[0],
