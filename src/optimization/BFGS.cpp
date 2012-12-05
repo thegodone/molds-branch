@@ -472,27 +472,27 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
          MolDS_wrappers::Blas::GetInstance()->Dsyr(dimension, -1.0/normSquare, vectorProjectedRedundantMode, matrixProjection);
       }
 
-      // Diagonalize hessian
-      MallocerFreer::GetInstance()->Malloc(&vectorHessianEigenValues, dimension);
-      MallocerFreer::GetInstance()->Malloc(&vectorsHessianModes, dimension, dimension);
-      MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension*dimension, &matrixHessian[0][0], &vectorsHessianModes[0][0]);
-      bool calcEigenVectors = true;
-      MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&vectorsHessianModes[0],
-                                                    &vectorHessianEigenValues[0],
-                                                    dimension,
-                                                    calcEigenVectors);
-
-      // Output eigenvalues of the raw Hessian to the log
-      this->OutputLog(this->messageRawHessianEigenvalues);
-      for(int i=0;i<dimension;i++){
-         if((i%6) == 0){
-            this->OutputLog(boost::format("\n%e")%vectorHessianEigenValues[i]);
-         }
-         else{
-            this->OutputLog(boost::format(",\t%e")%vectorHessianEigenValues[i]);
-         }
-      }
-      this->OutputLog("\n");
+      //// Diagonalize hessian
+      //MallocerFreer::GetInstance()->Malloc(&vectorHessianEigenValues, dimension);
+      //MallocerFreer::GetInstance()->Malloc(&vectorsHessianModes, dimension, dimension);
+      //MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension*dimension, &matrixHessian[0][0], &vectorsHessianModes[0][0]);
+      //bool calcEigenVectors = true;
+      //MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&vectorsHessianModes[0],
+      //                                              &vectorHessianEigenValues[0],
+      //                                              dimension,
+      //                                              calcEigenVectors);
+      //
+      //// Output eigenvalues of the raw Hessian to the log
+      //this->OutputLog(this->messageRawHessianEigenvalues);
+      //for(int i=0;i<dimension;i++){
+      //   if((i%6) == 0){
+      //      this->OutputLog(boost::format("\n%e")%vectorHessianEigenValues[i]);
+      //   }
+      //   else{
+      //      this->OutputLog(boost::format(",\t%e")%vectorHessianEigenValues[i]);
+      //   }
+      //}
+      //this->OutputLog("\n");
 
       // Project Hessian H' = P H P
       MallocerFreer::GetInstance()->Malloc(&matrixShiftedHessianBuffer, dimension, dimension);
@@ -506,25 +506,25 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
       MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension, -1, &one, 0, &matrixProjection[0][0], dimension + 1); // (P - I)
       MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension*dimension, -largeEigenvalue, &matrixProjection[0][0], &matrixHessian[0][0]);
 
-      // Diagonalize shifted hessian
-      MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension*dimension, &matrixHessian[0][0], &vectorsHessianModes[0][0]);
-      calcEigenVectors = true;
-      MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&vectorsHessianModes[0],
-                                                    &vectorHessianEigenValues[0],
-                                                    dimension,
-                                                    calcEigenVectors);
-
-      // Output eigenvalues of the shifted Hessian to the log
-      this->OutputLog(this->messageShiftedHessianEigenvalues);
-      for(int i=0;i<dimension;i++){
-         if((i%6) == 0){
-            this->OutputLog(boost::format("\n%e")%vectorHessianEigenValues[i]);
-         }
-         else{
-            this->OutputLog(boost::format(",\t%e")%vectorHessianEigenValues[i]);
-         }
-      }
-      this->OutputLog("\n");
+      //// Diagonalize shifted hessian
+      //MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension*dimension, &matrixHessian[0][0], &vectorsHessianModes[0][0]);
+      //calcEigenVectors = true;
+      //MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&vectorsHessianModes[0],
+      //                                              &vectorHessianEigenValues[0],
+      //                                              dimension,
+      //                                              calcEigenVectors);
+      //
+      //// Output eigenvalues of the shifted Hessian to the log
+      //this->OutputLog(this->messageShiftedHessianEigenvalues);
+      //for(int i=0;i<dimension;i++){
+      //   if((i%6) == 0){
+      //      this->OutputLog(boost::format("\n%e")%vectorHessianEigenValues[i]);
+      //   }
+      //   else{
+      //      this->OutputLog(boost::format(",\t%e")%vectorHessianEigenValues[i]);
+      //   }
+      //}
+      //this->OutputLog("\n");
    }
    catch(MolDSException ex)
    {
