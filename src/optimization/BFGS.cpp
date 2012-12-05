@@ -407,16 +407,20 @@ void BFGS::UpdateHessian(double **matrixHessian,
 
 void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
                                      const Molecule& molecule) const{
-   const double largeEigenvalue       = 1.0e3;
-   const int    numAtoms              = molecule.GetNumberAtoms();
-   const int    dimension             = numAtoms *CartesianType_end;
-   const int    numTranslationalModes = 3;
-   const int    numRotationalModes    = 3;
-   int          numRedundantModes     = numTranslationalModes + numRotationalModes;
-   double** vectorsHessianModes       = NULL;
-   double*  vectorHessianEigenValues  = NULL;
-   double** matrixesRedundantModes[]  = {NULL, NULL, NULL, NULL, NULL, NULL};
-   double*   vectorsRedundantModes[]  = {NULL, NULL, NULL, NULL, NULL, NULL};
+   const double one                      = 1;
+   const double largeEigenvalue          = 1.0e3;
+   const int    numAtoms                 = molecule.GetNumberAtoms();
+   const int    dimension                = numAtoms *CartesianType_end;
+   const int    numTranslationalModes    = 3;
+   const int    numRotationalModes       = 3;
+   int          numRedundantModes        = numTranslationalModes + numRotationalModes;
+   double** vectorsHessianModes          = NULL;
+   double*  vectorHessianEigenValues     = NULL;
+   double** matrixesRedundantModes[]     = {NULL, NULL, NULL, NULL, NULL, NULL};
+   double*  vectorsRedundantModes[]      = {NULL, NULL, NULL, NULL, NULL, NULL};
+   double** matrixProjection             = NULL;
+   double*  vectorProjectedRedundantMode = NULL;
+   double** matrixShiftedHessianBuffer   = NULL;
    const double matrixesRotationalModeGenerators[numRotationalModes]
                                                 [CartesianType_end]
                                                 [CartesianType_end]
@@ -455,42 +459,17 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
             }
          }
       }
-      // Orthonormalize redundant modes
-      // using Gram-Schmidt process
-      for(int c=0; c<numRedundantModes;c++){
-         for(int d=0;d<c;d++){
-            double dotproduct = 0.0;
-#pragma omp parallel for schedule(auto) reduction(+:dotproduct)
-            for(int i=0;i<dimension;i++){
-               dotproduct += vectorsRedundantModes[d][i] * vectorsRedundantModes[c][i];
-            }
-#pragma omp parallel for schedule(auto)
-            for(int i=0;i<dimension;i++){
-               vectorsRedundantModes[c][i] -= dotproduct * vectorsRedundantModes[d][i];
-            }
-         }
-         double norm = 0.0;
-#pragma omp parallel for schedule(auto) reduction(+:norm)
-         for(int i=0;i<dimension;i++){
-            norm += vectorsRedundantModes[c][i] * vectorsRedundantModes[c][i];
-         }
-         norm = sqrt(norm);
-         // Eliminate a linear dependent mode
-         if(norm < 1e-5){
-            numRedundantModes--;
-            for(int d=c;d<numRedundantModes;d++){
-#pragma omp parallel for schedule(auto)
-               for(int i=0;i<dimension;i++){
-                  vectorsRedundantModes[d][i] = vectorsRedundantModes[d+1][i];
-               }
-            }
-         }
-         else{
-#pragma omp parallel for schedule(auto)
-            for(int i=0;i<dimension;i++){
-               vectorsRedundantModes[c][i] /= norm;
-            }
-         }
+      //Prepare the identity matrix I
+      MallocerFreer::GetInstance()->Malloc(&matrixProjection, dimension, dimension);
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension, &one, 0, &matrixProjection[0][0], dimension+1);
+
+      //Prepare the projection matrix P = I - sum_i u_i u_i^T, that projects redundant modes to 0 vector
+      MallocerFreer::GetInstance()->Malloc(&vectorProjectedRedundantMode, dimension);
+      for(int c=0; c<numRedundantModes; c++){
+         double normSquare = 0;
+         MolDS_wrappers::Blas::GetInstance()->Dsymv(dimension, matrixProjection, vectorsRedundantModes[c], vectorProjectedRedundantMode);
+         normSquare = MolDS_wrappers::Blas::GetInstance()->Ddot(dimension, vectorProjectedRedundantMode, vectorProjectedRedundantMode);
+         MolDS_wrappers::Blas::GetInstance()->Dsyr(dimension, -1.0/normSquare, vectorProjectedRedundantMode, matrixProjection);
       }
 
       // Diagonalize hessian
@@ -503,7 +482,7 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
                                                     dimension,
                                                     calcEigenVectors);
 
-      // Output eigenvalues of the raw Hessianto the log
+      // Output eigenvalues of the raw Hessian to the log
       this->OutputLog(this->messageRawHessianEigenvalues);
       for(int i=0;i<dimension;i++){
          if((i%6) == 0){
@@ -515,46 +494,27 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
       }
       this->OutputLog("\n");
 
-      // Orthogonalize vectorsHessianModes against vectorsRedundantModes
-#pragma omp parallel for schedule(auto)
-      for(int i=0;i<dimension-numRedundantModes;i++){
-         for(int c=0; c<numRedundantModes;c++){
-            double dotproduct = 0.0;
-            for(int j=0;j<dimension;j++){
-               dotproduct += vectorsHessianModes[i][j] * vectorsRedundantModes[c][j];
-            }
-            for(int j=0;j<dimension;j++){
-               vectorsHessianModes[i][j] -= dotproduct * vectorsRedundantModes[c][j];
-            }
-            double norm = 0.0;
-            for(int j=0;j<dimension;j++){
-               norm += vectorsHessianModes[i][j] * vectorsHessianModes[i][j];
-            }
-            norm = sqrt(norm);
-            for(int j=0;j<dimension;j++){
-               vectorsHessianModes[i][j] /= norm;
-            }
-         }
-      }
+      // Project Hessian H' = P H P
+      MallocerFreer::GetInstance()->Malloc(&matrixShiftedHessianBuffer, dimension, dimension);
+      // TODO: Use dsymm instead of dgemm
+      MolDS_wrappers::Blas::GetInstance()->Dgemm(dimension, dimension, dimension,
+            matrixProjection            , matrixHessian   , matrixShiftedHessianBuffer);
+      MolDS_wrappers::Blas::GetInstance()->Dgemm(dimension, dimension, dimension,
+            matrixShiftedHessianBuffer, matrixProjection, matrixHessian);
 
-      // Calculate projected eigenvalues of new modes
-      // h_i' = x_i'^T * H * x_i'
-#pragma omp parallel for schedule(auto)
-      for(int i=0;i<dimension-numRedundantModes;i++){
-         double tmp = 0.0;
-         for(int j=0;j<dimension;j++){
-            for(int k=0;k<dimension;k++){
-               tmp += vectorsHessianModes[i][j] * matrixHessian[j][k] * vectorsHessianModes[i][k];
-            }
-         }
-         vectorHessianEigenValues[i] = tmp;
-      }
-#pragma omp parallel for schedule(auto)
-      for(int i=dimension-numRedundantModes;i<dimension;i++){
-         vectorHessianEigenValues[i] = largeEigenvalue;
-      }
+      // Shift eigenvalues for redundant mode by adding L sum_i u_i*u_i^T = L ( I - P )= -L (P - I)
+      MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension, -1, &one, 0, &matrixProjection[0][0], dimension + 1); // (P - I)
+      MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension*dimension, -largeEigenvalue, &matrixProjection[0][0], &matrixHessian[0][0]);
 
-      // Output eigenvalues of the raw Hessianto the log
+      // Diagonalize shifted hessian
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension*dimension, &matrixHessian[0][0], &vectorsHessianModes[0][0]);
+      calcEigenVectors = true;
+      MolDS_wrappers::Lapack::GetInstance()->Dsyevd(&vectorsHessianModes[0],
+                                                    &vectorHessianEigenValues[0],
+                                                    dimension,
+                                                    calcEigenVectors);
+
+      // Output eigenvalues of the shifted Hessian to the log
       this->OutputLog(this->messageShiftedHessianEigenvalues);
       for(int i=0;i<dimension;i++){
          if((i%6) == 0){
@@ -565,34 +525,24 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
          }
       }
       this->OutputLog("\n");
-
-      // Calculate shifted Hessian from eigenvalues and modes
-      // H' = sum x_i' h_i' x_i^T
-#pragma omp parallel for schedule(auto)
-      for(int i=0;i<dimension;i++){
-         for(int j=0;j<dimension;j++){
-            double tmp = 0.0;
-            for(int k=0;k<dimension-numRedundantModes;k++){
-               tmp += vectorsHessianModes[k][i] * vectorsHessianModes[k][j] * vectorHessianEigenValues[k];
-            }
-            for(int k=0;k<numRedundantModes;k++){
-               tmp += vectorsRedundantModes[k][i] * vectorsRedundantModes[k][j] * largeEigenvalue;
-            }
-            matrixHessian[i][j] = tmp;
-         }
-      }
    }
    catch(MolDSException ex)
    {
       for(int i=0;i<numRedundantModes;i++){
          MallocerFreer::GetInstance()->Free(&matrixesRedundantModes[i], numAtoms, CartesianType_end);
       }
+      MallocerFreer::GetInstance()->Free(&matrixProjection, dimension, dimension);
+      MallocerFreer::GetInstance()->Free(&vectorProjectedRedundantMode, dimension);
+      MallocerFreer::GetInstance()->Free(&matrixShiftedHessianBuffer, dimension, dimension);
       MallocerFreer::GetInstance()->Free(&vectorHessianEigenValues, dimension);
       MallocerFreer::GetInstance()->Free(&vectorsHessianModes, dimension, dimension);
    }
    for(int i=0;i<numRedundantModes;i++){
       MallocerFreer::GetInstance()->Free(&matrixesRedundantModes[i], numAtoms, CartesianType_end);
    }
+   MallocerFreer::GetInstance()->Free(&matrixProjection, dimension, dimension);
+   MallocerFreer::GetInstance()->Free(&vectorProjectedRedundantMode, dimension);
+   MallocerFreer::GetInstance()->Free(&matrixShiftedHessianBuffer, dimension, dimension);
    MallocerFreer::GetInstance()->Free(&vectorHessianEigenValues, dimension);
    MallocerFreer::GetInstance()->Free(&vectorsHessianModes, dimension, dimension);
 }
