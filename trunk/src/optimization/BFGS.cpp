@@ -123,11 +123,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    try{
       // initialize Hessian with unit matrix
       MallocerFreer::GetInstance()->Malloc(&matrixHessian, dimension, dimension);
-      for(int i=0; i<dimension; i++){
-         for(int j=i; j<dimension; j++){
-            matrixHessian[i][j] = matrixHessian[j][i] = i==j ? 1.0 : 0.0;
-         }
-      }
+      const double one = 1;
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension, &one, 0, &matrixHessian[0][0], dimension+1);
 
       // initial calculation
       bool requireGuess = true;
