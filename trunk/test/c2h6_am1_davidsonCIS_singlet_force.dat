@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:27  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:47  <<<<<
 
 
 **********  START: Parse input  **********
@@ -120,22 +120,22 @@ SCF iter=11: RMS density=0.000000372121779
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.164414e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.148205e-01
-	Mulliken charge:	0	2	H	1.000000e+00	7.497916e-02
-	Mulliken charge:	0	3	H	1.000000e+00	6.945058e-02
-	Mulliken charge:	0	4	H	1.000000e+00	7.030679e-02
-	Mulliken charge:	0	5	H	1.000000e+00	7.042860e-02
-	Mulliken charge:	0	6	H	1.000000e+00	7.029841e-02
-	Mulliken charge:	0	7	H	1.000000e+00	7.579838e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.164414e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.148205e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	7.497916e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	6.945058e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	7.030679e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	7.042860e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029841e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579838e-02
 
-	Elapsed time(omp) for the SCF = 0.041781[s].
+	Elapsed time(omp) for the SCF = 0.048266[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055334[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055182[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -246,7 +246,7 @@ SCF iter=11: RMS density=0.000000372121779
 	Transition dipole moment:	0 -> 4		9.497513e-02	2.198469e-01	1.478815e-01	2.814639e-01		2.414027e-01	5.587953e-01	3.758775e-01	7.154099e-01
 
 
-	Elapsed time(omp) for the CIS = 0.242009[s].
+	Elapsed time(omp) for the CIS = 0.245257[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -332,22 +332,22 @@ SCF iter=3: RMS density=0.000000868178035
 	Core Dipole moment:		-2.768369e-02	-1.132927e-02	-1.414368e-02	3.308750e-02		-7.036493e-02	-2.879615e-02	-3.594965e-02	8.410005e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.164418e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.148209e-01
-	Mulliken charge:	0	2	H	1.000000e+00	7.497965e-02
-	Mulliken charge:	0	3	H	1.000000e+00	6.945049e-02
-	Mulliken charge:	0	4	H	1.000000e+00	7.030691e-02
-	Mulliken charge:	0	5	H	1.000000e+00	7.042862e-02
-	Mulliken charge:	0	6	H	1.000000e+00	7.029847e-02
-	Mulliken charge:	0	7	H	1.000000e+00	7.579856e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.164418e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.148209e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	7.497965e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	6.945049e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	7.030691e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	7.042862e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029847e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579856e-02
 
-	Elapsed time(omp) for the SCF = 0.032404[s].
+	Elapsed time(omp) for the SCF = 0.032535[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055070[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055577[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -458,7 +458,7 @@ SCF iter=3: RMS density=0.000000868178035
 	Transition dipole moment:	0 -> 4		9.495280e-02	2.200127e-01	1.480556e-01	2.816772e-01		2.413460e-01	5.592166e-01	3.763198e-01	7.159523e-01
 
 
-	Elapsed time(omp) for the CIS = 0.240776[s].
+	Elapsed time(omp) for the CIS = 0.242598[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -547,22 +547,22 @@ SCF iter=5: RMS density=0.000000435658337
 	Core Dipole moment:		-2.767401e-02	-1.131035e-02	-1.414151e-02	3.307200e-02		-7.034032e-02	-2.874804e-02	-3.594414e-02	8.406065e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.164418e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.148218e-01
-	Mulliken charge:	0	2	H	1.000000e+00	7.498055e-02
-	Mulliken charge:	0	3	H	1.000000e+00	6.944993e-02
-	Mulliken charge:	0	4	H	1.000000e+00	7.030692e-02
-	Mulliken charge:	0	5	H	1.000000e+00	7.042862e-02
-	Mulliken charge:	0	6	H	1.000000e+00	7.029846e-02
-	Mulliken charge:	0	7	H	1.000000e+00	7.579905e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.164418e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.148218e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	7.498055e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	6.944993e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	7.030692e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	7.042862e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029846e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579905e-02
 
-	Elapsed time(omp) for the SCF = 0.032255[s].
+	Elapsed time(omp) for the SCF = 0.039661[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055093[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055464[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -673,7 +673,7 @@ SCF iter=5: RMS density=0.000000435658337
 	Transition dipole moment:	0 -> 4		9.488479e-02	2.205082e-01	1.485784e-01	2.823163e-01		2.411731e-01	5.604760e-01	3.776486e-01	7.175767e-01
 
 
-	Elapsed time(omp) for the CIS = 0.240278[s].
+	Elapsed time(omp) for the CIS = 0.242427[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -762,22 +762,22 @@ SCF iter=5: RMS density=0.000000720184858
 	Core Dipole moment:		-2.765788e-02	-1.127882e-02	-1.413790e-02	3.304618e-02		-7.029933e-02	-2.866791e-02	-3.593497e-02	8.399504e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.164418e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.148236e-01
-	Mulliken charge:	0	2	H	1.000000e+00	7.498212e-02
-	Mulliken charge:	0	3	H	1.000000e+00	6.944907e-02
-	Mulliken charge:	0	4	H	1.000000e+00	7.030699e-02
-	Mulliken charge:	0	5	H	1.000000e+00	7.042872e-02
-	Mulliken charge:	0	6	H	1.000000e+00	7.029855e-02
-	Mulliken charge:	0	7	H	1.000000e+00	7.579997e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.164418e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.148236e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	7.498212e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	6.944907e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	7.030699e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	7.042872e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029855e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579997e-02
 
-	Elapsed time(omp) for the SCF = 0.032161[s].
+	Elapsed time(omp) for the SCF = 0.032870[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.054839[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055377[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -888,7 +888,7 @@ SCF iter=5: RMS density=0.000000720184858
 	Transition dipole moment:	0 -> 4		9.477103e-02	2.213328e-01	1.494464e-01	2.833796e-01		2.408840e-01	5.625720e-01	3.798549e-01	7.202792e-01
 
 
-	Elapsed time(omp) for the CIS = 0.240227[s].
+	Elapsed time(omp) for the CIS = 0.243468[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -978,22 +978,22 @@ SCF iter=6: RMS density=0.000000003947665
 	Core Dipole moment:		-2.763531e-02	-1.123473e-02	-1.413285e-02	3.301010e-02		-7.024196e-02	-2.855583e-02	-3.592213e-02	8.390332e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.164415e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.148256e-01
-	Mulliken charge:	0	2	H	1.000000e+00	7.498413e-02
-	Mulliken charge:	0	3	H	1.000000e+00	6.944774e-02
-	Mulliken charge:	0	4	H	1.000000e+00	7.030696e-02
-	Mulliken charge:	0	5	H	1.000000e+00	7.042868e-02
-	Mulliken charge:	0	6	H	1.000000e+00	7.029848e-02
-	Mulliken charge:	0	7	H	1.000000e+00	7.580108e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.164415e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.148256e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	7.498413e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	6.944774e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	7.030696e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	7.042868e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029848e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.580108e-02
 
-	Elapsed time(omp) for the SCF = 0.032673[s].
+	Elapsed time(omp) for the SCF = 0.032825[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055382[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055302[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1104,7 +1104,7 @@ SCF iter=6: RMS density=0.000000003947665
 	Transition dipole moment:	0 -> 4		9.460952e-02	2.224813e-01	1.506543e-01	2.848607e-01		2.404735e-01	5.654913e-01	3.829252e-01	7.240439e-01
 
 
-	Elapsed time(omp) for the CIS = 0.241863[s].
+	Elapsed time(omp) for the CIS = 0.243298[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1194,22 +1194,22 @@ SCF iter=6: RMS density=0.000000005033381
 	Core Dipole moment:		-2.760630e-02	-1.117810e-02	-1.412636e-02	3.296379e-02		-7.016822e-02	-2.841191e-02	-3.590563e-02	8.378562e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.164414e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.148286e-01
-	Mulliken charge:	0	2	H	1.000000e+00	7.498685e-02
-	Mulliken charge:	0	3	H	1.000000e+00	6.944613e-02
-	Mulliken charge:	0	4	H	1.000000e+00	7.030703e-02
-	Mulliken charge:	0	5	H	1.000000e+00	7.042876e-02
-	Mulliken charge:	0	6	H	1.000000e+00	7.029853e-02
-	Mulliken charge:	0	7	H	1.000000e+00	7.580263e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.164414e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.148286e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	7.498685e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	6.944613e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	7.030703e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	7.042876e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029853e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.580263e-02
 
-	Elapsed time(omp) for the SCF = 0.033129[s].
+	Elapsed time(omp) for the SCF = 0.033029[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055450[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055355[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1320,7 +1320,7 @@ SCF iter=6: RMS density=0.000000005033381
 	Transition dipole moment:	0 -> 4		9.439963e-02	2.239532e-01	1.521970e-01	2.867582e-01		2.399400e-01	5.692324e-01	3.868463e-01	7.288668e-01
 
 
-	Elapsed time(omp) for the CIS = 0.242085[s].
+	Elapsed time(omp) for the CIS = 0.242132[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1368,9 +1368,9 @@ SCF iter=6: RMS density=0.000000005033381
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 4.32[s].  <<<<<
+     >>>>>  CPU time: 4.36[s].  <<<<<
      >>>>>  Elapsed time: 5[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 4.31938[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 4.47332[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

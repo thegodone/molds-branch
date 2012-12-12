@@ -270,6 +270,7 @@ private:
    std::string messageCoreDipoleMoment;
    std::string messageTotalDipoleMomentTitle;
    std::string messageTotalDipoleMoment;
+   std::string messageMullikenAtomsSCF;
    std::string messageNormalModesTitle;
    std::string messageNormalModesUnitsMassWeighted;
    std::string messageNormalModesUnitsNonMassWeighted;

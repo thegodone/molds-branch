@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:32  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:52  <<<<<
 
 
 **********  START: Parse input  **********
@@ -90,13 +90,13 @@ SCF iter=11: RMS density=0.000000280665679
 	Core Dipole moment:		9.401387e-08	-4.042596e-07	9.401387e-02	9.401387e-02		2.389595e-07	-1.027526e-06	2.389595e-01	2.389595e-01
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-1.070939e-01
-	Mulliken charge:	0	1	H	1.000000e+00	2.721071e-02
-	Mulliken charge:	0	2	H	1.000000e+00	2.094818e-02
-	Mulliken charge:	0	3	H	1.000000e+00	3.244089e-02
-	Mulliken charge:	0	4	H	1.000000e+00	2.649410e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-1.070939e-01
+	Mulliken charge(SCF):	0	1	H	1.000000e+00	2.721071e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.094818e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	3.244089e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.649410e-02
 
-	Elapsed time(omp) for the SCF = 0.019751[s].
+	Elapsed time(omp) for the SCF = 0.030265[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -106,9 +106,9 @@ SCF iter=11: RMS density=0.000000280665679
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.02[s].  <<<<<
+     >>>>>  CPU time: 0.04[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0235031[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.053231[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

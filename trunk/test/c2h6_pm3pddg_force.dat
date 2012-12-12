@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:42  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:44:3  <<<<<
 
 
 **********  START: Parse input  **********
@@ -108,16 +108,16 @@ SCF iter=12: RMS density=0.000000190761143
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.698941e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.685647e-01
-	Mulliken charge:	0	2	H	1.000000e+00	9.258123e-02
-	Mulliken charge:	0	3	H	1.000000e+00	8.741240e-02
-	Mulliken charge:	0	4	H	1.000000e+00	8.820231e-02
-	Mulliken charge:	0	5	H	1.000000e+00	8.838277e-02
-	Mulliken charge:	0	6	H	1.000000e+00	8.849413e-02
-	Mulliken charge:	0	7	H	1.000000e+00	9.338598e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.698941e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.685647e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.258123e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	8.741240e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	8.820231e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	8.838277e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.849413e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.338598e-02
 
-	Elapsed time(omp) for the SCF = 0.048715[s].
+	Elapsed time(omp) for the SCF = 0.056215[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -202,16 +202,16 @@ SCF iter=2: RMS density=0.000000712722293
 	Core Dipole moment:		-2.768332e-02	-1.132633e-02	-1.413931e-02	3.308432e-02		-7.036400e-02	-2.878865e-02	-3.593855e-02	8.409196e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.698935e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.685639e-01
-	Mulliken charge:	0	2	H	1.000000e+00	9.258098e-02
-	Mulliken charge:	0	3	H	1.000000e+00	8.741230e-02
-	Mulliken charge:	0	4	H	1.000000e+00	8.820214e-02
-	Mulliken charge:	0	5	H	1.000000e+00	8.838253e-02
-	Mulliken charge:	0	6	H	1.000000e+00	8.849388e-02
-	Mulliken charge:	0	7	H	1.000000e+00	9.338552e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.698935e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.685639e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.258098e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	8.741230e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	8.820214e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	8.838253e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.849388e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.338552e-02
 
-	Elapsed time(omp) for the SCF = 0.038420[s].
+	Elapsed time(omp) for the SCF = 0.031892[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -298,16 +298,16 @@ SCF iter=3: RMS density=0.000000896547956
 	Core Dipole moment:		-2.767255e-02	-1.129856e-02	-1.412404e-02	3.305928e-02		-7.033662e-02	-2.871808e-02	-3.589975e-02	8.402833e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.698913e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.685613e-01
-	Mulliken charge:	0	2	H	1.000000e+00	9.257974e-02
-	Mulliken charge:	0	3	H	1.000000e+00	8.741221e-02
-	Mulliken charge:	0	4	H	1.000000e+00	8.820163e-02
-	Mulliken charge:	0	5	H	1.000000e+00	8.838189e-02
-	Mulliken charge:	0	6	H	1.000000e+00	8.849319e-02
-	Mulliken charge:	0	7	H	1.000000e+00	9.338391e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.698913e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.685613e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.257974e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	8.741221e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	8.820163e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	8.838189e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.849319e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.338391e-02
 
-	Elapsed time(omp) for the SCF = 0.039416[s].
+	Elapsed time(omp) for the SCF = 0.033734[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -395,16 +395,16 @@ SCF iter=4: RMS density=0.000000664631244
 	Core Dipole moment:		-2.765460e-02	-1.125230e-02	-1.409861e-02	3.301760e-02		-7.029100e-02	-2.860051e-02	-3.583510e-02	8.392239e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.698876e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.685569e-01
-	Mulliken charge:	0	2	H	1.000000e+00	9.257749e-02
-	Mulliken charge:	0	3	H	1.000000e+00	8.741217e-02
-	Mulliken charge:	0	4	H	1.000000e+00	8.820083e-02
-	Mulliken charge:	0	5	H	1.000000e+00	8.838085e-02
-	Mulliken charge:	0	6	H	1.000000e+00	8.849203e-02
-	Mulliken charge:	0	7	H	1.000000e+00	9.338109e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.698876e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.685569e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.257749e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	8.741217e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	8.820083e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	8.838085e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.849203e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.338109e-02
 
-	Elapsed time(omp) for the SCF = 0.038684[s].
+	Elapsed time(omp) for the SCF = 0.033108[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -492,16 +492,16 @@ SCF iter=4: RMS density=0.000000918069451
 	Core Dipole moment:		-2.762948e-02	-1.118760e-02	-1.406302e-02	3.295935e-02		-7.022715e-02	-2.843604e-02	-3.574463e-02	8.377434e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.698824e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.685508e-01
-	Mulliken charge:	0	2	H	1.000000e+00	9.257445e-02
-	Mulliken charge:	0	3	H	1.000000e+00	8.741203e-02
-	Mulliken charge:	0	4	H	1.000000e+00	8.819968e-02
-	Mulliken charge:	0	5	H	1.000000e+00	8.837938e-02
-	Mulliken charge:	0	6	H	1.000000e+00	8.849041e-02
-	Mulliken charge:	0	7	H	1.000000e+00	9.337724e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.698824e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.685508e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.257445e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	8.741203e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	8.819968e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	8.837938e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.849041e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.337724e-02
 
-	Elapsed time(omp) for the SCF = 0.038572[s].
+	Elapsed time(omp) for the SCF = 0.032734[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -590,16 +590,16 @@ SCF iter=5: RMS density=0.000000553282789
 	Core Dipole moment:		-2.759720e-02	-1.110449e-02	-1.401729e-02	3.288464e-02		-7.014509e-02	-2.822480e-02	-3.562842e-02	8.358443e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-2.698757e-01
-	Mulliken charge:	0	1	C	4.000000e+00	-2.685428e-01
-	Mulliken charge:	0	2	H	1.000000e+00	9.257038e-02
-	Mulliken charge:	0	3	H	1.000000e+00	8.741198e-02
-	Mulliken charge:	0	4	H	1.000000e+00	8.819825e-02
-	Mulliken charge:	0	5	H	1.000000e+00	8.837749e-02
-	Mulliken charge:	0	6	H	1.000000e+00	8.848833e-02
-	Mulliken charge:	0	7	H	1.000000e+00	9.337212e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.698757e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.685428e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.257038e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	8.741198e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	8.819825e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	8.837749e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.848833e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.337212e-02
 
-	Elapsed time(omp) for the SCF = 0.039055[s].
+	Elapsed time(omp) for the SCF = 0.032770[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -649,7 +649,7 @@ SCF iter=5: RMS density=0.000000553282789
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 1.47[s].  <<<<<
      >>>>>  Elapsed time: 2[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.47265[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.50466[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
