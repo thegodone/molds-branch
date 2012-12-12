@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:3:16  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:45:38  <<<<<
 
 
 **********  START: Parse input  **********
@@ -76,9 +76,9 @@ Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the "limit_h
 
 
      >>>>>  The MolDS finished abnormally..............  <<<<<
-     >>>>>  CPU time: 0[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00440001[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0272288[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

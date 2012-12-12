@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:31  <<<<<
 
 
 **********  START: Parse input  **********
@@ -117,25 +117,25 @@ SCF iter=11: RMS density=0.000000358204691
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051263e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158935e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.430652e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.290803e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.763001e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.527947e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.927617e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.464318e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051263e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158935e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.430652e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.290803e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.763001e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.527947e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.927617e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.464318e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.041923[s].
+	Elapsed time(omp) for the SCF = 0.046528[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055442[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055397[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -350,7 +350,7 @@ SCF iter=11: RMS density=0.000000358204691
 	Transition dipole moment:	0 -> 49		7.218388e-03	6.059728e-03	2.367815e-03	9.717611e-03		1.834732e-02	1.540229e-02	6.018388e-03	2.469971e-02
 
 
-	Elapsed time(omp) for the CIS = 0.127616[s].
+	Elapsed time(omp) for the CIS = 0.130984[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -436,25 +436,25 @@ SCF iter=3: RMS density=0.000000754773589
 	Core Dipole moment:		-2.768348e-02	-1.132868e-02	-1.414236e-02	3.308656e-02		-7.036440e-02	-2.879464e-02	-3.594630e-02	8.409766e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051238e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158918e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.430056e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.290582e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.762769e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.527866e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.927508e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.464164e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051238e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158918e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.430056e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.290582e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.762769e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.527866e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.927508e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.464164e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736965e-02	-1.717471e+01
 
-	Elapsed time(omp) for the SCF = 0.031733[s].
+	Elapsed time(omp) for the SCF = 0.032052[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055066[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055513[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -669,7 +669,7 @@ SCF iter=3: RMS density=0.000000754773589
 	Transition dipole moment:	0 -> 49		7.212613e-03	6.058665e-03	2.367325e-03	9.712540e-03		1.833264e-02	1.539959e-02	6.017142e-03	2.468682e-02
 
 
-	Elapsed time(omp) for the CIS = 0.126344[s].
+	Elapsed time(omp) for the CIS = 0.129498[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -757,25 +757,25 @@ SCF iter=4: RMS density=0.000000880710307
 	Core Dipole moment:		-2.767319e-02	-1.130797e-02	-1.413623e-02	3.306824e-02		-7.033824e-02	-2.874200e-02	-3.593072e-02	8.405110e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051248e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158867e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.423435e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.289965e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.762264e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.527629e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.927290e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.463664e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051248e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158867e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.423435e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.289965e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.762264e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.527629e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.927290e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.463664e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737462e-02	-1.717783e+01
 
-	Elapsed time(omp) for the SCF = 0.032461[s].
+	Elapsed time(omp) for the SCF = 0.032341[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055665[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055075[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -990,7 +990,7 @@ SCF iter=4: RMS density=0.000000880710307
 	Transition dipole moment:	0 -> 49		7.196637e-03	6.055307e-03	2.365777e-03	9.698208e-03		1.829203e-02	1.539106e-02	6.013207e-03	2.465039e-02
 
 
-	Elapsed time(omp) for the CIS = 0.127324[s].
+	Elapsed time(omp) for the CIS = 0.128705[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1079,25 +1079,25 @@ SCF iter=5: RMS density=0.000000593352777
 	Core Dipole moment:		-2.765603e-02	-1.127348e-02	-1.412603e-02	3.303774e-02		-7.029464e-02	-2.865434e-02	-3.590478e-02	8.397358e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051287e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158806e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.411282e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.288987e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.761485e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.527312e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.927010e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.462728e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051287e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158806e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.411282e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.288987e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.761485e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.527312e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.927010e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.462728e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738286e-02	-1.718300e+01
 
-	Elapsed time(omp) for the SCF = 0.032107[s].
+	Elapsed time(omp) for the SCF = 0.033535[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055090[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055215[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1312,7 +1312,7 @@ SCF iter=5: RMS density=0.000000593352777
 	Transition dipole moment:	0 -> 49		7.170002e-03	6.049706e-03	2.363197e-03	9.674325e-03		1.822433e-02	1.537682e-02	6.006649e-03	2.458969e-02
 
 
-	Elapsed time(omp) for the CIS = 0.126805[s].
+	Elapsed time(omp) for the CIS = 1.493627[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1401,25 +1401,25 @@ SCF iter=5: RMS density=0.000000826577902
 	Core Dipole moment:		-2.763203e-02	-1.122525e-02	-1.411175e-02	3.299510e-02		-7.023363e-02	-2.853174e-02	-3.586849e-02	8.386520e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051326e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158700e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.395097e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.287576e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.760347e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.526803e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.926551e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.461505e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051326e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158700e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.395097e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.287576e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.760347e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.526803e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.926551e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.461505e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739430e-02	-1.719018e+01
 
-	Elapsed time(omp) for the SCF = 0.032286[s].
+	Elapsed time(omp) for the SCF = 0.032600[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055044[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055401[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1634,7 +1634,7 @@ SCF iter=5: RMS density=0.000000826577902
 	Transition dipole moment:	0 -> 49		7.132744e-03	6.041873e-03	2.359587e-03	9.640950e-03		1.812963e-02	1.535691e-02	5.997473e-03	2.450485e-02
 
 
-	Elapsed time(omp) for the CIS = 0.126652[s].
+	Elapsed time(omp) for the CIS = 0.128934[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1724,25 +1724,25 @@ SCF iter=6: RMS density=0.000000004595348
 	Core Dipole moment:		-2.760118e-02	-1.116332e-02	-1.409341e-02	3.294038e-02		-7.015521e-02	-2.837433e-02	-3.582187e-02	8.372612e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051418e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158621e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.372205e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.285861e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.759000e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.526320e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.926137e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.459711e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051418e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158621e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.372205e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.285861e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.759000e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.526320e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.926137e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.459711e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740883e-02	-1.719930e+01
 
-	Elapsed time(omp) for the SCF = 0.033379[s].
+	Elapsed time(omp) for the SCF = 0.033276[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055829[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.055558[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1957,7 +1957,7 @@ SCF iter=6: RMS density=0.000000004595348
 	Transition dipole moment:	0 -> 49		7.084682e-03	6.031799e-03	2.354949e-03	9.597974e-03		1.800747e-02	1.533131e-02	5.985685e-03	2.439562e-02
 
 
-	Elapsed time(omp) for the CIS = 0.128343[s].
+	Elapsed time(omp) for the CIS = 0.129266[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -2005,9 +2005,9 @@ SCF iter=6: RMS density=0.000000004595348
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 3.64[s].  <<<<<
-     >>>>>  Elapsed time: 4[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 3.65298[s].  <<<<<
+     >>>>>  CPU time: 3.7[s].  <<<<<
+     >>>>>  Elapsed time: 5[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 5.0563[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

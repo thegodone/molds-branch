@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:12  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:30  <<<<<
 
 
 **********  START: Parse input  **********
@@ -107,19 +107,19 @@ SCF iter=11: RMS density=0.000000358204691
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051263e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158935e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.430652e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.290803e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.763001e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.527947e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.927617e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.464318e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051263e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158935e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.430652e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.290803e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.763001e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.527947e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.927617e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.464318e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.042261[s].
+	Elapsed time(omp) for the SCF = 0.044746[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -204,19 +204,19 @@ SCF iter=2: RMS density=0.000000979764641
 	Core Dipole moment:		-2.768185e-02	-1.132371e-02	-1.413787e-02	3.308158e-02		-7.036027e-02	-2.878202e-02	-3.593489e-02	8.408500e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051278e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158949e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.423393e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.290230e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.762772e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.527819e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.927472e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.463684e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051278e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158949e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.423393e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.290230e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.762772e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.527819e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.927472e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.463684e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736950e-02	-1.717462e+01
 
-	Elapsed time(omp) for the SCF = 0.031433[s].
+	Elapsed time(omp) for the SCF = 0.032243[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -304,19 +304,19 @@ SCF iter=4: RMS density=0.000000458886003
 	Core Dipole moment:		-2.766668e-02	-1.128812e-02	-1.411828e-02	3.304834e-02		-7.032171e-02	-2.869154e-02	-3.588509e-02	8.400051e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051379e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.158996e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.393615e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.288141e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.762054e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.527332e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.927002e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.461417e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051379e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.158996e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.393615e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.288141e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.762054e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.527332e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.927002e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.461417e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737405e-02	-1.717747e+01
 
-	Elapsed time(omp) for the SCF = 0.031690[s].
+	Elapsed time(omp) for the SCF = 0.032259[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -404,19 +404,19 @@ SCF iter=4: RMS density=0.000000751870881
 	Core Dipole moment:		-2.764140e-02	-1.122883e-02	-1.408564e-02	3.299302e-02		-7.025745e-02	-2.854084e-02	-3.580214e-02	8.385990e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051542e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.159053e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.345548e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.284743e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.760882e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.526492e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.926203e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.457813e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051542e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.159053e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.345548e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.284743e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.760882e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.526492e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.926203e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.457813e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738162e-02	-1.718222e+01
 
-	Elapsed time(omp) for the SCF = 0.032397[s].
+	Elapsed time(omp) for the SCF = 0.032287[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -505,19 +505,19 @@ SCF iter=5: RMS density=0.000000448103296
 	Core Dipole moment:		-2.760603e-02	-1.114591e-02	-1.403999e-02	3.291573e-02		-7.016755e-02	-2.833008e-02	-3.568610e-02	8.366347e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.051777e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.159155e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.276516e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.279897e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.759218e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.525343e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.925105e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.452592e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.051777e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.159155e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.276516e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.279897e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.759218e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.525343e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.925105e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.452592e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739219e-02	-1.718885e+01
 
-	Elapsed time(omp) for the SCF = 0.032063[s].
+	Elapsed time(omp) for the SCF = 0.033070[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -606,19 +606,19 @@ SCF iter=5: RMS density=0.000000571981872
 	Core Dipole moment:		-2.756059e-02	-1.103944e-02	-1.398136e-02	3.281667e-02		-7.005204e-02	-2.805947e-02	-3.553707e-02	8.341166e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	1.052076e-02
-	Mulliken charge:	0	1	C	4.000000e+00	1.159271e-02
-	Mulliken charge:	0	2	H	1.000000e+00	9.189033e-04
-	Mulliken charge:	0	3	H	1.000000e+00	-7.273742e-03
-	Mulliken charge:	0	4	H	1.000000e+00	-5.757100e-03
-	Mulliken charge:	0	5	H	1.000000e+00	-5.523852e-03
-	Mulliken charge:	0	6	H	1.000000e+00	-5.923683e-03
-	Mulliken charge:	0	7	H	1.000000e+00	1.446006e-03
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	1.052076e-02
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	1.159271e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	9.189033e-04
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-7.273742e-03
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-5.757100e-03
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	-5.523852e-03
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	-5.923683e-03
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.446006e-03
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740571e-02	-1.719734e+01
 
-	Elapsed time(omp) for the SCF = 0.032280[s].
+	Elapsed time(omp) for the SCF = 0.033141[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -668,7 +668,7 @@ SCF iter=5: RMS density=0.000000571981872
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 1.43[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.42345[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.44185[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/3(Mon.) 19:1:9  <<<<<
+     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:26  <<<<<
 
 
 **********  START: Parse input  **********
@@ -96,19 +96,19 @@ SCF iter=7: RMS density=0.000000579322600
 	Core Dipole moment:		3.552714e-15	-9.401387e-07	9.401387e-02	9.401387e-02		9.030099e-15	-2.389595e-06	2.389595e-01	2.389595e-01
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	0	0	C	4.000000e+00	-8.965481e-02
-	Mulliken charge:	0	1	H	1.000000e+00	2.243295e-02
-	Mulliken charge:	0	2	H	1.000000e+00	1.924023e-02
-	Mulliken charge:	0	3	H	1.000000e+00	2.583597e-02
-	Mulliken charge:	0	4	H	1.000000e+00	2.214567e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-8.965481e-02
+	Mulliken charge(SCF):	0	1	H	1.000000e+00	2.243295e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	1.924023e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	2.583597e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.214567e-02
 
-	Elapsed time(omp) for the SCF = 0.013905[s].
+	Elapsed time(omp) for the SCF = 0.027925[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.001523[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001596[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -191,7 +191,7 @@ SCF iter=7: RMS density=0.000000579322600
 	Transition dipole moment:	0 -> 16		-3.520592e-02	7.388933e-02	-9.573569e-02	1.259540e-01		-8.948453e-02	1.878080e-01	-2.433359e-01	3.201432e-01
 
 
-	Elapsed time(omp) for the CIS = 0.007800[s].
+	Elapsed time(omp) for the CIS = 0.008887[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -201,9 +201,9 @@ SCF iter=7: RMS density=0.000000579322600
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.02[s].  <<<<<
+     >>>>>  CPU time: 0.04[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.02511[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.050833[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
