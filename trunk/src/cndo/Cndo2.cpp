@@ -252,14 +252,11 @@ TheoryType Cndo2::GetTheoryType() const{
 }
 
 void Cndo2::SetMolecule(Molecule* molecule){
-   // check of number of valence electrons
+   this->molecule = molecule;
    this->CheckNumberValenceElectrons(*molecule);
-
-   // check enable atom type
    this->CheckEnableAtomType(*molecule);
 
-   // set molecule and malloc
-   this->molecule = molecule;
+   // malloc
    MallocerFreer::GetInstance()->Malloc<double>(&this->fockMatrix,
                                                 this->molecule->GetTotalNumberAOs(), 
                                                 this->molecule->GetTotalNumberAOs());
