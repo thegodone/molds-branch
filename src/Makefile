@@ -22,7 +22,7 @@ LIBS32 = -lmkl_intel       $(LIBSBASE)
 LIBS64 = -lmkl_intel_ilp64 $(LIBSBASE)
 CFLAGSBASE = -O0 -openmp -openmp-report2 -DMKL_INT=intptr_t 
 CFLAGS32   = $(CFLAGSBASE)
-CFLAGS64   = $(CFLAGSBASE) -DMKL_INT64
+CFLAGS64   = $(CFLAGSBASE) -DMKL_ILP64
 BOOST_TOP_DIR = /usr/local/boost/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)include/
 EXENAME = MolDS.out
