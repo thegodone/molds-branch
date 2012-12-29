@@ -24,11 +24,30 @@
 #include<string>
 #include<stdexcept>
 #include<boost/format.hpp>
+#ifdef __INTEL_COMPILER
 #include"mkl.h"
+#else
+#if ( __WORDSIZE == 32 )
+#else
+#define HAVE_LAPACK_CONFIG_H
+#define LAPACK_ILP64
+#endif
+#include"lapacke.h"
+#endif
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/Uncopyable.h"
 #include"Lapack.h"
+
+#ifdef __INTEL_COMPILER
+#define MOLDS_LAPACK_malloc(a,b) mkl_malloc(a,b)
+#define MOLDS_LAPACK_free(a) mkl_free(a)
+#else
+#define MOLDS_LAPACK_malloc(a,b) malloc(a)
+#define MOLDS_LAPACK_free(a) free(a)
+#endif
+
+
 using namespace std;
 using namespace MolDS_base;
 
@@ -121,10 +140,10 @@ molds_lapack_int Lapack::Dsyevd(double** matrix, double* eigenValues, molds_lapa
    }
 
    // malloc
-   work = (double*)mkl_malloc( sizeof(double)*lwork, 16 );
-   iwork = (molds_lapack_int*)mkl_malloc( sizeof(molds_lapack_int)*liwork, 16 );
-   convertedMatrix = (double*)mkl_malloc( sizeof(double)*size*size, 16 );
-   tempEigenValues = (double*)mkl_malloc( sizeof(double)*size, 16 );
+   work = (double*)MOLDS_LAPACK_malloc( sizeof(double)*lwork, 16 );
+   iwork = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*liwork, 16 );
+   convertedMatrix = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size*size, 16 );
+   tempEigenValues = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size, 16 );
 
    for(molds_lapack_int i = 0; i < size; i++){
       for(molds_lapack_int j = i; j < size; j++){
@@ -133,7 +152,11 @@ molds_lapack_int Lapack::Dsyevd(double** matrix, double* eigenValues, molds_lapa
    }
 
    // call Lapack
+#ifdef __INTEL_COMPILER
    dsyevd(&job, &uplo, &size, convertedMatrix, &lda, tempEigenValues, work, &lwork, iwork, &liwork, &info);
+#else
+   info = LAPACKE_dsyevd_work(LAPACK_COL_MAJOR, job, uplo, size, convertedMatrix, lda, tempEigenValues, work, lwork, iwork, liwork);
+#endif
 
    for(molds_lapack_int i = 0; i < size; i++){
       for(molds_lapack_int j = 0; j < size; j++){
@@ -160,10 +183,10 @@ molds_lapack_int Lapack::Dsyevd(double** matrix, double* eigenValues, molds_lapa
    //this->OutputLog(boost::format("size=%d lwork=%d liwork=%d k=%d info=%d\n") % size % lwork % liwork % k % info);
 
    // free
-   mkl_free(work);
-   mkl_free(iwork);
-   mkl_free(convertedMatrix);
-   mkl_free(tempEigenValues);
+   MOLDS_LAPACK_free(work);
+   MOLDS_LAPACK_free(iwork);
+   MOLDS_LAPACK_free(convertedMatrix);
+   MOLDS_LAPACK_free(tempEigenValues);
   
    if(info != 0){
       stringstream ss;
@@ -199,9 +222,9 @@ molds_lapack_int Lapack::Dsysv(double const* const* matrix, double* b, molds_lap
    }
 
    // malloc
-   ipiv = (molds_lapack_int*)mkl_malloc( sizeof(molds_lapack_int)*2*size, 16 );
-   convertedMatrix = (double*)mkl_malloc( sizeof(double)*size*size, 16 );
-   tempB = (double*)mkl_malloc( sizeof(double)*size, 16 );
+   ipiv = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*2*size, 16 );
+   convertedMatrix = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size*size, 16 );
+   tempB = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size, 16 );
 
    for(molds_lapack_int i = 0; i < size; i++){
       for(molds_lapack_int j = i; j < size; j++){
@@ -218,24 +241,32 @@ molds_lapack_int Lapack::Dsysv(double const* const* matrix, double* b, molds_lap
    {
       lwork = -1;
       double tempWork[3]={0.0, 0.0, 0.0};
-      dsysv(&uplo, &size, &nrhs, convertedMatrix, &lda, ipiv, tempB, &ldb, tempWork, &lwork, &info);
+#ifdef __INTEL_COMPILER
+         dsysv(&uplo, &size, &nrhs, convertedMatrix, &lda, ipiv, tempB, &ldb, tempWork, &lwork, &info);
+#else
+         info = LAPACKE_dsysv_work(LAPACK_COL_MAJOR, uplo, size, nrhs, convertedMatrix, lda, ipiv, tempB, ldb, tempWork, lwork);
+#endif
       blockSize = tempWork[0]/size;
    }
    info = 0;
    lwork = blockSize*size;
-   work = (double*)mkl_malloc( sizeof(double)*lwork, 16 );
+   work = (double*)MOLDS_LAPACK_malloc( sizeof(double)*lwork, 16 );
 
    // call Lapack
+#ifdef __INTEL_COMPILER
    dsysv(&uplo, &size, &nrhs, convertedMatrix, &lda, ipiv, tempB, &ldb, work, &lwork, &info);
+#else
+   info = LAPACKE_dsysv_work(LAPACK_COL_MAJOR, uplo, size, nrhs, convertedMatrix, lda, ipiv, tempB, ldb, work, lwork);
+#endif
    for(molds_lapack_int i = 0; i < size; i++){
       b[i] = tempB[i];
    }
 
    // free
-   mkl_free(convertedMatrix);
-   mkl_free(ipiv);
-   mkl_free(work);
-   mkl_free(tempB);
+   MOLDS_LAPACK_free(convertedMatrix);
+   MOLDS_LAPACK_free(ipiv);
+   MOLDS_LAPACK_free(work);
+   MOLDS_LAPACK_free(tempB);
   
    if(info != 0){
       stringstream ss;
@@ -271,9 +302,9 @@ molds_lapack_int Lapack::Dgetrs(double const* const* matrix, double** b, molds_l
 
    try{
       // malloc
-      ipiv = (molds_lapack_int*)mkl_malloc( sizeof(molds_lapack_int)*2*size, 16 );
-      convertedMatrix = (double*)mkl_malloc( sizeof(double)*size*size, 16 );
-      convertedB = (double*)mkl_malloc( sizeof(double)*nrhs*size, 16 );
+      ipiv = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*2*size, 16 );
+      convertedMatrix = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size*size, 16 );
+      convertedB = (double*)MOLDS_LAPACK_malloc( sizeof(double)*nrhs*size, 16 );
       for(molds_lapack_int i = 0; i < size; i++){
          for(molds_lapack_int j = 0; j < size; j++){
             convertedMatrix[i+j*size] = matrix[i][j];
@@ -285,7 +316,11 @@ molds_lapack_int Lapack::Dgetrs(double const* const* matrix, double** b, molds_l
          }
       }
       this->Dgetrf(convertedMatrix, ipiv, size, size);
+#ifdef __INTEL_COMPILER
       dgetrs(&trans, &size, &nrhs, convertedMatrix, &lda, ipiv, convertedB, &ldb, &info);
+#else
+      info = LAPACKE_dgetrs_work(LAPACK_COL_MAJOR, trans, size, nrhs, convertedMatrix, lda, ipiv, convertedB, ldb);
+#endif
       for(molds_lapack_int i = 0; i < nrhs; i++){
          for(molds_lapack_int j = 0; j < size; j++){
             b[i][j] = convertedB[j+i*size];
@@ -294,15 +329,15 @@ molds_lapack_int Lapack::Dgetrs(double const* const* matrix, double** b, molds_l
    }
    catch(MolDSException ex){
       // free
-      mkl_free(convertedMatrix);
-      mkl_free(convertedB);
-      mkl_free(ipiv);
+      MOLDS_LAPACK_free(convertedMatrix);
+      MOLDS_LAPACK_free(convertedB);
+      MOLDS_LAPACK_free(ipiv);
       throw ex;
    }
    // free
-   mkl_free(convertedMatrix);
-   mkl_free(convertedB);
-   mkl_free(ipiv);
+   MOLDS_LAPACK_free(convertedMatrix);
+   MOLDS_LAPACK_free(convertedB);
+   MOLDS_LAPACK_free(ipiv);
   
    if(info != 0){
       stringstream ss;
@@ -316,9 +351,9 @@ molds_lapack_int Lapack::Dgetrs(double const* const* matrix, double** b, molds_l
 // Argument "matrix" is sizeM*sizeN matrix.
 // Argument "matrix" will be LU-decomposed.
 molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
-   molds_lapack_int* ipiv = (molds_lapack_int*)mkl_malloc( sizeof(molds_lapack_int)*2*sizeM,        16 );
+   molds_lapack_int* ipiv = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*2*sizeM,        16 );
    this->Dgetrf(matrix, ipiv, sizeM, sizeN);
-   mkl_free(ipiv);
+   MOLDS_LAPACK_free(ipiv);
    molds_lapack_int info = 0;
    return info;
 }
@@ -326,7 +361,7 @@ molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int sizeM, molds_l
 // Argument "matrix" is sizeM*sizeN matrix.
 // Argument "matrix" will be LU-decomposed.
 molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
-   double* convertedMatrix = (double*)mkl_malloc( sizeof(double)*sizeM*sizeN, 16 );
+   double* convertedMatrix = (double*)MOLDS_LAPACK_malloc( sizeof(double)*sizeM*sizeN, 16 );
    for(molds_lapack_int i=0; i<sizeM; i++){
       for(molds_lapack_int j=0; j<sizeN; j++){
          convertedMatrix[i+j*sizeM] = matrix[i][j];
@@ -338,7 +373,7 @@ molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int* ipiv, molds_l
          matrix[i][j] = convertedMatrix[i+j*sizeM];
       }
    }
-   mkl_free(convertedMatrix);
+   MOLDS_LAPACK_free(convertedMatrix);
    molds_lapack_int info = 0;
    return info;
 }
@@ -348,7 +383,11 @@ molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int* ipiv, molds_l
 molds_lapack_int Lapack::Dgetrf(double* matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
    molds_lapack_int info = 0;
    molds_lapack_int lda = sizeM;
+#ifdef __INTEL_COMPILER
    dgetrf(&sizeM, &sizeN, matrix, &lda, ipiv, &info);
+#else
+   info = LAPACKE_dgetrf_work(LAPACK_COL_MAJOR, sizeM, sizeN, matrix, lda, ipiv);
+#endif
    if(info != 0){
       stringstream ss;
       ss << errorMessageDgetrfInfo;
