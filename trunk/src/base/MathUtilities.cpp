@@ -23,6 +23,7 @@
 #include<math.h>
 #include<stdexcept>
 #include<boost/format.hpp>
+#include<boost/math/special_functions/factorials.hpp>
 #include"PrintController.h"
 #include"MolDSException.h"
 #include"Uncopyable.h"
@@ -41,12 +42,7 @@ int Factorial(int n){
       ss << "Error in base::MathUtility::Factorial: n<0 \n";
       throw MolDSException(ss.str());
    }
-   else if (n>1){
-      return n*Factorial(n-1);
-   }
-   else{
-      return 1;
-   }
+   return static_cast<int>(boost::math::factorial<double>(n));
 }
 
 // nCk
