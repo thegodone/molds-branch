@@ -88,40 +88,40 @@ template <typename T> T min(T a, T b){
 }
 
 // rotating matrix
-void CalcRotatingMatrix(double matrix[][3], double sita, CartesianType cartesianType){
+void CalcRotatingMatrix(double matrix[][3], double theta, CartesianType cartesianType){
    if(cartesianType == XAxis){
       matrix[0][0] = 1.0;
       matrix[0][1] = 0.0;
       matrix[0][2] = 0.0;
 
       matrix[1][0] = 0.0;
-      matrix[1][1] = cos(sita);
-      matrix[1][2] = sin(sita);
+      matrix[1][1] = cos(theta);
+      matrix[1][2] = sin(theta);
 
       matrix[2][0] = 0.0;
-      matrix[2][1] = -sin(sita);
-      matrix[2][2] = cos(sita);
+      matrix[2][1] = -sin(theta);
+      matrix[2][2] = cos(theta);
    }
    else if(cartesianType == YAxis){
-      matrix[0][0] = cos(sita);
+      matrix[0][0] = cos(theta);
       matrix[0][1] = 0.0;
-      matrix[0][2] = -sin(sita);
+      matrix[0][2] = -sin(theta);
 
       matrix[1][0] = 0.0;
       matrix[1][1] = 1.0;
       matrix[1][2] = 0.0;
 
-      matrix[2][0] = sin(sita);
+      matrix[2][0] = sin(theta);
       matrix[2][1] = 0.0;
-      matrix[2][2] = cos(sita);
+      matrix[2][2] = cos(theta);
    }
    else if(cartesianType == ZAxis){
-      matrix[0][0] = cos(sita);
-      matrix[0][1] = sin(sita);
+      matrix[0][0] = cos(theta);
+      matrix[0][1] = sin(theta);
       matrix[0][2] = 0.0;
 
-      matrix[1][0] = -sin(sita);
-      matrix[1][1] = cos(sita);
+      matrix[1][0] = -sin(theta);
+      matrix[1][1] = cos(theta);
       matrix[1][2] = 0.0;
 
       matrix[2][0] = 0.0;
