@@ -311,6 +311,7 @@ void InputParser::SetMessages(){
    this->stringCISAllTransitionDipoleMoments = "all_transition_dipole_moments";
    this->stringCISNumPrintCoefficients       = "num_print_coefficients";
    this->stringCISMulliken                   = "mulliken";
+   this->stringCISUnpairedPop                = "unpaired_electron_population";
 
    // Memory
    this->stringMemory          = "memory";
@@ -822,6 +823,16 @@ int InputParser::ParseConditionsCIS(vector<string>* inputTerms, int parseIndex) 
             Parameters::GetInstance()->AddElectronicStateIndexMullikenCIS(elecStateIndex);
          }
          parseIndex++;
+      }
+      // unpaired electron population
+      if((*inputTerms)[parseIndex].compare(this->stringCISUnpairedPop) == 0){
+          if((*inputTerms)[parseIndex+1].compare(this->stringYES) == 0){
+             Parameters::GetInstance()->SetRequiresUnpairedPopCIS(true);
+          }
+          else {
+             Parameters::GetInstance()->SetRequiresUnpairedPopCIS(false);
+          }
+          parseIndex++;   
       }
       parseIndex++;   
    }

@@ -1,5 +1,6 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+// Copyright (C) 2012-2013 Michihiro Okuyama
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -1020,6 +1021,10 @@ void ZindoS::CalcCISProperties(){
    this->CalcAtomicElectronPopulationCIS(&this->atomicElectronPopulationCIS,
                                          this->orbitalElectronPopulationCIS, 
                                          *this->molecule);
+   // atomic unpaired electron population
+   this->CalcAtomicUnpairedPopulationCIS(&this->atomicUnpairedPopulationCIS,
+                                         this->orbitalElectronPopulationCIS, 
+                                         *this->molecule);
 }
 
 void ZindoS::CalcElectronicDipoleMomentsExcitedState(double*** electronicTransitionDipoleMoments,
@@ -1406,6 +1411,58 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
    }
 }
 
+void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationCIS,
+                                             double const* const* const* orbitalElectronPopulationCIS, 
+                                             const Molecule& molecule) const{
+   if(!Parameters::GetInstance()->RequiresMullikenCIS()){
+      return;
+   }
+   if(!Parameters::GetInstance()->RequiresUnpairedPopCIS()){
+      return;
+   }
+   int totalNumberAtoms = molecule.GetNumberAtoms();
+   vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
+   // malloc or initialize free exciton energies
+   if(*atomicUnpairedPopulationCIS == NULL){
+      MallocerFreer::GetInstance()->Malloc<double>(atomicUnpairedPopulationCIS, 
+                                                   elecStates->size(),
+                                                   totalNumberAtoms);
+   }
+   else{
+      MallocerFreer::GetInstance()->Initialize<double>(*atomicUnpairedPopulationCIS,
+                                                       elecStates->size(),
+                                                       totalNumberAtoms);
+   }
+   // calc atomic electron population
+   for(int k=0; k<elecStates->size(); k++){
+      stringstream ompErrors;
+#pragma omp parallel for schedule(auto)
+      for(int a=0; a<totalNumberAtoms; a++){
+         try{
+            int firstAOIndex = molecule.GetAtom(a)->GetFirstAOIndex();
+            int numberAOs = molecule.GetAtom(a)->GetValenceSize();
+            (*atomicUnpairedPopulationCIS)[k][a] = 0.0; 
+            for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
+               double orbitalSquarePopulation = 0.0; 
+               int    totalNumberAOs = molecule.GetTotalNumberAOs(); 
+               for(int j=0; j<totalNumberAOs; j++) {
+                  orbitalSquarePopulation += orbitalElectronPopulationCIS[k][i][j] * orbitalElectronPopulationCIS[k][j][i]; 
+               }
+               (*atomicUnpairedPopulationCIS)[k][a] += 2.0 * orbitalElectronPopulationCIS[k][i][i] - orbitalSquarePopulation;
+            }
+         }
+         catch(MolDSException ex){
+#pragma omp critical
+            ompErrors << ex.what() << endl ;
+         }
+      }
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException(ompErrors.str());
+      }
+   }
+}
+
 void ZindoS::OutputCISResults() const{
    int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
    int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
@@ -1440,6 +1497,9 @@ void ZindoS::OutputCISResults() const{
 
    // output mulliken population
    this->OutputCISMulliken();
+
+   // output unpaired electron population
+   this->OutputCISUnpairedPop(); 
 
    // output exciton energies
    if(Parameters::GetInstance()->RequiresExcitonEnergiesCIS()){
@@ -1583,6 +1643,29 @@ void ZindoS::OutputCISMulliken() const{
                                                                    % AtomTypeStr(atom.GetAtomType())
                                                                    % atom.GetCoreCharge()
                                                                    % (atom.GetCoreCharge()-this->atomicElectronPopulationCIS[k][a]));
+      }
+      this->OutputLog("\n");
+   }
+}
+
+void ZindoS::OutputCISUnpairedPop() const{
+   if(!Parameters::GetInstance()->RequiresMullikenCIS()){
+      return;
+   }
+   if(!Parameters::GetInstance()->RequiresUnpairedPopCIS()){
+      return;
+   }
+   int totalNumberAtoms = this->molecule->GetNumberAtoms();
+   this->OutputLog(this->messageUnpairedAtomsTitle);
+   vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
+   for(int k=0; k<elecStates->size(); k++){
+      for(int a=0; a<totalNumberAtoms; a++){
+         const Atom& atom = *this->molecule->GetAtom(a);
+         this->OutputLog(boost::format("%s\t%d\t%d\t%s\t%e\n") % this->messageUnpairedAtoms
+                                                               % (*elecStates)[k]
+                                                               % a
+                                                               % AtomTypeStr(atom.GetAtomType())
+                                                               % this->atomicUnpairedPopulationCIS[k][a]);
       }
       this->OutputLog("\n");
    }
