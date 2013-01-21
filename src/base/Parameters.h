@@ -1,6 +1,7 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
 // Copyright (C) 2012-2012 Katsuhiko Nishimra                             // 
+// Copyright (C) 2012-2013 Michihiro Okuyama
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -141,6 +142,8 @@ public:
    std::vector<int>* GetElectronicStateIndecesMullikenCIS() const;
    void              AddElectronicStateIndexMullikenCIS(int electronicStateIndex);
    bool              RequiresMullikenCIS() const;
+   void              SetRequiresUnpairedPopCIS(bool requiresUnpairedPopCIS); 
+   bool              RequiresUnpairedPopCIS() const; 
    // Memory
    double GetLimitHeapMemory() const;
    void   SetLimitHeapMemory(double limitHeap);
@@ -285,6 +288,7 @@ private:
    bool              requiresExcitonEnergiesCIS;
    bool              requiresAllTransitionDipoleMomentsCIS;
    std::vector<int>* electronicStateIndecesMullikenCIS;
+   bool              requiresUnpairedPopCIS;
    // Memory
    double limitHeapMemory;
    // MD

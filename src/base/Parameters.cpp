@@ -1,6 +1,7 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
 // Copyright (C) 2012-2012 Katsuhiko Nishimra                             // 
+// Copyright (C) 2012-2013 Michihiro Okuyama
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -171,6 +172,7 @@ void Parameters::SetDefaultValues(){
    this->numberPrintCoefficientsCIS            = 1;
    this->requiresExcitonEnergiesCIS            = false;
    this->requiresAllTransitionDipoleMomentsCIS = false;
+   this->requiresUnpairedPopCIS                = false;
    // Memory
    this->limitHeapMemory = 256;
    // MD
@@ -703,6 +705,14 @@ void Parameters::AddElectronicStateIndexMullikenCIS(int electronicStateIndex){
 bool Parameters::RequiresMullikenCIS() const{
    return (this->electronicStateIndecesMullikenCIS!=NULL && 
            0<this->electronicStateIndecesMullikenCIS->size());
+}
+
+void Parameters::SetRequiresUnpairedPopCIS(bool requiresUnpairedPopCIS){
+   this->requiresUnpairedPopCIS = requiresUnpairedPopCIS;
+}
+
+bool Parameters::RequiresUnpairedPopCIS() const{
+   return this->requiresUnpairedPopCIS; 
 }
 
 // methods for Memory

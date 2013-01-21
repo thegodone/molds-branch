@@ -1,5 +1,6 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+// Copyright (C) 2012-2013 Michihiro Okuyama
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -139,6 +140,7 @@ private:
    void OutputCISDipole() const;
    void OutputCISTransitionDipole() const;
    void OutputCISMulliken() const;
+   void OutputCISUnpairedPop() const;
    void CalcFreeExcitonEnergies(double** freeExcitonEnergiesCIS, 
                                 const MolDS_base::Molecule& molecule, 
                                 double const* energiesMO, 
@@ -152,6 +154,9 @@ private:
    void CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationCIS,
                                         double const* const* const* orbitalElectronPopulationCIS, 
                                         const MolDS_base::Molecule& molecule) const;
+   void CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationCIS,
+                                        double const* const* const* orbitalElectronPopulationCIS, 
+                                        const MolDS_base::Molecule& molecule) const; 
    void CalcElectronicDipoleMomentsExcitedState(double*** electronicTransitionDipoleMoments,
                                                 double const* const* fockMatrix,
                                                 double const* const* matrixCIS,

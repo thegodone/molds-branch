@@ -236,6 +236,7 @@ private:
    std::string stringCISAllTransitionDipoleMoments;
    std::string stringCISNumPrintCoefficients;
    std::string stringCISMulliken;
+   std::string stringCISUnpairedPop;
    // Memory
    std::string stringMemory;
    std::string stringMemoryEnd;

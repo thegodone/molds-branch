@@ -1,5 +1,6 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+// Copyright (C) 2012-2013 Michihiro Okuyama
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -86,6 +87,8 @@ protected:
    std::string messageOmpElapsedTimeSCF;
    std::string messageMullikenAtoms;
    std::string messageMullikenAtomsTitle;
+   std::string messageUnpairedAtoms;
+   std::string messageUnpairedAtomsTitle;
    std::string messageUnitSec; 
    std::vector<MolDS_base::AtomType> enableAtomTypes;
    MolDS_base::Molecule* molecule;
@@ -99,6 +102,7 @@ protected:
    double***    orbitalElectronPopulationCIS; 
    double*      atomicElectronPopulation; //P_{AB} of (3.21) in J. A. Pople book.
    double**     atomicElectronPopulationCIS; 
+   double**     atomicUnpairedPopulationCIS; 
    double**     overlapAOs; // overlap integral between AOs
    double****** twoElecTwoCore;
    double***    cartesianMatrix; // cartesian matrix represented by AOs

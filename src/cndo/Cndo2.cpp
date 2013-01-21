@@ -1,5 +1,6 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+// Copyright (C) 2012-2013 Michihiro Okuyama
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -72,6 +73,7 @@ Cndo2::Cndo2(){
    this->orbitalElectronPopulationCIS = NULL;
    this->atomicElectronPopulation     = NULL;
    this->atomicElectronPopulationCIS  = NULL;
+   this->atomicUnpairedPopulationCIS  = NULL;
    this->overlapAOs = NULL;
    this->twoElecTwoCore = NULL;
    this->cartesianMatrix = NULL;
@@ -205,6 +207,8 @@ void Cndo2::SetMessages(){
    this->messageMullikenAtomsSCF   = "\tMulliken charge(SCF):";
    this->messageMullikenAtoms      = "\tMulliken charge:";
    this->messageMullikenAtomsTitle = "\t\t\t\t| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| \n";
+   this->messageUnpairedAtoms      = "\tUnpaired electron population:";
+   this->messageUnpairedAtomsTitle = "\t\t\t\t| k-th eigenstate | i-th atom | atom type | Unpaired electron population[a.u.]| \n";
    this->messageElecEnergy = "\tElectronic energy(SCF):";
    this->messageNoteElecEnergy = "\tNote that this electronic energy includes core-repulsions.\n\n";
    this->messageNoteElecEnergyVdW = "\tNote that this electronic energy includes core-repulsions and vdW correction.\n\n";
