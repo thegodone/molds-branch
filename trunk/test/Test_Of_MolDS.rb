@@ -41,7 +41,7 @@ class TesterOmp
    @@tempFile = "temp.dat"
    @@moldsBin = MolDSBin
    @@command = "command: "
-   @@deleteDiff = " | gawk '{if(($4!=\"RMS\")){print $0}}' | gawk '{if(($4!=\"time:\")){print $0}}' | gawk '{if(($3!=\"Elapsed\")){print $0}}' | gawk '{if(($2!=\"Elapsed\")){print $0}}' | gawk '{if(($3!=\"Welcome\")){print $0}}' | gawk '{if(($7!=\"residual\")){print $0}}' | gawk '{if(($3!=\"mode(nmw):\") ){print $0}}' | gawk '{if( !(($3==\"mode(mw):\")&&($4<6)) ){print $0}}'" 
+   @@deleteDiff = " | gawk '{if(($5!=\"RMS\")){print $0}}' | gawk '{if(($4!=\"time:\")){print $0}}' | gawk '{if(($3!=\"Elapsed\")){print $0}}' | gawk '{if(($2!=\"Elapsed\")){print $0}}' | gawk '{if(($3!=\"Welcome\")){print $0}}' | gawk '{if(($7!=\"residual\")){print $0}}' | gawk '{if(($3!=\"mode(nmw):\") ){print $0}}' | gawk '{if( !(($3==\"mode(mw):\")&&($4<6)) ){print $0}}'" 
 	 @@printed_section = []
    def doesTestOmp(mklNumThreads, ompNumThreads)
       return unless should_run?

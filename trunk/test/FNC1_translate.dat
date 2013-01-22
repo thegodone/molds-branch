@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:26  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 6:59:48  <<<<<
 
 
 **********  START: Parse input  **********
@@ -152,9 +152,9 @@ translate | difference | 10 | 20 | 30 | translate_end | geometry | c | 0.16025 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0[s].  <<<<<
+     >>>>>  CPU time: 0.02[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0118968[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0192871[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

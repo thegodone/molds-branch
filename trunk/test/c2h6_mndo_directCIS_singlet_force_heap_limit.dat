@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:45:38  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:4:30  <<<<<
 
 
 **********  START: Parse input  **********
@@ -67,18 +67,18 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 **********  START: Molecular dynamics  **********
 Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the "limit_heap" option in the memory-directive, machine you using, or your study!!!
 		Heap Limit:    0.19[MB].
-		Current Heap:  0.081248[MB].
+		Current Heap:  0.092456[MB].
 		Required Heap: 0.131072[MB].
 
 	Summary for memory usage:
-		Max Heap: 0.081248[MB].
+		Max Heap: 0.092456[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished abnormally..............  <<<<<
-     >>>>>  CPU time: 0.03[s].  <<<<<
+     >>>>>  CPU time: 0.01[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0272288[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00834918[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
