@@ -256,6 +256,8 @@ private:
    std::string errorMessageRhs;
    std::string messageIterSCF;
    std::string messageDensityRMS;
+   std::string messageDiisError;
+   std::string messageDiisApplied;
    std::string messageEnergyMO;
    std::string messageEnergyMOTitle;
    std::string messageElecEnergy;
@@ -322,9 +324,11 @@ private:
                                               double const* const* overlapAOs) const;
    bool SatisfyConvergenceCriterion(double const* const* oldOrbitalElectronPopulation, 
                                     double const* const* orbitalElectronPopulation,
-                                    int numberAOs, 
+                                    int     numberAOs, 
                                     double* rmsDensity, 
-                                    int times) const;
+                                    int     times,
+                                    double  diisErro,
+                                    bool    hasAppliedDIIS) const;
    void UpdateOldOrbitalElectronPopulation(double** oldOrbitalElectronPopulation, 
                                            double const* const* orbitalElectronPopulation,
                                            int numberAOs) const;
@@ -420,6 +424,8 @@ private:
                double*** diisStoredErrorVect,
                double**  diisErrorProducts,
                double*   diisErrorCoefficients,
+               double&   diisError,
+               bool&     hasAppliedDIIS,
                int       diisNumErrorVect,
                const MolDS_base::Molecule& molecule, 
                int step) const;
