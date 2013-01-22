@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:44:42  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:2:8  <<<<<
 
 
 **********  START: Parse input  **********
@@ -77,19 +77,19 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 **********  START: Initial calculation of electronic structure of each bead  ********* 
 ----------  Beads number 0
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=5.291502622129182
-SCF iter=1: RMS density=1.864359803825695
-SCF iter=2: RMS density=0.993711574727335
-SCF iter=3: RMS density=0.533243202153928
-SCF iter=4: RMS density=0.285237741654047
-SCF iter=5: RMS density=0.152176686179850
-SCF iter=6: RMS density=0.000692290316502
-SCF iter=7: RMS density=0.000221597063790
-SCF iter=8: RMS density=0.000073707651092
-SCF iter=9: RMS density=0.000026892426361
-SCF iter=10: RMS density=0.000004810643489
-SCF iter=11: RMS density=0.000002049265094
-SCF iter=12: RMS density=0.000000161379730
+	SCF iter 0:	RMS density = 5.291502622129186	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.864359803825695	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.993711574727335	DIIS error = 3.769218e-01
+	SCF iter 3:	RMS density = 0.533243202153927	DIIS error = 2.656278e-01
+	SCF iter 4:	RMS density = 0.285237741654049	DIIS error = 1.600085e-01
+	SCF iter 5:	RMS density = 0.152176686179850	DIIS error = 8.772975e-02
+	SCF iter 6:	RMS density = 0.000692290316492	DIIS error = 4.691687e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000221597063841	DIIS error = 2.708252e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000073707651114	DIIS error = 9.305828e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000026892426367	DIIS error = 3.069710e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000004810643545	DIIS error = 9.304880e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002049265090	DIIS error = 1.981844e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000161379729	DIIS error = 7.370285e-07 (DIIS was applied)
 
 
 
@@ -138,13 +138,13 @@ SCF iter=12: RMS density=0.000000161379730
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.796440e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.335190e-02
 
-	Elapsed time(omp) for the SCF = 0.034890[s].
+	Elapsed time(omp) for the SCF = 0.085731[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055484[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.123987[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -249,25 +249,25 @@ SCF iter=12: RMS density=0.000000161379730
 	Transition dipole moment:	0 -> 4		9.387976e-03	3.209008e-02	1.259478e-01	1.303102e-01		2.386186e-02	8.156485e-02	3.201275e-01	3.312157e-01
 
 
-	Elapsed time(omp) for the CIS = 0.205144[s].
+	Elapsed time(omp) for the CIS = 0.487271[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 1
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=5.291502622129180
-SCF iter=1: RMS density=1.865988336217738
-SCF iter=2: RMS density=0.994529576897675
-SCF iter=3: RMS density=0.533371488030115
-SCF iter=4: RMS density=0.285095206176201
-SCF iter=5: RMS density=0.151977375008307
-SCF iter=6: RMS density=0.000733580757655
-SCF iter=7: RMS density=0.000248955926031
-SCF iter=8: RMS density=0.000081466922282
-SCF iter=9: RMS density=0.000028877781598
-SCF iter=10: RMS density=0.000005647086569
-SCF iter=11: RMS density=0.000002231024048
-SCF iter=12: RMS density=0.000000147167389
+	SCF iter 0:	RMS density = 5.291502622129181	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.865988336217740	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994529576897673	DIIS error = 3.777877e-01
+	SCF iter 3:	RMS density = 0.533371488030119	DIIS error = 2.656244e-01
+	SCF iter 4:	RMS density = 0.285095206176202	DIIS error = 1.596008e-01
+	SCF iter 5:	RMS density = 0.151977375008309	DIIS error = 8.756754e-02
+	SCF iter 6:	RMS density = 0.000733580757659	DIIS error = 4.683638e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000248955926044	DIIS error = 2.979423e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000081466922267	DIIS error = 1.074210e-04 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000028877781589	DIIS error = 3.396588e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000005647086590	DIIS error = 1.028433e-05 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002231024045	DIIS error = 1.929438e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000147167389	DIIS error = 6.651212e-07 (DIIS was applied)
 
 
 
@@ -316,13 +316,13 @@ SCF iter=12: RMS density=0.000000147167389
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.975525e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.209319e-02
 
-	Elapsed time(omp) for the SCF = 0.033898[s].
+	Elapsed time(omp) for the SCF = 0.089175[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055250[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.105358[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -421,24 +421,24 @@ SCF iter=12: RMS density=0.000000147167389
 	Transition dipole moment:	0 -> 4		1.121201e-03	-1.093366e-01	-1.462496e-01	1.826053e-01		2.849808e-03	-2.779059e-01	-3.717296e-01	4.641365e-01
 
 
-	Elapsed time(omp) for the CIS = 0.173887[s].
+	Elapsed time(omp) for the CIS = 0.332721[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 2
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=5.291502622129189
-SCF iter=1: RMS density=1.866449441913810
-SCF iter=2: RMS density=0.994602655642708
-SCF iter=3: RMS density=0.533363585976309
-SCF iter=4: RMS density=0.285053896199433
-SCF iter=5: RMS density=0.151927132530236
-SCF iter=6: RMS density=0.000587258483704
-SCF iter=7: RMS density=0.000157963874509
-SCF iter=8: RMS density=0.000043539411079
-SCF iter=9: RMS density=0.000012590973704
-SCF iter=10: RMS density=0.000001354489281
-SCF iter=11: RMS density=0.000000636082912
+	SCF iter 0:	RMS density = 5.291502622129183	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866449441913809	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994602655642711	DIIS error = 3.771662e-01
+	SCF iter 3:	RMS density = 0.533363585976307	DIIS error = 2.646206e-01
+	SCF iter 4:	RMS density = 0.285053896199431	DIIS error = 1.598549e-01
+	SCF iter 5:	RMS density = 0.151927132530238	DIIS error = 8.721524e-02
+	SCF iter 6:	RMS density = 0.000587258483707	DIIS error = 4.651265e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000157963874474	DIIS error = 1.693345e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000043539411106	DIIS error = 5.298254e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000012590973716	DIIS error = 1.891895e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000001354489327	DIIS error = 5.042337e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000000636082911	DIIS error = 4.021281e-07 (DIIS was applied)
 
 
 
@@ -487,13 +487,13 @@ SCF iter=11: RMS density=0.000000636082912
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.764107e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.254755e-02
 
-	Elapsed time(omp) for the SCF = 0.033652[s].
+	Elapsed time(omp) for the SCF = 0.069478[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055213[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.105887[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -598,7 +598,7 @@ SCF iter=11: RMS density=0.000000636082912
 	Transition dipole moment:	0 -> 4		-1.852355e-03	1.975531e-02	3.444948e-02	3.975513e-02		-4.708217e-03	5.021300e-02	8.756186e-02	1.010475e-01
 
 
-	Elapsed time(omp) for the CIS = 0.202493[s].
+	Elapsed time(omp) for the CIS = 0.391211[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -617,19 +617,19 @@ SCF iter=11: RMS density=0.000000636082912
 ==========  START: RPMD step 1
 ----------  Beads number 0
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.725374332311059
-SCF iter=1: RMS density=1.864367279263458
-SCF iter=2: RMS density=0.993713998693174
-SCF iter=3: RMS density=0.533243066519630
-SCF iter=4: RMS density=0.285236811454568
-SCF iter=5: RMS density=0.152175706650024
-SCF iter=6: RMS density=0.000692230940250
-SCF iter=7: RMS density=0.000221575892595
-SCF iter=8: RMS density=0.000073701821799
-SCF iter=9: RMS density=0.000026890719379
-SCF iter=10: RMS density=0.000004809907943
-SCF iter=11: RMS density=0.000002049012121
-SCF iter=12: RMS density=0.000000161387877
+	SCF iter 0:	RMS density = 3.725374332311061	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.864367279263456	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.993713998693175	DIIS error = 3.769231e-01
+	SCF iter 3:	RMS density = 0.533243066519631	DIIS error = 2.656280e-01
+	SCF iter 4:	RMS density = 0.285236811454567	DIIS error = 1.600084e-01
+	SCF iter 5:	RMS density = 0.152175706650025	DIIS error = 8.772939e-02
+	SCF iter 6:	RMS density = 0.000692230940250	DIIS error = 4.691651e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000221575892673	DIIS error = 2.707985e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000073701821780	DIIS error = 9.305831e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000026890719350	DIIS error = 3.069484e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000004809907916	DIIS error = 9.304180e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002049012124	DIIS error = 1.981406e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000161387877	DIIS error = 7.369122e-07 (DIIS was applied)
 
 
 
@@ -678,13 +678,13 @@ SCF iter=12: RMS density=0.000000161387877
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.796371e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.335145e-02
 
-	Elapsed time(omp) for the SCF = 0.034605[s].
+	Elapsed time(omp) for the SCF = 0.106553[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055506[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.158491[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -789,25 +789,25 @@ SCF iter=12: RMS density=0.000000161387877
 	Transition dipole moment:	0 -> 4		9.384553e-03	3.209749e-02	1.259364e-01	1.303008e-01		2.385316e-02	8.158371e-02	3.200986e-01	3.311917e-01
 
 
-	Elapsed time(omp) for the CIS = 0.205082[s].
+	Elapsed time(omp) for the CIS = 0.603278[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 1
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.726780801294551
-SCF iter=1: RMS density=1.865995200034970
-SCF iter=2: RMS density=0.994531795050566
-SCF iter=3: RMS density=0.533371344731540
-SCF iter=4: RMS density=0.285094334631544
-SCF iter=5: RMS density=0.151976463187046
-SCF iter=6: RMS density=0.000733507760171
-SCF iter=7: RMS density=0.000248925532487
-SCF iter=8: RMS density=0.000081458225111
-SCF iter=9: RMS density=0.000028875001603
-SCF iter=10: RMS density=0.000005646181267
-SCF iter=11: RMS density=0.000002230808669
-SCF iter=12: RMS density=0.000000147146753
+	SCF iter 0:	RMS density = 3.726780801294546	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.865995200034972	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994531795050566	DIIS error = 3.777889e-01
+	SCF iter 3:	RMS density = 0.533371344731537	DIIS error = 2.656247e-01
+	SCF iter 4:	RMS density = 0.285094334631541	DIIS error = 1.596007e-01
+	SCF iter 5:	RMS density = 0.151976463187050	DIIS error = 8.756716e-02
+	SCF iter 6:	RMS density = 0.000733507760174	DIIS error = 4.683600e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000248925532533	DIIS error = 2.979168e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000081458225106	DIIS error = 1.074133e-04 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000028875001598	DIIS error = 3.396217e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000005646181255	DIIS error = 1.028314e-05 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002230808671	DIIS error = 1.929033e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000147146750	DIIS error = 6.650550e-07 (DIIS was applied)
 
 
 
@@ -856,13 +856,13 @@ SCF iter=12: RMS density=0.000000147146753
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.975477e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.209265e-02
 
-	Elapsed time(omp) for the SCF = 0.033842[s].
+	Elapsed time(omp) for the SCF = 0.113849[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055926[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.137203[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -961,24 +961,24 @@ SCF iter=12: RMS density=0.000000147146753
 	Transition dipole moment:	0 -> 4		1.117754e-03	-1.093319e-01	-1.462340e-01	1.825899e-01		2.841049e-03	-2.778939e-01	-3.716897e-01	4.640973e-01
 
 
-	Elapsed time(omp) for the CIS = 0.174387[s].
+	Elapsed time(omp) for the CIS = 0.413397[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 2
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.727025323136598
-SCF iter=1: RMS density=1.866456161570218
-SCF iter=2: RMS density=0.994604798143271
-SCF iter=3: RMS density=0.533363428571660
-SCF iter=4: RMS density=0.285053037578577
-SCF iter=5: RMS density=0.151926240088263
-SCF iter=6: RMS density=0.000587207417107
-SCF iter=7: RMS density=0.000157944303578
-SCF iter=8: RMS density=0.000043532448690
-SCF iter=9: RMS density=0.000012587979194
-SCF iter=10: RMS density=0.000001353645014
-SCF iter=11: RMS density=0.000000635504318
+	SCF iter 0:	RMS density = 3.727025323136598	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866456161570217	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994604798143270	DIIS error = 3.771674e-01
+	SCF iter 3:	RMS density = 0.533363428571659	DIIS error = 2.646211e-01
+	SCF iter 4:	RMS density = 0.285053037578578	DIIS error = 1.598548e-01
+	SCF iter 5:	RMS density = 0.151926240088264	DIIS error = 8.721498e-02
+	SCF iter 6:	RMS density = 0.000587207417101	DIIS error = 4.651220e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000157944303512	DIIS error = 1.693108e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000043532448841	DIIS error = 5.298362e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000012587979219	DIIS error = 1.891428e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000001353645099	DIIS error = 5.040625e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000000635504319	DIIS error = 4.018603e-07 (DIIS was applied)
 
 
 
@@ -1027,13 +1027,13 @@ SCF iter=11: RMS density=0.000000635504318
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.764060e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.254706e-02
 
-	Elapsed time(omp) for the SCF = 0.033604[s].
+	Elapsed time(omp) for the SCF = 0.083055[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055347[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.126466[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1138,7 +1138,7 @@ SCF iter=11: RMS density=0.000000635504318
 	Transition dipole moment:	0 -> 4		-1.852253e-03	1.975028e-02	3.445396e-02	3.975650e-02		-4.707959e-03	5.020022e-02	8.757324e-02	1.010510e-01
 
 
-	Elapsed time(omp) for the CIS = 0.202462[s].
+	Elapsed time(omp) for the CIS = 0.469874[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1156,19 +1156,19 @@ SCF iter=11: RMS density=0.000000635504318
 ==========  START: RPMD step 2
 ----------  Beads number 0
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.725382113057969
-SCF iter=1: RMS density=1.864389705085997
-SCF iter=2: RMS density=0.993721270430001
-SCF iter=3: RMS density=0.533242659581088
-SCF iter=4: RMS density=0.285234020945203
-SCF iter=5: RMS density=0.152172768222294
-SCF iter=6: RMS density=0.000692053092630
-SCF iter=7: RMS density=0.000221512494362
-SCF iter=8: RMS density=0.000073684359872
-SCF iter=9: RMS density=0.000026885604466
-SCF iter=10: RMS density=0.000004807705510
-SCF iter=11: RMS density=0.000002048254354
-SCF iter=12: RMS density=0.000000161412239
+	SCF iter 0:	RMS density = 3.725382113057969	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.864389705086000	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.993721270430000	DIIS error = 3.769271e-01
+	SCF iter 3:	RMS density = 0.533242659581087	DIIS error = 2.656289e-01
+	SCF iter 4:	RMS density = 0.285234020945201	DIIS error = 1.600081e-01
+	SCF iter 5:	RMS density = 0.152172768222293	DIIS error = 8.772833e-02
+	SCF iter 6:	RMS density = 0.000692053092626	DIIS error = 4.691544e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000221512494330	DIIS error = 2.707184e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000073684359880	DIIS error = 9.305846e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000026885604468	DIIS error = 3.068804e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000004807705514	DIIS error = 9.302083e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002048254353	DIIS error = 1.980094e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000161412239	DIIS error = 7.365630e-07 (DIIS was applied)
 
 
 
@@ -1217,13 +1217,13 @@ SCF iter=12: RMS density=0.000000161412239
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.796163e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.335010e-02
 
-	Elapsed time(omp) for the SCF = 0.034122[s].
+	Elapsed time(omp) for the SCF = 0.076131[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055550[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.089286[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1328,25 +1328,25 @@ SCF iter=12: RMS density=0.000000161412239
 	Transition dipole moment:	0 -> 4		9.374292e-03	3.211974e-02	1.259024e-01	1.302726e-01		2.382708e-02	8.164026e-02	3.200120e-01	3.311201e-01
 
 
-	Elapsed time(omp) for the CIS = 0.204997[s].
+	Elapsed time(omp) for the CIS = 0.331613[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 1
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.726788110144882
-SCF iter=1: RMS density=1.866015789327174
-SCF iter=2: RMS density=0.994538448710385
-SCF iter=3: RMS density=0.533370914732772
-SCF iter=4: RMS density=0.285091720187648
-SCF iter=5: RMS density=0.151973727991917
-SCF iter=6: RMS density=0.000733288856919
-SCF iter=7: RMS density=0.000248834376778
-SCF iter=8: RMS density=0.000081432135713
-SCF iter=9: RMS density=0.000028866662909
-SCF iter=10: RMS density=0.000005643466417
-SCF iter=11: RMS density=0.000002230162553
-SCF iter=12: RMS density=0.000000147085088
+	SCF iter 0:	RMS density = 3.726788110144881	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866015789327173	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994538448710384	DIIS error = 3.777922e-01
+	SCF iter 3:	RMS density = 0.533370914732771	DIIS error = 2.656256e-01
+	SCF iter 4:	RMS density = 0.285091720187650	DIIS error = 1.596004e-01
+	SCF iter 5:	RMS density = 0.151973727991916	DIIS error = 8.756601e-02
+	SCF iter 6:	RMS density = 0.000733288856910	DIIS error = 4.683485e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000248834376873	DIIS error = 2.978406e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000081432135685	DIIS error = 1.073901e-04 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000028866662889	DIIS error = 3.395104e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000005643466425	DIIS error = 1.027958e-05 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002230162553	DIIS error = 1.927820e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000147085085	DIIS error = 6.648565e-07 (DIIS was applied)
 
 
 
@@ -1395,13 +1395,13 @@ SCF iter=12: RMS density=0.000000147085088
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.975333e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.209104e-02
 
-	Elapsed time(omp) for the SCF = 0.033811[s].
+	Elapsed time(omp) for the SCF = 0.057471[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055621[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.087931[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1500,24 +1500,24 @@ SCF iter=12: RMS density=0.000000147085088
 	Transition dipole moment:	0 -> 4		1.107418e-03	-1.093176e-01	-1.461869e-01	1.825437e-01		2.814776e-03	-2.778578e-01	-3.715702e-01	4.639798e-01
 
 
-	Elapsed time(omp) for the CIS = 0.173616[s].
+	Elapsed time(omp) for the CIS = 0.283132[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 2
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.727032265323982
-SCF iter=1: RMS density=1.866476318606613
-SCF iter=2: RMS density=0.994611225010081
-SCF iter=3: RMS density=0.533362956318547
-SCF iter=4: RMS density=0.285050461922587
-SCF iter=5: RMS density=0.151923563032054
-SCF iter=6: RMS density=0.000587054351219
-SCF iter=7: RMS density=0.000157885648508
-SCF iter=8: RMS density=0.000043511579124
-SCF iter=9: RMS density=0.000012579000041
-SCF iter=10: RMS density=0.000001351114578
-SCF iter=11: RMS density=0.000000633768587
+	SCF iter 0:	RMS density = 3.727032265323983	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866476318606614	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994611225010082	DIIS error = 3.771709e-01
+	SCF iter 3:	RMS density = 0.533362956318544	DIIS error = 2.646225e-01
+	SCF iter 4:	RMS density = 0.285050461922587	DIIS error = 1.598545e-01
+	SCF iter 5:	RMS density = 0.151923563032056	DIIS error = 8.721420e-02
+	SCF iter 6:	RMS density = 0.000587054351223	DIIS error = 4.651084e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000157885648454	DIIS error = 1.692395e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000043511579081	DIIS error = 5.298686e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000012579000028	DIIS error = 1.890025e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000001351114574	DIIS error = 5.035487e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000000633768587	DIIS error = 4.010565e-07 (DIIS was applied)
 
 
 
@@ -1566,13 +1566,13 @@ SCF iter=11: RMS density=0.000000633768587
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.763919e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.254559e-02
 
-	Elapsed time(omp) for the SCF = 0.033594[s].
+	Elapsed time(omp) for the SCF = 0.058554[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055298[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.088899[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1677,7 +1677,7 @@ SCF iter=11: RMS density=0.000000633768587
 	Transition dipole moment:	0 -> 4		-1.851950e-03	1.973521e-02	3.446739e-02	3.976065e-02		-4.707187e-03	5.016190e-02	8.760738e-02	1.010615e-01
 
 
-	Elapsed time(omp) for the CIS = 0.202330[s].
+	Elapsed time(omp) for the CIS = 0.348148[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1688,26 +1688,26 @@ SCF iter=11: RMS density=0.000000633768587
 		Electronic
 		(inc. core rep.)	-3.606214e+01	-9.813086e+02
 		Total            	-3.606195e+01	-9.813036e+02
-		Error            	2.216254e-10	6.030782e-09
+		Error            	2.216325e-10	6.030975e-09
 
 ==========  DONE: RPMD step 2
 
 ==========  START: RPMD step 3
 ----------  Beads number 0
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.725398905831877
-SCF iter=1: RMS density=1.864427079780833
-SCF iter=2: RMS density=0.993733389438035
-SCF iter=3: RMS density=0.533241981229291
-SCF iter=4: RMS density=0.285229370396453
-SCF iter=5: RMS density=0.152167871385835
-SCF iter=6: RMS density=0.000691757615547
-SCF iter=7: RMS density=0.000221407214115
-SCF iter=8: RMS density=0.000073655343327
-SCF iter=9: RMS density=0.000026877100009
-SCF iter=10: RMS density=0.000004804049173
-SCF iter=11: RMS density=0.000002046995201
-SCF iter=12: RMS density=0.000000161452555
+	SCF iter 0:	RMS density = 3.725398905831872	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.864427079780833	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.993733389438032	DIIS error = 3.769339e-01
+	SCF iter 3:	RMS density = 0.533241981229292	DIIS error = 2.656302e-01
+	SCF iter 4:	RMS density = 0.285229370396452	DIIS error = 1.600077e-01
+	SCF iter 5:	RMS density = 0.152167871385835	DIIS error = 8.772655e-02
+	SCF iter 6:	RMS density = 0.000691757615550	DIIS error = 4.691367e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000221407214013	DIIS error = 2.705852e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000073655343290	DIIS error = 9.305889e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000026877100036	DIIS error = 3.067676e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000004804049173	DIIS error = 9.298599e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002046995200	DIIS error = 1.977909e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000161452550	DIIS error = 7.359799e-07 (DIIS was applied)
 
 
 
@@ -1756,13 +1756,13 @@ SCF iter=12: RMS density=0.000000161452555
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795816e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.334785e-02
 
-	Elapsed time(omp) for the SCF = 0.033880[s].
+	Elapsed time(omp) for the SCF = 0.110470[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055218[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.160822[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1867,25 +1867,25 @@ SCF iter=12: RMS density=0.000000161452555
 	Transition dipole moment:	0 -> 4		9.357219e-03	3.215679e-02	1.258458e-01	1.302259e-01		2.378368e-02	8.173443e-02	3.198683e-01	3.310014e-01
 
 
-	Elapsed time(omp) for the CIS = 0.204563[s].
+	Elapsed time(omp) for the CIS = 0.613977[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 1
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.726803588710317
-SCF iter=1: RMS density=1.866050097617129
-SCF iter=2: RMS density=0.994549535480750
-SCF iter=3: RMS density=0.533370197724779
-SCF iter=4: RMS density=0.285087363414698
-SCF iter=5: RMS density=0.151969170228733
-SCF iter=6: RMS density=0.000732924315678
-SCF iter=7: RMS density=0.000248682533593
-SCF iter=8: RMS density=0.000081388660457
-SCF iter=9: RMS density=0.000028852769601
-SCF iter=10: RMS density=0.000005638945350
-SCF iter=11: RMS density=0.000002229085796
-SCF iter=12: RMS density=0.000000146983091
+	SCF iter 0:	RMS density = 3.726803588710319	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866050097617127	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994549535480750	DIIS error = 3.777979e-01
+	SCF iter 3:	RMS density = 0.533370197724778	DIIS error = 2.656271e-01
+	SCF iter 4:	RMS density = 0.285087363414699	DIIS error = 1.595999e-01
+	SCF iter 5:	RMS density = 0.151969170228736	DIIS error = 8.756411e-02
+	SCF iter 6:	RMS density = 0.000732924315680	DIIS error = 4.683294e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000248682533615	DIIS error = 2.977136e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000081388660467	DIIS error = 1.073516e-04 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000028852769553	DIIS error = 3.393250e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000005638945356	DIIS error = 1.027364e-05 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002229085794	DIIS error = 1.925799e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000146983090	DIIS error = 6.645258e-07 (DIIS was applied)
 
 
 
@@ -1934,13 +1934,13 @@ SCF iter=12: RMS density=0.000000146983091
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.975093e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.208835e-02
 
-	Elapsed time(omp) for the SCF = 0.034350[s].
+	Elapsed time(omp) for the SCF = 0.110609[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055230[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.158911[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2039,24 +2039,24 @@ SCF iter=12: RMS density=0.000000146983091
 	Transition dipole moment:	0 -> 4		1.090197e-03	-1.092940e-01	-1.461086e-01	1.824666e-01		2.771004e-03	-2.777976e-01	-3.713711e-01	4.637840e-01
 
 
-	Elapsed time(omp) for the CIS = 0.172948[s].
+	Elapsed time(omp) for the CIS = 0.513392[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 2
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.727047126420940
-SCF iter=1: RMS density=1.866509907225252
-SCF iter=2: RMS density=0.994621934338419
-SCF iter=3: RMS density=0.533362169099375
-SCF iter=4: RMS density=0.285046169851066
-SCF iter=5: RMS density=0.151919102170618
-SCF iter=6: RMS density=0.000586799687956
-SCF iter=7: RMS density=0.000157788082367
-SCF iter=8: RMS density=0.000043476854702
-SCF iter=9: RMS density=0.000012564049379
-SCF iter=10: RMS density=0.000001346904436
-SCF iter=11: RMS density=0.000000630875852
+	SCF iter 0:	RMS density = 3.727047126420947	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866509907225251	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994621934338418	DIIS error = 3.771768e-01
+	SCF iter 3:	RMS density = 0.533362169099377	DIIS error = 2.646248e-01
+	SCF iter 4:	RMS density = 0.285046169851063	DIIS error = 1.598541e-01
+	SCF iter 5:	RMS density = 0.151919102170618	DIIS error = 8.721291e-02
+	SCF iter 6:	RMS density = 0.000586799687952	DIIS error = 4.650859e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000157788082376	DIIS error = 1.691208e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000043476854687	DIIS error = 5.299230e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000012564049383	DIIS error = 1.887687e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000001346904440	DIIS error = 5.026912e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000000630875853	DIIS error = 3.997158e-07 (DIIS was applied)
 
 
 
@@ -2105,13 +2105,13 @@ SCF iter=11: RMS density=0.000000630875852
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.763683e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.254314e-02
 
-	Elapsed time(omp) for the SCF = 0.033785[s].
+	Elapsed time(omp) for the SCF = 0.110926[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055258[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.167131[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2216,7 +2216,7 @@ SCF iter=11: RMS density=0.000000630875852
 	Transition dipole moment:	0 -> 4		-1.851447e-03	1.971009e-02	3.448979e-02	3.976759e-02		-4.705911e-03	5.009807e-02	8.766432e-02	1.010792e-01
 
 
-	Elapsed time(omp) for the CIS = 0.202851[s].
+	Elapsed time(omp) for the CIS = 0.653723[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2234,19 +2234,19 @@ SCF iter=11: RMS density=0.000000630875852
 ==========  START: RPMD step 4
 ----------  Beads number 0
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.725424707932169
-SCF iter=1: RMS density=1.864479400694655
-SCF iter=2: RMS density=0.993750354825593
-SCF iter=3: RMS density=0.533241031275541
-SCF iter=4: RMS density=0.285222860269819
-SCF iter=5: RMS density=0.152161016968837
-SCF iter=6: RMS density=0.000691345906652
-SCF iter=7: RMS density=0.000221260624635
-SCF iter=8: RMS density=0.000073614901445
-SCF iter=9: RMS density=0.000026865236215
-SCF iter=10: RMS density=0.000004798960507
-SCF iter=11: RMS density=0.000002045240369
-SCF iter=12: RMS density=0.000000161508381
+	SCF iter 0:	RMS density = 3.725424707932167	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.864479400694655	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.993750354825590	DIIS error = 3.769433e-01
+	SCF iter 3:	RMS density = 0.533241031275541	DIIS error = 2.656321e-01
+	SCF iter 4:	RMS density = 0.285222860269818	DIIS error = 1.600071e-01
+	SCF iter 5:	RMS density = 0.152161016968838	DIIS error = 8.772406e-02
+	SCF iter 6:	RMS density = 0.000691345906656	DIIS error = 4.691118e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000221260624724	DIIS error = 2.703993e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000073614901415	DIIS error = 9.305990e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000026865236236	DIIS error = 3.066103e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000004798960486	DIIS error = 9.293742e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002045240369	DIIS error = 1.974859e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000161508383	DIIS error = 7.351614e-07 (DIIS was applied)
 
 
 
@@ -2295,13 +2295,13 @@ SCF iter=12: RMS density=0.000000161508381
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795329e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.334472e-02
 
-	Elapsed time(omp) for the SCF = 0.034295[s].
+	Elapsed time(omp) for the SCF = 0.083628[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.056002[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.121146[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2406,25 +2406,25 @@ SCF iter=12: RMS density=0.000000161508381
 	Transition dipole moment:	0 -> 4		9.333380e-03	3.220860e-02	1.257672e-01	1.301610e-01		2.372309e-02	8.186612e-02	3.196684e-01	3.308364e-01
 
 
-	Elapsed time(omp) for the CIS = 0.206134[s].
+	Elapsed time(omp) for the CIS = 0.554612[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 1
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.726827230561429
-SCF iter=1: RMS density=1.866098114113047
-SCF iter=2: RMS density=0.994565051368740
-SCF iter=3: RMS density=0.533369193192868
-SCF iter=4: RMS density=0.285081265262906
-SCF iter=5: RMS density=0.151962791240177
-SCF iter=6: RMS density=0.000732414583253
-SCF iter=7: RMS density=0.000248470127286
-SCF iter=8: RMS density=0.000081327810012
-SCF iter=9: RMS density=0.000028833328426
-SCF iter=10: RMS density=0.000005632623549
-SCF iter=11: RMS density=0.000002227578556
-SCF iter=12: RMS density=0.000000146841933
+	SCF iter 0:	RMS density = 3.726827230561435	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866098114113048	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994565051368738	DIIS error = 3.778058e-01
+	SCF iter 3:	RMS density = 0.533369193192869	DIIS error = 2.656292e-01
+	SCF iter 4:	RMS density = 0.285081265262905	DIIS error = 1.595993e-01
+	SCF iter 5:	RMS density = 0.151962791240179	DIIS error = 8.756144e-02
+	SCF iter 6:	RMS density = 0.000732414583268	DIIS error = 4.683027e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000248470127256	DIIS error = 2.975361e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000081327809975	DIIS error = 1.072978e-04 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000028833328461	DIIS error = 3.390654e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000005632623551	DIIS error = 1.026532e-05 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002227578556	DIIS error = 1.922972e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000146841934	DIIS error = 6.640629e-07 (DIIS was applied)
 
 
 
@@ -2473,13 +2473,13 @@ SCF iter=12: RMS density=0.000000146841933
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.974758e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.208460e-02
 
-	Elapsed time(omp) for the SCF = 0.033998[s].
+	Elapsed time(omp) for the SCF = 0.106594[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055166[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.155649[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2578,24 +2578,24 @@ SCF iter=12: RMS density=0.000000146841933
 	Transition dipole moment:	0 -> 4		1.066100e-03	-1.092608e-01	-1.459990e-01	1.823589e-01		2.709757e-03	-2.777133e-01	-3.710926e-01	4.635102e-01
 
 
-	Elapsed time(omp) for the CIS = 0.173248[s].
+	Elapsed time(omp) for the CIS = 0.500573[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 2
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.727069901159769
-SCF iter=1: RMS density=1.866556917766525
-SCF iter=2: RMS density=0.994636922953191
-SCF iter=3: RMS density=0.533361066717668
-SCF iter=4: RMS density=0.285040162396180
-SCF iter=5: RMS density=0.151912858851721
-SCF iter=6: RMS density=0.000586444097598
-SCF iter=7: RMS density=0.000157651894544
-SCF iter=8: RMS density=0.000043428363863
-SCF iter=9: RMS density=0.000012543149358
-SCF iter=10: RMS density=0.000001341026006
-SCF iter=11: RMS density=0.000000626826376
+	SCF iter 0:	RMS density = 3.727069901159771	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866556917766527	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994636922953193	DIIS error = 3.771850e-01
+	SCF iter 3:	RMS density = 0.533361066717669	DIIS error = 2.646280e-01
+	SCF iter 4:	RMS density = 0.285040162396180	DIIS error = 1.598534e-01
+	SCF iter 5:	RMS density = 0.151912858851720	DIIS error = 8.721109e-02
+	SCF iter 6:	RMS density = 0.000586444097598	DIIS error = 4.650543e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000157651894570	DIIS error = 1.689547e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000043428363942	DIIS error = 5.300000e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000012543149382	DIIS error = 1.884415e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000001341025889	DIIS error = 5.014884e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000000626826375	DIIS error = 3.978362e-07 (DIIS was applied)
 
 
 
@@ -2644,13 +2644,13 @@ SCF iter=11: RMS density=0.000000626826376
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.763352e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.253971e-02
 
-	Elapsed time(omp) for the SCF = 0.033740[s].
+	Elapsed time(omp) for the SCF = 0.103598[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055779[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.154697[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2717,7 +2717,7 @@ SCF iter=11: RMS density=0.000000626826376
 	Davidson iter=10
 	  1-th excited: norm of the residual = 1.685590e-07
 	  2-th excited: norm of the residual = 4.609587e-08
-	  3-th excited: norm of the residual = 1.545787e-08
+	  3-th excited: norm of the residual = 1.545788e-08
 	  4-th excited: norm of the residual = 3.043862e-08
 
 
@@ -2755,7 +2755,7 @@ SCF iter=11: RMS density=0.000000626826376
 	Transition dipole moment:	0 -> 4		-1.850753e-03	1.967497e-02	3.452116e-02	3.977739e-02		-4.704145e-03	5.000880e-02	8.774406e-02	1.011041e-01
 
 
-	Elapsed time(omp) for the CIS = 0.203755[s].
+	Elapsed time(omp) for the CIS = 0.593497[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2766,26 +2766,26 @@ SCF iter=11: RMS density=0.000000626826376
 		Electronic
 		(inc. core rep.)	-3.606219e+01	-9.813099e+02
 		Total            	-3.606195e+01	-9.813036e+02
-		Error            	1.000281e-09	2.721924e-08
+		Error            	1.000259e-09	2.721866e-08
 
 ==========  DONE: RPMD step 4
 
 ==========  START: RPMD step 5
 ----------  Beads number 0
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.725459516401911
-SCF iter=1: RMS density=1.864546663838095
-SCF iter=2: RMS density=0.993772165223332
-SCF iter=3: RMS density=0.533239809441031
-SCF iter=4: RMS density=0.285214491233129
-SCF iter=5: RMS density=0.152152206157055
-SCF iter=6: RMS density=0.000690819911118
-SCF iter=7: RMS density=0.000221073523558
-SCF iter=8: RMS density=0.000073563213872
-SCF iter=9: RMS density=0.000026850054854
-SCF iter=10: RMS density=0.000004792469541
-SCF iter=11: RMS density=0.000002042997877
-SCF iter=12: RMS density=0.000000161579114
+	SCF iter 0:	RMS density = 3.725459516401909	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.864546663838095	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.993772165223330	DIIS error = 3.769555e-01
+	SCF iter 3:	RMS density = 0.533239809441029	DIIS error = 2.656346e-01
+	SCF iter 4:	RMS density = 0.285214491233131	DIIS error = 1.600063e-01
+	SCF iter 5:	RMS density = 0.152152206157055	DIIS error = 8.772086e-02
+	SCF iter 6:	RMS density = 0.000690819911117	DIIS error = 4.690799e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000221073523488	DIIS error = 2.701614e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000073563213898	DIIS error = 9.306186e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000026850054844	DIIS error = 3.064094e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000004792469580	DIIS error = 9.287535e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002042997878	DIIS error = 1.970948e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000161579113	DIIS error = 7.341054e-07 (DIIS was applied)
 
 
 
@@ -2834,13 +2834,13 @@ SCF iter=12: RMS density=0.000000161579114
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.794700e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.334071e-02
 
-	Elapsed time(omp) for the SCF = 0.034324[s].
+	Elapsed time(omp) for the SCF = 0.087275[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055142[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.124643[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2945,25 +2945,25 @@ SCF iter=12: RMS density=0.000000161579114
 	Transition dipole moment:	0 -> 4		9.302840e-03	3.227512e-02	1.256669e-01	1.300784e-01		2.364547e-02	8.203519e-02	3.194134e-01	3.306264e-01
 
 
-	Elapsed time(omp) for the CIS = 0.205358[s].
+	Elapsed time(omp) for the CIS = 0.476729[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 1
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.726859026351820
-SCF iter=1: RMS density=1.866159823713994
-SCF iter=2: RMS density=0.994584990786433
-SCF iter=3: RMS density=0.533367900417263
-SCF iter=4: RMS density=0.285073427062355
-SCF iter=5: RMS density=0.151954592905246
-SCF iter=6: RMS density=0.000731760286279
-SCF iter=7: RMS density=0.000248197333318
-SCF iter=8: RMS density=0.000081249599409
-SCF iter=9: RMS density=0.000028808348756
-SCF iter=10: RMS density=0.000005624508694
-SCF iter=11: RMS density=0.000002225641054
-SCF iter=12: RMS density=0.000000146663249
+	SCF iter 0:	RMS density = 3.726859026351822	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866159823713994	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994584990786433	DIIS error = 3.778160e-01
+	SCF iter 3:	RMS density = 0.533367900417261	DIIS error = 2.656319e-01
+	SCF iter 4:	RMS density = 0.285073427062354	DIIS error = 1.595985e-01
+	SCF iter 5:	RMS density = 0.151954592905246	DIIS error = 8.755801e-02
+	SCF iter 6:	RMS density = 0.000731760286275	DIIS error = 4.682684e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000248197333291	DIIS error = 2.973084e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000081249599400	DIIS error = 1.072286e-04 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000028808348785	DIIS error = 3.387317e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000005624508661	DIIS error = 1.025463e-05 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002225641057	DIIS error = 1.919341e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000146663249	DIIS error = 6.634682e-07 (DIIS was applied)
 
 
 
@@ -3012,13 +3012,13 @@ SCF iter=12: RMS density=0.000000146663249
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.974326e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.207976e-02
 
-	Elapsed time(omp) for the SCF = 0.033877[s].
+	Elapsed time(omp) for the SCF = 0.084778[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055604[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.124488[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -3117,24 +3117,24 @@ SCF iter=12: RMS density=0.000000146663249
 	Transition dipole moment:	0 -> 4		1.035142e-03	-1.092181e-01	-1.458584e-01	1.822206e-01		2.631068e-03	-2.776049e-01	-3.707352e-01	4.631587e-01
 
 
-	Elapsed time(omp) for the CIS = 0.194140[s].
+	Elapsed time(omp) for the CIS = 0.398179[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
 ----------  Beads number 2
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=3.727100582044259
-SCF iter=1: RMS density=1.866617336713399
-SCF iter=2: RMS density=0.994656186408328
-SCF iter=3: RMS density=0.533359648897464
-SCF iter=4: RMS density=0.285032441001975
-SCF iter=5: RMS density=0.151904834961093
-SCF iter=6: RMS density=0.000585988519487
-SCF iter=7: RMS density=0.000157477491599
-SCF iter=8: RMS density=0.000043366231426
-SCF iter=9: RMS density=0.000012516332000
-SCF iter=10: RMS density=0.000001333495033
-SCF iter=11: RMS density=0.000000621620590
+	SCF iter 0:	RMS density = 3.727100582044259	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.866617336713399	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.994656186408328	DIIS error = 3.771956e-01
+	SCF iter 3:	RMS density = 0.533359648897466	DIIS error = 2.646321e-01
+	SCF iter 4:	RMS density = 0.285032441001976	DIIS error = 1.598526e-01
+	SCF iter 5:	RMS density = 0.151904834961093	DIIS error = 8.720875e-02
+	SCF iter 6:	RMS density = 0.000585988519488	DIIS error = 4.650137e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000157477491603	DIIS error = 1.687414e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000043366231349	DIIS error = 5.301005e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000012516331990	DIIS error = 1.880208e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000001333495045	DIIS error = 4.999380e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000000621620591	DIIS error = 3.954154e-07 (DIIS was applied)
 
 
 
@@ -3183,13 +3183,13 @@ SCF iter=11: RMS density=0.000000621620590
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.762927e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.253530e-02
 
-	Elapsed time(omp) for the SCF = 0.033725[s].
+	Elapsed time(omp) for the SCF = 0.083085[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055438[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.122728[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -3294,7 +3294,7 @@ SCF iter=11: RMS density=0.000000621620590
 	Transition dipole moment:	0 -> 4		-1.849874e-03	1.962987e-02	3.456153e-02	3.979012e-02		-4.701911e-03	4.989416e-02	8.784668e-02	1.011364e-01
 
 
-	Elapsed time(omp) for the CIS = 0.203514[s].
+	Elapsed time(omp) for the CIS = 0.464671[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -3305,19 +3305,19 @@ SCF iter=11: RMS density=0.000000621620590
 		Electronic
 		(inc. core rep.)	-3.606223e+01	-9.813110e+02
 		Total            	-3.606195e+01	-9.813036e+02
-		Error            	1.694481e-09	4.610954e-08
+		Error            	1.694460e-09	4.610896e-08
 
 ==========  DONE: RPMD step 5
 **********  DONE: Ring Polymer Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.923436[MB].
+		Max Heap: 1.039280[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 23.77[s].  <<<<<
-     >>>>>  Elapsed time: 24[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 23.8362[s].  <<<<<
+     >>>>>  CPU time: 56.85[s].  <<<<<
+     >>>>>  Elapsed time: 57[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 56.9834[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

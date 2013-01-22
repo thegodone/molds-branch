@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:41  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:0:18  <<<<<
 
 
 **********  START: Parse input  **********
@@ -59,18 +59,18 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
 **********  START: AM1-SCF  **********
-SCF iter=0: RMS density=5.291502622129176
-SCF iter=1: RMS density=2.251392923186922
-SCF iter=2: RMS density=1.066360223936913
-SCF iter=3: RMS density=0.485163652173430
-SCF iter=4: RMS density=0.221525604336856
-SCF iter=5: RMS density=0.101527699951396
-SCF iter=6: RMS density=0.000475612652632
-SCF iter=7: RMS density=0.000114151272436
-SCF iter=8: RMS density=0.000045086399345
-SCF iter=9: RMS density=0.000008220727841
-SCF iter=10: RMS density=0.000002287341938
-SCF iter=11: RMS density=0.000000372121779
+	SCF iter 0:	RMS density = 5.291502622129176	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 2.251392923186921	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 1.066360223936911	DIIS error = 4.486968e-01
+	SCF iter 3:	RMS density = 0.485163652173430	DIIS error = 3.048606e-01
+	SCF iter 4:	RMS density = 0.221525604336855	DIIS error = 1.511189e-01
+	SCF iter 5:	RMS density = 0.101527699951397	DIIS error = 6.936625e-02
+	SCF iter 6:	RMS density = 0.000475612652619	DIIS error = 3.152567e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000114151272528	DIIS error = 1.834498e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000045086399379	DIIS error = 4.045270e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000008220727843	DIIS error = 1.421681e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000002287341903	DIIS error = 2.527351e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000000372121787	DIIS error = 6.934143e-07 (DIIS was applied)
 
 
 
@@ -119,13 +119,13 @@ SCF iter=11: RMS density=0.000000372121779
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029841e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579838e-02
 
-	Elapsed time(omp) for the SCF = 0.049746[s].
+	Elapsed time(omp) for the SCF = 0.074006[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055928[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.114472[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -340,19 +340,19 @@ SCF iter=11: RMS density=0.000000372121779
 	Transition dipole moment:	0 -> 49		-5.633091e-03	6.752569e-03	2.285303e-03	9.085786e-03		-1.431789e-02	1.716332e-02	5.808661e-03	2.309377e-02
 
 
-	Elapsed time(omp) for the CIS = 0.131366[s].
+	Elapsed time(omp) for the CIS = 0.355224[s].
 **********  DONE: AM1-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.262208[MB].
+		Max Heap: 0.296152[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.2[s].  <<<<<
+     >>>>>  CPU time: 0.44[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.21087[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.435171[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

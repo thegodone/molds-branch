@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:44:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:1:34  <<<<<
 
 
 **********  START: Parse input  **********
@@ -59,19 +59,19 @@ h | -0.3681 | -0.4725 | 0.8016 | h | 1.9519 | 0.5200 | -0.9007 | h | 1.8519 |
 
 **********  START: Geometry optimization  **********
 **********  START: PM3/PDDG-SCF  **********
-SCF iter=0: RMS density=5.291502622129184
-SCF iter=1: RMS density=1.776302500713477
-SCF iter=2: RMS density=0.953825787215979
-SCF iter=3: RMS density=0.523019383342596
-SCF iter=4: RMS density=0.287694781515639
-SCF iter=5: RMS density=0.158473555927061
-SCF iter=6: RMS density=0.001365259404965
-SCF iter=7: RMS density=0.000269846866975
-SCF iter=8: RMS density=0.000098252575194
-SCF iter=9: RMS density=0.000042078671256
-SCF iter=10: RMS density=0.000013333148837
-SCF iter=11: RMS density=0.000002624318416
-SCF iter=12: RMS density=0.000000435961070
+	SCF iter 0:	RMS density = 5.291502622129186	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.776302500713477	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.953825787215980	DIIS error = 3.625677e-01
+	SCF iter 3:	RMS density = 0.523019383342595	DIIS error = 2.567713e-01
+	SCF iter 4:	RMS density = 0.287694781515640	DIIS error = 1.606437e-01
+	SCF iter 5:	RMS density = 0.158473555927059	DIIS error = 9.305247e-02
+	SCF iter 6:	RMS density = 0.001365259404954	DIIS error = 5.212422e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000269846866896	DIIS error = 4.457894e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000098252575154	DIIS error = 1.028232e-04 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000042078671245	DIIS error = 3.499462e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000013333148836	DIIS error = 1.153050e-05 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002624318415	DIIS error = 4.663702e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000435961069	DIIS error = 7.234132e-07 (DIIS was applied)
 
 
 
@@ -120,7 +120,7 @@ SCF iter=12: RMS density=0.000000435961070
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	9.774623e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.088898e-01
 
-	Elapsed time(omp) for the SCF = 0.046235[s].
+	Elapsed time(omp) for the SCF = 0.090008[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1362,7 +1362,7 @@ SCF iter=12: RMS density=0.000000435961070
 	Total Dipole moment(SCF):	-4.678187e-04	7.772591e-03	-2.842268e-05	7.786708e-03		-1.189077e-03	1.975596e-02	-7.224327e-05	1.979184e-02
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Electronic Dipole moment(SCF):	4.650243e-04	2.053091e-02	-1.145956e-03	2.056812e-02		1.181974e-03	5.218437e-02	-2.912731e-03	5.227896e-02
+	Electronic Dipole moment(SCF):	4.650242e-04	2.053091e-02	-1.145956e-03	2.056812e-02		1.181974e-03	5.218437e-02	-2.912731e-03	5.227896e-02
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-9.328430e-04	-1.275832e-02	1.117534e-03	1.284110e-02		-2.371051e-03	-3.242841e-02	2.840488e-03	3.263881e-02
@@ -1729,7 +1729,7 @@ SCF iter=12: RMS density=0.000000435961070
 
 
 	====== Optimization Logs ======
-	Energy difference:  -9.291859e-07 [a.u.]
+	Energy difference:  -9.291858e-07 [a.u.]
 	Max gradient:  3.415713e-04 [a.u.]
 	Rms gradient:  1.493324e-04 [a.u.]
 
@@ -1739,14 +1739,14 @@ SCF iter=12: RMS density=0.000000435961070
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.192268[MB].
+		Max Heap: 0.216056[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 9.67[s].  <<<<<
-     >>>>>  Elapsed time: 10[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 9.70077[s].  <<<<<
+     >>>>>  CPU time: 16.81[s].  <<<<<
+     >>>>>  Elapsed time: 17[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 16.8566[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

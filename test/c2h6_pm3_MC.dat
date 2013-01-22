@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:44:33  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:1:59  <<<<<
 
 
 **********  START: Parse input  **********
@@ -58,19 +58,19 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 
 **********  START: Monte Carlo  **********
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=5.291502622129181
-SCF iter=1: RMS density=1.910456125626943
-SCF iter=2: RMS density=1.044203238495391
-SCF iter=3: RMS density=0.569275110921829
-SCF iter=4: RMS density=0.308641545774631
-SCF iter=5: RMS density=0.166813060251974
-SCF iter=6: RMS density=0.000657312351885
-SCF iter=7: RMS density=0.000224796079703
-SCF iter=8: RMS density=0.000083564976884
-SCF iter=9: RMS density=0.000026986732816
-SCF iter=10: RMS density=0.000004938275875
-SCF iter=11: RMS density=0.000002003884716
-SCF iter=12: RMS density=0.000000169506347
+	SCF iter 0:	RMS density = 5.291502622129181	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.910456125626944	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 1.044203238495391	DIIS error = 3.872759e-01
+	SCF iter 3:	RMS density = 0.569275110921829	DIIS error = 2.820935e-01
+	SCF iter 4:	RMS density = 0.308641545774630	DIIS error = 1.728758e-01
+	SCF iter 5:	RMS density = 0.166813060251974	DIIS error = 9.584873e-02
+	SCF iter 6:	RMS density = 0.000657312351883	DIIS error = 5.177961e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000224796079651	DIIS error = 2.374135e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000083564976938	DIIS error = 9.666685e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000026986732811	DIIS error = 3.256104e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000004938275868	DIIS error = 8.689524e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002003884715	DIIS error = 1.920254e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000169506345	DIIS error = 7.444364e-07 (DIIS was applied)
 
 
 
@@ -119,7 +119,7 @@ SCF iter=12: RMS density=0.000000169506347
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744313e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258006e-02
 
-	Elapsed time(omp) for the SCF = 0.053801[s].
+	Elapsed time(omp) for the SCF = 0.057226[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -148,19 +148,19 @@ SCF iter=12: RMS density=0.000000169506347
 	========== START: MC step 1
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=5.291502622129181
-SCF iter=1: RMS density=1.903193717221935
-SCF iter=2: RMS density=1.041663226876398
-SCF iter=3: RMS density=0.569732144751598
-SCF iter=4: RMS density=0.310012794711906
-SCF iter=5: RMS density=0.168187496154966
-SCF iter=6: RMS density=0.000957818190236
-SCF iter=7: RMS density=0.000407933075982
-SCF iter=8: RMS density=0.000143630981199
-SCF iter=9: RMS density=0.000046259144687
-SCF iter=10: RMS density=0.000008336690895
-SCF iter=11: RMS density=0.000002748787967
-SCF iter=12: RMS density=0.000000330165339
+	SCF iter 0:	RMS density = 5.291502622129180	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.903193717221936	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 1.041663226876396	DIIS error = 3.871061e-01
+	SCF iter 3:	RMS density = 0.569732144751597	DIIS error = 2.820950e-01
+	SCF iter 4:	RMS density = 0.310012794711906	DIIS error = 1.728840e-01
+	SCF iter 5:	RMS density = 0.168187496154967	DIIS error = 9.665312e-02
+	SCF iter 6:	RMS density = 0.000957818190242	DIIS error = 5.272528e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000407933075940	DIIS error = 3.670312e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000143630981115	DIIS error = 1.538047e-04 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000046259144693	DIIS error = 5.654721e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000008336690910	DIIS error = 1.630998e-05 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002748787968	DIIS error = 2.940885e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000330165342	DIIS error = 8.237245e-07 (DIIS was applied)
 
 
 
@@ -209,7 +209,7 @@ SCF iter=12: RMS density=0.000000330165339
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.876166e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.011921e-02
 
-	Elapsed time(omp) for the SCF = 0.034520[s].
+	Elapsed time(omp) for the SCF = 0.035189[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -238,14 +238,14 @@ SCF iter=12: RMS density=0.000000330165339
 	========== START: MC step 2
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.020355665157566
-SCF iter=1: RMS density=0.007503243042570
-SCF iter=2: RMS density=0.003176480683967
-SCF iter=3: RMS density=0.001440267560209
-SCF iter=4: RMS density=0.000674519468047
-SCF iter=5: RMS density=0.000321084866702
-SCF iter=6: RMS density=0.000001271065995
-SCF iter=7: RMS density=0.000000485534184
+	SCF iter 0:	RMS density = 0.020355665157565	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.007503243042569	DIIS error = 6.024593e-03
+	SCF iter 2:	RMS density = 0.003176480683968	DIIS error = 2.220077e-03
+	SCF iter 3:	RMS density = 0.001440267560209	DIIS error = 9.255714e-04
+	SCF iter 4:	RMS density = 0.000674519468048	DIIS error = 4.061504e-04
+	SCF iter 5:	RMS density = 0.000321084866702	DIIS error = 1.839750e-04
+	SCF iter 6:	RMS density = 0.000001271065998	DIIS error = 8.497134e-05 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000000485534182	DIIS error = 4.217470e-07 (DIIS was applied)
 
 
 
@@ -294,7 +294,7 @@ SCF iter=7: RMS density=0.000000485534184
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.956646e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.000530e-02
 
-	Elapsed time(omp) for the SCF = 0.033726[s].
+	Elapsed time(omp) for the SCF = 0.026309[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -323,15 +323,15 @@ SCF iter=7: RMS density=0.000000485534184
 	========== START: MC step 3
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.020596390769111
-SCF iter=1: RMS density=0.007676171339015
-SCF iter=2: RMS density=0.003342643776384
-SCF iter=3: RMS density=0.001548654762877
-SCF iter=4: RMS density=0.000735218163392
-SCF iter=5: RMS density=0.000353116741402
-SCF iter=6: RMS density=0.000003103492143
-SCF iter=7: RMS density=0.000001034361783
-SCF iter=8: RMS density=0.000000255221983
+	SCF iter 0:	RMS density = 0.020596390769112	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.007676171339015	DIIS error = 5.255096e-03
+	SCF iter 2:	RMS density = 0.003342643776383	DIIS error = 2.197521e-03
+	SCF iter 3:	RMS density = 0.001548654762876	DIIS error = 9.732759e-04
+	SCF iter 4:	RMS density = 0.000735218163392	DIIS error = 4.453549e-04
+	SCF iter 5:	RMS density = 0.000353116741402	DIIS error = 2.076306e-04
+	SCF iter 6:	RMS density = 0.000003103492121	DIIS error = 9.786014e-05 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000001034361782	DIIS error = 1.087808e-06 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000000255221982	DIIS error = 3.672540e-07 (DIIS was applied)
 
 
 
@@ -380,7 +380,7 @@ SCF iter=8: RMS density=0.000000255221983
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.860427e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.015956e-02
 
-	Elapsed time(omp) for the SCF = 0.033493[s].
+	Elapsed time(omp) for the SCF = 0.026213[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -409,14 +409,14 @@ SCF iter=8: RMS density=0.000000255221983
 	========== START: MC step 4
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.022984626077746
-SCF iter=1: RMS density=0.006752398483274
-SCF iter=2: RMS density=0.002524255514432
-SCF iter=3: RMS density=0.001093924913864
-SCF iter=4: RMS density=0.000506088266003
-SCF iter=5: RMS density=0.000240432199604
-SCF iter=6: RMS density=0.000001536771301
-SCF iter=7: RMS density=0.000000626265063
+	SCF iter 0:	RMS density = 0.022984626077747	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.006752398483274	DIIS error = 6.371355e-03
+	SCF iter 2:	RMS density = 0.002524255514432	DIIS error = 2.241355e-03
+	SCF iter 3:	RMS density = 0.001093924913865	DIIS error = 8.892853e-04
+	SCF iter 4:	RMS density = 0.000506088266002	DIIS error = 3.827099e-04
+	SCF iter 5:	RMS density = 0.000240432199603	DIIS error = 1.790845e-04
+	SCF iter 6:	RMS density = 0.000001536771298	DIIS error = 8.528775e-05 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000000626265065	DIIS error = 5.395922e-07 (DIIS was applied)
 
 
 
@@ -465,7 +465,7 @@ SCF iter=7: RMS density=0.000000626265063
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.881106e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.017300e-02
 
-	Elapsed time(omp) for the SCF = 0.033355[s].
+	Elapsed time(omp) for the SCF = 0.025137[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -494,14 +494,14 @@ SCF iter=7: RMS density=0.000000626265063
 	========== START: MC step 5
 
 **********  START: PM3-SCF  **********
-SCF iter=0: RMS density=0.018179349495263
-SCF iter=1: RMS density=0.004842607767375
-SCF iter=2: RMS density=0.001642750972961
-SCF iter=3: RMS density=0.000677545461652
-SCF iter=4: RMS density=0.000312441401530
-SCF iter=5: RMS density=0.000152320438789
-SCF iter=6: RMS density=0.000002854282062
-SCF iter=7: RMS density=0.000000877371489
+	SCF iter 0:	RMS density = 0.018179349495263	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.004842607767374	DIIS error = 5.803270e-03
+	SCF iter 2:	RMS density = 0.001642750972961	DIIS error = 1.555085e-03
+	SCF iter 3:	RMS density = 0.000677545461652	DIIS error = 4.708636e-04
+	SCF iter 4:	RMS density = 0.000312441401529	DIIS error = 1.610240e-04
+	SCF iter 5:	RMS density = 0.000152320438789	DIIS error = 9.242671e-05
+	SCF iter 6:	RMS density = 0.000002854282062	DIIS error = 5.250628e-05 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000000877371491	DIIS error = 1.127299e-06 (DIIS was applied)
 
 
 
@@ -550,7 +550,7 @@ SCF iter=7: RMS density=0.000000877371489
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.903480e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	3.977403e-02
 
-	Elapsed time(omp) for the SCF = 0.033705[s].
+	Elapsed time(omp) for the SCF = 0.026232[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -580,14 +580,14 @@ SCF iter=7: RMS density=0.000000877371489
 **********  DONE: Monte Carlo  **********
 
 	Summary for memory usage:
-		Max Heap: 0.360880[MB].
+		Max Heap: 0.407536[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.26[s].  <<<<<
+     >>>>>  CPU time: 0.19[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.256456[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.201976[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

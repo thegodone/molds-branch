@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:31  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 6:59:59  <<<<<
 
 
 **********  START: Parse input  **********
@@ -66,18 +66,18 @@ geometry_end |
 
 **********  START: Molecular dynamics  **********
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=5.291502622129181
-SCF iter=1: RMS density=2.406832383581161
-SCF iter=2: RMS density=1.097693927705069
-SCF iter=3: RMS density=0.485996526273500
-SCF iter=4: RMS density=0.217393982341886
-SCF iter=5: RMS density=0.097852276195714
-SCF iter=6: RMS density=0.000404257452990
-SCF iter=7: RMS density=0.000094990568101
-SCF iter=8: RMS density=0.000036084327894
-SCF iter=9: RMS density=0.000007701726077
-SCF iter=10: RMS density=0.000002052101670
-SCF iter=11: RMS density=0.000000358204691
+	SCF iter 0:	RMS density = 5.291502622129183	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 2.406832383581160	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 1.097693927705067	DIIS error = 4.723847e-01
+	SCF iter 3:	RMS density = 0.485996526273501	DIIS error = 3.319511e-01
+	SCF iter 4:	RMS density = 0.217393982341886	DIIS error = 1.561359e-01
+	SCF iter 5:	RMS density = 0.097852276195713	DIIS error = 6.958212e-02
+	SCF iter 6:	RMS density = 0.000404257452980	DIIS error = 3.100177e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000094990567940	DIIS error = 1.543428e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000036084327876	DIIS error = 3.755984e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000007701726068	DIIS error = 1.213723e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000002052101669	DIIS error = 1.993647e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000000358204692	DIIS error = 6.113071e-07 (DIIS was applied)
 
 
 
@@ -129,13 +129,13 @@ SCF iter=11: RMS density=0.000000358204691
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.046528[s].
+	Elapsed time(omp) for the SCF = 0.064712[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055397[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.079866[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -350,7 +350,7 @@ SCF iter=11: RMS density=0.000000358204691
 	Transition dipole moment:	0 -> 49		7.218388e-03	6.059728e-03	2.367815e-03	9.717611e-03		1.834732e-02	1.540229e-02	6.018388e-03	2.469971e-02
 
 
-	Elapsed time(omp) for the CIS = 0.130984[s].
+	Elapsed time(omp) for the CIS = 0.195096[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -393,10 +393,10 @@ SCF iter=11: RMS density=0.000000358204691
 
 	========== START: MD step 1
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000019883413073
-SCF iter=1: RMS density=0.000006027131441
-SCF iter=2: RMS density=0.000002054138266
-SCF iter=3: RMS density=0.000000754773589
+	SCF iter 0:	RMS density = 0.000019883413074	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.000006027131441	DIIS error = 5.011519e-06
+	SCF iter 2:	RMS density = 0.000002054138267	DIIS error = 1.627997e-06
+	SCF iter 3:	RMS density = 0.000000754773590	DIIS error = 5.446916e-07
 
 
 
@@ -448,13 +448,13 @@ SCF iter=3: RMS density=0.000000754773589
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736965e-02	-1.717471e+01
 
-	Elapsed time(omp) for the SCF = 0.032052[s].
+	Elapsed time(omp) for the SCF = 0.097717[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055513[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.155918[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -669,7 +669,7 @@ SCF iter=3: RMS density=0.000000754773589
 	Transition dipole moment:	0 -> 49		7.212613e-03	6.058665e-03	2.367325e-03	9.712540e-03		1.833264e-02	1.539959e-02	6.017142e-03	2.468682e-02
 
 
-	Elapsed time(omp) for the CIS = 0.129498[s].
+	Elapsed time(omp) for the CIS = 0.394614[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -680,7 +680,7 @@ SCF iter=3: RMS density=0.000000754773589
 		Electronic
 		(inc. core rep.):	-1.225091e+01	-3.333670e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	-5.259706e-09	-1.431250e-07
+		Error:            	-5.259734e-09	-1.431258e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	5.629569e-06	3.779274e-02	-1.975689e-07		2.979039e-06	1.999906e-02	-1.045490e-07
@@ -713,11 +713,11 @@ SCF iter=3: RMS density=0.000000754773589
 
 	========== START: MD step 2
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000059688819490
-SCF iter=1: RMS density=0.000018105243073
-SCF iter=2: RMS density=0.000006173798243
-SCF iter=3: RMS density=0.000002269190385
-SCF iter=4: RMS density=0.000000880710307
+	SCF iter 0:	RMS density = 0.000059688819489	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.000018105243074	DIIS error = 1.504622e-05
+	SCF iter 2:	RMS density = 0.000006173798243	DIIS error = 4.888426e-06
+	SCF iter 3:	RMS density = 0.000002269190385	DIIS error = 1.635784e-06
+	SCF iter 4:	RMS density = 0.000000880710306	DIIS error = 5.654134e-07
 
 
 
@@ -769,13 +769,13 @@ SCF iter=4: RMS density=0.000000880710307
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737462e-02	-1.717783e+01
 
-	Elapsed time(omp) for the SCF = 0.032341[s].
+	Elapsed time(omp) for the SCF = 0.076407[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055075[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.121563[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -990,7 +990,7 @@ SCF iter=4: RMS density=0.000000880710307
 	Transition dipole moment:	0 -> 49		7.196637e-03	6.055307e-03	2.365777e-03	9.698208e-03		1.829203e-02	1.539106e-02	6.013207e-03	2.465039e-02
 
 
-	Elapsed time(omp) for the CIS = 0.128705[s].
+	Elapsed time(omp) for the CIS = 0.411626[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1001,7 +1001,7 @@ SCF iter=4: RMS density=0.000000880710307
 		Electronic
 		(inc. core rep.):	-1.225093e+01	-3.333674e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	-2.813845e-09	-7.656924e-08
+		Error:            	-2.813859e-09	-7.656962e-08
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	2.251674e-05	3.778741e-02	-7.901874e-07		1.191534e-05	1.999623e-02	-4.181491e-07
@@ -1034,12 +1034,12 @@ SCF iter=4: RMS density=0.000000880710307
 
 	========== START: MD step 3
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000099316550510
-SCF iter=1: RMS density=0.000030114858303
-SCF iter=2: RMS density=0.000010266356305
-SCF iter=3: RMS density=0.000003772624778
-SCF iter=4: RMS density=0.000001463933857
-SCF iter=5: RMS density=0.000000593352777
+	SCF iter 0:	RMS density = 0.000099316550511	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.000030114858302	DIIS error = 2.503016e-05
+	SCF iter 2:	RMS density = 0.000010266356305	DIIS error = 8.131263e-06
+	SCF iter 3:	RMS density = 0.000003772624777	DIIS error = 2.720584e-06
+	SCF iter 4:	RMS density = 0.000001463933858	DIIS error = 9.402665e-07
+	SCF iter 5:	RMS density = 0.000000593352778	DIIS error = 3.350278e-07
 
 
 
@@ -1091,13 +1091,13 @@ SCF iter=5: RMS density=0.000000593352777
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738286e-02	-1.718300e+01
 
-	Elapsed time(omp) for the SCF = 0.033535[s].
+	Elapsed time(omp) for the SCF = 0.100336[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055215[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.156456[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1312,7 +1312,7 @@ SCF iter=5: RMS density=0.000000593352777
 	Transition dipole moment:	0 -> 49		7.170002e-03	6.049706e-03	2.363197e-03	9.674325e-03		1.822433e-02	1.537682e-02	6.006649e-03	2.458969e-02
 
 
-	Elapsed time(omp) for the CIS = 1.493627[s].
+	Elapsed time(omp) for the CIS = 0.394182[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1323,7 +1323,7 @@ SCF iter=5: RMS density=0.000000593352777
 		Electronic
 		(inc. core rep.):	-1.225095e+01	-3.333681e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	5.605550e-09	1.525360e-07
+		Error:            	5.605536e-09	1.525356e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	5.065692e-05	3.777851e-02	-1.777593e-06		2.680649e-05	1.999153e-02	-9.406618e-07
@@ -1356,12 +1356,12 @@ SCF iter=5: RMS density=0.000000593352777
 
 	========== START: MD step 4
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000138771223083
-SCF iter=1: RMS density=0.000042052627730
-SCF iter=2: RMS density=0.000014327427502
-SCF iter=3: RMS density=0.000005261786471
-SCF iter=4: RMS density=0.000002040544262
-SCF iter=5: RMS density=0.000000826577902
+	SCF iter 0:	RMS density = 0.000138771223083	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.000042052627730	DIIS error = 3.496641e-05
+	SCF iter 2:	RMS density = 0.000014327427502	DIIS error = 1.135664e-05
+	SCF iter 3:	RMS density = 0.000005261786471	DIIS error = 3.798807e-06
+	SCF iter 4:	RMS density = 0.000002040544262	DIIS error = 1.312578e-06
+	SCF iter 5:	RMS density = 0.000000826577903	DIIS error = 4.675651e-07
 
 
 
@@ -1413,13 +1413,13 @@ SCF iter=5: RMS density=0.000000826577902
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739430e-02	-1.719018e+01
 
-	Elapsed time(omp) for the SCF = 0.032600[s].
+	Elapsed time(omp) for the SCF = 0.123925[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055401[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.179569[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1634,7 +1634,7 @@ SCF iter=5: RMS density=0.000000826577902
 	Transition dipole moment:	0 -> 49		7.132744e-03	6.041873e-03	2.359587e-03	9.640950e-03		1.812963e-02	1.535691e-02	5.997473e-03	2.450485e-02
 
 
-	Elapsed time(omp) for the CIS = 0.128934[s].
+	Elapsed time(omp) for the CIS = 0.412683[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1645,7 +1645,7 @@ SCF iter=5: RMS density=0.000000826577902
 		Electronic
 		(inc. core rep.):	-1.225099e+01	-3.333690e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	1.006208e-08	2.738054e-07
+		Error:            	1.006208e-08	2.738053e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	9.004248e-05	3.776607e-02	-3.159351e-06		4.764843e-05	1.998495e-02	-1.671856e-06
@@ -1678,13 +1678,13 @@ SCF iter=5: RMS density=0.000000826577902
 
 	========== START: MD step 5
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=0.000178272456062
-SCF iter=1: RMS density=0.000054029949345
-SCF iter=2: RMS density=0.000018409465219
-SCF iter=3: RMS density=0.000006761008067
-SCF iter=4: RMS density=0.000002621853652
-SCF iter=5: RMS density=0.000001061977521
-SCF iter=6: RMS density=0.000000004595348
+	SCF iter 0:	RMS density = 0.000178272456061	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 0.000054029949345	DIIS error = 4.493013e-05
+	SCF iter 2:	RMS density = 0.000018409465220	DIIS error = 1.459296e-05
+	SCF iter 3:	RMS density = 0.000006761008066	DIIS error = 4.881388e-06
+	SCF iter 4:	RMS density = 0.000002621853652	DIIS error = 1.686627e-06
+	SCF iter 5:	RMS density = 0.000001061977522	DIIS error = 6.007989e-07
+	SCF iter 6:	RMS density = 0.000000004595347	DIIS error = 2.297787e-07 (DIIS was applied)
 
 
 
@@ -1736,13 +1736,13 @@ SCF iter=6: RMS density=0.000000004595348
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740883e-02	-1.719930e+01
 
-	Elapsed time(omp) for the SCF = 0.033276[s].
+	Elapsed time(omp) for the SCF = 0.100708[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.055558[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.156139[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1957,7 +1957,7 @@ SCF iter=6: RMS density=0.000000004595348
 	Transition dipole moment:	0 -> 49		7.084682e-03	6.031799e-03	2.354949e-03	9.597974e-03		1.800747e-02	1.533131e-02	5.985685e-03	2.439562e-02
 
 
-	Elapsed time(omp) for the CIS = 0.129266[s].
+	Elapsed time(omp) for the CIS = 0.448274[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1968,7 +1968,7 @@ SCF iter=6: RMS density=0.000000004595348
 		Electronic
 		(inc. core rep.):	-1.225103e+01	-3.333703e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	2.624771e-08	7.142423e-07
+		Error:            	2.624770e-08	7.142420e-07
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	1.406627e-04	3.775010e-02	-4.934851e-06		7.443549e-05	1.997649e-02	-2.611411e-06
@@ -2000,14 +2000,14 @@ SCF iter=6: RMS density=0.000000004595348
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.308432[MB].
+		Max Heap: 0.342384[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 3.7[s].  <<<<<
-     >>>>>  Elapsed time: 5[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 5.0563[s].  <<<<<
+     >>>>>  CPU time: 9.88[s].  <<<<<
+     >>>>>  Elapsed time: 9[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 9.96841[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

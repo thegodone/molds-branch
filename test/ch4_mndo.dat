@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2012/12/12(Wed.) 18:43:29  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 6:59:54  <<<<<
 
 
 **********  START: Parse input  **********
@@ -45,17 +45,17 @@ geometry_end |
 
 
 **********  START: MNDO-SCF  **********
-SCF iter=0: RMS density=4.000000000000000
-SCF iter=1: RMS density=1.793258457351114
-SCF iter=2: RMS density=0.903407246772068
-SCF iter=3: RMS density=0.450146321692658
-SCF iter=4: RMS density=0.224665008752335
-SCF iter=5: RMS density=0.112188252643855
-SCF iter=6: RMS density=0.000328729796625
-SCF iter=7: RMS density=0.000130814840432
-SCF iter=8: RMS density=0.000019805158616
-SCF iter=9: RMS density=0.000001034061617
-SCF iter=10: RMS density=0.000000304869355
+	SCF iter 0:	RMS density = 3.999999999999997	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.793258457351113	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 0.903407246772068	DIIS error = 4.644770e-01
+	SCF iter 3:	RMS density = 0.450146321692659	DIIS error = 3.225697e-01
+	SCF iter 4:	RMS density = 0.224665008752335	DIIS error = 1.794371e-01
+	SCF iter 5:	RMS density = 0.112188252643856	DIIS error = 9.143959e-02
+	SCF iter 6:	RMS density = 0.000328729796443	DIIS error = 4.577218e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000130814841097	DIIS error = 1.158381e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000019805159077	DIIS error = 5.289382e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000001034061603	DIIS error = 8.276981e-06 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000000304869338	DIIS error = 2.893488e-07 (DIIS was applied)
 
 
 
@@ -98,19 +98,19 @@ SCF iter=10: RMS density=0.000000304869355
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-1.457507e-02	-9.145991e+00
 
-	Elapsed time(omp) for the SCF = 0.031826[s].
+	Elapsed time(omp) for the SCF = 0.046913[s].
 **********  DONE: MNDO-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.075740[MB].
+		Max Heap: 0.085536[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 0.05[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0569968[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.051846[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
