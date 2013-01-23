@@ -375,4 +375,46 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
 #endif
 }
 
+// matrixC = matrixA*matrixA^T
+//    matrixA: n*k-matrix
+//    matrixC: n*n-matrix,symmetric (Use the upper triangular part, and copy it to the lower part.)
+void Blas::Dsyrk(molds_blas_int n, molds_blas_int k,
+                 double const* const* matrixA,
+                 double ** matrixC)const{
+   bool isMatrixATransposed = false;
+   bool isLowerTriangularPartMatrixCUsed = false;
+   double alpha = 1.0 , beta = 0.0;
+   this->Dsyrk(n, k, isMatrixATransposed, isLowerTriangularPartMatrixCUsed, alpha, matrixA, beta, matrixC);
+}
+
+// matrixC = alpha*matrixA*matrixA^T + beta*matrixC (isMatrixATransposed==false)
+//  or
+// matrixC = alpha*matrixA^T*matrixA + beta*matrixC (isMatrixATransposed==true)
+//    matrixA: n*k-matrix (isMatrixATransposed==false) or k*n-matrix (isMatrixATransposed==true)
+//    matrixC: n*n-matrix,symmetric (Use the upper triangular part, and copy it to the lower part.)
+void Blas::Dsyrk(molds_blas_int n, molds_blas_int k,
+                 bool isMatrixATransposed,
+                 bool isLowerTriangularPartMatrixCUsed,
+                 double alpha, double const* const* matrixA,
+                 double beta,  double ** matrixC)const{
+   double* c = &matrixC[0][0];
+   double* a = const_cast<double*>(&matrixA[0][0]);
+   CBLAS_UPLO uploC= isLowerTriangularPartMatrixCUsed ? CblasLower : CblasUpper;
+   CBLAS_TRANSPOSE transA= isMatrixATransposed ? CblasTrans : CblasNoTrans;
+   molds_blas_int lda = &matrixA[1][0] - &matrixA[0][0];
+   molds_blas_int ldc = &matrixC[1][0] - &matrixC[0][0];
+   cblas_dsyrk(CblasRowMajor, uploC, transA, n, k, alpha, a, lda, beta, c, ldc);
+#pragma omp parallel for schedule(auto)
+   for(molds_blas_int i=0;i<n;i++){
+      for(molds_blas_int j=i+1;j<n;j++){
+         if(isLowerTriangularPartMatrixCUsed){
+            matrixC[i][j] = matrixC[j][i];
+         }
+         else{
+            matrixC[j][i] = matrixC[i][j];
+         }
+      }
+   }
+}
+
 }

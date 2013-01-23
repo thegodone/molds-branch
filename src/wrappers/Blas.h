@@ -85,6 +85,14 @@ public:
               double const* const* matrixB,
               double beta,
               double**             matrixC) const;
+              void Dsyrk(molds_blas_int n, molds_blas_int k,
+                         double const *const* matrixA,
+                         double**             matrixC)const;
+              void Dsyrk(molds_blas_int n, molds_blas_int k,
+                         bool isMatrixATransposed,
+                         bool isLowerTriangularPartMatrixCUsed,
+                         double alpha, double const* const* matrixA,
+                         double beta,  double**             matrixC)const;
 private:
    Blas();
    ~Blas();
