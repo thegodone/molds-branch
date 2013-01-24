@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 #//************************************************************************//
 #// Copyright (C) 2011-2012 Mikiya Fujii                                   // 
-#// Copyright (C) 2012-2012 Katsuhiko Nishimra                             // 
+#// Copyright (C) 2012-2013 Katsuhiko Nishimra                             // 
 #//                                                                        // 
 #// This file is part of MolDS.                                            // 
 #//                                                                        // 
@@ -18,6 +18,8 @@
 #// You should have received a copy of the GNU General Public License      // 
 #// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 #//************************************************************************//
+
+Dir.chdir(File.dirname(__FILE__))
 
 MolDSBin = "../src/MolDS.out".freeze
 
