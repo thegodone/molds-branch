@@ -89,6 +89,7 @@ public:
                          double const *const* matrixA,
                          double**             matrixC)const;
               void Dsyrk(molds_blas_int n, molds_blas_int k,
+                         bool isMatrixAColumnMajor,
                          bool isMatrixATransposed,
                          bool isLowerTriangularPartMatrixCUsed,
                          double alpha, double const* const* matrixA,
