@@ -310,6 +310,7 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
 void Blas::Dsyrk(molds_blas_int n, molds_blas_int k,
                  double const* const* matrixA,
                  double ** matrixC)const{
+   bool isMatrixAColumnMajor = false;
    bool isMatrixATransposed = false;
    bool isLowerTriangularPartMatrixCUsed = false;
    double alpha = 1.0 , beta = 0.0;
