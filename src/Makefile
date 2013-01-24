@@ -44,7 +44,7 @@ endif
 .PHONY: depend
 depend: $(DEPFILE)
 
-$(DEPFILE): $(ALL_HEAD_FILES) $(ALL_CPP_FILES)
+$(DEPFILE): Makefile
 ifeq ($(INTEL), 64)
 	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS64) -c /g' > $(DEPFILE)
 else
