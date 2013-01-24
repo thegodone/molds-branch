@@ -42,7 +42,8 @@ endif
 -include $(DEPFILE)
 
 .PHONY: depend
-depend: $(DEPFILE)
+depend:
+	+make -B $(DEPFILE)
 
 $(DEPFILE): Makefile
 ifeq ($(INTEL), 64)
