@@ -1,6 +1,7 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
-// Copyright (C) 2012-2013 Michihiro Okuyama
+// Copyright (C) 2012-2013 Michihiro Okuyama                              //
+// Copyright (C) 2013-2013 Katsuhiko Nishimra                             //
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -1498,52 +1499,21 @@ double Cndo2::GetFockOffDiagElement(const Atom& atomA,
 void Cndo2::CalcOrbitalElectronPopulation(double** orbitalElectronPopulation, 
                                           const Molecule& molecule, 
                                           double const* const* fockMatrix) const{
-   int totalNumberAOs = molecule.GetTotalNumberAOs();
+   const int totalNumberAOs = molecule.GetTotalNumberAOs();
+   const int numberTotalValenceElectrons = molecule.GetTotalNumberValenceElectrons();
+
    MallocerFreer::GetInstance()->Initialize<double>(orbitalElectronPopulation, totalNumberAOs, totalNumberAOs);
 
-   double** transposedFockMatrix = NULL;
-   try{
-      MallocerFreer::GetInstance()->Malloc<double>(&transposedFockMatrix, totalNumberAOs, totalNumberAOs);
-      for(int mu=0; mu<totalNumberAOs; mu++){
-         for(int nu=0; nu<totalNumberAOs; nu++){
-            transposedFockMatrix[mu][nu] = fockMatrix[nu][mu];
-         }
-      }
-   
-      int numberTotalValenceElectrons = molecule.GetTotalNumberValenceElectrons();
-      stringstream ompErrors;
-#pragma omp parallel for schedule(auto) 
-      for(int mu=0; mu<totalNumberAOs; mu++){
-         try{
-            for(int nu=mu; nu<totalNumberAOs; nu++){
-               double value = 0.0;
-               for(int mo=0; mo<numberTotalValenceElectrons/2; mo++){
-                  value += transposedFockMatrix[mu][mo]*transposedFockMatrix[nu][mo];
-               }
-               orbitalElectronPopulation[mu][nu] = 2.0*value;
-            }
-         }
-         catch(MolDSException ex){
-#pragma omp critical
-            ompErrors << ex.what() << endl ;
-         }
-      }
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException(ompErrors.str());
-      }
-   }
-   catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&transposedFockMatrix, totalNumberAOs, totalNumberAOs);
-      throw ex;
-   }
-   MallocerFreer::GetInstance()->Free<double>(&transposedFockMatrix, totalNumberAOs, totalNumberAOs);
-   
-   for(int mu=0; mu<totalNumberAOs; mu++){
-      for(int nu=mu+1; nu<totalNumberAOs; nu++){
-         orbitalElectronPopulation[nu][mu] = orbitalElectronPopulation[mu][nu];
-      }
-   }
+   bool isMatrixAColumnMajor = false;
+   bool isMatrixATransposed = true;
+   bool isLowerTriangularPartMatrixCUsed = false;
+   double alpha = 2.0, beta = 0.0;
+   MolDS_wrappers::Blas::GetInstance()->Dsyrk(totalNumberAOs, numberTotalValenceElectrons/2,
+                                              isMatrixAColumnMajor,
+                                              isMatrixATransposed,
+                                              isLowerTriangularPartMatrixCUsed,
+                                              alpha, fockMatrix,
+                                              beta, orbitalElectronPopulation);
 
    /* 
    this->OutputLog("orbital population\n");
