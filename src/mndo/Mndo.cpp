@@ -747,7 +747,39 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                   if(A!=B){
                      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
                         for(int nu=mu; nu<=lastAOIndexA; nu++){
+                           double tmpMuNu01 = 2.0*fockMatrix[moA][mu]
+                                                 *fockMatrix[moI][nu];
+                           double tmpMuNu02 = 2.0*fockMatrix[moJ][mu]
+                                                 *fockMatrix[moB][nu];
+                           double tmpMuNu03 = fockMatrix[moA][mu]
+                                             *fockMatrix[moB][nu];
+                           double tmpMuNu04 = fockMatrix[moI][mu]
+                                             *fockMatrix[moJ][nu];
+                           double tmpMuNu09 = 2.0*fockMatrix[moI][mu]
+                                                 *fockMatrix[moA][nu];
+                           double tmpMuNu10 = 2.0*fockMatrix[moB][mu]
+                                                 *fockMatrix[moJ][nu];
+                           double tmpMuNu11 = fockMatrix[moB][mu]
+                                             *fockMatrix[moA][nu];
+                           double tmpMuNu12 = fockMatrix[moJ][mu]
+                                             *fockMatrix[moI][nu];
                            for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                              double tmpMuNuLamda01 = tmpMuNu01*fockMatrix[moJ][lambda];
+                              double tmpMuNuLamda02 = tmpMuNu02*fockMatrix[moA][lambda];
+                              double tmpMuNuLamda03 = tmpMuNu03*fockMatrix[moI][lambda];
+                              double tmpMuNuLamda04 = tmpMuNu04*fockMatrix[moA][lambda];
+                              double tmpMuNuLamda05 = tmpMuNu01*fockMatrix[moB][lambda];
+                              double tmpMuNuLamda06 = tmpMuNu02*fockMatrix[moI][lambda];
+                              double tmpMuNuLamda07 = tmpMuNu03*fockMatrix[moJ][lambda];
+                              double tmpMuNuLamda08 = tmpMuNu04*fockMatrix[moB][lambda];
+                              double tmpMuNuLamda09 = tmpMuNu09*fockMatrix[moJ][lambda];
+                              double tmpMuNuLamda10 = tmpMuNu10*fockMatrix[moA][lambda];
+                              double tmpMuNuLamda11 = tmpMuNu11*fockMatrix[moI][lambda];
+                              double tmpMuNuLamda12 = tmpMuNu12*fockMatrix[moA][lambda];
+                              double tmpMuNuLamda13 = tmpMuNu09*fockMatrix[moB][lambda];
+                              double tmpMuNuLamda14 = tmpMuNu10*fockMatrix[moI][lambda];
+                              double tmpMuNuLamda15 = tmpMuNu11*fockMatrix[moJ][lambda];
+                              double tmpMuNuLamda16 = tmpMuNu12*fockMatrix[moB][lambda];
                               for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
                                  OrbitalType orbitalSigma = atomB.GetValence(sigma-firstAOIndexB);
                                  gamma = this->twoElecTwoCore[A]
@@ -757,75 +789,27 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                                                              [lambda-firstAOIndexB]
                                                              [sigma-firstAOIndexB];
    
-                                 value += 2.0*gamma*fockMatrix[moA][mu]
-                                                   *fockMatrix[moI][nu]
-                                                   *fockMatrix[moJ][lambda]
-                                                      *fockMatrix[moB][sigma];
-                                 value += 2.0*gamma*fockMatrix[moA][lambda]
-                                                   *fockMatrix[moI][sigma]
-                                                   *fockMatrix[moJ][mu]
-                                                   *fockMatrix[moB][nu];
-                                 value -= gamma*fockMatrix[moA][mu]
-                                               *fockMatrix[moB][nu]
-                                               *fockMatrix[moI][lambda]
-                                               *fockMatrix[moJ][sigma];
-                                 value -= gamma*fockMatrix[moA][lambda]
-                                               *fockMatrix[moB][sigma]
-                                               *fockMatrix[moI][mu]
-                                               *fockMatrix[moJ][nu];
+                                 value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
+                                 value += gamma*tmpMuNuLamda02*fockMatrix[moI][sigma];
+                                 value -= gamma*tmpMuNuLamda03*fockMatrix[moJ][sigma];
+                                 value -= gamma*tmpMuNuLamda04*fockMatrix[moB][sigma];
                                  if(lambda != sigma){
-                                    value += 2.0*gamma*fockMatrix[moA][mu]
-                                                      *fockMatrix[moI][nu]
-                                                      *fockMatrix[moJ][sigma]
-                                                      *fockMatrix[moB][lambda];
-                                    value += 2.0*gamma*fockMatrix[moA][sigma]
-                                                      *fockMatrix[moI][lambda]
-                                                      *fockMatrix[moJ][mu]
-                                                      *fockMatrix[moB][nu];
-                                    value -= gamma*fockMatrix[moA][mu]
-                                                  *fockMatrix[moB][nu]
-                                                  *fockMatrix[moI][sigma]
-                                                  *fockMatrix[moJ][lambda];
-                                    value -= gamma*fockMatrix[moA][sigma]
-                                                  *fockMatrix[moB][lambda]
-                                                  *fockMatrix[moI][mu]
-                                                  *fockMatrix[moJ][nu];
+                                    value += gamma*tmpMuNuLamda05*fockMatrix[moJ][sigma];
+                                    value += gamma*tmpMuNuLamda06*fockMatrix[moA][sigma];
+                                    value -= gamma*tmpMuNuLamda07*fockMatrix[moI][sigma];
+                                    value -= gamma*tmpMuNuLamda08*fockMatrix[moA][sigma];
                                  }
                                  if(mu != nu){
-                                    value += 2.0*gamma*fockMatrix[moA][nu]
-                                                      *fockMatrix[moI][mu]
-                                                      *fockMatrix[moJ][lambda]
-                                                      *fockMatrix[moB][sigma];
-                                    value += 2.0*gamma*fockMatrix[moA][lambda]
-                                                      *fockMatrix[moI][sigma]
-                                                      *fockMatrix[moJ][nu]
-                                                      *fockMatrix[moB][mu];
-                                    value -= gamma*fockMatrix[moA][nu]
-                                                  *fockMatrix[moB][mu]
-                                                  *fockMatrix[moI][lambda]
-                                                  *fockMatrix[moJ][sigma];
-                                    value -= gamma*fockMatrix[moA][lambda]
-                                                  *fockMatrix[moB][sigma]
-                                                  *fockMatrix[moI][nu]
-                                                  *fockMatrix[moJ][mu];
+                                    value += gamma*tmpMuNuLamda09*fockMatrix[moB][sigma];
+                                    value += gamma*tmpMuNuLamda10*fockMatrix[moI][sigma];
+                                    value -= gamma*tmpMuNuLamda11*fockMatrix[moJ][sigma];
+                                    value -= gamma*tmpMuNuLamda12*fockMatrix[moB][sigma];
                                  }
                                  if(mu != nu && lambda != sigma){
-                                    value += 2.0*gamma*fockMatrix[moA][nu]
-                                                      *fockMatrix[moI][mu]
-                                                      *fockMatrix[moJ][sigma]
-                                                      *fockMatrix[moB][lambda];
-                                    value += 2.0*gamma*fockMatrix[moA][sigma]
-                                                      *fockMatrix[moI][lambda]
-                                                      *fockMatrix[moJ][nu]
-                                                      *fockMatrix[moB][mu];
-                                    value -= gamma*fockMatrix[moA][nu]
-                                                  *fockMatrix[moB][mu]
-                                                  *fockMatrix[moI][sigma]
-                                                  *fockMatrix[moJ][lambda];
-                                    value -= gamma*fockMatrix[moA][sigma]
-                                                  *fockMatrix[moB][lambda]
-                                                  *fockMatrix[moI][nu]
-                                                  *fockMatrix[moJ][mu];
+                                    value += gamma*tmpMuNuLamda13*fockMatrix[moJ][sigma];
+                                    value += gamma*tmpMuNuLamda14*fockMatrix[moA][sigma];
+                                    value -= gamma*tmpMuNuLamda15*fockMatrix[moI][sigma];
+                                    value -= gamma*tmpMuNuLamda16*fockMatrix[moA][sigma];
                                  }
                               }
                            }
@@ -835,7 +819,13 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                   else{
                      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
                         for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                           double tmpMuNu01 = 2.0*fockMatrix[moA][mu]
+                                                 *fockMatrix[moI][nu];
+                           double tmpMuNu02 = fockMatrix[moA][mu]
+                                             *fockMatrix[moB][nu];
                            for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                              double tmpMuNuLamda01 = tmpMuNu01*fockMatrix[moJ][lambda];
+                              double tmpMuNuLamda02 = tmpMuNu02*fockMatrix[moI][lambda];
                               for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
                                  if(mu==nu && lambda==sigma){
                                     OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
@@ -850,14 +840,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                                  else{
                                     gamma = 0.0;
                                  }
-                                 value += 2.0*gamma*fockMatrix[moA][mu]
-                                                   *fockMatrix[moI][nu]
-                                                   *fockMatrix[moJ][lambda]
-                                                   *fockMatrix[moB][sigma];
-                                 value -= gamma*fockMatrix[moA][mu]
-                                               *fockMatrix[moB][nu]
-                                               *fockMatrix[moI][lambda]
-                                               *fockMatrix[moJ][sigma];
+                                 value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
+                                 value -= gamma*tmpMuNuLamda02*fockMatrix[moJ][sigma];
                               }  
                            }
                         }
