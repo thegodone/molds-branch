@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:0:44  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/1/27(Sun.) 15:14:52  <<<<<
 
 
 **********  START: Parse input  **********
@@ -53,28 +53,29 @@ Input terms:
 theory | pm3 | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
 damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.00000002 | scf_end | cis | 
 davidson | no | active_occ | 7 | active_vir | 7 | nstates | 49 | mulliken | 3 | 
-mulliken | 100 | mulliken | 20 | cis_end | geometry | c | 0.0000 | 0.0200 | 0.0000 | 
-c | 1.4938 | -0.0150 | 0.0020 | h | -0.3500 | 1.0411 | 0.0010 | h | -0.3681 | 
--0.5205 | -0.9200 | h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | 
-h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end | 
+mulliken | 100 | mulliken | 20 | unpaired_electron_population | yes | cis_end | geometry | c | 0.0000 | 
+0.0200 | 0.0000 | c | 1.4938 | -0.0150 | 0.0020 | h | -0.3500 | 1.0411 | 0.0010 | 
+h | -0.3681 | -0.5205 | -0.9200 | h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 
+0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | 
+geometry_end | 
 
 **********  DONE: Parse input  ***********
 
 
 **********  START: PM3-SCF  **********
-	SCF iter 0:	RMS density = 5.291502622129180	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 1.910456125626944	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 1.044203238495391	DIIS error = 3.872759e-01
-	SCF iter 3:	RMS density = 0.569275110921829	DIIS error = 2.820935e-01
+	SCF iter 0:	RMS density = 5.291502622129181	DIIS error = 0.000000e+00
+	SCF iter 1:	RMS density = 1.910456125626941	DIIS error = 0.000000e+00
+	SCF iter 2:	RMS density = 1.044203238495393	DIIS error = 3.872759e-01
+	SCF iter 3:	RMS density = 0.569275110921830	DIIS error = 2.820935e-01
 	SCF iter 4:	RMS density = 0.308641545774631	DIIS error = 1.728758e-01
-	SCF iter 5:	RMS density = 0.166813060251975	DIIS error = 9.584873e-02
-	SCF iter 6:	RMS density = 0.000657312351891	DIIS error = 5.177961e-02 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000224796079707	DIIS error = 2.374135e-04 (DIIS was applied)
-	SCF iter 8:	RMS density = 0.000083564976841	DIIS error = 9.666685e-05 (DIIS was applied)
-	SCF iter 9:	RMS density = 0.000026986732846	DIIS error = 3.256104e-05 (DIIS was applied)
-	SCF iter 10:	RMS density = 0.000004938275825	DIIS error = 8.689524e-06 (DIIS was applied)
-	SCF iter 11:	RMS density = 0.000002003884721	DIIS error = 1.920254e-06 (DIIS was applied)
-	SCF iter 12:	RMS density = 0.000000169506350	DIIS error = 7.444364e-07 (DIIS was applied)
+	SCF iter 5:	RMS density = 0.166813060251973	DIIS error = 9.584873e-02
+	SCF iter 6:	RMS density = 0.000657312351887	DIIS error = 5.177961e-02 (DIIS was applied)
+	SCF iter 7:	RMS density = 0.000224796079661	DIIS error = 2.374135e-04 (DIIS was applied)
+	SCF iter 8:	RMS density = 0.000083564977008	DIIS error = 9.666685e-05 (DIIS was applied)
+	SCF iter 9:	RMS density = 0.000026986732836	DIIS error = 3.256104e-05 (DIIS was applied)
+	SCF iter 10:	RMS density = 0.000004938275875	DIIS error = 8.689524e-06 (DIIS was applied)
+	SCF iter 11:	RMS density = 0.000002003884716	DIIS error = 1.920254e-06 (DIIS was applied)
+	SCF iter 12:	RMS density = 0.000000169506349	DIIS error = 7.444364e-07 (DIIS was applied)
 
 
 
@@ -123,13 +124,13 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744313e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258006e-02
 
-	Elapsed time(omp) for the SCF = 0.063144[s].
+	Elapsed time(omp) for the SCF = 0.460603[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.087306[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.080024[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -362,20 +363,39 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge:	20	6	H	1.000000e+00	6.650230e-02
 	Mulliken charge:	20	7	H	1.000000e+00	-7.729498e-02
 
+				| k-th eigenstate | i-th atom | atom type | Unpaired electron population[a.u.]| 
+	Unpaired electron population:	3	0	C	1.004203e+00
+	Unpaired electron population:	3	1	C	1.265832e+00
+	Unpaired electron population:	3	2	H	2.440939e-01
+	Unpaired electron population:	3	3	H	3.361993e-01
+	Unpaired electron population:	3	4	H	2.099692e-01
+	Unpaired electron population:	3	5	H	3.263566e-01
+	Unpaired electron population:	3	6	H	4.841361e-01
+	Unpaired electron population:	3	7	H	2.469543e-01
 
-	Elapsed time(omp) for the CIS = 0.229337[s].
+	Unpaired electron population:	20	0	C	7.356038e-01
+	Unpaired electron population:	20	1	C	5.615877e-01
+	Unpaired electron population:	20	2	H	2.741903e-01
+	Unpaired electron population:	20	3	H	1.371744e-01
+	Unpaired electron population:	20	4	H	1.535949e-01
+	Unpaired electron population:	20	5	H	1.006022e-01
+	Unpaired electron population:	20	6	H	1.013346e-01
+	Unpaired electron population:	20	7	H	2.323766e-01
+
+
+	Elapsed time(omp) for the CIS = 0.219919[s].
 **********  DONE: PM3-CIS  **********
 
 
 	Summary for memory usage:
 		Max Heap: 0.296152[MB].
-		Current Heap(Leaked): 0.000000[MB].
+		Current Heap(Leaked): 0.000144[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.3[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.297168[s].  <<<<<
+     >>>>>  CPU time: 0.26[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.685674[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

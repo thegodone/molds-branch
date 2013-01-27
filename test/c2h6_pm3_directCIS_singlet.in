@@ -20,6 +20,7 @@ CIS
    mulliken 3
    mulliken 100
    mulliken 20
+   unpaired_electron_population yes
 CIS_END
 
 GEOMETRY

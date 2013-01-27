@@ -1,6 +1,7 @@
 //************************************************************************//
 // Copyright (C) 2011-2012 Mikiya Fujii                                   // 
 // Copyright (C) 2012-2012 Katsuhiko Nishimra                             // 
+// Copyright (C) 2013-2013 Michihiro Okuyama                              // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -276,7 +277,7 @@ HOW TO WRITE INPUT:
       -options
        "davidson", "active_occ", "active_vir", "max_iter", "max_dim", "norm_tol", 
        "nstates", "exciton_energies", "all_transition_dipole_moments", 
-       "mulliken", and "num_print_coefficients" are prepared as options.
+       "mulliken", "unpaired_electron_population", and "num_print_coefficients" are prepared as options.
 
        "davidson" should be set as "yes" or "no". 
        The default value of the "davidson" is "yes".
@@ -318,9 +319,16 @@ HOW TO WRITE INPUT:
 
        "mulliken" is a option of mulliken popultaion analysis of the excited state.
        When "mulliken x" is included in CIS-directive, the mulliken popultaion of xth excited state is calculated.
-       Mulitiple indication of these mulliken options is possible. 
+       Multiple indication of these mulliken options is possible. 
        Note that "mulliken 0" is ignored because 0th excited state is the ground state.
-       Default settign of this "mulliken" option is nothing.
+       Default setting of this "mulliken" option is nothing.
+
+       "unpaired_electron_population" is a option of unpaired electron population(UEP) analysis of the excited state.
+       When "unpaired electron population yes" and "mulliken x" are included in CIS-directive, 
+       the UEP of xth excited state is calculated.
+       By multiple indication of these mulliken option, the UEP on multiple excited states are possible.
+       Note that the UEP on ground state is ignored. 
+       Default setting is "unpaired_electron_population" option is nothing.
 
        "num_print_coefficients" is a number of the coefficients of CIS-eigenvector shown in output.
        The default value of the "num_print_coefficients" is 1.
@@ -336,6 +344,7 @@ HOW TO WRITE INPUT:
             norm_tol 0.000001
             mulliken 1 
             mulliken 2
+	         unpaired_electron_population yes
          CIS_END
 
    <Hole Plot>
