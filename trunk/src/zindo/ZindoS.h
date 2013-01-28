@@ -48,14 +48,15 @@ protected:
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
    virtual void CalcCISProperties();
-   virtual double GetElectronicTransitionDipoleMoment(int to, int from, MolDS_base::CartesianType axis,
-                                                      double const* const* fockMatrix,
-                                                      double const* const* matrixCIS,
-                                                      double const* const* const* cartesianMatrix,
-                                                      const MolDS_base::Molecule& molecule, 
-                                                      double const* const* orbitalElectronPopulation,
-                                                      double const* const* overlapAOs,
-                                                      double const* groundStateDipole) const;
+   virtual void CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment,
+                                                     int to, int from,
+                                                     double const* const* fockMatrix,
+                                                     double const* const* matrixCIS,
+                                                     double const* const* const* cartesianMatrix,
+                                                     const MolDS_base::Molecule& molecule, 
+                                                     double const* const* orbitalElectronPopulation,
+                                                     double const* const* overlapAOs,
+                                                     double const* groundStateDipole) const;
    virtual void CalcGammaAB(double** gammaAB, const MolDS_base::Molecule& molecule) const;
    virtual double GetFockDiagElement(const MolDS_base_atoms::Atom& atomA, 
                                      int indexAtomA, 
