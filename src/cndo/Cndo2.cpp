@@ -179,8 +179,8 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2::RotateDiatmicOverlapAOsToSpaceFrame: rotatingMatrix is NULL.\n";
    this->errorMessageSetOverlapAOsElementNullDiaMatrix 
       = "Error in cndo::Cndo2::SetOverlapAOsElement: diatomicOverlapAOs is NULL.\n";
-   this->errorMessageGetElectronicTransitionDipoleMomentBadState
-      = "Error in cndo::Cndo2::GetElectronicTransitionDipoleMoment: Bad eigen state is set. In SCF module, the transition dipole moment of only between ground states can be calculated. Note taht state=0 means the ground state and other state = i means the i-th excited state in below.\n";
+   this->errorMessageCalcElectronicTransitionDipoleMomentBadState
+      = "Error in cndo::Cndo2::CalcElectronicTransitionDipoleMoment: Bad eigen state is set. In SCF module, the transition dipole moment of only between ground states can be calculated. Note taht state=0 means the ground state and other state = i means the i-th excited state in below.\n";
    this->errorMessageCalcFrequenciesNormalModesBadTheory
       = "Error in cndo::Cndo2::CalcFrequenciesNormalModesBadTheory: CNDO2 is not supported for frequency (normal mode) analysis.\n";
    this->errorMessageCalcOverlapAOsDifferentConfigurationsDiffAOs
@@ -1654,43 +1654,52 @@ void Cndo2::CalcElectronicDipoleMomentGroundState(double*** electronicTransition
                                                   double const* const* orbitalElectronPopulation,
                                                   double const* const* overlapAOs) const{
    int groundState = 0;
-   for(int axis=0; axis<CartesianType_end; axis++){
-      electronicTransitionDipoleMoments[groundState][groundState][axis] = this->GetElectronicTransitionDipoleMoment(
-                                                                                groundState,
-                                                                                groundState,
-                                                                                static_cast<CartesianType>(axis),
-                                                                                NULL,
-                                                                                NULL,
-                                                                                cartesianMatrix,
-                                                                                molecule,
-                                                                                orbitalElectronPopulation,
-                                                                                overlapAOs,
-                                                                                NULL);
-   }
+   this->CalcElectronicTransitionDipoleMoment(electronicTransitionDipoleMoments[groundState][groundState],
+                                              groundState,
+                                              groundState,
+                                              NULL,
+                                              NULL,
+                                              cartesianMatrix,
+                                              molecule,
+                                              orbitalElectronPopulation,
+                                              overlapAOs,
+                                              NULL);
 }
 
-double Cndo2::GetElectronicTransitionDipoleMoment(int to, int from, CartesianType axis,
-                                                  double const* const* fockMatrix,
-                                                  double const* const* matrixCIS,
-                                                  double const* const* const* cartesianMatrix,
-                                                  const MolDS_base::Molecule& molecule, 
-                                                  double const* const* orbitalElectronPopulation,
-                                                  double const* const* overlapAOs,
-                                                  double const* groundStateDipole) const{
+void Cndo2::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment,
+                                                 int to, int from,
+                                                 double const* const* fockMatrix,
+                                                 double const* const* matrixCIS,
+                                                 double const* const* const* cartesianMatrix,
+                                                 const MolDS_base::Molecule& molecule, 
+                                                 double const* const* orbitalElectronPopulation,
+                                                 double const* const* overlapAOs,
+                                                 double const* groundStateDipole) const{
    int groundState = 0;
    if(from == groundState && to == groundState){
-      double value = 0.0;
+      double valueX=0.0;
+      double valueY=0.0;
+      double valueZ=0.0;
+      double const* xyzCOC = molecule.GetXyzCOC();
       int totalAONumber = molecule.GetTotalNumberAOs();
       stringstream ompErrors;
-#pragma omp parallel for reduction(+:value) schedule(auto) 
+#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(auto)
       for(int mu=0; mu<totalAONumber; mu++){
          try{
-            double threadValue = 0.0;
+            double threadValueX = 0.0;
+            double threadValueY = 0.0;
+            double threadValueZ = 0.0;
             for(int nu=0; nu<totalAONumber; nu++){
-               threadValue -= orbitalElectronPopulation[mu][nu]
-                             *(cartesianMatrix[mu][nu][axis]-molecule.GetXyzCOC()[axis]*overlapAOs[mu][nu]);
+               threadValueX -= orbitalElectronPopulation[mu][nu]
+                              *(cartesianMatrix[mu][nu][XAxis]-xyzCOC[XAxis]*overlapAOs[mu][nu]);
+               threadValueY -= orbitalElectronPopulation[mu][nu]
+                              *(cartesianMatrix[mu][nu][YAxis]-xyzCOC[YAxis]*overlapAOs[mu][nu]);
+               threadValueZ -= orbitalElectronPopulation[mu][nu]
+                              *(cartesianMatrix[mu][nu][ZAxis]-xyzCOC[ZAxis]*overlapAOs[mu][nu]);
             }
-            value += threadValue;
+            valueX += threadValueX;
+            valueY += threadValueY;
+            valueZ += threadValueZ;
          }
          catch(MolDSException ex){
 #pragma omp critical
@@ -1701,14 +1710,15 @@ double Cndo2::GetElectronicTransitionDipoleMoment(int to, int from, CartesianTyp
       if(!ompErrors.str().empty()){
          throw MolDSException(ompErrors.str());
       }
-      return value;
+      transitionDipoleMoment[XAxis] = valueX;
+      transitionDipoleMoment[YAxis] = valueY;
+      transitionDipoleMoment[ZAxis] = valueZ;
    }
    else{
       stringstream ss;
-      ss << this->errorMessageGetElectronicTransitionDipoleMomentBadState;
+      ss << this->errorMessageCalcElectronicTransitionDipoleMomentBadState;
       ss << this->errorMessageFromState << from << endl;
       ss << this->errorMessageToState << to << endl;
-      ss << this->errorMessageCartesianType << CartesianTypeStr(axis) << endl;
       throw MolDSException(ss.str());
    }
 }
