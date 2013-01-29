@@ -25,6 +25,7 @@
 #include<vector>
 #include<boost/format.hpp>
 #include"../base/PrintController.h"
+#include"../base/MolDSException.h"
 #include"../base/Uncopyable.h"
 #include"../base/Enums.h"
 #include"../base/EularAngle.h"
