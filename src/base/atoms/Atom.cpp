@@ -130,7 +130,9 @@ void Atom::SetMessages(){
       = "Error in base_atoms::Atom::GetPm3PddgParameterDa: Bad index for parameter Da(daIndex). Only 0, and 1 are permitted.\n";
    this->errorMessageDaIndex  = "daIndex = ";
    this->errorMessageGetXyzCoordinatesNull = "Error in base_atoms::Atom::GetXyz: xyz is NULL\n";
+   this->errorMessageSetXyzCoordinatesNull = "Error in base_atoms::Atom::SetXyz: xyz is NULL\n";
    this->errorMessageGetPxyzMomentaNull  = "Error in base_atoms::Atom::GetPxyz: pxyz is NULL\n";
+   this->errorMessageSetPxyzMomentaNull  = "Error in base_atoms::Atom::SetPxyz: pxyz is NULL\n";
 }
 
 AtomType Atom::GetAtomType() const{
@@ -146,33 +148,31 @@ double Atom::GetCoreMass() const{
 }
 
 double* Atom::GetXyz() const{
-   if(this->xyz==NULL){
-      stringstream ss;
-      ss << this->errorMessageGetXyzCoordinatesNull;
-      throw MolDSException(ss.str());
-   }
+#ifdef MOLDS_DBG
+   if(this->xyz==NULL) throw MolDSException(this->errorMessageGetXyzCoordinatesNull);
+#endif
    return this->xyz;
 }
 
 double* Atom::GetPxyz() const{
-   if(this->pxyz==NULL){
-      stringstream ss;
-      ss << this->errorMessageGetPxyzMomentaNull;
-      throw MolDSException(ss.str());
-   }
+#ifdef MOLDS_DBG
+   if(this->pxyz==NULL) throw MolDSException(this->errorMessageGetPxyzMomentaNull);
+#endif
    return this->pxyz;
 }
 
 void Atom::SetXyz(double x, double y, double z) const{
-   xyz[0]= x;
-   xyz[1]= y;
-   xyz[2]= z;
+#ifdef MOLDS_DBG
+   if(this->xyz==NULL) throw MolDSException(this->errorMessageSetXyzCoordinatesNull);
+#endif
+   xyz[0]= x; xyz[1]= y; xyz[2]= z;
 }
 
 void Atom::SetPxyz(double px, double py, double pz) const{
-   pxyz[0]= px;
-   pxyz[1]= py;
-   pxyz[2]= pz;
+#ifdef MOLDS_DBG
+   if(this->pxyz==NULL) throw MolDSException(this->errorMessageSetPxyzMomentaNull);
+#endif
+   pxyz[0]= px; pxyz[1]= py; pxyz[2]= pz;
 }
 
 int Atom::GetValenceSize() const{

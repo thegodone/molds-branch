@@ -504,12 +504,11 @@ double Cndo2::GetDiatomVdWCorrection2ndDerivative(int indexAtomA,
 void Cndo2::DoSCF(bool requiresGuess){
    this->OutputLog(this->messageStartSCF);
    double ompStartTime = omp_get_wtime();
-
+#ifdef MOLDS_DBG
    if(this->molecule == NULL){
-      stringstream ss;
-      ss << this->errorMessageMoleculeNotSet;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageMoleculeNotSet);
    }
+#endif
 
    // temporary matrices for scf
    double**  oldOrbitalElectronPopulation = NULL;
@@ -696,11 +695,11 @@ double Cndo2::GetElectronicEnergy(int elecState) const{
       return this->elecSCFEnergy;
    }
    else{
+#ifdef MOLDS_DBG
       if(this->excitedEnergies == NULL){
-         stringstream ss;
-         ss << this->errorMessageGetElectronicEnergyNULLCISEnergy;
-         throw MolDSException(ss.str());
+         throw MolDSException(this->errorMessageGetElectronicEnergyNULLCISEnergy);
       }
+#endif
       int numberExcitedStates = Parameters::GetInstance()->GetNumberExcitedStatesCIS();
       if(numberExcitedStates < elecState){
          stringstream ss;
@@ -3520,11 +3519,11 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
       ss << this->errorMessageRhs << rhsMolecule->GetNumberAtoms() << endl;
       throw MolDSException(ss.str());
    }
+#ifdef MOLDS_DBG
    if(overlapAOs == NULL){
-      stringstream ss;
-      ss << this->errorMessageCalcOverlapAOsDifferentConfigurationsOverlapAOsNULL;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageCalcOverlapAOsDifferentConfigurationsOverlapAOsNULL);
    }
+#endif
    
    int totalAONumber = lhsMolecule.GetTotalNumberAOs();
    int totalAtomNumber = lhsMolecule.GetNumberAtoms();
@@ -5045,11 +5044,11 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
 void Cndo2::CalcRotatingMatrix(double** rotatingMatrix, 
                                const Atom& atomA, 
                                const Atom& atomB) const{
+#ifdef MOLDS_DBG
    if(rotatingMatrix==NULL){
-      stringstream ss;
-      ss << this->errorMessageCalcRotatingMatrixNullRotMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageCalcRotatingMatrixNullRotMatrix);
    }
+#endif
    MallocerFreer::GetInstance()->Initialize<double>(rotatingMatrix,  OrbitalType_end, OrbitalType_end);
 
    double x = atomB.GetXyz()[0] - atomA.GetXyz()[0];
@@ -5347,11 +5346,11 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
 void Cndo2::CalcDiatomicOverlapAOsInDiatomicFrame(double** diatomicOverlapAOs, 
                                                   const Atom& atomA, 
                                                   const Atom& atomB) const{
+#ifdef MOLDS_DBG
    if(diatomicOverlapAOs==NULL){
-      stringstream ss;
-      ss << this->errorMessageCalDiaOverlapAOsDiaFrameNullMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageCalDiaOverlapAOsDiaFrameNullMatrix);
    }
+#endif
    int na = atomA.GetValenceShellType() + 1;
    int nb = atomB.GetValenceShellType() + 1;
    int m = 0;
@@ -5634,16 +5633,14 @@ void Cndo2::CalcDiatomicOverlapAOs2ndDerivativeInDiatomicFrame(double** diatomic
 // see (B.63) in Pople book.
 void Cndo2::RotateDiatmicOverlapAOsToSpaceFrame(double** diatomicOverlapAOs, 
                                                 double const* const* rotatingMatrix) const{
+#ifdef MOLDS_DBG
    if(diatomicOverlapAOs==NULL){
-      stringstream ss;
-      ss << this->errorMessageRotDiaOverlapAOsToSpaceFrameNullDiaMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageRotDiaOverlapAOsToSpaceFrameNullDiaMatrix);
    }
    if(rotatingMatrix==NULL){
-      stringstream ss;
-      ss << this->errorMessageRotDiaOverlapAOsToSpaceFrameNullRotMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageRotDiaOverlapAOsToSpaceFrameNullRotMatrix);
    }
+#endif
    double** oldDiatomicOverlapAOs = NULL;
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&oldDiatomicOverlapAOs, OrbitalType_end, OrbitalType_end);
@@ -5688,11 +5685,11 @@ void Cndo2::SetOverlapAOsElement(double** overlapAOs,
                                  const Atom& atomA, 
                                  const Atom& atomB,
                                  bool isSymmetricOverlapAOs) const{
+#ifdef MOLDS_DBG
    if(diatomicOverlapAOs==NULL){
-      stringstream ss;
-      ss << this->errorMessageSetOverlapAOsElementNullDiaMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageSetOverlapAOsElementNullDiaMatrix);
    }
+#endif
 
    int firstAOIndexAtomA = atomA.GetFirstAOIndex();
    int firstAOIndexAtomB = atomB.GetFirstAOIndex();

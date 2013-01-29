@@ -452,11 +452,9 @@ EularAngle Parameters::GetRotatingEularAngles() const{
 
 // methods for MOPlot
 vector<int>* Parameters::GetIndecesMOPlot() const{
-   if(this->indecesMOPlot==NULL){
-      stringstream ss;
-      ss << this->errorMessageGetIndecesMOPlotNull; 
-      throw MolDSException(ss.str());
-   }
+#ifdef MOLDS_DBG
+   if(this->indecesMOPlot==NULL) throw MolDSException(this->errorMessageGetIndecesMOPlotNull);
+#endif
    return this->indecesMOPlot;
 }
 
@@ -501,11 +499,9 @@ void Parameters::SetFrameLengthMOPlot(double lx, double ly, double lz){
 
 // methods for HolePlot
 vector<int>* Parameters::GetElecIndecesHolePlot() const{
-   if(this->elecIndecesHolePlot==NULL){
-      stringstream ss;
-      ss << this->errorMessageGetIndecesHolePlotNull; 
-      throw MolDSException(ss.str());
-   }
+#ifdef MOLDS_DBG
+   if(this->elecIndecesHolePlot==NULL) throw MolDSException(this->errorMessageGetIndecesHolePlotNull);
+#endif
    return this->elecIndecesHolePlot;
 }
 
@@ -550,11 +546,9 @@ void Parameters::SetFrameLengthHolePlot(double lx, double ly, double lz){
 
 // methods for ParticlePlot
 vector<int>* Parameters::GetElecIndecesParticlePlot() const{
-   if(this->elecIndecesParticlePlot==NULL){
-      stringstream ss;
-      ss << this->errorMessageGetIndecesParticlePlotNull; 
-      throw MolDSException(ss.str());
-   }
+#ifdef MOLDS_DBG
+   if(this->elecIndecesParticlePlot==NULL) throw MolDSException(this->errorMessageGetIndecesParticlePlotNull);
+#endif
    return this->elecIndecesParticlePlot;
 }
 
@@ -687,11 +681,9 @@ void Parameters::SetRequiresAllTransitionDipoleMomentsCIS(bool requiresAllTransi
 }
 
 vector<int>* Parameters::GetElectronicStateIndecesMullikenCIS() const{
-   if(this->electronicStateIndecesMullikenCIS==NULL){
-      stringstream ss;
-      ss << this->errorMessageGetElectronicStateIndecesMullikenCISNull; 
-      throw MolDSException(ss.str());
-   }
+#ifdef MOLDS_DBG
+   if(this->electronicStateIndecesMullikenCIS==NULL) throw MolDSException(this->errorMessageGetElectronicStateIndecesMullikenCISNull);
+#endif
    return this->electronicStateIndecesMullikenCIS;
 }
 
