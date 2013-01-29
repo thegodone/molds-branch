@@ -248,10 +248,6 @@ void Molecule::CalcXyzCOC(){
    this->wasCalculatedXyzCOC = true;
 }
 
-int Molecule::GetTotalNumberAOs() const{
-   return this->totalNumberAOs;
-}
-
 void Molecule::CalcBasics(){
    this->CalcTotalNumberAOs();
    this->CalcTotalNumberValenceElectrons();
