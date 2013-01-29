@@ -2930,11 +2930,11 @@ void Mndo::FreeTempMatricesSolveCPHF(double*** matrixCPHF,
 
 // see [PT_1996, PT_1997]
 void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
+#ifdef MOLDS_DBG
    if(this->etaMatrixForce == NULL){
-      stringstream ss;
-      ss << this->errorMessageCalcZMatrixForceEtaNull;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageCalcZMatrixForceEtaNull);
    }
+#endif
    this->CheckZMatrixForce(elecStates); 
 
    // creat MO-index-pair for Q variables. 
@@ -3494,17 +3494,15 @@ void Mndo::FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, dou
 
 void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore, 
                               const Molecule& molecule) const{
+#ifdef MOLDS_DBG
    if(twoElecTwoCore == NULL){
-      stringstream ss;
-      ss << this->errorMessageCalcTwoElecTwoCoreNullMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageCalcTwoElecTwoCoreNullMatrix);
    }
-   else{
-      MallocerFreer::GetInstance()->Initialize<double>(twoElecTwoCore, 
-                                                       molecule.GetNumberAtoms(),
-                                                       molecule.GetNumberAtoms(),
-                                                       dxy, dxy, dxy, dxy);
-   } 
+#endif
+   MallocerFreer::GetInstance()->Initialize<double>(twoElecTwoCore, 
+                                                    molecule.GetNumberAtoms(),
+                                                    molecule.GetNumberAtoms(),
+                                                    dxy, dxy, dxy, dxy);
 
    stringstream ompErrors;
 #pragma omp parallel
@@ -3569,14 +3567,12 @@ void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, int indexAtomA, int ind
       throw MolDSException(ss.str());
    }
 
+#ifdef MOLDS_DBG
    if(matrix == NULL){
-      stringstream ss;
-      ss << this->errorMessageCalcDiatomicTwoElecTwoCoreNullMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageCalcDiatomicTwoElecTwoCoreNullMatrix);
    }
-   else{
-      MallocerFreer::GetInstance()->Initialize<double>(matrix, dxy, dxy, dxy, dxy);
-   } 
+#endif
+   MallocerFreer::GetInstance()->Initialize<double>(matrix, dxy, dxy, dxy, dxy);
 
    // calclation in diatomic frame
    for(int mu=0; mu<atomA.GetValenceSize(); mu++){
@@ -3651,19 +3647,17 @@ void Mndo::CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix,
       throw MolDSException(ss.str());
    }
 
+#ifdef MOLDS_DBG
    if(matrix == NULL){
-      stringstream ss;
-      ss << this->errorMessageCalcDiatomicTwoElecTwoCore1stDerivativesNullMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageCalcDiatomicTwoElecTwoCore1stDerivativesNullMatrix);
    }
-   else{
-      MallocerFreer::GetInstance()->Initialize<double>(matrix, 
-                                                       dxy, 
-                                                       dxy, 
-                                                       dxy, 
-                                                       dxy, 
-                                                       CartesianType_end);
-   } 
+#endif
+   MallocerFreer::GetInstance()->Initialize<double>(matrix, 
+                                                    dxy, 
+                                                    dxy, 
+                                                    dxy, 
+                                                    dxy, 
+                                                    CartesianType_end);
 
    double**   rotatingMatrix = NULL;
    double***  rotMat1stDerivatives = NULL;
@@ -3749,20 +3743,18 @@ void Mndo::CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix,
       throw MolDSException(ss.str());
    }
 
+#ifdef MOLDS_DBG
    if(matrix == NULL){
-      stringstream ss;
-      ss << this->errorMessageCalcDiatomicTwoElecTwoCore2ndDerivativesNullMatrix;
-      throw MolDSException(ss.str());
+      throw MolDSException(this->errorMessageCalcDiatomicTwoElecTwoCore2ndDerivativesNullMatrix);
    }
-   else{
-      MallocerFreer::GetInstance()->Initialize<double>(matrix, 
-                                                       dxy, 
-                                                       dxy, 
-                                                       dxy, 
-                                                       dxy, 
-                                                       CartesianType_end,
-                                                       CartesianType_end);
-   } 
+#endif
+   MallocerFreer::GetInstance()->Initialize<double>(matrix, 
+                                                    dxy, 
+                                                    dxy, 
+                                                    dxy, 
+                                                    dxy, 
+                                                    CartesianType_end,
+                                                    CartesianType_end);
 
    double** rotatingMatrix = NULL;
    double*** rotMat1stDerivatives = NULL;

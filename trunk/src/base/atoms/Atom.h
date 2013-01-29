@@ -273,7 +273,9 @@ private:
    std::string errorMessageGetNddoHspBadTheory;
    std::string errorMessageGetNddoHppBadTheory;
    std::string errorMessageGetXyzCoordinatesNull;
+   std::string errorMessageSetXyzCoordinatesNull;
    std::string errorMessageGetPxyzMomentaNull;
+   std::string errorMessageSetPxyzMomentaNull;
    void SetMessages();
    double GetRealAngularPartAO(double theta, 
                                double phi, 

@@ -26,8 +26,18 @@ public:
    explicit Molecule(const Molecule& rhs);
    Molecule& operator=(const Molecule& rhs);
    ~Molecule();
-   int GetNumberAtoms() const{return this->atomVect->size();}
-   MolDS_base_atoms::Atom* GetAtom(int atomIndex) const{return (*this->atomVect)[atomIndex];}
+   inline int GetNumberAtoms() const{
+#ifdef MOLDS_DBG
+      if(this->atomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetAtomVectNull);
+#endif
+      return this->atomVect->size();
+   }
+   inline MolDS_base_atoms::Atom* GetAtom(int atomIndex) const{
+#ifdef MOLDS_DBG
+      if(this->atomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetAtomNull);
+#endif
+      return (*this->atomVect)[atomIndex];
+   }
    void AddAtom(MolDS_base_atoms::Atom* atom);
    double* GetXyzCOM() const;
    double* GetXyzCOM();
@@ -85,7 +95,9 @@ private:
                                  double rotatingAngle, 
                                  MolDS_base::EularAngle rotatingEularAngles)const;
    void OutputTranslatingConditions(double const* translatingDifference) const;
-   std::string errorMessageGetAtomVectNull;
+   std::string errorMessageGetAtomNull;
+   std::string errorMessageAddAtomNull;
+   std::string errorMessageGetNumberAtomsNull;
    std::string errorMessageGetXyzCOCNull;
    std::string errorMessageGetXyzCOMNull;
    std::string messageTotalNumberAOs;

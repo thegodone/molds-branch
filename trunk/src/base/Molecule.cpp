@@ -94,6 +94,7 @@ void Molecule::Initialize(){
    this->wasCalculatedXyzCOC = false;
    this->xyzCOM = NULL;
    this->xyzCOC = NULL;
+   this->atomVect = NULL;
    try{
       this->atomVect = new vector<Atom*>;
       MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOM, CartesianType_end);
@@ -123,7 +124,9 @@ void Molecule::Finalize(vector<Atom*>** atomVect, double** xyzCOM, double**xyzCO
 }
 
 void Molecule::SetMessages(){
-   this->errorMessageGetAtomVectNull = "Error in base::Molecule::GetAtomVect: atomVect is NULL.\n";
+   this->errorMessageGetAtomNull = "Error in base::Molecule::GetAtom: atomVect is NULL.\n";
+   this->errorMessageAddAtomNull = "Error in base::Molecule::AddAtom: atomVect is NULL.\n";
+   this->errorMessageGetNumberAtomsNull = "Error in base::Molecule::GetNumberAtoms: atomVect is NULL.\n";
    this->errorMessageGetXyzCOCNull = "Error in base::Molecule::GetXyzCOC: xyzCOC is NULL.\n";
    this->errorMessageGetXyzCOMNull = "Error in base::Molecule::GetXyzCOM: xyzCOM is NULL.\n";
    this->messageTotalNumberAOs = "\tTotal number of valence AOs: ";
@@ -160,15 +163,17 @@ void Molecule::SetMessages(){
 }
 
 void Molecule::AddAtom(Atom* atom){
+#ifdef MOLDS_DBG
+   if(this->atomVect==NULL) throw MolDSException(this->errorMessageAddAtomNull);
+#endif
    this->atomVect->push_back(atom);
+   
 }
 
 double* Molecule::GetXyzCOM() const{
-   if(this->xyzCOM==NULL){
-      stringstream ss;
-      ss << this->errorMessageGetXyzCOMNull;
-      throw MolDSException(ss.str());
-   }
+#ifdef MOLDS_DBG
+   if(this->xyzCOM==NULL) throw MolDSException(this->errorMessageGetXyzCOMNull);
+#endif
    return this->xyzCOM;
 }
 
@@ -180,11 +185,9 @@ double* Molecule::GetXyzCOM(){
 }
 
 double* Molecule::GetXyzCOC() const{
-   if(this->xyzCOC==NULL){
-      stringstream ss;
-      ss << this->errorMessageGetXyzCOCNull;
-      throw MolDSException(ss.str());
-   }
+#ifdef MOLDS_DBG
+   if(this->xyzCOC==NULL) throw MolDSException(this->errorMessageGetXyzCOCNull);
+#endif
    return this->xyzCOC;
 }
 
