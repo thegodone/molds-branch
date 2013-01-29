@@ -28,7 +28,7 @@ public:
    ~Molecule();
    inline int GetNumberAtoms() const{
 #ifdef MOLDS_DBG
-      if(this->atomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetAtomVectNull);
+      if(this->atomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetNumberAtomsNull);
 #endif
       return this->atomVect->size();
    }
