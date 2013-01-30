@@ -46,7 +46,7 @@ public:
    void CalcXyzCOM();
    void CalcXyzCOC();
    void CalcBasics();
-   inline int GetTotalNumberAOs() const{return this->totalNumberAOs;}
+   int GetTotalNumberAOs() const;
    int GetTotalNumberValenceElectrons() const;
    double GetTotalCoreMass() const;
    void OutputXyzCOM() const;
