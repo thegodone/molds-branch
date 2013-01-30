@@ -21,7 +21,7 @@ CC = icpc
 LIBSBASE = -lmkl_intel_thread -lmkl_core -liomp5 -lpthread
 LIBS32 = -lmkl_intel       $(LIBSBASE)
 LIBS64 = -lmkl_intel_ilp64 $(LIBSBASE)
-CFLAGSBASE = -O2 -g -openmp -openmp-report2 -DMKL_INT=intptr_t 
+CFLAGSBASE = -O0 -openmp -openmp-report2 -DMKL_INT=intptr_t 
 CFLAGS32   = $(CFLAGSBASE)
 CFLAGS64   = $(CFLAGSBASE) -DMKL_ILP64
 BOOST_TOP_DIR = /usr/local/boost/
