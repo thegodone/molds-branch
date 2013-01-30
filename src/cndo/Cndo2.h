@@ -344,11 +344,13 @@ private:
    void CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
                                           const MolDS_base::Molecule& molecule, 
                                           MolDS_base::STOnGType stonG) const; 
-   double GetCartesianMatrixElementByGTOExpansion(const MolDS_base_atoms::Atom& atomA, 
+   void CalcCartesianMatrixElementsByGTOExpansion(double& xComponent,
+                                                  double& yComponent,
+                                                  double& zComponent,
+                                                  const MolDS_base_atoms::Atom& atomA, 
                                                   int valenceIndexA, 
                                                   const MolDS_base_atoms::Atom& atomB, 
                                                   int valenceIndexB,
-                                                  MolDS_base::CartesianType axis,
                                                   MolDS_base::STOnGType stonG) const;
    double GetGaussianCartesianMatrix(MolDS_base::AtomType atomTypeA, 
                                      MolDS_base::OrbitalType valenceOrbitalA, 

@@ -1144,9 +1144,9 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                for(int mu=0; mu<totalNumberAOs; mu++){
                   for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = (-1.0*fockMatrix[moI][mu]*fockMatrix[moI][nu] + fockMatrix[moA][mu]*fockMatrix[moA][nu]);
-                     tempX += temp*(cartesianMatrix[mu][nu][XAxis] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
-                     tempY += temp*(cartesianMatrix[mu][nu][YAxis] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
-                     tempZ += temp*(cartesianMatrix[mu][nu][ZAxis] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
+                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
+                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
+                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
                   }
                }
                temp    = matrixCIS[from-1][l]*matrixCIS[to-1][l];
@@ -1182,9 +1182,9 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                for(int mu=0; mu<totalNumberAOs; mu++){
                   for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = fockMatrix[moA][mu]*fockMatrix[moI][nu];
-                     tempX += temp*(cartesianMatrix[mu][nu][XAxis] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
-                     tempY += temp*(cartesianMatrix[mu][nu][YAxis] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
-                     tempZ += temp*(cartesianMatrix[mu][nu][ZAxis] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
+                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
+                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
+                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
                   }
                }
                temp    = this->matrixCIS[to-1][l]*sqrt(2.0);
@@ -1220,9 +1220,9 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                for(int mu=0; mu<totalNumberAOs; mu++){
                   for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = fockMatrix[moI][mu]*fockMatrix[moA][nu];
-                     tempX += temp*(cartesianMatrix[mu][nu][XAxis] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
-                     tempY += temp*(cartesianMatrix[mu][nu][YAxis] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
-                     tempZ += temp*(cartesianMatrix[mu][nu][ZAxis] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
+                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
+                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
+                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
                   }
                }
                temp    = matrixCIS[from-1][l]*sqrt(2.0);
@@ -1260,9 +1260,9 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                for(int mu=0; mu<totalNumberAOs; mu++){
                   for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = (-1.0*fockMatrix[moI][mu]*fockMatrix[moI][nu] + fockMatrix[moA][mu]*fockMatrix[moA][nu]);
-                     tempX += temp*(cartesianMatrix[mu][nu][XAxis] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
-                     tempY += temp*(cartesianMatrix[mu][nu][YAxis] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
-                     tempZ += temp*(cartesianMatrix[mu][nu][ZAxis] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
+                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
+                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
+                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
                   }
                }
                temp    = matrixCIS[from-1][l]*matrixCIS[to-1][l];
