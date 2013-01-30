@@ -1117,6 +1117,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
    double valueZ = 0.0;
    double const* xyzCOC = molecule.GetXyzCOC();
    int groundState = 0;
+   int totalNumberAOs = molecule.GetTotalNumberAOs();
    stringstream ompErrors;
    if(Parameters::GetInstance()->GetNumberExcitedStatesCIS() < from ||
       Parameters::GetInstance()->GetNumberExcitedStatesCIS() < to ){
@@ -1140,8 +1141,8 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                // single excitation from I-th (occupied)MO to A-th (virtual)MO
                int moI = this->GetActiveOccIndex(molecule, l);
                int moA = this->GetActiveVirIndex(molecule, l);
-               for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
-                  for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
+               for(int mu=0; mu<totalNumberAOs; mu++){
+                  for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = (-1.0*fockMatrix[moI][mu]*fockMatrix[moI][nu] + fockMatrix[moA][mu]*fockMatrix[moA][nu]);
                      tempX += temp*(cartesianMatrix[mu][nu][XAxis] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
                      tempY += temp*(cartesianMatrix[mu][nu][YAxis] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
@@ -1178,8 +1179,8 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                // single excitation from I-th (occupied)MO to A-th (virtual)MO
                int moI = this->GetActiveOccIndex(molecule, l);
                int moA = this->GetActiveVirIndex(molecule, l);
-               for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
-                  for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
+               for(int mu=0; mu<totalNumberAOs; mu++){
+                  for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = fockMatrix[moA][mu]*fockMatrix[moI][nu];
                      tempX += temp*(cartesianMatrix[mu][nu][XAxis] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
                      tempY += temp*(cartesianMatrix[mu][nu][YAxis] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
@@ -1216,8 +1217,8 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                // single excitation from I-th (occupied)MO to A-th (virtual)MO
                int moI = this->GetActiveOccIndex(molecule, l);
                int moA = this->GetActiveVirIndex(molecule, l);
-               for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
-                  for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
+               for(int mu=0; mu<totalNumberAOs; mu++){
+                  for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = fockMatrix[moI][mu]*fockMatrix[moA][nu];
                      tempX += temp*(cartesianMatrix[mu][nu][XAxis] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
                      tempY += temp*(cartesianMatrix[mu][nu][YAxis] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
@@ -1256,8 +1257,8 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                // single excitation from I-th (occupied)MO to A-th (virtual)MO
                int moI = this->GetActiveOccIndex(molecule, l);
                int moA = this->GetActiveVirIndex(molecule, l);
-               for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
-                  for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
+               for(int mu=0; mu<totalNumberAOs; mu++){
+                  for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = (-1.0*fockMatrix[moI][mu]*fockMatrix[moI][nu] + fockMatrix[moA][mu]*fockMatrix[moA][nu]);
                      tempX += temp*(cartesianMatrix[mu][nu][XAxis] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
                      tempY += temp*(cartesianMatrix[mu][nu][YAxis] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
