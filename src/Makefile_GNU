@@ -19,7 +19,8 @@
 #//************************************************************************//
 CC = g++
 LIBS =  -lpthread
-CFLAGS = -O0 -fopenmp 
+CFLAGS = -O0
+override CFLAGS += -fopenmp
 BOOST_TOP_DIR = /usr/local/boost/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)include/
 OPENBLAS_TOP_DIR = /usr/local/openblas/
