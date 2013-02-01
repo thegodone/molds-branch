@@ -613,10 +613,23 @@ double ZindoS::GetNishimotoMatagaTwoEleInt(const Atom& atomA, OrbitalType orbita
 // For Nishimoto-Mataga, See ZindoS::GetNishimotoMatagaTwoEleInt 
 // or ref. [MN_1957] and (5a) in [AEZ_1986]
 double ZindoS::GetNishimotoMatagaTwoEleInt1stDerivative(const Atom& atomA, 
-                                                          OrbitalType orbitalA, 
-                                                          const Atom& atomB, 
-                                                          OrbitalType orbitalB,
-                                                          CartesianType axisA) const{
+                                                        OrbitalType orbitalA, 
+                                                        const Atom& atomB, 
+                                                        OrbitalType orbitalB,
+                                                        CartesianType axisA) const{
+   double r = this->molecule->GetDistanceAtoms(atomA, atomB);
+   return this->GetNishimotoMatagaTwoEleInt1stDerivative(atomA, orbitalA, atomB, orbitalB, r, axisA);
+}
+
+// First derivative of Nishimoto-Mataga related to the coordinate of atom A.
+// For Nishimoto-Mataga, See ZindoS::GetNishimotoMatagaTwoEleInt 
+// or ref. [MN_1957] and (5a) in [AEZ_1986]
+double ZindoS::GetNishimotoMatagaTwoEleInt1stDerivative(const Atom& atomA, 
+                                                        OrbitalType orbitalA, 
+                                                        const Atom& atomB, 
+                                                        OrbitalType orbitalB,
+                                                        const double rAB,
+                                                        CartesianType axisA) const{
    double gammaAA;
    if(orbitalA == s || 
       orbitalA == px ||
@@ -665,11 +678,10 @@ double ZindoS::GetNishimotoMatagaTwoEleInt1stDerivative(const Atom& atomA,
       throw MolDSException(ss.str());
    }  
 
-   double r = this->molecule->GetDistanceAtoms(atomA, atomB);
    double dCartesian = atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA];
-   double value = -1.0*dCartesian/r;
+   double value = -1.0*dCartesian/rAB;
    value *= this->nishimotoMatagaParamA;
-   value *= pow( r+this->nishimotoMatagaParamB/(gammaAA+gammaBB) ,-2.0);
+   value *= pow( rAB+this->nishimotoMatagaParamB/(gammaAA+gammaBB) ,-2.0);
    return value;
 }
 
@@ -2458,6 +2470,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                   const Atom& atomB = *molecule->GetAtom(b);
                   int firstAOIndexB = atomB.GetFirstAOIndex();
                   int lastAOIndexB  = atomB.GetLastAOIndex();
+                  double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
 
                   // calc. first derivative of overlapAOs.
                   this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
@@ -2475,7 +2488,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                              +atomB.GetCoreCharge()
                                              *atomicElectronPopulation[a])
                                              *this->GetNishimotoMatagaTwoEleInt1stDerivative(
-                                                    atomA, s, atomB, s, (CartesianType)i);
+                                                    atomA, s, atomB, s, rAB, static_cast<CartesianType>(i));
                   }
                   for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
                      OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
@@ -2494,7 +2507,8 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                                   -0.5*pow(this->orbitalElectronPopulation[mu][nu],2.0))
                                                   *this->GetNishimotoMatagaTwoEleInt1stDerivative(
                                                          atomA, orbitalMu, atomB, orbitalNu,
-                                                         (CartesianType)i);
+                                                         rAB,
+                                                         static_cast<CartesianType>(i));
                         }
                      }
                   }
