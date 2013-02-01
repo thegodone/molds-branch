@@ -101,6 +101,19 @@ protected:
                                               double const* const* fockMatrix, 
                                               double const* const* gammaAB) const;
    virtual void CalcCISMatrix(double** matrixCIS) const;
+   double GetCISDiagElement(double const* energiesMO,
+                            double const* const* const* const* nishimotoMatagaMatrix,
+                            const MolDS_base::Molecule& molecule,
+                            double const* const* fockMatrix, 
+                            int moI,
+                            int moA) const;
+   double GetCISOffDiagElement(double const* const* const* const* nishimotoMatagaMatrix,
+                               const MolDS_base::Molecule& molecule,
+                               double const* const* fockMatrix, 
+                               int moI,
+                               int moA,
+                               int moJ,
+                               int moB) const;
    virtual void CalcForce(const std::vector<int>& elecStates);
    int GetSlaterDeterminantIndex(int activeOccIndex, int activeVirIndex) const;
    int GetActiveOccIndex(const MolDS_base::Molecule& molecule, int matrixCISIndex) const;
