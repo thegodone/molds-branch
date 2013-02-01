@@ -186,6 +186,12 @@ private:
                                                    const MolDS_base_atoms::Atom& atomB, 
                                                    MolDS_base::OrbitalType orbitalB,
                                                    MolDS_base::CartesianType axisA) const;// ref. [MN_1957] and (5a) in [AEZ_1986]
+   double GetNishimotoMatagaTwoEleInt1stDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                   MolDS_base::OrbitalType orbitalA, 
+                                                   const MolDS_base_atoms::Atom& atomB, 
+                                                   MolDS_base::OrbitalType orbitalB,
+                                                   const double rAB,
+                                                   MolDS_base::CartesianType axisA) const;// ref. [MN_1957] and (5a) in [AEZ_1986]
    void CalcNishimotoMatagaMatrix(double**** nishimotoMatagaMatrix, 
                                   const MolDS_base::Molecule& molecule) const;
    void CalcRitzVector(double* ritzVector, 
