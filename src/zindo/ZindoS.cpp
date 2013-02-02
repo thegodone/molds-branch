@@ -694,16 +694,16 @@ void ZindoS::CalcNishimotoMatagaMatrix(double**** nishimotoMatagaMatrix, const M
          const Atom& atomA = *molecule.GetAtom(A);
          int firstAOIndexA = atomA.GetFirstAOIndex();
          int lastAOIndexA  = atomA.GetLastAOIndex();
-         for(int B=A; B<totalNumberAtoms; B++){
-            const Atom& atomB = *molecule.GetAtom(B);
-            int firstAOIndexB = atomB.GetFirstAOIndex();
-            int lastAOIndexB  = atomB.GetLastAOIndex();
-            double rAB = molecule.GetDistanceAtoms(atomA, atomB);
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+            OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+            for(int B=A; B<totalNumberAtoms; B++){
+               const Atom& atomB = *molecule.GetAtom(B);
+               int firstAOIndexB = atomB.GetFirstAOIndex();
+               int lastAOIndexB  = atomB.GetLastAOIndex();
+               double rAB = molecule.GetDistanceAtoms(atomA, atomB);
                for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
                   OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
-                  nishimotoMatagaMatrix[A][B][orbitalMu][orbitalNu] = this->GetNishimotoMatagaTwoEleInt(atomA, 
+                  nishimotoMatagaMatrix[A][orbitalMu][B][orbitalNu] = this->GetNishimotoMatagaTwoEleInt(atomA, 
                                                                                                         orbitalMu, 
                                                                                                         atomB, 
                                                                                                         orbitalNu,
@@ -2119,7 +2119,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
 
    int totalNumberAtoms = this->molecule->GetNumberAtoms();
    double**** nishimotoMatagaMatrix=NULL;
-   MallocerFreer::GetInstance()->Malloc<double>(&nishimotoMatagaMatrix, totalNumberAtoms, totalNumberAtoms, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(&nishimotoMatagaMatrix, totalNumberAtoms, OrbitalType_end, totalNumberAtoms, OrbitalType_end);
    this->CalcNishimotoMatagaMatrix(nishimotoMatagaMatrix, *this->molecule);
 
    stringstream ompErrors;
@@ -2173,7 +2173,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
    if(!ompErrors.str().empty()){
       throw MolDSException(ompErrors.str());
    }
-   MallocerFreer::GetInstance()->Free<double>(&nishimotoMatagaMatrix, totalNumberAtoms, totalNumberAtoms, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(&nishimotoMatagaMatrix, totalNumberAtoms, OrbitalType_end, totalNumberAtoms, OrbitalType_end);
    double ompEndTime = omp_get_wtime();
    this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCalcCISMarix.c_str()
                                                 % (ompEndTime - ompStartTime)
@@ -2197,20 +2197,20 @@ double ZindoS::GetCISDiagElement(double const* energiesMO,
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
-      // CNDO term
-      for(int B=A; B<totalNumberAtoms; B++){
-         const Atom& atomB = *molecule.GetAtom(B);
-         int firstAOIndexB = atomB.GetFirstAOIndex();
-         int lastAOIndexB  = atomB.GetLastAOIndex();
+      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+         OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
 
-         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-            OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+         // CNDO term
+         for(int B=A; B<totalNumberAtoms; B++){
+            const Atom& atomB = *molecule.GetAtom(B);
+            int firstAOIndexB = atomB.GetFirstAOIndex();
+            int lastAOIndexB  = atomB.GetLastAOIndex();
 
             for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
                OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
 
                if(A<B){
-                  gamma = nishimotoMatagaMatrix[A][B][orbitalMu][orbitalNu];
+                  gamma = nishimotoMatagaMatrix[A][orbitalMu][B][orbitalNu];
                   value += 2.0*gamma*fockMatrix[moI][mu]
                                     *fockMatrix[moA][mu]
                                     *fockMatrix[moA][nu]
@@ -2241,11 +2241,8 @@ double ZindoS::GetCISDiagElement(double const* energiesMO,
                }     
             }
          }
-      }
-      // Aditional term for INDO or ZIND/S, see Eq. (10) in [RZ_1973]
-      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-         OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
 
+         //Aditional term for INDO or ZIND/S, see Eq. (10) in [RZ_1973]
          for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
             OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
 
@@ -2314,7 +2311,6 @@ double ZindoS::GetCISOffDiagElement(double const* const* const* const* nishimoto
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
-      // CNDO term
       for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){ 
          OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA); 
          double tmp1 = fockMatrix[moA][mu]*fockMatrix[moI][mu]; 
@@ -2322,6 +2318,7 @@ double ZindoS::GetCISOffDiagElement(double const* const* const* const* nishimoto
          double tmp3 = fockMatrix[moJ][mu]*fockMatrix[moB][mu];
          double tmp4 = fockMatrix[moI][mu]*fockMatrix[moJ][mu];
 
+         // CNDO term
          for(int B=A; B<totalNumberAtoms; B++){
             const Atom& atomB = *molecule.GetAtom(B);
             int firstAOIndexB = atomB.GetFirstAOIndex(); 
@@ -2330,7 +2327,7 @@ double ZindoS::GetCISOffDiagElement(double const* const* const* const* nishimoto
                OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
                
                if(A<B){
-                  gamma = nishimotoMatagaMatrix[A][B][orbitalMu][orbitalNu];
+                  gamma = nishimotoMatagaMatrix[A][orbitalMu][B][orbitalNu];
                   value += 2.0*gamma*tmp1
                                     *fockMatrix[moJ][nu]
                                     *fockMatrix[moB][nu];
@@ -2355,26 +2352,21 @@ double ZindoS::GetCISOffDiagElement(double const* const* const* const* nishimoto
                }  
             }
          }
-      }
 
-
-      // Aditional term for INDO or ZIND/S, see Eq. (10) in [RZ_1973]
-      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-         OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-         double tmp1 = fockMatrix[moA][mu]*fockMatrix[moB][mu];
-         double tmp2 = fockMatrix[moA][mu]*fockMatrix[moJ][mu];
-         double tmp3 = fockMatrix[moA][mu]*fockMatrix[moI][mu];
-
+         // Aditional term for INDO or ZIND/S, see Eq. (10) in [RZ_1973]
+         double tmp5 = fockMatrix[moA][mu]*fockMatrix[moB][mu];
+         double tmp6 = fockMatrix[moA][mu]*fockMatrix[moJ][mu];
+         double tmp7 = fockMatrix[moA][mu]*fockMatrix[moI][mu];
          for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
             OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
 
             if(mu!=nu){
                exchange = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
                value += 2.0*exchange
-                       *(tmp1*fockMatrix[moJ][nu] + tmp2*fockMatrix[moB][nu])
+                       *(tmp5*fockMatrix[moJ][nu] + tmp6*fockMatrix[moB][nu])
                        *fockMatrix[moI][nu];
                value -= exchange
-                       *(tmp2*fockMatrix[moI][nu]+tmp3*fockMatrix[moJ][nu])
+                       *(tmp6*fockMatrix[moI][nu] + tmp7*fockMatrix[moJ][nu])
                        *fockMatrix[moB][nu];
             }
 
@@ -2392,10 +2384,10 @@ double ZindoS::GetCISOffDiagElement(double const* const* const* const* nishimoto
                ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbitalNu) << "\n";
                throw MolDSException(ss.str());
             }   
-            value += 2.0*(coulomb-gamma)*tmp3
+            value += 2.0*(coulomb-gamma)*tmp7
                                         *fockMatrix[moJ][nu]
                                         *fockMatrix[moB][nu];
-            value -=     (coulomb-gamma)*tmp1
+            value -=     (coulomb-gamma)*tmp5
                                         *fockMatrix[moI][nu]
                                         *fockMatrix[moJ][nu];
          }
