@@ -1676,42 +1676,27 @@ void Cndo2::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment,
                                                  double const* groundStateDipole) const{
    int groundState = 0;
    if(from == groundState && to == groundState){
-      double valueX=0.0;
-      double valueY=0.0;
-      double valueZ=0.0;
-      double const* xyzCOC = molecule.GetXyzCOC();
+      double const* centerOfDipole = molecule.GetXyzCOC();
       int totalAONumber = molecule.GetTotalNumberAOs();
-      stringstream ompErrors;
-#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(auto)
-      for(int mu=0; mu<totalAONumber; mu++){
-         try{
-            double threadValueX = 0.0;
-            double threadValueY = 0.0;
-            double threadValueZ = 0.0;
-            for(int nu=0; nu<totalAONumber; nu++){
-               threadValueX -= orbitalElectronPopulation[mu][nu]
-                              *(cartesianMatrix[XAxis][mu][nu]-xyzCOC[XAxis]*overlapAOs[mu][nu]);
-               threadValueY -= orbitalElectronPopulation[mu][nu]
-                              *(cartesianMatrix[YAxis][mu][nu]-xyzCOC[YAxis]*overlapAOs[mu][nu]);
-               threadValueZ -= orbitalElectronPopulation[mu][nu]
-                              *(cartesianMatrix[ZAxis][mu][nu]-xyzCOC[ZAxis]*overlapAOs[mu][nu]);
-            }
-            valueX += threadValueX;
-            valueY += threadValueY;
-            valueZ += threadValueZ;
-         }
-         catch(MolDSException ex){
-#pragma omp critical
-            ompErrors << ex.what() << endl ;
-         }
-      }
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException(ompErrors.str());
-      }
-      transitionDipoleMoment[XAxis] = valueX;
-      transitionDipoleMoment[YAxis] = valueY;
-      transitionDipoleMoment[ZAxis] = valueZ;
+      transitionDipoleMoment[XAxis] = 0.0;
+      transitionDipoleMoment[YAxis] = 0.0;
+      transitionDipoleMoment[ZAxis] = 0.0;
+      transitionDipoleMoment[XAxis] -= MolDS_wrappers::Blas::GetInstance()->Ddot(totalAONumber*totalAONumber,
+                                                                                 &orbitalElectronPopulation[0][0],
+                                                                                 &cartesianMatrix[XAxis][0][0]);
+      transitionDipoleMoment[YAxis] -= MolDS_wrappers::Blas::GetInstance()->Ddot(totalAONumber*totalAONumber,
+                                                                                 &orbitalElectronPopulation[0][0],
+                                                                                 &cartesianMatrix[YAxis][0][0]);
+      transitionDipoleMoment[ZAxis] -= MolDS_wrappers::Blas::GetInstance()->Ddot(totalAONumber*totalAONumber,
+                                                                                 &orbitalElectronPopulation[0][0],
+                                                                                 &cartesianMatrix[ZAxis][0][0]);
+      // set orign of dipole
+      double temp = MolDS_wrappers::Blas::GetInstance()->Ddot(totalAONumber*totalAONumber,
+                                                              &orbitalElectronPopulation[0][0],
+                                                              &overlapAOs[0][0]);
+      transitionDipoleMoment[XAxis] += centerOfDipole[XAxis]*temp;
+      transitionDipoleMoment[YAxis] += centerOfDipole[YAxis]*temp;
+      transitionDipoleMoment[ZAxis] += centerOfDipole[ZAxis]*temp;
    }
    else{
       stringstream ss;
