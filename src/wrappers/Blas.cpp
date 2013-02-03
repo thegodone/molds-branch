@@ -33,6 +33,7 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/Uncopyable.h"
+#include"../base/MallocerFreer.h"
 #include"Blas.h"
 using namespace std;
 using namespace MolDS_base;
@@ -302,6 +303,56 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
 #else
    free(tmpC);
 #endif
+}
+
+// matrixD = matrixA*matrixB*matrixC
+//    matrixA: m*k-matrix (matrixA[m][k] in row-major (C/C++ style))
+//    matrixB: k*l-matrix (matrixB[k][n] in row-major (C/C++ style))
+//    matrixC: k*n-matrix (matrixC[k][n] in row-major (C/C++ style))
+//    matrixD: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
+void Blas::Dgemmm(molds_blas_int m, molds_blas_int n, molds_blas_int k, molds_blas_int l,
+                  double const* const* matrixA, 
+                  double const* const* matrixB, 
+                  double const* const* matrixC, 
+                  double**             matrixD) const{
+   bool isColumnMajorMatrixA = false; // because, in general, C/C++ style is row-major.
+   bool isColumnMajorMatrixB = false; // because, in general, C/C++ style is row-major.
+   bool isColumnMajorMatrixC = false; // because, in general, C/C++ style is row-major.
+   double alpha=1.0;
+   double beta =0.0;
+   this->Dgemmm(isColumnMajorMatrixA, isColumnMajorMatrixB, isColumnMajorMatrixC, m, n, k, l, alpha, matrixA, matrixB, matrixC, beta, matrixD);
+}
+
+// matrixD = alpha*matrixA*matrixB*matrixC + beta*matrixD
+//    matrixA: m*k-matrix 
+//    matrixB: k*l-matrix
+//    matrixC: l*n-matrix
+//    matrixD: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
+void Blas::Dgemmm(bool isColumnMajorMatrixA,
+                  bool isColumnMajorMatrixB, 
+                  bool isColumnMajorMatrixC, 
+                  molds_blas_int m, molds_blas_int n, molds_blas_int k, molds_blas_int l,
+                  double alpha,
+                  double const* const* matrixA,
+                  double const* const* matrixB,
+                  double const* const* matrixC,
+                  double beta,
+                  double** matrixD) const{
+   
+   double alphaBC = 1.0;
+   double betaBC  = 0.0;
+   bool isColumnMajorMatrixBC = false;
+   double** matrixBC = NULL;
+   try{
+      MallocerFreer::GetInstance()->Malloc<double>(&matrixBC, k, n); 
+      this->Dgemm(isColumnMajorMatrixB, isColumnMajorMatrixC,  k, n, l, alphaBC, matrixB, matrixC,  betaBC, matrixBC);
+      this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixBC, m, n, k, alpha,   matrixA, matrixBC, beta,   matrixD );
+   }
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free<double>(&matrixBC, k, n); 
+      throw ex;
+   }
+   MallocerFreer::GetInstance()->Free<double>(&matrixBC, k, n); 
 }
 
 // matrixC = matrixA*matrixA^T
