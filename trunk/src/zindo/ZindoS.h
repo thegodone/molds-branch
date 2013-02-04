@@ -171,13 +171,13 @@ private:
    void CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationCIS,
                                         double const* const* const* orbitalElectronPopulationCIS, 
                                         const MolDS_base::Molecule& molecule) const; 
-   void CalcElectronicDipoleMomentsExcitedState(double*** electronicTransitionDipoleMoments,
-                                                double const* const* fockMatrix,
-                                                double const* const* matrixCIS,
-                                                double const* const* const* cartesianMatrix,
-                                                const MolDS_base::Molecule& molecule, 
-                                                double const* const* orbitalElectronPopulation,
-                                                double const* const* overlapAOs) const;
+   void CalcElectronicDipoleMomentsExcitedStates(double*** electronicTransitionDipoleMoments,
+                                                 double const* const* fockMatrix,
+                                                 double const* const* matrixCIS,
+                                                 double const* const* const* cartesianMatrix,
+                                                 const MolDS_base::Molecule& molecule, 
+                                                 double const* const* orbitalElectronPopulation,
+                                                 double const* const* overlapAOs) const;
    void CalcElectronicTransitionDipoleMoments(double*** electronicTransitionDipoleMoments,
                                               double const* const* fockMatrix,
                                               double const* const* matrixCIS,
