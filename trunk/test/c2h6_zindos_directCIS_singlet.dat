@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 6:59:49  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:14  <<<<<
 
 
 **********  START: Parse input  **********
@@ -59,15 +59,16 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 
 
 **********  START: ZINDO/S-SCF  **********
-	SCF iter 0:	RMS density = 5.291502622129184	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 3.838492151665709	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 0.639670447585092	DIIS error = 1.064054e+00
-	SCF iter 3:	RMS density = 0.104551025859929	DIIS error = 1.927365e-01
-	SCF iter 4:	RMS density = 0.017838263308204	DIIS error = 3.256320e-02
-	SCF iter 5:	RMS density = 0.002973046733478	DIIS error = 5.368905e-03
-	SCF iter 6:	RMS density = 0.000074147072849	DIIS error = 1.000246e-03 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000011993148170	DIIS error = 2.705103e-05 (DIIS was applied)
-	SCF iter 8:	RMS density = 0.000000782384955	DIIS error = 4.076023e-06 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	5.291503e+00	0.000000e+00			
+	SCF iter 1	3.838492e+00	0.000000e+00			
+	SCF iter 2	6.396704e-01	1.064054e+00			
+	SCF iter 3	1.045510e-01	1.927365e-01			
+	SCF iter 4	1.783826e-02	3.256320e-02			
+	SCF iter 5	2.973047e-03	5.368905e-03			
+	SCF iter 6	7.414707e-05	1.000246e-03	on		
+	SCF iter 7	1.199315e-05	2.705103e-05	on		
+	SCF iter 8	7.823850e-07	4.076023e-06	on		
 
 
 
@@ -116,13 +117,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.599949e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.221343e-02
 
-	Elapsed time(omp) for the SCF = 0.098724[s].
+	Elapsed time(omp) for the SCF = 0.060603[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.123892[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.056044[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1564,19 +1565,19 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Ef and Eb:	48	1.651957e+00	4.495239e+01	-1.988551e-01	-5.411166e+00
 	Ef and Eb:	49	1.719393e+00	4.678744e+01	-1.661728e-01	-4.521828e+00
 
-	Elapsed time(omp) for the CIS = 2.900142[s].
+	Elapsed time(omp) for the CIS = 0.307442[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.116504[MB].
+		Max Heap: 0.157848[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 2.97[s].  <<<<<
-     >>>>>  Elapsed time: 3[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 3.00419[s].  <<<<<
+     >>>>>  CPU time: 0.38[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.389197[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

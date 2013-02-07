@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:0:17  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:32  <<<<<
 
 
 **********  START: Parse input  **********
@@ -45,17 +45,18 @@ geometry_end |
 
 
 **********  START: AM1-SCF  **********
-	SCF iter 0:	RMS density = 4.000000000000000	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 1.699064770152594	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 0.860962961554891	DIIS error = 4.424231e-01
-	SCF iter 3:	RMS density = 0.427429352546020	DIIS error = 2.916639e-01
-	SCF iter 4:	RMS density = 0.212223380647768	DIIS error = 1.660219e-01
-	SCF iter 5:	RMS density = 0.105406830265785	DIIS error = 8.544024e-02
-	SCF iter 6:	RMS density = 0.000491820682067	DIIS error = 4.286588e-02 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000144353521920	DIIS error = 1.947446e-04 (DIIS was applied)
-	SCF iter 8:	RMS density = 0.000016945440982	DIIS error = 5.644159e-05 (DIIS was applied)
-	SCF iter 9:	RMS density = 0.000003541339992	DIIS error = 5.182475e-06 (DIIS was applied)
-	SCF iter 10:	RMS density = 0.000000554352576	DIIS error = 1.216066e-06 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	4.000000e+00	0.000000e+00			
+	SCF iter 1	1.699065e+00	0.000000e+00			
+	SCF iter 2	8.609630e-01	4.424231e-01			
+	SCF iter 3	4.274294e-01	2.916639e-01			
+	SCF iter 4	2.122234e-01	1.660219e-01			
+	SCF iter 5	1.054068e-01	8.544024e-02			
+	SCF iter 6	4.918207e-04	4.286588e-02	on		
+	SCF iter 7	1.443535e-04	1.947446e-04	on		
+	SCF iter 8	1.694544e-05	5.644159e-05	on		
+	SCF iter 9	3.541340e-06	5.182475e-06	on		
+	SCF iter 10	5.543525e-07	1.216066e-06	on		
 
 
 
@@ -95,19 +96,19 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	7.034578e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	6.455938e-02
 
-	Elapsed time(omp) for the SCF = 0.036910[s].
+	Elapsed time(omp) for the SCF = 0.050725[s].
 **********  DONE: AM1-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.085536[MB].
+		Max Heap: 0.085176[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.03[s].  <<<<<
+     >>>>>  CPU time: 0.04[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0408781[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0547841[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
