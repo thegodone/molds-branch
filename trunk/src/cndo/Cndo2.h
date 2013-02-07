@@ -255,10 +255,10 @@ private:
    std::string errorMessageCalcOverlapAOsDifferentConfigurationsOverlapAOsNULL;
    std::string errorMessageLhs;
    std::string errorMessageRhs;
+   std::string messageIterSCFTitle;
    std::string messageIterSCF;
-   std::string messageDensityRMS;
-   std::string messageDiisError;
    std::string messageDiisApplied;
+   std::string messageDampingApplied;
    std::string messageEnergyMO;
    std::string messageEnergyMOTitle;
    std::string messageElecEnergy;
@@ -329,7 +329,8 @@ private:
                                     double* rmsDensity, 
                                     int     times,
                                     double  diisErro,
-                                    bool    hasAppliedDIIS) const;
+                                    bool    hasAppliedDIIS,
+                                    bool    hasAppliedDamping) const;
    void UpdateOldOrbitalElectronPopulation(double** oldOrbitalElectronPopulation, 
                                            double const* const* orbitalElectronPopulation,
                                            int numberAOs) const;
@@ -418,6 +419,7 @@ private:
    double GetAuxiliaryB1stDerivative(int k, double rho) const;
    double GetAuxiliaryB2ndDerivative(int k, double rho) const;
    void DoDamp(double rmsDensity, 
+               bool&  hasAppliedDamping,
                double** orbitalElectronPopulation, 
                double const* const* oldOrbitalElectronPopulation, 
                const MolDS_base::Molecule& molecule) const;

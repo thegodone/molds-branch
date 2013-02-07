@@ -174,10 +174,11 @@ void Atom::SetPxyz(double px, double py, double pz) const{
 #endif
    pxyz[0]= px; pxyz[1]= py; pxyz[2]= pz;
 }
-
+/*
 int Atom::GetValenceSize() const{
    return this->valence.size();
 }
+*/
 
 OrbitalType Atom::GetValence(int index) const{
    return this->valence[index];
