@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:0:44  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:45  <<<<<
 
 
 **********  START: Parse input  **********
@@ -45,18 +45,19 @@ geometry_end |
 
 
 **********  START: PM3-SCF  **********
-	SCF iter 0:	RMS density = 4.000000000000000	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 1.406267745252250	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 0.809638139734927	DIIS error = 4.015232e-01
-	SCF iter 3:	RMS density = 0.477935703507574	DIIS error = 2.545605e-01
-	SCF iter 4:	RMS density = 0.283514065186138	DIIS error = 1.775381e-01
-	SCF iter 5:	RMS density = 0.168259989348055	DIIS error = 1.112677e-01
-	SCF iter 6:	RMS density = 0.000343116810736	DIIS error = 6.732340e-02 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000114493107592	DIIS error = 1.425698e-04 (DIIS was applied)
-	SCF iter 8:	RMS density = 0.000095997988848	DIIS error = 3.566057e-05 (DIIS was applied)
-	SCF iter 9:	RMS density = 0.000038109717593	DIIS error = 3.286192e-05 (DIIS was applied)
-	SCF iter 10:	RMS density = 0.000001602437833	DIIS error = 1.334286e-05 (DIIS was applied)
-	SCF iter 11:	RMS density = 0.000000280665681	DIIS error = 5.131182e-07 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	4.000000e+00	0.000000e+00			
+	SCF iter 1	1.406268e+00	0.000000e+00			
+	SCF iter 2	8.096381e-01	4.015232e-01			
+	SCF iter 3	4.779357e-01	2.545605e-01			
+	SCF iter 4	2.835141e-01	1.775381e-01			
+	SCF iter 5	1.682600e-01	1.112677e-01			
+	SCF iter 6	3.431168e-04	6.732340e-02	on		
+	SCF iter 7	1.144931e-04	1.425698e-04	on		
+	SCF iter 8	9.599799e-05	3.566057e-05	on		
+	SCF iter 9	3.810972e-05	3.286192e-05	on		
+	SCF iter 10	1.602438e-06	1.334286e-05	on		
+	SCF iter 11	2.806657e-07	5.131182e-07	on		
 
 
 
@@ -96,19 +97,19 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	3.244089e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.649410e-02
 
-	Elapsed time(omp) for the SCF = 0.026278[s].
+	Elapsed time(omp) for the SCF = 0.018887[s].
 **********  DONE: PM3-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.085536[MB].
+		Max Heap: 0.085176[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.03[s].  <<<<<
+     >>>>>  CPU time: 0.02[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.029434[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0210631[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

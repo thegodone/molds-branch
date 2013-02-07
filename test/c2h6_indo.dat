@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 6:59:48  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:14  <<<<<
 
 
 **********  START: Parse input  **********
@@ -49,14 +49,15 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
 **********  START: INDO-SCF  **********
-	SCF iter 0:	RMS density = 5.291502622129183	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 0.128229097805404	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 0.028630088030789	DIIS error = 3.436817e-02
-	SCF iter 3:	RMS density = 0.007228058409077	DIIS error = 8.595482e-03
-	SCF iter 4:	RMS density = 0.001876655373407	DIIS error = 2.184575e-03
-	SCF iter 5:	RMS density = 0.000500173035971	DIIS error = 5.607483e-04
-	SCF iter 6:	RMS density = 0.000002862078839	DIIS error = 1.452513e-04 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000000275934261	DIIS error = 8.575747e-07 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	5.291503e+00	0.000000e+00			
+	SCF iter 1	1.282291e-01	0.000000e+00			
+	SCF iter 2	2.863009e-02	3.436817e-02			
+	SCF iter 3	7.228058e-03	8.595482e-03			
+	SCF iter 4	1.876655e-03	2.184575e-03			
+	SCF iter 5	5.001730e-04	5.607483e-04			
+	SCF iter 6	2.862079e-06	1.452513e-04	on		
+	SCF iter 7	2.759343e-07	8.575747e-07	on		
 
 
 
@@ -105,19 +106,19 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	-2.141181e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	-1.632549e-02
 
-	Elapsed time(omp) for the SCF = 0.066066[s].
+	Elapsed time(omp) for the SCF = 0.080816[s].
 **********  DONE: INDO-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.036720[MB].
+		Max Heap: 0.035400[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.07[s].  <<<<<
+     >>>>>  CPU time: 0.08[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.072031[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0877111[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

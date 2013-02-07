@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:1:51  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:56:22  <<<<<
 
 
 **********  START: Parse input  **********
@@ -59,19 +59,20 @@ h | -0.3681 | -0.4725 | 0.8016 | h | 1.9519 | 0.5200 | -0.9007 | h | 1.8519 |
 
 **********  START: Geometry optimization  **********
 **********  START: PM3/PDDG-SCF  **********
-	SCF iter 0:	RMS density = 5.291502622129184	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 1.776302500713475	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 0.953825787215981	DIIS error = 3.625677e-01
-	SCF iter 3:	RMS density = 0.523019383342596	DIIS error = 2.567713e-01
-	SCF iter 4:	RMS density = 0.287694781515639	DIIS error = 1.606437e-01
-	SCF iter 5:	RMS density = 0.158473555927059	DIIS error = 9.305247e-02
-	SCF iter 6:	RMS density = 0.001365259404958	DIIS error = 5.212422e-02 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000269846866934	DIIS error = 4.457894e-04 (DIIS was applied)
-	SCF iter 8:	RMS density = 0.000098252575166	DIIS error = 1.028232e-04 (DIIS was applied)
-	SCF iter 9:	RMS density = 0.000042078671248	DIIS error = 3.499462e-05 (DIIS was applied)
-	SCF iter 10:	RMS density = 0.000013333148821	DIIS error = 1.153050e-05 (DIIS was applied)
-	SCF iter 11:	RMS density = 0.000002624318413	DIIS error = 4.663702e-06 (DIIS was applied)
-	SCF iter 12:	RMS density = 0.000000435961072	DIIS error = 7.234132e-07 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	5.291503e+00	0.000000e+00			
+	SCF iter 1	1.776303e+00	0.000000e+00			
+	SCF iter 2	9.538258e-01	3.625677e-01			
+	SCF iter 3	5.230194e-01	2.567713e-01			
+	SCF iter 4	2.876948e-01	1.606437e-01			
+	SCF iter 5	1.584736e-01	9.305247e-02			
+	SCF iter 6	1.365259e-03	5.212422e-02	on		
+	SCF iter 7	2.698469e-04	4.457894e-04	on		
+	SCF iter 8	9.825258e-05	1.028232e-04	on		
+	SCF iter 9	4.207867e-05	3.499462e-05	on		
+	SCF iter 10	1.333315e-05	1.153050e-05	on		
+	SCF iter 11	2.624318e-06	4.663702e-06	on		
+	SCF iter 12	4.359611e-07	7.234132e-07	on		
 
 
 
@@ -120,7 +121,7 @@ h | -0.3681 | -0.4725 | 0.8016 | h | 1.9519 | 0.5200 | -0.9007 | h | 1.8519 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	9.774623e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.088898e-01
 
-	Elapsed time(omp) for the SCF = 0.048981[s].
+	Elapsed time(omp) for the SCF = 0.046229[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -759,14 +760,14 @@ h | -0.3681 | -0.4725 | 0.8016 | h | 1.9519 | 0.5200 | -0.9007 | h | 1.8519 |
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.216568[MB].
+		Max Heap: 0.215248[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 4.18[s].  <<<<<
-     >>>>>  Elapsed time: 4[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 4.19127[s].  <<<<<
+     >>>>>  CPU time: 5.89[s].  <<<<<
+     >>>>>  Elapsed time: 6[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 5.9163[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

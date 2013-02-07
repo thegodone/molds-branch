@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 6:59:55  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:16  <<<<<
 
 
 **********  START: Parse input  **********
@@ -58,17 +58,18 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 
 
 **********  START: MNDO-SCF  **********
-	SCF iter 0:	RMS density = 4.000000000000004	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 1.793258625433070	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 0.903407295849117	DIIS error = 4.644770e-01
-	SCF iter 3:	RMS density = 0.450146306548524	DIIS error = 3.225697e-01
-	SCF iter 4:	RMS density = 0.224664981670209	DIIS error = 1.794371e-01
-	SCF iter 5:	RMS density = 0.112188229875060	DIIS error = 9.143958e-02
-	SCF iter 6:	RMS density = 0.000328730136858	DIIS error = 4.577218e-02 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000130815056209	DIIS error = 1.158379e-04 (DIIS was applied)
-	SCF iter 8:	RMS density = 0.000019805128982	DIIS error = 5.289384e-05 (DIIS was applied)
-	SCF iter 9:	RMS density = 0.000001034064962	DIIS error = 8.276941e-06 (DIIS was applied)
-	SCF iter 10:	RMS density = 0.000000304866899	DIIS error = 2.893502e-07 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	4.000000e+00	0.000000e+00			
+	SCF iter 1	1.793259e+00	0.000000e+00			
+	SCF iter 2	9.034073e-01	4.644770e-01			
+	SCF iter 3	4.501463e-01	3.225697e-01			
+	SCF iter 4	2.246650e-01	1.794371e-01			
+	SCF iter 5	1.121882e-01	9.143958e-02			
+	SCF iter 6	3.287301e-04	4.577218e-02	on		
+	SCF iter 7	1.308151e-04	1.158379e-04	on		
+	SCF iter 8	1.980513e-05	5.289384e-05	on		
+	SCF iter 9	1.034065e-06	8.276941e-06	on		
+	SCF iter 10	3.048669e-07	2.893502e-07	on		
 
 
 
@@ -111,13 +112,13 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-1.457510e-02	-9.146013e+00
 
-	Elapsed time(omp) for the SCF = 0.045969[s].
+	Elapsed time(omp) for the SCF = 0.032929[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.005637[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.003281[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -140,10 +141,10 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	  4-th excited: norm of the residual = 3.768079e-03
 
 	Davidson iter=3
-	  1-th excited: norm of the residual = 7.084909e-16
-	  2-th excited: norm of the residual = 4.415752e-16
-	  3-th excited: norm of the residual = 8.813231e-16
-	  4-th excited: norm of the residual = 7.961416e-16
+	  1-th excited: norm of the residual = 6.546124e-15
+	  2-th excited: norm of the residual = 8.630224e-16
+	  3-th excited: norm of the residual = 3.682012e-15
+	  4-th excited: norm of the residual = 1.882752e-15
 
 
 
@@ -180,19 +181,19 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Transition dipole moment:	0 -> 4		6.864590e-01	4.646068e-01	-8.923818e-01	1.217962e+00		1.744805e+00	1.180913e+00	-2.268209e+00	3.095750e+00
 
 
-	Elapsed time(omp) for the CIS = 0.015593[s].
+	Elapsed time(omp) for the CIS = 0.010300[s].
 **********  DONE: MNDO-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.086336[MB].
+		Max Heap: 0.085976[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.07[s].  <<<<<
+     >>>>>  CPU time: 0.04[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0672832[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0512459[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 6:59:54  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:16  <<<<<
 
 
 **********  START: Parse input  **********
@@ -49,18 +49,19 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
 **********  START: MNDO-SCF  **********
-	SCF iter 0:	RMS density = 5.291502622129183	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 2.406832383581160	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 1.097693927705067	DIIS error = 4.723847e-01
-	SCF iter 3:	RMS density = 0.485996526273501	DIIS error = 3.319511e-01
-	SCF iter 4:	RMS density = 0.217393982341886	DIIS error = 1.561359e-01
-	SCF iter 5:	RMS density = 0.097852276195713	DIIS error = 6.958212e-02
-	SCF iter 6:	RMS density = 0.000404257452980	DIIS error = 3.100177e-02 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000094990567940	DIIS error = 1.543428e-04 (DIIS was applied)
-	SCF iter 8:	RMS density = 0.000036084327876	DIIS error = 3.755984e-05 (DIIS was applied)
-	SCF iter 9:	RMS density = 0.000007701726068	DIIS error = 1.213723e-05 (DIIS was applied)
-	SCF iter 10:	RMS density = 0.000002052101669	DIIS error = 1.993647e-06 (DIIS was applied)
-	SCF iter 11:	RMS density = 0.000000358204692	DIIS error = 6.113071e-07 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	5.291503e+00	0.000000e+00			
+	SCF iter 1	2.406832e+00	0.000000e+00			
+	SCF iter 2	1.097694e+00	4.723847e-01			
+	SCF iter 3	4.859965e-01	3.319511e-01			
+	SCF iter 4	2.173940e-01	1.561359e-01			
+	SCF iter 5	9.785228e-02	6.958212e-02			
+	SCF iter 6	4.042575e-04	3.100177e-02	on		
+	SCF iter 7	9.499057e-05	1.543428e-04	on		
+	SCF iter 8	3.608433e-05	3.755984e-05	on		
+	SCF iter 9	7.701726e-06	1.213723e-05	on		
+	SCF iter 10	2.052102e-06	1.993647e-06	on		
+	SCF iter 11	3.582047e-07	6.113071e-07	on		
 
 
 
@@ -112,19 +113,19 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.113888[s].
+	Elapsed time(omp) for the SCF = 0.065978[s].
 **********  DONE: MNDO-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.215792[MB].
+		Max Heap: 0.214472[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.12[s].  <<<<<
+     >>>>>  CPU time: 0.06[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.121229[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.070169[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 7:0:19  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:33  <<<<<
 
 
 **********  START: Parse input  **********
@@ -56,18 +56,19 @@ geometry_end |
 
 **********  START: Molecular dynamics  **********
 **********  START: AM1-SCF  **********
-	SCF iter 0:	RMS density = 5.291502622129176	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 2.251392923186921	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 1.066360223936911	DIIS error = 4.486968e-01
-	SCF iter 3:	RMS density = 0.485163652173429	DIIS error = 3.048606e-01
-	SCF iter 4:	RMS density = 0.221525604336855	DIIS error = 1.511189e-01
-	SCF iter 5:	RMS density = 0.101527699951397	DIIS error = 6.936625e-02
-	SCF iter 6:	RMS density = 0.000475612652631	DIIS error = 3.152567e-02 (DIIS was applied)
-	SCF iter 7:	RMS density = 0.000114151272704	DIIS error = 1.834498e-04 (DIIS was applied)
-	SCF iter 8:	RMS density = 0.000045086399410	DIIS error = 4.045270e-05 (DIIS was applied)
-	SCF iter 9:	RMS density = 0.000008220727853	DIIS error = 1.421681e-05 (DIIS was applied)
-	SCF iter 10:	RMS density = 0.000002287341924	DIIS error = 2.527351e-06 (DIIS was applied)
-	SCF iter 11:	RMS density = 0.000000372121780	DIIS error = 6.934143e-07 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	5.291503e+00	0.000000e+00			
+	SCF iter 1	2.251393e+00	0.000000e+00			
+	SCF iter 2	1.066360e+00	4.486968e-01			
+	SCF iter 3	4.851637e-01	3.048606e-01			
+	SCF iter 4	2.215256e-01	1.511189e-01			
+	SCF iter 5	1.015277e-01	6.936625e-02			
+	SCF iter 6	4.756127e-04	3.152567e-02	on		
+	SCF iter 7	1.141513e-04	1.834498e-04	on		
+	SCF iter 8	4.508640e-05	4.045270e-05	on		
+	SCF iter 9	8.220728e-06	1.421681e-05	on		
+	SCF iter 10	2.287342e-06	2.527351e-06	on		
+	SCF iter 11	3.721218e-07	6.934143e-07	on		
 
 
 
@@ -116,7 +117,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029841e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579838e-02
 
-	Elapsed time(omp) for the SCF = 0.090706[s].
+	Elapsed time(omp) for the SCF = 0.092778[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -159,10 +160,11 @@ geometry_end |
 
 	========== START: MD step 1
 **********  START: AM1-SCF  **********
-	SCF iter 0:	RMS density = 0.000009972254759	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 0.000002976170673	DIIS error = 3.177624e-06
-	SCF iter 2:	RMS density = 0.000001032225054	DIIS error = 9.056506e-07
-	SCF iter 3:	RMS density = 0.000000402147137	DIIS error = 2.799130e-07
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	9.972255e-06	0.000000e+00			
+	SCF iter 1	2.976171e-06	3.177624e-06			
+	SCF iter 2	1.032225e-06	9.056506e-07			
+	SCF iter 3	4.021471e-07	2.799130e-07			
 
 
 
@@ -211,7 +213,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029851e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579821e-02
 
-	Elapsed time(omp) for the SCF = 0.080524[s].
+	Elapsed time(omp) for the SCF = 0.045679[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -255,11 +257,12 @@ geometry_end |
 
 	========== START: MD step 2
 **********  START: AM1-SCF  **********
-	SCF iter 0:	RMS density = 0.000029930570097	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 0.000008942638393	DIIS error = 9.576176e-06
-	SCF iter 2:	RMS density = 0.000003104958107	DIIS error = 2.736885e-06
-	SCF iter 3:	RMS density = 0.000001210283979	DIIS error = 8.489614e-07
-	SCF iter 4:	RMS density = 0.000000508928944	DIIS error = 2.861412e-07
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	2.993057e-05	0.000000e+00			
+	SCF iter 1	8.942638e-06	9.576176e-06			
+	SCF iter 2	3.104958e-06	2.736885e-06			
+	SCF iter 3	1.210284e-06	8.489614e-07			
+	SCF iter 4	5.089289e-07	2.861412e-07			
 
 
 
@@ -308,7 +311,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029888e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579780e-02
 
-	Elapsed time(omp) for the SCF = 0.081954[s].
+	Elapsed time(omp) for the SCF = 0.045272[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -352,11 +355,12 @@ geometry_end |
 
 	========== START: MD step 3
 **********  START: AM1-SCF  **********
-	SCF iter 0:	RMS density = 0.000049801970133	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 0.000014874567955	DIIS error = 1.593458e-05
-	SCF iter 2:	RMS density = 0.000005163037367	DIIS error = 4.553527e-06
-	SCF iter 3:	RMS density = 0.000002012108173	DIIS error = 1.412293e-06
-	SCF iter 4:	RMS density = 0.000000845998915	DIIS error = 4.759616e-07
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	4.980197e-05	0.000000e+00			
+	SCF iter 1	1.487457e-05	1.593458e-05			
+	SCF iter 2	5.163037e-06	4.553527e-06			
+	SCF iter 3	2.012108e-06	1.412293e-06			
+	SCF iter 4	8.459989e-07	4.759616e-07			
 
 
 
@@ -405,7 +409,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029951e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579714e-02
 
-	Elapsed time(omp) for the SCF = 0.095582[s].
+	Elapsed time(omp) for the SCF = 0.041641[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -449,12 +453,13 @@ geometry_end |
 
 	========== START: MD step 4
 **********  START: AM1-SCF  **********
-	SCF iter 0:	RMS density = 0.000069696406786	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 0.000020826806667	DIIS error = 2.229924e-05
-	SCF iter 2:	RMS density = 0.000007233114501	DIIS error = 6.373920e-06
-	SCF iter 3:	RMS density = 0.000002820173883	DIIS error = 1.977504e-06
-	SCF iter 4:	RMS density = 0.000001186159046	DIIS error = 6.666713e-07
-	SCF iter 5:	RMS density = 0.000000522797385	DIIS error = 3.114280e-07
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	6.969641e-05	0.000000e+00			
+	SCF iter 1	2.082681e-05	2.229924e-05			
+	SCF iter 2	7.233115e-06	6.373920e-06			
+	SCF iter 3	2.820174e-06	1.977504e-06			
+	SCF iter 4	1.186159e-06	6.666713e-07			
+	SCF iter 5	5.227974e-07	3.114280e-07			
 
 
 
@@ -503,7 +508,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.030033e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579602e-02
 
-	Elapsed time(omp) for the SCF = 0.103080[s].
+	Elapsed time(omp) for the SCF = 0.059352[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -547,12 +552,13 @@ geometry_end |
 
 	========== START: MD step 5
 **********  START: AM1-SCF  **********
-	SCF iter 0:	RMS density = 0.000089356922797	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 0.000026670432949	DIIS error = 2.858858e-05
-	SCF iter 2:	RMS density = 0.000009250331244	DIIS error = 8.166830e-06
-	SCF iter 3:	RMS density = 0.000003602482301	DIIS error = 2.531938e-06
-	SCF iter 4:	RMS density = 0.000001513837012	DIIS error = 8.529155e-07
-	SCF iter 5:	RMS density = 0.000000666775874	DIIS error = 3.961722e-07
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	8.935692e-05	0.000000e+00			
+	SCF iter 1	2.667043e-05	2.858858e-05			
+	SCF iter 2	9.250331e-06	8.166830e-06			
+	SCF iter 3	3.602482e-06	2.531938e-06			
+	SCF iter 4	1.513837e-06	8.529155e-07			
+	SCF iter 5	6.667759e-07	3.961722e-07			
 
 
 
@@ -601,7 +607,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.030143e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579471e-02
 
-	Elapsed time(omp) for the SCF = 0.103213[s].
+	Elapsed time(omp) for the SCF = 0.051162[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -644,14 +650,14 @@ geometry_end |
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.216056[MB].
+		Max Heap: 0.214736[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 3.87[s].  <<<<<
-     >>>>>  Elapsed time: 4[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 3.8779[s].  <<<<<
+     >>>>>  CPU time: 2.24[s].  <<<<<
+     >>>>>  Elapsed time: 2[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 2.25423[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

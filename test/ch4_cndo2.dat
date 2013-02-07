@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/1/23(Wed.) 6:59:48  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:13  <<<<<
 
 
 **********  START: Parse input  **********
@@ -45,13 +45,14 @@ geometry_end |
 
 
 **********  START: CNDO/2-SCF  **********
-	SCF iter 0:	RMS density = 4.000000000000001	DIIS error = 0.000000e+00
-	SCF iter 1:	RMS density = 0.012667189481607	DIIS error = 0.000000e+00
-	SCF iter 2:	RMS density = 0.002218635273366	DIIS error = 4.862928e-03
-	SCF iter 3:	RMS density = 0.000502373742728	DIIS error = 9.038170e-04
-	SCF iter 4:	RMS density = 0.000141504373438	DIIS error = 1.989607e-04
-	SCF iter 5:	RMS density = 0.000044129425726	DIIS error = 5.130893e-05
-	SCF iter 6:	RMS density = 0.000000030358210	DIIS error = 1.682934e-05 (DIIS was applied)
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	4.000000e+00	0.000000e+00			
+	SCF iter 1	1.266719e-02	0.000000e+00			
+	SCF iter 2	2.218635e-03	4.862928e-03			
+	SCF iter 3	5.023737e-04	9.038170e-04			
+	SCF iter 4	1.415044e-04	1.989607e-04			
+	SCF iter 5	4.412943e-05	5.130893e-05			
+	SCF iter 6	3.035820e-08	1.682934e-05	on		
 
 
 
@@ -91,19 +92,19 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	1.665194e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	1.383112e-02
 
-	Elapsed time(omp) for the SCF = 0.027369[s].
+	Elapsed time(omp) for the SCF = 0.053355[s].
 **********  DONE: CNDO/2-SCF  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.013496[MB].
+		Max Heap: 0.013136[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.04[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0335951[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0571568[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
