@@ -3939,7 +3939,7 @@ void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix,
       }
    }
    
-   // rotate (fast algorithm, see also slow algorythm shown later)
+   // rotate (fast algorithm, see also slow algorithm shown later)
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
@@ -4012,7 +4012,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
       }
    }
    
-   // rotate (fast algorithm, see also slow algorythm shown later)
+   // rotate (fast algorithm, see also slow algorithm shown later)
    for(int mu=0; mu<dxy; mu++){
       for(int nu=mu; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
@@ -4151,7 +4151,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(
       }
    }
 
-   // rotate (fast algorithm, see also slow algorythm shown later)
+   // rotate (fast algorithm, see also slow algorithm shown later)
    int numberTerms = 25;
    double* tempIJK = NULL;
    double* tempIJ = NULL;
