@@ -42,7 +42,8 @@ $(EXENAME): $(DEPFILE) $(ALL_OBJ_FILES)
 
 .PHONY: depend
 depend:
-	+make -B $(DEPFILE)
+	rm $(DEPFILE)
+	+make $(DEPFILE)
 
 $(DEPFILE): Makefile_GNU
 	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) -I$(OPENBLAS_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -I$$(OPENBLAS_INC_DIR) -o $$@ $$< $$(CFLAGS) -c /g' > $(DEPFILE)
