@@ -1338,7 +1338,7 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
    // End of the fast algorith.
    
    /*
-   // slow algorythm
+   // slow algorithm
    value = 4.0*this->GetMolecularIntegralElement(moI, moJ, moK, moL, 
                                                  *this->molecule, 
                                                  this->fockMatrix, NULL)
@@ -3939,7 +3939,7 @@ void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix,
       }
    }
    
-   // rotate (fast algorythm, see also slow algorythm shown later)
+   // rotate (fast algorithm, see also slow algorythm shown later)
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
@@ -3966,7 +3966,7 @@ void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix,
    }
 
    /*
-   // rotate (slow algorythm)
+   // rotate (slow algorithm)
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
@@ -4012,7 +4012,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
       }
    }
    
-   // rotate (fast algorythm, see also slow algorythm shown later)
+   // rotate (fast algorithm, see also slow algorythm shown later)
    for(int mu=0; mu<dxy; mu++){
       for(int nu=mu; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
@@ -4074,7 +4074,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
    }
 
    /*
-   // rotate (slow algorythm)
+   // rotate (slow algorithm)
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
          for(int lambda=0; lambda<dxy; lambda++){
@@ -4151,7 +4151,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(
       }
    }
 
-   // rotate (fast algorythm, see also slow algorythm shown later)
+   // rotate (fast algorithm, see also slow algorythm shown later)
    int numberTerms = 25;
    double* tempIJK = NULL;
    double* tempIJ = NULL;
@@ -4276,7 +4276,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(
    MallocerFreer::GetInstance()->Free<double>(&tempI, numberTerms);
 
    /*
-   // rotate (slow algorythm shown later)
+   // rotate (slow algorithm shown later)
    for(int mu=s; mu<dxy; mu++){
       for(int nu=s; nu<dxy; nu++){
          for(int lambda=s; lambda<dxy; lambda++){
