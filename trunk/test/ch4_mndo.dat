@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:16  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:53:41  <<<<<
 
 
 **********  START: Parse input  **********
@@ -46,17 +46,16 @@ geometry_end |
 
 **********  START: MNDO-SCF  **********
 			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
-	SCF iter 0	4.000000e+00	0.000000e+00			
-	SCF iter 1	1.793258e+00	0.000000e+00			
-	SCF iter 2	9.034072e-01	4.644770e-01			
-	SCF iter 3	4.501463e-01	3.225697e-01			
-	SCF iter 4	2.246650e-01	1.794371e-01			
-	SCF iter 5	1.121883e-01	9.143959e-02			
-	SCF iter 6	3.287298e-04	4.577218e-02	on		
-	SCF iter 7	1.308148e-04	1.158381e-04	on		
-	SCF iter 8	1.980516e-05	5.289382e-05	on		
-	SCF iter 9	1.034062e-06	8.276981e-06	on		
-	SCF iter 10	3.048693e-07	2.893488e-07	on		
+	SCF iter 0	5.000000e-01	0.000000e+00			
+	SCF iter 1	2.241573e-01	0.000000e+00			
+	SCF iter 2	1.129259e-01	4.644770e-01			
+	SCF iter 3	5.626829e-02	3.225697e-01			
+	SCF iter 4	2.808313e-02	1.794371e-01			
+	SCF iter 5	1.402353e-02	9.143959e-02			
+	SCF iter 6	4.109122e-05	4.577218e-02	on		
+	SCF iter 7	1.635185e-05	1.158381e-04	on		
+	SCF iter 8	2.475645e-06	5.289382e-05	on		
+	SCF iter 9	1.292577e-07	8.276981e-06	on		
 
 
 
@@ -65,13 +64,13 @@ geometry_end |
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.150664e+00	-3.131140e+01
-	Energy of MO:	1	occ	-5.243127e-01	-1.426739e+01
-	Energy of MO:	2	occ	-5.164947e-01	-1.405465e+01
+	Energy of MO:	1	occ	-5.243128e-01	-1.426739e+01
+	Energy of MO:	2	occ	-5.164948e-01	-1.405465e+01
 	Energy of MO:	3	occ	-5.075206e-01	-1.381045e+01
-	Energy of MO:	4	unocc	1.623293e-01	4.417241e+00
-	Energy of MO:	5	unocc	1.678097e-01	4.566370e+00
-	Energy of MO:	6	unocc	1.721283e-01	4.683886e+00
-	Energy of MO:	7	unocc	2.330810e-01	6.342506e+00
+	Energy of MO:	4	unocc	1.623294e-01	4.417243e+00
+	Energy of MO:	5	unocc	1.678097e-01	4.566371e+00
+	Energy of MO:	6	unocc	1.721283e-01	4.683887e+00
+	Energy of MO:	7	unocc	2.330810e-01	6.342507e+00
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-6.797482e+00	-1.849704e+02
@@ -81,25 +80,25 @@ geometry_end |
 	Core repulsion energy:	7.660119e+00	2.084441e+02
 
 					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Total Dipole moment(SCF):	3.843918e-03	-9.048330e-03	-8.379985e-02	8.437454e-02		9.770268e-03	-2.299856e-02	-2.129980e-01	2.144587e-01
+	Total Dipole moment(SCF):	3.843907e-03	-9.048225e-03	-8.380000e-02	8.437468e-02		9.770240e-03	-2.299830e-02	-2.129984e-01	2.144591e-01
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Electronic Dipole moment(SCF):	3.843824e-03	-9.047925e-03	-1.778137e-01	1.780853e-01		9.770029e-03	-2.299754e-02	-4.519575e-01	4.526477e-01
+	Electronic Dipole moment(SCF):	3.843813e-03	-9.047821e-03	-1.778139e-01	1.780854e-01		9.770001e-03	-2.299727e-02	-4.519579e-01	4.526480e-01
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		9.401387e-08	-4.042596e-07	9.401387e-02	9.401387e-02		2.389595e-07	-1.027526e-06	2.389595e-01	2.389595e-01
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge(SCF):	0	0	C	4.000000e+00	7.461760e-02
-	Mulliken charge(SCF):	0	1	H	1.000000e+00	-1.852908e-02
-	Mulliken charge(SCF):	0	2	H	1.000000e+00	-2.419452e-02
-	Mulliken charge(SCF):	0	3	H	1.000000e+00	-1.306300e-02
-	Mulliken charge(SCF):	0	4	H	1.000000e+00	-1.883100e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	7.461777e-02
+	Mulliken charge(SCF):	0	1	H	1.000000e+00	-1.852917e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	-2.419460e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	-1.306296e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	-1.883103e-02
 
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-1.457507e-02	-9.145991e+00
 
-	Elapsed time(omp) for the SCF = 0.031801[s].
+	Elapsed time(omp) for the SCF = 0.034199[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -111,7 +110,7 @@ geometry_end |
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.035234[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0397801[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

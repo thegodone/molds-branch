@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:14  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:53:39  <<<<<
 
 
 **********  START: Parse input  **********
@@ -56,14 +56,14 @@ geometry_end |
 
 **********  START: ZINDO/S-SCF  **********
 			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
-	SCF iter 0	4.000000e+00	0.000000e+00			
-	SCF iter 1	3.100624e+00	0.000000e+00			
-	SCF iter 2	5.706385e-01	1.057058e+00			
-	SCF iter 3	1.020606e-01	2.197602e-01			
-	SCF iter 4	1.887030e-02	3.779322e-02			
-	SCF iter 5	3.355536e-03	7.315188e-03			
-	SCF iter 6	2.614284e-05	1.239245e-03	on		
-	SCF iter 7	5.793226e-07	1.009815e-05	on		
+	SCF iter 0	5.000000e-01	0.000000e+00			
+	SCF iter 1	3.875780e-01	0.000000e+00			
+	SCF iter 2	7.132982e-02	1.057058e+00			
+	SCF iter 3	1.275758e-02	2.197602e-01			
+	SCF iter 4	2.358787e-03	3.779322e-02			
+	SCF iter 5	4.194421e-04	7.315188e-03			
+	SCF iter 6	3.267855e-06	1.239245e-03	on		
+	SCF iter 7	7.241532e-08	1.009815e-05	on		
 
 
 
@@ -103,13 +103,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	2.583597e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.214567e-02
 
-	Elapsed time(omp) for the SCF = 0.037359[s].
+	Elapsed time(omp) for the SCF = 0.034509[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.001475[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001800[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -192,7 +192,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 16		-3.520592e-02	7.388933e-02	-9.573569e-02	1.259540e-01		-8.948453e-02	1.878080e-01	-2.433359e-01	3.201432e-01
 
 
-	Elapsed time(omp) for the CIS = 0.011954[s].
+	Elapsed time(omp) for the CIS = 0.010269[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -202,9 +202,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.05[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.05883[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.04863[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

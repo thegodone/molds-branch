@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:53:38  <<<<<
 
 
 **********  START: Parse input  **********
@@ -46,13 +46,13 @@ geometry_end |
 
 **********  START: INDO-SCF  **********
 			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
-	SCF iter 0	4.000000e+00	0.000000e+00			
-	SCF iter 1	7.811325e-02	0.000000e+00			
-	SCF iter 2	2.115705e-02	3.124740e-02			
-	SCF iter 3	5.803474e-03	8.303475e-03			
-	SCF iter 4	1.609547e-03	2.237505e-03			
-	SCF iter 5	4.517509e-04	6.096964e-04			
-	SCF iter 6	1.622460e-07	1.677718e-04	on		
+	SCF iter 0	5.000000e-01	0.000000e+00			
+	SCF iter 1	9.764157e-03	0.000000e+00			
+	SCF iter 2	2.644631e-03	3.124740e-02			
+	SCF iter 3	7.254343e-04	8.303475e-03			
+	SCF iter 4	2.011934e-04	2.237505e-03			
+	SCF iter 5	5.646887e-05	6.096964e-04			
+	SCF iter 6	2.028075e-08	1.677718e-04	on		
 
 
 
@@ -92,7 +92,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	-5.403399e-03
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	-8.439929e-03
 
-	Elapsed time(omp) for the SCF = 0.046740[s].
+	Elapsed time(omp) for the SCF = 0.021558[s].
 **********  DONE: INDO-SCF  **********
 
 
@@ -102,9 +102,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.06[s].  <<<<<
+     >>>>>  CPU time: 0.02[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.059624[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.024996[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
