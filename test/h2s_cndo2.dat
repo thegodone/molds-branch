@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:55:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:53:38  <<<<<
 
 
 **********  START: Parse input  **********
@@ -43,14 +43,13 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 
 **********  START: CNDO/2-SCF  **********
 			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
-	SCF iter 0	4.000000e+00	0.000000e+00			
-	SCF iter 1	4.357636e-03	0.000000e+00			
-	SCF iter 2	8.494394e-04	2.731502e-03			
-	SCF iter 3	3.299691e-04	4.765141e-04			
-	SCF iter 4	1.741345e-04	1.445653e-04			
-	SCF iter 5	9.869064e-05	6.126167e-05			
-	SCF iter 6	2.020855e-06	3.045899e-05	on		
-	SCF iter 7	4.738898e-07	6.666505e-07	on		
+	SCF iter 0	3.636364e-01	0.000000e+00			
+	SCF iter 1	3.961487e-04	0.000000e+00			
+	SCF iter 2	7.722176e-05	2.731502e-03			
+	SCF iter 3	2.999719e-05	4.765141e-04			
+	SCF iter 4	1.583041e-05	1.445653e-04			
+	SCF iter 5	8.971876e-06	6.126167e-05			
+	SCF iter 6	1.837141e-07	3.045899e-05	on		
 
 
 
@@ -62,13 +61,13 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 	Energy of MO:	1	occ	-6.480906e-01	-1.763558e+01
 	Energy of MO:	2	occ	-5.696289e-01	-1.550052e+01
 	Energy of MO:	3	occ	-4.903856e-01	-1.334418e+01
-	Energy of MO:	4	unocc	7.347055e-02	1.999252e+00
-	Energy of MO:	5	unocc	8.208076e-02	2.233549e+00
+	Energy of MO:	4	unocc	7.347058e-02	1.999252e+00
+	Energy of MO:	5	unocc	8.208075e-02	2.233549e+00
 	Energy of MO:	6	unocc	2.092021e-01	5.692723e+00
 	Energy of MO:	7	unocc	2.092021e-01	5.692723e+00
 	Energy of MO:	8	unocc	2.092021e-01	5.692723e+00
-	Energy of MO:	9	unocc	2.473123e-01	6.729765e+00
-	Energy of MO:	10	unocc	2.959981e-01	8.054582e+00
+	Energy of MO:	9	unocc	2.473124e-01	6.729766e+00
+	Energy of MO:	10	unocc	2.959980e-01	8.054581e+00
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.234141e+01	-3.358296e+02
@@ -78,20 +77,20 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 	Core repulsion energy:	4.873186e+00	1.326072e+02
 
 					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Total Dipole moment(SCF):	-1.711264e+00	-2.200484e+00	1.461296e+00	3.147370e+00		-4.349599e+00	-5.593074e+00	3.714246e+00	7.999819e+00
+	Total Dipole moment(SCF):	-1.711263e+00	-2.200485e+00	1.461297e+00	3.147371e+00		-4.349599e+00	-5.593077e+00	3.714247e+00	7.999822e+00
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Electronic Dipole moment(SCF):	-2.970428e+00	-3.982161e+00	2.615550e+00	5.614459e+00		-7.550078e+00	-1.012165e+01	6.648066e+00	1.427053e+01
+	Electronic Dipole moment(SCF):	-2.970428e+00	-3.982162e+00	2.615550e+00	5.614460e+00		-7.550077e+00	-1.012165e+01	6.648067e+00	1.427054e+01
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		1.259165e+00	1.781677e+00	-1.154253e+00	2.468232e+00		3.200479e+00	4.528571e+00	-2.933820e+00	6.273621e+00
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge(SCF):	0	0	S	6.000000e+00	-8.506759e-03
-	Mulliken charge(SCF):	0	1	H	1.000000e+00	5.963133e-03
-	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.543626e-03
+	Mulliken charge(SCF):	0	0	S	6.000000e+00	-8.506743e-03
+	Mulliken charge(SCF):	0	1	H	1.000000e+00	5.963189e-03
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.543555e-03
 
-	Elapsed time(omp) for the SCF = 0.089377[s].
+	Elapsed time(omp) for the SCF = 0.043103[s].
 **********  DONE: CNDO/2-SCF  **********
 
 
@@ -101,9 +100,9 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.09[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.092629[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0541821[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

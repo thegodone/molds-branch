@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/8(Fri.) 6:57:16  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:55:58  <<<<<
 
 
 **********  START: Parse input  **********
@@ -52,19 +52,17 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 **********  START: PM3-D-SCF  **********
 			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
-	SCF iter 0	5.291503e+00	0.000000e+00			
-	SCF iter 1	1.908069e+00	0.000000e+00			
-	SCF iter 2	1.042074e+00	3.868921e-01			
-	SCF iter 3	5.677699e-01	2.813467e-01			
-	SCF iter 4	3.076383e-01	1.723719e-01			
-	SCF iter 5	1.661669e-01	9.553762e-02			
-	SCF iter 6	6.522093e-04	5.159047e-02	on		
-	SCF iter 7	2.222756e-04	2.359400e-04	on		
-	SCF iter 8	8.222374e-05	9.554475e-05	on		
-	SCF iter 9	2.676669e-05	3.201001e-05	on		
-	SCF iter 10	4.948181e-06	8.623059e-06	on		
-	SCF iter 11	1.971851e-06	1.918071e-06	on		
-	SCF iter 12	1.643866e-07	7.308728e-07	on		
+	SCF iter 0	3.779645e-01	0.000000e+00			
+	SCF iter 1	1.362906e-01	0.000000e+00			
+	SCF iter 2	7.443386e-02	3.868921e-01			
+	SCF iter 3	4.055499e-02	2.813467e-01			
+	SCF iter 4	2.197417e-02	1.723719e-01			
+	SCF iter 5	1.186907e-02	9.553762e-02			
+	SCF iter 6	4.658638e-05	5.159047e-02	on		
+	SCF iter 7	1.587683e-05	2.359400e-04	on		
+	SCF iter 8	5.873124e-06	9.554475e-05	on		
+	SCF iter 9	1.911907e-06	3.201001e-05	on		
+	SCF iter 10	3.534415e-07	8.623059e-06	on		
 
 
 
@@ -73,19 +71,19 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.268122e+00	-3.450763e+01
-	Energy of MO:	1	occ	-8.274264e-01	-2.251560e+01
+	Energy of MO:	1	occ	-8.274263e-01	-2.251560e+01
 	Energy of MO:	2	occ	-5.674492e-01	-1.544120e+01
 	Energy of MO:	3	occ	-5.620921e-01	-1.529543e+01
-	Energy of MO:	4	occ	-4.989199e-01	-1.357641e+01
-	Energy of MO:	5	occ	-4.423141e-01	-1.203608e+01
+	Energy of MO:	4	occ	-4.989198e-01	-1.357641e+01
+	Energy of MO:	5	occ	-4.423141e-01	-1.203607e+01
 	Energy of MO:	6	occ	-4.359763e-01	-1.186361e+01
-	Energy of MO:	7	unocc	1.469331e-01	3.998284e+00
+	Energy of MO:	7	unocc	1.469330e-01	3.998283e+00
 	Energy of MO:	8	unocc	1.474896e-01	4.013429e+00
-	Energy of MO:	9	unocc	1.517265e-01	4.128722e+00
+	Energy of MO:	9	unocc	1.517265e-01	4.128721e+00
 	Energy of MO:	10	unocc	1.551291e-01	4.221311e+00
-	Energy of MO:	11	unocc	1.741803e-01	4.739724e+00
-	Energy of MO:	12	unocc	1.789752e-01	4.870202e+00
-	Energy of MO:	13	unocc	1.847029e-01	5.026061e+00
+	Energy of MO:	11	unocc	1.741803e-01	4.739725e+00
+	Energy of MO:	12	unocc	1.789752e-01	4.870201e+00
+	Energy of MO:	13	unocc	1.847028e-01	5.026060e+00
 
 				|   [a.u.]   |   [eV]   |
 	Electronic energy(SCF):	-1.215373e+01	-3.307223e+02
@@ -98,25 +96,25 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Empirical van der Waals correction:	-2.779480e-03	-7.563410e-02
 
 					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Total Dipole moment(SCF):	-1.768591e-02	-3.274935e-02	-1.369195e-02	3.965830e-02		-4.495311e-02	-8.324057e-02	-3.480146e-02	1.008014e-01
+	Total Dipole moment(SCF):	-1.768761e-02	-3.275124e-02	-1.369312e-02	3.966103e-02		-4.495743e-02	-8.324538e-02	-3.480445e-02	1.008083e-01
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Electronic Dipole moment(SCF):	1.000100e-02	-2.141377e-02	4.524543e-04	2.363841e-02		2.542002e-02	-5.442838e-02	1.150024e-03	6.008285e-02
+	Electronic Dipole moment(SCF):	9.999302e-03	-2.141566e-02	4.512801e-04	2.363938e-02		2.541570e-02	-5.443319e-02	1.147040e-03	6.008532e-02
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Core Dipole moment:		-2.768691e-02	-1.133558e-02	-1.414440e-02	3.309267e-02		-7.037313e-02	-2.881219e-02	-3.595149e-02	8.411319e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge(SCF):	0	0	C	4.000000e+00	-1.239158e-01
-	Mulliken charge(SCF):	0	1	C	4.000000e+00	-1.224919e-01
-	Mulliken charge(SCF):	0	2	H	1.000000e+00	4.374917e-02
-	Mulliken charge(SCF):	0	3	H	1.000000e+00	3.895964e-02
-	Mulliken charge(SCF):	0	4	H	1.000000e+00	3.963136e-02
-	Mulliken charge(SCF):	0	5	H	1.000000e+00	3.971153e-02
-	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.963546e-02
-	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.472049e-02
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	-1.239098e-01
+	Mulliken charge(SCF):	0	1	C	4.000000e+00	-1.224978e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	4.374680e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	3.895904e-02
+	Mulliken charge(SCF):	0	4	H	1.000000e+00	3.963020e-02
+	Mulliken charge(SCF):	0	5	H	1.000000e+00	3.971307e-02
+	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.963670e-02
+	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.472183e-02
 
-	Elapsed time(omp) for the SCF = 0.051286[s].
+	Elapsed time(omp) for the SCF = 0.060610[s].
 **********  DONE: PM3-D-SCF  **********
 
 
@@ -126,9 +124,9 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.05[s].  <<<<<
+     >>>>>  CPU time: 0.07[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.055027[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0750489[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
