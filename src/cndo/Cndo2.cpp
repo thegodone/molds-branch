@@ -1343,6 +1343,7 @@ bool Cndo2::SatisfyConvergenceCriterion(double const* const * oldOrbitalElectron
    if(!ompErrors.str().empty()){
       throw MolDSException(ompErrors.str());
    }
+   change /= numberAOs*numberAOs;
    *rmsDensity = sqrt(change);
  
    string diisOnOff    = hasAppliedDIIS    ? this->messageDiisApplied    : "";
