@@ -2969,7 +2969,7 @@ void Mndo::CalcZMatrixForce(const vector<int>& elecStates){
                                  Parameters::GetInstance()->GetActiveOccCIS(),
                                  Parameters::GetInstance()->GetActiveVirCIS());
 
-   // malloc temporary arraies
+   // malloc temporary arrays
    double* delta = NULL; // Delta matrix, see (9) in [PT_1997]
    double* q = NULL; //// Q-vector in (19) in [PT_1997]
    double** gammaNRMinusKNR = NULL; // Gmamma_{NR} - K_{NR} matrix, see (40) and (45) to slove (54) in [PT_1996]
