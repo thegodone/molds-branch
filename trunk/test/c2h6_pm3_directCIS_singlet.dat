@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:54:12  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/2/15(Fri.) 19:9:14  <<<<<
 
 
 **********  START: Parse input  **********
@@ -123,13 +123,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.056755[s].
+	Elapsed time(omp) for the SCF = 0.043375[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.062558[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.051392[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -382,19 +382,19 @@ geometry_end |
 	Unpaired electron population:	20	7	H	2.323780e-01
 
 
-	Elapsed time(omp) for the CIS = 0.091962[s].
+	Elapsed time(omp) for the CIS = 0.072443[s].
 **********  DONE: PM3-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.299200[MB].
-		Current Heap(Leaked): 0.000144[MB].
+		Max Heap: 0.266276[MB].
+		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
      >>>>>  CPU time: 0.13[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.152995[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.123206[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
