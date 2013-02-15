@@ -89,13 +89,19 @@ ZindoS::~ZindoS(){
                                               this->molecule->GetNumberAtoms(),
                                               CartesianType_end);
    if(Parameters::GetInstance()->RequiresMullikenCIS()){
+      vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
       MallocerFreer::GetInstance()->Free<double>(&this->orbitalElectronPopulationCIS, 
-                                                 Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS()->size(),
+                                                 elecStates->size(),
                                                  this->molecule->GetTotalNumberAOs(),
                                                  this->molecule->GetTotalNumberAOs());
       MallocerFreer::GetInstance()->Free<double>(&this->atomicElectronPopulationCIS, 
-                                                 Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS()->size(),
+                                                 elecStates->size(),
                                                  this->molecule->GetNumberAtoms());
+      if(Parameters::GetInstance()->RequiresUnpairedPopCIS()){
+         MallocerFreer::GetInstance()->Free<double>(&this->atomicUnpairedPopulationCIS, 
+                                                    elecStates->size(),
+                                                    this->molecule->GetNumberAtoms());
+      }
    }
    //this->OutputLog("ZindoS deleted\n");
 }
