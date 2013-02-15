@@ -32,10 +32,9 @@ public:
       if(*matrix!=NULL) return;
       double requiredMalloc = this->GetMemoryAmount<T>(size1);
       this->CheckLimitHeap(requiredMalloc);
-      *matrix = new T[size1];
+      *matrix = new T[size1]();
       if(*matrix==NULL) throw MolDSException(this->errorMessageMallocFailure);
       MallocerFreer::AddCurrentMalloced(requiredMalloc);
-      this->Initialize<T>(*matrix, size1);
    }
 
    template<typename T> void Initialize(T* matrix, size_t size1) const{
@@ -71,7 +70,6 @@ public:
          for(size_t i=0;i<size1;i++){p2d[i] = &p1d[i*size2];}
 
          MallocerFreer::AddCurrentMalloced(requiredMalloc);
-         this->Initialize<T>(p2d, size1, size2);
          *matrix = p2d;
       }
       catch(MolDSException ex){
@@ -116,7 +114,6 @@ public:
          }}
 
          MallocerFreer::AddCurrentMalloced(requiredMalloc);
-         this->Initialize<T>(p3d, size1, size2, size3);
          *matrix = p3d;
       }
       catch(MolDSException ex){
@@ -162,7 +159,6 @@ public:
          }}}
 
          MallocerFreer::AddCurrentMalloced(requiredMalloc);
-         this->Initialize<T>(p4d, size1, size2, size3, size4);
          *matrix = p4d;
       }
       catch(MolDSException ex){
@@ -209,7 +205,6 @@ public:
          }}}}
 
          MallocerFreer::AddCurrentMalloced(requiredMalloc);
-         this->Initialize<T>(p5d, size1, size2, size3, size4, size5);
          *matrix = p5d;
       }
       catch(MolDSException ex){
@@ -257,7 +252,6 @@ public:
          }}}}}
 
          MallocerFreer::AddCurrentMalloced(requiredMalloc);
-         this->Initialize<T>(p6d, size1, size2, size3, size4, size5, size6);
          *matrix = p6d;
       }
       catch(MolDSException ex){
@@ -306,7 +300,6 @@ public:
          }}}}}}
 
          MallocerFreer::AddCurrentMalloced(requiredMalloc);
-         this->Initialize<T>(p7d, size1, size2, size3, size4, size5, size6, size7);
          *matrix = p7d;
       }
       catch(MolDSException ex){
