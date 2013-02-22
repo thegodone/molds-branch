@@ -21,17 +21,22 @@
 namespace MolDS_base{
 class MolDS: public PrintController{
 public:
-   void Run(int argc, char *argv[]) const;
+   void Run(int argc, char *argv[]);
 private:
-   void CalculateElectronicStructureOnce(Molecule* molecule, bool* runningNormally) const;
-   void DoMC(Molecule* molecule, bool* runningNormally) const;
-   void DoMD(Molecule* molecule, bool* runningNormally) const;
-   void DoRPMD(Molecule* molecule, bool* runningNormally) const;
-   void DoNASCO(Molecule* molecule, bool* runningNormally) const;
-   void OptimizeGeometry(Molecule* molecule, bool* runningNormally) const;
-   void DiagonalizePrincipalAxes(Molecule* molecule, bool* runningNormally) const;
-   void TranslateMolecule(Molecule* molecule, bool* runningNormally) const;
-   void RotateMolecule(Molecule* molecule, bool* runningNormally) const;
+   time_t  startTime;
+   clock_t startTick;
+   double  ompStartTime;
+   void Initialize();
+   void Finalize(bool runsNormally) const;
+   void CalculateElectronicStructureOnce(Molecule* molecule, bool* runsNormally) const;
+   void DoMC(Molecule* molecule, bool* runsNormally) const;
+   void DoMD(Molecule* molecule, bool* runsNormally) const;
+   void DoRPMD(Molecule* molecule, bool* runsNormally) const;
+   void DoNASCO(Molecule* molecule, bool* runsNormally) const;
+   void OptimizeGeometry(Molecule* molecule, bool* runsNormally) const;
+   void DiagonalizePrincipalAxes(Molecule* molecule, bool* runsNormally) const;
+   void TranslateMolecule(Molecule* molecule, bool* runsNormally) const;
+   void RotateMolecule(Molecule* molecule, bool* runsNormally) const;
 };
 }
 #endif
