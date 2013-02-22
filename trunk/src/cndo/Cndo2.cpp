@@ -5710,9 +5710,11 @@ double Cndo2::GetReducedOverlapAOs(int na, int la, int m, int nb, int lb, double
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
          temp = Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j];
-         temp *= this->GetAuxiliaryA(i, 0.5*(alpha+beta));
-         temp *= this->GetAuxiliaryB(j, 0.5*(alpha-beta));
-         value += temp;
+         if(0e0<fabs(temp)){
+            temp *= this->GetAuxiliaryA(i, 0.5*(alpha+beta));
+            temp *= this->GetAuxiliaryB(j, 0.5*(alpha-beta));
+            value += temp;
+         }
       }
    }
    value *= this->GetAuxiliaryD(la, lb, m);
@@ -5727,9 +5729,11 @@ double Cndo2::GetReducedOverlapAOs(int na, int nb, double alpha, double beta) co
 
    for(int k=0; k<=na+nb; k++){
       temp = Cndo2::ReducedOverlapAOsParameters::Z[na][nb][k];
-      temp *= this->GetAuxiliaryA(k, 0.5*(alpha+beta));
-      temp *= this->GetAuxiliaryB(na+nb-k, 0.5*(alpha-beta));
-      value += temp;
+      if(0e0<fabs(temp)){
+         temp *= this->GetAuxiliaryA(k, 0.5*(alpha+beta));
+         temp *= this->GetAuxiliaryB(na+nb-k, 0.5*(alpha-beta));
+         value += temp;
+      }
    }
    value *= 0.5;
    return value;
@@ -5752,11 +5756,13 @@ double Cndo2::GetReducedOverlapAOs1stDerivativeAlpha(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
-         temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
-         value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2);
+         if(0e0<fabs(Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j])){
+            temp1 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
+            temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
+            value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2);
+         }
       }
    }
    value *= 0.5*this->GetAuxiliaryD(la, lb, m);
@@ -5781,11 +5787,13 @@ double Cndo2::GetReducedOverlapAOs1stDerivativeBeta(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
-         temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
-         value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 - temp2);
+         if(0e0<fabs(Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j])){
+            temp1 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
+            temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
+            value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 - temp2);
+         }
       }
    }
    value *= 0.5*this->GetAuxiliaryD(la, lb, m);
@@ -5811,13 +5819,15 @@ double Cndo2::GetReducedOverlapAOs2ndDerivativeAlpha(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
-         temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
-         temp3 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
-         value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2 + 2.0*temp3);
+         if(0e0<fabs(Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j])){
+            temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
+            temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
+            temp3 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
+            value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2 + 2.0*temp3);
+         }
       }
    }
    value *= 0.25*this->GetAuxiliaryD(la, lb, m);
@@ -5843,13 +5853,15 @@ double Cndo2::GetReducedOverlapAOs2ndDerivativeBeta(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
-         temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
-         temp3 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
-         value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2 - 2.0*temp3);
+         if(0e0<fabs(Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j])){
+            temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
+            temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
+            temp3 = this->GetAuxiliaryA1stDerivative(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB1stDerivative(j, 0.5*(alpha-beta));
+            value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 + temp2 - 2.0*temp3);
+         }
       }
    }
    value *= 0.25*this->GetAuxiliaryD(la, lb, m);
@@ -5874,11 +5886,13 @@ double Cndo2::GetReducedOverlapAOs2ndDerivativeAlphaBeta(int na,
 
    for(int i=0; i<I; i++){
       for(int j=0; j<J; j++){
-         temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
-         temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
-                *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
-         value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 - temp2);
+         if(0e0<fabs(Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j])){
+            temp1 = this->GetAuxiliaryA2ndDerivative(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB(j, 0.5*(alpha-beta));
+            temp2 = this->GetAuxiliaryA(i, 0.5*(alpha+beta))
+                   *this->GetAuxiliaryB2ndDerivative(j, 0.5*(alpha-beta));
+            value += Cndo2::ReducedOverlapAOsParameters::Y[na][nb][la][lb][m][i][j]*(temp1 - temp2);
+         }
       }
    }
    value *= 0.25*this->GetAuxiliaryD(la, lb, m);
