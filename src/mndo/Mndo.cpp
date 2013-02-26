@@ -3929,41 +3929,45 @@ void Mndo::FreeDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
 void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix, 
                                                     double const* const* rotatingMatrix) const{
    double oldMatrix[dxy][dxy][dxy][dxy];
-   for(int mu=0; mu<dxy; mu++){
-      for(int nu=0; nu<dxy; nu++){
-         for(int lambda=0; lambda<dxy; lambda++){
-            for(int sigma=0; sigma<dxy; sigma++){
-               oldMatrix[mu][nu][lambda][sigma] = matrix[mu][nu][lambda][sigma];
-            }
-         }
-      }
-   }
-   
+   MolDS_wrappers::Blas::GetInstance()->Dcopy(dxy*dxy*dxy*dxy, &matrix[0][0][0][0], &oldMatrix[0][0][0][0]);
+
    // rotate (fast algorithm, see also slow algorithm shown later)
+   double** twiceRotatingMatrix = NULL;
+   double** ptrOldMatrix        = NULL;
+   double** ptrMatrix           = NULL;
+   MallocerFreer::GetInstance()->Malloc<double>(&twiceRotatingMatrix, dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double*>(&ptrOldMatrix, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double*>(&ptrMatrix, dxy*dxy);
    for(int mu=0; mu<dxy; mu++){
       for(int nu=0; nu<dxy; nu++){
+         int i=mu*dxy+nu;
          for(int lambda=0; lambda<dxy; lambda++){
             for(int sigma=0; sigma<dxy; sigma++){
-               matrix[mu][nu][lambda][sigma] = 0.0;
-               for(int i=0; i<dxy; i++){
-                  double tempI = 0.0;
-                  for(int j=0; j<dxy; j++){
-                     double tempIJ = 0.0;
-                     for(int k=0; k<dxy; k++){
-                        double tempIJK = 0.0;
-                        for(int l=0; l<dxy; l++){
-                           tempIJK += oldMatrix[i][j][k][l]*rotatingMatrix[sigma][l];
-                        }
-                        tempIJ += tempIJK*rotatingMatrix[lambda][k];
-                     }
-                     tempI += tempIJ*rotatingMatrix[nu][j];
-                  }
-                  matrix[mu][nu][lambda][sigma] += tempI*rotatingMatrix[mu][i];
-               }
+               int j=lambda*dxy+sigma;
+               twiceRotatingMatrix[i][j] = rotatingMatrix[mu][lambda]*rotatingMatrix[nu][sigma];
             }
          }
+         ptrOldMatrix[i] = &oldMatrix[mu][nu][0][0];
+         ptrMatrix   [i] = &matrix   [mu][nu][0][0];
       }
    }
+   bool isColumnMajorTwiceRotatingMatrix = false;
+   bool isColumnMajorPtrOldMatrix        = false;
+   double alpha = 1.0;
+   double beta  = 0.0;
+   MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
+                                               isColumnMajorPtrOldMatrix,
+                                               !isColumnMajorTwiceRotatingMatrix,
+                                               dxy*dxy, dxy*dxy, dxy*dxy, dxy*dxy,
+                                               alpha,
+                                               twiceRotatingMatrix,
+                                               ptrOldMatrix,
+                                               twiceRotatingMatrix,
+                                               beta, 
+                                               ptrMatrix);
+   MallocerFreer::GetInstance()->Free<double>(&twiceRotatingMatrix, dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double*>(&ptrOldMatrix, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double*>(&ptrMatrix, dxy*dxy);
 
    /*
    // rotate (slow algorithm)
