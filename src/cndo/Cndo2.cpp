@@ -5136,6 +5136,10 @@ void Cndo2::CalcRotatingMatrix1stDerivatives(double*** rotMat1stDerivatives,
    double r = sqrt( pow(x,2.0) + pow(y,2.0) );
    double R = sqrt( pow(x,2.0) + pow(y,2.0) + pow(z,2.0) );
 
+   if(r==0e0){
+      return;
+   }
+
    // for s-function
    rotMat1stDerivatives[s][s][XAxis] = 0.0;
    rotMat1stDerivatives[s][s][YAxis] = 0.0;
@@ -5206,6 +5210,11 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    double z = atomB.GetXyz()[2] - atomA.GetXyz()[2];
    double r = sqrt( pow(x,2.0) + pow(y,2.0) );
    double R = sqrt( pow(x,2.0) + pow(y,2.0) + pow(z,2.0) );
+
+   if(r==0e0){
+      return;
+   }
+
    double temp1 = 1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0));
    double temp2 = 2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0));
    double temp3 = pow(r*R,-3.0) + 3.0/(r*pow(R,5.0));
