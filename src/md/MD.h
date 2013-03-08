@@ -52,7 +52,8 @@ private:
    void CheckEnableTheoryType(MolDS_base::TheoryType theoryType);
    void SetMessages();
    void SetEnableTheoryTypes();
-   void UpdateMomenta(const MolDS_base::Molecule& molecule, double const* const* matrixForce, double dt) const;
+   void UpdateMomenta    (const MolDS_base::Molecule& molecule, double const* const* matrixForce, double dt) const;
+   void UpdateCoordinates(      MolDS_base::Molecule& molecule, double dt) const;
    void OutputEnergies(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure, double initialEnergy);
    double OutputEnergies(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure);
 };
