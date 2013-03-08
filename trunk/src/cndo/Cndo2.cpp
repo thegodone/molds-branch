@@ -4192,7 +4192,7 @@ double Cndo2::GetGaussianOverlapAOsSaSb(double gaussianExponentA,
             /(gaussianExponentA+gaussianExponentB);
    temp2 = -1.0* gaussianExponentA*gaussianExponentB
             /(gaussianExponentA+gaussianExponentB);
-   value = pow(temp1, 1.5)*exp(temp2*pow(rAB, 2.0));
+   value = pow(temp1, 1.5)*exp(temp2*rAB*rAB);
    return value;
 }
 
