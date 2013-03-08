@@ -414,17 +414,17 @@ private:
                                                const MolDS_base_atoms::Atom& atomB,
                                                MolDS_base::MultipoleType multipoleA,
                                                MolDS_base::MultipoleType multipoleB,
-                                               double Rab) const;
+                                               double rAB) const;
    double GetSemiEmpiricalMultipoleInteraction1stDerivative(const MolDS_base_atoms::Atom& atomA,
                                                             const MolDS_base_atoms::Atom& atomB,
                                                             MolDS_base::MultipoleType multipoleA,
                                                             MolDS_base::MultipoleType multipoleB,
-                                                            double Rab) const;
+                                                            double rAB) const;
    double GetSemiEmpiricalMultipoleInteraction2ndDerivative(const MolDS_base_atoms::Atom& atomA,
                                                             const MolDS_base_atoms::Atom& atomB,
                                                             MolDS_base::MultipoleType multipoleA,
                                                             MolDS_base::MultipoleType multipoleB,
-                                                            double Rab) const;
+                                                            double rAB) const;
    void MallocTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs, 
                                     double****** diatomiTwoElecTwoCore1stDerivs) const;
    void FreeTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs, 

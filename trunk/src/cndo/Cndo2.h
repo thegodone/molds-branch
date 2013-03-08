@@ -210,7 +210,7 @@ protected:
                                                          MolDS_base::CartesianType axisA1,
                                                          MolDS_base::CartesianType axisA2,
                                                          double* cartesian,
-                                                         double Rab) const;
+                                                         double rAB) const;
    virtual double GetMolecularIntegralElement(int moI, int moJ, int moK, int moL, 
                                               const MolDS_base::Molecule& molecule, 
                                               double const* const* fockMatrix, 
@@ -361,7 +361,7 @@ private:
                                      MolDS_base::OrbitalType valenceOrbitalB, 
                                      double gaussianExponentB, 
                                      double const* xyzB,
-                                     double Rab,
+                                     double rAB,
                                      MolDS_base::CartesianType axis) const;
    void CalcOverlapAOs(double** overlapAOs, const MolDS_base::Molecule& molecule) const;
    void CalcOverlapAOsByGTOExpansion(double** overlapAOs, 
@@ -374,7 +374,7 @@ private:
                                              MolDS_base::STOnGType stonG) const; // see [DY_1977]
    double GetGaussianOverlapAOsSaSb(double gaussianExponentA, 
                                     double gaussianExponentB, 
-                                    double Rab) const; // see [DY_1977]
+                                    double rAB) const; // see [DY_1977]
    double GetGaussianOverlapAOs(MolDS_base::AtomType atomTypeA, 
                                 MolDS_base::OrbitalType valenceOrbitalA, 
                                 double gaussianExponentA, 
@@ -384,7 +384,7 @@ private:
                                 double dx, 
                                 double dy, 
                                 double dz, 
-                                double Rab) const; // see [DY_1977]
+                                double rAB) const; // see [DY_1977]
    double GetGaussianOverlapAOs1stDerivative(MolDS_base::AtomType atomTypeA, 
                                              MolDS_base::OrbitalType valenceOrbitalA, 
                                              double gaussianExponentA, 
@@ -394,7 +394,7 @@ private:
                                              double dx, 
                                              double dy, 
                                              double dz, 
-                                             double Rab, 
+                                             double rAB, 
                                              MolDS_base::CartesianType axisA) const;// see [DY_1977]
    void CalcFockMatrix(double** fockMatrix, 
                        const MolDS_base::Molecule& molecule, 
