@@ -3935,40 +3935,46 @@ void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix,
    double** twiceRotatingMatrix = NULL;
    double** ptrOldMatrix        = NULL;
    double** ptrMatrix           = NULL;
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceRotatingMatrix, dxy*dxy, dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double*>(&ptrOldMatrix, dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double*>(&ptrMatrix, dxy*dxy);
-   for(int mu=0; mu<dxy; mu++){
-      for(int nu=0; nu<dxy; nu++){
-         int i=mu*dxy+nu;
-         for(int lambda=0; lambda<dxy; lambda++){
-            for(int sigma=0; sigma<dxy; sigma++){
-               int j=lambda*dxy+sigma;
-               twiceRotatingMatrix[i][j] = rotatingMatrix[mu][lambda]*rotatingMatrix[nu][sigma];
+   try{
+      MallocTempMatricesRotateDiatomicTwoElecTwoCore(&twiceRotatingMatrix,
+                                                     &ptrOldMatrix,
+                                                     &ptrMatrix);
+      for(int mu=0; mu<dxy; mu++){
+         for(int nu=0; nu<dxy; nu++){
+            int i=mu*dxy+nu;
+            for(int lambda=0; lambda<dxy; lambda++){
+               for(int sigma=0; sigma<dxy; sigma++){
+                  int j=lambda*dxy+sigma;
+                  twiceRotatingMatrix[i][j] = rotatingMatrix[mu][lambda]*rotatingMatrix[nu][sigma];
+               }
             }
+            ptrOldMatrix[i] = &oldMatrix[mu][nu][0][0];
+            ptrMatrix   [i] = &matrix   [mu][nu][0][0];
          }
-         ptrOldMatrix[i] = &oldMatrix[mu][nu][0][0];
-         ptrMatrix   [i] = &matrix   [mu][nu][0][0];
       }
+      bool isColumnMajorTwiceRotatingMatrix = false;
+      bool isColumnMajorPtrOldMatrix        = false;
+      double alpha = 1.0;
+      double beta  = 0.0;
+      MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
+                                                  isColumnMajorPtrOldMatrix,
+                                                  !isColumnMajorTwiceRotatingMatrix,
+                                                  dxy*dxy, dxy*dxy, dxy*dxy, dxy*dxy,
+                                                  alpha,
+                                                  twiceRotatingMatrix,
+                                                  ptrOldMatrix,
+                                                  twiceRotatingMatrix,
+                                                  beta, 
+                                                  ptrMatrix);
    }
-   bool isColumnMajorTwiceRotatingMatrix = false;
-   bool isColumnMajorPtrOldMatrix        = false;
-   double alpha = 1.0;
-   double beta  = 0.0;
-   MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
-                                               isColumnMajorPtrOldMatrix,
-                                               !isColumnMajorTwiceRotatingMatrix,
-                                               dxy*dxy, dxy*dxy, dxy*dxy, dxy*dxy,
-                                               alpha,
-                                               twiceRotatingMatrix,
-                                               ptrOldMatrix,
-                                               twiceRotatingMatrix,
-                                               beta, 
-                                               ptrMatrix);
-   MallocerFreer::GetInstance()->Free<double>(&twiceRotatingMatrix, dxy*dxy, dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double*>(&ptrOldMatrix, dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double*>(&ptrMatrix, dxy*dxy);
-
+   catch(MolDSException ex){
+      FreeTempMatricesRotateDiatomicTwoElecTwoCore(&twiceRotatingMatrix,
+                                                   &ptrOldMatrix,
+                                                   &ptrMatrix);
+   }
+   FreeTempMatricesRotateDiatomicTwoElecTwoCore(&twiceRotatingMatrix,
+                                                &ptrOldMatrix,
+                                                &ptrMatrix);
    /*
    // rotate (slow algorithm)
    for(int mu=0; mu<dxy; mu++){
@@ -3996,86 +4002,153 @@ void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix,
    */
 }
 
+void Mndo::MallocTempMatricesRotateDiatomicTwoElecTwoCore(double*** twiceRotatingMatrix,
+                                                          double*** ptrOldMatrix,
+                                                          double*** ptrMatrix) const{
+   MallocerFreer::GetInstance()->Malloc<double>(twiceRotatingMatrix, dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double*>(ptrOldMatrix,       dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double*>(ptrMatrix,          dxy*dxy);
+}
+
+void Mndo::FreeTempMatricesRotateDiatomicTwoElecTwoCore(double*** twiceRotatingMatrix,
+                                                          double*** ptrOldMatrix,
+                                                          double*** ptrMatrix) const{
+   MallocerFreer::GetInstance()->Free<double>(twiceRotatingMatrix, dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double*>(ptrOldMatrix,       dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double*>(ptrMatrix,          dxy*dxy);
+}
+
 // Rotate 5-dimensional matrix from diatomic frame to space frame
 // Note tha in this method d-orbitals can not be treatable.
 void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
            double***** matrix, 
-           double const* const* const* const* diatomicTwoElecTwoCore,
+           double const* const*const* const* diatomicTwoElecTwoCore,
            double const* const* rotatingMatrix,
            double const* const* const* rotMat1stDerivatives) const{
-   double oldMatrix[dxy][dxy][dxy][dxy][CartesianType_end];
-   for(int mu=0; mu<dxy; mu++){
-      for(int nu=0; nu<dxy; nu++){
-         for(int lambda=0; lambda<dxy; lambda++){
-            for(int sigma=0; sigma<dxy; sigma++){
-               for(int c=0; c<CartesianType_end; c++){
-                  oldMatrix[mu][nu][lambda][sigma][c] = matrix[mu][nu][lambda][sigma][c];
-               }
-            }
-         }
-      }
-   }
-   
-   // rotate (fast algorithm, see also slow algorithm shown later)
-   for(int mu=0; mu<dxy; mu++){
-      for(int nu=mu; nu<dxy; nu++){
-         for(int lambda=0; lambda<dxy; lambda++){
-            for(int sigma=lambda; sigma<dxy; sigma++){
-               for(int c=0; c<CartesianType_end; c++){
 
-                  double value=0.0;
-                  for(int i=0; i<dxy; i++){
-                     double tempI_1 = 0.0;
-                     double tempI_2 = 0.0;
-                     double tempI_3 = 0.0;
-                     double tempI_4 = 0.0;
-                     double tempI_5 = 0.0;
-                     for(int j=0; j<dxy; j++){
-                        double tempIJ_1 = 0.0;
-                        double tempIJ_2 = 0.0;
-                        double tempIJ_3 = 0.0;
-                        double tempIJ_4 = 0.0;
-                        double tempIJ_5 = 0.0;
-                        for(int k=0; k<dxy; k++){
-                           double tempIJK_1 = 0.0;
-                           double tempIJK_2 = 0.0;
-                           double tempIJK_3 = 0.0;
-                           double tempIJK_4 = 0.0;
-                           double tempIJK_5 = 0.0;
-                           for(int l=0; l<dxy; l++){
-                              tempIJK_1 += oldMatrix[i][j][k][l][c]*rotatingMatrix[sigma][l];
-                              tempIJK_2 += diatomicTwoElecTwoCore[i][j][k][l]*rotatingMatrix[sigma][l];
-                              tempIJK_3 += diatomicTwoElecTwoCore[i][j][k][l]*rotatingMatrix[sigma][l];
-                              tempIJK_4 += diatomicTwoElecTwoCore[i][j][k][l]*rotatingMatrix[sigma][l];
-                              tempIJK_5 += diatomicTwoElecTwoCore[i][j][k][l]*rotMat1stDerivatives[sigma][l][c];
-                           }
-                           tempIJ_1 += tempIJK_1*rotatingMatrix[lambda][k];
-                           tempIJ_2 += tempIJK_2*rotatingMatrix[lambda][k];
-                           tempIJ_3 += tempIJK_3*rotatingMatrix[lambda][k];
-                           tempIJ_4 += tempIJK_4*rotMat1stDerivatives[lambda][k][c];
-                           tempIJ_5 += tempIJK_5*rotatingMatrix[lambda][k];
-                        }
-                        tempI_1 += tempIJ_1*rotatingMatrix[nu][j];
-                        tempI_2 += tempIJ_2*rotatingMatrix[nu][j];
-                        tempI_3 += tempIJ_3*rotMat1stDerivatives[nu][j][c];
-                        tempI_4 += tempIJ_4*rotatingMatrix[nu][j];
-                        tempI_5 += tempIJ_5*rotatingMatrix[nu][j];
-                     }
-                     value += tempI_1*rotatingMatrix[mu][i];
-                     value += tempI_2*rotMat1stDerivatives[mu][i][c];
-                     value += tempI_3*rotatingMatrix[mu][i];
-                     value += tempI_4*rotatingMatrix[mu][i];
-                     value += tempI_5*rotatingMatrix[mu][i];
+   // rotate (fast algorithm, see also slow algorithm shown later)
+   int incrementOne = 1;
+   bool isColumnMajorTwiceRotatingMatrix = false;
+   bool isColumnMajorOldMatrix           = false;
+   double alpha;
+   double beta;
+   double** twiceRotatingMatrix       = NULL;
+   double** twiceRotatingMatrixDerivA = NULL;
+   double** twiceRotatingMatrixDerivB = NULL;
+   double** oldMatrix                 = NULL;
+   double** tmpMatrix                 = NULL;
+   double** ptrDiatomic               = NULL;
+   try{
+      this->MallocTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(&twiceRotatingMatrix,
+                                                                    &twiceRotatingMatrixDerivA,
+                                                                    &twiceRotatingMatrixDerivB,
+                                                                    &oldMatrix,
+                                                                    &tmpMatrix,                
+                                                                    &ptrDiatomic);
+      for(int mu=0; mu<dxy; mu++){
+         for(int nu=0; nu<dxy; nu++){
+            int i=mu*dxy+nu;
+            for(int lambda=0; lambda<dxy; lambda++){
+               for(int sigma=0; sigma<dxy; sigma++){
+                  int j=lambda*dxy+sigma;
+                  twiceRotatingMatrix[i][j] = rotatingMatrix[mu][lambda]
+                                             *rotatingMatrix[nu][sigma ];
+               }
+            }
+            ptrDiatomic[i] = const_cast<double*>(&diatomicTwoElecTwoCore[mu][nu][0][0]);
+         }
+      }
+      for(int axis=0; axis<CartesianType_end; axis++){
+         for(int mu=0; mu<dxy; mu++){
+            for(int nu=0; nu<dxy; nu++){
+               int i=mu*dxy+nu;
+               for(int lambda=0; lambda<dxy; lambda++){
+                  for(int sigma=0; sigma<dxy; sigma++){
+                     int j=lambda*dxy+sigma;
+                     twiceRotatingMatrixDerivA[i][j] = rotMat1stDerivatives[mu][lambda][axis]
+                                                      *rotatingMatrix      [nu][sigma ];
+                     twiceRotatingMatrixDerivB[i][j] = rotatingMatrix      [mu][lambda] 
+                                                      *rotMat1stDerivatives[nu][sigma ][axis];
+                     oldMatrix[i][j] = matrix[mu][nu][lambda][sigma][axis];
                   }
-                  matrix[mu][nu][lambda][sigma][c] = value;
-                  matrix[mu][nu][sigma][lambda][c] = value;
-                  matrix[nu][mu][lambda][sigma][c] = value;
-                  matrix[nu][mu][sigma][lambda][c] = value;
                }
             }
          }
+         alpha = 1.0;
+         beta  = 0.0;
+         MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
+                                                     isColumnMajorOldMatrix,
+                                                     !isColumnMajorTwiceRotatingMatrix,
+                                                     dxy*dxy, dxy*dxy, dxy*dxy, dxy*dxy,
+                                                     alpha,
+                                                     twiceRotatingMatrix,
+                                                     oldMatrix,
+                                                     twiceRotatingMatrix,
+                                                     beta, 
+                                                     tmpMatrix);
+         alpha = 1.0;
+         beta  = 1.0;
+         MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
+                                                     isColumnMajorOldMatrix,
+                                                     !isColumnMajorTwiceRotatingMatrix,
+                                                     dxy*dxy, dxy*dxy, dxy*dxy, dxy*dxy,
+                                                     alpha,
+                                                     twiceRotatingMatrixDerivA,
+                                                     ptrDiatomic,
+                                                     twiceRotatingMatrix,
+                                                     beta, 
+                                                     tmpMatrix);
+         MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
+                                                     isColumnMajorOldMatrix,
+                                                     !isColumnMajorTwiceRotatingMatrix,
+                                                     dxy*dxy, dxy*dxy, dxy*dxy, dxy*dxy,
+                                                     alpha,
+                                                     twiceRotatingMatrixDerivB,
+                                                     ptrDiatomic,
+                                                     twiceRotatingMatrix,
+                                                     beta, 
+                                                     tmpMatrix);
+         MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
+                                                     isColumnMajorOldMatrix,
+                                                     !isColumnMajorTwiceRotatingMatrix,
+                                                     dxy*dxy, dxy*dxy, dxy*dxy, dxy*dxy,
+                                                     alpha,
+                                                     twiceRotatingMatrix,
+                                                     ptrDiatomic,
+                                                     twiceRotatingMatrixDerivA,
+                                                     beta, 
+                                                     tmpMatrix);
+         MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
+                                                     isColumnMajorOldMatrix,
+                                                     !isColumnMajorTwiceRotatingMatrix,
+                                                     dxy*dxy, dxy*dxy, dxy*dxy, dxy*dxy,
+                                                     alpha,
+                                                     twiceRotatingMatrix,
+                                                     ptrDiatomic,
+                                                     twiceRotatingMatrixDerivB,
+                                                     beta, 
+                                                     tmpMatrix);
+
+         MolDS_wrappers::Blas::GetInstance()->Dcopy(dxy*dxy*dxy*dxy, 
+                                                    &tmpMatrix[0][0]         , incrementOne,
+                                                    &matrix[0][0][0][0][axis], CartesianType_end);
       }
    }
+   catch(MolDSException ex){
+      this->FreeTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(&twiceRotatingMatrix,
+                                                                  &twiceRotatingMatrixDerivA,
+                                                                  &twiceRotatingMatrixDerivB,
+                                                                  &oldMatrix,
+                                                                  &tmpMatrix,                
+                                                                  &ptrDiatomic);
+      throw ex;
+   }
+   this->FreeTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(&twiceRotatingMatrix,
+                                                               &twiceRotatingMatrixDerivA,
+                                                               &twiceRotatingMatrixDerivB,
+                                                               &oldMatrix,
+                                                               &tmpMatrix,                
+                                                               &ptrDiatomic);
 
    /*
    // rotate (slow algorithm)
@@ -4129,6 +4202,34 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
       }
    }
    */
+}
+
+void Mndo::MallocTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twiceRotatingMatrix,
+                                                                   double*** twiceRotatingMatrixDerivA,
+                                                                   double*** twiceRotatingMatrixDerivB,
+                                                                   double*** oldMatrix,
+                                                                   double*** tmpMatrix,                
+                                                                   double*** ptrDiatomic) const{
+   MallocerFreer::GetInstance()->Malloc<double>(twiceRotatingMatrix,       dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(twiceRotatingMatrixDerivA, dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(twiceRotatingMatrixDerivB, dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(oldMatrix,                 dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpMatrix,                 dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double*>(ptrDiatomic,              dxy*dxy);
+}
+
+void Mndo::FreeTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twiceRotatingMatrix,
+                                                                 double*** twiceRotatingMatrixDerivA,
+                                                                 double*** twiceRotatingMatrixDerivB,
+                                                                 double*** oldMatrix,
+                                                                 double*** tmpMatrix,                
+                                                                 double*** ptrDiatomic) const{
+   MallocerFreer::GetInstance()->Free<double>(twiceRotatingMatrix,       dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(twiceRotatingMatrixDerivA, dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(twiceRotatingMatrixDerivB, dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(oldMatrix,                 dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(tmpMatrix,                 dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double*>(ptrDiatomic,              dxy*dxy);
 }
 
 // Rotate 6-dimensional matrix from diatomic frame to space frame

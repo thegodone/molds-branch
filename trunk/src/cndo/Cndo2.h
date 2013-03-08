@@ -462,7 +462,9 @@ private:
    void MallocDiatomicOverlapAOs1stDeriTemps(double***  diaOverlapAOsInDiaFrame, 
                                              double***  diaOverlapAOs1stDerivInDiaFrame,
                                              double***  rotMat,
-                                             double**** rotMat1stDerivs) const;
+                                             double**** rotMat1stDerivs,
+                                             double***  tmpRotMat1stDeriv,
+                                             double***  tmpMatrix) const;
    void MallocDiatomicOverlapAOs2ndDeriTemps(double***   diaOverlapAOsInDiaFrame, 
                                              double***   diaOverlapAOs1stDerivInDiaFrame,
                                              double***   diaOverlapAOs2ndDerivInDiaFrame,
@@ -474,7 +476,9 @@ private:
    void FreeDiatomicOverlapAOs1stDeriTemps(double***  diaOverlapAOsInDiaFrame, 
                                            double***  diaOverlapAOs1stDerivInDiaFrame,
                                            double***  rotMat,
-                                           double**** rotMat1stDerivs) const;
+                                           double**** rotMat1stDerivs,
+                                           double***  tmpRotMat1stDeriv,
+                                           double***  tmpMatrix) const;
    void FreeDiatomicOverlapAOs2ndDeriTemps(double***   diaOverlapAOsInDiaFrame, 
                                            double***   diaOverlapAOs1stDerivInDiaFrame,
                                            double***   diaOverlapAOs2ndDerivInDiaFrame,

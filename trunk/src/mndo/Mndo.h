@@ -360,19 +360,35 @@ private:
                                                double*****  diatomicTwoElecTwoCore,
                                                double****** diatomicTwoElecTwoCore1stDerivatives) const;
    void RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix, 
-                                                   double const* const* rotatingMatrix) const;
-   void RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
-        double***** matrix, 
-        double const* const* const* const* diatomicTwoElecTwoCore,
-        double const* const* rotatingMatrix,
-        double const* const* const* rotMat1stDerivatives) const;
-   void RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(
-        double****** matrix, 
-        double const* const* const* const*        diatomicTwoElecTwoCore,
-        double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivatives,
-        double const* const* rotatingMatrix,
-        double const* const* const* rotMat1stDerivatives,
-        double const* const* const* const* rotMat2ndDerivatives) const;
+                                                 double const* const* rotatingMatrix) const;
+   void RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(double***** matrix, 
+                                                               double const* const* const* const* diatomicTwoElecTwoCore,
+                                                               double const* const* rotatingMatrix,
+                                                               double const* const* const* rotMat1stDerivatives) const;
+   void RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(double****** matrix, 
+                                                               double const* const* const* const*        diatomicTwoElecTwoCore,
+                                                               double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivatives,
+                                                               double const* const* rotatingMatrix,
+                                                               double const* const* const* rotMat1stDerivatives,
+                                                               double const* const* const* const* rotMat2ndDerivatives) const;
+   void MallocTempMatricesRotateDiatomicTwoElecTwoCore(double*** twiceRotatingMatrix,
+                                                       double*** ptrOldMatrix,
+                                                       double*** ptrMatrix) const;
+   void FreeTempMatricesRotateDiatomicTwoElecTwoCore(double*** twiceRotatingMatrix,
+                                                       double*** ptrOldMatrix,
+                                                       double*** ptrMatrix) const;
+   void MallocTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twiceRotatingMatrix,
+                                                                double*** twiceRotatingMatrixDerivA,
+                                                                double*** twiceRotatingMatrixDerivB,
+                                                                double*** oldMatrix,
+                                                                double*** tmpMatrix,                
+                                                                double*** ptrDiatomic) const;              
+   void FreeTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twiceRotatingMatrix,
+                                                              double*** twiceRotatingMatrixDerivA,
+                                                              double*** twiceRotatingMatrixDerivB,
+                                                              double*** oldMatrix,
+                                                              double*** tmpMatrix,                
+                                                              double*** ptrDiatomic) const;              
    double GetNddoRepulsionIntegral(const MolDS_base_atoms::Atom& atomA, 
                                    MolDS_base::OrbitalType mu, 
                                    MolDS_base::OrbitalType nu,

@@ -97,19 +97,9 @@ void MD::DoMD(){
    for(int s=0; s<totalSteps; s++){
       this->OutputLog(boost::format("%s%d\n") % this->messageStartStepMD.c_str() % (s+1) );
 
-      // update momenta
-      this->UpdateMomenta(*this->molecule, matrixForce, dt);
-
-      // update coordinates
-      for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
-         Atom* atom = this->molecule->GetAtom(a);
-         double coreMass = atom->GetAtomicMass() - static_cast<double>(atom->GetNumberValenceElectrons());
-         for(int i=0; i<CartesianType_end; i++){
-            atom->GetXyz()[i] += dt*atom->GetPxyz()[i]/coreMass;
-         }
-      }
-      this->molecule->CalcXyzCOM();
-      this->molecule->CalcXyzCOC();
+      // update momenta & coordinates
+      this->UpdateMomenta    (*this->molecule, matrixForce, dt);
+      this->UpdateCoordinates(*this->molecule, dt);
 
       // update electronic structure
       electronicStructure->DoSCF(requireGuess);
@@ -138,12 +128,26 @@ void MD::DoMD(){
 }
 
 void MD::UpdateMomenta(const Molecule& molecule, double const* const* matrixForce, double dt) const{
+#pragma omp parallel for schedule(auto)
    for(int a=0; a<molecule.GetNumberAtoms(); a++){
       Atom* atom = molecule.GetAtom(a);
       for(int i=0; i<CartesianType_end; i++){
          atom->GetPxyz()[i] += 0.5*dt*(matrixForce[a][i]);
       }
    }
+}
+
+void MD::UpdateCoordinates(Molecule& molecule, double dt) const{
+#pragma omp parallel for schedule(auto)
+      for(int a=0; a<molecule.GetNumberAtoms(); a++){
+         Atom* atom = molecule.GetAtom(a);
+         double coreMass = atom->GetAtomicMass() - static_cast<double>(atom->GetNumberValenceElectrons());
+         for(int i=0; i<CartesianType_end; i++){
+            atom->GetXyz()[i] += dt*atom->GetPxyz()[i]/coreMass;
+         }
+      }
+      molecule.CalcXyzCOM();
+      molecule.CalcXyzCOC();
 }
 
 void MD::SetMessages(){
