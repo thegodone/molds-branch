@@ -381,12 +381,14 @@ private:
                                                                 double*** twiceRotatingMatrixDerivA,
                                                                 double*** twiceRotatingMatrixDerivB,
                                                                 double*** oldMatrix,
+                                                                double*** rotatedMatrix,
                                                                 double*** tmpMatrix,                
                                                                 double*** ptrDiatomic) const;              
    void FreeTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twiceRotatingMatrix,
                                                               double*** twiceRotatingMatrixDerivA,
                                                               double*** twiceRotatingMatrixDerivB,
                                                               double*** oldMatrix,
+                                                              double*** rotatedMatrix,
                                                               double*** tmpMatrix,                
                                                               double*** ptrDiatomic) const;              
    double GetNddoRepulsionIntegral(const MolDS_base_atoms::Atom& atomA, 
