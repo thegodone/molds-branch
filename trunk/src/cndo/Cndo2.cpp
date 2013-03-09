@@ -5815,18 +5815,20 @@ void Cndo2::RotateDiatmicOverlapAOsToSpaceFrame(double** diatomicOverlapAOs,
          }
       }
       // rotate
-      for(int i=0; i<OrbitalType_end; i++){
-         for(int j=0; j<OrbitalType_end; j++){
-            diatomicOverlapAOs[i][j] = 0.0;
-            for(int k=0; k<OrbitalType_end; k++){
-               for(int l=0; l<OrbitalType_end; l++){
-                  diatomicOverlapAOs[i][j] += oldDiatomicOverlapAOs[k][l] 
-                                             *rotatingMatrix[i][k] 
-                                             *rotatingMatrix[j][l];
-               }
-            }
-         }
-      }
+      bool isColumnMajorRotatingMatrix = false;
+      bool isColumnMajorOldDiatomicOverlap        = false;
+      double alpha = 1.0;
+      double beta  = 0.0;
+      MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
+                                                  isColumnMajorOldDiatomicOverlap,
+                                                  !isColumnMajorRotatingMatrix,
+                                                  OrbitalType_end, OrbitalType_end, OrbitalType_end, OrbitalType_end, 
+                                                  alpha,
+                                                  rotatingMatrix,
+                                                  oldDiatomicOverlapAOs,
+                                                  rotatingMatrix,
+                                                  beta, 
+                                                  diatomicOverlapAOs);
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&oldDiatomicOverlapAOs, OrbitalType_end, OrbitalType_end);
