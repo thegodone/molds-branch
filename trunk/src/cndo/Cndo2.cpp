@@ -3789,6 +3789,7 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
    double**  diaOverlapAOs1stDerivInDiaFrame = NULL; // first derivative of the diaOverlapAOs. This derivative is related to the distance between two atoms.
    double**  rotMat = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
    double*** rotMat1stDerivs = NULL; // first derivatives of the rotMat.
+   double**  rotatedDiatomicOverlap = NULL;
    double**  tmpRotMat1stDeriv = NULL;
    double**  tmpMatrix         = NULL;
 
@@ -3797,6 +3798,7 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                  &diaOverlapAOs1stDerivInDiaFrame,
                                                  &rotMat,
                                                  &rotMat1stDerivs,
+                                                 &rotatedDiatomicOverlap,
                                                  &tmpRotMat1stDeriv,
                                                  &tmpMatrix);
       this->CalcDiatomicOverlapAOsInDiatomicFrame(diaOverlapAOsInDiaFrame, atomA, atomB);
@@ -3825,6 +3827,7 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                      diaOverlapAOs1stDerivInDiaFrame,
                                                      rotMat,
                                                      beta,
+                                                     rotatedDiatomicOverlap,
                                                      tmpMatrix);
          alpha = 1.0;
          beta  = 1.0;
@@ -3837,6 +3840,7 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                      diaOverlapAOsInDiaFrame,
                                                      rotMat,
                                                      beta,
+                                                     rotatedDiatomicOverlap,
                                                      tmpMatrix);
          MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
                                                      isColumnMajorDiaOverlapAOs,
@@ -3847,9 +3851,10 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                      diaOverlapAOsInDiaFrame,
                                                      tmpRotMat1stDeriv,
                                                      beta,
+                                                     rotatedDiatomicOverlap,
                                                      tmpMatrix);
          MolDS_wrappers::Blas::GetInstance()->Dcopy(OrbitalType_end*OrbitalType_end, 
-                                                    &tmpMatrix[0][0],                      incrementOne,
+                                                    &rotatedDiatomicOverlap[0][0],                      incrementOne,
                                                     &diatomicOverlapAOs1stDerivs[0][0][c], CartesianType_end);
       }
 
@@ -3889,6 +3894,7 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                &diaOverlapAOs1stDerivInDiaFrame,
                                                &rotMat,
                                                &rotMat1stDerivs,
+                                               &rotatedDiatomicOverlap,
                                                &tmpRotMat1stDeriv,
                                                &tmpMatrix);
       throw ex;
@@ -3898,6 +3904,7 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                             &diaOverlapAOs1stDerivInDiaFrame,
                                             &rotMat,
                                             &rotMat1stDerivs,
+                                            &rotatedDiatomicOverlap,
                                             &tmpRotMat1stDeriv,
                                             &tmpMatrix);
 }
@@ -4091,14 +4098,16 @@ void Cndo2::MallocDiatomicOverlapAOs1stDeriTemps(double***  diaOverlapAOsInDiaFr
                                                  double***  diaOverlapAOs1stDerivInDiaFrame,
                                                  double***  rotMat,
                                                  double**** rotMat1stDerivs,
+                                                 double***  rotatedDiatomicOverlap,
                                                  double***  tmpRotMat1stDeriv,
                                                  double***  tmpMatrix) const{
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(diaOverlapAOs1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMat,                       OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMat1stDerivs,              OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(tmpMatrix,         OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat1stDeriv, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMat,                          OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotMat1stDerivs,                 OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(rotatedDiatomicOverlap,          OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpMatrix,                       OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat1stDeriv,               OrbitalType_end, OrbitalType_end);
 }
 
 void Cndo2::MallocDiatomicOverlapAOs2ndDeriTemps(double*** diaOverlapAOsInDiaFrame, 
@@ -4123,14 +4132,16 @@ void Cndo2::FreeDiatomicOverlapAOs1stDeriTemps(double*** diaOverlapAOsInDiaFrame
                                                double*** diaOverlapAOs1stDerivInDiaFrame,
                                                double*** rotMat,
                                                double**** rotMat1stDerivs,
+                                               double***  rotatedDiatomicOverlap,
                                                double***  tmpRotMat1stDeriv,
                                                double***  tmpMatrix) const{
    MallocerFreer::GetInstance()->Free<double>(diaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(diaOverlapAOs1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotMat,                       OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotMat1stDerivs,              OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(tmpMatrix,         OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(tmpRotMat1stDeriv, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(rotMat,                          OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(rotMat1stDerivs,                 OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(rotatedDiatomicOverlap,          OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpMatrix,                       OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpRotMat1stDeriv,               OrbitalType_end, OrbitalType_end);
 }
 
 void Cndo2::FreeDiatomicOverlapAOs2ndDeriTemps(double*** diaOverlapAOsInDiaFrame, 

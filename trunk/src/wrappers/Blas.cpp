@@ -339,20 +339,50 @@ void Blas::Dgemmm(bool isColumnMajorMatrixA,
                   double beta,
                   double** matrixD) const{
    
-   double alphaBC = 1.0;
-   double betaBC  = 0.0;
-   bool isColumnMajorMatrixBC = false;
    double** matrixBC = NULL;
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&matrixBC, k, n); 
-      this->Dgemm(isColumnMajorMatrixB, isColumnMajorMatrixC,  k, n, l, alphaBC, matrixB, matrixC,  betaBC, matrixBC);
-      this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixBC, m, n, k, alpha,   matrixA, matrixBC, beta,   matrixD );
+      this->Dgemmm(isColumnMajorMatrixA, isColumnMajorMatrixB, isColumnMajorMatrixC,
+                   m, n, k, l, 
+                   alpha,
+                   matrixA,
+                   matrixB,
+                   matrixC,
+                   beta,
+                   matrixD,
+                   matrixBC);
    }
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&matrixBC, k, n); 
       throw ex;
    }
    MallocerFreer::GetInstance()->Free<double>(&matrixBC, k, n); 
+}
+
+// matrixD = alpha*matrixA*matrixB*matrixC + beta*matrixD
+//    matrixA: m*k-matrix 
+//    matrixB: k*l-matrix
+//    matrixC: l*n-matrix
+//    matrixD: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
+//       tmpMatrixBC is temporary calculated matrix in row-major, (C/C++ style) 
+//       tmpMatrixBC = matrixB*matrixC
+void Blas::Dgemmm(bool isColumnMajorMatrixA,
+                  bool isColumnMajorMatrixB, 
+                  bool isColumnMajorMatrixC, 
+                  molds_blas_int m, molds_blas_int n, molds_blas_int k, molds_blas_int l,
+                  double alpha,
+                  double const* const* matrixA,
+                  double const* const* matrixB,
+                  double const* const* matrixC,
+                  double beta,
+                  double** matrixD,
+                  double** tmpMatrixBC) const{
+   
+   double alphaBC = 1.0;
+   double betaBC  = 0.0;
+   bool isColumnMajorMatrixBC = false;
+   this->Dgemm(isColumnMajorMatrixB, isColumnMajorMatrixC,  k, n, l, alphaBC, matrixB, matrixC,     betaBC, tmpMatrixBC);
+   this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixBC, m, n, k, alpha,   matrixA, tmpMatrixBC, beta,   matrixD );
 }
 
 // matrixC = matrixA*matrixA^T

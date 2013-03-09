@@ -4036,6 +4036,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
    double** twiceRotatingMatrixDerivA = NULL;
    double** twiceRotatingMatrixDerivB = NULL;
    double** oldMatrix                 = NULL;
+   double** rotatedMatrix             = NULL;
    double** tmpMatrix                 = NULL;
    double** ptrDiatomic               = NULL;
    try{
@@ -4043,6 +4044,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
                                                                     &twiceRotatingMatrixDerivA,
                                                                     &twiceRotatingMatrixDerivB,
                                                                     &oldMatrix,
+                                                                    &rotatedMatrix,
                                                                     &tmpMatrix,                
                                                                     &ptrDiatomic);
       for(int mu=0; mu<dxy; mu++){
@@ -4085,6 +4087,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
                                                      oldMatrix,
                                                      twiceRotatingMatrix,
                                                      beta, 
+                                                     rotatedMatrix,
                                                      tmpMatrix);
          alpha = 1.0;
          beta  = 1.0;
@@ -4097,6 +4100,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
                                                      ptrDiatomic,
                                                      twiceRotatingMatrix,
                                                      beta, 
+                                                     rotatedMatrix,
                                                      tmpMatrix);
          MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
                                                      isColumnMajorOldMatrix,
@@ -4107,6 +4111,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
                                                      ptrDiatomic,
                                                      twiceRotatingMatrix,
                                                      beta, 
+                                                     rotatedMatrix,
                                                      tmpMatrix);
          MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
                                                      isColumnMajorOldMatrix,
@@ -4117,6 +4122,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
                                                      ptrDiatomic,
                                                      twiceRotatingMatrixDerivA,
                                                      beta, 
+                                                     rotatedMatrix,
                                                      tmpMatrix);
          MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorTwiceRotatingMatrix,
                                                      isColumnMajorOldMatrix,
@@ -4127,10 +4133,11 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
                                                      ptrDiatomic,
                                                      twiceRotatingMatrixDerivB,
                                                      beta, 
+                                                     rotatedMatrix,
                                                      tmpMatrix);
 
          MolDS_wrappers::Blas::GetInstance()->Dcopy(dxy*dxy*dxy*dxy, 
-                                                    &tmpMatrix[0][0]         , incrementOne,
+                                                    &rotatedMatrix[0][0]     , incrementOne,
                                                     &matrix[0][0][0][0][axis], CartesianType_end);
       }
    }
@@ -4139,6 +4146,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
                                                                   &twiceRotatingMatrixDerivA,
                                                                   &twiceRotatingMatrixDerivB,
                                                                   &oldMatrix,
+                                                                  &rotatedMatrix,
                                                                   &tmpMatrix,                
                                                                   &ptrDiatomic);
       throw ex;
@@ -4147,6 +4155,7 @@ void Mndo::RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(
                                                                &twiceRotatingMatrixDerivA,
                                                                &twiceRotatingMatrixDerivB,
                                                                &oldMatrix,
+                                                               &rotatedMatrix,
                                                                &tmpMatrix,                
                                                                &ptrDiatomic);
 
@@ -4208,12 +4217,14 @@ void Mndo::MallocTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twi
                                                                    double*** twiceRotatingMatrixDerivA,
                                                                    double*** twiceRotatingMatrixDerivB,
                                                                    double*** oldMatrix,
+                                                                   double*** rotatedMatrix,
                                                                    double*** tmpMatrix,                
                                                                    double*** ptrDiatomic) const{
    MallocerFreer::GetInstance()->Malloc<double>(twiceRotatingMatrix,       dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Malloc<double>(twiceRotatingMatrixDerivA, dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Malloc<double>(twiceRotatingMatrixDerivB, dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Malloc<double>(oldMatrix,                 dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(rotatedMatrix,             dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Malloc<double>(tmpMatrix,                 dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Malloc<double*>(ptrDiatomic,              dxy*dxy);
 }
@@ -4222,12 +4233,14 @@ void Mndo::FreeTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twice
                                                                  double*** twiceRotatingMatrixDerivA,
                                                                  double*** twiceRotatingMatrixDerivB,
                                                                  double*** oldMatrix,
+                                                                 double*** rotatedMatrix,
                                                                  double*** tmpMatrix,                
                                                                  double*** ptrDiatomic) const{
    MallocerFreer::GetInstance()->Free<double>(twiceRotatingMatrix,       dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Free<double>(twiceRotatingMatrixDerivA, dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Free<double>(twiceRotatingMatrixDerivB, dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Free<double>(oldMatrix,                 dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(rotatedMatrix,                 dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Free<double>(tmpMatrix,                 dxy*dxy, dxy*dxy);
    MallocerFreer::GetInstance()->Free<double*>(ptrDiatomic,              dxy*dxy);
 }
