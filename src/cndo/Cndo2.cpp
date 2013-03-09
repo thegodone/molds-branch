@@ -1781,6 +1781,7 @@ void Cndo2::CalcCartesianMatrixElementsByGTOExpansion(double& xComponent,
                                                       this->theory);
    double gaussianExponentA = 0.0;
    double gaussianExponentB = 0.0;
+   double overlapSASB = 0.0;
    double rAB = sqrt( pow(atomA.GetXyz()[XAxis]-atomB.GetXyz()[XAxis], 2.0) 
                      +pow(atomA.GetXyz()[YAxis]-atomB.GetXyz()[YAxis], 2.0) 
                      +pow(atomA.GetXyz()[ZAxis]-atomB.GetXyz()[ZAxis], 2.0) );
@@ -1808,17 +1809,18 @@ void Cndo2::CalcCartesianMatrixElementsByGTOExpansion(double& xComponent,
                                                                          shellTypeB, 
                                                                          valenceOrbitalB, 
                                                                          j);
+         overlapSASB = this->GetGaussianOverlapAOsSASB(gaussianExponentA, gaussianExponentB, rAB);
          tempX = this->GetGaussianCartesianMatrix(atomA.GetAtomType(), valenceOrbitalA, gaussianExponentA, atomA.GetXyz(),
                                                   atomB.GetAtomType(), valenceOrbitalB, gaussianExponentB, atomB.GetXyz(), 
-                                                  rAB,
+                                                  rAB, overlapSASB,
                                                   XAxis);
          tempY = this->GetGaussianCartesianMatrix(atomA.GetAtomType(), valenceOrbitalA, gaussianExponentA, atomA.GetXyz(),
                                                   atomB.GetAtomType(), valenceOrbitalB, gaussianExponentB, atomB.GetXyz(), 
-                                                  rAB,
+                                                  rAB, overlapSASB, 
                                                   YAxis);
          tempZ = this->GetGaussianCartesianMatrix(atomA.GetAtomType(), valenceOrbitalA, gaussianExponentA, atomA.GetXyz(),
                                                   atomB.GetAtomType(), valenceOrbitalB, gaussianExponentB, atomB.GetXyz(), 
-                                                  rAB,
+                                                  rAB, overlapSASB,
                                                   ZAxis);
          xComponent += temp*tempX;
          yComponent += temp*tempY;
@@ -1838,6 +1840,24 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                          double const* xyzB,
                                          double rAB,
                                          CartesianType axis) const{
+   double overlapSASB = this->GetGaussianOverlapAOsSASB(gaussianExponentA, gaussianExponentB, rAB);
+   return this->GetGaussianCartesianMatrix(atomTypeA, valenceOrbitalA, gaussianExponentA, xyzA,
+                                           atomTypeB, valenceOrbitalB, gaussianExponentB, xyzB,
+                                           rAB, overlapSASB, axis);
+}
+
+// calculate gaussian Caretesian integrals. 
+double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA, 
+                                         OrbitalType valenceOrbitalA, 
+                                         double gaussianExponentA, 
+                                         double const* xyzA,
+                                         AtomType atomTypeB, 
+                                         OrbitalType valenceOrbitalB, 
+                                         double gaussianExponentB,
+                                         double const* xyzB,
+                                         double rAB,
+                                         double overlapSASB,
+                                         CartesianType axis) const{
 
    double value = 0.0;
    double beta = gaussianExponentA + gaussianExponentB;
@@ -1847,8 +1867,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
    if(valenceOrbitalA == s && valenceOrbitalB == s){
       value = gaussianExponentA*xyzA[axis] + gaussianExponentB*xyzB[axis];
       value /= beta;
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
-      value *= sasb;
+      value *= overlapSASB;
+      return value;
    }
    else if( (valenceOrbitalA == s && axis == XAxis && valenceOrbitalB == px) || 
             (valenceOrbitalA == s && axis == XAxis && valenceOrbitalB == py) || 
@@ -1893,7 +1913,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       double overlapAOs2 = this->GetGaussianOverlapAOs(atomTypeA,
                                                        pOrbital, 
                                                        gaussianExponentA, 
@@ -1903,8 +1924,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = overlapAOs2/(2.0*sqrt(gaussianExponentA))+xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == px    && axis == XAxis && valenceOrbitalB == s) || 
             (valenceOrbitalA == py    && axis == XAxis && valenceOrbitalB == s) || 
@@ -1949,7 +1972,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       double overlapAOs2 = this->GetGaussianOverlapAOs(atomTypeA,
                                                        valenceOrbitalA, 
                                                        gaussianExponentA, 
@@ -1959,8 +1983,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = overlapAOs2/(2.0*sqrt(gaussianExponentB))+xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == px && axis == XAxis && valenceOrbitalB == valenceOrbitalA) || 
             (valenceOrbitalA == py && axis == YAxis && valenceOrbitalB == valenceOrbitalA) || 
@@ -1968,11 +1994,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       double temp1 = gaussianExponentA*xyzA[axis] + gaussianExponentB*xyzB[axis];
       double temp2 = gaussianExponentA*xyzA[axis] - gaussianExponentA*xyzB[axis];
       double temp3 = gaussianExponentB*xyzA[axis] - gaussianExponentB*xyzB[axis];
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
       value = 0.5*(temp1+temp2-temp3);
       value -= temp1*temp2*temp3*pow(beta,-1.0);
       value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-2.0);
-      value *= sasb;
+      value *= overlapSASB;
+      return value;
    }
    else if( (valenceOrbitalA == px && axis == YAxis && valenceOrbitalB == valenceOrbitalA) || 
             (valenceOrbitalA == px && axis == ZAxis && valenceOrbitalB == valenceOrbitalA) || 
@@ -1992,11 +2018,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       }
       double temp1 = gaussianExponentA*xyzA[piDirection] - gaussianExponentA*xyzB[piDirection];
       double temp2 = gaussianExponentB*xyzA[piDirection] - gaussianExponentB*xyzB[piDirection];
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
       value = 0.5 - temp1*temp2*pow(beta,-1.0);
       value *= gaussianExponentA*xyzA[axis] + gaussianExponentB*xyzB[axis];
       value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-2.0);
-      value *= sasb;
+      value *= overlapSASB;
+      return value;
    }
    else if( (valenceOrbitalA == px && axis == YAxis && valenceOrbitalB == py) || 
             (valenceOrbitalA == px && axis == ZAxis && valenceOrbitalB == pz) || 
@@ -2016,11 +2042,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       }
       double temp1 = gaussianExponentA*xyzA[axis] + gaussianExponentB*xyzB[axis];
       double temp2 = gaussianExponentA*xyzA[axis] - gaussianExponentA*xyzB[axis];
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
       value = 0.5 + temp1*temp2*pow(beta,-1.0);
       value *= gaussianExponentB*xyzA[piDirectionA] - gaussianExponentB*xyzB[piDirectionA];
       value *= -4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-2.0);
-      value *= sasb;
+      value *= overlapSASB;
+      return value;
    }
    else if( (valenceOrbitalA == py && axis == YAxis && valenceOrbitalB == px) || 
             (valenceOrbitalA == py && axis == YAxis && valenceOrbitalB == pz) || 
@@ -2040,11 +2066,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       }
       double temp1 = gaussianExponentA*xyzA[axis] + gaussianExponentB*xyzB[axis];
       double temp2 = gaussianExponentB*xyzA[axis] - gaussianExponentB*xyzB[axis];
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
       value = 0.5 - temp1*temp2*pow(beta,-1.0);
       value *= gaussianExponentA*xyzA[piDirectionB] - gaussianExponentA*xyzB[piDirectionB];
       value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-2.0);
-      value *= sasb;
+      value *= overlapSASB;
+      return value;
    }
    else if( (valenceOrbitalA == px && axis == YAxis && valenceOrbitalB == pz) || 
             (valenceOrbitalA == py && axis == ZAxis && valenceOrbitalB == px) || 
@@ -2075,10 +2101,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       double temp1 = gaussianExponentB*xyzA[piDirectionA] - gaussianExponentB*xyzB[piDirectionA];
       double temp2 = gaussianExponentA*xyzA[axis]         + gaussianExponentB*xyzB[axis];
       double temp3 = gaussianExponentA*xyzA[piDirectionB] - gaussianExponentA*xyzB[piDirectionB];
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
       value = -4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0);
       value *= temp1*temp2*temp3;
-      value *= sasb;
+      value *= overlapSASB;
+      return value;
    }
    else if( (valenceOrbitalA == px && axis == XAxis && valenceOrbitalB == dxy) || 
             (valenceOrbitalA == py && axis == YAxis && valenceOrbitalB == dxy) ||
@@ -2120,13 +2146,14 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*gaussianExponentA*dxyz[axis]
              -gaussianExponentB*dxyz[axis]
              +pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[axis],3.0)/beta;
-      value *= 8.0*pow(gaussianExponentA, 1.5)*gaussianExponentB*pow(beta,-3.0)*dxyz[anotherAxis]*sasb;
+      value *= 8.0*pow(gaussianExponentA, 1.5)*gaussianExponentB*pow(beta,-3.0)*dxyz[anotherAxis]*overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxy && axis == XAxis && valenceOrbitalB == px) || 
             (valenceOrbitalA == dxy && axis == YAxis && valenceOrbitalB == py) ||
@@ -2168,13 +2195,14 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*gaussianExponentB*dxyz[axis]
              -gaussianExponentA*dxyz[axis]
              +pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[axis],3.0)/beta;
-      value *= 8.0*pow(gaussianExponentB, 1.5)*gaussianExponentA*pow(beta,-3.0)*dxyz[anotherAxis]*sasb;
+      value *= 8.0*pow(gaussianExponentB, 1.5)*gaussianExponentA*pow(beta,-3.0)*dxyz[anotherAxis]*overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == pz && axis == ZAxis && valenceOrbitalB == dxy) || 
             (valenceOrbitalA == px && axis == XAxis && valenceOrbitalB == dyz) ||
@@ -2203,12 +2231,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                 dxyz[XAxis], 
                                                 dxyz[YAxis], 
                                                 dxyz[ZAxis], 
-                                                rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                rAB,
+                                                overlapSASB);
       value = 0.5+pow(gaussianExponentB*dxyz[axis], 2.0)/beta;
-      value *= 8.0*pow(gaussianExponentA, 2.5)*gaussianExponentB*pow(beta, -3.0)*sasb;
+      value *= 8.0*pow(gaussianExponentA, 2.5)*gaussianExponentB*pow(beta, -3.0)*overlapSASB;
       value *= dxyz[anotherAxis1]*dxyz[anotherAxis2];
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxy && axis == ZAxis && valenceOrbitalB == pz) || 
             (valenceOrbitalA == dyz && axis == XAxis && valenceOrbitalB == px) ||
@@ -2236,12 +2265,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5+pow(gaussianExponentA*dxyz[axis], 2.0)/beta;
-      value *= 8.0*pow(gaussianExponentB, 2.5)*gaussianExponentA*pow(beta, -3.0)*sasb;
+      value *= 8.0*pow(gaussianExponentB, 2.5)*gaussianExponentA*pow(beta, -3.0)*overlapSASB;
       value *= dxyz[anotherAxis1]*dxyz[anotherAxis2];
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == px && axis == YAxis && valenceOrbitalB == dxy) || 
             (valenceOrbitalA == px && axis == ZAxis && valenceOrbitalB == dxy) || 
@@ -2295,7 +2325,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       double overlapAOs2 = this->GetGaussianOverlapAOs(atomTypeA,
                                                        dOrbital, 
                                                        gaussianExponentA, 
@@ -2305,8 +2336,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = overlapAOs2/(2.0*sqrt(gaussianExponentA))+xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxy   && axis == YAxis && valenceOrbitalB == px) || 
             (valenceOrbitalA == dxy   && axis == ZAxis && valenceOrbitalB == px) || 
@@ -2360,7 +2393,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       double overlapAOs2 = this->GetGaussianOverlapAOs(atomTypeA,
                                                        valenceOrbitalA, 
                                                        gaussianExponentA, 
@@ -2370,8 +2404,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = overlapAOs2/(2.0*sqrt(gaussianExponentB))+xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == px && axis == XAxis && valenceOrbitalB == dxxyy){
       double overlapAOs1 = this->GetGaussianOverlapAOs(atomTypeA,
@@ -2383,15 +2419,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5-2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[XAxis],2.0)/beta;
       value += 0.5*pow(gaussianExponentA,2.0)*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta;
       value += pow(gaussianExponentA*gaussianExponentB*dxyz[XAxis]/beta,2.0)
               *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
       value *= 4.0*pow(gaussianExponentA,0.5)*gaussianExponentB*pow(beta,-2.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == XAxis && valenceOrbitalB == px){
       double overlapAOs1 = this->GetGaussianOverlapAOs(atomTypeA,
@@ -2403,15 +2440,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5-2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[XAxis],2.0)/beta;
       value += 0.5*pow(gaussianExponentB,2.0)*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta;
       value += pow(gaussianExponentA*gaussianExponentB*dxyz[XAxis]/beta,2.0)
               *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
       value *= 4.0*pow(gaussianExponentB,0.5)*gaussianExponentA*pow(beta,-2.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == py && axis == YAxis && valenceOrbitalB == dxxyy){
       double overlapAOs1 = this->GetGaussianOverlapAOs(atomTypeA,
@@ -2423,15 +2461,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5-2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[YAxis],2.0)/beta;
       value += 0.5*pow(gaussianExponentA,2.0)*(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/beta;
       value += pow(gaussianExponentA*gaussianExponentB*dxyz[YAxis]/beta,2.0)
               *(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0));
       value *= -4.0*pow(gaussianExponentA,0.5)*gaussianExponentB*pow(beta,-2.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == YAxis && valenceOrbitalB == py){
       double overlapAOs1 = this->GetGaussianOverlapAOs(atomTypeA,
@@ -2443,15 +2482,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5-2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[YAxis],2.0)/beta;
       value += 0.5*pow(gaussianExponentB,2.0)*(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/beta;
       value += pow(gaussianExponentA*gaussianExponentB*dxyz[YAxis]/beta,2.0)
               *(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0));
       value *= -4.0*pow(gaussianExponentB,0.5)*gaussianExponentA*pow(beta,-2.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == pz && axis == ZAxis && valenceOrbitalB == dxxyy){
       double overlapAOs1 = this->GetGaussianOverlapAOs(atomTypeA,
@@ -2463,15 +2503,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
       value += pow(gaussianExponentB*dxyz[ZAxis],2.0)
               *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))
               /beta;
       value *= 4.0*pow(gaussianExponentA,2.5)*gaussianExponentB*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == ZAxis && valenceOrbitalB == pz){
       double overlapAOs1 = this->GetGaussianOverlapAOs(atomTypeA,
@@ -2483,15 +2524,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
       value += pow(gaussianExponentA*dxyz[ZAxis],2.0)
               *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))
               /beta;
       value *= 4.0*pow(gaussianExponentB,2.5)*gaussianExponentA*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == px && axis == XAxis && valenceOrbitalB == dzz) || 
             (valenceOrbitalA == py && axis == YAxis && valenceOrbitalB == dzz) ){
@@ -2504,8 +2546,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -0.5
              +2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[axis],2.0)/beta
              +0.5*pow(gaussianExponentA,2.0)
@@ -2513,8 +2555,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              +pow(gaussianExponentA*gaussianExponentB*dxyz[axis]/beta,2.0)
               *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
       value *= 4.0*pow(gaussianExponentA,0.5)*gaussianExponentB*pow(beta,-2.0)/sqrt(3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dzz && axis == XAxis && valenceOrbitalB == px) || 
             (valenceOrbitalA == dzz && axis == YAxis && valenceOrbitalB == py) ){
@@ -2527,8 +2570,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -0.5
              +2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[axis],2.0)/beta
              +0.5*pow(gaussianExponentB,2.0)
@@ -2536,8 +2579,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              +pow(gaussianExponentA*gaussianExponentB*dxyz[axis]/beta,2.0)
               *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
       value *= 4.0*pow(gaussianExponentB,0.5)*gaussianExponentA*pow(beta,-2.0)/sqrt(3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == pz && axis == ZAxis && valenceOrbitalB == dzz){
       double overlapAOs1 = this->GetGaussianOverlapAOs(atomTypeA,
@@ -2549,8 +2593,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 1.0
              -4.0*gaussianExponentA*gaussianExponentB*pow(dxyz[axis],2.0)/beta
              +0.5*pow(gaussianExponentA,2.0)
@@ -2558,8 +2602,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              +pow(gaussianExponentA*gaussianExponentB*dxyz[axis]/beta,2.0)
               *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
       value *= 4.0*pow(gaussianExponentA,0.5)*gaussianExponentB*pow(beta,-2.0)/sqrt(3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dzz && axis == ZAxis && valenceOrbitalB == pz){
       double overlapAOs1 = this->GetGaussianOverlapAOs(atomTypeA,
@@ -2571,8 +2616,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 1.0
              -4.0*gaussianExponentA*gaussianExponentB*pow(dxyz[axis],2.0)/beta
              +0.5*pow(gaussianExponentB,2.0)
@@ -2580,8 +2625,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              +pow(gaussianExponentA*gaussianExponentB*dxyz[axis]/beta,2.0)
               *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
       value *= 4.0*pow(gaussianExponentB,0.5)*gaussianExponentA*pow(beta,-2.0)/sqrt(3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxy && axis == XAxis && valenceOrbitalB == valenceOrbitalA) || 
             (valenceOrbitalA == dxy && axis == YAxis && valenceOrbitalB == valenceOrbitalA) || 
@@ -2624,14 +2670,15 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*(gaussianExponentA-gaussianExponentB)*dxyz[axis]
              +(gaussianExponentA-gaussianExponentB)*(gaussianExponentA*gaussianExponentB)
               *dxyz[axis]*pow(dxyz[anotherAxis],2.0)/beta;
       value *= 8.0*(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxy   && axis == ZAxis && valenceOrbitalB == valenceOrbitalA) || 
             (valenceOrbitalA == dyz   && axis == XAxis && valenceOrbitalB == valenceOrbitalA) || 
@@ -2647,8 +2694,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = axisAverage*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxxyy && axis == XAxis && valenceOrbitalB == valenceOrbitalA) ||
             (valenceOrbitalA == dxxyy && axis == YAxis && valenceOrbitalB == valenceOrbitalA) ){
@@ -2669,14 +2718,15 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = (gaussianExponentA-gaussianExponentB)*dxyz[axis]
              -(gaussianExponentA-gaussianExponentB)*(gaussianExponentA*gaussianExponentB)
               *(pow(dxyz[axis],2.0) - pow(dxyz[anotherAxis],2.0))*dxyz[axis]/beta;
       value *= 4.0*(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dzz && axis == XAxis && valenceOrbitalB == valenceOrbitalA) ||
             (valenceOrbitalA == dzz && axis == YAxis && valenceOrbitalB == valenceOrbitalA) ){
@@ -2690,14 +2740,15 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = (gaussianExponentA-gaussianExponentB)*dxyz[axis]
              -(gaussianExponentA-gaussianExponentB)*(gaussianExponentA*gaussianExponentB)
               *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))*dxyz[axis]/beta;
       value *= 4.0*(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0)/3.0;
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if( valenceOrbitalA == dzz && axis == ZAxis && valenceOrbitalB == valenceOrbitalA) {
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -2710,14 +2761,15 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 2.0*(gaussianExponentA-gaussianExponentB)*dxyz[axis]
              -(gaussianExponentA-gaussianExponentB)*(gaussianExponentA*gaussianExponentB)
               *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))*dxyz[axis]/beta;
       value *= 8.0*(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0)/3.0;
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxy && axis == YAxis && valenceOrbitalB == dyz) ||
             (valenceOrbitalA == dyz && axis == ZAxis && valenceOrbitalB == dzx) ||
@@ -2735,12 +2787,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -8.0*pow(gaussianExponentA*gaussianExponentB,2.0)*dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis]
              *(gaussianExponentA-gaussianExponentB)*pow(beta,-4.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxy && axis == XAxis && valenceOrbitalB == dyz) ||
             (valenceOrbitalA == dyz && axis == YAxis && valenceOrbitalB == dzx) ||
@@ -2784,12 +2837,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5-gaussianExponentA*gaussianExponentB*pow(dxyz[anotherAxis1],2.0)/beta;
       value *= 8.0*pow(gaussianExponentA,2.0)*gaussianExponentB*pow(beta,-3.0)*dxyz[anotherAxis2];
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dyz && axis == XAxis && valenceOrbitalB == dxy) ||
             (valenceOrbitalA == dzx && axis == YAxis && valenceOrbitalB == dyz) ||
@@ -2834,12 +2888,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5-gaussianExponentA*gaussianExponentB*pow(dxyz[anotherAxis1],2.0)/beta;
       value *= -8.0*pow(gaussianExponentB,2.0)*gaussianExponentA*pow(beta,-3.0)*dxyz[anotherAxis2];
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == XAxis && valenceOrbitalB == dxy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -2852,15 +2907,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*beta
              -pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[XAxis],2.0)/beta
              +pow(gaussianExponentB,2.0)*gaussianExponentA
              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
       value *= 8.0*gaussianExponentA*gaussianExponentB*pow(beta,-3.0)*dxyz[YAxis];
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxy && axis == XAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -2873,15 +2929,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*beta
              -pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[XAxis],2.0)/beta
              +pow(gaussianExponentA,2.0)*gaussianExponentB
              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
       value *= -8.0*gaussianExponentA*gaussianExponentB*pow(beta,-3.0)*dxyz[YAxis];
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    } 
    else if(valenceOrbitalA == dxxyy && axis == YAxis && valenceOrbitalB == dxy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -2894,15 +2951,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -0.5*beta
              +pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[YAxis],2.0)/beta
              +pow(gaussianExponentB,2.0)*gaussianExponentA
              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
       value *= 8.0*gaussianExponentA*gaussianExponentB*pow(beta,-3.0)*dxyz[XAxis];
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxy && axis == YAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -2915,15 +2973,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -0.5*beta
              +pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[YAxis],2.0)/beta
              +pow(gaussianExponentA,2.0)*gaussianExponentB
              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
       value *= -8.0*gaussianExponentA*gaussianExponentB*pow(beta,-3.0)*dxyz[XAxis];
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxxyy && axis == XAxis && valenceOrbitalB == dyz) ||
             (valenceOrbitalA == dxxyy && axis == YAxis && valenceOrbitalB == dzx) ||
@@ -2937,13 +2996,14 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 8.0*pow(gaussianExponentA,4.0)*pow(gaussianExponentB,3.0)
              *dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis]
              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/pow(beta,5.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dyz && axis == XAxis && valenceOrbitalB == dxxyy) ||
             (valenceOrbitalA == dzx && axis == YAxis && valenceOrbitalB == dxxyy) ||
@@ -2957,13 +3017,14 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -8.0*pow(gaussianExponentA,3.0)*pow(gaussianExponentB,4.0)
              *dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis]
              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/pow(beta,5.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == YAxis && valenceOrbitalB == dyz){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -2976,15 +3037,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -0.5*gaussianExponentA
              +pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[YAxis],2.0)/beta
              +pow(gaussianExponentB,2.0)*gaussianExponentA
              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
       value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dyz && axis == YAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -2997,15 +3059,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -0.5*gaussianExponentB
              +pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[YAxis],2.0)/beta
              +pow(gaussianExponentA,2.0)*gaussianExponentB
              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
       value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == XAxis && valenceOrbitalB == dzx){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3018,15 +3081,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -0.5*gaussianExponentA
              +pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[XAxis],2.0)/beta
              +pow(gaussianExponentB,2.0)*gaussianExponentA
              *(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/(2.0*beta);
       value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dzx && axis == XAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3039,15 +3103,16 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = -0.5*gaussianExponentB
              +pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[YAxis],2.0)/beta
              +pow(gaussianExponentA,2.0)*gaussianExponentB
              *(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/(2.0*beta);
       value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == ZAxis && valenceOrbitalB == dyz){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3060,12 +3125,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentA*gaussianExponentB*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta+1.0;
       value *= 4.0*gaussianExponentA*pow(gaussianExponentB,2.0)*dxyz[YAxis]*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dyz && axis == ZAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3078,12 +3144,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentA*gaussianExponentB*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta+1.0;
       value *= -4.0*gaussianExponentB*pow(gaussianExponentA,2.0)*dxyz[YAxis]*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == ZAxis && valenceOrbitalB == dzx){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3096,12 +3163,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentA*gaussianExponentB*(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/beta+1.0;
       value *= -4.0*gaussianExponentA*pow(gaussianExponentB,2.0)*dxyz[XAxis]*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dzx && axis == ZAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3114,12 +3182,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentA*gaussianExponentB*(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/beta+1.0;
       value *= 4.0*gaussianExponentB*pow(gaussianExponentA,2.0)*dxyz[XAxis]*pow(beta,-3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dzz && axis == XAxis && valenceOrbitalB == dyz) ||
             (valenceOrbitalA == dzz && axis == YAxis && valenceOrbitalB == dzx) ||
@@ -3133,14 +3202,15 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0);
       value *= dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis];
       value *= 8.0*pow(gaussianExponentA,4.0)*pow(gaussianExponentB,3.0);
       value /= sqrt(3.0)*pow(beta,5.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dyz && axis == XAxis && valenceOrbitalB == dzz) ||
             (valenceOrbitalA == dzx && axis == YAxis && valenceOrbitalB == dzz) ||
@@ -3154,14 +3224,15 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0);
       value *= dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis];
       value *= -8.0*pow(gaussianExponentB,4.0)*pow(gaussianExponentA,3.0);
       value /= sqrt(3.0)*pow(beta,5.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dzz && axis == XAxis && valenceOrbitalB == dxy) ||
             (valenceOrbitalA == dzz && axis == YAxis && valenceOrbitalB == dxy) ){
@@ -3181,8 +3252,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*(gaussianExponentB-gaussianExponentA)
              +3.0*pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[axis],2.0)*pow(beta,-2.0)
              +gaussianExponentA*pow(gaussianExponentB,2.0)
@@ -3190,8 +3261,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              +pow(gaussianExponentA,3.0)*pow(gaussianExponentB,2.0)*pow(dxyz[axis],2.0)
              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))*pow(beta,-2.0);
       value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]/(sqrt(3.0)*pow(beta,3.0));
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dxy && axis == XAxis && valenceOrbitalB == dzz) ||
             (valenceOrbitalA == dxy && axis == YAxis && valenceOrbitalB == dzz) ){
@@ -3211,8 +3283,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = 0.5*(gaussianExponentA-gaussianExponentB)
              +3.0*pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[axis],2.0)*pow(beta,-2.0)
              +gaussianExponentB*pow(gaussianExponentA,2.0)
@@ -3220,8 +3292,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              +pow(gaussianExponentB,3.0)*pow(gaussianExponentA,2.0)*pow(dxyz[axis],2.0)
              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))*pow(beta,-2.0);
       value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]/(sqrt(3.0)*pow(beta,3.0));
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dzz && axis == YAxis && valenceOrbitalB == dyz) ||
             (valenceOrbitalA == dzz && axis == XAxis && valenceOrbitalB == dzx) ){
@@ -3234,8 +3307,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentB-0.5*gaussianExponentA
              +gaussianExponentA*pow(gaussianExponentB,2.0)
              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/(2.0*beta)
@@ -3244,8 +3317,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              *pow(beta,-2.0);
       value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]
               /(sqrt(3.0)*pow(beta,3.0));
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dyz && axis == YAxis && valenceOrbitalB == dzz) ||
             (valenceOrbitalA == dzx && axis == XAxis && valenceOrbitalB == dzz) ){
@@ -3258,8 +3332,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentA-0.5*gaussianExponentB
              +gaussianExponentB*pow(gaussianExponentA,2.0)
              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/(2.0*beta)
@@ -3268,8 +3342,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              *pow(beta,-2.0);
       value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]
               /(sqrt(3.0)*pow(beta,3.0));
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dzz && axis == ZAxis && valenceOrbitalB == dyz) ||
             (valenceOrbitalA == dzz && axis == ZAxis && valenceOrbitalB == dzx) ){
@@ -3289,8 +3364,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentA-0.5*gaussianExponentB
              -3.0*pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[axis]/beta,2.0)
              +gaussianExponentA*pow(gaussianExponentB,2.0)
@@ -3300,8 +3375,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              *pow(beta,-2.0);
       value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]
               /(sqrt(3.0)*pow(beta,3.0));
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
+      return value;
    }
    else if( (valenceOrbitalA == dyz && axis == ZAxis && valenceOrbitalB == dzz) ||
             (valenceOrbitalA == dzx && axis == ZAxis && valenceOrbitalB == dzz) ){
@@ -3321,8 +3397,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentB-0.5*gaussianExponentA
              -3.0*pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[axis]/beta,2.0)
              +gaussianExponentB*pow(gaussianExponentA,2.0)
@@ -3332,8 +3408,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
              *pow(beta,-2.0);
       value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]
               /(sqrt(3.0)*pow(beta,3.0));
-      value *= sasb;
+      value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dzz && axis == XAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3346,16 +3423,17 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentB - gaussianExponentA
              +gaussianExponentA*pow(gaussianExponentB,2.0)
              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta
              +pow(gaussianExponentA,2.0)*gaussianExponentB
              *(pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta;
       value *= 4.0*gaussianExponentA*gaussianExponentB*dxyz[XAxis]*pow(beta,-3.0)/sqrt(3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == XAxis && valenceOrbitalB == dzz){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3368,16 +3446,17 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentA - gaussianExponentB
              +gaussianExponentB*pow(gaussianExponentA,2.0)
              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta
              +pow(gaussianExponentB,2.0)*gaussianExponentA
              *(pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta;
       value *= -4.0*gaussianExponentA*gaussianExponentB*dxyz[XAxis]*pow(beta,-3.0)/sqrt(3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dzz && axis == YAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3390,16 +3469,17 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentB - gaussianExponentA
              +gaussianExponentA*pow(gaussianExponentB,2.0)
              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta
              +pow(gaussianExponentA,2.0)*gaussianExponentB
              *(pow(dxyz[YAxis],2.0) - pow(dxyz[XAxis],2.0))/beta;
       value *= -4.0*gaussianExponentA*gaussianExponentB*dxyz[YAxis]*pow(beta,-3.0)/sqrt(3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == YAxis && valenceOrbitalB == dzz){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3412,16 +3492,17 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = gaussianExponentA - gaussianExponentB
              +gaussianExponentB*pow(gaussianExponentA,2.0)
              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta
              +pow(gaussianExponentB,2.0)*gaussianExponentA
              *(pow(dxyz[YAxis],2.0) - pow(dxyz[XAxis],2.0))/beta;
       value *= 4.0*gaussianExponentA*gaussianExponentB*dxyz[YAxis]*pow(beta,-3.0)/sqrt(3.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dzz && axis == ZAxis && valenceOrbitalB == dxxyy){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3434,13 +3515,14 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0);
       value *= -8.0*pow(gaussianExponentA,3.0)*pow(gaussianExponentB,2.0)*dxyz[ZAxis];
       value /= sqrt(3.0)*pow(beta,4.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else if(valenceOrbitalA == dxxyy && axis == ZAxis && valenceOrbitalB == dzz){
       double axisAverage = (gaussianExponentA*xyzA[axis]+gaussianExponentB*xyzB[axis])/beta;
@@ -3453,13 +3535,14 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[XAxis], 
                                                        dxyz[YAxis], 
                                                        dxyz[ZAxis], 
-                                                       rAB);
-      double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA, gaussianExponentB, rAB);
+                                                       rAB,
+                                                       overlapSASB);
       value = pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0);
       value *= 8.0*pow(gaussianExponentA,2.0)*pow(gaussianExponentB,3.0)*dxyz[ZAxis];
       value /= sqrt(3.0)*pow(beta,4.0);
-      value *= sasb;
+      value *= overlapSASB;
       value += axisAverage*overlapAOs1;
+      return value;
    }
    else{
       stringstream ss;
@@ -4182,7 +4265,7 @@ double Cndo2::GetOverlapAOsElementByGTOExpansion(const Atom& atomA, int valenceI
 
 // Calculate gaussian overlapAOs integrals of Sa and Sb.
 // That is, calculate (S_A|S_B). See Eq. (28) in [DY_1977].
-double Cndo2::GetGaussianOverlapAOsSaSb(double gaussianExponentA, 
+double Cndo2::GetGaussianOverlapAOsSASB(double gaussianExponentA, 
                                         double gaussianExponentB,
                                         double rAB) const{
    double value;
@@ -4196,6 +4279,7 @@ double Cndo2::GetGaussianOverlapAOsSaSb(double gaussianExponentA,
    return value;
 }
 
+
 // calculate gaussian overlapAOs integrals. 
 // See Eqs. (28) - (32) in [DY_1977].
 // Although d-orbital is not calucluated in [DY_1977],
@@ -4207,7 +4291,27 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
                                     AtomType atomTypeB, 
                                     OrbitalType valenceOrbitalB, 
                                     double gaussianExponentB,
-                                    double dx, double dy, double dz, double rAB) const{
+                                    double dx, double dy, double dz, 
+                                    double rAB) const{
+   double overlapSASB = this->GetGaussianOverlapAOsSASB(gaussianExponentA, gaussianExponentB, rAB);
+   return this->GetGaussianOverlapAOs(atomTypeA, valenceOrbitalA, gaussianExponentA,
+                                      atomTypeB, valenceOrbitalB, gaussianExponentB,
+                                      dx, dy, dz, rAB, overlapSASB);
+}
+// calculate gaussian overlapAOs integrals. 
+// See Eqs. (28) - (32) in [DY_1977].
+// Although d-orbital is not calucluated in [DY_1977],
+// the way to calculate overlapAOs related to d-orbital is 
+// same to the one written in [DY_1977].
+double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA, 
+                                    OrbitalType valenceOrbitalA, 
+                                    double gaussianExponentA, 
+                                    AtomType atomTypeB, 
+                                    OrbitalType valenceOrbitalB, 
+                                    double gaussianExponentB,
+                                    double dx, double dy, double dz, 
+                                    double rAB,
+                                    double overlapSASB) const{
 
    double value = 0.0;
    if(valenceOrbitalA == s && valenceOrbitalB == s){
@@ -4752,10 +4856,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       throw MolDSException(ss.str());
       value = 0.0;
    }
-   double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA,
-                                                 gaussianExponentB, rAB);
-   value *= sasb;
-
+   value *= overlapSASB;
    return value;
 }
 
@@ -5088,9 +5189,9 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       throw MolDSException(ss.str());
    }
 
-   double sasb = this->GetGaussianOverlapAOsSaSb(gaussianExponentA,
-                                                 gaussianExponentB, rAB);
-   value *= sasb;
+   double overlapSASB = this->GetGaussianOverlapAOsSASB(gaussianExponentA,
+                                                        gaussianExponentB, rAB);
+   value *= overlapSASB;
    return value;
 }
 
