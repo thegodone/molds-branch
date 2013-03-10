@@ -465,39 +465,6 @@ double Atom::GetOrbitalExponent(ShellType shellType,
 }
 
 
-// Part of Eq. (13) in [BZ_1979]
-double Atom::GetZindoJss() const{
-   return this->zindoF0ss;
-}
-
-// Part of Eq. (13) in [BZ_1979]
-double Atom::GetZindoJsp() const{
-   // F0ss = F0sp
-   return this->zindoF0ss - this->zindoG1sp/6.0;
-}
-
-// Part of Eq. (13) in [BZ_1979]
-double Atom::GetZindoJsd() const{
-   return this->zindoF0sd - this->zindoG2sd/10.0;
-}
-
-// Part of Eq. (13) in [BZ_1979]
-double Atom::GetZindoJpp() const{
-   // F0pp = F0ss
-   return this->zindoF0ss - 2.0*this->zindoF2pp/25.0;
-}
-
-// Part of Eq. (13) in [BZ_1979]
-double Atom::GetZindoJpd() const{
-   // F0pd = F0sd
-   return this->zindoF0sd - this->zindoG1pd/15.0 - 3.0*this->zindoG3pd/70.0;
-}
-
-// Part of Eq. (13) in [BZ_1979]
-double Atom::GetZindoJdd() const{
-   return this->zindoF0dd - 2.0*(this->zindoF2dd + this->zindoF4dd)/63.0;
-}
-
 // (3.72) in J. A. Pople book.
 double Atom::GetCndo2CoreIntegral(OrbitalType orbital, double gamma, bool isGuess) const{
    double value = 0.0;
@@ -708,14 +675,6 @@ double Atom::GetPm3PddgCoreIntegral(OrbitalType orbital) const{
    }
 
    return value;
-}
-
-double Atom::GetIndoF2() const{
-   return this->indoF2;
-}
-
-double Atom::GetIndoG1() const{
-   return this->indoG1;
 }
 
 double Atom::GetNddoAlpha(TheoryType theory) const{
@@ -1080,116 +1039,6 @@ double Atom::GetNddoHpp(TheoryType theory) const{
       ss << this->errorMessageTheoryType << TheoryTypeStr(theory) << "\n";
       throw MolDSException(ss.str());
    }
-}
-
-// Table 1 in ref. [RZ_1976], Table 1 in [AEZ_1986], or Table 1 in [GD_1972]
-double Atom::GetZindoF0ss() const{
-   return this->zindoF0ss;
-}
-
-// Table 1 in [AEZ_1986]
-double Atom::GetZindoF0sd() const{
-   return this->zindoF0sd;
-}
-
-// Table 1 in [AEZ_1986]
-double Atom::GetZindoF0dd() const{
-   return this->zindoF0dd;
-}
-
-// Table 3 in ref. [BZ_1979]
-double Atom::GetZindoG1sp() const{
-   return this->zindoG1sp;
-}
-
-// Table 3 in ref. [BZ_1979]
-double Atom::GetZindoF2pp() const{
-   return this->zindoF2pp;
-}
-
-// Table 3 in ref. [BZ_1979]
-double Atom::GetZindoG2sd() const{
-   return this->zindoG2sd;
-}
-
-// Table 3 in ref. [BZ_1979]
-double Atom::GetZindoG1pd() const{
-   return this->zindoG1pd;
-}
-
-// Table 3 in ref. [BZ_1979]
-double Atom::GetZindoF2pd() const{
-   return this->zindoF2pd;
-}
-
-// Table 3 in ref. [BZ_1979]
-double Atom::GetZindoG3pd() const{
-   return this->zindoG3pd;
-}
-
-// Table 3 in ref. [BZ_1979]
-double Atom::GetZindoF2dd() const{
-   return this->zindoF2dd;
-}
-
-// Table 3 in ref. [BZ_1979]
-double Atom::GetZindoF4dd() const{
-   return this->zindoF4dd;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoF0ssLower() const{
-   return this->zindoF0ss;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoF0sdLower() const{
-   return this->zindoF0sd;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoF0ddLower() const{
-   return this->zindoF0dd;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoG1spLower() const{
-   return this->zindoG1sp/3.0;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoF2ppLower() const{
-   return this->zindoF2pp/25.0;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoG2sdLower() const{
-   return this->zindoG2sd/5.0;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoG1pdLower() const{
-   return this->zindoG1pd/15.0;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoF2pdLower() const{
-   return this->zindoF2pd/35.0;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoG3pdLower() const{
-   return this->zindoG3pd/245.0;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoF2ddLower() const{
-   return this->zindoF2dd/49.0;
-}
-
-// Apendix in ref. [BZ_1979]
-double Atom::GetZindoF4ddLower() const{
-   return this->zindoF4dd/441.0;
 }
 
 double Atom::GetCoreIntegral(OrbitalType orbital, 
