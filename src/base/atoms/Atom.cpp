@@ -135,18 +135,6 @@ void Atom::SetMessages(){
    this->errorMessageSetPxyzMomentaNull  = "Error in base_atoms::Atom::SetPxyz: pxyz is NULL\n";
 }
 
-AtomType Atom::GetAtomType() const{
-   return this->atomType;
-}
-
-double Atom::GetAtomicMass() const{
-   return this->atomicMass;
-}
-
-double Atom::GetCoreMass() const{
-   return this->atomicMass - static_cast<double>(this->numberValenceElectrons);
-}
-
 double* Atom::GetXyz() const{
 #ifdef MOLDS_DBG
    if(this->xyz==NULL) throw MolDSException(this->errorMessageGetXyzCoordinatesNull);
@@ -173,23 +161,6 @@ void Atom::SetPxyz(double px, double py, double pz) const{
    if(this->pxyz==NULL) throw MolDSException(this->errorMessageSetPxyzMomentaNull);
 #endif
    pxyz[0]= px; pxyz[1]= py; pxyz[2]= pz;
-}
-/*
-int Atom::GetValenceSize() const{
-   return this->valence.size();
-}
-*/
-
-OrbitalType Atom::GetValence(int index) const{
-   return this->valence[index];
-}
-
-double Atom::GetVdWCoefficient() const{
-   return this->vdWCoefficient;
-}
-
-double Atom::GetVdWRadii() const{
-   return this->vdWRadii;
 }
 
 double Atom::GetAtomicBasisValue(double x, 
@@ -354,30 +325,6 @@ double Atom::GetBondingParameter(TheoryType theory, OrbitalType orbital) const{
 
 }
 
-double Atom::GetBondingParameter() const{
-   return this->GetBondingParameter(CNDO2, s);
-}
-
-double Atom::GetCoreCharge() const{
-   return this->coreCharge;
-}
-
-int Atom::GetFirstAOIndex() const{
-   return this->firstAOIndex;
-}
-
-void Atom::SetFirstAOIndex(int firstAOIndex){
-   this->firstAOIndex = firstAOIndex;
-}
-
-int Atom::GetLastAOIndex() const{
-   return this->firstAOIndex + this->valence.size()-1;
-}
-
-ShellType Atom::GetValenceShellType() const{
-   return this->valenceShellType;
-}
-
 int Atom::GetEffectivePrincipalQuantumNumber(ShellType shellType) const{
    if(shellType == k){
       return 1.0;
@@ -396,10 +343,6 @@ int Atom::GetEffectivePrincipalQuantumNumber(ShellType shellType) const{
       throw MolDSException(ss.str());
    }
 }   
-
-int Atom::GetNumberValenceElectrons() const{
-   return this->numberValenceElectrons;
-}
 
 // (1.73) in J. A. Pople book
 double Atom::GetOrbitalExponent(ShellType shellType, 

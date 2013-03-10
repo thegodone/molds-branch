@@ -24,31 +24,31 @@ class Atom : public MolDS_base::PrintController{
 public:
    Atom();
    virtual ~Atom();
-   MolDS_base::AtomType GetAtomType() const;
-   double GetAtomicMass() const;
-   double GetCoreMass() const;
    double* GetXyz() const;
-   void SetXyz(double x, double y, double z) const;
+   void    SetXyz(double x, double y, double z) const;
    double* GetPxyz() const;
-   void SetPxyz(double px, double py, double pz) const;
-   inline int GetValenceSize() const{return this->valence.size();}
-   MolDS_base::OrbitalType GetValence(int index) const;
-   double GetVdWCoefficient() const;
-   double GetVdWRadii() const;
+   void    SetPxyz(double px, double py, double pz) const;
+   inline MolDS_base::AtomType GetAtomType() const{return this->atomType;}
+   inline double GetAtomicMass()             const{return this->atomicMass;}
+   inline double GetCoreMass()               const{return this->atomicMass - static_cast<double>(this->numberValenceElectrons);}
+   inline int GetValenceSize()               const{return this->valence.size();}
+   inline MolDS_base::OrbitalType GetValence(int index) const{return this->valence[index];}
+   inline double GetVdWCoefficient()         const{return this->vdWCoefficient;}
+   inline double GetVdWRadii()               const{return this->vdWRadii;}
    double GetAtomicBasisValue(double x, 
                               double y, 
                               double z, 
                               int valenceIndex,
                               MolDS_base::TheoryType theory) const;
-   double GetBondingParameter() const;
-   double GetBondingParameter(MolDS_base::TheoryType theory, 
-                              MolDS_base::OrbitalType orbital) const;
-   double GetCoreCharge() const;
-   int GetFirstAOIndex() const;
-   void SetFirstAOIndex(int firstAOIndex);
-   int GetLastAOIndex() const;
-   MolDS_base::ShellType GetValenceShellType() const;
-   int GetNumberValenceElectrons() const;
+   inline double GetBondingParameter() const{return this->GetBondingParameter(MolDS_base::CNDO2, MolDS_base::s);}
+   double        GetBondingParameter(MolDS_base::TheoryType theory, 
+                                     MolDS_base::OrbitalType orbital) const;
+   inline double GetCoreCharge()           const{return this->coreCharge;}
+   inline int  GetFirstAOIndex()           const{return this->firstAOIndex;}
+   inline void SetFirstAOIndex(int firstAOIndex){this->firstAOIndex = firstAOIndex;}
+   inline int  GetLastAOIndex()            const{return this->firstAOIndex + this->valence.size()-1;}
+   inline MolDS_base::ShellType GetValenceShellType() const{return this->valenceShellType;}
+   inline int GetNumberValenceElectrons()             const{return this->numberValenceElectrons;}
    double GetOrbitalExponent(MolDS_base::ShellType shellType, 
                              MolDS_base::OrbitalType orbitalType, 
                              MolDS_base::TheoryType theory) const;  // See (1.73) in J. A. Pople book for CNDO, INDO, and ZINDOS. See [BT_1977] for MNDO. See [DZHS_1985, DY_1990] for AM1. See [S_1989] for PM3.
