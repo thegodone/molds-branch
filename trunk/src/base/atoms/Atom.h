@@ -59,30 +59,30 @@ public:
    double GetCoreIntegral(MolDS_base::OrbitalType orbital, 
                           bool isGuess, 
                           MolDS_base::TheoryType theory) const;
-   double GetIndoF2() const;
-   double GetIndoG1() const;
-   double GetZindoF0ss() const;                // Table 1 in ref. [RZ_1976], Table 1 in [AEZ_1986], or Table 1 in [GD_1972]
-   double GetZindoF0sd() const;                // Table 1 in [AEZ_1986]
-   double GetZindoF0dd() const;                // Table 1 in [AEZ_1986]
-   double GetZindoG1sp() const;                // Table 3 in ref. [BZ_1979]
-   double GetZindoF2pp() const;                // Table 3 in ref. [BZ_1979]
-   double GetZindoG2sd() const;                // Table 3 in ref. [BZ_1979]
-   double GetZindoG1pd() const;                // Table 3 in ref. [BZ_1979]
-   double GetZindoF2pd() const;                // Table 3 in ref. [BZ_1979]
-   double GetZindoG3pd() const;                // Table 3 in ref. [BZ_1979]
-   double GetZindoF2dd() const;                // Table 3 in ref. [BZ_1979]
-   double GetZindoF4dd() const;                // Table 3 in ref. [BZ_1979]
-   double GetZindoF0ssLower() const;           // Apendix in ref. [BZ_1979] 
-   double GetZindoF0sdLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoF0ddLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoG1spLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoF2ppLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoG2sdLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoG1pdLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoF2pdLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoG3pdLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoF2ddLower() const;           // Apendix in ref. [BZ_1979]
-   double GetZindoF4ddLower() const;           // Apendix in ref. [BZ_1979]
+   inline double GetIndoF2() const{return this->indoF2;}
+   inline double GetIndoG1() const{return this->indoG1;}
+   inline double GetZindoF0ss()      const{return this->zindoF0ss;}       // Table 1 in ref. [RZ_1976], Table 1 in [AEZ_1986], or Table 1 in [GD_1972]
+   inline double GetZindoF0sd()      const{return this->zindoF0sd;}       // Table 1 in [AEZ_1986]
+   inline double GetZindoF0dd()      const{return this->zindoF0dd;}       // Table 1 in [AEZ_1986]
+   inline double GetZindoG1sp()      const{return this->zindoG1sp;}       // Table 3 in ref. [BZ_1979]
+   inline double GetZindoF2pp()      const{return this->zindoF2pp;}       // Table 3 in ref. [BZ_1979]
+   inline double GetZindoG2sd()      const{return this->zindoG2sd;}       // Table 3 in ref. [BZ_1979]
+   inline double GetZindoG1pd()      const{return this->zindoG1pd;}       // Table 3 in ref. [BZ_1979]
+   inline double GetZindoF2pd()      const{return this->zindoF2pd;}       // Table 3 in ref. [BZ_1979]
+   inline double GetZindoG3pd()      const{return this->zindoG3pd;}       // Table 3 in ref. [BZ_1979]
+   inline double GetZindoF2dd()      const{return this->zindoF2dd;}       // Table 3 in ref. [BZ_1979]
+   inline double GetZindoF4dd()      const{return this->zindoF4dd;}       // Table 3 in ref. [BZ_1979]
+   inline double GetZindoF0ssLower() const{return this->zindoF0ss;}       // Apendix in ref. [BZ_1979] 
+   inline double GetZindoF0sdLower() const{return this->zindoF0sd;}       // Apendix in ref. [BZ_1979]
+   inline double GetZindoF0ddLower() const{return this->zindoF0dd;}       // Apendix in ref. [BZ_1979]
+   inline double GetZindoG1spLower() const{return this->zindoG1sp/3.0;  } // Apendix in ref. [BZ_1979]
+   inline double GetZindoF2ppLower() const{return this->zindoF2pp/25.0; } // Apendix in ref. [BZ_1979]
+   inline double GetZindoG2sdLower() const{return this->zindoG2sd/5.0;  } // Apendix in ref. [BZ_1979]
+   inline double GetZindoG1pdLower() const{return this->zindoG1pd/15.0; } // Apendix in ref. [BZ_1979]
+   inline double GetZindoF2pdLower() const{return this->zindoF2pd/35.0; } // Apendix in ref. [BZ_1979]
+   inline double GetZindoG3pdLower() const{return this->zindoG3pd/245.0;} // Apendix in ref. [BZ_1979]
+   inline double GetZindoF2ddLower() const{return this->zindoF2dd/49.0; } // Apendix in ref. [BZ_1979]
+   inline double GetZindoF4ddLower() const{return this->zindoF4dd/441.0;} // Apendix in ref. [BZ_1979]
    double GetZindoIonPot(MolDS_base::OrbitalType orbital) const;
    double GetNddoAlpha(MolDS_base::TheoryType theory) const; // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S for MNDO. Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
    double GetNddoDerivedParameterD(MolDS_base::TheoryType theory, 
@@ -284,12 +284,12 @@ private:
                           double orbitalExponent, 
                           MolDS_base::ShellType shell) const;
    int GetEffectivePrincipalQuantumNumber(MolDS_base::ShellType shellType) const; // Table 1.4 in J. A. Pople book
-   double GetZindoJss() const;  // Part of Eq. (13) in [BZ_1979]
-   double GetZindoJsp() const;  // Part of Eq. (13) in [BZ_1979]
-   double GetZindoJsd() const;  // Part of Eq. (13) in [BZ_1979]
-   double GetZindoJpp() const;  // Part of Eq. (13) in [BZ_1979]
-   double GetZindoJpd() const;  // Part of Eq. (13) in [BZ_1979]
-   double GetZindoJdd() const;  // Part of Eq. (13) in [BZ_1979]
+   inline double GetZindoJss() const{return this->zindoF0ss;}                             // Part of Eq. (13) in [BZ_1979]
+   inline double GetZindoJsp() const{return this->zindoF0ss - this->zindoG1sp/6.0;}       // Part of Eq. (13) in [BZ_1979]. F0ss = F0sp
+   inline double GetZindoJsd() const{return this->zindoF0sd - this->zindoG2sd/10.0;}      // Part of Eq. (13) in [BZ_1979]
+   inline double GetZindoJpp() const{return this->zindoF0ss - 2.0*this->zindoF2pp/25.0;}  // Part of Eq. (13) in [BZ_1979]. F0pp = F0ss
+   inline double GetZindoJpd() const{return this->zindoF0sd - this->zindoG1pd/15.0 - 3.0*this->zindoG3pd/70.0;}  // Part of Eq. (13) in [BZ_1979]. F0pd = F0sd
+   inline double GetZindoJdd() const{return this->zindoF0dd - 2.0*(this->zindoF2dd + this->zindoF4dd)/63.0;}  // Part of Eq. (13) in [BZ_1979]
    double GetCndo2CoreIntegral(MolDS_base::OrbitalType orbital, double gamma, bool isGuess) const;
    double GetIndoCoreIntegral(MolDS_base::OrbitalType orbital, double gamma, bool isGuess) const;
    double GetZindoCoreIntegral(MolDS_base::OrbitalType orbital) const; // Eq. (13) in [BZ_1979]
