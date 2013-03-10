@@ -32,7 +32,7 @@ public:
    double* GetPxyz() const;
    void SetPxyz(double px, double py, double pz) const;
    inline int GetValenceSize() const{return this->valence.size();}
-   MolDS_base::OrbitalType GetValence(int index) const;
+   inline MolDS_base::OrbitalType GetValence(int index) const{return his->valence[index];}
    double GetVdWCoefficient() const;
    double GetVdWRadii() const;
    double GetAtomicBasisValue(double x, 
