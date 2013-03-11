@@ -82,12 +82,4 @@ RealSphericalHarmonicsIndex::RealSphericalHarmonicsIndex(int l, int m){
    this->m = m;
 }
 
-int RealSphericalHarmonicsIndex::GetL() const{
-   return this->l;
-}
-
-int RealSphericalHarmonicsIndex::GetM() const{
-   return this->m;
-}
-
 }

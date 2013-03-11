@@ -25,8 +25,8 @@ class RealSphericalHarmonicsIndex {
 public:
    RealSphericalHarmonicsIndex(int l, int m);
    explicit RealSphericalHarmonicsIndex(MolDS_base::OrbitalType  orbitalType);
-   int GetL() const;
-   int GetM() const;
+   int GetL() const{return this->l;}
+   int GetM() const{return this->m;}
 private:
    int l;
    int m;
