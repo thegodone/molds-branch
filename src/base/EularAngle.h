@@ -25,12 +25,12 @@ public:
    EularAngle();
    EularAngle(double x, double y, double z);
    explicit EularAngle(double* angles);
-   double GetAlpha() const;
-   double GetBeta() const;
-   double GetGamma() const;
-   void SetAlpha(double alpha);
-   void SetBeta(double beta);
-   void SetGamma(double gamma);
+   double GetAlpha() const{return this->alpha;}
+   double GetBeta()  const{return this->beta;}
+   double GetGamma() const{return this->gamma;}
+   void SetAlpha(double alpha){this->alpha = alpha;}
+   void SetBeta (double beta) {this->beta  = beta;}
+   void SetGamma(double gamma){this->gamma = gamma;}
 private:
    std::string errorMessageInvalidXYZ;
    double alpha;

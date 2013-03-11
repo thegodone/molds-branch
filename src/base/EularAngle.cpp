@@ -70,30 +70,6 @@ EularAngle::EularAngle(double* angles){
    this->gamma = angles[2];
 }
 
-double EularAngle::GetAlpha() const{
-   return this->alpha;
-}
-
-double EularAngle::GetBeta() const{
-   return this->beta;
-}
-
-double EularAngle::GetGamma() const{
-   return this->gamma;
-}
-
-void EularAngle::SetAlpha(double alpha){
-   this->alpha = alpha;
-}
-
-void EularAngle::SetBeta(double beta){
-   this->beta = beta;
-}
-
-void EularAngle::SetGamma(double gamma){
-   this->gamma = gamma;
-}
-
 void EularAngle::SetMessage(){
    this->errorMessageInvalidXYZ="Error in base::EularAngle: Invalid coordinates. x=y=z=0.\n";
 }
