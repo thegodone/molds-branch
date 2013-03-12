@@ -2,17 +2,18 @@
 THEORY
    //cndo/2
    //indo
-   zindo/s
+   //zindo/s
    //none 
    //principal_axes
    //translate
    //rotate
+   pm3-d
 THEORY_END
 
 SCF
    max_iter 100
    rms_density 1e-06
-   damping_thresh 1e-3
+   damping_thresh 1e-2
    damping_weight 0.90
 SCF_END
 
