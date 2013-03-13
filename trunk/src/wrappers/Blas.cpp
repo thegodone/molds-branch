@@ -253,6 +253,23 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
                  double const* const* matrixB,
                  double beta,
                  double** matrixC) const{
+   bool isColumnMajorMatrixC = false;
+   this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixB, isColumnMajorMatrixC,m, n, k, alpha, matrixA, matrixB, beta, matrixC);
+}
+
+// matrixC = alpha*matrixA*matrixB + beta*matrixC
+//    matrixA: m*k-matrix 
+//    matrixB: k*n-matrix
+//    matrixC: m*n-matrix
+void Blas::Dgemm(bool isColumnMajorMatrixA, 
+                 bool isColumnMajorMatrixB, 
+                 bool isColumnMajorMatrixC, 
+                 molds_blas_int m, molds_blas_int n, molds_blas_int k,  
+                 double alpha,
+                 double const* const* matrixA,
+                 double const* const* matrixB,
+                 double beta,
+                 double** matrixC) const{
    double* a = const_cast<double*>(&matrixA[0][0]);
    double* b = const_cast<double*>(&matrixB[0][0]);
    double*       c = &matrixC[0][0];
@@ -285,17 +302,31 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
 #else
    tmpC = (double*)malloc( sizeof(double)*m*n);
 #endif
-   for(molds_blas_int i=0; i<m; i++){
-      for(molds_blas_int j=0; j<n; j++){
-         tmpC[i+j*m] = matrixC[i][j];
-      }
+   molds_blas_int ldc;
+   if(isColumnMajorMatrixC){
+      this->Dcopy(m*n, &matrixC[0][0], tmpC);
+      ldc = m;
    }
-   molds_blas_int ldc = m;
+   else{
+      for(molds_blas_int i=0; i<m; i++){
+         for(molds_blas_int j=0; j<n; j++){
+            tmpC[i+j*m] = matrixC[i][j];
+         }
+      }
+      ldc = n;
+   }
+
    //call blas
    cblas_dgemm(CblasColMajor, transA, transB, m, n, k, alpha, a, lda, b, ldb, beta, tmpC, ldc);
-   for(molds_blas_int i=0; i<m; i++){
-      for(molds_blas_int j=0; j<n; j++){
-         matrixC[i][j] = tmpC[i+j*m];
+
+   if(isColumnMajorMatrixC){
+      this->Dcopy(m*n, tmpC, &matrixC[0][0]);
+   }
+   else{
+      for(molds_blas_int i=0; i<m; i++){
+         for(molds_blas_int j=0; j<n; j++){
+            matrixC[i][j] = tmpC[i+j*m];
+         }
       }
    }
 #ifdef __INTEL_COMPILER
