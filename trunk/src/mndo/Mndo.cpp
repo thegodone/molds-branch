@@ -1150,7 +1150,7 @@ double Mndo::GetKRElement(int moI, int moJ, int moK, int moL) const{
 
 double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
    double value = 0.0;
-
+   
    // Fast algorith, but this is not easy to read. 
    // Slow algorithm is alos written below.
    for(int A=0; A<this->molecule->GetNumberAtoms(); A++){
@@ -1336,7 +1336,135 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
       }
    }
    // End of the fast algorith.
-   
+
+   /*
+   // Algorithm using blas
+   double** twoElec = NULL;
+   double*  twiceMoIJ = NULL;
+   double*  twiceMoIK = NULL;
+   double*  twiceMoIL = NULL;
+   double*  twiceMoKL = NULL;
+   double*  twiceMoJL = NULL;
+   double*  twiceMoJK = NULL;
+   double*  tmpVector = NULL;
+   int numAOs = this->molecule->GetTotalNumberAOs();
+   MallocerFreer::GetInstance()->Malloc<double>(&twoElec,   this->molecule->GetNumberAtoms()*dxy*dxy, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIJ, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIK, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIL, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoKL, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoJL, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoJK, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(&tmpVector, this->molecule->GetNumberAtoms()*dxy*dxy);
+   for(int A=0; A<this->molecule->GetNumberAtoms(); A++){
+      const Atom& atomA = *this->molecule->GetAtom(A);
+      int firstAOIndexA = atomA.GetFirstAOIndex();
+      int lastAOIndexA  = atomA.GetLastAOIndex();
+      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+         for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+            twiceMoIJ[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moJ][nu   ];
+            twiceMoIK[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moK][nu   ];
+            twiceMoIL[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moL][nu   ];
+         }
+      }
+   }
+
+   for(int B=0; B<this->molecule->GetNumberAtoms(); B++){
+      const Atom& atomB = *this->molecule->GetAtom(B);
+      int firstAOIndexB = atomB.GetFirstAOIndex();
+      int lastAOIndexB  = atomB.GetLastAOIndex();
+      for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+         for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+            twiceMoKL[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moK][lambda]*fockMatrix[moL][sigma];
+            twiceMoJL[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moL][sigma];
+            twiceMoJK[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moK][sigma];
+         }
+      }
+   }
+
+   for(int A=0; A<this->molecule->GetNumberAtoms(); A++){
+      const Atom& atomA = *this->molecule->GetAtom(A);
+      int firstAOIndexA = atomA.GetFirstAOIndex();
+      int lastAOIndexA  = atomA.GetLastAOIndex();
+      for(int B=A; B<this->molecule->GetNumberAtoms(); B++){
+         const Atom& atomB = *this->molecule->GetAtom(B);
+         int firstAOIndexB = atomB.GetFirstAOIndex();
+         int lastAOIndexB  = atomB.GetLastAOIndex();
+         double gamma = 0.0;
+         if(A!=B){
+            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                        twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
+                               [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)] = 
+                            this->twoElecTwoCore[A]
+                                                [B]
+                                                [mu-firstAOIndexA]
+                                                [nu-firstAOIndexA]
+                                                [lambda-firstAOIndexB]
+                                                [sigma-firstAOIndexB];
+                     }
+                  }
+               }
+            }
+         }
+         else{
+            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                        if(mu==nu && lambda==sigma){
+                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                           OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
+                           gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+                        }
+                        else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
+                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                           OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
+                           gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+                        }
+                        else{
+                           gamma = 0.0;
+                        }
+                        twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
+                               [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)] = gamma;
+                     }  
+                  }
+               }
+            }
+         }
+      }
+   }
+   MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetNumberAtoms()*dxy*dxy, 
+                                              //this->molecule->GetNumberAtoms()*dxy*dxy,
+                                              twoElec, 
+                                              twiceMoKL,
+                                              tmpVector);
+   value = 4.0*MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetNumberAtoms()*dxy*dxy,twiceMoIJ, tmpVector);
+   MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetNumberAtoms()*dxy*dxy, 
+                                              //this->molecule->GetNumberAtoms()*dxy*dxy,
+                                              twoElec, 
+                                              twiceMoJL,
+                                              tmpVector);
+   value -= MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetNumberAtoms()*dxy*dxy,twiceMoIK, tmpVector);
+   MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetNumberAtoms()*dxy*dxy, 
+                                              //this->molecule->GetNumberAtoms()*dxy*dxy,
+                                              twoElec, 
+                                              twiceMoJK,
+                                              tmpVector);
+   value -= MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetNumberAtoms()*dxy*dxy,twiceMoIL, tmpVector);
+   MallocerFreer::GetInstance()->Free<double>(&twoElec,   this->molecule->GetNumberAtoms()*dxy*dxy, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(&twiceMoIJ, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(&twiceMoIK, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(&twiceMoIL, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(&twiceMoKL, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(&twiceMoJL, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(&twiceMoJK, this->molecule->GetNumberAtoms()*dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(&tmpVector, this->molecule->GetNumberAtoms()*dxy*dxy);
+   // End of algorithm using blas
+   */
+
    /*
    // slow algorithm
    value = 4.0*this->GetMolecularIntegralElement(moI, moJ, moK, moL, 
