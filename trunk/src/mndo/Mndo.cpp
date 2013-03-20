@@ -1150,7 +1150,7 @@ double Mndo::GetKRElement(int moI, int moJ, int moK, int moL) const{
 
 double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
    double value = 0.0;
-   
+
    // Fast algorith, but this is not easy to read. 
    // Slow algorithm is alos written below.
    for(int A=0; A<this->molecule->GetNumberAtoms(); A++){
@@ -1164,142 +1164,20 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
          int lastAOIndexB  = atomB.GetLastAOIndex();
 
          double gamma = 0.0;
-         if(A!=B){
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=mu; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
-                        OrbitalType orbitalSigma = atomB.GetValence(sigma-firstAOIndexB);
+         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+            for(int nu=mu; nu<=lastAOIndexA; nu++){
+               for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                  for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
+                     OrbitalType orbitalSigma = atomB.GetValence(sigma-firstAOIndexB);
+                     if(A!=B){
                         gamma = this->twoElecTwoCore[A]
                                                     [B]
                                                     [mu-firstAOIndexA]
                                                     [nu-firstAOIndexA]
                                                     [lambda-firstAOIndexB]
                                                     [sigma-firstAOIndexB];
-                        // Order in moI, moJ, moK, then moL 
-                        value += 4.0*gamma*this->fockMatrix[moI][mu]
-                                          *this->fockMatrix[moJ][nu]
-                                          *this->fockMatrix[moK][lambda]
-                                          *this->fockMatrix[moL][sigma];
-                        value += 4.0*gamma*this->fockMatrix[moI][lambda]
-                                          *this->fockMatrix[moJ][sigma]
-                                          *this->fockMatrix[moK][mu]
-                                          *this->fockMatrix[moL][nu];
-                        // Order in moI, moK, moJ, then moL 
-                        value -= gamma*this->fockMatrix[moI][mu]
-                                      *this->fockMatrix[moK][nu]
-                                      *this->fockMatrix[moJ][lambda]
-                                      *this->fockMatrix[moL][sigma];
-                        value -= gamma*this->fockMatrix[moI][lambda]
-                                      *this->fockMatrix[moK][sigma]
-                                      *this->fockMatrix[moJ][mu]
-                                      *this->fockMatrix[moL][nu];
-                        // Order in moI, moL, moJ, then moK 
-                        value -= gamma*this->fockMatrix[moI][mu]
-                                      *this->fockMatrix[moL][nu]
-                                      *this->fockMatrix[moJ][lambda]
-                                      *this->fockMatrix[moK][sigma];
-                        value -= gamma*this->fockMatrix[moI][lambda]
-                                      *this->fockMatrix[moL][sigma]
-                                      *this->fockMatrix[moJ][mu]
-                                      *this->fockMatrix[moK][nu];
-                        if(lambda != sigma){
-                           // Order in moI, moJ, moK, then moL 
-                           value += 4.0*gamma*this->fockMatrix[moI][mu]
-                                             *this->fockMatrix[moJ][nu]
-                                             *this->fockMatrix[moK][sigma]
-                                             *this->fockMatrix[moL][lambda];
-                           value += 4.0*gamma*this->fockMatrix[moI][sigma]
-                                             *this->fockMatrix[moJ][lambda]
-                                             *this->fockMatrix[moK][mu]
-                                             *this->fockMatrix[moL][nu];
-                           // Order in moI, moK, moJ, then moL 
-                           value -= gamma*this->fockMatrix[moI][mu]
-                                         *this->fockMatrix[moK][nu]
-                                         *this->fockMatrix[moJ][sigma]
-                                         *this->fockMatrix[moL][lambda];
-                           value -= gamma*this->fockMatrix[moI][sigma]
-                                         *this->fockMatrix[moK][lambda]
-                                         *this->fockMatrix[moJ][mu]
-                                         *this->fockMatrix[moL][nu];
-                           // Order in moI, moL, moJ, then moK 
-                           value -= gamma*this->fockMatrix[moI][mu]
-                                         *this->fockMatrix[moL][nu]
-                                         *this->fockMatrix[moJ][sigma]
-                                         *this->fockMatrix[moK][lambda];
-                           value -= gamma*this->fockMatrix[moI][sigma]
-                                         *this->fockMatrix[moL][lambda]
-                                         *this->fockMatrix[moJ][mu]
-                                         *this->fockMatrix[moK][nu];
-                        }
-                        if(mu != nu){
-                           // Order in moI, moJ, moK, then moL 
-                           value += 4.0*gamma*this->fockMatrix[moI][nu]
-                                             *this->fockMatrix[moJ][mu]
-                                             *this->fockMatrix[moK][lambda]
-                                             *this->fockMatrix[moL][sigma];
-                           value += 4.0*gamma*this->fockMatrix[moI][lambda]
-                                             *this->fockMatrix[moJ][sigma]
-                                             *this->fockMatrix[moK][nu]
-                                             *this->fockMatrix[moL][mu];
-                           // Order in moI, moK, moJ, then moL 
-                           value -= gamma*this->fockMatrix[moI][nu]
-                                         *this->fockMatrix[moK][mu]
-                                         *this->fockMatrix[moJ][lambda]
-                                         *this->fockMatrix[moL][sigma];
-                           value -= gamma*this->fockMatrix[moI][lambda]
-                                         *this->fockMatrix[moK][sigma]
-                                         *this->fockMatrix[moJ][nu]
-                                         *this->fockMatrix[moL][mu];
-                           // Order in moI, moL, moJ, then moK 
-                           value -= gamma*this->fockMatrix[moI][nu]
-                                         *this->fockMatrix[moL][mu]
-                                         *this->fockMatrix[moJ][lambda]
-                                         *this->fockMatrix[moK][sigma];
-                           value -= gamma*this->fockMatrix[moI][lambda]
-                                         *this->fockMatrix[moL][sigma]
-                                         *this->fockMatrix[moJ][nu]
-                                         *this->fockMatrix[moK][mu];
-                        }
-                        if(mu != nu && lambda != sigma){
-                           // Order in moI, moJ, moK, then moL 
-                           value += 4.0*gamma*this->fockMatrix[moI][nu]
-                                             *this->fockMatrix[moJ][mu]
-                                             *this->fockMatrix[moK][sigma]
-                                             *this->fockMatrix[moL][lambda];
-                           value += 4.0*gamma*this->fockMatrix[moI][sigma]
-                                             *this->fockMatrix[moJ][lambda]
-                                             *this->fockMatrix[moK][nu]
-                                             *this->fockMatrix[moL][mu];
-                           // Order in moI, moK, moJ, then moL 
-                           value -= gamma*this->fockMatrix[moI][nu]
-                                         *this->fockMatrix[moK][mu]
-                                         *this->fockMatrix[moJ][sigma]
-                                         *this->fockMatrix[moL][lambda];
-                           value -= gamma*this->fockMatrix[moI][sigma]
-                                         *this->fockMatrix[moK][lambda]
-                                         *this->fockMatrix[moJ][nu]
-                                         *this->fockMatrix[moL][mu];
-                           // Order in moI, moL, moJ, then moK 
-                           value -= gamma*this->fockMatrix[moI][nu]
-                                         *this->fockMatrix[moL][mu]
-                                         *this->fockMatrix[moJ][sigma]
-                                         *this->fockMatrix[moK][lambda];
-                           value -= gamma*this->fockMatrix[moI][sigma]
-                                         *this->fockMatrix[moL][lambda]
-                                         *this->fockMatrix[moJ][nu]
-                                         *this->fockMatrix[moK][mu];
-                        }
                      }
-                  }
-               }
-            }
-         }
-         else{
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                     else{
                         if(mu==nu && lambda==sigma){
                            OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
                            OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
@@ -1313,22 +1191,122 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
                         else{
                            gamma = 0.0;
                         }
+                        gamma *= 0.5;
+                     }
+                     // Order in moI, moJ, moK, then moL 
+                     value += 4.0*gamma*this->fockMatrix[moI][mu]
+                                       *this->fockMatrix[moJ][nu]
+                                       *this->fockMatrix[moK][lambda]
+                                       *this->fockMatrix[moL][sigma];
+                     value += 4.0*gamma*this->fockMatrix[moI][lambda]
+                                       *this->fockMatrix[moJ][sigma]
+                                       *this->fockMatrix[moK][mu]
+                                       *this->fockMatrix[moL][nu];
+                     // Order in moI, moK, moJ, then moL 
+                     value -= gamma*this->fockMatrix[moI][mu]
+                                   *this->fockMatrix[moK][nu]
+                                   *this->fockMatrix[moJ][lambda]
+                                   *this->fockMatrix[moL][sigma];
+                     value -= gamma*this->fockMatrix[moI][lambda]
+                                   *this->fockMatrix[moK][sigma]
+                                   *this->fockMatrix[moJ][mu]
+                                   *this->fockMatrix[moL][nu];
+                     // Order in moI, moL, moJ, then moK 
+                     value -= gamma*this->fockMatrix[moI][mu]
+                                   *this->fockMatrix[moL][nu]
+                                   *this->fockMatrix[moJ][lambda]
+                                   *this->fockMatrix[moK][sigma];
+                     value -= gamma*this->fockMatrix[moI][lambda]
+                                   *this->fockMatrix[moL][sigma]
+                                   *this->fockMatrix[moJ][mu]
+                                   *this->fockMatrix[moK][nu];
+                     if(lambda != sigma){
                         // Order in moI, moJ, moK, then moL 
                         value += 4.0*gamma*this->fockMatrix[moI][mu]
                                           *this->fockMatrix[moJ][nu]
-                                          *this->fockMatrix[moK][lambda]
-                                          *this->fockMatrix[moL][sigma];
+                                          *this->fockMatrix[moK][sigma]
+                                          *this->fockMatrix[moL][lambda];
+                        value += 4.0*gamma*this->fockMatrix[moI][sigma]
+                                          *this->fockMatrix[moJ][lambda]
+                                          *this->fockMatrix[moK][mu]
+                                          *this->fockMatrix[moL][nu];
                         // Order in moI, moK, moJ, then moL 
                         value -= gamma*this->fockMatrix[moI][mu]
                                       *this->fockMatrix[moK][nu]
-                                      *this->fockMatrix[moJ][lambda]
-                                      *this->fockMatrix[moL][sigma];
+                                      *this->fockMatrix[moJ][sigma]
+                                      *this->fockMatrix[moL][lambda];
+                        value -= gamma*this->fockMatrix[moI][sigma]
+                                      *this->fockMatrix[moK][lambda]
+                                      *this->fockMatrix[moJ][mu]
+                                      *this->fockMatrix[moL][nu];
                         // Order in moI, moL, moJ, then moK 
                         value -= gamma*this->fockMatrix[moI][mu]
                                       *this->fockMatrix[moL][nu]
+                                      *this->fockMatrix[moJ][sigma]
+                                      *this->fockMatrix[moK][lambda];
+                        value -= gamma*this->fockMatrix[moI][sigma]
+                                      *this->fockMatrix[moL][lambda]
+                                      *this->fockMatrix[moJ][mu]
+                                      *this->fockMatrix[moK][nu];
+                     }
+                     if(mu != nu){
+                        // Order in moI, moJ, moK, then moL 
+                        value += 4.0*gamma*this->fockMatrix[moI][nu]
+                                          *this->fockMatrix[moJ][mu]
+                                          *this->fockMatrix[moK][lambda]
+                                          *this->fockMatrix[moL][sigma];
+                        value += 4.0*gamma*this->fockMatrix[moI][lambda]
+                                          *this->fockMatrix[moJ][sigma]
+                                          *this->fockMatrix[moK][nu]
+                                          *this->fockMatrix[moL][mu];
+                        // Order in moI, moK, moJ, then moL 
+                        value -= gamma*this->fockMatrix[moI][nu]
+                                      *this->fockMatrix[moK][mu]
+                                      *this->fockMatrix[moJ][lambda]
+                                      *this->fockMatrix[moL][sigma];
+                        value -= gamma*this->fockMatrix[moI][lambda]
+                                      *this->fockMatrix[moK][sigma]
+                                      *this->fockMatrix[moJ][nu]
+                                      *this->fockMatrix[moL][mu];
+                        // Order in moI, moL, moJ, then moK 
+                        value -= gamma*this->fockMatrix[moI][nu]
+                                      *this->fockMatrix[moL][mu]
                                       *this->fockMatrix[moJ][lambda]
                                       *this->fockMatrix[moK][sigma];
-                     }  
+                        value -= gamma*this->fockMatrix[moI][lambda]
+                                      *this->fockMatrix[moL][sigma]
+                                      *this->fockMatrix[moJ][nu]
+                                      *this->fockMatrix[moK][mu];
+                     }
+                     if(mu != nu && lambda != sigma){
+                        // Order in moI, moJ, moK, then moL 
+                        value += 4.0*gamma*this->fockMatrix[moI][nu]
+                                          *this->fockMatrix[moJ][mu]
+                                          *this->fockMatrix[moK][sigma]
+                                          *this->fockMatrix[moL][lambda];
+                        value += 4.0*gamma*this->fockMatrix[moI][sigma]
+                                          *this->fockMatrix[moJ][lambda]
+                                          *this->fockMatrix[moK][nu]
+                                          *this->fockMatrix[moL][mu];
+                        // Order in moI, moK, moJ, then moL 
+                        value -= gamma*this->fockMatrix[moI][nu]
+                                      *this->fockMatrix[moK][mu]
+                                      *this->fockMatrix[moJ][sigma]
+                                      *this->fockMatrix[moL][lambda];
+                        value -= gamma*this->fockMatrix[moI][sigma]
+                                      *this->fockMatrix[moK][lambda]
+                                      *this->fockMatrix[moJ][nu]
+                                      *this->fockMatrix[moL][mu];
+                        // Order in moI, moL, moJ, then moK 
+                        value -= gamma*this->fockMatrix[moI][nu]
+                                      *this->fockMatrix[moL][mu]
+                                      *this->fockMatrix[moJ][sigma]
+                                      *this->fockMatrix[moK][lambda];
+                        value -= gamma*this->fockMatrix[moI][sigma]
+                                      *this->fockMatrix[moL][lambda]
+                                      *this->fockMatrix[moJ][nu]
+                                      *this->fockMatrix[moK][mu];
+                     }
                   }
                }
             }
