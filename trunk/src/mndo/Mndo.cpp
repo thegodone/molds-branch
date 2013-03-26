@@ -1162,10 +1162,10 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
          int muOffSet = mu - firstAOIndexA;
          for(int nu=mu; nu<=lastAOIndexA; nu++){
             int nuOffSet = nu - firstAOIndexA;
-            double tmpMN01 = 0.0, tmpMN02 = 0.0, tmpMN03 = 0.0, tmpMN04 = 0.0, 
-                   tmpMN05 = 0.0, tmpMN06 = 0.0, 
-                   tmpMN13 = 0.0, tmpMN14 = 0.0, tmpMN15 = 0.0, tmpMN16 = 0.0, 
-                   tmpMN17 = 0.0, tmpMN18 = 0.0;
+            double tmpMN01 = 0.0, tmpMN02 = 0.0, tmpMN03 = 0.0, 
+                   tmpMN04 = 0.0, tmpMN05 = 0.0, tmpMN06 = 0.0, 
+                   tmpMN13 = 0.0, tmpMN14 = 0.0, tmpMN15 = 0.0, 
+                   tmpMN16 = 0.0, tmpMN17 = 0.0, tmpMN18 = 0.0;
             tmpMN01 = 4.0
                      *this->fockMatrix[moI][mu]
                      *this->fockMatrix[moJ][nu];
