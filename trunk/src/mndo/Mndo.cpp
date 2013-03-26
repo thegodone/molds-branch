@@ -1267,13 +1267,13 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
                      }
                      else{
                         if(mu==nu && lambda==sigma){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
+                           OrbitalType orbitalMu     = atomA.GetValence(muOffSet);
+                           OrbitalType orbitalLambda = atomA.GetValence(lambdaOffSet);
                            gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
                         }
                         else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
+                           OrbitalType orbitalMu = atomA.GetValence(muOffSet);
+                           OrbitalType orbitalNu = atomA.GetValence(nuOffSet);
                            gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
                         }
                         else{
