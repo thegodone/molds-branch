@@ -69,22 +69,22 @@ public:
    inline void   SetVdWDampingFactorSCF()              {this->vdWDampingFactorSCF = this->vdWDampingFactorSCFPM3DAM1D;}
    inline void   SetVdWDampingFactorSCF(double vdWDamp){this->vdWDampingFactorSCF = vdWDamp;}
    // MOPlot
-   inline bool          RequiresMOPlot() const                                   {return (this->indecesMOPlot!=NULL && 0<this->indecesMOPlot->size());}
-   inline std::string   GetFileNamePrefixMOPlot() const                          {return this->fileNamePrefixMOPlot;}
-   inline void          SetFileNamePrefixMOPlot(std::string fileNamePrefixMOPlot){this->fileNamePrefixMOPlot = fileNamePrefixMOPlot;}
-   inline const int*    GetGridNumberMOPlot() const                              {return (int*)this->gridNumberMOPlot;}
+   inline bool          RequiresMOPlot() const                     {return (this->indecesMOPlot!=NULL && 0<this->indecesMOPlot->size());}
+   inline std::string   GetFileNamePrefixMOPlot() const            {return this->fileNamePrefixMOPlot;}
+   inline void          SetFileNamePrefixMOPlot(std::string prefix){this->fileNamePrefixMOPlot = prefix;}
+   inline const int*    GetGridNumberMOPlot() const                {return (int*)this->gridNumberMOPlot;}
    void                 SetGridNumberMOPlot(int Nx, int Ny, int Nz);
-   inline const double* GetFrameLengthMOPlot() const                             {return (double*)this->frameLengthMOPlot;}
+   inline const double* GetFrameLengthMOPlot() const               {return (double*)this->frameLengthMOPlot;}
    void                 SetFrameLengthMOPlot(double lx, double ly, double lz);
    std::vector<int>*    GetIndecesMOPlot() const;
    void                 AddIndexMOPlot(int moIndex);
    // HoleEPlot
-   inline bool          RequiresHolePlot() const                                     {return (this->elecIndecesHolePlot!=NULL && 0<this->elecIndecesHolePlot->size());}
-   inline std::string   GetFileNamePrefixHolePlot() const                            {return this->fileNamePrefixHolePlot;}
-   void                 SetFileNamePrefixHolePlot(std::string fileNamePrefixHolePlot){this->fileNamePrefixHolePlot = fileNamePrefixHolePlot;}
-   inline const int*    GetGridNumberHolePlot() const                                {return (int*)this->gridNumberHolePlot;}
+   inline bool          RequiresHolePlot() const                     {return (this->elecIndecesHolePlot!=NULL && 0<this->elecIndecesHolePlot->size());}
+   inline std::string   GetFileNamePrefixHolePlot() const            {return this->fileNamePrefixHolePlot;}
+   void                 SetFileNamePrefixHolePlot(std::string prefix){this->fileNamePrefixHolePlot = prefix;}
+   inline const int*    GetGridNumberHolePlot() const                {return (int*)this->gridNumberHolePlot;}
    void                 SetGridNumberHolePlot(int Nx, int Ny, int Nz);
-   inline const double* GetFrameLengthHolePlot() const                               {return (double*)this->frameLengthHolePlot;}
+   inline const double* GetFrameLengthHolePlot() const               {return (double*)this->frameLengthHolePlot;}
    void                 SetFrameLengthHolePlot(double lx, double ly, double lz);
    std::vector<int>*    GetElecIndecesHolePlot() const;
    void                 AddElecIndexHolePlot(int elecIndex);
