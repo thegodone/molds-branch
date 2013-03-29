@@ -1755,12 +1755,12 @@ void InputParser::OutputMOPlotConditions() const{
       this->OutputLog(boost::format("%s%d\n") % this->messageMOPlotIndex.c_str() 
                                               % (*moIndeces)[i]);
    }
-   int* gridNum = Parameters::GetInstance()->GetGridNumberMOPlot();
+   const int* gridNum = Parameters::GetInstance()->GetGridNumberMOPlot();
    this->OutputLog(boost::format("%s%d %d %d\n") % this->messageMOPlotGridNumber.c_str() 
                                                  % gridNum[XAxis] 
                                                  % gridNum[YAxis]
                                                  % gridNum[ZAxis]);
-   double* frameLength = Parameters::GetInstance()->GetFrameLengthMOPlot();
+   const double* frameLength = Parameters::GetInstance()->GetFrameLengthMOPlot();
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
    this->OutputLog(boost::format("%s%e %e %e\n") % this->messageMOPlotFrameLength.c_str() 
                                                  % (frameLength[XAxis]/ang2AU) 
@@ -1779,12 +1779,12 @@ void InputParser::OutputHolePlotConditions() const{
       this->OutputLog(boost::format("%s%d\n") % this->messageHolePlotElecIndex.c_str() 
                                               % (*moIndeces)[i]);
    }
-   int* gridNum = Parameters::GetInstance()->GetGridNumberHolePlot();
+   const int* gridNum = Parameters::GetInstance()->GetGridNumberHolePlot();
    this->OutputLog(boost::format("%s%d %d %d\n") % this->messageHolePlotGridNumber.c_str() 
                                                  % gridNum[XAxis] 
                                                  % gridNum[YAxis]
                                                  % gridNum[ZAxis]);
-   double* frameLength = Parameters::GetInstance()->GetFrameLengthHolePlot();
+   const double* frameLength = Parameters::GetInstance()->GetFrameLengthHolePlot();
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
    this->OutputLog(boost::format("%s%e %e %e\n") % this->messageHolePlotFrameLength.c_str() 
                                                  % (frameLength[XAxis]/ang2AU) 
@@ -1798,17 +1798,17 @@ void InputParser::OutputHolePlotConditions() const{
 
 void InputParser::OutputParticlePlotConditions() const{
    this->OutputLog(this->messageParticlePlotConditions);
-   vector<int>* moIndeces = Parameters::GetInstance()->GetElecIndecesParticlePlot();
+   const vector<int>* moIndeces = Parameters::GetInstance()->GetElecIndecesParticlePlot();
    for(int i=0; i<moIndeces->size(); i++){
       this->OutputLog(boost::format("%s%d\n") % this->messageParticlePlotElecIndex.c_str() 
                                               % (*moIndeces)[i]);
    }
-   int* gridNum = Parameters::GetInstance()->GetGridNumberParticlePlot();
+   const int* gridNum = Parameters::GetInstance()->GetGridNumberParticlePlot();
    this->OutputLog(boost::format("%s%d %d %d\n") % this->messageParticlePlotGridNumber.c_str() 
                                                  % gridNum[XAxis] 
                                                  % gridNum[YAxis]
                                                  % gridNum[ZAxis]);
-   double* frameLength = Parameters::GetInstance()->GetFrameLengthParticlePlot();
+   const double* frameLength = Parameters::GetInstance()->GetFrameLengthParticlePlot();
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
    this->OutputLog(boost::format("%s%e %e %e\n") % this->messageParticlePlotFrameLength.c_str() 
                                                  % (frameLength[XAxis]/ang2AU) 

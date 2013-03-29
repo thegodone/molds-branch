@@ -28,122 +28,121 @@ class Parameters: public PrintController, private Uncopyable{
 public:
    static Parameters* GetInstance();
    static void DeleteInstance();
-
-   SimulationType GetCurrentSimulation() const;
-   void SetCurrentSimulation(SimulationType simulation);
-   TheoryType GetCurrentTheory() const;
-   void SetCurrentTheory(TheoryType theory);
+   inline SimulationType GetCurrentSimulation() const{return this->currentSimulation;}
+   inline void           SetCurrentSimulation(SimulationType simulation) {this->currentSimulation = simulation;}
+   inline TheoryType GetCurrentTheory() const{return this->currentTheory;}
+   inline void       SetCurrentTheory(TheoryType theory){this->currentTheory = theory;}
    // Pysical constants
-   double GetEV2AU() const;
-   double GetJ2AU() const;
-   double GetKcalMolin2AU() const;
-   double GetAngstrom2AU() const;
-   double GetNm2AU() const;
-   double GetKayser2AU() const;
-   double GetGMolin2AU() const;
-   double GetDegree2Radian() const;
-   double GetFs2AU() const;
-   double GetBoltzmann() const;
-   double GetAvogadro() const;
-   double GetDebye2AU() const;
+   inline double GetEV2AU() const        {return this->eV2AU;}
+   inline double GetJ2AU() const         {return this->j2AU;}
+   inline double GetKcalMolin2AU() const {return this->kcalMolin2AU;}
+   inline double GetAngstrom2AU() const  {return this->angstrom2AU;}
+   inline double GetNm2AU() const        {return this->nm2AU;}
+   inline double GetKayser2AU() const    {return this->kayser2AU;}
+   inline double GetGMolin2AU() const    {return this->gMolin2AU;}
+   inline double GetDegree2Radian() const{return this->degree2Radian;}
+   inline double GetFs2AU() const        {return this->fs2AU;}
+   inline double GetBoltzmann() const    {return this->boltzmann;}
+   inline double GetAvogadro() const     {return this->avogadro;}
+   inline double GetDebye2AU() const     {return this->debye2AU;}
    // SCF
-   double GetThresholdSCF() const;
-   void   SetThresholdSCF(double thresholdSCF);
-   int    GetMaxIterationsSCF() const;
-   void   SetMaxIterationsSCF(int maxIterationsSCF);
-   double GetDampingThreshSCF() const;
-   void   SetDampingThreshSCF(double dampingThreshSCF);
-   double GetDampingWeightSCF() const;
-   void   SetDampingWeightSCF(double dampingWeightSCF);
-   int    GetDiisNumErrorVectSCF() const;
-   void   SetDiisNumErrorVectSCF(int diisNumErrorVectSCF);
-   double GetDiisStartErrorSCF() const;
-   void   SetDiisStartErrorSCF(double diisStartErrorSCF);
-   double GetDiisEndErrorSCF() const;
-   void   SetDiisEndErrorSCF(double diisEndErrorSCF);
-   bool   RequiresVdWSCF() const;
-   void   SetRequiresVdWSCF(bool requiresVdWSCF);
-   double GetVdWScalingFactorSCF() const;
-   void   SetVdWScalingFactorSCF();
-   void   SetVdWScalingFactorSCF(double vdWScalingFactorSCF);
-   double GetVdWDampingFactorSCF() const;
-   void   SetVdWDampingFactorSCF();
-   void   SetVdWDampingFactorSCF(double vdWDampingFactorSCF);
+   inline double GetThresholdSCF() const               {return this->thresholdSCF;}
+   inline void   SetThresholdSCF(double threshold)     {this->thresholdSCF = threshold;}
+   inline int    GetMaxIterationsSCF() const           {return this->maxIterationsSCF;}
+   inline void   SetMaxIterationsSCF(int maxIter)      {this->maxIterationsSCF = maxIter;}
+   inline double GetDampingThreshSCF() const           {return this->dampingThreshSCF;}
+   inline void   SetDampingThreshSCF(double dThresh)   {this->dampingThreshSCF = dThresh;}
+   inline double GetDampingWeightSCF() const           {return this->dampingWeightSCF;}
+   inline void   SetDampingWeightSCF(double dWeight)   {this->dampingWeightSCF = dWeight;}
+   inline int    GetDiisNumErrorVectSCF() const        {return this->diisNumErrorVectSCF;}
+   inline void   SetDiisNumErrorVectSCF(int numEVect)  {this->diisNumErrorVectSCF = numEVect;}
+   inline double GetDiisStartErrorSCF() const          {return this->diisStartErrorSCF;}
+   inline void   SetDiisStartErrorSCF(double sError)   {this->diisStartErrorSCF = sError;}
+   inline double GetDiisEndErrorSCF() const            {return this->diisEndErrorSCF;}
+   inline void   SetDiisEndErrorSCF(double eError)     {this->diisEndErrorSCF = eError;}
+   inline bool   RequiresVdWSCF() const                {return this->requiresVdWSCF;}
+   inline void   SetRequiresVdWSCF(bool requires)      {this->requiresVdWSCF = requires;}
+   inline double GetVdWScalingFactorSCF() const        {return this->vdWScalingFactorSCF;}
+   inline void   SetVdWScalingFactorSCF()              {this->vdWScalingFactorSCF = this->vdWScalingFactorSCFPM3DAM1D;}
+   inline void   SetVdWScalingFactorSCF(double vdWScal){this->vdWScalingFactorSCF = vdWScal;}
+   inline double GetVdWDampingFactorSCF() const        {return this->vdWDampingFactorSCF;}
+   inline void   SetVdWDampingFactorSCF()              {this->vdWDampingFactorSCF = this->vdWDampingFactorSCFPM3DAM1D;}
+   inline void   SetVdWDampingFactorSCF(double vdWDamp){this->vdWDampingFactorSCF = vdWDamp;}
    // MOPlot
-   std::string       GetFileNamePrefixMOPlot() const;
-   void              SetFileNamePrefixMOPlot(std::string fileNamePrefixMOPlot);
-   int*              GetGridNumberMOPlot() const;
-   void              SetGridNumberMOPlot(int Nx, int Ny, int Nz);
-   double*           GetFrameLengthMOPlot() const;
-   void              SetFrameLengthMOPlot(double lx, double ly, double lz);
-   std::vector<int>* GetIndecesMOPlot() const;
-   void              AddIndexMOPlot(int moIndex);
-   bool              RequiresMOPlot() const;
+   inline bool          RequiresMOPlot() const                                   {return (this->indecesMOPlot!=NULL && 0<this->indecesMOPlot->size());}
+   inline std::string   GetFileNamePrefixMOPlot() const                          {return this->fileNamePrefixMOPlot;}
+   inline void          SetFileNamePrefixMOPlot(std::string fileNamePrefixMOPlot){this->fileNamePrefixMOPlot = fileNamePrefixMOPlot;}
+   inline const int*    GetGridNumberMOPlot() const                              {return (int*)this->gridNumberMOPlot;}
+   void                 SetGridNumberMOPlot(int Nx, int Ny, int Nz);
+   inline const double* GetFrameLengthMOPlot() const                             {return (double*)this->frameLengthMOPlot;}
+   void                 SetFrameLengthMOPlot(double lx, double ly, double lz);
+   std::vector<int>*    GetIndecesMOPlot() const;
+   void                 AddIndexMOPlot(int moIndex);
    // HoleEPlot
-   std::string       GetFileNamePrefixHolePlot() const;
-   void              SetFileNamePrefixHolePlot(std::string fileNamePrefixHolePlot);
-   int*              GetGridNumberHolePlot() const;
-   void              SetGridNumberHolePlot(int Nx, int Ny, int Nz);
-   double*           GetFrameLengthHolePlot() const;
-   void              SetFrameLengthHolePlot(double lx, double ly, double lz);
-   std::vector<int>* GetElecIndecesHolePlot() const;
-   void              AddElecIndexHolePlot(int elecIndex);
-   bool              RequiresHolePlot() const;
+   inline bool          RequiresHolePlot() const                                     {return (this->elecIndecesHolePlot!=NULL && 0<this->elecIndecesHolePlot->size());}
+   inline std::string   GetFileNamePrefixHolePlot() const                            {return this->fileNamePrefixHolePlot;}
+   void                 SetFileNamePrefixHolePlot(std::string fileNamePrefixHolePlot){this->fileNamePrefixHolePlot = fileNamePrefixHolePlot;}
+   inline const int*    GetGridNumberHolePlot() const                                {return (int*)this->gridNumberHolePlot;}
+   void                 SetGridNumberHolePlot(int Nx, int Ny, int Nz);
+   inline const double* GetFrameLengthHolePlot() const                               {return (double*)this->frameLengthHolePlot;}
+   void                 SetFrameLengthHolePlot(double lx, double ly, double lz);
+   std::vector<int>*    GetElecIndecesHolePlot() const;
+   void                 AddElecIndexHolePlot(int elecIndex);
    // ParticlePlot
-   std::string       GetFileNamePrefixParticlePlot() const;
-   void              SetFileNamePrefixParticlePlot(std::string fileNamePrefixParticlePlot);
-   int*              GetGridNumberParticlePlot() const;
-   void              SetGridNumberParticlePlot(int Nx, int Ny, int Nz);
-   double*           GetFrameLengthParticlePlot() const;
-   void              SetFrameLengthParticlePlot(double lx, double ly, double lz);
-   std::vector<int>* GetElecIndecesParticlePlot() const;
-   void              AddElecIndexParticlePlot(int elecIndex);
-   bool              RequiresParticlePlot() const;
+   inline bool             RequiresParticlePlot() const                     {return (this->elecIndecesParticlePlot!=NULL && 0<this->elecIndecesParticlePlot->size());}
+   const std::vector<int>* GetElecIndecesParticlePlot() const;
+   void                    AddElecIndexParticlePlot(int elecIndex);
+   inline std::string      GetFileNamePrefixParticlePlot() const            {return this->fileNamePrefixParticlePlot;}
+   inline void             SetFileNamePrefixParticlePlot(std::string prefix){this->fileNamePrefixParticlePlot = prefix;}
+   inline const int*       GetGridNumberParticlePlot() const                {return (int*)this->gridNumberParticlePlot;}
+   void                    SetGridNumberParticlePlot(int Nx, int Ny, int Nz);
+   inline const double*    GetFrameLengthParticlePlot() const               {return (double*)this->frameLengthParticlePlot;}
+   void                    SetFrameLengthParticlePlot(double lx, double ly, double lz);
    // Translation
-   void    SetTranslatingDifference(double x, double y, double z);
-   double* GetTranslatingDifference() const;
+   inline const double* GetTranslatingDifference() const{return (double*)this->translatingDifference;}
+   void                 SetTranslatingDifference(double x, double y, double z);
    // Principal axes
-   void    SetInertiaTensorOrigin(double x, double y, double z);
-   double* GetInertiaTensorOrigin() const;
+   inline const double* GetInertiaTensorOrigin() const{return (double*)this->inertiaTensorOrigin;}
+   void                 SetInertiaTensorOrigin(double x, double y, double z);
    // Rotation
-   void         SetRotatingOrigin(double x, double y, double z);
-   double*      GetRotatingOrigin() const;
-   void         SetRotatingType(RotatingType rotatingType);
-   RotatingType GetRotatingType() const;
-   void         SetRotatingAxis(double x, double y, double z);
-   double*      GetRotatingAxis() const;
-   void         SetRotatingAngle(double rotatingAngle);
-   double       GetRotatingAngle() const;
-   void         SetRotatingEularAngles(double alpha, double beta, double gamma);
-   EularAngle   GetRotatingEularAngles() const;
+   inline const double* GetRotatingOrigin() const                 {return (double*)this->rotatingOrigin;}
+   void                 SetRotatingOrigin(double x, double y, double z);
+   inline void          SetRotatingType(RotatingType rotatingType){this->rotatingType = rotatingType;}
+   inline RotatingType  GetRotatingType() const                   {return this->rotatingType;}
+   void                 SetRotatingAxis(double x, double y, double z);
+   inline const double* GetRotatingAxis() const                   {return (double*)this->rotatingAxis;}
+   inline double        GetRotatingAngle() const                  {return this->rotatingAngle;}
+   inline void          SetRotatingAngle(double rotatingAngle)    {this->rotatingAngle = rotatingAngle;}
+   void                 SetRotatingEularAngles(double alpha, double beta, double gamma);
+   inline EularAngle    GetRotatingEularAngles() const            {return this->rotatingEularAngles;}
    // CIS
-   int               GetActiveOccCIS() const;
-   void              SetActiveOccCIS(int activeOccCIS);
-   int               GetActiveVirCIS() const;
-   void              SetActiveVirCIS(int activeOccCIS);
-   int               GetNumberExcitedStatesCIS() const;
-   void              SetNumberExcitedStatesCIS(int nStates);
-   bool              RequiresCIS() const;
-   void              SetRequiresCIS(bool requiresCIS);
-   bool              IsDavidsonCIS() const;
-   void              SetIsDavidsonCIS(bool isDavidsonCIS);
-   int               GetMaxIterationsCIS() const;
-   void              SetMaxIterationsCIS(int maxIterationsCIS);
-   int               GetMaxDimensionsCIS() const;
-   void              SetMaxDimensionsCIS(int maxDimensionsCIS);
-   double            GetNormToleranceCIS() const;
-   void              SetNormToleranceCIS(double normToleranceCIS);
-   int               GetNumberPrintCoefficientsCIS() const;
-   void              SetNumberPrintCoefficientsCIS(int numberPrintCoefficientsCIS);
-   bool              RequiresExcitonEnergiesCIS() const;
-   void              SetRequiresExcitonEnergiesCIS(bool requiresExcitonEnergiesCIS);
-   bool              RequiresAllTransitionDipoleMomentsCIS() const;
-   void              SetRequiresAllTransitionDipoleMomentsCIS(bool requiresAllTransitionDipoleMomentsCIS);
+   inline int        GetActiveOccCIS() const                                {return this->activeOccCIS;}
+   inline void       SetActiveOccCIS(int activeOccCIS)                      {this->activeOccCIS = activeOccCIS;}
+   inline int        GetActiveVirCIS() const                                {return this->activeVirCIS;}
+   inline void       SetActiveVirCIS(int activeVirCIS)                      {this->activeVirCIS = activeVirCIS;}
+   inline int        GetNumberExcitedStatesCIS() const                      {return this->numberExcitedStatesCIS;}
+   inline void       SetNumberExcitedStatesCIS(int nStates)                 {this->numberExcitedStatesCIS = nStates;}
+   inline bool       RequiresCIS() const                                    {return this->requiresCIS;}
+   inline void       SetRequiresCIS(bool requiresCIS)                       {this->requiresCIS = requiresCIS;}
+   inline bool       IsDavidsonCIS() const                                  {return this->isDavidsonCIS;}
+   inline void       SetIsDavidsonCIS(bool isDavidsonCIS)                   {this->isDavidsonCIS = isDavidsonCIS;}
+   inline int        GetMaxIterationsCIS() const                            {return this->maxIterationsCIS;}
+   inline void       SetMaxIterationsCIS(int maxIter)                       {this->maxIterationsCIS = maxIter;}
+   inline int        GetMaxDimensionsCIS() const                            {return this->maxDimensionsCIS;}
+   inline void       SetMaxDimensionsCIS(int maxDim)                        {this->maxDimensionsCIS = maxDim;}
+   inline double     GetNormToleranceCIS() const                            {return this->normToleranceCIS;}
+   inline void       SetNormToleranceCIS(double normTol)                    {this->normToleranceCIS = normTol;}
+   inline int        GetNumberPrintCoefficientsCIS() const                  {return this->numberPrintCoefficientsCIS;}
+   inline void       SetNumberPrintCoefficientsCIS(int number)              {this->numberPrintCoefficientsCIS = number;}
+   inline bool       RequiresExcitonEnergiesCIS() const                     {return this->requiresExcitonEnergiesCIS;}
+   inline void       SetRequiresExcitonEnergiesCIS(bool requires)           {this->requiresExcitonEnergiesCIS = requires;}
+   inline bool       RequiresAllTransitionDipoleMomentsCIS() const          {return this->requiresAllTransitionDipoleMomentsCIS;}
+   inline void       SetRequiresAllTransitionDipoleMomentsCIS(bool requires){this->requiresAllTransitionDipoleMomentsCIS = requires;}
    std::vector<int>* GetElectronicStateIndecesMullikenCIS() const;
    void              AddElectronicStateIndexMullikenCIS(int electronicStateIndex);
    bool              RequiresMullikenCIS() const;
-   void              SetRequiresUnpairedPopCIS(bool requiresUnpairedPopCIS); 
-   bool              RequiresUnpairedPopCIS() const; 
+   inline bool       RequiresUnpairedPopCIS() const                         {return this->requiresUnpairedPopCIS;}
+   inline void       SetRequiresUnpairedPopCIS(bool requires)               {this->requiresUnpairedPopCIS = requires;}
    // Memory
    double GetLimitHeapMemory() const;
    void   SetLimitHeapMemory(double limitHeap);

@@ -224,169 +224,11 @@ void Parameters::SetMessages(){
       = "Error in base::Parameters::GetElectronicStateIndecesMullikenCIS: electronicStateIndecesMullikenCIS is NULL.\n";
 }
 
-SimulationType Parameters::GetCurrentSimulation() const{
-   return this->currentSimulation;
-}
-
-void Parameters::SetCurrentSimulation(SimulationType simulation){
-   this->currentSimulation = simulation;
-}
-
-TheoryType Parameters::GetCurrentTheory() const{
-   return this->currentTheory;
-}
-
-void Parameters::SetCurrentTheory(TheoryType theory){
-   this->currentTheory = theory;
-}
-
-// methods for SCF
-double Parameters::GetThresholdSCF() const{
-   return this->thresholdSCF;
-}
-
-void Parameters::SetThresholdSCF(double thresholdSCF){
-   this->thresholdSCF = thresholdSCF;
-}
-
-int Parameters::GetMaxIterationsSCF() const{
-   return this->maxIterationsSCF;
-}
-
-void Parameters::SetMaxIterationsSCF(int maxIterationsSCF){
-   this->maxIterationsSCF = maxIterationsSCF;
-}
-
-double Parameters::GetDampingThreshSCF() const{
-   return this->dampingThreshSCF;
-}
-
-void Parameters::SetDampingThreshSCF(double dampingThreshSCF){
-   this->dampingThreshSCF = dampingThreshSCF;
-}
-
-double Parameters::GetDampingWeightSCF() const{
-   return this->dampingWeightSCF;
-}
-
-void Parameters::SetDampingWeightSCF(double dampingWeightSCF){
-   this->dampingWeightSCF = dampingWeightSCF;
-}
-
-int Parameters::GetDiisNumErrorVectSCF() const{
-   return this->diisNumErrorVectSCF;
-}
-
-void Parameters::SetDiisNumErrorVectSCF(int diisNumErrorVectSCF){
-   this->diisNumErrorVectSCF = diisNumErrorVectSCF;
-}
-
-double Parameters::GetDiisStartErrorSCF() const{
-   return this->diisStartErrorSCF;
-}
-
-void Parameters::SetDiisStartErrorSCF(double diisStartErrorSCF){
-   this->diisStartErrorSCF = diisStartErrorSCF;
-}
-
-double Parameters::GetDiisEndErrorSCF() const{
-   return this->diisEndErrorSCF;
-}
-
-void Parameters::SetDiisEndErrorSCF(double diisEndErrorSCF){
-   this->diisEndErrorSCF = diisEndErrorSCF;
-}
-
-bool Parameters::RequiresVdWSCF() const{
-   return this->requiresVdWSCF;
-}
-
-void Parameters::SetRequiresVdWSCF(bool requiresVdWSCF){
-   this->requiresVdWSCF = requiresVdWSCF;
-}
-
-double Parameters::GetVdWScalingFactorSCF() const{
-   return this->vdWScalingFactorSCF;
-}
-
-void Parameters::SetVdWScalingFactorSCF(){
-   this->vdWScalingFactorSCF = this->vdWScalingFactorSCFPM3DAM1D;
-}
-
-void Parameters::SetVdWScalingFactorSCF(double vdWScalingFactorSCF){
-   this->vdWScalingFactorSCF = vdWScalingFactorSCF;
-}
-
-double Parameters::GetVdWDampingFactorSCF() const{
-   return this->vdWDampingFactorSCF;
-}
-
-void Parameters::SetVdWDampingFactorSCF(){
-   this->vdWDampingFactorSCF = this->vdWDampingFactorSCFPM3DAM1D;
-}
-
-void Parameters::SetVdWDampingFactorSCF(double vdWScalingFactorSCF){
-   this->vdWDampingFactorSCF = vdWScalingFactorSCF;
-}
-
-// methods for physical constants
-double Parameters::GetEV2AU() const{
-   return this->eV2AU;
-}
-
-double Parameters::GetJ2AU() const{
-   return this->j2AU;
-}
-
-double Parameters::GetKcalMolin2AU() const{
-   return this->kcalMolin2AU;
-}
-
-double Parameters::GetAngstrom2AU() const{
-   return this->angstrom2AU;
-}
-
-double Parameters::GetNm2AU() const{
-   return this->nm2AU;
-}
-
-double Parameters::GetKayser2AU() const{
-   return this->kayser2AU;
-}
-
-double Parameters::GetGMolin2AU() const{
-   return this->gMolin2AU;
-}
-
-double Parameters::GetDegree2Radian() const{
-   return this->degree2Radian;
-}
-
-double Parameters::GetFs2AU() const{
-   return this->fs2AU;
-}
-
-double Parameters::GetBoltzmann() const{
-   return this->boltzmann;
-}
-
-double Parameters::GetAvogadro() const{
-   return this->avogadro;
-}
-
-double Parameters::GetDebye2AU() const{
-   return this->debye2AU;
-}
-
 // methods for translation
 void Parameters::SetTranslatingDifference(double x, double y, double z){
    this->translatingDifference[0] = x;
    this->translatingDifference[1] = y;
    this->translatingDifference[2] = z;
-}
-
-double* Parameters::GetTranslatingDifference() const{
-   return (double*)this->translatingDifference;
 }
 
 // methods for principal axes
@@ -397,10 +239,6 @@ void Parameters::SetInertiaTensorOrigin(double x, double y, double z){
    this->inertiaTensorOrigin[2] = z;
 }
 
-double* Parameters::GetInertiaTensorOrigin() const{
-   return (double*)this->inertiaTensorOrigin;
-}
-
 // methods for rotation
 void Parameters::SetRotatingOrigin(double x, double y, double z){
    MallocerFreer::GetInstance()->Malloc<double>(&this->rotatingOrigin, CartesianType_end);
@@ -409,45 +247,16 @@ void Parameters::SetRotatingOrigin(double x, double y, double z){
    this->rotatingOrigin[2] = z;
 }
 
-double* Parameters::GetRotatingOrigin() const{
-   return (double*)this->rotatingOrigin;
-}
-
-void Parameters::SetRotatingType(RotatingType rotatingType){
-   this->rotatingType = rotatingType;
-}
-
-RotatingType Parameters::GetRotatingType() const{
-   return this->rotatingType;
-}
-
 void Parameters::SetRotatingAxis(double x, double y, double z){
    this->rotatingAxis[0] = x;
    this->rotatingAxis[1] = y;
    this->rotatingAxis[2] = z;
-
-}
-
-double* Parameters::GetRotatingAxis() const{
-   return (double*)this->rotatingAxis;
-}
-
-void Parameters::SetRotatingAngle(double rotatingAngle){
-   this->rotatingAngle = rotatingAngle;
-}
-
-double Parameters::GetRotatingAngle() const{
-   return this->rotatingAngle;
 }
 
 void Parameters::SetRotatingEularAngles(double alpha, double beta, double gamma){
    this->rotatingEularAngles.SetAlpha(alpha);
    this->rotatingEularAngles.SetBeta(beta);
    this->rotatingEularAngles.SetGamma(gamma);
-}
-
-EularAngle Parameters::GetRotatingEularAngles() const{
-   return this->rotatingEularAngles;
 }
 
 // methods for MOPlot
@@ -465,30 +274,10 @@ void Parameters::AddIndexMOPlot(int moIndex){
    this->indecesMOPlot->push_back(moIndex);
 }
 
-bool Parameters::RequiresMOPlot() const{
-   return (this->indecesMOPlot!=NULL && 0<this->indecesMOPlot->size());
-}
-
-string Parameters::GetFileNamePrefixMOPlot() const{
-   return this->fileNamePrefixMOPlot;
-}
-
-void Parameters::SetFileNamePrefixMOPlot(string fileNamePrefixMOPlot){
-   this->fileNamePrefixMOPlot = fileNamePrefixMOPlot;
-}
-
-int* Parameters::GetGridNumberMOPlot() const{
-   return (int*)this->gridNumberMOPlot;
-}
-
 void Parameters::SetGridNumberMOPlot(int Nx, int Ny, int Nz){
    this->gridNumberMOPlot[XAxis] = Nx;
    this->gridNumberMOPlot[YAxis] = Ny;
    this->gridNumberMOPlot[ZAxis] = Nz;
-}
-
-double* Parameters::GetFrameLengthMOPlot() const{
-   return (double*)this->frameLengthMOPlot;
 }
 
 void Parameters::SetFrameLengthMOPlot(double lx, double ly, double lz){
@@ -512,30 +301,10 @@ void Parameters::AddElecIndexHolePlot(int elecIndex){
    this->elecIndecesHolePlot->push_back(elecIndex);
 }
 
-bool Parameters::RequiresHolePlot() const{
-   return (this->elecIndecesHolePlot!=NULL && 0<this->elecIndecesHolePlot->size());
-}
-
-string Parameters::GetFileNamePrefixHolePlot() const{
-   return this->fileNamePrefixHolePlot;
-}
-
-void Parameters::SetFileNamePrefixHolePlot(string fileNamePrefixHolePlot){
-   this->fileNamePrefixHolePlot = fileNamePrefixHolePlot;
-}
-
-int* Parameters::GetGridNumberHolePlot() const{
-   return (int*)this->gridNumberHolePlot;
-}
-
 void Parameters::SetGridNumberHolePlot(int Nx, int Ny, int Nz){
    this->gridNumberHolePlot[XAxis] = Nx;
    this->gridNumberHolePlot[YAxis] = Ny;
    this->gridNumberHolePlot[ZAxis] = Nz;
-}
-
-double* Parameters::GetFrameLengthHolePlot() const{
-   return (double*)this->frameLengthHolePlot;
 }
 
 void Parameters::SetFrameLengthHolePlot(double lx, double ly, double lz){
@@ -545,7 +314,7 @@ void Parameters::SetFrameLengthHolePlot(double lx, double ly, double lz){
 }
 
 // methods for ParticlePlot
-vector<int>* Parameters::GetElecIndecesParticlePlot() const{
+const vector<int>* Parameters::GetElecIndecesParticlePlot() const{
 #ifdef MOLDS_DBG
    if(this->elecIndecesParticlePlot==NULL) throw MolDSException(this->errorMessageGetIndecesParticlePlotNull);
 #endif
@@ -559,30 +328,10 @@ void Parameters::AddElecIndexParticlePlot(int elecIndex){
    this->elecIndecesParticlePlot->push_back(elecIndex);
 }
 
-bool Parameters::RequiresParticlePlot() const{
-   return (this->elecIndecesParticlePlot!=NULL && 0<this->elecIndecesParticlePlot->size());
-}
-
-string Parameters::GetFileNamePrefixParticlePlot() const{
-   return this->fileNamePrefixParticlePlot;
-}
-
-void Parameters::SetFileNamePrefixParticlePlot(string fileNamePrefixParticlePlot){
-   this->fileNamePrefixParticlePlot = fileNamePrefixParticlePlot;
-}
-
-int* Parameters::GetGridNumberParticlePlot() const{
-   return (int*)this->gridNumberParticlePlot;
-}
-
 void Parameters::SetGridNumberParticlePlot(int Nx, int Ny, int Nz){
    this->gridNumberParticlePlot[XAxis] = Nx;
    this->gridNumberParticlePlot[YAxis] = Ny;
    this->gridNumberParticlePlot[ZAxis] = Nz;
-}
-
-double* Parameters::GetFrameLengthParticlePlot() const{
-   return (double*)this->frameLengthParticlePlot;
 }
 
 void Parameters::SetFrameLengthParticlePlot(double lx, double ly, double lz){
@@ -592,94 +341,6 @@ void Parameters::SetFrameLengthParticlePlot(double lx, double ly, double lz){
 }
 
 // methods for CIS
-int Parameters::GetActiveOccCIS() const{
-   return this->activeOccCIS;
-}
-   
-void Parameters::SetActiveOccCIS(int activeOccCIS){
-   this->activeOccCIS = activeOccCIS;
-}
-
-int Parameters::GetActiveVirCIS() const{
-   return this->activeVirCIS;
-}
-
-void Parameters::SetActiveVirCIS(int activeVirCIS){
-   this->activeVirCIS = activeVirCIS;
-}
-
-int Parameters::GetNumberExcitedStatesCIS() const{
-   return this->numberExcitedStatesCIS;
-}
-
-void Parameters::SetNumberExcitedStatesCIS(int nStates){
-   this->numberExcitedStatesCIS = nStates;
-}
-
-bool Parameters::RequiresCIS() const{
-   return this->requiresCIS;
-}
-
-void Parameters::SetRequiresCIS(bool requiresCIS){
-   this->requiresCIS = requiresCIS;
-}
-
-bool Parameters::IsDavidsonCIS() const{
-   return this->isDavidsonCIS;
-}
-
-void Parameters::SetIsDavidsonCIS(bool isDavidsonCIS){
-   this->isDavidsonCIS = isDavidsonCIS;
-}
-
-int Parameters::GetMaxIterationsCIS() const{
-   return this->maxIterationsCIS;
-}
-
-void Parameters::SetMaxIterationsCIS(int maxIterationsCIS){
-   this->maxIterationsCIS = maxIterationsCIS;
-}
-
-int Parameters::GetMaxDimensionsCIS() const{
-   return this->maxDimensionsCIS;
-}
-
-void Parameters::SetMaxDimensionsCIS(int maxDimensionsCIS){
-   this->maxDimensionsCIS = maxDimensionsCIS;
-}
-
-double Parameters::GetNormToleranceCIS() const{
-   return this->normToleranceCIS;
-}
-
-void Parameters::SetNormToleranceCIS(double normToleranceCIS){
-   this->normToleranceCIS = normToleranceCIS;
-}
-
-int Parameters::GetNumberPrintCoefficientsCIS() const{
-   return this->numberPrintCoefficientsCIS;
-}
-   
-void Parameters::SetNumberPrintCoefficientsCIS(int numberPrintCoefficientsCIS){
-   this->numberPrintCoefficientsCIS = numberPrintCoefficientsCIS;
-}
-
-bool Parameters::RequiresExcitonEnergiesCIS() const{
-   return this->requiresExcitonEnergiesCIS;
-}
-
-void Parameters::SetRequiresExcitonEnergiesCIS(bool requiresExcitonEnergiesCIS){
-   this->requiresExcitonEnergiesCIS = requiresExcitonEnergiesCIS;
-}
-
-bool Parameters::RequiresAllTransitionDipoleMomentsCIS() const{
-   return this->requiresAllTransitionDipoleMomentsCIS;
-}
-
-void Parameters::SetRequiresAllTransitionDipoleMomentsCIS(bool requiresAllTransitionDipoleMomentsCIS){
-   this->requiresAllTransitionDipoleMomentsCIS = requiresAllTransitionDipoleMomentsCIS;
-}
-
 vector<int>* Parameters::GetElectronicStateIndecesMullikenCIS() const{
 #ifdef MOLDS_DBG
    if(this->electronicStateIndecesMullikenCIS==NULL) throw MolDSException(this->errorMessageGetElectronicStateIndecesMullikenCISNull);
@@ -697,14 +358,6 @@ void Parameters::AddElectronicStateIndexMullikenCIS(int electronicStateIndex){
 bool Parameters::RequiresMullikenCIS() const{
    return (this->electronicStateIndecesMullikenCIS!=NULL && 
            0<this->electronicStateIndecesMullikenCIS->size());
-}
-
-void Parameters::SetRequiresUnpairedPopCIS(bool requiresUnpairedPopCIS){
-   this->requiresUnpairedPopCIS = requiresUnpairedPopCIS;
-}
-
-bool Parameters::RequiresUnpairedPopCIS() const{
-   return this->requiresUnpairedPopCIS; 
 }
 
 // methods for Memory

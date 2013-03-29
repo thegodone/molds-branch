@@ -489,10 +489,10 @@ void Molecule::Rotate(){
       rotatingOrigin[2] = Parameters::GetInstance()->GetRotatingOrigin()[2];
    }
 
-   RotatingType rotatingType = Parameters::GetInstance()->GetRotatingType();
-   double* rotatingAxis = Parameters::GetInstance()->GetRotatingAxis();
-   EularAngle rotatingEularAngles = Parameters::GetInstance()->GetRotatingEularAngles();
-   double rotatingAngle = Parameters::GetInstance()->GetRotatingAngle();
+   RotatingType  rotatingType        = Parameters::GetInstance()->GetRotatingType();
+   const double* rotatingAxis        = Parameters::GetInstance()->GetRotatingAxis();
+   EularAngle    rotatingEularAngles = Parameters::GetInstance()->GetRotatingEularAngles();
+   double        rotatingAngle       = Parameters::GetInstance()->GetRotatingAngle();
 
    this->OutputRotatingConditions(rotatingType, rotatingOrigin, 
                                   rotatingAxis, rotatingAngle, 
