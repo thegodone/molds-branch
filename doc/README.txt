@@ -67,9 +67,9 @@ COMPILE(using GNUmake):
 
    For both case, the compile succeeded if you could fine "MolDS.out" in the "src" directory. 
    Type "$ make clean" when you wanna clean the compilation.
-   If you want to compile MolDS in debug-mode, -g and -DMOLDS_DBG 
-   should be added to CFLAGBASE in the Makefile,
-   i.e. -O0 -openmp -openmp-report2 -DMKL_INT=intptr_t -g -DMOLDS_DBG
+   If you want to compile MolDS in debug-mode, 
+   -g and -DMOLDS_DBG should be added to CFLAGS, that is, hit the following command:
+   $make CFLAGS="-O0 -g -DMOLDS_DBG"
 
 ==============================================================================
 CARRY OUT MolDS:
