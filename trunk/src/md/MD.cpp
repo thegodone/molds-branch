@@ -173,7 +173,7 @@ void MD::SetMessages(){
 
 double MD::OutputEnergies(boost::shared_ptr<ElectronicStructure> electronicStructure){
    int elecState = Parameters::GetInstance()->GetElectronicStateIndexMD();
-   double eV2AU = Parameters::GetInstance()->GetEV2AU();
+   double eV2AU  = Parameters::GetInstance()->GetEV2AU();
    double coreKineticEnergy = 0.0;
    for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
       Atom* atom = this->molecule->GetAtom(a);
