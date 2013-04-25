@@ -184,6 +184,7 @@ protected:
                                         double const* const* orbitalElectronPopulation, 
                                         double const* const* const* const* const* const* twoElecTwoCore, 
                                         bool isGuess) const;
+   void TransposeFockMatrixMatrix(double** transposedFockMatrix) const;
    virtual void CalcDiatomicOverlapAOsInDiatomicFrame(double** diatomicOverlapAOs, 
                                                       const MolDS_base_atoms::Atom& atomA, 
                                                       const MolDS_base_atoms::Atom& atomB) const;
