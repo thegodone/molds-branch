@@ -43,7 +43,6 @@ protected:
    std::string errorMessageCalcDiatomicTwoElecTwoCore2ndDerivativesSameAtoms;
    std::string errorMessageCalcDiatomicTwoElecTwoCore1stDerivativesNullMatrix;
    std::string errorMessageCalcDiatomicTwoElecTwoCore2ndDerivativesNullMatrix;
-   std::string errorMessageCalcZMatrixForceEtaNull;
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
    virtual void CalcSCFProperties();
@@ -107,12 +106,7 @@ private:
    std::string errorMessageMultipoleB;
    std::string messageHeatsFormation;
    std::string messageHeatsFormationTitle;
-   struct MoIndexPair{int moI; int moJ; bool isMoICIMO; bool isMoJCIMO;};
    double    heatsFormation;
-   int       zMatrixForceElecStatesNum;
-   int       etaMatrixForceElecStatesNum;
-   double*** zMatrixForce;
-   double*** etaMatrixForce;
    double GetAuxiliaryDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
                                                 const MolDS_base_atoms::Atom& atomB,
                                                 double distanceAB) const;
@@ -125,80 +119,8 @@ private:
                                                              double distanceAB,
                                                              MolDS_base::CartesianType axisA1,
                                                              MolDS_base::CartesianType axisA2) const;
-   double GetGammaNRElement(int moI, int moJ, int moK, int moL) const;
-   double GetGammaRElement(int moI, int moJ, int moK, int moL) const;
-   double GetNNRElement(int moI, int moJ, int moK, int moL) const;
-   double GetNRElement(int moI, int moJ, int moK, int moL) const;
-   double GetKNRElement(int moI, int moJ, int moK, int moL) const;
-   double GetKRElement(int moI, int moJ, int moK, int moL) const;
-   double GetKRDagerElement(int moI, int moJ, int moK, int moL) const;
-   double GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const;
-   void MallocTempMatrixForZMatrix(double** delta,
-                                   double** q,
-                                   double*** gammaNRMinusKNR, 
-                                   double*** kRDag,
-                                   double** y,
-                                   double*** transposedFockMatrix,
-                                   double*** xiOcc,
-                                   double*** xiVir,
-                                   int sizeQNR,
-                                   int sizeQR) const;
-   void FreeTempMatrixForZMatrix(double** delta,
-                                 double** q,
-                                 double*** gammaNRMinusKNR, 
-                                 double*** kRDag,
-                                 double** y,
-                                 double*** transposedFockMatrix,
-                                 double*** xiOcc,
-                                 double*** xiVir,
-                                 int sizeQNR,
-                                 int sizeQR) const;
-   void CalcDeltaVector(double* delta, int exciteState) const;
-   double GetSmallQElement(int moI, 
-                           int moP, 
-                           double const* const* xiOcc, 
-                           double const* const* xiVir,
-                           double const* const* eta) const;
-   void CalcQVector(double* q, 
-                    double const* delta, 
-                    double const* const* xiOcc,
-                    double const* const* xiVir,
-                    double const* const* eta,
-                    const std::vector<MoIndexPair>& nonRedundantQIndeces,
-                    const std::vector<MoIndexPair>& redundantQIndeces) const;
-   void TransposeFockMatrixMatrix(double** transposedFockMatrix) const;
-   void CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, 
-                                  const std::vector<MoIndexPair>& nonRedundantQIndeces) const;
-   void CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv, 
-                                   const std::vector<MoIndexPair>& nonRedundantQIndeces,
-                                   const std::vector<MoIndexPair>& redundantQIndeces) const;
-   void CalcAuxiliaryVector(double* y,
-                            double const* q,
-                            double const* const* kRDagerGammaRInv,
-                            const std::vector<MoIndexPair>& nonRedundantQIndeces,
-                            const std::vector<MoIndexPair>& redundantQIndeces) const;
-   void CalcXiMatrices(double** xiOcc, 
-                       double** xiVir, 
-                       int exciteState,
-                       double const* const* transposedFockMatrix) const;
-   double GetZMatrixForceElement(double const* y,
-                                 double const* q,
-                                 double const* const* transposedFockMatrix,
-                                 const std::vector<MoIndexPair>& nonRedundantQIndeces,
-                                 const std::vector<MoIndexPair>& redundantQIndeces,
-                                 int mu, 
-                                 int nu) const;
-   void CheckZMatrixForce(const std::vector<int>& elecStates);
-   void CheckEtaMatrixForce(const std::vector<int>& elecStates);
-   void CalcZMatrixForce(const std::vector<int>& elecStates);
-   void CalcEtaMatrixForce(const std::vector<int>& elecStates);
-   bool RequiresExcitedStatesForce(const std::vector<int>& elecStates) const;
    double GetCISCoefficientMOEnergy(int k, int l, int r, int numberActiveVir) const;
    double GetCISCoefficientTwoElecIntegral(int k, int l, int p, int q, int r, int s, int numberActiveVir) const;
-   void CalcActiveSetVariablesQ(std::vector<MoIndexPair>* nonRedundantQIndeces, 
-                                std::vector<MoIndexPair>* redundantQIndeces,
-                                int numberActiveOcc,
-                                int numberActiveVir) const;
    void CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const;
    double GetHessianElementSameAtomsSCF(int indexAtomA, 
                                         MolDS_base::CartesianType axisA1,

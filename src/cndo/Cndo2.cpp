@@ -1505,6 +1505,14 @@ double Cndo2::GetFockOffDiagElement(const Atom& atomA,
    return value;
 }
 
+void Cndo2::TransposeFockMatrixMatrix(double** transposedFockMatrix) const{
+   for(int i=0; i<this->molecule->GetTotalNumberAOs(); i++){
+      for(int j=0; j<this->molecule->GetTotalNumberAOs(); j++){
+         transposedFockMatrix[j][i] = this->fockMatrix[i][j];
+      }
+   }
+}
+
 void Cndo2::CalcOrbitalElectronPopulation(double** orbitalElectronPopulation, 
                                           const Molecule& molecule, 
                                           double const* const* fockMatrix) const{
