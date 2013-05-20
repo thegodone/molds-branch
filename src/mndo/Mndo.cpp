@@ -2276,7 +2276,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
 #pragma omp parallel
    {
       double***** diatomicTwoElecTwoCore1stDerivs = NULL;
-      double*** diatomicOverlapAOs1stDerivs = NULL;
+      double***   diatomicOverlapAOs1stDerivs = NULL;
       try{
          this->MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
 #pragma omp for schedule(auto)
