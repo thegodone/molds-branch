@@ -3817,6 +3817,30 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
    return value;
 }
 
+void ZindoS::CalcDiatomicTwoElecTwoCore1stDerivatives(double*** matrix,  
+                                                      int indexAtomA, 
+                                                      int indexAtomB) const{
+   const Atom& atomA = *molecule->GetAtom(indexAtomA);
+   const int firstAOIndexA = atomA.GetFirstAOIndex();
+   const int lastAOIndexA  = atomA.GetLastAOIndex();
+   const Atom& atomB = *molecule->GetAtom(indexAtomB);
+   const int firstAOIndexB = atomB.GetFirstAOIndex();
+   const int lastAOIndexB  = atomB.GetLastAOIndex();
+   const double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
+   for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+      const OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+      for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
+         const OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
+         for(int i=0; i<CartesianType_end; i++){
+            matrix[mu-firstAOIndexA][nu-firstAOIndexB][i]
+               = this->GetNishimotoMatagaTwoEleInt1stDerivative(
+                     atomA, orbitalMu, atomB, orbitalNu, rAB, static_cast<CartesianType>(i));
+         }
+      }
+   }
+}                                                      
+
+
 // elecStates is indeces of the electroinc eigen states.
 // The index = 0 means electronic ground state. 
 void ZindoS::CalcForce(const vector<int>& elecStates){
@@ -3861,17 +3885,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
 
                // calc. first derivative of two elec two core interaction by Nishimoto-Mataga
-               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-                  OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                  for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
-                     OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
-                     for(int i=0; i<CartesianType_end; i++){
-                        diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i]
-                           = this->GetNishimotoMatagaTwoEleInt1stDerivative(
-                                   atomA, orbitalMu, atomB, orbitalNu, rAB, static_cast<CartesianType>(i));
-                     }
-                  }
-               }
+               this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, a, b);
 
                double coreRepulsion       [CartesianType_end] = {0.0,0.0,0.0};
                double forceElecCoreAttPart[CartesianType_end] = {0.0,0.0,0.0};
@@ -3912,12 +3926,16 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                {
                   for(int n=0; n<elecStates.size(); n++){
                      for(int i=0; i<CartesianType_end; i++){
-                        this->matrixForce[n][a][i] -= coreRepulsion[i];
-                        this->matrixForce[n][a][i] += forceElecCoreAttPart[i];
-                        this->matrixForce[n][a][i] -= forceOverlapAOsPart[i];
-                        this->matrixForce[n][a][i] -= forceTwoElecPart[i];
+                        this->matrixForce[n][a][i] += -coreRepulsion[i]
+                                                      +forceElecCoreAttPart[i]
+                                                      -forceOverlapAOsPart[i]
+                                                      -forceTwoElecPart[i];
                      }
                   }
+               }
+               // excited state force
+               for(int n=0; n<elecStates.size(); n++){
+                  if(elecStates[n]<=0){continue;}
                }
             } // end of for(int b)
          }    // end of for(int a)
@@ -4021,6 +4039,5 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    }
    */
 }
-
 }
 
