@@ -2285,120 +2285,117 @@ void Mndo::CalcForce(const vector<int>& elecStates){
             int firstAOIndexA = atomA.GetFirstAOIndex();
             int lastAOIndexA  = atomA.GetLastAOIndex();
             for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
-               if(a != b){
-                  const Atom& atomB = *molecule->GetAtom(b);
-                  int firstAOIndexB = atomB.GetFirstAOIndex();
-                  int lastAOIndexB  = atomB.GetLastAOIndex();
+               if(a == b){continue;}
+               const Atom& atomB = *molecule->GetAtom(b);
+               int firstAOIndexB = atomB.GetFirstAOIndex();
+               int lastAOIndexB  = atomB.GetLastAOIndex();
 
-                  // calc. first derivative of overlapAOs.
-                  this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
-                  // calc. first derivative of two elec two core interaction
-                  this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, a, b);
+               // calc. first derivative of overlapAOs.
+               this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
+               // calc. first derivative of two elec two core interaction
+               this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, a, b);
 
-                  // core repulsion part
-                  double coreRepulsion[CartesianType_end] = {0.0,0.0,0.0};
-                  for(int i=0; i<CartesianType_end; i++){
-                     coreRepulsion[i] += this->GetDiatomCoreRepulsion1stDerivative(
+               // core repulsion part
+               double coreRepulsion[CartesianType_end] = {0.0,0.0,0.0};
+               for(int i=0; i<CartesianType_end; i++){
+                  coreRepulsion[i] += this->GetDiatomCoreRepulsion1stDerivative(
+                                            a, b, (CartesianType)i);
+                  if(Parameters::GetInstance()->RequiresVdWSCF()){
+                     coreRepulsion[i] += this->GetDiatomVdWCorrection1stDerivative(
                                                a, b, (CartesianType)i);
-                     if(Parameters::GetInstance()->RequiresVdWSCF()){
-                        coreRepulsion[i] += this->GetDiatomVdWCorrection1stDerivative(
-                                                  a, b, (CartesianType)i);
-                     }
-                  }  
-                  // electron core attraction part (ground state)
-                  double forceElecCoreAttPart[CartesianType_end] = {0.0,0.0,0.0};
-                  this->CalcForceSCFElecCoreAttractionPart(forceElecCoreAttPart,
-                                                           a,
-                                                           b,
-                                                           diatomicTwoElecTwoCore1stDerivs);
-                  // overlapAOs part (ground state)
-                  double forceOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
-                  this->CalcForceSCFOverlapAOsPart(forceOverlapAOsPart, 
-                                                   a,
-                                                   b,
-                                                   diatomicOverlapAOs1stDerivs);
-                  // two electron part (ground state)
-                  double forceTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
-                  this->CalcForceSCFTwoElecPart(forceTwoElecPart,
+                  }
+               }  
+               // electron core attraction part (ground state)
+               double forceElecCoreAttPart[CartesianType_end] = {0.0,0.0,0.0};
+               this->CalcForceSCFElecCoreAttractionPart(forceElecCoreAttPart,
+                                                        a,
+                                                        b,
+                                                        diatomicTwoElecTwoCore1stDerivs);
+               // overlapAOs part (ground state)
+               double forceOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
+               this->CalcForceSCFOverlapAOsPart(forceOverlapAOsPart, 
                                                 a,
                                                 b,
-                                                diatomicTwoElecTwoCore1stDerivs);
-                  // sum up contributions from each part (ground state)
+                                                diatomicOverlapAOs1stDerivs);
+               // two electron part (ground state)
+               double forceTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
+               this->CalcForceSCFTwoElecPart(forceTwoElecPart,
+                                             a,
+                                             b,
+                                             diatomicTwoElecTwoCore1stDerivs);
+               // sum up contributions from each part (ground state)
 #pragma omp critical
-                  {
-                     for(int n=0; n<elecStates.size(); n++){
-                        for(int i=0; i<CartesianType_end; i++){
-                           this->matrixForce[n][a][i] -= coreRepulsion[i];
-                           this->matrixForce[n][a][i] += forceElecCoreAttPart[i];
-                           this->matrixForce[n][a][i] += forceOverlapAOsPart[i];
-                           this->matrixForce[n][a][i] += forceTwoElecPart[i];
-                           this->matrixForce[n][b][i] -= forceElecCoreAttPart[i];
-                           this->matrixForce[n][b][i] -= forceOverlapAOsPart[i];
-                           this->matrixForce[n][b][i] -= forceTwoElecPart[i];
-                        }
+               {
+                  for(int n=0; n<elecStates.size(); n++){
+                     for(int i=0; i<CartesianType_end; i++){
+                        this->matrixForce[n][a][i] -= coreRepulsion[i];
+                        this->matrixForce[n][a][i] += forceElecCoreAttPart[i];
+                        this->matrixForce[n][a][i] += forceOverlapAOsPart[i];
+                        this->matrixForce[n][a][i] += forceTwoElecPart[i];
+                        this->matrixForce[n][b][i] -= forceElecCoreAttPart[i];
+                        this->matrixForce[n][b][i] -= forceOverlapAOsPart[i];
+                        this->matrixForce[n][b][i] -= forceTwoElecPart[i];
                      }
                   }
-                  // excited state potential
-                  for(int n=0; n<elecStates.size(); n++){
-                     if(0<elecStates[n]){
-                        // static part
-                        double forceExcitedStaticPart[CartesianType_end] = {0.0,0.0,0.0};
-                        this->CalcForceExcitedStaticPart(forceExcitedStaticPart,
-                                                         n,
-                                                         a,
-                                                         b,
-                                                         diatomicTwoElecTwoCore1stDerivs);
-                        // sum up contributions from static part (excited state)
-#pragma omp critical
-                        {
-                           for(int i=0; i<CartesianType_end; i++){
-                              this->matrixForce[n][b][i] += forceExcitedStaticPart[i];
-                              this->matrixForce[n][a][i] -= forceExcitedStaticPart[i];
-                           }
-                        }
-
-                        // response part
-                        // electron core attraction part (excited state)
-                        double forceExcitedElecCoreAttPart[CartesianType_end]={0.0,0.0,0.0};
-                        this->CalcForceExcitedElecCoreAttractionPart(
-                                                   forceExcitedElecCoreAttPart,
+               }
+               // excited state force
+               for(int n=0; n<elecStates.size(); n++){
+                  if(elecStates[n]<=0){continue;}
+                  // static part
+                  double forceExcitedStaticPart[CartesianType_end] = {0.0,0.0,0.0};
+                  this->CalcForceExcitedStaticPart(forceExcitedStaticPart,
                                                    n,
                                                    a,
                                                    b,
                                                    diatomicTwoElecTwoCore1stDerivs);
-                        // overlapAOs part (excited state)
-                        double forceExcitedOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
-                        this->CalcForceExcitedOverlapAOsPart(forceExcitedOverlapAOsPart, 
-                                                             n,
-                                                             a,
-                                                             b,
-                                                             diatomicOverlapAOs1stDerivs);
-                        // two electron part (ground state)
-                        double forceExcitedTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
-                        this->CalcForceExcitedTwoElecPart(forceExcitedTwoElecPart,
-                                                             n,
-                                                             a,
-                                                             b,
-                                                             diatomicTwoElecTwoCore1stDerivs);
-                        // sum up contributions from response part (excited state)
+                  // sum up contributions from static part (excited state)
 #pragma omp critical
-                        {
-                           for(int i=0; i<CartesianType_end; i++){
-                              this->matrixForce[n][a][i] += forceExcitedElecCoreAttPart[i];
-                              this->matrixForce[n][a][i] += forceExcitedOverlapAOsPart[i];
-                              this->matrixForce[n][a][i] += forceExcitedTwoElecPart[i];
-                              this->matrixForce[n][b][i] -= forceExcitedElecCoreAttPart[i];
-                              this->matrixForce[n][b][i] -= forceExcitedOverlapAOsPart[i];
-                              this->matrixForce[n][b][i] -= forceExcitedTwoElecPart[i];
-                           }
-                        }
-
+                  {
+                     for(int i=0; i<CartesianType_end; i++){
+                        this->matrixForce[n][b][i] += forceExcitedStaticPart[i];
+                        this->matrixForce[n][a][i] -= forceExcitedStaticPart[i];
                      }
                   }
-               }
-            }
-         }
-      }
+
+                  // response part
+                  // electron core attraction part (excited state)
+                  double forceExcitedElecCoreAttPart[CartesianType_end]={0.0,0.0,0.0};
+                  this->CalcForceExcitedElecCoreAttractionPart(
+                                             forceExcitedElecCoreAttPart,
+                                             n,
+                                             a,
+                                             b,
+                                             diatomicTwoElecTwoCore1stDerivs);
+                  // overlapAOs part (excited state)
+                  double forceExcitedOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
+                  this->CalcForceExcitedOverlapAOsPart(forceExcitedOverlapAOsPart, 
+                                                       n,
+                                                       a,
+                                                       b,
+                                                       diatomicOverlapAOs1stDerivs);
+                  // two electron part (ground state)
+                  double forceExcitedTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
+                  this->CalcForceExcitedTwoElecPart(forceExcitedTwoElecPart,
+                                                       n,
+                                                       a,
+                                                       b,
+                                                       diatomicTwoElecTwoCore1stDerivs);
+                  // sum up contributions from response part (excited state)
+#pragma omp critical
+                  {
+                     for(int i=0; i<CartesianType_end; i++){
+                        this->matrixForce[n][a][i] += forceExcitedElecCoreAttPart[i];
+                        this->matrixForce[n][a][i] += forceExcitedOverlapAOsPart[i];
+                        this->matrixForce[n][a][i] += forceExcitedTwoElecPart[i];
+                        this->matrixForce[n][b][i] -= forceExcitedElecCoreAttPart[i];
+                        this->matrixForce[n][b][i] -= forceExcitedOverlapAOsPart[i];
+                        this->matrixForce[n][b][i] -= forceExcitedTwoElecPart[i];
+                     }
+                  }
+               } // end of excited state force
+            }    // end of for(int b)
+         }       // end of for(int a)
+      }          // end of try
       catch(MolDSException ex){
 #pragma omp critical
          ompErrors << ex.what() << endl ;
