@@ -3833,8 +3833,13 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    stringstream ompErrors;
 #pragma omp parallel 
    {
-      double*** diatomicOverlapAOs1stDerivs=NULL;
+      double*** diatomicTwoElecTwoCore1stDerivs = NULL;
+      double*** diatomicOverlapAOs1stDerivs = NULL;
       try{
+         MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore1stDerivs,
+                                                      OrbitalType_end, 
+                                                      OrbitalType_end, 
+                                                      CartesianType_end);
          MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs1stDerivs,
                                                       OrbitalType_end, 
                                                       OrbitalType_end, 
@@ -3845,10 +3850,6 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
             const Atom& atomA = *molecule->GetAtom(a);
             int firstAOIndexA = atomA.GetFirstAOIndex();
             int lastAOIndexA  = atomA.GetLastAOIndex();
-            double coreRepulsion[CartesianType_end] = {0.0,0.0,0.0};
-            double electronicForce1[CartesianType_end] = {0.0,0.0,0.0};
-            double electronicForce2[CartesianType_end] = {0.0,0.0,0.0};
-            double electronicForce3[CartesianType_end] = {0.0,0.0,0.0};
             for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
                if(a == b){continue;}
                const Atom& atomB = *molecule->GetAtom(b);
@@ -3859,58 +3860,76 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                // calc. first derivative of overlapAOs.
                this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
 
-               for(int i=0; i<CartesianType_end; i++){
-                  coreRepulsion[i] += this->GetDiatomCoreRepulsion1stDerivative(
-                                            a, b, (CartesianType)i);
-                  if(Parameters::GetInstance()->RequiresVdWSCF()){
-                     coreRepulsion[i] += this->GetDiatomVdWCorrection1stDerivative(
-                                               a, b, (CartesianType)i);
-                  }
-
-                  electronicForce1[i] += ( atomA.GetCoreCharge()
-                                          *atomicElectronPopulation[b]
-                                          +atomB.GetCoreCharge()
-                                          *atomicElectronPopulation[a])
-                                          *this->GetNishimotoMatagaTwoEleInt1stDerivative(
-                                                 atomA, s, atomB, s, rAB, static_cast<CartesianType>(i));
-               }
+               // calc. first derivative of two elec two core interaction by Nishimoto-Mataga
                for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
                   OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
                   for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
                      OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
-                     double bondParameter = 0.5*(atomA.GetBondingParameter(
-                                                        this->theory, orbitalMu) 
-                                                +atomB.GetBondingParameter(
-                                                        this->theory, orbitalNu)); 
                      for(int i=0; i<CartesianType_end; i++){
-                        electronicForce2[i] += 2.0*this->orbitalElectronPopulation[mu][nu]
-                                              *bondParameter
-                                              *diatomicOverlapAOs1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
-                        electronicForce3[i] += (this->orbitalElectronPopulation[mu][mu]
+                        diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i]
+                           = this->GetNishimotoMatagaTwoEleInt1stDerivative(
+                                   atomA, orbitalMu, atomB, orbitalNu, rAB, static_cast<CartesianType>(i));
+                     }
+                  }
+               }
+
+               double coreRepulsion       [CartesianType_end] = {0.0,0.0,0.0};
+               double forceElecCoreAttPart[CartesianType_end] = {0.0,0.0,0.0};
+               for(int i=0; i<CartesianType_end; i++){
+                  // core repulsion part (ground state)
+                  coreRepulsion[i] = this->GetDiatomCoreRepulsion1stDerivative(a, b, static_cast<CartesianType>(i));
+                  if(Parameters::GetInstance()->RequiresVdWSCF()){
+                     coreRepulsion[i] += this->GetDiatomVdWCorrection1stDerivative(a, b, static_cast<CartesianType>(i));
+                  }
+                  // electron core attraction part (ground state)                     
+                  forceElecCoreAttPart[i] = ( atomA.GetCoreCharge()*atomicElectronPopulation[b]
+                                             +atomB.GetCoreCharge()*atomicElectronPopulation[a])
+                                           *diatomicTwoElecTwoCore1stDerivs[s][s][i];
+               }
+               double forceOverlapAOsPart [CartesianType_end] = {0.0,0.0,0.0};
+               double forceTwoElecPart    [CartesianType_end] = {0.0,0.0,0.0};
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                  for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
+                     OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
+                     double bondParameter = 0.5*(atomA.GetBondingParameter(this->theory, orbitalMu) 
+                                                +atomB.GetBondingParameter(this->theory, orbitalNu)); 
+                     for(int i=0; i<CartesianType_end; i++){
+                        // overlapAOs part (ground state)
+                        forceOverlapAOsPart[i] += 2.0*this->orbitalElectronPopulation[mu][nu]
+                                                      *bondParameter
+                                                      *diatomicOverlapAOs1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
+                        // two electron part (ground state)
+                        forceTwoElecPart[i] += (this->orbitalElectronPopulation[mu][mu]
                                                *this->orbitalElectronPopulation[nu][nu]
                                                -0.5*pow(this->orbitalElectronPopulation[mu][nu],2.0))
-                                               *this->GetNishimotoMatagaTwoEleInt1stDerivative(
-                                                      atomA, orbitalMu, atomB, orbitalNu,
-                                                      rAB,
-                                                      static_cast<CartesianType>(i));
+                                              *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
+                     }
+                  }
+               }
+               // sum up contributions from each part (ground state)
+#pragma omp critical
+               {
+                  for(int n=0; n<elecStates.size(); n++){
+                     for(int i=0; i<CartesianType_end; i++){
+                        this->matrixForce[n][a][i] -= coreRepulsion[i];
+                        this->matrixForce[n][a][i] += forceElecCoreAttPart[i];
+                        this->matrixForce[n][a][i] -= forceOverlapAOsPart[i];
+                        this->matrixForce[n][a][i] -= forceTwoElecPart[i];
                      }
                   }
                }
             } // end of for(int b)
-            for(int n=0; n<elecStates.size(); n++){
-               for(int i=0; i<CartesianType_end; i++){
-                  this->matrixForce[n][a][i] = -1.0*(coreRepulsion[i]
-                                                 -electronicForce1[i] 
-                                                 +electronicForce2[i]
-                                                 +electronicForce3[i]);
-               } 
-            }
-         } // end of for(int a)
-      }    // end of try
+         }    // end of for(int a)
+      }       // end of try
       catch(MolDSException ex){
 #pragma omp critical
          ompErrors << ex.what() << endl ;
       }
+      MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore1stDerivs, 
+                                                 OrbitalType_end,
+                                                 OrbitalType_end,
+                                                 CartesianType_end);
       MallocerFreer::GetInstance()->Free<double>(&diatomicOverlapAOs1stDerivs, 
                                                  OrbitalType_end,
                                                  OrbitalType_end,
@@ -3934,9 +3953,9 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
          for(int i=0; i<CartesianType_end; i++){
 
             double coreRepulsion = 0.0;
-            double electronicForce1 = 0.0;
-            double electronicForce2 = 0.0;
-            double electronicForce3 = 0.0;
+            double forceElecCoreAttPart = 0.0;
+            double forceOverlapAOsPart = 0.0;
+            double forceTwoElecPart = 0.0;
             for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
                if(a != b){
                   const Atom& atomB = *molecule->GetAtom(b);
@@ -3952,7 +3971,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                   }
 
                   // Calculate force arise from electronic part.
-                  electronicForce1 += ( atomA.GetCoreCharge()*atomicElectronPopulation[b]
+                  forceElecCoreAttPart += ( atomA.GetCoreCharge()*atomicElectronPopulation[b]
                                        +atomB.GetCoreCharge()*atomicElectronPopulation[a])
                                        *this->GetNishimotoMatagaTwoEleInt1stDerivative
                                              (atomA, s, atomB, s, (CartesianType)i);
@@ -3967,14 +3986,14 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                                    +atomB.GetBondingParameter(this->theory, 
                                                                               orbitalNu)); 
 
-                        electronicForce2 += 2.0*this->orbitalElectronPopulation[mu][nu]
+                        forceOverlapAOsPart += 2.0*this->orbitalElectronPopulation[mu][nu]
                                             *bondParameter
                                             *this->GetOverlapAOsElement1stDerivativeByGTOExpansion
                                                    (atomA, mu-firstAOIndexA, 
                                                     atomB, nu-firstAOIndexB,
                                                     STO6G, (CartesianType)i);
 
-                        electronicForce3 += (this->orbitalElectronPopulation[mu][mu]
+                        forceTwoElecPart += (this->orbitalElectronPopulation[mu][mu]
                                             *this->orbitalElectronPopulation[nu][nu]
                                             -0.5*pow(this->orbitalElectronPopulation[mu][nu],2.0))
                                             *this->GetNishimotoMatagaTwoEleInt1stDerivative
@@ -3986,9 +4005,9 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
             }
 
             this->matrixForce[0][a][i] = -1.0*(coreRepulsion 
-                                              -electronicForce1 
-                                              +electronicForce2
-                                              +electronicForce3);
+                                              -forceElecCoreAttPart 
+                                              +forceOverlapAOsPart
+                                              +forceTwoElecPart);
          }
       }
       catch(MolDSException ex){
