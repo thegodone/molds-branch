@@ -234,6 +234,9 @@ private:
    void OutputCISTransitionDipole() const;
    void OutputCISMulliken() const;
    void OutputCISUnpairedPop() const;
+   void CalcDiatomicTwoElecTwoCore1stDerivatives(double*** matrix, 
+                                                 int indexAtomA, 
+                                                 int indexAtomB) const;
    void CalcFreeExcitonEnergies(double** freeExcitonEnergiesCIS, 
                                 const MolDS_base::Molecule& molecule, 
                                 double const* energiesMO, 
