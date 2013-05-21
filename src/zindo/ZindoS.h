@@ -237,6 +237,16 @@ private:
    void CalcDiatomicTwoElecTwoCore1stDerivatives(double*** matrix, 
                                                  int indexAtomA, 
                                                  int indexAtomB) const;
+   void CalcForceExcitedStaticPart(double* force, 
+                                   int elecStateIndex,
+                                   int indexAtomA,
+                                   int indexAtomB,
+                                   double const* const* const* diatomicTwoElecTwoCore1stDerivs) const;
+   void CalcForceExcitedElecCoreAttractionPart(double* force, 
+                                               int elecStateIndex,
+                                               int indexAtomA,
+                                               int indexAtomB,
+                                               double const* const* const* diatomicTwoElecTwoCore1stDerivs) const;
    void CalcFreeExcitonEnergies(double** freeExcitonEnergiesCIS, 
                                 const MolDS_base::Molecule& molecule, 
                                 double const* energiesMO, 
