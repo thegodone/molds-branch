@@ -3937,6 +3937,31 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                // excited state force
                for(int n=0; n<elecStates.size(); n++){
                   if(elecStates[n]<=0){continue;}
+                  // static part
+                  double forceExcitedStaticPart[CartesianType_end] = {0.0,0.0,0.0};
+                  this->CalcForceExcitedStaticPart(forceExcitedStaticPart,
+                                                   n,
+                                                   a,
+                                                   b,
+                                                   diatomicTwoElecTwoCore1stDerivs);
+                  // sum up contributions from static part (excited state)
+#pragma omp critical
+                  {
+                     for(int i=0; i<CartesianType_end; i++){
+                        this->matrixForce[n][b][i] += forceExcitedStaticPart[i];
+                        this->matrixForce[n][a][i] -= forceExcitedStaticPart[i];
+                     }
+                  }
+                  
+                  // response part
+                  // electron core attraction part (excited state)
+                  double forceExcitedElecCoreAttPart[CartesianType_end]={0.0,0.0,0.0};
+                  this->CalcForceExcitedElecCoreAttractionPart(
+                                             forceExcitedElecCoreAttPart,
+                                             n,
+                                             a,
+                                             b,
+                                             diatomicTwoElecTwoCore1stDerivs);
                }
             } // end of for(int b)
          }    // end of for(int a)
@@ -3960,7 +3985,8 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    }
   
    /*
-   // Calculate force. First derivative of overlapAOs integral is
+   // Calculate force (on the ground state only). 
+   // First derivative of overlapAOs integral is
    // calculated with GTO expansion technique.
    stringstream ompErrors;
 #pragma omp parallel for schedule(auto)
@@ -4040,5 +4066,52 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    }
    */
 }
+
+void ZindoS::CalcForceExcitedStaticPart(double* force, 
+                                      int elecStateIndex,
+                                      int indexAtomA, 
+                                      int indexAtomB,
+                                      double const* const* const* diatomicTwoElecTwoCore1stDerivs) const{
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
+   int firstAOIndexB = atomB.GetFirstAOIndex();
+   int lastAOIndexA  = atomA.GetLastAOIndex();
+   int lastAOIndexB  = atomB.GetLastAOIndex();
+   for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+      for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+         for(int i=0; i<CartesianType_end; i++){
+            double temp= 2.0*this->etaMatrixForce[elecStateIndex][mu][mu]
+                            *this->etaMatrixForce[elecStateIndex][lambda][lambda]
+                        -1.0*this->etaMatrixForce[elecStateIndex][mu][lambda]
+                            *this->etaMatrixForce[elecStateIndex][mu][lambda];
+            force[i] += temp
+                       *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
+                                                       [lambda-firstAOIndexB]
+                                                       [i];
+         }
+      }
+   }
+}
+
+void ZindoS::CalcForceExcitedElecCoreAttractionPart(double* force, 
+                                                  int elecStateIndex,
+                                                  int indexAtomA, 
+                                                  int indexAtomB,
+                                                  double const* const* const* diatomicTwoElecTwoCore1stDerivs) const{
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   int firstAOIndexA = atomA.GetFirstAOIndex();
+   int lastAOIndexA  = atomA.GetLastAOIndex();
+   for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+      for(int i=0; i<CartesianType_end; i++){
+         force[i] += this->zMatrixForce[elecStateIndex][mu][mu]
+                    *atomB.GetCoreCharge()
+                    *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA][s][i];
+      }
+   }
+}
+
+
 }
 
