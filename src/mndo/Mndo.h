@@ -101,6 +101,7 @@ protected:
                                               double const* const* fockMatrix, 
                                               double const* const* gammaAB) const;
    virtual void CalcCISMatrix(double** matrixCIS) const;
+   virtual double GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const;
 private:
    std::string errorMessageMultipoleA;
    std::string errorMessageMultipoleB;
