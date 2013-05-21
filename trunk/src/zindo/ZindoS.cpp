@@ -3417,9 +3417,12 @@ double ZindoS::GetKRElement(int moI, int moJ, int moK, int moL) const{
    return 0.5*value;
 }
 
+// see common term in eqs. (45) and (46) in [PT_1996],
+// that is, 4.0(ij|kl) - (ik|jl) - (il|jk).
 double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
    double value = 0.0;
 
+/*
    // Fast algorith, but this is not easy to read. 
    // Slow algorithm is alos written below.
    for(int A=0; A<this->molecule->GetNumberAtoms(); A++){
@@ -3558,7 +3561,7 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
       }
    }
    // End of the fast algorith.
-
+*/
    /*
    // Algorithm using blas
    double** twoElec = NULL;
@@ -3802,7 +3805,6 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
    // End of second algorithm using blas
    */
 
-   /*
    // slow algorithm
    value = 4.0*this->GetMolecularIntegralElement(moI, moJ, moK, moL, 
                                                  *this->molecule, 
@@ -3813,7 +3815,6 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
           -1.0*this->GetMolecularIntegralElement(moI, moL, moJ, moK, 
                                                  *this->molecule, 
                                                  this->fockMatrix, NULL);
-   */
    return value;
 }
 

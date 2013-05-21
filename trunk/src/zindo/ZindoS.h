@@ -116,7 +116,7 @@ protected:
    double GetKNRElement(int moI, int moJ, int moK, int moL) const;
    double GetKRElement(int moI, int moJ, int moK, int moL) const;
    double GetKRDagerElement(int moI, int moJ, int moK, int moL) const;
-   double GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const;
+   virtual double GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const;
    void CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, 
                                   const std::vector<MoIndexPair>& nonRedundantQIndeces) const;
    void CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv, 
