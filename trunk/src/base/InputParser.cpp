@@ -78,10 +78,14 @@ void InputParser::SetMessages(){
       = "Error in base::InputParser::GetInputTerms: Input file is empty.\n"; 
    this->errorMessageNotFoundInputFile
       = "Error in base::InputParser::StoreInputTermsFromFile: Not found.\n"; 
+   this->errorMessageNonValidTheoriesMD
+      = "Error in base::InputParser::ValidateMdConditions: Theory you set is not supported for MD.\n";
    this->errorMessageNonValidExcitedStatesMD
       = "Error in base::InputParser::ValidateMdConditions: Excited state on which MD runs or CIS condition are wrong.\n";
    this->errorMessageNonValidExcitedStatesMC
       = "Error in base::InputParser::ValidateMcConditions: Excited state on which MC runs or CIS condition are wrong.\n";
+   this->errorMessageNonValidTheoriesRPMD
+      = "Error in base::InputParser::ValidateRpmdConditions: heory you set is not supported for RMPD.\n";
    this->errorMessageNonValidExcitedStatesRPMD
       = "Error in base::InputParser::ValidateRpmdConditions: Excited state on which RPMD runs or CIS condition are wrong.\n";
    this->errorMessageNonValidTheoriesNASCO
@@ -90,6 +94,8 @@ void InputParser::SetMessages(){
       = "Error in base::InputParser::ValidateNascoConditions: The Number of electronic states of NASCO should be not over the number of CIS excited states plus 1.\n";
    this->errorMessageNonValidInitialElectronicStateNASCO
       = "Error in base::InputParser::ValidateNascoConditions: The initial electronic states for NASCO should be set to one of the electronic eigenstates used in NASCO.\n";
+   this->errorMessageNonValidTheoriesOptimization
+      = "Error in base::InputParser::ValidateOptimizationConditions: heory you set is not supported for optimization.\n";
    this->errorMessageNonValidExcitedStatesOptimization
       = "Error in base::InputParser::ValidateOptimizationConditions: Excited state on which optimization is carried out or CIS condition are wrong.\n";
    this->errorMessageNonValidElectronicStateFrequencies
@@ -1371,8 +1377,7 @@ void InputParser::ValidateMdConditions(const Molecule& molecule) const{
    // Validate theory
    if(theory == CNDO2 || theory == INDO ){
       stringstream ss;
-      ss << this->errorMessageNonValidExcitedStatesMD;
-      ss << this->errorMessageElecState << targetStateIndex << endl;
+      ss << this->errorMessageNonValidTheoriesMD;
       ss << this->errorMessageTheory << TheoryTypeStr(theory) << endl;
       throw MolDSException(ss.str());
    }
@@ -1383,7 +1388,7 @@ void InputParser::ValidateMdConditions(const Molecule& molecule) const{
       this->ValidateCisConditions(molecule);
    }
    int numberExcitedStatesCIS = Parameters::GetInstance()->GetNumberExcitedStatesCIS();
-   if(numberExcitedStatesCIS < targetStateIndex){
+   if(groundStateIndex < targetStateIndex && numberExcitedStatesCIS < targetStateIndex){
       stringstream ss;
       ss << this->errorMessageNonValidExcitedStatesMD;
       ss << this->errorMessageElecState << targetStateIndex << endl;
@@ -1425,10 +1430,9 @@ void InputParser::ValidateRpmdConditions(const Molecule& molecule) const{
    int targetStateIndex = Parameters::GetInstance()->GetElectronicStateIndexRPMD();
    TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
    // Validate theory
-   if(theory == CNDO2 || theory == INDO || (theory == ZINDOS && groundStateIndex < targetStateIndex)){
+   if(theory == CNDO2 || theory == INDO ){
       stringstream ss;
-      ss << this->errorMessageNonValidExcitedStatesRPMD;
-      ss << this->errorMessageElecState << targetStateIndex << endl;
+      ss << this->errorMessageNonValidTheoriesRPMD;
       ss << this->errorMessageTheory << TheoryTypeStr(theory) << endl;
       throw MolDSException(ss.str());
    }
@@ -1439,7 +1443,7 @@ void InputParser::ValidateRpmdConditions(const Molecule& molecule) const{
       this->ValidateCisConditions(molecule);
    }
    int numberExcitedStatesCIS = Parameters::GetInstance()->GetNumberExcitedStatesCIS();
-   if(numberExcitedStatesCIS < targetStateIndex){
+   if(groundStateIndex < targetStateIndex && numberExcitedStatesCIS < targetStateIndex){
       stringstream ss;
       ss << this->errorMessageNonValidExcitedStatesRPMD;
       ss << this->errorMessageElecState << targetStateIndex << endl;
@@ -1489,9 +1493,9 @@ void InputParser::ValidateOptimizationConditions(const Molecule& molecule) const
    int targetStateIndex = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
    TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
    // Validate theory
-   if(theory == CNDO2 || theory == INDO || (theory == ZINDOS && groundStateIndex < targetStateIndex)){
+   if(theory == CNDO2 || theory == INDO ){
       stringstream ss;
-      ss << this->errorMessageNonValidExcitedStatesOptimization;
+      ss << this->errorMessageNonValidTheoriesOptimization;
       ss << this->errorMessageElecState << targetStateIndex << endl;
       ss << this->errorMessageTheory << TheoryTypeStr(theory) << endl;
       throw MolDSException(ss.str());
@@ -1503,7 +1507,7 @@ void InputParser::ValidateOptimizationConditions(const Molecule& molecule) const
       this->ValidateCisConditions(molecule);
    }
    int numberExcitedStatesCIS = Parameters::GetInstance()->GetNumberExcitedStatesCIS();
-   if(numberExcitedStatesCIS < targetStateIndex){
+   if(groundStateIndex < targetStateIndex && numberExcitedStatesCIS < targetStateIndex){
       stringstream ss;
       ss << this->errorMessageNonValidExcitedStatesOptimization;
       ss << this->errorMessageElecState << targetStateIndex << endl;
