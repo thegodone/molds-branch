@@ -35,12 +35,15 @@ private:
    void SetMessages();
    std::string errorMessageInputFileEmpty;
    std::string errorMessageNotFoundInputFile; 
+   std::string errorMessageNonValidTheoriesMD;
    std::string errorMessageNonValidExcitedStatesMD;
    std::string errorMessageNonValidExcitedStatesMC;
+   std::string errorMessageNonValidTheoriesRPMD;
    std::string errorMessageNonValidExcitedStatesRPMD;
    std::string errorMessageNonValidTheoriesNASCO;
    std::string errorMessageNonValidNumberExcitedStatesNASCO;
    std::string errorMessageNonValidInitialElectronicStateNASCO;
+   std::string errorMessageNonValidTheoriesOptimization;
    std::string errorMessageNonValidExcitedStatesOptimization;
    std::string errorMessageNonValidElectronicStateFrequencies;
    std::string errorMessageNonValidTheoryFrequencies;
