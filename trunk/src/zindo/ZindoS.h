@@ -95,11 +95,11 @@ protected:
                     double const* const* eta,
                     const std::vector<MoIndexPair>& nonRedundantQIndeces,
                     const std::vector<MoIndexPair>& redundantQIndeces) const;
-   double GetSmallQElement(int moI, 
-                           int moP, 
-                           double const* const* xiOcc, 
-                           double const* const* xiVir,
-                           double const* const* eta) const;
+   virtual double GetSmallQElement(int moI, 
+                                   int moP, 
+                                   double const* const* xiOcc, 
+                                   double const* const* xiVir,
+                                   double const* const* eta) const;
    void CalcXiMatrices(double** xiOcc, 
                        double** xiVir, 
                        int exciteState,
@@ -122,6 +122,11 @@ protected:
    void CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv, 
                                    const std::vector<MoIndexPair>& nonRedundantQIndeces,
                                    const std::vector<MoIndexPair>& redundantQIndeces) const;
+   void CalcForceExcitedOverlapAOsPart(double* force, 
+                                       int elecStateIndex,
+                                       int indexAtomA,
+                                       int indexAtomB,
+                                       double const* const* const* diatomicOverlapAOs1stDerivs) const;
    /*** end from MNDO ***/
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
@@ -199,7 +204,6 @@ protected:
    int GetActiveVirIndex(const MolDS_base::Molecule& molecule, int matrixCISIndex) const;
    void CheckMatrixForce(const std::vector<int>& elecStates);
 private:
-   std::string errorMessageCalcForceNotGroundState;
    std::string errorMessageElecState;
    std::string errorMessageNishimotoMataga;
    std::string errorMessageDavidsonMaxIter;
@@ -247,6 +251,11 @@ private:
                                                int indexAtomA,
                                                int indexAtomB,
                                                double const* const* const* diatomicTwoElecTwoCore1stDerivs) const;
+   void CalcForceExcitedTwoElecPart(double* force, 
+                                    int elecStateIndex,
+                                    int indexAtomA,
+                                    int indexAtomB,
+                                    double const* const* const* diatomicTwoElecTwoCore1stDerivs) const;
    void CalcFreeExcitonEnergies(double** freeExcitonEnergiesCIS, 
                                 const MolDS_base::Molecule& molecule, 
                                 double const* energiesMO, 

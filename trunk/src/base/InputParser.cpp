@@ -1369,7 +1369,7 @@ void InputParser::ValidateMdConditions(const Molecule& molecule) const{
    int targetStateIndex = Parameters::GetInstance()->GetElectronicStateIndexMD();
    TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
    // Validate theory
-   if(theory == CNDO2 || theory == INDO || (theory == ZINDOS && groundStateIndex < targetStateIndex)){
+   if(theory == CNDO2 || theory == INDO ){
       stringstream ss;
       ss << this->errorMessageNonValidExcitedStatesMD;
       ss << this->errorMessageElecState << targetStateIndex << endl;

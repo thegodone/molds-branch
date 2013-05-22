@@ -101,6 +101,11 @@ protected:
                                               double const* const* fockMatrix, 
                                               double const* const* gammaAB) const;
    virtual void CalcCISMatrix(double** matrixCIS) const;
+   virtual double GetSmallQElement(int moI, 
+                                   int moP, 
+                                   double const* const* xiOcc, 
+                                   double const* const* xiVir,
+                                   double const* const* eta) const;
    virtual double GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const;
 private:
    std::string errorMessageMultipoleA;
@@ -376,11 +381,6 @@ private:
                                                int indexAtomA,
                                                int indexAtomB,
                                                double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivs) const;
-   void CalcForceExcitedOverlapAOsPart(double* force, 
-                                       int elecStateIndex,
-                                       int indexAtomA,
-                                       int indexAtomB,
-                                       double const* const* const* diatomicOverlapAOs1stDerivs) const;
    void CalcForceExcitedTwoElecPart(double* force, 
                                     int elecStateIndex,
                                     int indexAtomA,
