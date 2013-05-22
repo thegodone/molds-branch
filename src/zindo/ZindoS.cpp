@@ -3879,6 +3879,13 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                              a,
                                              b,
                                              diatomicTwoElecTwoCore1stDerivs);
+                  // overlapAOs part (excited states)
+                  double forceExcitedOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
+                  this->CalcForceExcitedOverlapAOsPart(forceExcitedOverlapAOsPart, 
+                                                       n,
+                                                       a,
+                                                       b,
+                                                       diatomicOverlapAOs1stDerivs);
                   // two electron part (excited states)
                   double forceExcitedTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
                   this->CalcForceExcitedTwoElecPart(forceExcitedTwoElecPart,
@@ -3886,6 +3893,18 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                                        a,
                                                        b,
                                                        diatomicTwoElecTwoCore1stDerivs);
+                  // sum up contributions from response part (excited state)
+#pragma omp critical
+                  {
+                     for(int i=0; i<CartesianType_end; i++){
+                        this->matrixForce[n][a][i] += forceExcitedElecCoreAttPart[i];
+                        this->matrixForce[n][a][i] += forceExcitedOverlapAOsPart[i];
+                        this->matrixForce[n][a][i] += forceExcitedTwoElecPart[i];
+                        this->matrixForce[n][b][i] -= forceExcitedElecCoreAttPart[i];
+                        this->matrixForce[n][b][i] -= forceExcitedOverlapAOsPart[i];
+                        this->matrixForce[n][b][i] -= forceExcitedTwoElecPart[i];
+                     }
+                  }
                }
             } // end of for(int b)
          }    // end of for(int a)
