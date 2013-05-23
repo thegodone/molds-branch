@@ -51,16 +51,17 @@ Molecule::Molecule(const Molecule& rhs){
 }
 
 Molecule& Molecule::operator=(const Molecule& rhs){
-   double* oldXyzCOM = this->xyzCOM;
-   double* oldXyzCOC = this->xyzCOC;
+   double*  oldXyzCOM = this->xyzCOM;
+   double*  oldXyzCOC = this->xyzCOC;
+   double** oldDistanceMatrix = this->distanceMatrix;
    vector<Atom*>* oldAtomVect = this->atomVect;
    this->CopyInitialize(rhs);
-   this->Finalize(&oldAtomVect, &oldXyzCOM, &oldXyzCOC);
+   this->Finalize(&oldAtomVect, &oldXyzCOM, &oldXyzCOC, &oldDistanceMatrix);
    return *this;
 }
 
 Molecule::~Molecule(){
-   this->Finalize(&this->atomVect, &this->xyzCOM, &this->xyzCOC);
+   this->Finalize(&this->atomVect, &this->xyzCOM, &this->xyzCOC, &this->distanceMatrix);
    //this->OutputLog("molecule deleted\n");
 }
 
@@ -84,27 +85,37 @@ void Molecule::CopyInitialize(const Molecule& rhs){
                                                     atom->GetPxyz()[ZAxis]));
       (*this->atomVect)[i]->SetFirstAOIndex(atom->GetFirstAOIndex());
    }                                                                     
+   int atomNum = this->atomVect->size();
+   MallocerFreer::GetInstance()->Malloc<double>(&this->distanceMatrix, atomNum, atomNum);
+   for(int i=0; i<atomNum; i++){
+      for(int j=0; j<atomNum; j++){
+         this->distanceMatrix[i][j] = rhs.distanceMatrix[i][j];
+      }
+   }
+
 }
 
 void Molecule::Initialize(){
    this->SetMessages();
-   this->xyzCOM = NULL;
-   this->xyzCOC = NULL;
-   this->atomVect = NULL;
+   this->xyzCOM         = NULL;
+   this->xyzCOC         = NULL;
+   this->distanceMatrix = NULL;
+   this->atomVect       = NULL;
    try{
       this->atomVect = new vector<Atom*>;
       MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOM, CartesianType_end);
       MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOC, CartesianType_end);
    }
    catch(exception ex){
-      this->Finalize(&this->atomVect, &this->xyzCOM, &this->xyzCOC);
+      this->Finalize(&this->atomVect, &this->xyzCOM, &this->xyzCOC, &this->distanceMatrix);
       throw MolDSException(ex.what());
    }
 }
 
-void Molecule::Finalize(vector<Atom*>** atomVect, double** xyzCOM, double**xyzCOC){
+void Molecule::Finalize(vector<Atom*>** atomVect, double** xyzCOM, double** xyzCOC, double*** distanceMatrix){
+   int atomNum = (*atomVect)->size();
    if(*atomVect != NULL){
-      for(int i=0; i<(*atomVect)->size(); i++){
+      for(int i=0; i<atomNum; i++){
          if((**atomVect)[i] != NULL){
             delete (**atomVect)[i];
             (**atomVect)[i] = NULL;
@@ -117,14 +128,17 @@ void Molecule::Finalize(vector<Atom*>** atomVect, double** xyzCOM, double**xyzCO
    }
    MallocerFreer::GetInstance()->Free<double>(xyzCOM, CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(xyzCOC, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(distanceMatrix, atomNum, atomNum);
 }
 
 void Molecule::SetMessages(){
    this->errorMessageGetAtomNull = "Error in base::Molecule::GetAtom: atomVect is NULL.\n";
    this->errorMessageAddAtomNull = "Error in base::Molecule::AddAtom: atomVect is NULL.\n";
    this->errorMessageGetNumberAtomsNull = "Error in base::Molecule::GetNumberAtoms: atomVect is NULL.\n";
-   this->errorMessageGetXyzCOCNull = "Error in base::Molecule::GetXyzCOC: xyzCOC is NULL.\n";
    this->errorMessageGetXyzCOMNull = "Error in base::Molecule::GetXyzCOM: xyzCOM is NULL.\n";
+   this->errorMessageGetXyzCOCNull = "Error in base::Molecule::GetXyzCOC: xyzCOC is NULL.\n";
+   this->errorMessageCalcXyzCOMNull = "Error in base::Molecule::CalcXyzCOM: xyzCOM is NULL.\n";
+   this->errorMessageCalcXyzCOCNull = "Error in base::Molecule::CalcXyzCOC: xyzCOC is NULL.\n";
    this->messageTotalNumberAOs = "\tTotal number of valence AOs: ";
    this->messageTotalNumberAtoms = "\tTotal number of atoms: ";
    this->messageTotalNumberValenceElectrons = "\tTotal number of valence electrons: ";
@@ -181,6 +195,9 @@ double const* Molecule::GetXyzCOC() const{
 }
 
 void Molecule::CalcXyzCOM(){
+#ifdef MOLDS_DBG
+   if(this->xyzCOM==NULL) throw MolDSException(this->errorMessageCalcXyzCOMNull);
+#endif
    double  totalAtomicMass = 0.0;
    double* atomicXyz;
    double  atomicMass = 0.0;
@@ -204,6 +221,9 @@ void Molecule::CalcXyzCOM(){
 }
 
 void Molecule::CalcXyzCOC(){
+#ifdef MOLDS_DBG
+   if(this->xyzCOC==NULL) throw MolDSException(this->errorMessageCalcXyzCOCNull);
+#endif
    double  totalCoreMass = 0.0;
    double* atomicXyz;
    double  coreMass = 0.0;
@@ -226,6 +246,23 @@ void Molecule::CalcXyzCOC(){
    }
 }
 
+void Molecule::CalcDistanceMatrix(){
+   if(this->distanceMatrix==NULL){
+      MallocerFreer::GetInstance()->Malloc<double>(&this->distanceMatrix, this->atomVect->size(), this->atomVect->size());
+   }
+   for(int a=0; a<this->atomVect->size(); a++){
+      const Atom& atomA = *(*this->atomVect)[a];
+      for(int b=0; b<this->atomVect->size(); b++){
+         const Atom& atomB = *(*this->atomVect)[b];
+         double distance=0.0;
+         distance = sqrt( pow(atomA.GetXyz()[0] - atomB.GetXyz()[0], 2.0)
+                         +pow(atomA.GetXyz()[1] - atomB.GetXyz()[1], 2.0)
+                         +pow(atomA.GetXyz()[2] - atomB.GetXyz()[2], 2.0) );
+         this->distanceMatrix[a][b] = distance;
+      }
+   }
+}
+
 int Molecule::GetTotalNumberAOs() const{
    return this->totalNumberAOs;
 }
@@ -234,8 +271,13 @@ void Molecule::CalcBasics(){
    this->CalcTotalNumberAOs();
    this->CalcTotalNumberValenceElectrons();
    this->CalcTotalCoreMass();
+   this->CalcBasicsConfiguration();
+}
+
+void Molecule::CalcBasicsConfiguration(){
    this->CalcXyzCOM();
    this->CalcXyzCOC();
+   this->CalcDistanceMatrix();
 }
 
 void Molecule::CalcTotalNumberAOs(){
@@ -659,8 +701,7 @@ void Molecule::SynchronizeConfigurationTo(const Molecule& ref){
          atom.GetXyz()[i] = refAtom.GetXyz()[i];
       }
    }
-   this->CalcXyzCOC();
-   this->CalcXyzCOM();
+   this->CalcBasicsConfiguration();
 }
 
 void Molecule::SynchronizeMomentaTo(const Molecule& ref){
@@ -682,8 +723,7 @@ void Molecule::SynchronizePhaseSpacePointTo(const Molecule& ref){
          atom.GetPxyz()[i] = refAtom.GetPxyz()[i];
       }
    }
-   this->CalcXyzCOC();
-   this->CalcXyzCOM();
+   this->CalcBasicsConfiguration();
 }
 
 }

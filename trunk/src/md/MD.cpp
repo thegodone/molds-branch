@@ -146,8 +146,7 @@ void MD::UpdateCoordinates(Molecule& molecule, double dt) const{
             atom->GetXyz()[i] += dt*atom->GetPxyz()[i]/coreMass;
          }
       }
-      molecule.CalcXyzCOM();
-      molecule.CalcXyzCOC();
+      molecule.CalcBasicsConfiguration();
 }
 
 void MD::SetMessages(){

@@ -193,8 +193,7 @@ void NASCO::UpdateCoordinates(Molecule& tmpMolecule,
          tmpAtom->GetXyz()[i] =  atom->GetXyz()[i] + dt*atom->GetPxyz()[i]/coreMass;
       }
    }
-   tmpMolecule.CalcXyzCOM();
-   tmpMolecule.CalcXyzCOC();
+   tmpMolecule.CalcBasicsConfiguration();
 }
 
 void NASCO::DecideNextElecState(int* elecState, 
