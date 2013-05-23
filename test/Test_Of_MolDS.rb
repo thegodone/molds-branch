@@ -310,6 +310,24 @@ mklNumThreads = "2"
 ompNumThreads = "2"
 testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
 
+prefix = "c2h6_zindos_directCIS_singlet_force"
+testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
+---------------------------------------------------
+----------  Test of ZINDO/CIS-singlet-force --------
+----------  Without Davidson for the CIS   --------
+---------------------------------------------------
+SECTION
+\t\t\t>>> C2H6 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
+
+prefix = "c2h6_mndo_davidsonCIS_singlet_force"
+testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
 prefix = "ch4_mndo"
 testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
 -------------------------------------------

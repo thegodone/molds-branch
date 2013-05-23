@@ -425,6 +425,7 @@ HOW TO WRITE INPUT:
       Write OPT-directive. This module uses line search and steepest descent algorythms.
       In the early stage the line search algorythm is used, 
       then the algorythm used in this module is switched to steepest descent algorythm.
+      Note that ZINDO/S is not suitable for geometry optimizations.
 
       E.g.
          OPTIMIZE
@@ -480,7 +481,7 @@ HOW TO WRITE INPUT:
       
 
    <MD (Molecular dynamics)>
-      Write MD-directive.
+      Write MD-directive. Note that ZINDO/S is not suitable for molcular dynamics simulations.
 
       E.g.
          MD 
