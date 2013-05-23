@@ -475,7 +475,8 @@ int InputParser::ParseMolecularGeometry(Molecule* molecule, vector<string>* inpu
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = S;
       }
-      Atom* atom = AtomFactory::Create(atomType, x, y, z);
+      int index = molecule->GetNumberAtoms();
+      Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
       molecule->AddAtom(atom);
       parseIndex += 4;
    }

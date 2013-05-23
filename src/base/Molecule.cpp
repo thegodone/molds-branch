@@ -77,6 +77,7 @@ void Molecule::CopyInitialize(const Molecule& rhs){
    for(int i=0; i<rhs.atomVect->size(); i++){
       Atom* atom = (*rhs.atomVect)[i];
       this->atomVect->push_back(AtomFactory::Create(atom->GetAtomType(),
+                                                    atom->GetIndex(),
                                                     atom->GetXyz()[XAxis],
                                                     atom->GetXyz()[YAxis],
                                                     atom->GetXyz()[ZAxis],
@@ -252,13 +253,14 @@ void Molecule::CalcDistanceMatrix(){
    }
    for(int a=0; a<this->atomVect->size(); a++){
       const Atom& atomA = *(*this->atomVect)[a];
-      for(int b=0; b<this->atomVect->size(); b++){
+      for(int b=a; b<this->atomVect->size(); b++){
          const Atom& atomB = *(*this->atomVect)[b];
          double distance=0.0;
          distance = sqrt( pow(atomA.GetXyz()[0] - atomB.GetXyz()[0], 2.0)
                          +pow(atomA.GetXyz()[1] - atomB.GetXyz()[1], 2.0)
                          +pow(atomA.GetXyz()[2] - atomB.GetXyz()[2], 2.0) );
          this->distanceMatrix[a][b] = distance;
+         this->distanceMatrix[b][a] = distance;
       }
    }
 }
@@ -680,17 +682,11 @@ void Molecule::OutputTranslatingConditions(double const* translatingDifference) 
 }
 
 double Molecule::GetDistanceAtoms(int indexAtomA, int indexAtomB) const{
-   const Atom& atomA = *(*this->atomVect)[indexAtomA];
-   const Atom& atomB = *(*this->atomVect)[indexAtomB];
-   return this->GetDistanceAtoms(atomA, atomB);
+   return this->distanceMatrix[indexAtomA][indexAtomB];
 }
 
 double Molecule::GetDistanceAtoms(const Atom& atomA, const Atom& atomB) const{
-   double distance=0.0;
-   distance = sqrt( pow(atomA.GetXyz()[0] - atomB.GetXyz()[0], 2.0)
-                   +pow(atomA.GetXyz()[1] - atomB.GetXyz()[1], 2.0)
-                   +pow(atomA.GetXyz()[2] - atomB.GetXyz()[2], 2.0) );
-   return distance;
+   return this->GetDistanceAtoms(atomA.GetIndex(), atomB.GetIndex());
 }
 
 void Molecule::SynchronizeConfigurationTo(const Molecule& ref){

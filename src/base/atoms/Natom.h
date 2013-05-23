@@ -21,8 +21,9 @@
 namespace MolDS_base_atoms{
 class Natom : public Atom {
 public:
-   Natom();
+   Natom(int index);
 private:
+   Natom();
    void SetAtomicParameters();
 };
 }

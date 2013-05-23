@@ -38,7 +38,7 @@ using namespace std;
 using namespace MolDS_base;
 
 namespace MolDS_base_atoms{
-Atom::Atom(){
+Atom::Atom(int index){
    this->SetMessages();
    this->xyz = NULL;
    this->pxyz = NULL;
@@ -51,6 +51,7 @@ Atom::Atom(){
       MallocerFreer::GetInstance()->Free<double>(&this->pxyz, CartesianType_end);
       throw MolDSException(ex.what());
    }
+   this->index = index;
 }
 
 Atom::~Atom(){

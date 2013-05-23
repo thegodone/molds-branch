@@ -35,7 +35,7 @@ using namespace MolDS_base;
 
 namespace MolDS_base_atoms{
 
-Hatom::Hatom() : Atom(){
+Hatom::Hatom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 

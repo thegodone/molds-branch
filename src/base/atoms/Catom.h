@@ -21,8 +21,9 @@
 namespace MolDS_base_atoms{
 class Catom : public Atom {
 public:
-   Catom();
+   Catom(int index);
 private:
+   Catom();
    void SetAtomicParameters();
 };
 }

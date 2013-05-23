@@ -21,8 +21,9 @@
 namespace MolDS_base_atoms{
 class Liatom : public Atom {
 public:
-   Liatom();
+   Liatom(int index);
 private:
+   Liatom();
    void SetAtomicParameters();
 };
 }

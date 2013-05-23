@@ -24,6 +24,7 @@ namespace MolDS_base_factories{
 class AtomFactory{
 public:
    static MolDS_base_atoms::Atom* Create(MolDS_base::AtomType atomType,
+                                         int index,
                                          double x,
                                          double y,
                                          double z,
@@ -31,6 +32,7 @@ public:
                                          double py,
                                          double pz);
    static MolDS_base_atoms::Atom* Create(MolDS_base::AtomType atomType,
+                                         int index,
                                          double x,
                                          double y,
                                          double z);

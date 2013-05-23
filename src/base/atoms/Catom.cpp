@@ -33,7 +33,7 @@
 using namespace std;
 using namespace MolDS_base;
 namespace MolDS_base_atoms{
-Catom::Catom() : Atom(){
+Catom::Catom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 

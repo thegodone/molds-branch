@@ -21,8 +21,9 @@
 namespace MolDS_base_atoms{
 class Satom : public Atom {
 public:
-   Satom();
+   Satom(int index);
 private:
+   Satom();
    void SetAtomicParameters();
 };
 }
