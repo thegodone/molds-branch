@@ -39,10 +39,8 @@ public:
       return (*this->atomVect)[atomIndex];
    }
    void AddAtom(MolDS_base_atoms::Atom* atom);
-   double* GetXyzCOM() const;
-   double* GetXyzCOM();
-   double* GetXyzCOC() const;
-   double* GetXyzCOC();
+   double const* GetXyzCOM() const;
+   double const* GetXyzCOC() const;
    void CalcXyzCOM();
    void CalcXyzCOC();
    void CalcBasics();
@@ -67,8 +65,6 @@ private:
    std::vector<MolDS_base_atoms::Atom*>* atomVect;
    double* xyzCOM; // x, y, z coordinates of Center of Mass;
    double* xyzCOC; // x, y, z coordinates of Center of Core;
-   bool wasCalculatedXyzCOM;
-   bool wasCalculatedXyzCOC;
    int totalNumberAOs;
    int totalNumberValenceElectrons;
    double totalCoreMass;

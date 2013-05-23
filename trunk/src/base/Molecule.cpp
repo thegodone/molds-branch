@@ -70,8 +70,6 @@ void Molecule::CopyInitialize(const Molecule& rhs){
       this->xyzCOM[i] = rhs.xyzCOM[i];
       this->xyzCOC[i] = rhs.xyzCOC[i];
    }
-   this->wasCalculatedXyzCOM = rhs.wasCalculatedXyzCOM;
-   this->wasCalculatedXyzCOC = rhs.wasCalculatedXyzCOC;
    this->totalNumberAOs = rhs.totalNumberAOs;
    this->totalNumberValenceElectrons = rhs.totalNumberValenceElectrons;
    this->totalCoreMass = rhs.totalCoreMass;
@@ -90,8 +88,6 @@ void Molecule::CopyInitialize(const Molecule& rhs){
 
 void Molecule::Initialize(){
    this->SetMessages();
-   this->wasCalculatedXyzCOM = false;
-   this->wasCalculatedXyzCOC = false;
    this->xyzCOM = NULL;
    this->xyzCOC = NULL;
    this->atomVect = NULL;
@@ -170,39 +166,24 @@ void Molecule::AddAtom(Atom* atom){
    
 }
 
-double* Molecule::GetXyzCOM() const{
+double const* Molecule::GetXyzCOM() const{
 #ifdef MOLDS_DBG
    if(this->xyzCOM==NULL) throw MolDSException(this->errorMessageGetXyzCOMNull);
 #endif
    return this->xyzCOM;
 }
 
-double* Molecule::GetXyzCOM(){
-   if(!this->wasCalculatedXyzCOM){
-      this->CalcXyzCOM();
-   }
-   return this->xyzCOM;
-}
-
-double* Molecule::GetXyzCOC() const{
+double const* Molecule::GetXyzCOC() const{
 #ifdef MOLDS_DBG
    if(this->xyzCOC==NULL) throw MolDSException(this->errorMessageGetXyzCOCNull);
 #endif
    return this->xyzCOC;
 }
 
-double* Molecule::GetXyzCOC(){
-   if(!this->wasCalculatedXyzCOC){
-      this->CalcXyzCOC();
-   }
-   return this->xyzCOC;
-}
-
 void Molecule::CalcXyzCOM(){
-   MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOM, CartesianType_end);
-   double totalAtomicMass = 0.0;
+   double  totalAtomicMass = 0.0;
    double* atomicXyz;
-   double atomicMass = 0.0;
+   double  atomicMass = 0.0;
 
    for(int j=0; j<3; j++){
       this->xyzCOM[j] = 0.0;
@@ -220,14 +201,12 @@ void Molecule::CalcXyzCOM(){
    for(int i=0; i<3; i++){
       this->xyzCOM[i]/=totalAtomicMass;
    }
-   this->wasCalculatedXyzCOM = true;
 }
 
 void Molecule::CalcXyzCOC(){
-   MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOC, CartesianType_end);
-   double totalCoreMass = 0.0;
+   double  totalCoreMass = 0.0;
    double* atomicXyz;
-   double coreMass = 0.0;
+   double  coreMass = 0.0;
 
    for(int j=0; j<3; j++){
       this->xyzCOC[j] = 0.0;
@@ -245,7 +224,6 @@ void Molecule::CalcXyzCOC(){
    for(int i=0; i<3; i++){
       this->xyzCOC[i]/=totalCoreMass;
    }
-   this->wasCalculatedXyzCOC = true;
 }
 
 int Molecule::GetTotalNumberAOs() const{
@@ -408,9 +386,7 @@ void Molecule::OutputInertiaTensorOrigin(double* inertiaTensorOrigin) const{
 
 void Molecule::CalcPrincipalAxes(){
    this->OutputLog(this->messageStartPrincipalAxes);
-   if(!this->wasCalculatedXyzCOM){
-      this->CalcXyzCOM();
-   }
+   this->CalcXyzCOM();
    double inertiaTensorOrigin[3] = {this->xyzCOM[0], this->xyzCOM[1], this->xyzCOM[2]};
    if(Parameters::GetInstance()->GetInertiaTensorOrigin() != NULL){
       inertiaTensorOrigin[0] = Parameters::GetInstance()->GetInertiaTensorOrigin()[0];
@@ -479,9 +455,7 @@ void Molecule::Rotate(){
    this->OutputLog(this->messageStartRotate);
 
    // Default values are set if some conditions are not specified.
-   if(!this->wasCalculatedXyzCOM){
-      this->CalcXyzCOM();
-   }
+   this->CalcXyzCOM();
    double rotatingOrigin[3] = {this->xyzCOM[0], this->xyzCOM[1], this->xyzCOM[2]};
    if(Parameters::GetInstance()->GetRotatingOrigin() != NULL){
       rotatingOrigin[0] = Parameters::GetInstance()->GetRotatingOrigin()[0];
@@ -642,12 +616,8 @@ void Molecule::Translate(){
          atom.GetXyz()[1] += y;
          atom.GetXyz()[2] += z;
    }
-   
-   this->wasCalculatedXyzCOM = false;
    this->CalcXyzCOM();
-   this->wasCalculatedXyzCOC = false;
    this->CalcXyzCOC();
-
    this->OutputConfiguration();
    this->OutputXyzCOM();
    this->OutputXyzCOC();
@@ -674,13 +644,11 @@ double Molecule::GetDistanceAtoms(int indexAtomA, int indexAtomB) const{
 }
 
 double Molecule::GetDistanceAtoms(const Atom& atomA, const Atom& atomB) const{
-
    double distance=0.0;
    distance = sqrt( pow(atomA.GetXyz()[0] - atomB.GetXyz()[0], 2.0)
                    +pow(atomA.GetXyz()[1] - atomB.GetXyz()[1], 2.0)
                    +pow(atomA.GetXyz()[2] - atomB.GetXyz()[2], 2.0) );
    return distance;
-
 }
 
 void Molecule::SynchronizeConfigurationTo(const Molecule& ref){
