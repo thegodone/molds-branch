@@ -3344,7 +3344,6 @@ double ZindoS::GetKRElement(int moI, int moJ, int moK, int moL) const{
 double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
    double value = 0.0;
 
-/*
    // Fast algorith, but this is not easy to read. 
    // Slow algorithm is alos written below.
    for(int A=0; A<this->molecule->GetNumberAtoms(); A++){
@@ -3352,196 +3351,84 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
-      // A=B && (mu==lambda && nu==sigma)
-      //for(int B=A; B<A+1; B++){
-      {
-         int B=A;
-         const Atom& atomB = *this->molecule->GetAtom(B);
-         int firstAOIndexB = atomB.GetFirstAOIndex();
-         int lastAOIndexB  = atomB.GetLastAOIndex();
-
-         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-            int muOffSet = mu - firstAOIndexA;
-            OrbitalType orbitalMu = atomA.GetValence(muOffSet);
-            int lambda = mu;
-            for(int nu=mu+1; nu<=lastAOIndexA; nu++){
-               int nuOffSet = nu - firstAOIndexA;
-               OrbitalType orbitalNu = atomA.GetValence(nuOffSet);
-               int sigma = nu;
-               double tmpMN01 = 0.0, tmpMN02 = 0.0, tmpMN03 = 0.0, 
-                      tmpMN04 = 0.0, tmpMN05 = 0.0, tmpMN06 = 0.0, 
-                      tmpMN07 = 0.0, tmpMN08 = 0.0, tmpMN09 = 0.0, 
-                      tmpMN10 = 0.0, tmpMN11 = 0.0, tmpMN12 = 0.0, 
-                      tmpMN13 = 0.0, tmpMN14 = 0.0, tmpMN15 = 0.0, 
-                      tmpMN16 = 0.0, tmpMN17 = 0.0, tmpMN18 = 0.0,
-                      tmpMN19 = 0.0, tmpMN20 = 0.0, tmpMN21 = 0.0,
-                      tmpMN22 = 0.0, tmpMN23 = 0.0, tmpMN24 = 0.0;
-               tmpMN01 = 4.0
-                        *this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moJ][nu];
-               tmpMN02 = 4.0
-                        *this->fockMatrix[moK][mu]
-                        *this->fockMatrix[moL][nu];
-               tmpMN03 = this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moK][nu];
-               tmpMN04 = this->fockMatrix[moJ][mu]
-                        *this->fockMatrix[moL][nu];
-               tmpMN05 = this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moL][nu];
-               tmpMN06 = this->fockMatrix[moJ][mu]
-                        *this->fockMatrix[moK][nu];
-               tmpMN07 = 4.0
-                        *this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moJ][nu];
-               tmpMN08 = 4.0
-                        *this->fockMatrix[moK][mu]
-                        *this->fockMatrix[moL][nu];
-               tmpMN09 = this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moK][nu];
-               tmpMN10 = this->fockMatrix[moJ][mu]
-                        *this->fockMatrix[moL][nu];
-               tmpMN11 = this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moL][nu];
-               tmpMN12 = this->fockMatrix[moJ][mu]
-                        *this->fockMatrix[moK][nu];
-               tmpMN13 = 4.0
-                        *this->fockMatrix[moI][nu]
+      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+         OrbitalType orbitalMu = atomA.GetValence(mu - firstAOIndexA);
+         double tmpM01 = this->fockMatrix[moI][mu]
                         *this->fockMatrix[moJ][mu];
-               tmpMN14 = 4.0
-                        *this->fockMatrix[moK][nu]
+         double tmpM02 = this->fockMatrix[moI][mu]
                         *this->fockMatrix[moL][mu];
-               tmpMN15 = this->fockMatrix[moI][nu]
+         double tmpM03 = this->fockMatrix[moJ][mu]
                         *this->fockMatrix[moK][mu];
-               tmpMN16 = this->fockMatrix[moJ][nu]
-                        *this->fockMatrix[moL][mu];
-               tmpMN17 = this->fockMatrix[moI][nu]
-                        *this->fockMatrix[moL][mu];
-               tmpMN18 = this->fockMatrix[moJ][nu]
+         double tmpM04 = this->fockMatrix[moI][mu]
                         *this->fockMatrix[moK][mu];
-               tmpMN19 = 4.0
-                        *this->fockMatrix[moI][nu]
-                        *this->fockMatrix[moJ][mu];
-               tmpMN20 = 4.0
-                        *this->fockMatrix[moK][nu]
+         double tmpM05 = this->fockMatrix[moJ][mu]
                         *this->fockMatrix[moL][mu];
-               tmpMN21 = this->fockMatrix[moI][nu]
-                        *this->fockMatrix[moK][mu];
-               tmpMN22 = this->fockMatrix[moJ][nu]
+         double tmpM06 = this->fockMatrix[moK][mu]
                         *this->fockMatrix[moL][mu];
-               tmpMN23 = this->fockMatrix[moI][nu]
-                        *this->fockMatrix[moL][mu];
-               tmpMN24 = this->fockMatrix[moJ][nu]
-                        *this->fockMatrix[moK][mu];
 
-               {
-                  double tmpMNL01 = 0.0, tmpMNL02 = 0.0, tmpMNL03 = 0.0, tmpMNL04 = 0.0, 
-                         tmpMNL05 = 0.0, tmpMNL06 = 0.0, tmpMNL07 = 0.0, tmpMNL08 = 0.0, 
-                         tmpMNL09 = 0.0, tmpMNL10 = 0.0, tmpMNL11 = 0.0, tmpMNL12 = 0.0, 
-                         tmpMNL13 = 0.0, tmpMNL14 = 0.0, tmpMNL15 = 0.0, tmpMNL16 = 0.0, 
-                         tmpMNL17 = 0.0, tmpMNL18 = 0.0, tmpMNL19 = 0.0, tmpMNL20 = 0.0,
-                         tmpMNL21 = 0.0, tmpMNL22 = 0.0, tmpMNL23 = 0.0, tmpMNL24 = 0.0;
-                  tmpMNL01 = tmpMN01*this->fockMatrix[moK][lambda]*this->fockMatrix[moL][sigma];
-                  tmpMNL02 = tmpMN02*this->fockMatrix[moI][lambda]*this->fockMatrix[moJ][sigma];
-                  tmpMNL03 = tmpMN03*this->fockMatrix[moJ][lambda]*this->fockMatrix[moL][sigma];
-                  tmpMNL04 = tmpMN04*this->fockMatrix[moI][lambda]*this->fockMatrix[moK][sigma];
-                  tmpMNL05 = tmpMN05*this->fockMatrix[moJ][lambda]*this->fockMatrix[moK][sigma];
-                  tmpMNL06 = tmpMN06*this->fockMatrix[moI][lambda]*this->fockMatrix[moL][sigma];
-                  tmpMNL07 = tmpMN07*this->fockMatrix[moL][lambda]*this->fockMatrix[moK][sigma];
-                  tmpMNL08 = tmpMN08*this->fockMatrix[moJ][lambda]*this->fockMatrix[moI][sigma];
-                  tmpMNL09 = tmpMN09*this->fockMatrix[moL][lambda]*this->fockMatrix[moJ][sigma];
-                  tmpMNL10 = tmpMN10*this->fockMatrix[moK][lambda]*this->fockMatrix[moI][sigma];
-                  tmpMNL11 = tmpMN11*this->fockMatrix[moK][lambda]*this->fockMatrix[moJ][sigma];
-                  tmpMNL12 = tmpMN12*this->fockMatrix[moL][lambda]*this->fockMatrix[moI][sigma];
-                  tmpMNL13 = tmpMN13*this->fockMatrix[moK][lambda]*this->fockMatrix[moL][sigma];
-                  tmpMNL14 = tmpMN14*this->fockMatrix[moI][lambda]*this->fockMatrix[moJ][sigma];
-                  tmpMNL15 = tmpMN15*this->fockMatrix[moJ][lambda]*this->fockMatrix[moL][sigma];
-                  tmpMNL16 = tmpMN16*this->fockMatrix[moI][lambda]*this->fockMatrix[moK][sigma];
-                  tmpMNL17 = tmpMN17*this->fockMatrix[moJ][lambda]*this->fockMatrix[moK][sigma];
-                  tmpMNL18 = tmpMN18*this->fockMatrix[moI][lambda]*this->fockMatrix[moL][sigma];
-                  tmpMNL19 = tmpMN13*this->fockMatrix[moL][lambda]*this->fockMatrix[moK][sigma];
-                  tmpMNL20 = tmpMN14*this->fockMatrix[moJ][lambda]*this->fockMatrix[moI][sigma];
-                  tmpMNL21 = tmpMN15*this->fockMatrix[moL][lambda]*this->fockMatrix[moJ][sigma];
-                  tmpMNL22 = tmpMN16*this->fockMatrix[moK][lambda]*this->fockMatrix[moI][sigma];
-                  tmpMNL23 = tmpMN17*this->fockMatrix[moK][lambda]*this->fockMatrix[moJ][sigma];
-                  tmpMNL24 = tmpMN18*this->fockMatrix[moL][lambda]*this->fockMatrix[moI][sigma];
+         // A=B && (mu==lambda && nu==sigma for (mu nu|lamba sigma))
+         for(int nu=mu+1; nu<=lastAOIndexA; nu++){
+            OrbitalType orbitalNu = atomA.GetValence(nu - firstAOIndexA);
+            double tmpValue = 0.0;
+            tmpValue -= 4.0*tmpM01 
+                       *this->fockMatrix[moK][nu]
+                       *this->fockMatrix[moL][nu];
+            tmpValue += 6.0*tmpM02
+                       *this->fockMatrix[moJ][nu]
+                       *this->fockMatrix[moK][nu];
+            tmpValue += 6.0*tmpM03
+                       *this->fockMatrix[moL][nu]
+                       *this->fockMatrix[moI][nu];
+            tmpValue += 6.0*tmpM04
+                       *this->fockMatrix[moJ][nu]
+                       *this->fockMatrix[moL][nu];
+            tmpValue += 6.0*tmpM05
+                       *this->fockMatrix[moI][nu]
+                       *this->fockMatrix[moK][nu];
+            tmpValue -= 4.0*tmpM06
+                       *this->fockMatrix[moI][nu]
+                       *this->fockMatrix[moJ][nu];
 
-                  tmpMNL01 +=-tmpMNL03 - tmpMNL06 + tmpMNL13 - tmpMNL15 - tmpMNL18;
-                  tmpMNL02 += tmpMNL14;
-                  tmpMNL04 += tmpMNL05 + tmpMNL16 + tmpMNL17;
-                  tmpMNL07 += tmpMNL19;
-                  tmpMNL08 +=-tmpMNL10 - tmpMNL12 + tmpMNL20 - tmpMNL22 - tmpMNL24;
-                  tmpMNL09 += tmpMNL11 + tmpMNL21 + tmpMNL23;
-                  {
-                     double tmpValue = 0.0;
-                     tmpValue += tmpMNL01;
-                     tmpValue += tmpMNL02;
-                     tmpValue -= tmpMNL04;
-                     tmpValue += tmpMNL07;
-                     tmpValue += tmpMNL08;
-                     tmpValue -= tmpMNL09;
-
-                     double gamma = 0.5*this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
-                     value += tmpValue*gamma;
-                  }
-               }
-            }
+            double gamma = 0.5*this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+            value += tmpValue*gamma;
          }
-      }
 
-      // (mu==nu && lambda==sigma) && (A==B || A!=B)
-      for(int B=A; B<this->molecule->GetNumberAtoms(); B++){
-         const Atom& atomB = *this->molecule->GetAtom(B);
-         int firstAOIndexB = atomB.GetFirstAOIndex();
-         int lastAOIndexB  = atomB.GetLastAOIndex();
+         //  (A==B || A!=B) && (mu==nu && lambda==sigma for (mu nu|lamba sigma))
+         for(int B=A; B<this->molecule->GetNumberAtoms(); B++){
+            const Atom& atomB = *this->molecule->GetAtom(B);
+            int firstAOIndexB = atomB.GetFirstAOIndex();
+            int lastAOIndexB  = atomB.GetLastAOIndex();
 
-         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-            int muOffSet = mu - firstAOIndexA;
-            double tmpMN01 = 0.0, tmpMN02 = 0.0, tmpMN03 = 0.0, 
-                   tmpMN04 = 0.0, tmpMN05 = 0.0, tmpMN06 = 0.0;
-            tmpMN01 = 4.0
-                     *this->fockMatrix[moI][mu]
-                     *this->fockMatrix[moJ][mu];
-            tmpMN02 = 4.0
-                     *this->fockMatrix[moK][mu]
-                     *this->fockMatrix[moL][mu];
-            tmpMN03 = this->fockMatrix[moI][mu]
-                     *this->fockMatrix[moK][mu];
-            tmpMN04 = this->fockMatrix[moJ][mu]
-                     *this->fockMatrix[moL][mu];
-            tmpMN05 = this->fockMatrix[moI][mu]
-                     *this->fockMatrix[moL][mu];
-            tmpMN06 = this->fockMatrix[moJ][mu]
-                     *this->fockMatrix[moK][mu];
             for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-               int lambdaOffSet = lambda - firstAOIndexB;
-               double tmpMNL01 = 0.0, tmpMNL02 = 0.0, tmpMNL03 = 0.0, tmpMNL04 = 0.0, 
-                      tmpMNL05 = 0.0, tmpMNL06 = 0.0;
-               tmpMNL01 = tmpMN01*this->fockMatrix[moK][lambda];
-               tmpMNL02 = tmpMN02*this->fockMatrix[moI][lambda];
-               tmpMNL03 = tmpMN03*this->fockMatrix[moJ][lambda];
-               tmpMNL04 = tmpMN04*this->fockMatrix[moI][lambda];
-               tmpMNL05 = tmpMN05*this->fockMatrix[moJ][lambda];
-               tmpMNL06 = tmpMN06*this->fockMatrix[moI][lambda];
-               tmpMNL01 -= tmpMNL03 + tmpMNL06;
-               tmpMNL04 += tmpMNL05;
+               OrbitalType orbitalLambda = atomB.GetValence(lambda - firstAOIndexB);
                double tmpValue = 0.0;
-               tmpValue += tmpMNL01*this->fockMatrix[moL][lambda];
-               tmpValue += tmpMNL02*this->fockMatrix[moJ][lambda];
-               tmpValue -= tmpMNL04*this->fockMatrix[moK][lambda];
+               tmpValue += 4.0*tmpM01
+                          *this->fockMatrix[moK][lambda]
+                          *this->fockMatrix[moL][lambda];
+               tmpValue -= tmpM02
+                          *this->fockMatrix[moJ][lambda]
+                          *this->fockMatrix[moK][lambda];
+               tmpValue -= tmpM03
+                          *this->fockMatrix[moI][lambda]
+                          *this->fockMatrix[moL][lambda];
+               tmpValue -= tmpM04
+                          *this->fockMatrix[moJ][lambda]
+                          *this->fockMatrix[moL][lambda];
+               tmpValue -= tmpM05
+                          *this->fockMatrix[moI][lambda]
+                          *this->fockMatrix[moK][lambda];
+               tmpValue += 4.0*tmpM06
+                          *this->fockMatrix[moI][lambda]
+                          *this->fockMatrix[moJ][lambda];
                double gamma = 0.0;
                if(A!=B){
-                  const double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
-                  OrbitalType orbitalMu     = atomA.GetValence(muOffSet);
-                  OrbitalType orbitalLambda = atomB.GetValence(lambdaOffSet);
                   gamma = this->GetNishimotoMatagaTwoEleInt(atomA, 
                                                             orbitalMu, 
                                                             atomB, 
                                                             orbitalLambda,
-                                                            rAB);
+                                                            this->molecule->GetDistanceAtoms(atomA, atomB));
                }
                else{
-                  OrbitalType orbitalMu     = atomA.GetValence(muOffSet);
-                  OrbitalType orbitalLambda = atomA.GetValence(lambdaOffSet);
                   gamma = 0.5*this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
                }
                value += tmpValue*gamma;
@@ -3550,8 +3437,8 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
       }
    }
    // End of the fast algorith.
-*/
 
+/*
    // slow algorithm
    value = 4.0*this->GetMolecularIntegralElement(moI, moJ, moK, moL, 
                                                  *this->molecule, 
@@ -3562,7 +3449,7 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
           -1.0*this->GetMolecularIntegralElement(moI, moL, moJ, moK, 
                                                  *this->molecule, 
                                                  this->fockMatrix, NULL);
-
+*/
    return value;
 }
 
