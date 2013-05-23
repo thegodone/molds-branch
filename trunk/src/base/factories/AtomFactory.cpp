@@ -43,25 +43,25 @@ namespace MolDS_base_factories{
 string AtomFactory::errorMessageNotEnableAtom = "Error in base::AtomFactory::Create: Not Enable AtomType is set.";
 string AtomFactory::errorMessageAtomType = "\tatom type = ";
 
-Atom* AtomFactory::Create(AtomType atomType, double x, double y, double z, double px, double py, double pz){
+Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, double z, double px, double py, double pz){
    Atom* atom=NULL;
    if(atomType == H){
-      atom = new Hatom();
+      atom = new Hatom(index);
    }
    else if(atomType == Li){
-      atom = new Liatom();
+      atom = new Liatom(index);
    }
    else if(atomType == C){
-      atom = new Catom();
+      atom = new Catom(index);
    }
    else if(atomType == N){
-      atom = new Natom();
+      atom = new Natom(index);
    }
    else if(atomType == O){
-      atom = new Oatom();
+      atom = new Oatom(index);
    }
    else if(atomType == S){
-      atom = new Satom();
+      atom = new Satom(index);
    }
    else{
       stringstream ss;
@@ -74,11 +74,11 @@ Atom* AtomFactory::Create(AtomType atomType, double x, double y, double z, doubl
    return atom;
 }
 
-Atom* AtomFactory::Create(AtomType atomType, double x, double y, double z){
+Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, double z){
    double px=0.0;
    double py=0.0;
    double pz=0.0;
-   return AtomFactory::Create(atomType, x, y, z, px, py, pz);
+   return AtomFactory::Create(atomType, index, x, y, z, px, py, pz);
 }
 }
 

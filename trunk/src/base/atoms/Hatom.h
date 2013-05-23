@@ -22,8 +22,9 @@ namespace MolDS_base_atoms{
 
 class Hatom : public Atom {
 public:
-   Hatom();
+   Hatom(int index);
 private:
+   Hatom();
    void SetAtomicParameters();
 };
 

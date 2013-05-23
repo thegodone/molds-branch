@@ -34,7 +34,7 @@ using namespace std;
 using namespace MolDS_base;
 
 namespace MolDS_base_atoms{
-Liatom::Liatom() : Atom(){
+Liatom::Liatom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 

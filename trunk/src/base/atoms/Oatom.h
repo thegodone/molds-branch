@@ -21,8 +21,9 @@
 namespace MolDS_base_atoms{
 class Oatom : public Atom {
 public:
-   Oatom();
+   Oatom(int index);
 private:
+   Oatom();
    void SetAtomicParameters();
 };
 }

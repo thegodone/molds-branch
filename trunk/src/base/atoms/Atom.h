@@ -22,8 +22,9 @@ namespace MolDS_base_atoms{
 
 class Atom : public MolDS_base::PrintController{
 public:
-   Atom();
+   Atom(int index);
    virtual ~Atom();
+   inline int GetIndex() const{return this->index;}
    double* GetXyz() const;
    void    SetXyz(double x, double y, double z) const;
    double* GetPxyz() const;
@@ -224,6 +225,7 @@ protected:
    double pm3DBondingParameterP; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
    double pm3DAlpha; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
 private:
+   Atom();
    std::string errorMessageIonPot;
    std::string errorMessageAtomType;
    std::string errorMessageNumberValences;
@@ -276,6 +278,7 @@ private:
    std::string errorMessageSetXyzCoordinatesNull;
    std::string errorMessageGetPxyzMomentaNull;
    std::string errorMessageSetPxyzMomentaNull;
+   int index;
    void SetMessages();
    double GetRealAngularPartAO(double theta, 
                                double phi, 
