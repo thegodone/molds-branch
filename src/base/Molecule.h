@@ -41,9 +41,8 @@ public:
    void AddAtom(MolDS_base_atoms::Atom* atom);
    double const* GetXyzCOM() const;
    double const* GetXyzCOC() const;
-   void CalcXyzCOM();
-   void CalcXyzCOC();
    void CalcBasics();
+   void CalcBasicsConfiguration();
    int GetTotalNumberAOs() const;
    int GetTotalNumberValenceElectrons() const;
    double GetTotalCoreMass() const;
@@ -63,18 +62,22 @@ public:
    void SynchronizePhaseSpacePointTo(const Molecule& ref);
 private:
    std::vector<MolDS_base_atoms::Atom*>* atomVect;
-   double* xyzCOM; // x, y, z coordinates of Center of Mass;
-   double* xyzCOC; // x, y, z coordinates of Center of Core;
+   double*  xyzCOM; // x, y, z coordinates of Center of Mass;
+   double*  xyzCOC; // x, y, z coordinates of Center of Core;
+   double** distanceMatrix; // distance between each atom;
    int totalNumberAOs;
    int totalNumberValenceElectrons;
    double totalCoreMass;
    void Initialize();
    void CopyInitialize(const Molecule& rhs);
-   void Finalize(std::vector<MolDS_base_atoms::Atom*>** atomVect, double** xyzCOM, double**xyzCOC);
+   void Finalize(std::vector<MolDS_base_atoms::Atom*>** atomVect, double** xyzCOM, double** xyzCOC, double*** distanceMatrix);
    void SetMessages();
    void CalcTotalNumberValenceElectrons();
    void CalcTotalNumberAOs();
    void CalcTotalCoreMass();
+   void CalcXyzCOM();
+   void CalcXyzCOC();
+   void CalcDistanceMatrix();
    void CalcInertiaTensor(double** inertiaTensor, 
                           double const* inertiaTensorOrigin);
    void FreeInertiaTensorMoments(double*** inertiaTensor, 
@@ -94,8 +97,10 @@ private:
    std::string errorMessageGetAtomNull;
    std::string errorMessageAddAtomNull;
    std::string errorMessageGetNumberAtomsNull;
-   std::string errorMessageGetXyzCOCNull;
    std::string errorMessageGetXyzCOMNull;
+   std::string errorMessageGetXyzCOCNull;
+   std::string errorMessageCalcXyzCOMNull;
+   std::string errorMessageCalcXyzCOCNull;
    std::string messageTotalNumberAOs;
    std::string messageTotalNumberAtoms;
    std::string messageTotalNumberValenceElectrons;

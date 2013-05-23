@@ -174,8 +174,7 @@ void MC::CreateTrialConfiguration(Molecule* trial,
          trialAtom->GetXyz()[i] -= coreCenterShift[i];
       }
    }
-   trial->CalcXyzCOC();
-   trial->CalcXyzCOM();
+   trial->CalcBasicsConfiguration();
 }
 
 bool MC::UsesTrial(const ElectronicStructure& currentES, 

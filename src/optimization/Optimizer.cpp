@@ -141,8 +141,7 @@ void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* con
          atom->GetXyz()[i] += dt*matrixForce[a][i]/coreMass;
       }
    }
-   molecule.CalcXyzCOM();
-   molecule.CalcXyzCOC();
+   molecule.CalcBasicsConfiguration();
 }
 
 void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* const* matrixForce) const{
@@ -153,8 +152,7 @@ void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* con
          atom->GetXyz()[i] += matrixForce[a][i];
       }
    }
-   molecule.CalcXyzCOM();
-   molecule.CalcXyzCOC();
+   molecule.CalcBasicsConfiguration();
 }
 
 void Optimizer::UpdateElectronicStructure(boost::shared_ptr<ElectronicStructure> electronicStructure, 

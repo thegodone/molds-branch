@@ -122,8 +122,7 @@ void RPMD::UpdateCoordinates(const vector<boost::shared_ptr<Molecule> >& molecul
             atom->GetXyz()[i] += dt*atom->GetPxyz()[i]/coreMass;
          }
       }
-      molecularBeads[b]->CalcXyzCOM();
-      molecularBeads[b]->CalcXyzCOC();
+      molecularBeads[b]->CalcBasicsConfiguration();
    }
 }
 
