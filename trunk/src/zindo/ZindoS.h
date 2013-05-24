@@ -49,29 +49,6 @@ protected:
    double*** zMatrixForce;
    double*** etaMatrixForce;
    struct MoIndexPair{int moI; int moJ; bool isMoICIMO; bool isMoJCIMO;};
-   void CalcEtaMatrixForce(const std::vector<int>& elecStates);
-   void CalcZMatrixForce(const std::vector<int>& elecStates);
-   void CalcActiveSetVariablesQ(std::vector<MoIndexPair>* nonRedundantQIndeces, 
-                                std::vector<MoIndexPair>* redundantQIndeces,
-                                int numberActiveOcc,
-                                int numberActiveVir) const;
-   virtual double GetSmallQElement(int moI, 
-                                   int moP, 
-                                   double const* const* xiOcc, 
-                                   double const* const* xiVir,
-                                   double const* const* eta) const;
-   double GetGammaNRElement(int moI, int moJ, int moK, int moL) const;
-   double GetGammaRElement (int moI, int moJ, int moK, int moL) const;
-   double GetNNRElement    (int moI, int moJ, int moK, int moL) const;
-   double GetNRElement     (int moI, int moJ, int moK, int moL) const;
-   double GetKNRElement    (int moI, int moJ, int moK, int moL) const;
-   double GetKRElement     (int moI, int moJ, int moK, int moL) const;
-   virtual double GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const;
-   void CalcForceExcitedOverlapAOsPart(double* force, 
-                                       int elecStateIndex,
-                                       int indexAtomA,
-                                       int indexAtomB,
-                                       double const* const* const* diatomicOverlapAOs1stDerivs) const;
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
    virtual void CalcCISProperties();
@@ -147,6 +124,29 @@ protected:
    int GetActiveOccIndex(const MolDS_base::Molecule& molecule, int matrixCISIndex) const;
    int GetActiveVirIndex(const MolDS_base::Molecule& molecule, int matrixCISIndex) const;
    void CheckMatrixForce(const std::vector<int>& elecStates);
+   void CalcEtaMatrixForce(const std::vector<int>& elecStates);
+   void CalcZMatrixForce(const std::vector<int>& elecStates);
+   void CalcActiveSetVariablesQ(std::vector<MoIndexPair>* nonRedundantQIndeces, 
+                                std::vector<MoIndexPair>* redundantQIndeces,
+                                int numberActiveOcc,
+                                int numberActiveVir) const;
+   virtual double GetSmallQElement(int moI, 
+                                   int moP, 
+                                   double const* const* xiOcc, 
+                                   double const* const* xiVir,
+                                   double const* const* eta) const;
+   double GetGammaNRElement(int moI, int moJ, int moK, int moL) const;
+   double GetGammaRElement (int moI, int moJ, int moK, int moL) const;
+   double GetNNRElement    (int moI, int moJ, int moK, int moL) const;
+   double GetNRElement     (int moI, int moJ, int moK, int moL) const;
+   double GetKNRElement    (int moI, int moJ, int moK, int moL) const;
+   double GetKRElement     (int moI, int moJ, int moK, int moL) const;
+   virtual double GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const;
+   void CalcForceExcitedOverlapAOsPart(double* force, 
+                                       int elecStateIndex,
+                                       int indexAtomA,
+                                       int indexAtomB,
+                                       double const* const* const* diatomicOverlapAOs1stDerivs) const;
 private:
    std::string errorMessageElecState;
    std::string errorMessageNishimotoMataga;
