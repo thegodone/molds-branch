@@ -82,7 +82,7 @@ Mndo::~Mndo(){
 }
 
 void Mndo::SetMolecule(Molecule* molecule){
-   Cndo2::SetMolecule(molecule);
+   ZindoS::SetMolecule(molecule);
    MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecTwoCore,
                                                 molecule->GetNumberAtoms(),
                                                 molecule->GetNumberAtoms(),

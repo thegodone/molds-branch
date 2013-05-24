@@ -28,6 +28,7 @@ class ZindoS : public MolDS_cndo::Cndo2{
 public:
    ZindoS();
    virtual ~ZindoS();
+   virtual void SetMolecule(MolDS_base::Molecule* molecule);
    void DoCIS();
    void OutputCISResults() const;
    void CalcOverlapSingletSDsWithAnotherElectronicStructure(double** overlapSingletSDs, 
@@ -97,6 +98,8 @@ protected:
    virtual double GetExchangeInt(MolDS_base::OrbitalType orbital1, 
                                  MolDS_base::OrbitalType orbital2, 
                                  const MolDS_base_atoms::Atom& atom) const; // Apendix in [BZ_1979]
+   virtual void CalcTwoElecTwoCore(double****** twoElecTwoCore, 
+                                   const MolDS_base::Molecule& molecule) const;
    virtual double GetMolecularIntegralElement(int moI, 
                                               int moJ, 
                                               int moK, 
@@ -171,6 +174,7 @@ private:
    std::string messageElectronicDipoleMoment;
    std::string messageTransitionDipoleMomentsTitle;
    std::string messageTransitionDipoleMoment;
+   double**** nishimotoMatagaMatrix;
    int    matrixForceElecStatesNum;
    double nishimotoMatagaParamA;
    double nishimotoMatagaParamB;

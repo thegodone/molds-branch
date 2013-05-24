@@ -73,6 +73,7 @@ ZindoS::ZindoS() : MolDS_cndo::Cndo2(){
    this->etaMatrixForce = NULL;
 
    //private variables
+   this->nishimotoMatagaMatrix = NULL;
    this->matrixForceElecStatesNum = 0;
    this->nishimotoMatagaParamA = 1.2;
    this->nishimotoMatagaParamB = 2.4;
@@ -82,6 +83,13 @@ ZindoS::ZindoS() : MolDS_cndo::Cndo2(){
 }
 
 ZindoS::~ZindoS(){
+   if(this->theory==ZINDOS){
+      MallocerFreer::GetInstance()->Free<double>(&this->nishimotoMatagaMatrix, 
+                                                 this->molecule->GetNumberAtoms(), 
+                                                 OrbitalType_end, 
+                                                 this->molecule->GetNumberAtoms(), 
+                                                 OrbitalType_end);
+   }
    MallocerFreer::GetInstance()->Free<double>(&this->matrixCIS, 
                                               this->matrixCISdimension,
                                               this->matrixCISdimension);
@@ -117,6 +125,17 @@ ZindoS::~ZindoS(){
       }
    }
    //this->OutputLog("ZindoS deleted\n");
+}
+
+void ZindoS::SetMolecule(Molecule* molecule){
+   Cndo2::SetMolecule(molecule);
+   if(this->theory==ZINDOS){
+      MallocerFreer::GetInstance()->Malloc<double>(&this->nishimotoMatagaMatrix, 
+                                                   this->molecule->GetNumberAtoms(), 
+                                                   OrbitalType_end, 
+                                                   this->molecule->GetNumberAtoms(), 
+                                                   OrbitalType_end);
+   }
 }
 
 void ZindoS::SetMessages(){
@@ -242,14 +261,10 @@ double ZindoS::GetFockDiagElement(const Atom& atomA,
                sigma = i + atomB.GetFirstAOIndex();
                orbitalSigma = atomB.GetValence(i);
                temp += orbitalElectronPopulationDiagPart[sigma]
-                      *this->GetNishimotoMatagaTwoEleInt(atomA, 
-                                                         orbitalMu, 
-                                                         atomB, 
-                                                         orbitalSigma,
-                                                         rAB);
+                      *this->nishimotoMatagaMatrix[indexAtomA][orbitalMu][B][orbitalSigma];
             }
             temp -= atomB.GetCoreCharge() 
-                   *this->GetNishimotoMatagaTwoEleInt(atomA, s, atomB, s, rAB);
+                   *this->nishimotoMatagaMatrix[indexAtomA][s][B][s];
          }
       }
       value += temp;
@@ -290,7 +305,7 @@ double ZindoS::GetFockOffDiagElement(const Atom& atomA,
       else{
          value = bondParameter*overlapAOs[mu][nu];
          value -= 0.5*orbitalElectronPopulation[mu][nu]
-                  *this->GetNishimotoMatagaTwoEleInt(atomA, orbitalMu, atomB, orbitalNu);
+                  *this->nishimotoMatagaMatrix[indexAtomA][orbitalMu][indexAtomB][orbitalNu];
       }
    }
    return value;
@@ -564,6 +579,11 @@ double ZindoS::GetExchangeInt(OrbitalType orbital1, OrbitalType orbital2, const 
    return value;
 }
 
+void ZindoS::CalcTwoElecTwoCore(double****** twoElecTwoCore, 
+                              const Molecule& molecule) const{
+   this->CalcNishimotoMatagaMatrix(this->nishimotoMatagaMatrix, molecule);
+}
+
 // ref. [MN_1957] and (5a) in [AEZ_1986]
 double ZindoS::GetNishimotoMatagaTwoEleInt(const Atom& atomA, OrbitalType orbitalA, 
                                            const Atom& atomB, OrbitalType orbitalB) const{
@@ -727,6 +747,9 @@ void ZindoS::CalcNishimotoMatagaMatrix(double**** nishimotoMatagaMatrix, const M
                                                                                                         atomB, 
                                                                                                         orbitalNu,
                                                                                                         rAB);
+                  if(A!=B){
+                     nishimotoMatagaMatrix[B][orbitalNu][A][orbitalMu] = nishimotoMatagaMatrix[A][orbitalMu][B][orbitalNu];
+                  }
                }
             }
          }
@@ -944,10 +967,7 @@ double ZindoS::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
                OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
 
                if(A<B){
-                  gamma = this->GetNishimotoMatagaTwoEleInt(atomA, 
-                                                            orbitalMu, 
-                                                            atomB, 
-                                                            orbitalNu);
+                  gamma = this->nishimotoMatagaMatrix[A][orbitalMu][B][orbitalNu];
                   value += gamma
                           *fockMatrix[moI][mu]
                           *fockMatrix[moJ][mu]
@@ -2258,68 +2278,56 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
    this->OutputLog(this->messageStartCalcCISMatrix);
    double ompStartTime = omp_get_wtime();
 
-   int totalNumberAtoms = this->molecule->GetNumberAtoms();
-   double**** nishimotoMatagaMatrix=NULL;
-   try{
-      MallocerFreer::GetInstance()->Malloc<double>(&nishimotoMatagaMatrix, totalNumberAtoms, OrbitalType_end, totalNumberAtoms, OrbitalType_end);
-      this->CalcNishimotoMatagaMatrix(nishimotoMatagaMatrix, *this->molecule);
-
-      stringstream ompErrors;
+   stringstream ompErrors;
 #pragma omp parallel for schedule(auto)
-      for(int k=0; k<this->matrixCISdimension; k++){
-         try{
-            // single excitation from I-th (occupied)MO to A-th (virtual)MO
-            int moI = this->GetActiveOccIndex(*this->molecule, k);
-            int moA = this->GetActiveVirIndex(*this->molecule, k);
+   for(int k=0; k<this->matrixCISdimension; k++){
+      try{
+         // single excitation from I-th (occupied)MO to A-th (virtual)MO
+         int moI = this->GetActiveOccIndex(*this->molecule, k);
+         int moA = this->GetActiveVirIndex(*this->molecule, k);
 
-            for(int l=k; l<this->matrixCISdimension; l++){
-               // single excitation from J-th (occupied)MO to B-th (virtual)MO
-               int moJ = this->GetActiveOccIndex(*this->molecule, l);
-               int moB = this->GetActiveVirIndex(*this->molecule, l);
+         for(int l=k; l<this->matrixCISdimension; l++){
+            // single excitation from J-th (occupied)MO to B-th (virtual)MO
+            int moJ = this->GetActiveOccIndex(*this->molecule, l);
+            int moB = this->GetActiveVirIndex(*this->molecule, l);
 
-               // Fast algorithm, but this is not easy to read. Slow algorithm is also written below.
-               if(k<l){
-                  // Off diagonal term (right upper)
-                  matrixCIS[k][l] = this->GetCISOffDiagElement(nishimotoMatagaMatrix, *this->molecule, this->fockMatrix, moI, moA, moJ, moB);
-               }
-               else if(k==l){
-                  // Diagonal term
-                  matrixCIS[k][l] = this->GetCISDiagElement(energiesMO, nishimotoMatagaMatrix, *this->molecule, this->fockMatrix, moI, moA);
-               } 
-               // End of the fast algorith.
-
-               /*// Slow algorith, but this is easy to read. Fast altorithm is also written above.
-               double value=0.0;
-               value = 2.0*this->GetMolecularIntegralElement(moA, moI, moJ, moB, 
-                                                             *this->molecule, 
-                                                             this->fockMatrix, 
-                                                             NULL)
-                          -this->GetMolecularIntegralElement(moA, moB, moI, moJ, 
-                                                             *this->molecule, 
-                                                             this->fockMatrix, 
-                                                             NULL);
-               if(k==l){
-                  value += this->energiesMO[moA] - this->energiesMO[moI];
-               }
-               matrixCIS[k][l] = value;
-               // End of the slow algorith. */
+            // Fast algorithm, but this is not easy to read. Slow algorithm is also written below.
+            if(k<l){
+               // Off diagonal term (right upper)
+               matrixCIS[k][l] = this->GetCISOffDiagElement(this->nishimotoMatagaMatrix, *this->molecule, this->fockMatrix, moI, moA, moJ, moB);
             }
+            else if(k==l){
+               // Diagonal term
+               matrixCIS[k][l] = this->GetCISDiagElement(energiesMO, this->nishimotoMatagaMatrix, *this->molecule, this->fockMatrix, moI, moA);
+            } 
+            // End of the fast algorith.
+
+            /*// Slow algorith, but this is easy to read. Fast altorithm is also written above.
+            double value=0.0;
+            value = 2.0*this->GetMolecularIntegralElement(moA, moI, moJ, moB, 
+                                                          *this->molecule, 
+                                                          this->fockMatrix, 
+                                                          NULL)
+                       -this->GetMolecularIntegralElement(moA, moB, moI, moJ, 
+                                                          *this->molecule, 
+                                                          this->fockMatrix, 
+                                                          NULL);
+            if(k==l){
+               value += this->energiesMO[moA] - this->energiesMO[moI];
+            }
+            matrixCIS[k][l] = value;
+            // End of the slow algorith. */
          }
-         catch(MolDSException ex){
-#pragma omp critical
-            ompErrors << ex.what() << endl ;
-         }
-      } // end of k-loop
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException(ompErrors.str());
       }
+      catch(MolDSException ex){
+#pragma omp critical
+         ompErrors << ex.what() << endl ;
+      }
+   } // end of k-loop
+   // Exception throwing for omp-region
+   if(!ompErrors.str().empty()){
+      throw MolDSException(ompErrors.str());
    }
-   catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&nishimotoMatagaMatrix, totalNumberAtoms, OrbitalType_end, totalNumberAtoms, OrbitalType_end);
-      throw ex;
-   }
-   MallocerFreer::GetInstance()->Free<double>(&nishimotoMatagaMatrix, totalNumberAtoms, OrbitalType_end, totalNumberAtoms, OrbitalType_end);
    double ompEndTime = omp_get_wtime();
    this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCalcCISMarix.c_str()
                                                 % (ompEndTime - ompStartTime)
@@ -3028,11 +3036,7 @@ double ZindoS::GetSmallQElement(int moI,
                for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
                   const OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
                   double twoElecInt = 0.0;
-                  twoElecInt = this->GetNishimotoMatagaTwoEleInt(atomA, 
-                                                                 orbitalMu, 
-                                                                 atomB, 
-                                                                 orbitalLambda,
-                                                                 rAB);
+                  twoElecInt = this->nishimotoMatagaMatrix[A][orbitalMu][B][orbitalLambda];
                   double temp = 0.0;
                   if(isMoPOcc){
                      int p = numberOcc - (moP+1);
@@ -3422,11 +3426,7 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
                           *this->fockMatrix[moJ][lambda];
                double gamma = 0.0;
                if(A!=B){
-                  gamma = this->GetNishimotoMatagaTwoEleInt(atomA, 
-                                                            orbitalMu, 
-                                                            atomB, 
-                                                            orbitalLambda,
-                                                            this->molecule->GetDistanceAtoms(atomA, atomB));
+                  gamma = this->nishimotoMatagaMatrix[A][orbitalMu][B][orbitalLambda];
                }
                else{
                   gamma = 0.5*this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
