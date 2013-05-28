@@ -123,18 +123,6 @@ void Am1::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(S);
 }
 
-double Am1::GetAdditionalDiatomCoreRepulsionTerm(double k, double l, double m, double distance) const{
-   return k*exp(-l*pow(distance-m,2.0));
-}
-
-double Am1::GetAdditionalDiatomCoreRepulsionTerm1stDerivative(double k, double l, double m, double distance) const{
-   return -2.0*l*(distance-m)*k*exp(-l*pow(distance-m,2.0));
-}
-
-double Am1::GetAdditionalDiatomCoreRepulsionTerm2ndDerivative(double k, double l, double m, double distance) const{
-   return (-2.0*l + pow(2.0*l*(distance-m),2.0))*k*exp(-l*pow(distance-m,2.0));
-}
-
 double Am1::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
    // MNDO term
    double mndoTerm = Mndo::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
