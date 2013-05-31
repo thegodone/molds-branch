@@ -3183,21 +3183,26 @@ void ZindoS::CalcAuxiliaryVector(double* y,
    MallocerFreer::GetInstance()->Initialize<double>(
                                  y,
                                  nonRedundantQIndeces.size());
+   MolDS_wrappers::Blas::GetInstance()->Dgemv(nonRedundantQIndeces.size(),
+                                              redundantQIndeces.size(),
+                                              kRDagerGammaRInv,
+                                              &(q[nonRedundantQIndeces.size()]),
+                                              y);
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel
+#pragma omp single nowait
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
-      try{
-         int moI = nonRedundantQIndeces[i].moI;
-         int moJ = nonRedundantQIndeces[i].moJ;
-         y[i] += q[i]/this->GetNNRElement(moI, moJ, moI, moJ);
-         for(int j=0; j<redundantQIndeces.size(); j++){
-            int k = nonRedundantQIndeces.size() + j; 
-            y[i] += kRDagerGammaRInv[i][j]*q[k];
+#pragma omp task
+      {
+         try{
+            int moI = nonRedundantQIndeces[i].moI;
+            int moJ = nonRedundantQIndeces[i].moJ;
+            y[i] += q[i]/this->GetNNRElement(moI, moJ, moI, moJ);
          }
-      }
-      catch(MolDSException ex){
+         catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+            ompErrors << ex.what() << endl ;
+         }
       }
    }
    // Exception throwing for omp-region

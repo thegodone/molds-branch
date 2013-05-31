@@ -44,7 +44,7 @@ public:
    void CalcBasics();
    void CalcBasicsConfiguration();
    int GetTotalNumberAOs() const;
-   int GetTotalNumberValenceElectrons() const;
+   inline int GetTotalNumberValenceElectrons() const{return this->totalNumberValenceElectrons;}
    double GetTotalCoreMass() const;
    void OutputXyzCOM() const;
    void OutputXyzCOC() const;
