@@ -290,10 +290,6 @@ void Molecule::CalcTotalNumberAOs(){
    }
 }
 
-int Molecule::GetTotalNumberValenceElectrons() const{
-   return this->totalNumberValenceElectrons;
-}
-
 void Molecule::CalcTotalNumberValenceElectrons(){
    this->totalNumberValenceElectrons = 0; 
    for(int i=0; i<this->atomVect->size(); i++){
