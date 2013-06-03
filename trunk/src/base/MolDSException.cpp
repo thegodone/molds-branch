@@ -16,20 +16,35 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
+#include<execinfo.h>
 #include<string>
 #include<stdexcept>
 #include<boost/format.hpp>
 #include"MolDSException.h"
 using namespace std;
 namespace MolDS_base{
-MolDSException::MolDSException(string cause) : domain_error(cause){
+MolDSException::MolDSException(string cause) : domain_error(cause), backtraceSize(0){
+   this->GetBacktrace(80);
 }
 
-MolDSException::MolDSException(const boost::format& cause) : domain_error(cause.str()){
+MolDSException::MolDSException(const boost::format& cause) : domain_error(cause.str()), backtraceSize(0){
+   this->GetBacktrace(80);
+}
+
+void MolDSException::GetBacktrace(int bufsize){
+   backtracePtr.reset(new void*[bufsize]);
+   this->backtraceSize = backtrace(this->backtracePtr.get(), bufsize);
+   if(this->backtraceSize==bufsize){
+      GetBacktrace(bufsize*2);
+   }
+}
+
+void MolDSException::PrintBacktrace(){
+   if(this->backtraceSize <= 0){
+      return;
+   }
+   cout<<"backtrace:" << endl;
+   backtrace_symbols_fd(this->backtracePtr.get(), this->backtraceSize, 1);
 }
 }
-
-
-
-
 
