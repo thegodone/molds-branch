@@ -18,6 +18,7 @@
 //************************************************************************//
 #ifndef INCLUDED_MOLDSEXCEPTION
 #define INCLUDED_MOLDSEXCEPTION
+#include<boost/shared_array.hpp>
 namespace MolDS_base{
 class MolDSException : public std::domain_error {
 public:
@@ -25,7 +26,12 @@ public:
 #ifdef BOOST_FORMAT_HPP
    MolDSException(const boost::format& cause);
 #endif
+   ~MolDSException() throw(){};
+   void PrintBacktrace();
 private:
+   void GetBacktrace(int bufsize);
+   size_t backtraceSize;
+   boost::shared_array<void*> backtracePtr;
 };
 }
 #endif
