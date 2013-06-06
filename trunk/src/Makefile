@@ -51,7 +51,7 @@ depend:
 	+make $(DEPFILE)
 
 $(DEPFILE): Makefile
-	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h$$/h\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS) -c /g' > $(DEPFILE)
+	$(CC) -MM $(ALL_CPP_FILES) -I$(BOOST_INC_DIR) | sed 's/^\([^ ]\)/obj\/\1/g' | sed 's/\($$*\)\.o[ :]*/\1.o : /g' | sed 's/h\(pp\)\?$$/h\1\n\t$$(CC) -I$$(BOOST_INC_DIR) -o $$@ $$< $$(CFLAGS) -c /g' > $(DEPFILE)
 
 .PHONY: clean
 clean:
