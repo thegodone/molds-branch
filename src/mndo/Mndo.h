@@ -21,7 +21,7 @@
 namespace MolDS_mndo{
 
 /***
- *  Main Refferences for MNDO are [DT_1977, DT_1977-2, DT_1977-3]
+ *  Main References for MNDO are [DT_1977, DT_1977-2, DT_1977-3]
  */
 class Mndo : public MolDS_zindo::ZindoS{
 public:

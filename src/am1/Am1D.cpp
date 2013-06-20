@@ -51,7 +51,7 @@ using namespace MolDS_base_atoms;
 namespace MolDS_am1{
 
 /***
- *  Main Refferences for AM1-D are [MH_2007, MMHBV_2007]
+ *  Main References for AM1-D are [MH_2007, MMHBV_2007]
  */
 Am1D::Am1D() : MolDS_am1::Am1(){
    this->theory = AM1D;

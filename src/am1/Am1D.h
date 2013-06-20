@@ -21,7 +21,7 @@
 namespace MolDS_am1{
 
 /***
- *  Main Refferences for AM1-D are [MH_2007, MMHBV_2007]
+ *  Main References for AM1-D are [MH_2007, MMHBV_2007]
  */
 class Am1D : public MolDS_am1::Am1{
 public:

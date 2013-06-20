@@ -22,7 +22,7 @@
 namespace MolDS_zindo{
 
 /***
- *  Main Refference for Zindo is [RZ_1973]
+ *  Main Reference for Zindo is [RZ_1973]
  */
 class ZindoS : public MolDS_cndo::Cndo2{
 public:

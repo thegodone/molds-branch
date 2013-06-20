@@ -21,7 +21,7 @@
 namespace MolDS_am1{
 
 /***
- *  Main Refferences for AM1 are [DZHS_1985, DY_1990]
+ *  Main References for AM1 are [DZHS_1985, DY_1990]
  */
 class Am1 : public MolDS_mndo::Mndo{
 public:

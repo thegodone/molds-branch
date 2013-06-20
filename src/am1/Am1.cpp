@@ -49,7 +49,7 @@ using namespace MolDS_base_atoms;
 namespace MolDS_am1{
 
 /***
- *  Main Refferences for AM1 are [DZHS_1985, DY_1990]
+ *  Main References for AM1 are [DZHS_1985, DY_1990]
  */
 Am1::Am1() : MolDS_mndo::Mndo(){
    this->theory = AM1;

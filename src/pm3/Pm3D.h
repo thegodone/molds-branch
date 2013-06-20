@@ -21,7 +21,7 @@
 namespace MolDS_pm3{
 
 /***
- *  Main Refferences for PM3-D are [MH_2007, MMHBV_2007]
+ *  Main References for PM3-D are [MH_2007, MMHBV_2007]
  */
 class Pm3D : public MolDS_pm3::Pm3{
 public:
