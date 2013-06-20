@@ -51,7 +51,7 @@ using namespace MolDS_base_atoms;
 namespace MolDS_pm3{
 
 /***
- *  Main Refferences for PM3 are [S_1989, S_1989-2, S_1991, S_2004, S_2007]
+ *  Main References for PM3 are [S_1989, S_1989-2, S_1991, S_2004, S_2007]
  */
 Pm3::Pm3() : MolDS_am1::Am1(){
    this->theory = PM3;

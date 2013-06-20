@@ -59,7 +59,7 @@ using namespace MolDS_base_atoms;
 namespace MolDS_cndo{
 
 /***
- *  Refferences for Cndo2 are [PB_1970], [PSS_1965], and [PS_1965].
+ *  References for Cndo2 are [PB_1970], [PSS_1965], and [PS_1965].
  */
 Cndo2::Cndo2(){
    //protected variables

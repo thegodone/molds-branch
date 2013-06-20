@@ -21,7 +21,7 @@
 namespace MolDS_indo{
 
 /***
- *  Refferences for Indo are [PB_1970] and [PS_1966].
+ *  References for Indo are [PB_1970] and [PS_1966].
  */
 class Indo : public MolDS_cndo::Cndo2{
 public:

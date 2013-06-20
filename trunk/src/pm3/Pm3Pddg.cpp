@@ -52,7 +52,7 @@ using namespace MolDS_base_atoms;
 namespace MolDS_pm3{
 
 /***
- *  Main Refferences for PM3/PDDG are [RCJ_2002, BGRJ_2003, and BGJ_2003]
+ *  Main References for PM3/PDDG are [RCJ_2002, BGRJ_2003, and BGJ_2003]
  */
 Pm3Pddg::Pm3Pddg() : MolDS_pm3::Pm3(){
    this->theory = PM3PDDG;

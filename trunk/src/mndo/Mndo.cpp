@@ -53,7 +53,7 @@ using namespace MolDS_base_atoms;
 namespace MolDS_mndo{
 
 /***
- *  Main Refferences for MNDO are [DT_1977, DT_1977-2, DT_1977-3]
+ *  Main References for MNDO are [DT_1977, DT_1977-2, DT_1977-3]
  */
 Mndo::Mndo() : MolDS_zindo::ZindoS(){
    // protedted variables and methods

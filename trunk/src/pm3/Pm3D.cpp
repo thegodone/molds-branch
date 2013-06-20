@@ -52,7 +52,7 @@ using namespace MolDS_base_atoms;
 namespace MolDS_pm3{
 
 /***
- *  Main Refferences for PM3-D are [MH_2007, MMHBV_2007]
+ *  Main References for PM3-D are [MH_2007, MMHBV_2007]
  */
 Pm3D::Pm3D() : MolDS_pm3::Pm3(){
    this->theory = PM3D;
