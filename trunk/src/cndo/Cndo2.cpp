@@ -905,9 +905,20 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
       hasAppliedDIIS = false;
       if(diisNumErrorVect <= step && diisEndError<diisError && diisError<diisStartError){
          hasAppliedDIIS = true;
-         MolDS_wrappers::Lapack::GetInstance()->Dsysv(diisErrorProducts, 
-                                                      diisErrorCoefficients, 
-                                                      diisNumErrorVect+1);
+         try{
+            MolDS_wrappers::Lapack::GetInstance()->Dsysv(diisErrorProducts, 
+                                                         diisErrorCoefficients, 
+                                                         diisNumErrorVect+1);
+         }catch(MolDSException ex){
+            if(ex.HasKey(LapackInfo) && ex.GetKeyValue<int>(LapackInfo) > 0){
+               // DIIS matrix is now singular, so not taking DIIS step.
+               hasAppliedDIIS = false;
+               return;
+            }
+            else{
+               throw ex;
+            }
+         }
          for(int j=0; j<totalNumberAOs; j++){
             for(int k=0; k<totalNumberAOs; k++){
                orbitalElectronPopulation[j][k] = 0.0;
