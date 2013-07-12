@@ -25,9 +25,10 @@
 #include<stdexcept>
 #include<boost/shared_ptr.hpp>
 #include<boost/format.hpp>
+#include"../Uncopyable.h"
+#include"../../mpi/MpiProcess.h"
 #include"../PrintController.h"
 #include"../MolDSException.h"
-#include"../Uncopyable.h"
 #include"../Enums.h"
 #include"../MallocerFreer.h"
 #include"../EularAngle.h"

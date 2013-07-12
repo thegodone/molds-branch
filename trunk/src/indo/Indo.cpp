@@ -25,9 +25,10 @@
 #include<vector>
 #include<stdexcept>
 #include<boost/format.hpp>
+#include"../base/Uncopyable.h"
+#include"../mpi/MpiProcess.h"
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
-#include"../base/Uncopyable.h"
 #include"../base/EularAngle.h"
 #include"../base/Enums.h"
 #include"../base/atoms/Atom.h"

@@ -24,6 +24,13 @@
 #include<string>
 #include<stdexcept>
 #include<boost/format.hpp>
+#include"../base/Uncopyable.h"
+#include"../mpi/MpiProcess.h"
+#include"../base/PrintController.h"
+#include"../base/MolDSException.h"
+#include"../base/Enums.h"
+#include"Lapack.h"
+
 #ifdef __INTEL_COMPILER
 #include"mkl.h"
 #else
@@ -34,11 +41,6 @@
 #endif
 #include"lapacke.h"
 #endif
-#include"../base/PrintController.h"
-#include"../base/MolDSException.h"
-#include"../base/Uncopyable.h"
-#include"../base/Enums.h"
-#include"Lapack.h"
 
 #ifdef __INTEL_COMPILER
 #define MOLDS_LAPACK_malloc(a,b) mkl_malloc(a,b)

@@ -289,7 +289,7 @@ private:
    std::vector<int>* electronicStateIndecesMullikenCIS;
    bool              requiresUnpairedPopCIS;
    // Memory
-   double limitHeapMemory;
+   double limitHeapMemory; // in [MB]
    // MD
    int    electronicStateIndexMD;
    int    totalStepsMD;
