@@ -326,8 +326,6 @@ mklNumThreads = "2"
 ompNumThreads = "2"
 testerOmp.doesTestOmp(mklNumThreads,ompNumThreads)
 
-prefix = "c2h6_mndo_davidsonCIS_singlet_force"
-testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
 prefix = "ch4_mndo"
 testerOmp = TesterOmp.new(prefix, <<"SECTION", <<"TITLE")
 -------------------------------------------
