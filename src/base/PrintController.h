@@ -42,6 +42,9 @@ protected:
    }
    void OutputLog(std::string log) const{
       if(this->canOutputLogs){
+#ifndef MOLDS_DBG
+         if(MolDS_mpi::MpiProcess::GetInstance()->GetRank()!=0){return;}
+#endif
          bool endl = false;
          std::string::reverse_iterator iter;
          for(iter = log.rbegin(); iter != log.rend(); iter++){

@@ -25,6 +25,8 @@
 #include<time.h>
 #include<omp.h>
 #include<boost/format.hpp>
+#include"Uncopyable.h"
+#include"../mpi/MpiProcess.h"
 #include"PrintController.h"
 #include"Utilities.h"
 using namespace std;

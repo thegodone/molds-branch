@@ -28,9 +28,10 @@
 #include<stdexcept>
 #include<omp.h>
 #include<boost/format.hpp>
+#include"../Uncopyable.h"
+#include"../../mpi/MpiProcess.h"
 #include"../PrintController.h"
 #include"../MolDSException.h"
-#include"../Uncopyable.h"
 #include"../Utilities.h"
 #include"../Enums.h"
 #include"../EularAngle.h"

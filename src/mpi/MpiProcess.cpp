@@ -19,31 +19,57 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
-#include<vector>
+#include<sstream>
+#include<math.h>
+#include<string>
 #include<stdexcept>
-#include<boost/shared_ptr.hpp>
-#include<boost/format.hpp>
-#include"base/Uncopyable.h"
-#include"mpi/MpiProcess.h"
-#include"base/PrintController.h"
-#include"base/MolDSException.h"
-#include"base/Enums.h"
-#include"base/EularAngle.h"
-#include"base/atoms/Atom.h"
-#include"base/Molecule.h"
-#include"base/MolDS.h"
+#include"../base/MolDSException.h"
+#include"../base/Uncopyable.h"
+#include"MpiProcess.h"
 using namespace std;
-using namespace MolDS_base;
-int main(int argc, char *argv[]){
-   try{
-      MolDS_mpi::MpiProcess::CreateInstance(argc, argv);
-      boost::shared_ptr<MolDS_base::MolDS> molds(new MolDS_base::MolDS());
-      molds->Run(argc, argv);
-      MolDS_mpi::MpiProcess::DeleteInstance();
-   }
-   catch(exception ex){
-      cout << ex.what();
-   }
-   return 0;
+namespace MolDS_mpi{
+
+MpiProcess* MpiProcess::mpiProcess = NULL;
+
+MpiProcess::MpiProcess(){
 }
+
+MpiProcess::MpiProcess(int argc, char *argv[]){
+   this->environment  = new boost::mpi::environment(argc, argv);
+   this->communicator = new boost::mpi::communicator();
+   this->messageLimit = INT_MAX;
+}
+
+MpiProcess::~MpiProcess(){
+   delete this->environment;
+   delete this->communicator;
+}
+
+void MpiProcess::CreateInstance(int argc, char *argv[]){
+   if(mpiProcess != NULL){
+      // ToDo: error
+   }
+   mpiProcess = new MpiProcess(argc, argv);
+}
+
+void MpiProcess::DeleteInstance(){
+   if(mpiProcess != NULL){
+      delete mpiProcess; 
+   }
+   mpiProcess = NULL;
+}
+
+MpiProcess* MpiProcess::GetInstance(){
+   if(mpiProcess == NULL){
+      //mpiProcess = new MpiProcess();
+      // ToDo: error
+   }
+   return mpiProcess;
+}
+
+}
+
+
+
+
 

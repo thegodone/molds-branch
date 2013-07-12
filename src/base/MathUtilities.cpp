@@ -24,9 +24,10 @@
 #include<stdexcept>
 #include<boost/format.hpp>
 #include<boost/math/special_functions/factorials.hpp>
+#include"Uncopyable.h"
+#include"../mpi/MpiProcess.h"
 #include"PrintController.h"
 #include"MolDSException.h"
-#include"Uncopyable.h"
 #include"../wrappers/Lapack.h"
 #include"Enums.h"
 #include"MathUtilities.h"
