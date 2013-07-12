@@ -152,6 +152,11 @@ RENUMSTR_BEGIN( MultipoleType, MultipoleTypeStr )
    RENUMSTR( MultipoleType_end,  "MultipoleType_end" )
 RENUMSTR_END()
 
+RENUMSTR_BEGIN( ExceptionKey, ExceptionKeyStr )
+   RENUMSTR( LapackInfo, "LapackInfo" )
+   RENUMSTR( ExceptionKey_end,  "ExceptionKey_end" )
+RENUMSTR_END()
+
 }
 #endif
 
