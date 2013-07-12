@@ -18,6 +18,7 @@
 //************************************************************************//
 #ifndef INCLUDED_MOLDSEXCEPTION
 #define INCLUDED_MOLDSEXCEPTION
+#include<map>
 #include<boost/shared_array.hpp>
 namespace MolDS_base{
 class MolDSException : public std::domain_error {
@@ -28,10 +29,20 @@ public:
 #endif
    ~MolDSException() throw(){};
    void PrintBacktrace();
+   template <class T>
+   T GetKeyValue(int key);
+   template <class T>
+   void SetKeyValue(int key, T value);
+   bool HasKey(int key);
+   virtual const char* what() const throw();
 private:
    void GetBacktrace(int bufsize);
    size_t backtraceSize;
    boost::shared_array<void*> backtracePtr;
+   typedef std::map<int, int> intKeyValueMap_t;
+   intKeyValueMap_t intKeyValueMap;
+   //typedef std::map<int, other> otherKeyValueMap_t;
+   //otherKeyValueMap_t otherKeyValueMap;
 };
 }
 #endif
