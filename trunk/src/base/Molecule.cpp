@@ -266,10 +266,6 @@ void Molecule::CalcDistanceMatrix(){
    }
 }
 
-int Molecule::GetTotalNumberAOs() const{
-   return this->totalNumberAOs;
-}
-
 void Molecule::CalcBasics(){
    this->CalcTotalNumberAOs();
    this->CalcTotalNumberValenceElectrons();
@@ -296,10 +292,6 @@ void Molecule::CalcTotalNumberValenceElectrons(){
    for(int i=0; i<this->atomVect->size(); i++){
       this->totalNumberValenceElectrons += (*this->atomVect)[i]->GetNumberValenceElectrons();
    }
-}
-
-double Molecule::GetTotalCoreMass() const{
-   return this->totalCoreMass;
 }
 
 void Molecule::CalcTotalCoreMass(){
@@ -678,13 +670,13 @@ void Molecule::OutputTranslatingConditions(double const* translatingDifference) 
       % (translatingDifference[2]/angst2AU));
 }
 
-double Molecule::GetDistanceAtoms(int indexAtomA, int indexAtomB) const{
-   return this->distanceMatrix[indexAtomA][indexAtomB];
-}
-
-double Molecule::GetDistanceAtoms(const Atom& atomA, const Atom& atomB) const{
-   return this->GetDistanceAtoms(atomA.GetIndex(), atomB.GetIndex());
-}
+//double Molecule::GetDistanceAtoms(int indexAtomA, int indexAtomB) const{
+//   return this->distanceMatrix[indexAtomA][indexAtomB];
+//}
+//
+//double Molecule::GetDistanceAtoms(const Atom& atomA, const Atom& atomB) const{
+//   return this->GetDistanceAtoms(atomA.GetIndex(), atomB.GetIndex());
+//}
 
 void Molecule::SynchronizeConfigurationTo(const Molecule& ref){
    for(int a=0; a<this->GetNumberAtoms(); a++){

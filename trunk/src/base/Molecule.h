@@ -43,9 +43,9 @@ public:
    double const* GetXyzCOC() const;
    void CalcBasics();
    void CalcBasicsConfiguration();
-   int GetTotalNumberAOs() const;
+   int GetTotalNumberAOs() const{return this->totalNumberAOs;}
    inline int GetTotalNumberValenceElectrons() const{return this->totalNumberValenceElectrons;}
-   double GetTotalCoreMass() const;
+   double GetTotalCoreMass() const{return this->totalCoreMass;};
    void OutputXyzCOM() const;
    void OutputXyzCOC() const;
    void OutputTotalNumberAtomsAOsValenceelectrons() const;
@@ -54,9 +54,9 @@ public:
    void CalcPrincipalAxes();
    void Rotate();
    void Translate();
-   double GetDistanceAtoms(int indexAtomA, int indexAtomB) const;
+   double GetDistanceAtoms(int indexAtomA, int indexAtomB) const{return this->distanceMatrix[indexAtomA][indexAtomB];};
    double GetDistanceAtoms(const MolDS_base_atoms::Atom& atomA, 
-                           const MolDS_base_atoms::Atom& atomB) const;
+                           const MolDS_base_atoms::Atom& atomB) const{return this->GetDistanceAtoms(atomA.GetIndex(), atomB.GetIndex());};
    void SynchronizeConfigurationTo  (const Molecule& ref);
    void SynchronizeMomentaTo        (const Molecule& ref);
    void SynchronizePhaseSpacePointTo(const Molecule& ref);
