@@ -19,7 +19,7 @@
 #//************************************************************************//
 CC = mpiicpc
 CFLAGS = -O0
-override CFLAGS += -openmp -openmp-report2 -DMKL_INT=intptr_t
+override CFLAGS += -openmp -DMKL_INT=intptr_t
 ifeq ($(INTEL), 64)
 override CFLAGS += -DMKL_ILP64
 endif
