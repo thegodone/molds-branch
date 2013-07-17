@@ -20,6 +20,7 @@
 #include<sstream>
 #include<string>
 #include<stdexcept>
+#include<iostream>
 #include<boost/format.hpp>
 #include"MolDSException.h"
 #include"Enums.h"
