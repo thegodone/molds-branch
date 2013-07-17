@@ -29,6 +29,7 @@
 #include<omp.h>
 #include<boost/shared_ptr.hpp>
 #include<boost/random.hpp>
+#include<boost/format.hpp>
 #include"Uncopyable.h"
 #include"../mpi/MpiProcess.h"
 #include"PrintController.h"

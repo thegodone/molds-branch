@@ -201,8 +201,8 @@ void NASCO::DecideNextElecState(int* elecState,
                                 int* nonAdiabaticPhaseIndex,
                                 int numElecStates,
                                 double const* const* overlapESs,
-                                boost::random::variate_generator<
-                                   boost::random::mt19937&,
+                                boost::variate_generator<
+                                   boost::mt19937&,
                                    boost::uniform_real<>
                                 > (*realRand)) const{
    double normalizedConstantHoppProbability=0.0;

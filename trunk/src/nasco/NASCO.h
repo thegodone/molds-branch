@@ -62,8 +62,8 @@ private:
                             int* nonAdiabaticPhaseIndex,
                             int numElecStates,
                             double const* const* overlapESs,
-                            boost::random::variate_generator<
-                               boost::random::mt19937&,
+                            boost::variate_generator<
+                               boost::mt19937&,
                                boost::uniform_real<>
                             > (*realRand)) const;
    void OutputEnergies(const MolDS_base::ElectronicStructure& electronicStructure, 
