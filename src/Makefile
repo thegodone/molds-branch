@@ -26,7 +26,7 @@ endif
 BOOST_TOP_DIR = /usr/local/boost/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)include/
 BOOST_LIB_DIR = $(BOOST_TOP_DIR)lib/
-BOOST_LIBS    = -lboost_mpi
+BOOST_LIBS    = -lboost_serialization -lboost_mpi 
 LIBSBASE = -lmkl_intel_thread -lmkl_core -liomp5 -lpthread
 ifeq ($(INTEL), 64)
 LIBS = -lmkl_intel_ilp64 $(LIBSBASE) $(BOOST_LIBS)
