@@ -147,8 +147,8 @@ void MC::DoMC(int totalSteps, int elecState, double temperature, double stepWidt
 
 void MC::CreateTrialConfiguration(Molecule* trial,
                                   const Molecule& current,
-                                  boost::random::variate_generator<
-                                     boost::random::mt19937&,
+                                  boost::variate_generator<
+                                     boost::mt19937&,
                                      boost::uniform_real<>
                                   > (*realRand),
                                   double stepWidth) const{
@@ -181,8 +181,8 @@ void MC::CreateTrialConfiguration(Molecule* trial,
 bool MC::UsesTrial(const ElectronicStructure& currentES, 
                    const ElectronicStructure& trialES,
                    int elecState,
-                   boost::random::variate_generator<
-                     boost::random::mt19937&,
+                   boost::variate_generator<
+                     boost::mt19937&,
                      boost::uniform_real<>
                    > (*realRand),
                    double temperature) const{

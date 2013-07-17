@@ -50,16 +50,16 @@ private:
    void SetMessages();
    void CreateTrialConfiguration(MolDS_base::Molecule* trial,
                                  const MolDS_base::Molecule& current,
-                                 boost::random::variate_generator<
-                                    boost::random::mt19937&,
+                                 boost::variate_generator<
+                                    boost::mt19937&,
                                     boost::uniform_real<>
                                  > (*realRand),
                                  double dr) const;
    bool UsesTrial(const MolDS_base::ElectronicStructure& currentES, 
                   const MolDS_base::ElectronicStructure& trialES,
                   int elecState,
-                  boost::random::variate_generator<
-                     boost::random::mt19937&,
+                  boost::variate_generator<
+                     boost::mt19937&,
                      boost::uniform_real<>
                   > (*realRand),
                   double temperature) const;

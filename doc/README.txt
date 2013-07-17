@@ -35,7 +35,7 @@ REQUIREMENTS:
    To compile MolDS with GNU, furthermore, openBLAS (version 0.2.5 or later) is also required. 
 
    To get and install the boost-libraries, see the HP:<http://www.boost.org/>.
-   The version of the boost would be no problem if 1.48.0 or later is used.
+   The version of the boost would be no problem if 1.46.0 or later is used.
    Especially, the boost-libraries should be builded with MPI 
    because MolDS needs boost_mpi-library(i.e. -lboost_mpi).
 
@@ -528,8 +528,8 @@ HOW TO WRITE INPUT:
           NASCO_END
    
        -options
-        "total_steps", "num_electronic_states", "initial_electronic_state", "seed", 
-        and "dt" are prepared as options.
+        "total_steps", "num_electronic_states", "initial_electronic_state", "mulliken", 
+        "seed", and "dt" are prepared as options.
  
         The default value of the "total_steps" is 10. 
  
@@ -545,6 +545,11 @@ HOW TO WRITE INPUT:
         The "initial_electronic_state should be less than the "num_electronic_states".
         i.e., "initial_electronic_state=3" with "num_electronic_states=3" leads to error.
         The default value of the "initial_electronic_state" is 0.
+
+        "mulliken" is an option to calculate the Mulliken population of the eigenstate
+        on which the nonadiabatic trajectory runs at each time step.
+        This "mulliken" should be set as "yes" or "no". 
+        The default value of "mulliken" is "no".
  
         "seed" means the seed of the random-number-generator.
         The random numbers are used for trajectory-hopping.
@@ -560,6 +565,7 @@ HOW TO WRITE INPUT:
           NASCO
              total_steps 50
              num_electronic_states 10
+             mulliken yes
              seed 398
              dt 0.05
           NASCO_END
