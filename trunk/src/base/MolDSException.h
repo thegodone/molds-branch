@@ -20,6 +20,7 @@
 #define INCLUDED_MOLDSEXCEPTION
 #include<map>
 #include<boost/shared_array.hpp>
+#include<boost/serialization/access.hpp>
 namespace MolDS_base{
 class MolDSException : public std::domain_error {
 public:
@@ -35,6 +36,8 @@ public:
    void SetKeyValue(int key, T value);
    bool HasKey(int key);
    virtual const char* what() const throw();
+   void Serialize(std::ostream& os);
+   static MolDSException Deserialize(std::istream& is);
 private:
    void GetBacktrace(int bufsize);
    size_t backtraceSize;
@@ -43,6 +46,9 @@ private:
    intKeyValueMap_t intKeyValueMap;
    //typedef std::map<int, other> otherKeyValueMap_t;
    //otherKeyValueMap_t otherKeyValueMap;
+   friend class boost::serialization::access;
+   template<class Archive>
+   void serialize(Archive& ar, const unsigned int ver);
 };
 }
 #endif

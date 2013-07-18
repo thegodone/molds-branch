@@ -22,6 +22,9 @@
 #include<stdexcept>
 #include<iostream>
 #include<boost/format.hpp>
+#include<boost/serialization/map.hpp>
+#include<boost/archive/text_iarchive.hpp>
+#include<boost/archive/text_oarchive.hpp>
 #include"MolDSException.h"
 #include"Enums.h"
 using namespace std;
@@ -89,5 +92,47 @@ const char* MolDSException::what() const throw(){
    }
    str = ss.str();
    return str.c_str();
+}
+
+template<class Archive>
+void MolDSException::serialize(Archive& ar, const unsigned int ver){
+   ar & intKeyValueMap;
+   // ar & otherKeyValueMap;
+
+   ar & backtraceSize;
+   std::cerr << "backtraceSize:" << backtraceSize << std::endl;
+   if(!Archive::is_saving::value){
+      backtracePtr.reset(new void*[backtraceSize]);
+   }
+   for(int i; i<backtraceSize; i++){
+      if(Archive::is_saving::value){
+         intptr_t p = reinterpret_cast<intptr_t>(backtracePtr[i]);
+         ar & p;
+         std::cerr << "in: " << p << std::endl;
+      }
+      else{
+         intptr_t p;
+         ar & p;
+         std::cerr << "out:" << p << std::endl;
+         backtracePtr[i]=reinterpret_cast<void*>(p);
+      }
+   }
+}
+
+void MolDSException::Serialize(std::ostream& os){
+   boost::archive::text_oarchive oa(os);
+   std::string what = domain_error::what();
+   std::cerr << "what:" << what << std::endl;
+   oa << what;
+   oa << (*this);
+}
+
+MolDSException MolDSException::Deserialize(std::istream& is){
+   boost::archive::text_iarchive ia(is);
+   std::string what;
+   ia >> what;
+   MolDSException e(what);
+   ia >> e;
+   return e;
 }
 }
