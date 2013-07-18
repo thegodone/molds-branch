@@ -36,6 +36,7 @@ public:
    void SetKeyValue(int key, T value);
    bool HasKey(int key);
    virtual const char* what() const throw();
+   const char* What() const throw(){return domain_error::what();}
    void Serialize(std::ostream& os);
    static MolDSException Deserialize(std::istream& is);
 private:
