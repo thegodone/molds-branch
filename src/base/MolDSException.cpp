@@ -58,25 +58,25 @@ void MolDSException::GetBacktrace(int bufsize){
    backtracePtr.reset(new void*[bufsize]);
    this->backtraceSize = backtrace(this->backtracePtr.get(), bufsize);
    if(this->backtraceSize==bufsize){
-      GetBacktrace(bufsize*2);
+      this->GetBacktrace(bufsize*2);
    }
 }
 
 template<>
 int MolDSException::GetKeyValue(int key){
-   return intKeyValueMap[key];
+   return this->intKeyValueMap[key];
 }
 
 /*
 template<>
 other MolDSException::GetKeyValue(int key){
-   return otherKeyValueMap[key];
+   return this->otherKeyValueMap[key];
 }
 */
 
 template<>
 void MolDSException::SetKeyValue(int key, int value){
-   intKeyValueMap[key]=value;
+   this->intKeyValueMap[key]=value;
 }
 
 /*
@@ -87,8 +87,8 @@ void MolDSException::SetKeyValue(int key, other value){
 */
 
 bool MolDSException::HasKey(int key){
-   if(!(intKeyValueMap.find(key)==intKeyValueMap.end())) return true;
-   //if(otherKeyValueMap.find(key)!=otherKeyValueMap::end) return true;
+   if(!(this->intKeyValueMap.find(key)==this->intKeyValueMap.end())) return true;
+   //if(this->otherKeyValueMap.find(key)!=this->otherKeyValueMap::end) return true;
    return false;
 }
 
@@ -96,7 +96,8 @@ const char* MolDSException::what() const throw(){
    static string str;
    stringstream ss;
    ss << domain_error::what() << "\nkey value pairs:";
-   for(intKeyValueMap_t::const_iterator i = intKeyValueMap.begin(); i != intKeyValueMap.end(); i++){
+   for(intKeyValueMap_t::const_iterator i = this->intKeyValueMap.begin();
+       i != this->intKeyValueMap.end(); i++){
       ss << endl << '\t' << ExceptionKeyStr(i->first) << ":" << i->second;
    }
    char** backtraceSymbols = backtrace_symbols(this->backtracePtr.get(),
@@ -106,7 +107,7 @@ const char* MolDSException::what() const throw(){
    }
    else{
       ss << "\nbacktrace:";
-      for(int i = 0; i < backtraceSize; i++){
+      for(int i = 0; i < this->backtraceSize; i++){
          ss << endl << backtraceSymbols[i];
       }
    }
@@ -117,22 +118,22 @@ const char* MolDSException::what() const throw(){
 
 template<class Archive>
 void MolDSException::serialize(Archive& ar, const unsigned int ver){
-   ar & intKeyValueMap;
-   // ar & otherKeyValueMap;
+   ar & this->intKeyValueMap;
+   // ar & this->otherKeyValueMap;
 
-   ar & backtraceSize;
+   ar & this->backtraceSize;
    if(!Archive::is_saving::value){
-      backtracePtr.reset(new void*[backtraceSize]);
+      this->backtracePtr.reset(new void*[this->backtraceSize]);
    }
    for(int i; i<backtraceSize; i++){
       if(Archive::is_saving::value){
-         intptr_t p = reinterpret_cast<intptr_t>(backtracePtr[i]);
+         intptr_t p = reinterpret_cast<intptr_t>(this->backtracePtr[i]);
          ar & p;
       }
       else{
          intptr_t p;
          ar & p;
-         backtracePtr[i]=reinterpret_cast<void*>(p);
+         this->backtracePtr[i]=reinterpret_cast<void*>(p);
       }
    }
 }
