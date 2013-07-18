@@ -883,12 +883,12 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
          } 
          catch(MolDSException ex){
 #pragma omp critical
-            ompErrors << ex.what() << endl ;
+            ex.Serialize(ompErrors);
          }
       }// end of l-loop
       // Exception throwing for omp-region
       if(!ompErrors.str().empty()){
-         throw MolDSException(ompErrors.str());
+         throw MolDSException::Deserialize(ompErrors);
       }
    } // end of k-loop
 
@@ -1652,7 +1652,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
          }
          catch(MolDSException ex){
 #pragma omp critical
-            ompErrors << ex.what() << endl;
+            ex.Serialize(ompErrors);
          }
          this->FreeTempMatricesEachThreadCalcHessianSCF(&diatomicOverlapAOs1stDerivs,
                                                         &diatomicOverlapAOs2ndDerivs,
@@ -1661,7 +1661,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
       }// end of omp-region
       // Exception throwing for omp-region
       if(!ompErrors.str().empty()){
-         throw MolDSException(ompErrors.str());
+         throw MolDSException::Deserialize(ompErrors);
       }
 
    }
@@ -1743,12 +1743,12 @@ void Mndo::CalcOrbitalElectronPopulation1stDerivatives(double**** orbitalElectro
          }
          catch(MolDSException ex){
 #pragma omp critical
-            ompErrors << ex.what() << endl;
+            ex.Serialize(ompErrors);
          }
       }
       // Exception throwing for omp-region
       if(!ompErrors.str().empty()){
-         throw MolDSException(ompErrors.str());
+         throw MolDSException::Deserialize(ompErrors);
       }
 
       /*
@@ -1819,12 +1819,12 @@ void Mndo::CalcStaticFirstOrderFocks(double** staticFirstOrderFocks,
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl;
+         ex.Serialize(ompErrors);
       }
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
 
 }
@@ -2049,13 +2049,13 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl;
+         ex.Serialize(ompErrors);
       }
    }
    MallocerFreer::GetInstance()->Free<double>(&occupations, dimensionCPHF);
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
 
    /*
@@ -2397,13 +2397,13 @@ void Mndo::CalcForce(const vector<int>& elecStates){
       }          // end of try
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
       this->FreeTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
 }
 
@@ -3064,13 +3064,13 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
       MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
 }
 

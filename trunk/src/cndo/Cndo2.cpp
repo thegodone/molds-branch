@@ -815,12 +815,12 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
             }
             catch(MolDSException ex){
 #pragma omp critical
-               ompErrors << ex.what() << endl ;
+               ex.Serialize(ompErrors);
             }
          }
          // Exception throwing for omp-region
          if(!ompErrors.str().empty()){
-            throw MolDSException(ompErrors.str());
+            throw MolDSException::Deserialize(ompErrors);
          }
       }
       {
@@ -837,12 +837,12 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
             }
             catch(MolDSException ex){
 #pragma omp critical
-               ompErrors << ex.what() << endl ;
+               ex.Serialize(ompErrors);
             }
          }
          // Exception throwing for omp-region
          if(!ompErrors.str().empty()){
-            throw MolDSException(ompErrors.str());
+            throw MolDSException::Deserialize(ompErrors);
          }
       }
       for(int mi=0; mi<diisNumErrorVect-1; mi++){
@@ -864,12 +864,12 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
             }
             catch(MolDSException ex){
 #pragma omp critical
-               ompErrors << ex.what() << endl ;
+               ex.Serialize(ompErrors);
             }
          }
          // Exception throwing for omp-region
          if(!ompErrors.str().empty()){
-            throw MolDSException(ompErrors.str());
+            throw MolDSException::Deserialize(ompErrors);
          }
          diisErrorProducts[mi][diisNumErrorVect-1] = tempErrorProduct;
          diisErrorProducts[diisNumErrorVect-1][mi] = tempErrorProduct;
@@ -937,12 +937,12 @@ void Cndo2::DoDamp(double rmsDensity,
          }
          catch(MolDSException ex){
 #pragma omp critical
-            ompErrors << ex.what() << endl ;
+            ex.Serialize(ompErrors);
          }
       }
       // Exception throwing for omp-region
       if(!ompErrors.str().empty()){
-         throw MolDSException(ompErrors.str());
+         throw MolDSException::Deserialize(ompErrors);
       }
    } 
 
@@ -1332,12 +1332,12 @@ bool Cndo2::SatisfyConvergenceCriterion(double const* const * oldOrbitalElectron
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
    change /= numberAOs*numberAOs;
    *rmsDensity = sqrt(change);
@@ -1427,12 +1427,12 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
    /*  
    this->OutputLog("fock matrix\n");
@@ -1621,12 +1621,12 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
 
 #pragma omp parallel for schedule(auto)
@@ -1753,12 +1753,12 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
 }
 
@@ -3639,13 +3639,13 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
       this->FreeDiatomicOverlapAOsAndRotatingMatrix(&diatomicOverlapAOs, &rotatingMatrix);
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
 }
 
@@ -3755,13 +3755,13 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
       this->FreeDiatomicOverlapAOsAndRotatingMatrix(&diatomicOverlapAOs, &rotatingMatrix);
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
    /* 
    this->OutputLog("overlapAOs matrix\n"); 
@@ -4201,12 +4201,12 @@ void Cndo2::CalcOverlapAOsByGTOExpansion(double** overlapAOs,
       }
       catch(MolDSException ex){
 #pragma omp critical
-         ompErrors << ex.what() << endl ;
+         ex.Serialize(ompErrors);
       }
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
-      throw MolDSException(ompErrors.str());
+      throw MolDSException::Deserialize(ompErrors);
    }
    /* 
    this->OutputLog("overlapAOs matrix by STOnG\n"); 
