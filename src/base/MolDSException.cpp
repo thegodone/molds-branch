@@ -125,7 +125,7 @@ void MolDSException::serialize(Archive& ar, const unsigned int ver){
    if(!Archive::is_saving::value){
       this->backtracePtr.reset(new void*[this->backtraceSize]);
    }
-   for(int i; i<backtraceSize; i++){
+   for(int i = 0; i < this->backtraceSize; i++){
       if(Archive::is_saving::value){
          intptr_t p = reinterpret_cast<intptr_t>(this->backtracePtr[i]);
          ar & p;
