@@ -117,7 +117,6 @@ void MolDSException::serialize(Archive& ar, const unsigned int ver){
    // ar & otherKeyValueMap;
 
    ar & backtraceSize;
-   std::cerr << "backtraceSize:" << backtraceSize << std::endl;
    if(!Archive::is_saving::value){
       backtracePtr.reset(new void*[backtraceSize]);
    }
@@ -125,12 +124,10 @@ void MolDSException::serialize(Archive& ar, const unsigned int ver){
       if(Archive::is_saving::value){
          intptr_t p = reinterpret_cast<intptr_t>(backtracePtr[i]);
          ar & p;
-         std::cerr << "in: " << p << std::endl;
       }
       else{
          intptr_t p;
          ar & p;
-         std::cerr << "out:" << p << std::endl;
          backtracePtr[i]=reinterpret_cast<void*>(p);
       }
    }
@@ -139,7 +136,6 @@ void MolDSException::serialize(Archive& ar, const unsigned int ver){
 void MolDSException::Serialize(std::ostream& os){
    boost::archive::text_oarchive oa(os);
    std::string what = domain_error::what();
-   std::cerr << "what:" << what << std::endl;
    oa << this;
 }
 
