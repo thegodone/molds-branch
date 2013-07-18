@@ -62,14 +62,6 @@ void MolDSException::GetBacktrace(int bufsize){
    }
 }
 
-void MolDSException::PrintBacktrace(){
-   if(this->backtraceSize <= 0){
-      return;
-   }
-   cout<<"backtrace:" << endl;
-   backtrace_symbols_fd(this->backtracePtr.get(), this->backtraceSize, 1);
-}
-
 template<>
 int MolDSException::GetKeyValue(int key){
    return intKeyValueMap[key];
@@ -107,6 +99,18 @@ const char* MolDSException::what() const throw(){
    for(intKeyValueMap_t::const_iterator i = intKeyValueMap.begin(); i != intKeyValueMap.end(); i++){
       ss << endl << '\t' << ExceptionKeyStr(i->first) << ":" << i->second;
    }
+   char** backtraceSymbols = backtrace_symbols(this->backtracePtr.get(),
+                                               this->backtraceSize);
+   if(backtraceSymbols == NULL){
+      ss << "\nCannot Get Backtraces!";
+   }
+   else{
+      ss << "\nbacktrace:";
+      for(int i = 0; i < backtraceSize; i++){
+         ss << endl << backtraceSymbols[i];
+      }
+   }
+   free(backtraceSymbols);
    str = ss.str();
    return str.c_str();
 }

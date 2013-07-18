@@ -29,7 +29,6 @@ public:
    MolDSException(const boost::format& cause);
 #endif
    ~MolDSException() throw(){};
-   void PrintBacktrace();
    template <class T>
    T GetKeyValue(int key);
    template <class T>
