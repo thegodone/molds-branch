@@ -25,9 +25,26 @@
 #include<boost/serialization/map.hpp>
 #include<boost/archive/text_iarchive.hpp>
 #include<boost/archive/text_oarchive.hpp>
+#include<boost/scoped_ptr.hpp>
 #include"MolDSException.h"
 #include"Enums.h"
 using namespace std;
+
+namespace boost { namespace serialization {
+template<class Archive>
+void save_construct_data(Archive& ar, const MolDS_base::MolDSException* t, const unsigned int){
+   string what(t->What());
+   ar << what;
+}
+
+template<class Archive>
+void load_construct_data(Archive& ar, MolDS_base::MolDSException* t, const unsigned int){
+   string what;
+   ar >> what;
+   ::new(t)MolDS_base::MolDSException(what.c_str());
+}
+}}
+
 namespace MolDS_base{
 MolDSException::MolDSException(string cause) : domain_error(cause), backtraceSize(0){
    this->GetBacktrace(80);
@@ -123,16 +140,15 @@ void MolDSException::Serialize(std::ostream& os){
    boost::archive::text_oarchive oa(os);
    std::string what = domain_error::what();
    std::cerr << "what:" << what << std::endl;
-   oa << what;
-   oa << (*this);
+   oa << this;
 }
 
 MolDSException MolDSException::Deserialize(std::istream& is){
    boost::archive::text_iarchive ia(is);
-   std::string what;
-   ia >> what;
-   MolDSException e(what);
-   ia >> e;
-   return e;
+   MolDSException *p = NULL;
+   boost::scoped_ptr<MolDSException> sp(p);
+   ia >> p;
+   sp.reset(p);
+   return *p;
 }
 }
