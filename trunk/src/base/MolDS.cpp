@@ -70,7 +70,6 @@ void MolDS::Run(int argc, char *argv[]){
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       runsNormally = false;
    }
 
@@ -165,7 +164,6 @@ void MolDS::CalculateElectronicStructureOnce(Molecule* molecule, bool* runsNorma
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
@@ -178,7 +176,6 @@ void MolDS::DoMC(Molecule* molecule, bool* runsNormally) const{
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
@@ -191,7 +188,6 @@ void MolDS::DoMD(Molecule* molecule, bool* runsNormally) const{
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
@@ -203,7 +199,6 @@ void MolDS::DoRPMD(Molecule* molecule, bool* runsNormally) const{
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
@@ -215,7 +210,6 @@ void MolDS::DoNASCO(Molecule* molecule, bool* runsNormally) const{
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
@@ -227,7 +221,6 @@ void MolDS::OptimizeGeometry(Molecule* molecule, bool* runsNormally) const{
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
@@ -238,7 +231,6 @@ void MolDS::DiagonalizePrincipalAxes(Molecule* molecule, bool* runsNormally) con
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
@@ -249,7 +241,6 @@ void MolDS::TranslateMolecule(Molecule* molecule, bool* runsNormally) const{
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
@@ -260,7 +251,6 @@ void MolDS::RotateMolecule(Molecule* molecule, bool* runsNormally) const{
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());
-      ex.PrintBacktrace();
       *runsNormally = false;
    }
 }
