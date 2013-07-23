@@ -143,6 +143,19 @@ void MolDSException::serialize(Archive& ar, const unsigned int ver){
          this->backtracePtr[i]=reinterpret_cast<void*>(p);
       }
    }
+
+   bool hasnext = this->nextException.get() != NULL;
+   ar & hasnext;
+   MolDSException* pe = NULL;
+   if(Archive::is_saving::value){
+      pe = this->nextException.get();
+   }
+   if(hasnext){
+      ar & pe;
+   }
+   if(!Archive::is_saving::value){
+      this->nextException.reset(pe);
+   }
 }
 
 void MolDSException::Serialize(std::ostream& os){
@@ -157,6 +170,21 @@ MolDSException MolDSException::Deserialize(std::istream& is){
    boost::scoped_ptr<MolDSException> sp(p);
    ia >> p;
    sp.reset(p);
-   return *p;
+
+   while(!is.eof()){
+      try{
+         boost::archive::text_iarchive ia(is);
+         MolDSException* pnext = NULL;
+         ia >> pnext;
+         p->LastException()->nextException.reset(pnext);
+         p = pnext;
+      }
+      catch(...){
+         p->LastException()->nextException.reset();
+         break;
+      }
+   }
+
+   return *sp.get();
 }
 }
