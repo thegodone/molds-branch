@@ -21,6 +21,7 @@
 #include<string>
 #include<stdexcept>
 #include<iostream>
+#include<cctype>
 #include<boost/format.hpp>
 #include<boost/serialization/map.hpp>
 #include<boost/archive/text_iarchive.hpp>
@@ -171,6 +172,9 @@ MolDSException MolDSException::Deserialize(std::istream& is){
    ia >> p;
    sp.reset(p);
 
+   while(isspace(is.peek())){
+      is.get();
+   }
    while(!is.eof()){
       try{
          boost::archive::text_iarchive ia(is);
@@ -178,6 +182,9 @@ MolDSException MolDSException::Deserialize(std::istream& is){
          ia >> pnext;
          p->LastException()->nextException.reset(pnext);
          p = pnext;
+         while(isspace(is.peek())){
+            is.get();
+         }
       }
       catch(...){
          p->LastException()->nextException.reset();
