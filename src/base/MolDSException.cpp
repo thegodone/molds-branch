@@ -110,7 +110,7 @@ const char* MolDSException::what() const throw(){
    else{
       ss << "\nbacktrace:";
       for(int i = 0; i < this->backtraceSize; i++){
-         ss << endl << backtraceSymbols[i];
+         ss << "\n\t" << backtraceSymbols[i];
       }
    }
    free(backtraceSymbols);
