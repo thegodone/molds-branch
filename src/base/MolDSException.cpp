@@ -95,7 +95,9 @@ bool MolDSException::HasKey(int key){
 const char* MolDSException::what() const throw(){
    static string str;
    stringstream ss;
-   ss << domain_error::what() << "\nkey value pairs:";
+   ss << domain_error::what();
+
+   ss << "\nkey value pairs:";
    for(intKeyValueMap_t::const_iterator i = this->intKeyValueMap.begin();
        i != this->intKeyValueMap.end(); i++){
       ss << endl << '\t' << ExceptionKeyStr(i->first) << ":" << i->second;
@@ -112,6 +114,11 @@ const char* MolDSException::what() const throw(){
       }
    }
    free(backtraceSymbols);
+
+   if(this->nextException.get() != NULL){
+      ss << "\n--- Next Exception ---\n";
+      ss << this->nextException->what();
+   }
    str = ss.str();
    return str.c_str();
 }

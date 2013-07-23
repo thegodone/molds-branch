@@ -19,6 +19,7 @@
 #ifndef INCLUDED_MOLDSEXCEPTION
 #define INCLUDED_MOLDSEXCEPTION
 #include<map>
+#include<boost/shared_ptr.hpp>
 #include<boost/shared_array.hpp>
 #include<boost/serialization/access.hpp>
 namespace MolDS_base{
@@ -34,6 +35,7 @@ public:
    template <class T>
    void SetKeyValue(int key, T value);
    bool HasKey(int key);
+   const MolDSException* NextException() const{return this->nextException.get();}
    virtual const char* what() const throw();
    const char* What() const throw(){return domain_error::what();}
    void Serialize(std::ostream& os);
@@ -46,6 +48,7 @@ private:
    intKeyValueMap_t intKeyValueMap;
    //typedef std::map<int, other> otherKeyValueMap_t;
    //otherKeyValueMap_t otherKeyValueMap;
+   boost::shared_ptr<MolDSException> nextException;
    friend class boost::serialization::access;
    template<class Archive>
    void serialize(Archive& ar, const unsigned int ver);
