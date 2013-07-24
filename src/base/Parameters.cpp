@@ -361,15 +361,6 @@ bool Parameters::RequiresMullikenCIS() const{
            0<this->electronicStateIndecesMullikenCIS->size());
 }
 
-// methods for Memory
-double Parameters::GetLimitHeapMemory() const{
-   return this->limitHeapMemory;
-}
-
-void Parameters::SetLimitHeapMemory(double limitHeapMemory){
-   this->limitHeapMemory = limitHeapMemory;
-}
-
 // methods for MD
 int Parameters::GetElectronicStateIndexMD() const{
    return this->electronicStateIndexMD;

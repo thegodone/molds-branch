@@ -144,8 +144,8 @@ public:
    inline bool       RequiresUnpairedPopCIS() const                         {return this->requiresUnpairedPopCIS;}
    inline void       SetRequiresUnpairedPopCIS(bool requires)               {this->requiresUnpairedPopCIS = requires;}
    // Memory
-   double GetLimitHeapMemory() const;
-   void   SetLimitHeapMemory(double limitHeap);
+   double GetLimitHeapMemory() const          {return this->limitHeapMemory;}
+   void   SetLimitHeapMemory(double limitHeap){this->limitHeapMemory = limitHeap;}
    // MD
    int    GetElectronicStateIndexMD() const;
    void   SetElectronicStateIndexMD(int electronicStateIndex);
