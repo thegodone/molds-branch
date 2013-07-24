@@ -154,16 +154,16 @@ public:
    double GetTimeWidthMD() const              {return this->timeWidthMD;}
    void   SetTimeWidthMD(double dt)           {this->timeWidthMD = dt;}
    // MC
-   int           GetElectronicStateIndexMC() const;
-   void          SetElectronicStateIndexMC(int electronicStateIndex);
-   int           GetTotalStepsMC() const;
-   void          SetTotalStepsMC(int totalSteps);
-   double        GetTemperatureMC() const;
-   void          SetTemperatureMC(double temperature);
-   double        GetStepWidthMC() const;
-   void          SetStepWidthMC(double stepWidth);
-   unsigned long GetSeedMC() const;
-   void          SetSeedMC(unsigned long seed);
+   int           GetElectronicStateIndexMC() const{return this->electronicStateIndexMC;}
+   void          SetElectronicStateIndexMC(int i) {this->electronicStateIndexMC = i;}
+   int           GetTotalStepsMC() const          {return this->totalStepsMC;}
+   void          SetTotalStepsMC(int steps)       {this->totalStepsMC = steps;}
+   double        GetTemperatureMC() const         {return this->temperatureMC;}
+   void          SetTemperatureMC(double t)       {this->temperatureMC = t;}
+   double        GetStepWidthMC() const           {return this->stepWidthMC;}
+   void          SetStepWidthMC(double dr)        {this->stepWidthMC = dr;}
+   unsigned long GetSeedMC() const                {return this->seedMC;}
+   void          SetSeedMC(unsigned long seed)    {this->seedMC = seed;}
    // RPMD
    int           GetElectronicStateIndexRPMD() const;
    void          SetElectronicStateIndexRPMD(int electronicStateIndex);

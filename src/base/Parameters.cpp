@@ -361,47 +361,6 @@ bool Parameters::RequiresMullikenCIS() const{
            0<this->electronicStateIndecesMullikenCIS->size());
 }
 
-// methods for MC
-int Parameters::GetElectronicStateIndexMC() const{
-   return this->electronicStateIndexMC;
-}
-
-void Parameters::SetElectronicStateIndexMC(int electronicStateIndex){
-   this->electronicStateIndexMC = electronicStateIndex;
-}
-
-int Parameters::GetTotalStepsMC() const{
-   return this->totalStepsMC;
-}
-
-void Parameters::SetTotalStepsMC(int totalSteps){
-   this->totalStepsMC = totalSteps;
-}
-
-double Parameters::GetTemperatureMC() const{
-   return this->temperatureMC;
-}
-
-void Parameters::SetTemperatureMC(double temperature){
-   this->temperatureMC = temperature;
-}
-
-double Parameters::GetStepWidthMC() const{
-   return this->stepWidthMC;
-}
-
-void Parameters::SetStepWidthMC(double stepWidth){
-   this->stepWidthMC = stepWidth;
-}
-
-unsigned long Parameters::GetSeedMC() const{
-   return this->seedMC;
-}
-
-void Parameters::SetSeedMC(unsigned long seed){
-   this->seedMC = seed;
-}
-
 // methods for RPMD
 int Parameters::GetElectronicStateIndexRPMD() const{
    return this->electronicStateIndexRPMD;
