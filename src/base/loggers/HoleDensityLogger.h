@@ -37,8 +37,8 @@ protected:
                           int iy, 
                           int iz) const;
    std::string GetFileName(int elecStateIndex, int digit) const;
-   double const* GetFrameLength() const;
-   int const* GetGridNumber() const;
+   double const* GetFrameLength() const{return MolDS_base::Parameters::GetInstance()->GetFrameLengthHolePlot();}
+   int const*    GetGridNumber()  const{return MolDS_base::Parameters::GetInstance()->GetGridNumberHolePlot();}
 private:
    HoleDensityLogger();
 };
