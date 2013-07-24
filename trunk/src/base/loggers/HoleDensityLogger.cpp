@@ -108,12 +108,4 @@ string HoleDensityLogger::GetFileName(int elecStateIndex, int digit) const{
    return fileName.str();
 }
 
-double const* HoleDensityLogger::GetFrameLength() const{
-   return Parameters::GetInstance()->GetFrameLengthHolePlot();
-}
-
-int const* HoleDensityLogger::GetGridNumber() const{
-   return Parameters::GetInstance()->GetGridNumberHolePlot();
-}
-
 }
