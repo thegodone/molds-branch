@@ -471,13 +471,13 @@ HOW TO WRITE INPUT:
        The default values is "particle_".
 
       E.g.
-         HOLEPLOT
+         PARTICLEPLOT
             electronic_state 5
             electronic_state 8
             grid_number 30 30 30
             frame_length 10 10 10
             file_prefix HOLEPlot_
-         HOLEPLOT_END
+         PARTICLEPLOT_END
 
    <OPT (geometry optimization)>
       Write OPT-directive. This module uses line search and steepest descent algorythms.
