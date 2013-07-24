@@ -147,12 +147,12 @@ public:
    double GetLimitHeapMemory() const          {return this->limitHeapMemory;}
    void   SetLimitHeapMemory(double limitHeap){this->limitHeapMemory = limitHeap;}
    // MD
-   int    GetElectronicStateIndexMD() const;
-   void   SetElectronicStateIndexMD(int electronicStateIndex);
-   int    GetTotalStepsMD() const;
-   void   SetTotalStepsMD(int totalSteps);
-   double GetTimeWidthMD() const;
-   void   SetTimeWidthMD(double timeWidth);
+   int    GetElectronicStateIndexMD() const   {return this->electronicStateIndexMD;}
+   void   SetElectronicStateIndexMD(int index){this->electronicStateIndexMD = index;}
+   int    GetTotalStepsMD() const             {return this->totalStepsMD;}
+   void   SetTotalStepsMD(int steps)          {this->totalStepsMD = steps;}
+   double GetTimeWidthMD() const              {return this->timeWidthMD;}
+   void   SetTimeWidthMD(double dt)           {this->timeWidthMD = dt;}
    // MC
    int           GetElectronicStateIndexMC() const;
    void          SetElectronicStateIndexMC(int electronicStateIndex);

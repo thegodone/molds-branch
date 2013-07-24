@@ -361,31 +361,6 @@ bool Parameters::RequiresMullikenCIS() const{
            0<this->electronicStateIndecesMullikenCIS->size());
 }
 
-// methods for MD
-int Parameters::GetElectronicStateIndexMD() const{
-   return this->electronicStateIndexMD;
-}
-
-void Parameters::SetElectronicStateIndexMD(int electronicStateIndex){
-   this->electronicStateIndexMD = electronicStateIndex;
-}
-
-int Parameters::GetTotalStepsMD() const{
-   return this->totalStepsMD;
-}
-
-void Parameters::SetTotalStepsMD(int totalSteps){
-   this->totalStepsMD = totalSteps;
-}
-
-double Parameters::GetTimeWidthMD() const{
-   return this->timeWidthMD;
-}
-
-void Parameters::SetTimeWidthMD(double timeWidth){
-   this->timeWidthMD = timeWidth;
-}
-
 // methods for MC
 int Parameters::GetElectronicStateIndexMC() const{
    return this->electronicStateIndexMC;
