@@ -361,63 +361,6 @@ bool Parameters::RequiresMullikenCIS() const{
            0<this->electronicStateIndecesMullikenCIS->size());
 }
 
-/*// methods for RPMD
-int Parameters::GetElectronicStateIndexRPMD() const{
-   return this->electronicStateIndexRPMD;
-}
-
-void Parameters::SetElectronicStateIndexRPMD(int electronicStateIndex){
-   this->electronicStateIndexRPMD = electronicStateIndex;
-}
-
-int Parameters::GetNumberElectronicStatesRPMD() const{
-   return this->numberElectronicStatesRPMD;
-}
-
-void Parameters::SetNumberElectronicStatesRPMD(int numberElectronicStates){
-   this->numberElectronicStatesRPMD = numberElectronicStates;
-}
-
-int Parameters::GetTotalStepsRPMD() const{
-   return this->totalStepsRPMD;
-}
-
-void Parameters::SetTotalStepsRPMD(int totalSteps){
-   this->totalStepsRPMD = totalSteps;
-}
-
-double Parameters::GetTemperatureRPMD() const{
-   return this->temperatureRPMD;
-}
-
-void Parameters::SetTemperatureRPMD(double temperature){
-   this->temperatureRPMD = temperature;
-}
-
-double Parameters::GetTimeWidthRPMD() const{
-   return this->timeWidthRPMD;
-}
-
-void Parameters::SetTimeWidthRPMD(double timeWidth){
-   this->timeWidthRPMD = timeWidth;
-}
-
-int Parameters::GetNumberBeadsRPMD() const{
-   return this->numberBeadsRPMD;
-}
-
-void Parameters::SetNumberBeadsRPMD(int numberBeads){
-   this->numberBeadsRPMD = numberBeads;
-}
-
-unsigned long Parameters::GetSeedRPMD() const{
-   return this->seedRPMD;
-}
-
-void Parameters::SetSeedRPMD(unsigned long seed){
-   this->seedRPMD = seed;
-}
-*/
 // methods for NASCO
 int Parameters::GetTotalStepsNASCO() const{
    return this->totalStepsNASCO;
