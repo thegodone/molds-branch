@@ -95,7 +95,8 @@ void RPMD::UpdateMomenta(const vector<boost::shared_ptr<Molecule> >& molecularBe
    for(int b=0; b<numBeads; b++){
       int preB  = b==0 ? numBeads-1 : b-1;
       int postB = b==numBeads-1 ? 0 : b+1;
-      double** electronicForceMatrix = electronicStructureBeads[b]->GetForce(elecState);;
+      double const* const* electronicForceMatrix 
+         = electronicStructureBeads[b]->GetForce(elecState);;
       for(int a=0; a<numAtom; a++){
          Atom* atom      = molecularBeads[b]->GetAtom(a);
          Atom* preAtom   = molecularBeads[preB]->GetAtom(a);

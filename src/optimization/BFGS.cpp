@@ -106,10 +106,10 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    int totalSteps = Parameters::GetInstance()->GetTotalStepsOptimization();
    double maxGradientThreshold = Parameters::GetInstance()->GetMaxGradientOptimization();
    double rmsGradientThreshold = Parameters::GetInstance()->GetRmsGradientOptimization();
-   double lineSearchCurrentEnergy = 0.0;
-   double lineSearchInitialEnergy = 0.0;
-   double** matrixForce = NULL;
-   double* vectorForce = NULL;
+   double lineSearchCurrentEnergy   = 0.0;
+   double lineSearchInitialEnergy   = 0.0;
+   double const* const* matrixForce = NULL;
+   double const* vectorForce        = NULL;
    const int dimension = molecule.GetNumberAtoms()*CartesianType_end;
    double** matrixHessian        = NULL;
    double*  vectorOldForce       = NULL;

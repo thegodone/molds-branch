@@ -76,8 +76,8 @@ void MD::DoMD(){
    double dt            = Parameters::GetInstance()->GetTimeWidthMD();
    double time          = 0.0;
    bool requireGuess    = false;
-   double** matrixForce = NULL;
    double initialEnergy = 0.0;
+   double const* const* matrixForce = NULL;
 
    // initial calculation
    electronicStructure->DoSCF();

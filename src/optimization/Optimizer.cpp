@@ -212,7 +212,7 @@ void Optimizer::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStru
    lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 }
 
-bool Optimizer::SatisfiesConvergenceCriterion(double** matrixForce, 
+bool Optimizer::SatisfiesConvergenceCriterion(double const* const* matrixForce, 
                                               const MolDS_base::Molecule& molecule,
                                               double oldEnergy,
                                               double currentEnergy,

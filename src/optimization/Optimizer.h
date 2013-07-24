@@ -37,7 +37,7 @@ protected:
                                   MolDS_base::Molecule& molecule,
                                   bool requireGuess, 
                                   bool printsLogs) const;
-   bool SatisfiesConvergenceCriterion(double** matrixForce, 
+   bool SatisfiesConvergenceCriterion(double const* const* matrixForce, 
                                       const MolDS_base::Molecule& molecule,
                                       double oldEnergy,
                                       double currentEnergy,
