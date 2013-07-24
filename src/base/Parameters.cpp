@@ -401,23 +401,6 @@ unsigned long Parameters::GetSeedNASCO() const{
 void Parameters::SetSeedNASCO(unsigned long seed){
    this->seedNASCO = seed;
 }
-
-// Frequencies
-bool Parameters::RequiresFrequencies() const{
-   return this->requiresFrequencies;
-}
-
-void Parameters::SetRequiresFrequencies(bool requiresFrequencies){
-   this->requiresFrequencies = requiresFrequencies;
-}
-
-int Parameters::GetElectronicStateIndexFrequencies() const{
-   return this->electronicStateIndexFrequencies;
-}
-
-void Parameters::SetElectronicStateIndexFrequencies(int electronicStateIndex){
-   this->electronicStateIndexFrequencies = electronicStateIndex;
-}
 }
 
 
