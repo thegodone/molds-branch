@@ -180,16 +180,16 @@ public:
    unsigned long GetSeedRPMD() const                  {return this->seedRPMD;}
    void          SetSeedRPMD(unsigned long seed)      {this->seedRPMD = seed;}
    // NASCO
-   int           GetTotalStepsNASCO() const;
-   void          SetTotalStepsNASCO(int totalSteps);
-   int           GetNumberElectronicStatesNASCO() const;
-   void          SetNumberElectronicStatesNASCO(int NumberElectronicStates);
-   int           GetInitialElectronicStateNASCO() const;
-   void          SetInitialElectronicStateNASCO(int initialElectronicState);
-   unsigned long GetSeedNASCO() const;
-   void          SetSeedNASCO(unsigned long seed);
-   double        GetTimeWidthNASCO() const;
-   void          SetTimeWidthNASCO(double stepWidth);
+   int           GetTotalStepsNASCO() const            {return this->totalStepsNASCO;}
+   void          SetTotalStepsNASCO(int steps)         {this->totalStepsNASCO = steps;}
+   int           GetNumberElectronicStatesNASCO() const{return this->numberElectronicStatesNASCO;}
+   void          SetNumberElectronicStatesNASCO(int n) {this->numberElectronicStatesNASCO = n;}
+   int           GetInitialElectronicStateNASCO() const{return this->initialElectronicStateNASCO;}
+   void          SetInitialElectronicStateNASCO(int i) {this->initialElectronicStateNASCO = i;}
+   unsigned long GetSeedNASCO() const                  {return this->seedNASCO;}
+   void          SetSeedNASCO(unsigned long seed)      {this->seedNASCO = seed;}
+   double        GetTimeWidthNASCO() const             {return this->timeWidthNASCO;}
+   void          SetTimeWidthNASCO(double dt)          {this->timeWidthNASCO = dt;}
    // Optimization
    OptimizationMethodType GetMethodOptimization() const                  {return this->methodOptimization;}
    void                   SetMethodOptimization(OptimizationMethodType m){this->methodOptimization = m;}

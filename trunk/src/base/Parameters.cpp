@@ -361,46 +361,6 @@ bool Parameters::RequiresMullikenCIS() const{
            0<this->electronicStateIndecesMullikenCIS->size());
 }
 
-// methods for NASCO
-int Parameters::GetTotalStepsNASCO() const{
-   return this->totalStepsNASCO;
-}
-
-void Parameters::SetTotalStepsNASCO(int totalSteps){
-   this->totalStepsNASCO = totalSteps;
-}
-
-int Parameters::GetNumberElectronicStatesNASCO() const{
-   return this->numberElectronicStatesNASCO;
-}
-
-void Parameters::SetNumberElectronicStatesNASCO(int numberElectronicStates){
-   this->numberElectronicStatesNASCO = numberElectronicStates;
-}
-
-int Parameters::GetInitialElectronicStateNASCO() const{
-   return this->initialElectronicStateNASCO;
-}
-
-void Parameters::SetInitialElectronicStateNASCO(int initialElectronicState){
-   this->initialElectronicStateNASCO = initialElectronicState;
-}
-
-double Parameters::GetTimeWidthNASCO() const{
-   return this->timeWidthNASCO;
-}
-
-void Parameters::SetTimeWidthNASCO(double timeWidth){
-   this->timeWidthNASCO = timeWidth;
-}
-
-unsigned long Parameters::GetSeedNASCO() const{
-   return this->seedNASCO;
-}
-
-void Parameters::SetSeedNASCO(unsigned long seed){
-   this->seedNASCO = seed;
-}
 }
 
 
