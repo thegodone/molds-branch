@@ -208,10 +208,10 @@ public:
    double                 GetMaxNormStepOptimization() const             {return this->maxNormStepOptimization;}
    void                   SetMaxNormStepOptimization(double n)           {this->maxNormStepOptimization = n;}
    // Frequencies 
-   bool RequiresFrequencies() const;
-   void SetRequiresFrequencies(bool requiresFrequencies);
-   int  GetElectronicStateIndexFrequencies() const;
-   void SetElectronicStateIndexFrequencies(int electronicStateIndex);
+   bool RequiresFrequencies() const               {return this->requiresFrequencies;}
+   void SetRequiresFrequencies(bool b)            {this->requiresFrequencies = b;}
+   int  GetElectronicStateIndexFrequencies() const{return this->electronicStateIndexFrequencies;}
+   void SetElectronicStateIndexFrequencies(int i) {this->electronicStateIndexFrequencies = i;}
 
 private:
    static Parameters* parameters;
