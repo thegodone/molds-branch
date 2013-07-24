@@ -191,22 +191,22 @@ public:
    double        GetTimeWidthNASCO() const;
    void          SetTimeWidthNASCO(double stepWidth);
    // Optimization
-   OptimizationMethodType GetMethodOptimization() const;
-   void                   SetMethodOptimization(OptimizationMethodType method);
-   int                    GetTotalStepsOptimization() const;
-   void                   SetTotalStepsOptimization(int totalSteps);
-   int                    GetElectronicStateIndexOptimization() const;
-   void                   SetElectronicStateIndexOptimization(int electronicStateIndex);
-   double                 GetMaxGradientOptimization() const;
-   void                   SetMaxGradientOptimization(double maxGradient);
-   double                 GetRmsGradientOptimization() const;
-   void                   SetRmsGradientOptimization(double rmsGradient);
-   double                 GetTimeWidthOptimization() const;
-   void                   SetTimeWidthOptimization(double timeWidth);
-   double                 GetInitialTrustRadiusOptimization() const;
-   void                   SetInitialTrustRadiusOptimization(double initialTrustRadius);
-   double                 GetMaxNormStepOptimization() const;
-   void                   SetMaxNormStepOptimization(double maxNormStep);
+   OptimizationMethodType GetMethodOptimization() const                  {return this->methodOptimization;}
+   void                   SetMethodOptimization(OptimizationMethodType m){this->methodOptimization = m;}
+   int                    GetTotalStepsOptimization() const              {return this->totalStepsOptimization;}
+   void                   SetTotalStepsOptimization(int steps)           {this->totalStepsOptimization = steps;}
+   int                    GetElectronicStateIndexOptimization() const    {return this->electronicStateIndexOptimization;}
+   void                   SetElectronicStateIndexOptimization(int i)     {this->electronicStateIndexOptimization = i;}
+   double                 GetMaxGradientOptimization() const             {return this->maxGradientOptimization;}
+   void                   SetMaxGradientOptimization(double m)           {this->maxGradientOptimization = m;}
+   double                 GetRmsGradientOptimization() const             {return this->rmsGradientOptimization;}
+   void                   SetRmsGradientOptimization(double r)           {this->rmsGradientOptimization = r;}
+   double                 GetTimeWidthOptimization() const               {return this->timeWidthOptimization;}
+   void                   SetTimeWidthOptimization(double dt)            {this->timeWidthOptimization = dt;}
+   double                 GetInitialTrustRadiusOptimization() const      {return this->initialTrustRadiusOptimization;}
+   void                   SetInitialTrustRadiusOptimization(double r)    {this->initialTrustRadiusOptimization = r;}
+   double                 GetMaxNormStepOptimization() const             {return this->maxNormStepOptimization;}
+   void                   SetMaxNormStepOptimization(double n)           {this->maxNormStepOptimization = n;}
    // Frequencies 
    bool RequiresFrequencies() const;
    void SetRequiresFrequencies(bool requiresFrequencies);
