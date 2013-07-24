@@ -165,20 +165,20 @@ public:
    unsigned long GetSeedMC() const                {return this->seedMC;}
    void          SetSeedMC(unsigned long seed)    {this->seedMC = seed;}
    // RPMD
-   int           GetElectronicStateIndexRPMD() const;
-   void          SetElectronicStateIndexRPMD(int electronicStateIndex);
-   int           GetNumberElectronicStatesRPMD() const;
-   void          SetNumberElectronicStatesRPMD(int NumberElectronicStates);
-   int           GetTotalStepsRPMD() const;
-   void          SetTotalStepsRPMD(int totalSteps);
-   double        GetTemperatureRPMD() const;
-   void          SetTemperatureRPMD(double temperature);
-   double        GetTimeWidthRPMD() const;
-   void          SetTimeWidthRPMD(double stepWidth);
-   int           GetNumberBeadsRPMD() const;
-   void          SetNumberBeadsRPMD(int numberBeads);
-   unsigned long GetSeedRPMD() const;
-   void          SetSeedRPMD(unsigned long seed);
+   int           GetElectronicStateIndexRPMD() const  {return this->electronicStateIndexRPMD;}
+   void          SetElectronicStateIndexRPMD(int i)   {this->electronicStateIndexRPMD = i;}
+   int           GetNumberElectronicStatesRPMD() const{return this->numberElectronicStatesRPMD;}
+   void          SetNumberElectronicStatesRPMD(int n) {this->numberElectronicStatesRPMD = n;}
+   int           GetTotalStepsRPMD() const            {return this->totalStepsRPMD;}
+   void          SetTotalStepsRPMD(int steps)         {this->totalStepsRPMD = steps;}
+   double        GetTemperatureRPMD() const           {return this->temperatureRPMD;}
+   void          SetTemperatureRPMD(double t)         {this->temperatureRPMD = t;}
+   double        GetTimeWidthRPMD() const             {return this->timeWidthRPMD;}
+   void          SetTimeWidthRPMD(double dr)          {this->timeWidthRPMD = dr;}
+   int           GetNumberBeadsRPMD() const           {return this->numberBeadsRPMD;}
+   void          SetNumberBeadsRPMD(int b)            {this->numberBeadsRPMD = b;}
+   unsigned long GetSeedRPMD() const                  {return this->seedRPMD;}
+   void          SetSeedRPMD(unsigned long seed)      {this->seedRPMD = seed;}
    // NASCO
    int           GetTotalStepsNASCO() const;
    void          SetTotalStepsNASCO(int totalSteps);

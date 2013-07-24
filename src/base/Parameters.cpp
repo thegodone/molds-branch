@@ -361,7 +361,7 @@ bool Parameters::RequiresMullikenCIS() const{
            0<this->electronicStateIndecesMullikenCIS->size());
 }
 
-// methods for RPMD
+/*// methods for RPMD
 int Parameters::GetElectronicStateIndexRPMD() const{
    return this->electronicStateIndexRPMD;
 }
@@ -417,7 +417,7 @@ unsigned long Parameters::GetSeedRPMD() const{
 void Parameters::SetSeedRPMD(unsigned long seed){
    this->seedRPMD = seed;
 }
-
+*/
 // methods for NASCO
 int Parameters::GetTotalStepsNASCO() const{
    return this->totalStepsNASCO;
