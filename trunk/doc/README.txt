@@ -131,7 +131,8 @@ CARRY OUT MolDS:
 
 ==============================================================================
 SAMPLE and TEST
-   See files in "test" directories for sample files.
+   See sample files in "test" directory or 
+   "http://sourceforge.jp/projects/molds/scm/svn/tree/head/trunk/test/"
    In the "test" directory, *.in files are input files, then *.dat files are
    associated output files. To execute all test cases, carry out below ruby-script
    in the "test" directory. This script will finished in a few minutes with big
