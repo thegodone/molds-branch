@@ -37,8 +37,8 @@ public:
    virtual void OutputCISResults() const;
    double const* const* GetMatrixCIS() const{return this->matrixCIS;};
    double const*        GetExcitedEnergies() const{return this->excitedEnergies;};
-   double** GetForce(int elecState);
-   double*** GetForce(const std::vector<int>& elecStates);
+   double const* const*        GetForce(int elecState);
+   double const* const* const* GetForce(const std::vector<int>& elecStates);
    double GetElectronicEnergy(int elecState) const;
    double GetCoreRepulsionEnergy() const;
    double GetVdWCorrectionEnergy() const;

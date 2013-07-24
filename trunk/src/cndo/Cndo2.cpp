@@ -709,12 +709,12 @@ double Cndo2::GetVdWCorrectionEnergy() const{
    return this->vdWCorrectionEnergy;
 }
 
-double*** Cndo2::GetForce(const vector<int>& elecStates){
+double const* const* const* Cndo2::GetForce(const vector<int>& elecStates){
    this->CalcForce(elecStates);
    return this->matrixForce;
 }
 
-double** Cndo2::GetForce(int elecState){
+double const* const* Cndo2::GetForce(int elecState){
    vector<int> elecStates;
    elecStates.push_back(elecState);
    this->CalcForce(elecStates);

@@ -90,8 +90,8 @@ void NASCO::DoNASCO(Molecule& molecule){
    int nonAdiabaticPhaseIndex = 0;
    double time                = 0.0;
    bool requireGuess          = false;
-   double** matrixForce       = NULL;
    double initialEnergy       = 0.0;
+   double const* const* matrixForce = NULL;
 
    // initial calculation
    elecState = Parameters::GetInstance()->GetInitialElectronicStateNASCO();
