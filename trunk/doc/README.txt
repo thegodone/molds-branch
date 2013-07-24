@@ -29,49 +29,71 @@
 
 ==============================================================================
 REQUIREMENTS:
-   MolDS requires c++ mpi compiler that is wrapping Intel (icpc) or GNU (g++) and boost-libraries. 
-   Valid versions of the wrapped c++ compilers are icpc 12.0.4(MkL 10.3 update 4), g++ 4.4, or later 
-   because the MolDS is implemented with openMP 3.0. 
-   To compile MolDS with GNU, furthermore, openBLAS (version 0.2.5 or later) is also required. 
+   -Compilers:
+    MolDS requires c++ mpi compiler (e.g. Intel MPI or Open MPI) 
+    that is wrapping Intel (icpc with MKL) or GNU (g++) c++ compiler.
+    Valid versions of the mpi compilers are Intel MPI 4.0.2, Open MPI 1.4.5, or later.
+    Valid versions of the wrapped c++ compilers are icpc 12.0.4(MkL 10.3 update 4), 
+    g++ 4.4, or later because the MolDS is implemented with openMP 3.0. 
 
-   To get and install the boost-libraries, see the HP:<http://www.boost.org/>.
-   The version of the boost would be no problem if 1.46.0 or later is used.
-   Especially, the boost-libraries should be builded with MPI 
-   because MolDS needs boost_mpi-library(i.e. -lboost_mpi).
+   -Boost C++ Libraries
+    Boost C++ Libraries  builded with MPI is needed.
+    To get and install the Boost, see the HP:<http://www.boost.org/>.
+    The version of the boost would be no problem if 1.46.0 or later is used.
+    Especially, the Boost should be builded with MPI 
+    because MolDS needs boost_mpi-library(i.e. -lboost_mpi).
 
-   To get and install the openBLAS-libraries, see the HP:<http://xianyi.github.com/OpenBLAS/>.
-   Note that "USE_OPENMP = 1" should be set for the installation of the opneBLAS.
-   Furthermore, "INTERFACE64 = 1" is also needed when you install the openBLAS into 64-bits machines
+   -Linear Algebra Packages (i.e. BLAS and LAPACK)
+    MolDS needs a linear algebra package. In the current implementation of MolDS, 
+    MKL (Intel's Math Kernel Library) or OpenBLAS is assumed as the linear algebra package 
+    for the Intel or GNU compilers, respectively.
+    See also the section of compilers about the version of the MKL.
+    To get and install the OpenBLAS-libraries, see the HP:<http://xianyi.github.com/OpenBLAS/>.
+    The version of the OpenBLAS would be no problem if 0.2.5 or later is used.
+    Note that "USE_OPENMP = 1" should be set for the installation of the opneBLAS.
+    Furthermore, "INTERFACE64 = 1" is also needed when you install the OpenBLAS into 64-bits machines
 
 ==============================================================================
 COMPILE(using GNUmake): 
    In the "src" directory in the MolDS package.
 
-   Case i) Using Intel mpi c++ compiler (mpiicpc)
+   Case i) The Intel mpi compiler (mpiicpc) which is wrapping the Intel c++ compiler (icpc)
       Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
-      boost-libraries in your systems.
+      Boost C++ Libraries in your systems.
 
       To compile MolDS on 32 bits machine,
       $ make INTEL=32
 
       To compile MolDS on 64 bits machine,
       $ make INTEL=64
+   
+   Case ii) The openMPI compiler (mpicxx) which is wrapping the Intel c++ compiler (icpc)
+      Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
+      Boost C++ Libraries in your systems.
 
-   Case ii) Using GNU c++ compiler (mpicxx)
+      To compile MolDS on 32 bits machine,
+      $ make INTEL=32 CC=mpicxx
+
+      To compile MolDS on 64 bits machine,
+      $ make INTEL=64 CC=mpicxx
+   
+
+   Case iii) The openMPI compiler (mpicxx) which is wrapping the GNU c++ compiler (g++) 
       Change the "BOOST_TOP_DIR" in "Makefile_GNU" to the top directory of the 
-      boost-libraries in your systems.
+      Boost C++ Libraries in your systems.
       Change the "OPENBLAS_TOP_DIR" in "Makefile_GNU" to the top directory of the 
-      boost-libraries in your systems.
+      OpneBLAS in your systems.
       
       Then, just type: 
       $ make -f Makefile_GNU 
 
-   For both case, the compile succeeded if you could fine "MolDS.out" in the "src" directory. 
-   Type "$ make clean" when you wanna clean the compilation.
+   For all case, the compile succeeded if you could fine "MolDS.out" in the "src" directory. 
+   If you want to clean the compilation, type 
+   $ make clean
    If you want to compile MolDS in debug-mode, 
    -g, -rdynamic(for function names in backtrace) and -DMOLDS_DBG should be added to CFLAGS,
-   that is, hit the following command:
-   $make CFLAGS="-O0 -g -rdynamic -DMOLDS_DBG"
+   namely, hit the following command:
+   $ make CFLAGS="-O0 -g -rdynamic -DMOLDS_DBG"
 
 ==============================================================================
 CARRY OUT MolDS:
@@ -82,8 +104,31 @@ CARRY OUT MolDS:
    or
    $ ./MolDS.out input.in
 
-   For the calculations with multiple processes(n) by MPI:
-   $ mpirun -np n MolDS.out input.in
+   For the calculations with muliple threads, type
+   $ export OMP_NUM_THREADS=n1
+   $ ./MolDS.out input.in
+   , where n1 is the number of threads.
+
+   For the calculations with multiple processes by MPI:
+   $ mpirun -np n2 MolDS.out input.in
+   , where n2 after the "-np" is the number of process.
+
+   For the calculations with muliple threads and muliple processes, type
+   $ export OMP_NUM_THREADS=n1
+   $ mpirun -np n2 MolDS.out input.in
+   , where n1 is the number of cores of each node and n2 is the number of nodes.
+
+   In the multiple processes calculations, process-0 can only output results.
+   If you want to get all output from the all process, 
+   -DMOLDS_DBG should be added to CFLAGS at the compilation.
+   Then, make only one process on each node and output results to 
+   node unique file (e.g. local file system of each node.),
+   namely, 
+   $ make CFLAGS="-DMOLDS_DBG"
+   $ export OMP_NUM_THREADS=n1
+   $ mpirun -np n2 MolDS.out input.in > /localFileSyste/output.dat
+   , where n1 is the number of cores of each node and n2 is the number of nodes.
+
 ==============================================================================
 SAMPLE and TEST
    See files in "test" directories for sample files.
@@ -99,44 +144,50 @@ SAMPLE and TEST
 
    $ ruby Test_Of_MolDS.rb test1.in test2.dat test3 ...
 
+   Note that this test script needs at least 4 cores.
+
 ==============================================================================
 CAPABILITIES:
 
-   Electronic state and molecular dynamics:
-            | HF  | CIS | MD(gs) | MD(es) | MC(gs) | MC(es) | RPMD(gs) | RPMD(es) | Optimize(gs) | Optimize(es) | Frequencies(gs) |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   CNDO2    | OK  | --  | --     | --     | OK     | --     | --       | --       | --           | --           | --              |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   INDO     | OK  | --  | --     | --     | OK     | --     | --       | --       | --           | --           | --              |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   ZINDO/S  | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | --              |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   MNDO     | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   AM1      | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   AM1-D    | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   PM3      | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   PM3-D    | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
-   ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
-   PM3/PDDG | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
+   -Electronic state and molecular dynamics
+             | HF  | CIS | MD(gs) | MD(es) | MC(gs) | MC(es) | RPMD(gs) | RPMD(es) | Optimize(gs) | Optimize(es) | Frequencies(gs) |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    CNDO2    | OK  | --  | --     | --     | OK     | --     | --       | --       | --           | --           | --              |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    INDO     | OK  | --  | --     | --     | OK     | --     | --       | --       | --           | --           | --              |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    ZINDO/S  | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | --              |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    MNDO     | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    AM1      | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    AM1-D    | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    PM3      | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    PM3-D    | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
+    ---------|-----|-----|--------|--------|--------|--------|----------|----------|--------------|--------------|-----------------|
+    PM3/PDDG | OK  | OK  | OK     | OK     | OK     | OK     | OK       | OK       | OK           | OK           | OK              |
 
       "OK", "Sch", and "--" mean available, shceduled, and non-scheduled methods, respectively.
       "gs" and "es" mean ground and excited states, respectively.
       i.e., MD(gs) and MD(es) mean Born-Oppenheimer Molecular Dynamics on ground and excited states, respectively. 
 
-   Elements:
-   CNDO2    | H, Li, C, N, O, and S
-   INDO     | H, Li, C, N, and O
-   ZINDO/S  | H, C, N, O, and S
-   MNDO     | H, C, N, O, and S 
-   AM1      | H, C, N, O, and S 
-   AM1-D    | H, C, N, O, and S 
-   PM3      | H, C, N, O, and S 
-   PM3-D    | H, C, N, O, and S 
-   PM3/PDDG | H, C, N, O, and S 
+   -Elements
+    CNDO2    | H, Li, C, N, O, and S
+    INDO     | H, Li, C, N, and O
+    ZINDO/S  | H, C, N, O, and S
+    MNDO     | H, C, N, O, and S 
+    AM1      | H, C, N, O, and S 
+    AM1-D    | H, C, N, O, and S 
+    PM3      | H, C, N, O, and S 
+    PM3-D    | H, C, N, O, and S 
+    PM3/PDDG | H, C, N, O, and S 
+
+   -Parallelization
+    Open MP parallelization: everywhere in MolDS
+    MPI parallelization: CIS is only parallelized with MPI. 
 
 ==============================================================================
 HOW TO WRITE INPUT:
@@ -158,6 +209,7 @@ HOW TO WRITE INPUT:
          THEORY_END
    
       -options
+       Write below options in SCF-directive.
        "max_iter", "rms_density", "damping_thresh", "damping_weight", 
        "diis_num_error_vect", "diis_start_error", "diis_end_error",
        "vdW", "vdW_s6", and "vdW_d" are prepared as options.
