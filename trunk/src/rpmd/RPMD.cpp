@@ -317,6 +317,7 @@ void RPMD::SetEnableTheoryTypes(){
 
    // excited state
    this->enableExcitedStateTheoryTypes.clear();
+   this->enableExcitedStateTheoryTypes.push_back(ZINDOS);
    this->enableExcitedStateTheoryTypes.push_back(MNDO);
    this->enableExcitedStateTheoryTypes.push_back(AM1);
    this->enableExcitedStateTheoryTypes.push_back(AM1D);
