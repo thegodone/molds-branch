@@ -23,8 +23,11 @@
 #include<math.h>
 #include<string>
 #include<stdexcept>
-#include"../base/MolDSException.h"
+#include<boost/format.hpp>
 #include"../base/Uncopyable.h"
+#include"../base/PrintController.h"
+#include"../base/MolDSException.h"
+#include"../base/MallocerFreer.h"
 #include"MpiProcess.h"
 using namespace std;
 namespace MolDS_mpi{

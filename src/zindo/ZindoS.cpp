@@ -29,14 +29,14 @@
 #include<omp.h>
 #include<boost/format.hpp>
 #include"../base/Uncopyable.h"
-#include"../mpi/MpiProcess.h"
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
+#include"../base/MallocerFreer.h"
+#include"../mpi/MpiProcess.h"
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"../base/Enums.h"
 #include"../base/MathUtilities.h"
-#include"../base/MallocerFreer.h"
 #include"../base/EularAngle.h"
 #include"../base/Parameters.h"
 #include"../base/atoms/Atom.h"
@@ -3574,31 +3574,35 @@ void ZindoS::CalcDiatomicTwoElecTwoCore1stDerivatives(double*** matrix,
 // elecStates is indeces of the electroinc eigen states.
 // The index = 0 means electronic ground state. 
 void ZindoS::CalcForce(const vector<int>& elecStates){
+   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    this->CheckMatrixForce(elecStates);
    if(this->RequiresExcitedStatesForce(elecStates)){
       this->CalcEtaMatrixForce(elecStates);
       this->CalcZMatrixForce(elecStates);
    }
-   stringstream ompErrors;
+  
+   // this loop is MPI-parallelized
+   for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
+      if(a%mpiSize != mpiRank){continue;}
+      const Atom& atomA = *molecule->GetAtom(a);
+      int firstAOIndexA = atomA.GetFirstAOIndex();
+      int lastAOIndexA  = atomA.GetLastAOIndex();
+      stringstream ompErrors;
 #pragma omp parallel 
-   {
-      double*** diatomicTwoElecTwoCore1stDerivs = NULL;
-      double*** diatomicOverlapAOs1stDerivs = NULL;
-      try{
-         MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore1stDerivs,
-                                                      OrbitalType_end, 
-                                                      OrbitalType_end, 
-                                                      CartesianType_end);
-         MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs1stDerivs,
-                                                      OrbitalType_end, 
-                                                      OrbitalType_end, 
-                                                      CartesianType_end);
-
+      {
+         double*** diatomicTwoElecTwoCore1stDerivs = NULL;
+         double*** diatomicOverlapAOs1stDerivs = NULL;
+         try{
+            MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore1stDerivs,
+                                                         OrbitalType_end, 
+                                                         OrbitalType_end, 
+                                                         CartesianType_end);
+            MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs1stDerivs,
+                                                         OrbitalType_end, 
+                                                         OrbitalType_end, 
+                                                         CartesianType_end);
 #pragma omp for schedule(auto)
-         for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
-            const Atom& atomA = *molecule->GetAtom(a);
-            int firstAOIndexA = atomA.GetFirstAOIndex();
-            int lastAOIndexA  = atomA.GetLastAOIndex();
             for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
                if(a == b){continue;}
                const Atom& atomB = *molecule->GetAtom(b);
@@ -3713,27 +3717,60 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                      }
                   }
                }
-            } // end of for(int b)
-         }    // end of for(int a)
-      }       // end of try
-      catch(MolDSException ex){
+            } // end of for(int b) with omp parallelization
+         }// end of try for omp-for
+         catch(MolDSException ex){
 #pragma omp critical
-         ex.Serialize(ompErrors);
+            ex.Serialize(ompErrors);
+         }
+         MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore1stDerivs, 
+                                                    OrbitalType_end,
+                                                    OrbitalType_end,
+                                                    CartesianType_end);
+         MallocerFreer::GetInstance()->Free<double>(&diatomicOverlapAOs1stDerivs, 
+                                                    OrbitalType_end,
+                                                    OrbitalType_end,
+                                                    CartesianType_end);
+      } //end of parallelized region
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException::Deserialize(ompErrors);
       }
-      MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore1stDerivs, 
-                                                 OrbitalType_end,
-                                                 OrbitalType_end,
-                                                 CartesianType_end);
-      MallocerFreer::GetInstance()->Free<double>(&diatomicOverlapAOs1stDerivs, 
-                                                 OrbitalType_end,
-                                                 OrbitalType_end,
-                                                 CartesianType_end);
+   }    // end of for(int a) with MPI parallelization
+
+   // communication to reduce thsi->matrixForce on all node (namely, all_reduce)
+   int numTransported = elecStates.size()*this->molecule->GetNumberAtoms()*CartesianType_end;
+   MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&this->matrixForce[0][0][0], numTransported, std::plus<double>());
+   /*
+   double*** tmp=NULL;
+   try{
+      MallocerFreer::GetInstance()->Malloc<double>(&tmp, 
+                                                   elecStates.size(),
+                                                   this->molecule->GetNumberAtoms(),
+                                                   CartesianType_end);
+      MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&this->matrixForce[0][0][0], numTransported, &tmp[0][0][0], std::plus<double>());
+      for(int n=0; n<elecStates.size(); n++){
+         for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
+            for(int i=0; i<CartesianType_end; i++){
+               this->matrixForce[n][a][i] = tmp[n][a][i];
+            }
+         }
+      }
    }
-   // Exception throwing for omp-region
-   if(!ompErrors.str().empty()){
-      throw MolDSException::Deserialize(ompErrors);
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free<double>(&tmp, 
+                                                 elecStates.size(),
+                                                 this->molecule->GetNumberAtoms(),
+                                                 CartesianType_end);
+      throw ex;
    }
-  
+   MallocerFreer::GetInstance()->Free<double>(&tmp, 
+                                              elecStates.size(),
+                                              this->molecule->GetNumberAtoms(),
+                                              CartesianType_end);
+   */
+   // end of communication
+
    /*
    // Calculate force (on the ground state only). 
    // First derivative of overlapAOs integral is

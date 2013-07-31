@@ -1,6 +1,6 @@
 //************************************************************************//
-// Copyright (C) 2011-2012 Mikiya Fujii                                   // 
-// Copyright (C) 2012-2012 Katsuhiko Nishimra                             // 
+// Copyright (C) 2011-2013 Mikiya Fujii                                   // 
+// Copyright (C) 2011-2013 Katsuhiko Nishimra                             // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -17,21 +17,48 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_PRINTCONTROLLER
-#define INCLUDED_PRINTCONTROLLER
+#include<sstream>
+#include<string>
+#include<iostream>
+#include<cctype>
+#include<boost/format.hpp>
+#include"Uncopyable.h"
+#include"PrintController.h"
+#include"MolDSException.h"
+#include"MallocerFreer.h"
+#include"../mpi/MpiProcess.h"
+using namespace std;
 namespace MolDS_base{
 
-class PrintController{
-public:
-   PrintController();
-   virtual ~PrintController();
-   bool CanOutputLogs() const               {return this->canOutputLogs;}
-   void SetCanOutputLogs(bool canOutputLogs){this->canOutputLogs = canOutputLogs;}
-protected:
-   void OutputLog(const boost::format& log) const{this->OutputLog(log.str());}
-   void OutputLog(std::string log) const;
-private:
-   bool canOutputLogs;
-};
+PrintController::PrintController(){
+   this->canOutputLogs = true;
+   //this->OutputLog("printController is created.\n");
 }
+
+PrintController::~PrintController(){
+   //this->OutputLog("printController is destructed.\n";
+}
+
+void PrintController::OutputLog(string log) const{
+   if(this->canOutputLogs){
+#ifndef MOLDS_DBG
+      if(MolDS_mpi::MpiProcess::GetInstance()->GetRank()!=0){return;}
 #endif
+      bool endl = false;
+      string::reverse_iterator iter;
+      for(iter = log.rbegin(); iter != log.rend(); iter++){
+         if(*iter == '\n'){
+            string::iterator fwditer = iter.base();
+            log.erase(--fwditer);
+            endl = true;
+            break;
+         }
+         else if(*iter != '\0'){
+            break;
+         }
+      }
+      cout << log;
+      if(endl){cout << std::endl;}
+   }
+}
+}
