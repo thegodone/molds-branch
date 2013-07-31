@@ -119,7 +119,7 @@ CARRY OUT MolDS:
    , where n1 is the number of cores of each node and n2 is the number of nodes.
 
    In the multiple processes calculations, process-0 can only output results.
-   If you want to get all output from the all process, 
+   If you want to get all output from the all processes, 
    -DMOLDS_DBG should be added to CFLAGS at the compilation.
    Then, make only one process on each node and output results to 
    node unique file (e.g. local file system of each node.),
