@@ -51,7 +51,7 @@ class Tester
       return unless should_run?
       ENV["MKL_NUM_THREADS"] = mklNumThreads
       ENV["OMP_NUM_THREADS"] = ompNumThreads
-			puts <<EOS % [0,ENV["MKL_NUM_THREADS"],ENV["OMP_NUM_THREADS"]]
+			puts <<EOS % [1,ENV["MKL_NUM_THREADS"],ENV["OMP_NUM_THREADS"]]
 MPI processes:  %s
 MKL_NUM_THREADS:%s
 OMP_NUM_THREADS:%s
