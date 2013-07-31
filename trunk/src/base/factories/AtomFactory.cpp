@@ -24,9 +24,10 @@
 #include<stdexcept>
 #include<boost/format.hpp>
 #include"../Uncopyable.h"
-#include"../../mpi/MpiProcess.h"
 #include"../PrintController.h"
 #include"../MolDSException.h"
+#include"../MallocerFreer.h"
+#include"../../mpi/MpiProcess.h"
 #include"../Enums.h"
 #include"../atoms/Atom.h"
 #include"../atoms/Hatom.h"

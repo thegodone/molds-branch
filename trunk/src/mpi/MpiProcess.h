@@ -51,6 +51,38 @@ public:
          broadcast(*this->communicator, &values[chunks[i].first], chunks[i].num, root);
       }
    }
+   template<typename T, typename Op> void Reduce(const T* inValues, intptr_t num, T* outValues, Op op, int root) const{
+      std::vector<Chunk> chunks;
+      intptr_t tag=0;
+      this->SplitMessage2Chunks(chunks, tag, inValues, num);
+      for(intptr_t i=0; i<chunks.size(); i++){
+         reduce(*this->communicator, &inValues[chunks[i].first], chunks[i].num, &outValues[chunks[i].first], op, root);
+      }
+   }
+   template<typename T, typename Op> void AllReduce(const T* inValues, intptr_t num, T* outValues, Op op) const{
+      std::vector<Chunk> chunks;
+      intptr_t tag=0;
+      this->SplitMessage2Chunks(chunks, tag, inValues, num);
+      for(intptr_t i=0; i<chunks.size(); i++){
+         all_reduce(*this->communicator, &inValues[chunks[i].first], chunks[i].num, &outValues[chunks[i].first], op);
+      }
+   }
+   template<typename T, typename Op> void AllReduce(T* values, intptr_t num, Op op) const{
+      double* tmpValues=NULL;
+      try{
+         MolDS_base::MallocerFreer::GetInstance()->Malloc<double>(&tmpValues, num);
+         this->AllReduce(values, num, tmpValues, op);
+         for(intptr_t i=0; i<num; i++){
+            values[i] = tmpValues[i];
+         }
+      }
+      catch(MolDS_base::MolDSException ex){
+         MolDS_base::MallocerFreer::GetInstance()->Free<double>(&tmpValues, num);
+         throw ex;
+      }
+      MolDS_base::MallocerFreer::GetInstance()->Free<double>(&tmpValues, num);
+   }
+
 private:
    static MpiProcess* mpiProcess;
    MpiProcess();

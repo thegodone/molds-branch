@@ -26,10 +26,10 @@
 #include<stdexcept>
 #include<boost/format.hpp>
 #include"../base/Uncopyable.h"
-#include"../mpi/MpiProcess.h"
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/MallocerFreer.h"
+#include"../mpi/MpiProcess.h"
 #include"Blas.h"
 
 #ifdef __INTEL_COMPILER
