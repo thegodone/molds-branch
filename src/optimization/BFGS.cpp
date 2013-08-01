@@ -188,6 +188,11 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
          else{
             this->UpdateMolecularCoordinates(molecule, matrixStep);
+
+            // Broadcast to all processes
+            int root=0;
+            molecule.BroadcastConfigurationToAllProcesses(root);
+
             this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
             lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
          }

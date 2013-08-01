@@ -65,6 +65,7 @@ private:
    void UpdateCoordinates(const std::vector<boost::shared_ptr<MolDS_base::Molecule> >& molecularBeads,
                           double dt);
    void UpdateElectronicStructure(const std::vector<boost::shared_ptr<MolDS_base::ElectronicStructure> >& electronicStructureBeads);
+   void BroadcastPhaseSpacepointsToAllProcesses(std::vector<boost::shared_ptr<MolDS_base::Molecule> >& molecularBeads, int root) const;
    void FluctuateBeads(const std::vector<boost::shared_ptr<MolDS_base::Molecule> >& molecularBeads,
                        int elecState,
                        double temperature,

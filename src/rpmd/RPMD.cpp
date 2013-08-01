@@ -129,6 +129,13 @@ void RPMD::UpdateCoordinates(const vector<boost::shared_ptr<Molecule> >& molecul
    }
 }
 
+void RPMD::BroadcastPhaseSpacepointsToAllProcesses(std::vector<boost::shared_ptr<MolDS_base::Molecule> >& molecularBeads, int root) const{
+   int numBeads = molecularBeads.size();
+   for(int b=0; b<numBeads; b++){
+      molecularBeads[b]->BroadcastPhaseSpacePointToAllProcesses(root);
+   }
+}
+
 void RPMD::FluctuateBeads(const vector<boost::shared_ptr<Molecule> >& molecularBeads,
                           int elecState,
                           double temperature,
@@ -193,6 +200,10 @@ void RPMD::DoRPMD(const Molecule& refferenceMolecule){
 
       // update momenta
       this->UpdateMomenta(molecularBeads, electronicStructureBeads, elecState, dt, temperature);
+
+      // Broadcast coordinates and momenta of beads to all processes
+      int root=0;
+      this->BroadcastPhaseSpacepointsToAllProcesses(molecularBeads, root);
 
       // output energy
       this->OutputEnergies(molecularBeads, 
