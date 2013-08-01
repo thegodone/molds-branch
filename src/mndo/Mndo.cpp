@@ -2267,23 +2267,29 @@ void Mndo::CalcForceExcitedTwoElecPart(double* force,
 // electronicStateIndex is index of the electroinc eigen state.
 // "electronicStateIndex = 0" means electronic ground state. 
 void Mndo::CalcForce(const vector<int>& elecStates){
+   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    this->CheckMatrixForce(elecStates);
    if(this->RequiresExcitedStatesForce(elecStates)){
       this->CalcEtaMatrixForce(elecStates);
       this->CalcZMatrixForce(elecStates);
    }
-   stringstream ompErrors;
+
+   // this loop is MPI-parallelized
+   for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
+      if(a%mpiSize != mpiRank){continue;}
+      const Atom& atomA = *molecule->GetAtom(a);
+      int firstAOIndexA = atomA.GetFirstAOIndex();
+      int lastAOIndexA  = atomA.GetLastAOIndex();
+      stringstream ompErrors;
 #pragma omp parallel
-   {
-      double***** diatomicTwoElecTwoCore1stDerivs = NULL;
-      double***   diatomicOverlapAOs1stDerivs = NULL;
-      try{
-         this->MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
+      {
+         double***** diatomicTwoElecTwoCore1stDerivs = NULL;
+         double***   diatomicOverlapAOs1stDerivs = NULL;
+         try{
+            this->MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
+
 #pragma omp for schedule(auto)
-         for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
-            const Atom& atomA = *molecule->GetAtom(a);
-            int firstAOIndexA = atomA.GetFirstAOIndex();
-            int lastAOIndexA  = atomA.GetLastAOIndex();
             for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
                if(a == b){continue;}
                const Atom& atomB = *molecule->GetAtom(b);
@@ -2393,19 +2399,25 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                      }
                   }
                } // end of excited state force
-            }    // end of for(int b)
-         }       // end of for(int a)
-      }          // end of try
-      catch(MolDSException ex){
+            }    // end of for(int b) with omp parallelization
+
+         }          // end of try for omp-for
+         catch(MolDSException ex){
 #pragma omp critical
-         ex.Serialize(ompErrors);
+            ex.Serialize(ompErrors);
+         }
+         this->FreeTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
+      } // end of omp-parallelized region
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException::Deserialize(ompErrors);
       }
-      this->FreeTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, &diatomicTwoElecTwoCore1stDerivs);
-   }
-   // Exception throwing for omp-region
-   if(!ompErrors.str().empty()){
-      throw MolDSException::Deserialize(ompErrors);
-   }
+   }// end of for(int a) with MPI parallelization
+
+   // communication to reduce thsi->matrixForce on all node (namely, all_reduce)
+   int numTransported = elecStates.size()*this->molecule->GetNumberAtoms()*CartesianType_end;
+   MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&this->matrixForce[0][0][0], numTransported, std::plus<double>());
+   
 }
 
 void Mndo::MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, double****** diatomicTwoElecTwoCore1stDerivs) const{

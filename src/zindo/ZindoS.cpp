@@ -3731,7 +3731,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                                     OrbitalType_end,
                                                     OrbitalType_end,
                                                     CartesianType_end);
-      } //end of parallelized region
+      } //end of omp-parallelized region
       // Exception throwing for omp-region
       if(!ompErrors.str().empty()){
          throw MolDSException::Deserialize(ompErrors);
