@@ -89,6 +89,8 @@ void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> elect
 
       // do line search
       this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixForce, elecState, dt);
+
+      // update force
       matrixForce = electronicStructure->GetForce(elecState);
 
       // check convergence

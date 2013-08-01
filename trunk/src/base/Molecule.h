@@ -60,6 +60,9 @@ public:
    void SynchronizeConfigurationTo  (const Molecule& ref);
    void SynchronizeMomentaTo        (const Molecule& ref);
    void SynchronizePhaseSpacePointTo(const Molecule& ref);
+   void BroadcastConfigurationToAllProcesses(int root) const;
+   void BroadcastMomentaToAllProcesses(int root) const;
+   void BroadcastPhaseSpacePointToAllProcesses(int root) const;
 private:
    std::vector<MolDS_base_atoms::Atom*>* atomVect;
    double*  xyzCOM; // x, y, z coordinates of Center of Mass;

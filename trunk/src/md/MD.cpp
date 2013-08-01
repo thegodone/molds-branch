@@ -115,6 +115,10 @@ void MD::DoMD(){
       // update momenta
       this->UpdateMomenta(*this->molecule, matrixForce, dt);
 
+      // Broadcast to all processes
+      int root=0;
+      this->molecule->BroadcastPhaseSpacePointToAllProcesses(root);
+
       // output results
       this->OutputEnergies(electronicStructure, initialEnergy);
       this->molecule->OutputConfiguration();
