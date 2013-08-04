@@ -190,7 +190,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             this->UpdateMolecularCoordinates(molecule, matrixStep);
 
             // Broadcast to all processes
-            int root=0;
+            int root = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
             molecule.BroadcastConfigurationToAllProcesses(root);
 
             this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);

@@ -41,8 +41,9 @@ PrintController::~PrintController(){
 
 void PrintController::OutputLog(string log) const{
    if(this->canOutputLogs){
+      int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
 #ifndef MOLDS_DBG
-      if(MolDS_mpi::MpiProcess::GetInstance()->GetRank()!=0){return;}
+      if(MolDS_mpi::MpiProcess::GetInstance()->GetRank()!=mpiHeadRank){return;}
 #endif
       bool endl = false;
       string::reverse_iterator iter;

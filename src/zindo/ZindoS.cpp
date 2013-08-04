@@ -1241,29 +1241,30 @@ void ZindoS::CalcCISProperties(){
    MallocerFreer::GetInstance()->Free<double>(&dipoleMOs, CartesianType_end, totalNumberAOs, totalNumberAOs);
    MallocerFreer::GetInstance()->Free<double>(&overlapMOs, totalNumberAOs, totalNumberAOs);
 
-   // communication to collect all matrix data on rank 0
+   // communication to collect all matrix data on head-rank  
+   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
    int numTransported = (Parameters::GetInstance()->GetNumberExcitedStatesCIS()+1)*CartesianType_end;
-   if(mpiRank == 0){
+   if(mpiRank == mpiHeadRank){
       // receive the matrix data from other ranks
       for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS()+1; k++){
-         if(k%mpiSize == 0){continue;}
+         if(k%mpiSize == mpiHeadRank){continue;}
          int source = k%mpiSize;
          int tag = k;
          MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, &this->electronicTransitionDipoleMoments[k][0][0], numTransported);
       }
    }
    else{
-      // send the matrix data to rank-0
+      // send the matrix data to head-rank
       for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS()+1; k++){
          if(k%mpiSize != mpiRank){continue;}
-         int dest = 0;
+         int dest = mpiHeadRank;
          int tag = k;
          MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, &this->electronicTransitionDipoleMoments[k][0][0], numTransported);
       }
    }
 
    // right upper part of the matrix is copied from left lower part.
-   if(mpiRank == 0 && Parameters::GetInstance()->RequiresAllTransitionDipoleMomentsCIS()){
+   if(mpiRank == mpiHeadRank && Parameters::GetInstance()->RequiresAllTransitionDipoleMomentsCIS()){
       for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS()+1; k++){
          for(int l=k+1; l<Parameters::GetInstance()->GetNumberExcitedStatesCIS()+1; l++){
             for(int axis=0; axis<CartesianType_end; axis++){
@@ -1276,7 +1277,7 @@ void ZindoS::CalcCISProperties(){
 
    // broadcast all matrix data to all ranks
    numTransported *= (Parameters::GetInstance()->GetNumberExcitedStatesCIS()+1);
-   int root=0;
+   int root=mpiHeadRank;
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&this->electronicTransitionDipoleMoments[0][0][0], numTransported, root);
 
 
@@ -2393,28 +2394,29 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
    } // end of k-loop
 
 
-   // communication to collect all matrix data on rank 0
-   if(mpiRank == 0){
+   // communication to collect all matrix data on head-rank 
+   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   if(mpiRank == mpiHeadRank){
       // receive the matrix data from other ranks
       for(int k=0; k<this->matrixCISdimension; k++){
-         if(k%mpiSize == 0){continue;}
+         if(k%mpiSize == mpiHeadRank){continue;}
          int source = k%mpiSize;
          int tag = k;
          MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, matrixCIS[k], this->matrixCISdimension);
       }
    }
    else{
-      // send the matrix data to rank-0
+      // send the matrix data to head-rank
       for(int k=0; k<this->matrixCISdimension; k++){
          if(k%mpiSize != mpiRank){continue;}
-         int dest = 0;
+         int dest = mpiHeadRank;
          int tag = k;
          MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, matrixCIS[k], this->matrixCISdimension);
       }
    }
 
    // broadcast all matrix data to all rank
-   int root=0;
+   int root=mpiHeadRank;
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&matrixCIS[0][0], this->matrixCISdimension*this->matrixCISdimension, root);
 
    double ompEndTime = omp_get_wtime();
