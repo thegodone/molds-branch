@@ -894,10 +894,11 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
    } // end of k-loop
 
    // communication to collect all matrix data on rank 0
-   if(mpiRank == 0){
+   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   if(mpiRank == mpiHeadRank){
       // receive the matrix data from other ranks
       for(int k=0; k<this->matrixCISdimension; k++){
-         if(k%mpiSize == 0){continue;}
+         if(k%mpiSize == mpiHeadRank){continue;}
          int source = k%mpiSize;
          int tag = k;
          MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, matrixCIS[k], this->matrixCISdimension);
@@ -907,13 +908,13 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
       // send the matrix data to rank-0
       for(int k=0; k<this->matrixCISdimension; k++){
          if(k%mpiSize != mpiRank){continue;}
-         int dest = 0;
+         int dest = mpiHeadRank;
          int tag = k;
          MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, matrixCIS[k], this->matrixCISdimension);
       }
    }
    // broadcast all matrix data to all rank
-   int root=0;
+   int root=mpiHeadRank;
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&matrixCIS[0][0], this->matrixCISdimension*this->matrixCISdimension, root);
 
 

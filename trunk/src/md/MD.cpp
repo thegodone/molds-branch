@@ -116,7 +116,7 @@ void MD::DoMD(){
       this->UpdateMomenta(*this->molecule, matrixForce, dt);
 
       // Broadcast to all processes
-      int root=0;
+      int root = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
       this->molecule->BroadcastPhaseSpacePointToAllProcesses(root);
 
       // output results

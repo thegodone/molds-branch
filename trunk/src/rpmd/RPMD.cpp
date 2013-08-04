@@ -202,7 +202,7 @@ void RPMD::DoRPMD(const Molecule& refferenceMolecule){
       this->UpdateMomenta(molecularBeads, electronicStructureBeads, elecState, dt, temperature);
 
       // Broadcast coordinates and momenta of beads to all processes
-      int root=0;
+      int root = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
       this->BroadcastPhaseSpacepointsToAllProcesses(molecularBeads, root);
 
       // output energy

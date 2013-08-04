@@ -27,6 +27,7 @@ public:
    static void        CreateInstance(int argc, char *argv[]);
    static void        DeleteInstance();
    static MpiProcess* GetInstance();
+   int GetHeadRank() const{return 0;}
    int GetRank() const{return this->communicator->rank();}
    int GetSize() const{return this->communicator->size();}
    template<typename T> void Send(int dest, int tag, const T* values, intptr_t num) const{

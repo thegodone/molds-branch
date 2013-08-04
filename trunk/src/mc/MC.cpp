@@ -139,7 +139,7 @@ void MC::DoMC(int totalSteps, int elecState, double temperature, double stepWidt
       }
 
       // Broadcast to all processes
-      int root=0;
+      int root = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
       this->molecule->BroadcastConfigurationToAllProcesses(root);
       trialMolecule.BroadcastConfigurationToAllProcesses(root);
       

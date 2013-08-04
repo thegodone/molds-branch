@@ -210,7 +210,7 @@ void Optimizer::LineSearch(boost::shared_ptr<ElectronicStructure> electronicStru
    this->UpdateMolecularCoordinates(molecule, matrixForce, -0.5*dt);
 
    // Broadcast to all processes
-   int root=0;
+   int root = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
    molecule.BroadcastConfigurationToAllProcesses(root);
 
    // update and output electronic structure
