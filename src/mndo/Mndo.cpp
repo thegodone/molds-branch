@@ -975,7 +975,9 @@ void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOve
                                                       double******** diatomicTwoElecTwoCore2ndDerivs,
                                                       double***      tmpRotMat,
                                                       double****     tmpRotMat1stDerivs,
-                                                      double*****    tmpDiatomicTwoElecTwoCore) const{
+                                                      double*****    tmpRotMat2ndDerivs,
+                                                      double*****    tmpDiatomicTwoElecTwoCore,
+                                                      double******   tmpDiatomicTwoElecTwoCore1stDerivs) const{
    MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDerivs,
                                                 this->molecule->GetNumberAtoms(),
                                                 OrbitalType_end,
@@ -1009,11 +1011,22 @@ void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOve
                                                 OrbitalType_end, 
                                                 OrbitalType_end, 
                                                 CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat2ndDerivs, 
+                                                OrbitalType_end, 
+                                                OrbitalType_end, 
+                                                CartesianType_end,
+                                                CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tmpDiatomicTwoElecTwoCore, 
                                                 dxy, 
                                                 dxy, 
                                                 dxy, 
                                                 dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpDiatomicTwoElecTwoCore1stDerivs, 
+                                                dxy, 
+                                                dxy, 
+                                                dxy, 
+                                                dxy,
+                                                CartesianType_end);
 }
 
 void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverlapAOs1stDerivs,
@@ -1022,7 +1035,9 @@ void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverl
                                                     double******** diatomicTwoElecTwoCore2ndDerivs,
                                                     double***      tmpRotMat,
                                                     double****     tmpRotMat1stDerivs,
-                                                    double*****    tmpDiatomicTwoElecTwoCore) const{
+                                                    double*****    tmpRotMat2ndDerivs,
+                                                    double*****    tmpDiatomicTwoElecTwoCore,
+                                                    double******   tmpDiatomicTwoElecTwoCore1stDerivs) const{
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDerivs,
                                               this->molecule->GetNumberAtoms(),
                                               OrbitalType_end,
@@ -1056,11 +1071,22 @@ void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverl
                                               OrbitalType_end, 
                                               OrbitalType_end, 
                                               CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpRotMat2ndDerivs, 
+                                              OrbitalType_end, 
+                                              OrbitalType_end, 
+                                              CartesianType_end,
+                                              CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(tmpDiatomicTwoElecTwoCore, 
                                               dxy, 
                                               dxy, 
                                               dxy, 
                                               dxy);
+   MallocerFreer::GetInstance()->Free<double>(tmpDiatomicTwoElecTwoCore1stDerivs, 
+                                              dxy, 
+                                              dxy, 
+                                              dxy, 
+                                              dxy,
+                                              CartesianType_end);
 }
 
 // mu and nu is included in atomA' AO. 
@@ -1602,13 +1628,15 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
       stringstream ompErrors;
 #pragma omp parallel
       {
-         double****    diatomicOverlapAOs1stDerivs     = NULL;
-         double*****   diatomicOverlapAOs2ndDerivs     = NULL;
-         double******  diatomicTwoElecTwoCore1stDerivs = NULL;
-         double******* diatomicTwoElecTwoCore2ndDerivs = NULL;
-         double**      tmpRotMat                       = NULL;
-         double***     tmpRotMat1stDerivs              = NULL;
-         double****    tmpDiatomicTwoElecTwoCore       = NULL;
+         double****    diatomicOverlapAOs1stDerivs        = NULL;
+         double*****   diatomicOverlapAOs2ndDerivs        = NULL;
+         double******  diatomicTwoElecTwoCore1stDerivs    = NULL;
+         double******* diatomicTwoElecTwoCore2ndDerivs    = NULL;
+         double**      tmpRotMat                          = NULL;
+         double***     tmpRotMat1stDerivs                 = NULL;
+         double****    tmpRotMat2ndDerivs                 = NULL;
+         double****    tmpDiatomicTwoElecTwoCore          = NULL;
+         double*****   tmpDiatomicTwoElecTwoCore1stDerivs = NULL;
          try{
             this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicOverlapAOs1stDerivs,
                                                              &diatomicOverlapAOs2ndDerivs,
@@ -1616,7 +1644,9 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                              &diatomicTwoElecTwoCore2ndDerivs,
                                                              &tmpRotMat,
                                                              &tmpRotMat1stDerivs,
-                                                             &tmpDiatomicTwoElecTwoCore);
+                                                             &tmpRotMat2ndDerivs,
+                                                             &tmpDiatomicTwoElecTwoCore,
+                                                             &tmpDiatomicTwoElecTwoCore1stDerivs);
 #pragma omp for schedule(auto)                                                 
             for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
                const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
@@ -1640,6 +1670,11 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                                        indexAtomA, 
                                                                        indexAtomB);
                         this->CalcDiatomicTwoElecTwoCore2ndDerivatives(diatomicTwoElecTwoCore2ndDerivs[indexAtomB], 
+                                                                       tmpRotMat,
+                                                                       tmpRotMat1stDerivs,
+                                                                       tmpRotMat2ndDerivs,
+                                                                       tmpDiatomicTwoElecTwoCore,
+                                                                       tmpDiatomicTwoElecTwoCore1stDerivs,
                                                                        indexAtomA, 
                                                                        indexAtomB);
                      }
@@ -1701,7 +1736,9 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                         &diatomicTwoElecTwoCore2ndDerivs,
                                                         &tmpRotMat,
                                                         &tmpRotMat1stDerivs,
-                                                        &tmpDiatomicTwoElecTwoCore);
+                                                        &tmpRotMat2ndDerivs,
+                                                        &tmpDiatomicTwoElecTwoCore,
+                                                        &tmpDiatomicTwoElecTwoCore1stDerivs);
       }// end of omp-region
       // Exception throwing for omp-region
       if(!ompErrors.str().empty()){
@@ -3393,8 +3430,13 @@ void Mndo::CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix,
 // Note taht d-orbital cannot be treated, 
 // that is, matrix[dxy][dxy][dxy][dxy][CartesianType_end][CartesianType_end] cannot be treatable.
 void Mndo::CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix, 
-                                                       int indexAtomA, 
-                                                       int indexAtomB) const{
+                                                    double**     tmpRotMat,
+                                                    double***    tmpRotMat1stDerivs,
+                                                    double****   tmpRotMat2ndDerivs,
+                                                    double****   tmpDiatomicTwoElecTwoCore,
+                                                    double*****  tmpDiatomicTwoElecTwoCore1stDerivs,
+                                                    int indexAtomA, 
+                                                    int indexAtomB) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    if(indexAtomA == indexAtomB){
@@ -3420,148 +3462,57 @@ void Mndo::CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix,
                                                     CartesianType_end,
                                                     CartesianType_end);
 
-   double** rotatingMatrix = NULL;
-   double*** rotMat1stDerivatives = NULL;
-   double**** rotMat2ndDerivatives = NULL;
-   double**** diatomicTwoElecTwoCore = NULL;
-   double***** diatomicTwoElecTwoCore1stDerivatives = NULL;
-   try{
-      this->MallocDiatomicTwoElecTwoCore2ndDeriTemps(&rotatingMatrix,
-                                                     &rotMat1stDerivatives,
-                                                     &rotMat2ndDerivatives,
-                                                     &diatomicTwoElecTwoCore,
-                                                     &diatomicTwoElecTwoCore1stDerivatives);
-      // calclation in diatomic frame
-      for(int mu=0; mu<atomA.GetValenceSize(); mu++){
-         for(int nu=0; nu<atomA.GetValenceSize(); nu++){
-            for(int lambda=0; lambda<atomB.GetValenceSize(); lambda++){
-               for(int sigma=0; sigma<atomB.GetValenceSize(); sigma++){
-                  for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
-                     for(int dimA2=0; dimA2<CartesianType_end; dimA2++){
-                        matrix[mu][nu][lambda][sigma][dimA1][dimA2]
-                           = this->GetNddoRepulsionIntegral2ndDerivative(
-                                   atomA, 
-                                   atomA.GetValence(mu),
-                                   atomA.GetValence(nu),
-                                   atomB, 
-                                   atomB.GetValence(lambda),
-                                   atomB.GetValence(sigma),
-                                   static_cast<CartesianType>(dimA1),
-                                   static_cast<CartesianType>(dimA2));
-                     }
-                     diatomicTwoElecTwoCore1stDerivatives[mu][nu][lambda][sigma][dimA1] 
-                        = this->GetNddoRepulsionIntegral1stDerivative(
+   // calclation in diatomic frame
+   for(int mu=0; mu<atomA.GetValenceSize(); mu++){
+      for(int nu=0; nu<atomA.GetValenceSize(); nu++){
+         for(int lambda=0; lambda<atomB.GetValenceSize(); lambda++){
+            for(int sigma=0; sigma<atomB.GetValenceSize(); sigma++){
+               for(int dimA1=0; dimA1<CartesianType_end; dimA1++){
+                  for(int dimA2=0; dimA2<CartesianType_end; dimA2++){
+                     matrix[mu][nu][lambda][sigma][dimA1][dimA2]
+                        = this->GetNddoRepulsionIntegral2ndDerivative(
                                 atomA, 
                                 atomA.GetValence(mu),
                                 atomA.GetValence(nu),
                                 atomB, 
                                 atomB.GetValence(lambda),
                                 atomB.GetValence(sigma),
-                                static_cast<CartesianType>(dimA1));
-                  }  
-                  diatomicTwoElecTwoCore[mu][nu][lambda][sigma] 
-                     = this->GetNddoRepulsionIntegral(
+                                static_cast<CartesianType>(dimA1),
+                                static_cast<CartesianType>(dimA2));
+                  }
+                  tmpDiatomicTwoElecTwoCore1stDerivs[mu][nu][lambda][sigma][dimA1] 
+                     = this->GetNddoRepulsionIntegral1stDerivative(
                              atomA, 
                              atomA.GetValence(mu),
                              atomA.GetValence(nu),
                              atomB, 
                              atomB.GetValence(lambda),
-                             atomB.GetValence(sigma));
-               }
+                             atomB.GetValence(sigma),
+                             static_cast<CartesianType>(dimA1));
+               }  
+               tmpDiatomicTwoElecTwoCore[mu][nu][lambda][sigma] 
+                  = this->GetNddoRepulsionIntegral(
+                          atomA, 
+                          atomA.GetValence(mu),
+                          atomA.GetValence(nu),
+                          atomB, 
+                          atomB.GetValence(lambda),
+                          atomB.GetValence(sigma));
             }
          }
       }
-
-      // rotate matirix into the space frame
-      this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
-      this->CalcRotatingMatrix1stDerivatives(rotMat1stDerivatives, atomA, atomB);
-      this->CalcRotatingMatrix2ndDerivatives(rotMat2ndDerivatives, atomA, atomB);
-      this->RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(matrix, 
-                                                                   diatomicTwoElecTwoCore,
-                                                                   diatomicTwoElecTwoCore1stDerivatives,
-                                                                   rotatingMatrix,
-                                                                   rotMat1stDerivatives,
-                                                                   rotMat2ndDerivatives);
    }
-   catch(MolDSException ex){
-      this->FreeDiatomicTwoElecTwoCore2ndDeriTemps(&rotatingMatrix,
-                                                   &rotMat1stDerivatives,
-                                                   &rotMat2ndDerivatives,
-                                                   &diatomicTwoElecTwoCore,
-                                                   &diatomicTwoElecTwoCore1stDerivatives);
-      throw ex;
-   }
-   this->FreeDiatomicTwoElecTwoCore2ndDeriTemps(&rotatingMatrix,
-                                                &rotMat1stDerivatives,
-                                                &rotMat2ndDerivatives,
-                                                &diatomicTwoElecTwoCore,
-                                                &diatomicTwoElecTwoCore1stDerivatives);
-}
 
-void Mndo::MallocDiatomicTwoElecTwoCore1stDeriTemps(double*** rotatingMatrix,
-                                                      double**** rotMat1stDerivatives,
-                                                      double***** diatomicTwoElecTwoCore) const{
-   MallocerFreer::GetInstance()->Malloc<double>(rotatingMatrix,
-                                                OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMat1stDerivatives, 
-                                                OrbitalType_end, 
-                                                OrbitalType_end, 
-                                                CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
-}
-
-void Mndo::MallocDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
-                                                    double**** rotMat1stDerivatives,
-                                                    double***** rotMat2ndDerivatives,
-                                                    double***** diatomicTwoElecTwoCore,
-                                                    double****** diatomicTwoElecTwoCore1stDerivatives) const{
-   this->MallocDiatomicTwoElecTwoCore1stDeriTemps(rotatingMatrix,
-                                                  rotMat1stDerivatives,
-                                                  diatomicTwoElecTwoCore);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMat2ndDerivatives, 
-                                                OrbitalType_end, 
-                                                OrbitalType_end, 
-                                                CartesianType_end,
-                                                CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCore1stDerivatives, 
-                                                dxy, 
-                                                dxy, 
-                                                dxy, 
-                                                dxy,
-                                                CartesianType_end);
-}
-
-void Mndo::FreeDiatomicTwoElecTwoCore1stDeriTemps(double*** rotatingMatrix,
-                                                  double**** rotMat1stDerivatives,
-                                                  double***** diatomicTwoElecTwoCore) const{
-   MallocerFreer::GetInstance()->Free<double>(rotatingMatrix,
-                                              OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotMat1stDerivatives, 
-                                              OrbitalType_end, 
-                                              OrbitalType_end, 
-                                              CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
-}
-
-void Mndo::FreeDiatomicTwoElecTwoCore2ndDeriTemps(double*** rotatingMatrix,
-                                                  double**** rotMat1stDerivatives,
-                                                  double***** rotMat2ndDerivatives,
-                                                  double***** diatomicTwoElecTwoCore,
-                                                  double****** diatomicTwoElecTwoCore1stDerivatives) const{
-   this->FreeDiatomicTwoElecTwoCore1stDeriTemps(rotatingMatrix,
-                                                rotMat1stDerivatives,
-                                                diatomicTwoElecTwoCore);
-   MallocerFreer::GetInstance()->Free<double>(rotMat2ndDerivatives, 
-                                              OrbitalType_end, 
-                                              OrbitalType_end, 
-                                              CartesianType_end,
-                                              CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCore1stDerivatives, 
-                                              dxy, 
-                                              dxy, 
-                                              dxy, 
-                                              dxy,
-                                              CartesianType_end);
+   // rotate matirix into the space frame
+   this->CalcRotatingMatrix(tmpRotMat, atomA, atomB);
+   this->CalcRotatingMatrix1stDerivatives(tmpRotMat1stDerivs, atomA, atomB);
+   this->CalcRotatingMatrix2ndDerivatives(tmpRotMat2ndDerivs, atomA, atomB);
+   this->RotateDiatomicTwoElecTwoCore2ndDerivativesToSpaceFrame(matrix, 
+                                                                tmpDiatomicTwoElecTwoCore,
+                                                                tmpDiatomicTwoElecTwoCore1stDerivs,
+                                                                tmpRotMat,
+                                                                tmpRotMat1stDerivs,
+                                                                tmpRotMat2ndDerivs);
 }
 
 // Rotate 4-dimensional matrix from diatomic frame to space frame
