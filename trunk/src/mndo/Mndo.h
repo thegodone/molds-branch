@@ -153,14 +153,18 @@ private:
                                                    double******** diatomicTwoElecTwoCore2ndDerivs,
                                                    double***      tmpRotMat,
                                                    double****     tmpRotMat1stDerivs,
-                                                   double*****    tmpDiatomicTwoElecTwo) const;
+                                                   double*****    tmpRotMat2ndDerivs,
+                                                   double*****    tmpDiatomicTwoElecTwo,
+                                                   double******   tmpDiatomicTwoElecTwo1stDerivs) const;
    void FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverlapAOs1stDerivs,
                                                  double******   diatomicOverlapAOs2ndDerivs,
                                                  double*******  diatomicTwoElecTwoCore1stDerivs,
                                                  double******** diatomicTwoElecTwoCore2ndDerivs,
                                                  double***      tmpRotMat,
                                                  double****     tmpRotMat1stDerivs,
-                                                 double*****    tmpDiatomicTwoElecTwo) const;
+                                                 double*****    tmpRotMat2ndDerivs,
+                                                 double*****    tmpDiatomicTwoElecTwo,
+                                                 double******   tmpDiatomicTwoElecTwo1stDerivs) const;
    double GetAuxiliaryHessianElement1(int mu, 
                                       int nu, 
                                       int indexAtomA,
@@ -284,24 +288,13 @@ private:
                                                  int indexAtomA, 
                                                  int indexAtomB) const;
    void CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix, 
+                                                 double**     tmpRotMat,
+                                                 double***    tmpRotMat1stDerivs,
+                                                 double****   tmpRotMat2ndDerivs,
+                                                 double****   tmpDiatomicTwoElecTwoCore,
+                                                 double*****  tmpDiatomicTwoElecTwoCore1stDerivs,
                                                  int indexAtomA, 
                                                  int indexAtomB) const;
-   void MallocDiatomicTwoElecTwoCore1stDeriTemps(double***   rotatingMatrix,
-                                                 double****  rotMat1stDerivatives,
-                                                 double***** diatomicTwoElecTwoCore) const;
-   void MallocDiatomicTwoElecTwoCore2ndDeriTemps(double***    rotatingMatrix,
-                                                 double****   rotMat1stDerivatives,
-                                                 double*****  rotMat2ndDerivatives,
-                                                 double*****  diatomicTwoElecTwoCore,
-                                                 double****** diatomicTwoElecTwoCore1stDerivatives) const;
-   void FreeDiatomicTwoElecTwoCore1stDeriTemps(double***   rotatingMatrix,
-                                               double****  rotMat1stDerivatives,
-                                               double***** diatomicTwoElecTwoCore) const;
-   void FreeDiatomicTwoElecTwoCore2ndDeriTemps(double***    rotatingMatrix,
-                                               double****   rotMat1stDerivatives,
-                                               double*****  rotMat2ndDerivatives,
-                                               double*****  diatomicTwoElecTwoCore,
-                                               double****** diatomicTwoElecTwoCore1stDerivatives) const;
    void RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix, 
                                                  double const* const* rotatingMatrix) const;
    void RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(double***** matrix, 
