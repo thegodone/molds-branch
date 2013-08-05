@@ -3781,8 +3781,15 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
 // Note that this method can not treat d-obitals 
 // because CalcRotatingMatrix1stDerivatives can not treat d-orbitals.
 void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1stDerivs, 
-                                                 const Atom& atomA, 
-                                                 const Atom& atomB) const{
+                                                 double**  tmpDiaOverlapAOsInDiaFrame,         
+                                                 double**  tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                 double**  tmpRotMat, 
+                                                 double**  tmpRotMat1stDeriv,
+                                                 double*** tmpRotMat1stDerivs,
+                                                 double**  tmpRotatedDiatomicOverlap,
+                                                 double**  tmpMatrix,
+                                                 const     Atom& atomA, 
+                                                 const     Atom& atomB) const{
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
                                           atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
                                           atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
@@ -3790,134 +3797,112 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                     pow(cartesian[YAxis],2.0) + 
                     pow(cartesian[ZAxis],2.0) );
    
-   double**  diaOverlapAOsInDiaFrame = NULL;  // diatomic overlapAOs in diatomic frame
-   double**  diaOverlapAOs1stDerivInDiaFrame = NULL; // first derivative of the diaOverlapAOs. This derivative is related to the distance between two atoms.
-   double**  rotMat = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
-   double*** rotMat1stDerivs = NULL; // first derivatives of the rotMat.
-   double**  rotatedDiatomicOverlap = NULL;
-   double**  tmpRotMat1stDeriv = NULL;
-   double**  tmpMatrix         = NULL;
+   this->CalcDiatomicOverlapAOsInDiatomicFrame(tmpDiaOverlapAOsInDiaFrame, atomA, atomB);
+   this->CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(tmpDiaOverlapAOs1stDerivInDiaFrame, atomA, atomB);
+   this->CalcRotatingMatrix(tmpRotMat, atomA, atomB);
+   this->CalcRotatingMatrix1stDerivatives(tmpRotMat1stDerivs, atomA, atomB);
 
-   try{
-      this->MallocDiatomicOverlapAOs1stDeriTemps(&diaOverlapAOsInDiaFrame,
-                                                 &diaOverlapAOs1stDerivInDiaFrame,
-                                                 &rotMat,
-                                                 &rotMat1stDerivs,
-                                                 &rotatedDiatomicOverlap,
-                                                 &tmpRotMat1stDeriv,
-                                                 &tmpMatrix);
-      this->CalcDiatomicOverlapAOsInDiatomicFrame(diaOverlapAOsInDiaFrame, atomA, atomB);
-      this->CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(diaOverlapAOs1stDerivInDiaFrame, atomA, atomB);
-      this->CalcRotatingMatrix(rotMat, atomA, atomB);
-      this->CalcRotatingMatrix1stDerivatives(rotMat1stDerivs, atomA, atomB);
+   // rotate (fast algorithm, see also slow algorithm shown later)
+   int incrementOne = 1;
+   bool isColumnMajorRotatingMatrix = false;
+   bool isColumnMajorDiaOverlapAOs  = false;
+   double alpha = 0.0;
+   double beta  = 0.0;
+   for(int c=0; c<CartesianType_end; c++){
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(OrbitalType_end*OrbitalType_end, 
+                                                 &tmpRotMat1stDerivs[0][0][c], CartesianType_end,
+                                                 &tmpRotMat1stDeriv[0][0],  incrementOne);
+      alpha = cartesian[c]/R;
+      beta  = 0.0;
+      MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
+                                                  isColumnMajorDiaOverlapAOs,
+                                                  !isColumnMajorRotatingMatrix,
+                                                  OrbitalType_end, OrbitalType_end, OrbitalType_end, OrbitalType_end,
+                                                  alpha,
+                                                  tmpRotMat,
+                                                  tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                  tmpRotMat,
+                                                  beta,
+                                                  tmpRotatedDiatomicOverlap,
+                                                  tmpMatrix);
+      alpha = 1.0;
+      beta  = 1.0;
+      MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
+                                                  isColumnMajorDiaOverlapAOs,
+                                                  !isColumnMajorRotatingMatrix,
+                                                  OrbitalType_end, OrbitalType_end, OrbitalType_end, OrbitalType_end,
+                                                  alpha,
+                                                  tmpRotMat1stDeriv,
+                                                  tmpDiaOverlapAOsInDiaFrame,
+                                                  tmpRotMat,
+                                                  beta,
+                                                  tmpRotatedDiatomicOverlap,
+                                                  tmpMatrix);
+      MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
+                                                  isColumnMajorDiaOverlapAOs,
+                                                  !isColumnMajorRotatingMatrix,
+                                                  OrbitalType_end, OrbitalType_end, OrbitalType_end, OrbitalType_end,
+                                                  alpha,
+                                                  tmpRotMat,
+                                                  tmpDiaOverlapAOsInDiaFrame,
+                                                  tmpRotMat1stDeriv,
+                                                  beta,
+                                                  tmpRotatedDiatomicOverlap,
+                                                  tmpMatrix);
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(OrbitalType_end*OrbitalType_end, 
+                                                 &tmpRotatedDiatomicOverlap[0][0],                      incrementOne,
+                                                 &diatomicOverlapAOs1stDerivs[0][0][c], CartesianType_end);
+   }
 
-      // rotate (fast algorithm, see also slow algorithm shown later)
-      int incrementOne = 1;
-      bool isColumnMajorRotatingMatrix = false;
-      bool isColumnMajorDiaOverlapAOs  = false;
-      double alpha = 0.0;
-      double beta  = 0.0;
-      for(int c=0; c<CartesianType_end; c++){
-         MolDS_wrappers::Blas::GetInstance()->Dcopy(OrbitalType_end*OrbitalType_end, 
-                                                    &rotMat1stDerivs[0][0][c], CartesianType_end,
-                                                    &tmpRotMat1stDeriv[0][0],  incrementOne);
-         alpha = cartesian[c]/R;
-         beta  = 0.0;
-         MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
-                                                     isColumnMajorDiaOverlapAOs,
-                                                     !isColumnMajorRotatingMatrix,
-                                                     OrbitalType_end, OrbitalType_end, OrbitalType_end, OrbitalType_end,
-                                                     alpha,
-                                                     rotMat,
-                                                     diaOverlapAOs1stDerivInDiaFrame,
-                                                     rotMat,
-                                                     beta,
-                                                     rotatedDiatomicOverlap,
-                                                     tmpMatrix);
-         alpha = 1.0;
-         beta  = 1.0;
-         MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
-                                                     isColumnMajorDiaOverlapAOs,
-                                                     !isColumnMajorRotatingMatrix,
-                                                     OrbitalType_end, OrbitalType_end, OrbitalType_end, OrbitalType_end,
-                                                     alpha,
-                                                     tmpRotMat1stDeriv,
-                                                     diaOverlapAOsInDiaFrame,
-                                                     rotMat,
-                                                     beta,
-                                                     rotatedDiatomicOverlap,
-                                                     tmpMatrix);
-         MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
-                                                     isColumnMajorDiaOverlapAOs,
-                                                     !isColumnMajorRotatingMatrix,
-                                                     OrbitalType_end, OrbitalType_end, OrbitalType_end, OrbitalType_end,
-                                                     alpha,
-                                                     rotMat,
-                                                     diaOverlapAOsInDiaFrame,
-                                                     tmpRotMat1stDeriv,
-                                                     beta,
-                                                     rotatedDiatomicOverlap,
-                                                     tmpMatrix);
-         MolDS_wrappers::Blas::GetInstance()->Dcopy(OrbitalType_end*OrbitalType_end, 
-                                                    &rotatedDiatomicOverlap[0][0],                      incrementOne,
-                                                    &diatomicOverlapAOs1stDerivs[0][0][c], CartesianType_end);
-      }
+   /* 
+   // rotate (slow)
+   for(int i=0; i<OrbitalType_end; i++){
+      for(int j=0; j<OrbitalType_end; j++){
+         for(int c=0; c<CartesianType_end; c++){
+            diatomicOverlapAOs1stDerivs[i][j][c] = 0.0;
 
-      /* 
-      // rotate (slow)
-      for(int i=0; i<OrbitalType_end; i++){
-         for(int j=0; j<OrbitalType_end; j++){
-            for(int c=0; c<CartesianType_end; c++){
-               diatomicOverlapAOs1stDerivs[i][j][c] = 0.0;
-
-               double temp1 = 0.0;
-               double temp2 = 0.0;
-               double temp3 = 0.0;
-               for(int k=0; k<OrbitalType_end; k++){
-                  for(int l=0; l<OrbitalType_end; l++){
-                     temp1 += rotMat[i][k] 
-                             *rotMat[j][l]
-                             *(cartesian[c]/R)
-                             *diaOverlapAOs1stDerivInDiaFrame[k][l];
-                     temp2 += rotMat1stDerivs[i][k][c] 
-                             *rotMat[j][l]
-                             *diaOverlapAOsInDiaFrame[k][l];
-                     temp3 += rotMat[i][k] 
-                             *rotMat1stDerivs[j][l][c]
-                             *diaOverlapAOsInDiaFrame[k][l];
-                  }
+            double temp1 = 0.0;
+            double temp2 = 0.0;
+            double temp3 = 0.0;
+            for(int k=0; k<OrbitalType_end; k++){
+               for(int l=0; l<OrbitalType_end; l++){
+                  temp1 += tmpRotMat[i][k] 
+                          *tmpRotMat[j][l]
+                          *(cartesian[c]/R)
+                          *tmpDiaOverlapAOs1stDerivInDiaFrame[k][l];
+                  temp2 += tmpRotMat1stDerivs[i][k][c] 
+                          *tmpRotMat[j][l]
+                          *tmpDiaOverlapAOsInDiaFrame[k][l];
+                  temp3 += tmpRotMat[i][k] 
+                          *tmpRotMat1stDerivs[j][l][c]
+                          *tmpDiaOverlapAOsInDiaFrame[k][l];
                }
-               diatomicOverlapAOs1stDerivs[i][j][c] = temp1 + temp2 + temp3;
             }
+            diatomicOverlapAOs1stDerivs[i][j][c] = temp1 + temp2 + temp3;
          }
       }
-      */
-
    }
-   catch(MolDSException ex){
-      this->FreeDiatomicOverlapAOs1stDeriTemps(&diaOverlapAOsInDiaFrame,
-                                               &diaOverlapAOs1stDerivInDiaFrame,
-                                               &rotMat,
-                                               &rotMat1stDerivs,
-                                               &rotatedDiatomicOverlap,
-                                               &tmpRotMat1stDeriv,
-                                               &tmpMatrix);
-      throw ex;
-   }
-   // free
-   this->FreeDiatomicOverlapAOs1stDeriTemps(&diaOverlapAOsInDiaFrame,
-                                            &diaOverlapAOs1stDerivInDiaFrame,
-                                            &rotMat,
-                                            &rotMat1stDerivs,
-                                            &rotatedDiatomicOverlap,
-                                            &tmpRotMat1stDeriv,
-                                            &tmpMatrix);
+   */
 }
 
 void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1stDerivs, 
-                                                 int indexAtomA, 
-                                                 int indexAtomB) const{
+                                                 double**  tmpDiaOverlapAOsInDiaFrame,         
+                                                 double**  tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                 double**  tmpRotMat, 
+                                                 double**  tmpRotMat1stDeriv,
+                                                 double*** tmpRotMat1stDerivs,
+                                                 double**  tmpRotatedDiatomicOverlap,
+                                                 double**  tmpMatrix,
+                                                 int       indexAtomA, 
+                                                 int       indexAtomB) const{
    this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs,
+                                              tmpDiaOverlapAOsInDiaFrame,         
+                                              tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                              tmpRotMat, 
+                                              tmpRotMat1stDeriv,
+                                              tmpRotMat1stDerivs,
+                                              tmpRotatedDiatomicOverlap,
+                                              tmpMatrix,
                                               *this->molecule->GetAtom(indexAtomA),
                                               *this->molecule->GetAtom(indexAtomB));
 }
@@ -4099,22 +4084,6 @@ double Cndo2::Get2ndDerivativeElementFromDistanceDerivatives(double firstDistanc
    return value;
 }
 
-void Cndo2::MallocDiatomicOverlapAOs1stDeriTemps(double***  diaOverlapAOsInDiaFrame, 
-                                                 double***  diaOverlapAOs1stDerivInDiaFrame,
-                                                 double***  rotMat,
-                                                 double**** rotMat1stDerivs,
-                                                 double***  rotatedDiatomicOverlap,
-                                                 double***  tmpRotMat1stDeriv,
-                                                 double***  tmpMatrix) const{
-   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diaOverlapAOs1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMat,                          OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotMat1stDerivs,                 OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(rotatedDiatomicOverlap,          OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(tmpMatrix,                       OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat1stDeriv,               OrbitalType_end, OrbitalType_end);
-}
-
 void Cndo2::MallocDiatomicOverlapAOs2ndDeriTemps(double*** diaOverlapAOsInDiaFrame, 
                                                  double*** diaOverlapAOs1stDerivInDiaFrame,
                                                  double*** diaOverlapAOs2ndDerivInDiaFrame,
@@ -4131,22 +4100,6 @@ void Cndo2::MallocDiatomicOverlapAOs2ndDeriTemps(double*** diaOverlapAOsInDiaFra
    MallocerFreer::GetInstance()->Malloc<double>(rotMat2ndDerivs,              OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tempDiaOverlapAOs1stDerivs,      OrbitalType_end, OrbitalType_end, CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tempDiaOverlapAOs2ndDerivs,      OrbitalType_end, OrbitalType_end, CartesianType_end, CartesianType_end);
-}
-
-void Cndo2::FreeDiatomicOverlapAOs1stDeriTemps(double*** diaOverlapAOsInDiaFrame, 
-                                               double*** diaOverlapAOs1stDerivInDiaFrame,
-                                               double*** rotMat,
-                                               double**** rotMat1stDerivs,
-                                               double***  rotatedDiatomicOverlap,
-                                               double***  tmpRotMat1stDeriv,
-                                               double***  tmpMatrix) const{
-   MallocerFreer::GetInstance()->Free<double>(diaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(diaOverlapAOs1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotMat,                          OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotMat1stDerivs,                 OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(rotatedDiatomicOverlap,          OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(tmpMatrix,                       OrbitalType_end, OrbitalType_end);
-   MallocerFreer::GetInstance()->Free<double>(tmpRotMat1stDeriv,               OrbitalType_end, OrbitalType_end);
 }
 
 void Cndo2::FreeDiatomicOverlapAOs2ndDeriTemps(double*** diaOverlapAOsInDiaFrame, 
@@ -5250,54 +5203,46 @@ void Cndo2::CalcRotatingMatrix(double** rotatingMatrix,
 
    // rotating matrix for d-function
    // dMatrix is (37) in J. Mol. Strct. 419, 19(1997) (ref. [BFB_1997])
-   double** dMatrix = NULL;
-   try{
-      MallocerFreer::GetInstance()->Malloc<double>(&dMatrix, OrbitalType_end, OrbitalType_end);
-      dMatrix[dzz][dzz] = 0.5*(3.0*pow(cos(beta),2.0) - 1.0);
-      dMatrix[dxxyy][dxxyy] = pow(cos(0.5*beta),4.0);
-      dMatrix[dzx][dzx] = (2.0*cos(beta)-1.0)*pow(cos(0.5*beta),2.0);
-      dMatrix[dxxyy][dzx] = -2.0*sin(0.5*beta)*pow(cos(0.5*beta),3.0);
-      dMatrix[dxxyy][dzz] = sqrt(6.0)*pow(sin(0.5*beta),2.0)*pow(cos(0.5*beta),2.0);
-      dMatrix[dxxyy][dyz] = -2.0*pow(sin(0.5*beta),3.0)*pow(cos(0.5*beta),1.0);
-      dMatrix[dxxyy][dxy] = pow(sin(0.5*beta),4.0);
-      dMatrix[dzx][dzz] = -sqrt(6.0)*cos(beta)*cos(0.5*beta)*sin(0.5*beta);
-      dMatrix[dzx][dyz] = (2.0*cos(beta)+1.0)*pow(sin(0.5*beta),2.0);
+   double dMatrix[OrbitalType_end][OrbitalType_end];
+   dMatrix[dzz][dzz] = 0.5*(3.0*pow(cos(beta),2.0) - 1.0);
+   dMatrix[dxxyy][dxxyy] = pow(cos(0.5*beta),4.0);
+   dMatrix[dzx][dzx] = (2.0*cos(beta)-1.0)*pow(cos(0.5*beta),2.0);
+   dMatrix[dxxyy][dzx] = -2.0*sin(0.5*beta)*pow(cos(0.5*beta),3.0);
+   dMatrix[dxxyy][dzz] = sqrt(6.0)*pow(sin(0.5*beta),2.0)*pow(cos(0.5*beta),2.0);
+   dMatrix[dxxyy][dyz] = -2.0*pow(sin(0.5*beta),3.0)*pow(cos(0.5*beta),1.0);
+   dMatrix[dxxyy][dxy] = pow(sin(0.5*beta),4.0);
+   dMatrix[dzx][dzz] = -sqrt(6.0)*cos(beta)*cos(0.5*beta)*sin(0.5*beta);
+   dMatrix[dzx][dyz] = (2.0*cos(beta)+1.0)*pow(sin(0.5*beta),2.0);
 
-      rotatingMatrix[dxy][dxy] = cos(2.0*alpha)*            (dMatrix[dxxyy][dxxyy] - dMatrix[dxxyy][dxy]);
-      rotatingMatrix[dxy][dyz] = cos(2.0*alpha)*            (-1.0*dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
-      rotatingMatrix[dxy][dzz] = sqrt(2.0)*sin(2.0*alpha)*  dMatrix[dxxyy][dzz];
-      rotatingMatrix[dxy][dzx] = sin(2.0*alpha)*            (-1.0*dMatrix[dxxyy][dzx] + dMatrix[dxxyy][dyz]);
-      rotatingMatrix[dxy][dxxyy] = sin(2.0*alpha)*          (dMatrix[dxxyy][dxxyy] + dMatrix[dxxyy][dxy]);
+   rotatingMatrix[dxy][dxy] = cos(2.0*alpha)*            (dMatrix[dxxyy][dxxyy] - dMatrix[dxxyy][dxy]);
+   rotatingMatrix[dxy][dyz] = cos(2.0*alpha)*            (-1.0*dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
+   rotatingMatrix[dxy][dzz] = sqrt(2.0)*sin(2.0*alpha)*  dMatrix[dxxyy][dzz];
+   rotatingMatrix[dxy][dzx] = sin(2.0*alpha)*            (-1.0*dMatrix[dxxyy][dzx] + dMatrix[dxxyy][dyz]);
+   rotatingMatrix[dxy][dxxyy] = sin(2.0*alpha)*          (dMatrix[dxxyy][dxxyy] + dMatrix[dxxyy][dxy]);
 
-      rotatingMatrix[dyz][dxy] = cos(alpha)*                (dMatrix[dxxyy][dzx] + dMatrix[dxxyy][dyz]);
-      rotatingMatrix[dyz][dyz] = cos(alpha)*                (dMatrix[dzx][dzx] + dMatrix[dzx][dyz]);
-      rotatingMatrix[dyz][dzz] = -1.0*sqrt(2.0)*sin(alpha)* dMatrix[dzx][dzz];
-      rotatingMatrix[dyz][dzx] = sin(alpha)*                (dMatrix[dzx][dzx] - dMatrix[dzx][dyz]);
-      rotatingMatrix[dyz][dxxyy] = sin(alpha)*              (dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
+   rotatingMatrix[dyz][dxy] = cos(alpha)*                (dMatrix[dxxyy][dzx] + dMatrix[dxxyy][dyz]);
+   rotatingMatrix[dyz][dyz] = cos(alpha)*                (dMatrix[dzx][dzx] + dMatrix[dzx][dyz]);
+   rotatingMatrix[dyz][dzz] = -1.0*sqrt(2.0)*sin(alpha)* dMatrix[dzx][dzz];
+   rotatingMatrix[dyz][dzx] = sin(alpha)*                (dMatrix[dzx][dzx] - dMatrix[dzx][dyz]);
+   rotatingMatrix[dyz][dxxyy] = sin(alpha)*              (dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
 
-      rotatingMatrix[dzz][dxy] = 0.0;
-      rotatingMatrix[dzz][dyz] = 0.0;
-      rotatingMatrix[dzz][dzz] = dMatrix[dzz][dzz];
-      rotatingMatrix[dzz][dzx] = sqrt(2.0)*dMatrix[dzx][dzz];
-      rotatingMatrix[dzz][dxxyy] = sqrt(2.0)*dMatrix[dxxyy][dzz];
+   rotatingMatrix[dzz][dxy] = 0.0;
+   rotatingMatrix[dzz][dyz] = 0.0;
+   rotatingMatrix[dzz][dzz] = dMatrix[dzz][dzz];
+   rotatingMatrix[dzz][dzx] = sqrt(2.0)*dMatrix[dzx][dzz];
+   rotatingMatrix[dzz][dxxyy] = sqrt(2.0)*dMatrix[dxxyy][dzz];
 
-      rotatingMatrix[dzx][dxy] = -1.0*sin(alpha)*           (dMatrix[dxxyy][dzx] + dMatrix[dxxyy][dyz]);
-      rotatingMatrix[dzx][dyz] = -1.0*sin(alpha)*           (dMatrix[dzx][dzx] + dMatrix[dzx][dyz]);
-      rotatingMatrix[dzx][dzz] = -1.0*sqrt(2.0)*cos(alpha)* dMatrix[dzx][dzz];
-      rotatingMatrix[dzx][dzx] = cos(alpha)*                (dMatrix[dzx][dzx] - dMatrix[dzx][dyz]);
-      rotatingMatrix[dzx][dxxyy] = cos(alpha)*              (dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
+   rotatingMatrix[dzx][dxy] = -1.0*sin(alpha)*           (dMatrix[dxxyy][dzx] + dMatrix[dxxyy][dyz]);
+   rotatingMatrix[dzx][dyz] = -1.0*sin(alpha)*           (dMatrix[dzx][dzx] + dMatrix[dzx][dyz]);
+   rotatingMatrix[dzx][dzz] = -1.0*sqrt(2.0)*cos(alpha)* dMatrix[dzx][dzz];
+   rotatingMatrix[dzx][dzx] = cos(alpha)*                (dMatrix[dzx][dzx] - dMatrix[dzx][dyz]);
+   rotatingMatrix[dzx][dxxyy] = cos(alpha)*              (dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
 
-      rotatingMatrix[dxxyy][dxy] = -1.0*sin(2.0*alpha)*     (dMatrix[dxxyy][dxxyy] - dMatrix[dxxyy][dxy]);
-      rotatingMatrix[dxxyy][dyz] = -1.0*sin(2.0*alpha)*     (-1.0*dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
-      rotatingMatrix[dxxyy][dzz] = sqrt(2.0)*cos(2.0*alpha)*dMatrix[dxxyy][dzz];
-      rotatingMatrix[dxxyy][dzx] = cos(2.0*alpha)*          (-1.0*dMatrix[dxxyy][dzx] + dMatrix[dxxyy][dyz]);
-      rotatingMatrix[dxxyy][dxxyy] = cos(2.0*alpha)*        (dMatrix[dxxyy][dxxyy] + dMatrix[dxxyy][dxy]);
-   }
-   catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&dMatrix, OrbitalType_end, OrbitalType_end);
-      throw ex;
-   }
-   MallocerFreer::GetInstance()->Free<double>(&dMatrix, OrbitalType_end, OrbitalType_end);
+   rotatingMatrix[dxxyy][dxy] = -1.0*sin(2.0*alpha)*     (dMatrix[dxxyy][dxxyy] - dMatrix[dxxyy][dxy]);
+   rotatingMatrix[dxxyy][dyz] = -1.0*sin(2.0*alpha)*     (-1.0*dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
+   rotatingMatrix[dxxyy][dzz] = sqrt(2.0)*cos(2.0*alpha)*dMatrix[dxxyy][dzz];
+   rotatingMatrix[dxxyy][dzx] = cos(2.0*alpha)*          (-1.0*dMatrix[dxxyy][dzx] + dMatrix[dxxyy][dyz]);
+   rotatingMatrix[dxxyy][dxxyy] = cos(2.0*alpha)*        (dMatrix[dxxyy][dxxyy] + dMatrix[dxxyy][dxy]);
 }
 
 // First derivative of rotating matirx. 
