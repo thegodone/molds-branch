@@ -3593,17 +3593,25 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
       stringstream ompErrors;
 #pragma omp parallel 
       {
-         double*** diatomicTwoElecTwoCore1stDerivs = NULL;
-         double*** diatomicOverlapAOs1stDerivs = NULL;
+         double*** diatomicOverlapAOs1stDerivs        = NULL;
+         double*** diatomicTwoElecTwoCore1stDerivs    = NULL;
+         double**  tmpDiaOverlapAOsInDiaFrame         = NULL; // diatomic overlapAOs in diatomic frame
+         double**  tmpDiaOverlapAOs1stDerivInDiaFrame = NULL; // first derivative of the diaOverlapAOs. This derivative is related to the distance between two atoms.
+         double**  tmpRotMat                          = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
+         double**  tmpRotMat1stDeriv                  = NULL;
+         double*** tmpRotMat1stDerivs                 = NULL; // first derivatives of the rotMat.
+         double**  tmpRotatedDiatomicOverlap          = NULL;
+         double**  tmpMatrix                          = NULL;
          try{
-            MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore1stDerivs,
-                                                         OrbitalType_end, 
-                                                         OrbitalType_end, 
-                                                         CartesianType_end);
-            MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs1stDerivs,
-                                                         OrbitalType_end, 
-                                                         OrbitalType_end, 
-                                                         CartesianType_end);
+            MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
+                                        &diatomicTwoElecTwoCore1stDerivs,
+                                        &tmpDiaOverlapAOsInDiaFrame,       
+                                        &tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                        &tmpRotMat,
+                                        &tmpRotMat1stDeriv,
+                                        &tmpRotMat1stDerivs,
+                                        &tmpRotatedDiatomicOverlap,
+                                        &tmpMatrix);
 #pragma omp for schedule(auto)
             for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
                if(a == b){continue;}
@@ -3613,7 +3621,16 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
 
                // calc. first derivative of overlapAOs.
-               this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, atomA, atomB);
+               this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, 
+                                                          tmpDiaOverlapAOsInDiaFrame,        
+                                                          tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                          tmpRotMat,                         
+                                                          tmpRotMat1stDeriv,                 
+                                                          tmpRotMat1stDerivs,                
+                                                          tmpRotatedDiatomicOverlap,         
+                                                          tmpMatrix,                         
+                                                          atomA, 
+                                                          atomB);
 
                // calc. first derivative of two elec two core interaction by Nishimoto-Mataga
                this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, a, b);
@@ -3725,14 +3742,15 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
 #pragma omp critical
             ex.Serialize(ompErrors);
          }
-         MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore1stDerivs, 
-                                                    OrbitalType_end,
-                                                    OrbitalType_end,
-                                                    CartesianType_end);
-         MallocerFreer::GetInstance()->Free<double>(&diatomicOverlapAOs1stDerivs, 
-                                                    OrbitalType_end,
-                                                    OrbitalType_end,
-                                                    CartesianType_end);
+         FreeTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
+                                   &diatomicTwoElecTwoCore1stDerivs,
+                                   &tmpDiaOverlapAOsInDiaFrame,       
+                                   &tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                   &tmpRotMat,
+                                   &tmpRotMat1stDeriv,
+                                   &tmpRotMat1stDerivs,
+                                   &tmpRotatedDiatomicOverlap,
+                                   &tmpMatrix);
       } //end of omp-parallelized region
       // Exception throwing for omp-region
       if(!ompErrors.str().empty()){
@@ -3743,35 +3761,6 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    // communication to reduce thsi->matrixForce on all node (namely, all_reduce)
    int numTransported = elecStates.size()*this->molecule->GetNumberAtoms()*CartesianType_end;
    MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&this->matrixForce[0][0][0], numTransported, std::plus<double>());
-   /*
-   double*** tmp=NULL;
-   try{
-      MallocerFreer::GetInstance()->Malloc<double>(&tmp, 
-                                                   elecStates.size(),
-                                                   this->molecule->GetNumberAtoms(),
-                                                   CartesianType_end);
-      MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&this->matrixForce[0][0][0], numTransported, &tmp[0][0][0], std::plus<double>());
-      for(int n=0; n<elecStates.size(); n++){
-         for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
-            for(int i=0; i<CartesianType_end; i++){
-               this->matrixForce[n][a][i] = tmp[n][a][i];
-            }
-         }
-      }
-   }
-   catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&tmp, 
-                                                 elecStates.size(),
-                                                 this->molecule->GetNumberAtoms(),
-                                                 CartesianType_end);
-      throw ex;
-   }
-   MallocerFreer::GetInstance()->Free<double>(&tmp, 
-                                              elecStates.size(),
-                                              this->molecule->GetNumberAtoms(),
-                                              CartesianType_end);
-   */
-   // end of communication
 
    /*
    // Calculate force (on the ground state only). 
@@ -3854,6 +3843,46 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
       throw MolDSException::Deserialize(ompErrors);
    }
    */
+}
+
+void ZindoS::MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
+                                         double**** diatomicTwoElecTwoCore1stDerivs,
+                                         double***  tmpDiaOverlapAOsInDiaFrame,       
+                                         double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                         double***  tmpRotMat,
+                                         double***  tmpRotMat1stDeriv,
+                                         double**** tmpRotMat1stDerivs,
+                                         double***  tmpRotatedDiatomicOverlap,
+                                         double***  tmpMatrix) const{
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDerivs,        OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCore1stDerivs,    OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOs1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat,                          OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat1stDeriv,                  OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat1stDerivs,                 OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpRotatedDiatomicOverlap,          OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpMatrix,                          OrbitalType_end, OrbitalType_end);
+}
+
+void ZindoS::FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
+                                       double**** diatomicTwoElecTwoCore1stDerivs,
+                                       double***  tmpDiaOverlapAOsInDiaFrame,       
+                                       double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                       double***  tmpRotMat,
+                                       double***  tmpRotMat1stDeriv,
+                                       double**** tmpRotMat1stDerivs,
+                                       double***  tmpRotatedDiatomicOverlap,
+                                       double***  tmpMatrix) const{
+   MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDerivs,        OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCore1stDerivs,    OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOs1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpRotMat,                          OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpRotMat1stDeriv,                  OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpRotMat1stDerivs,                 OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpRotatedDiatomicOverlap,          OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpMatrix,                          OrbitalType_end, OrbitalType_end);
 }
 
 void ZindoS::CalcForceExcitedStaticPart(double* force, 
