@@ -323,12 +323,6 @@ private:
                                                                double const* const* rotatingMatrix,
                                                                double const* const* const* rotMat1stDerivatives,
                                                                double const* const* const* const* rotMat2ndDerivatives) const;
-   void MallocTempMatricesRotateDiatomicTwoElecTwoCore(double*** twiceRotatingMatrix,
-                                                       double*** ptrOldMatrix,
-                                                       double*** ptrMatrix) const;
-   void FreeTempMatricesRotateDiatomicTwoElecTwoCore(double*** twiceRotatingMatrix,
-                                                       double*** ptrOldMatrix,
-                                                       double*** ptrMatrix) const;
    void MallocTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twiceRotatingMatrix,
                                                                 double*** twiceRotatingMatrixDerivA,
                                                                 double*** twiceRotatingMatrixDerivB,
