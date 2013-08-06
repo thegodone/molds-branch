@@ -3430,13 +3430,15 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
 #pragma omp parallel
    {
       double**** diatomicTwoElecTwoCore = NULL;
+      double**   tmpRotMat              = NULL;
       try{
          MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
+         MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
          // note that terms with condition a==b are not needed to calculate. 
 #pragma omp for schedule(auto)
          for(int a=0; a<molecule.GetNumberAtoms(); a++){
             for(int b=a+1; b<molecule.GetNumberAtoms(); b++){
-               this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, a, b);
+               this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, tmpRotMat, a, b);
                for(int mu=0; mu<dxy; mu++){
                   for(int nu=mu; nu<dxy; nu++){
                      for(int lambda=0; lambda<dxy; lambda++){
@@ -3462,6 +3464,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
          ex.Serialize(ompErrors);
       }
       MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
+      MallocerFreer::GetInstance()->Free<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
@@ -3476,7 +3479,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
 // Note that atomA != atomB.
 // Note taht d-orbital cannot be treated, 
 // that is, matrix[dxy][dxy][dxy][dxy] cannot be treatable.
-void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, int indexAtomA, int indexAtomB) const{
+void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, double** tmpRotMat, int indexAtomA, int indexAtomB) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    if(indexAtomA == indexAtomB){
@@ -3513,20 +3516,9 @@ void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, int indexAtomA, int ind
          }
       }
    }
-
    // rotate matirix into the space frame
-   double** rotatingMatrix = NULL;
-   try{
-      MallocerFreer::GetInstance()->Malloc<double>(&rotatingMatrix,
-                                                   OrbitalType_end, OrbitalType_end);
-      this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
-      this->RotateDiatomicTwoElecTwoCoreToSpaceFrame(matrix, rotatingMatrix);
-   }
-   catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&rotatingMatrix, OrbitalType_end, OrbitalType_end);
-      throw ex;
-   }
-   MallocerFreer::GetInstance()->Free<double>(&rotatingMatrix, OrbitalType_end, OrbitalType_end);
+   this->CalcRotatingMatrix(tmpRotMat, atomA, atomB);
+   this->RotateDiatomicTwoElecTwoCoreToSpaceFrame(matrix, tmpRotMat);
 
    /* 
    this->OutputLog("(mu, nu | lambda, sigma) matrix\n");
