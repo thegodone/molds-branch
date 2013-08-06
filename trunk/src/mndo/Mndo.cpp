@@ -981,6 +981,9 @@ void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOve
                                                       double******   tmpDiatomicTwoElecTwoCore1stDerivs,
                                                       double***      tmpDiaOverlapAOsInDiaFrame,
                                                       double***      tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                      double***      tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                                      double****     tmpDiaOverlapAOs1stDerivs,
+                                                      double*****    tmpDiaOverlapAOs2ndDerivs,
                                                       double***      tmpRotatedDiatomicOverlap,
                                                       double***      tmpMatrix) const{
    MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDerivs,
@@ -1041,6 +1044,18 @@ void Mndo::MallocTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOve
    MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOs1stDerivInDiaFrame, 
                                                 OrbitalType_end, 
                                                 OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOs2ndDerivInDiaFrame, 
+                                                OrbitalType_end, 
+                                                OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOs1stDerivs,      
+                                                OrbitalType_end, 
+                                                OrbitalType_end, 
+                                                CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOs2ndDerivs,      
+                                                OrbitalType_end, 
+                                                OrbitalType_end, 
+                                                CartesianType_end, 
+                                                CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tmpRotatedDiatomicOverlap,          
                                                 OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tmpMatrix,                          
@@ -1060,6 +1075,9 @@ void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverl
                                                     double******   tmpDiatomicTwoElecTwoCore1stDerivs,
                                                     double***      tmpDiaOverlapAOsInDiaFrame,
                                                     double***      tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                    double***      tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                                    double****     tmpDiaOverlapAOs1stDerivs,
+                                                    double*****    tmpDiaOverlapAOs2ndDerivs,
                                                     double***      tmpRotatedDiatomicOverlap,
                                                     double***      tmpMatrix) const{
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDerivs,
@@ -1120,6 +1138,18 @@ void Mndo::FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverl
    MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOs1stDerivInDiaFrame, 
                                               OrbitalType_end, 
                                               OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOs2ndDerivInDiaFrame, 
+                                              OrbitalType_end, 
+                                              OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOs1stDerivs,      
+                                              OrbitalType_end, 
+                                              OrbitalType_end, 
+                                              CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOs2ndDerivs,      
+                                              OrbitalType_end, 
+                                              OrbitalType_end, 
+                                              CartesianType_end, 
+                                              CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(tmpRotatedDiatomicOverlap,          
                                               OrbitalType_end, 
                                               OrbitalType_end);
@@ -1678,9 +1708,13 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
          double*****   tmpDiatomicTwoElecTwoCore1stDerivs = NULL;
          double**      tmpDiaOverlapAOsInDiaFrame         = NULL; // diatomic overlapAOs in diatomic frame
          double**      tmpDiaOverlapAOs1stDerivInDiaFrame = NULL; // first derivative of the diaOverlapAOs. This derivative is related to the distance between two atoms.
+         double**      tmpDiaOverlapAOs2ndDerivInDiaFrame = NULL; // second derivative of the diaOverlapAOs. This derivative is related to the distance between two atoms.
+         double***     tmpDiaOverlapAOs1stDerivs          = NULL; // first derivatives of the diaOverlapAOs. This derivatives are related to the all Cartesian coordinates.
+         double****    tmpDiaOverlapAOs2ndDerivs          = NULL; //sedond derivatives of the diaOverlapAOs. This derivatives are related to the all Cartesian coordinates.
          double**      tmpRotMat1stDeriv                  = NULL;
          double**      tmpRotatedDiatomicOverlap          = NULL;
          double**      tmpMatrix                          = NULL;
+
          try{
             this->MallocTempMatricesEachThreadCalcHessianSCF(&diatomicOverlapAOs1stDerivs,
                                                              &diatomicOverlapAOs2ndDerivs,
@@ -1694,6 +1728,9 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                              &tmpDiatomicTwoElecTwoCore1stDerivs,
                                                              &tmpDiaOverlapAOsInDiaFrame,        
                                                              &tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                             &tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                                             &tmpDiaOverlapAOs1stDerivs,
+                                                             &tmpDiaOverlapAOs2ndDerivs,
                                                              &tmpRotatedDiatomicOverlap,         
                                                              &tmpMatrix);
 #pragma omp for schedule(auto)                                                 
@@ -1717,6 +1754,14 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                                    indexAtomA, 
                                                                    indexAtomB);
                         this->CalcDiatomicOverlapAOs2ndDerivatives(diatomicOverlapAOs2ndDerivs[indexAtomB], 
+                                                                   tmpDiaOverlapAOsInDiaFrame,
+                                                                   tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                                   tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                                                   tmpDiaOverlapAOs1stDerivs,
+                                                                   tmpDiaOverlapAOs2ndDerivs,
+                                                                   tmpRotMat,
+                                                                   tmpRotMat1stDerivs,
+                                                                   tmpRotMat2ndDerivs,
                                                                    indexAtomA, 
                                                                    indexAtomB);
                         this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs[indexAtomB], 
@@ -1798,6 +1843,9 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                         &tmpDiatomicTwoElecTwoCore1stDerivs,
                                                         &tmpDiaOverlapAOsInDiaFrame,        
                                                         &tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                        &tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                                        &tmpDiaOverlapAOs1stDerivs,
+                                                        &tmpDiaOverlapAOs2ndDerivs,
                                                         &tmpRotatedDiatomicOverlap,         
                                                         &tmpMatrix);
       }// end of omp-region
