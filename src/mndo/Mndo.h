@@ -159,6 +159,9 @@ private:
                                                    double******   tmpDiatomicTwoElecTwoCore1stDerivs,
                                                    double***      tmpDiaOverlapAOsInDiaFrame,
                                                    double***      tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                   double***      tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                                   double****     tmpDiaOverlapAOs1stDerivs,
+                                                   double*****    tmpDiaOverlapAOs2ndDerivs,
                                                    double***      tmpRotatedDiatomicOverlap,
                                                    double***      tmpMatrix) const;
    void FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverlapAOs1stDerivs,
@@ -173,6 +176,9 @@ private:
                                                  double******   tmpDiatomicTwoElecTwoCore1stDerivs,
                                                  double***      tmpDiaOverlapAOsInDiaFrame,
                                                  double***      tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                 double***      tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                                 double****     tmpDiaOverlapAOs1stDerivs,
+                                                 double*****    tmpDiaOverlapAOs2ndDerivs,
                                                  double***      tmpRotatedDiatomicOverlap,
                                                  double***      tmpMatrix) const;
    double GetAuxiliaryHessianElement1(int mu, 

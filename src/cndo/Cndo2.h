@@ -215,9 +215,25 @@ protected:
                                              int indexAtomA, 
                                              int indexAtomB) const;
    void CalcDiatomicOverlapAOs2ndDerivatives(double**** overlapAOs2ndDeri, 
+                                             double**   tmpDiaOverlapAOsInDiaFrame,
+                                             double**   tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                             double**   tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                             double***  tmpDiaOverlapAOs1stDerivs,
+                                             double**** tmpDiaOverlapAOs2ndDerivs,
+                                             double**   tmpRotMat,
+                                             double***  tmpRotMat1stDerivs,
+                                             double**** tmpRotMat2ndDerivs,
                                              const MolDS_base_atoms::Atom& atomA, 
                                              const MolDS_base_atoms::Atom& atomB) const;
    void CalcDiatomicOverlapAOs2ndDerivatives(double**** overlapAOs2ndDeri, 
+                                             double**   tmpDiaOverlapAOsInDiaFrame,
+                                             double**   tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                             double**   tmpDiaOverlapAOs2ndDerivInDiaFrame,
+                                             double***  tmpDiaOverlapAOs1stDerivs,
+                                             double**** tmpDiaOverlapAOs2ndDerivs,
+                                             double**   tmpRotMat,
+                                             double***  tmpRotMat1stDerivs,
+                                             double**** tmpRotMat2ndDerivs,
                                              int indexAtomA, 
                                              int indexAtomB) const;
    double Get2ndDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
@@ -496,24 +512,7 @@ private:
                                    double**** diisStoredErrorVect,
                                    double***  diisErrorProducts,
                                    double**   diisErrorCoefficients);
-   void MallocDiatomicOverlapAOs2ndDeriTemps(double***   diaOverlapAOsInDiaFrame, 
-                                             double***   diaOverlapAOs1stDerivInDiaFrame,
-                                             double***   diaOverlapAOs2ndDerivInDiaFrame,
-                                             double***   rotMat,
-                                             double****  rotMat1stDerivs,
-                                             double***** rotMat2ndDerivs,
-                                             double****  tempDiaOverlapAOs1stDerivs,
-                                             double***** tempDiaOverlapAOs2ndDerivs) const;
-   void FreeDiatomicOverlapAOs2ndDeriTemps(double***   diaOverlapAOsInDiaFrame, 
-                                           double***   diaOverlapAOs1stDerivInDiaFrame,
-                                           double***   diaOverlapAOs2ndDerivInDiaFrame,
-                                           double***   rotMat,
-                                           double****  rotMat1stDerivs,
-                                           double***** rotMat2ndDerivs,
-                                           double****  tempDiaOverlapAOs1stDerivs,
-                                           double***** tempDiaOverlapAOs2ndDerivs) const;
 };
-
 
 }
 #endif
