@@ -1448,7 +1448,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
          if(mu%mpiSize == mpiHeadRank){continue;}
          int source  = mu%mpiSize;
          int tag     = mu;
-         MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, fockMatrix[mu], totalNumberAOs);
+         MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, &fockMatrix[mu][mu], totalNumberAOs-mu);
       }
    }
    else{
@@ -1457,7 +1457,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
          if(mu%mpiSize != mpiRank){continue;}
          int dest = mpiHeadRank;
          int tag  = mu;
-         MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, fockMatrix[mu], totalNumberAOs);
+         MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, &fockMatrix[mu][mu], totalNumberAOs-mu);
       }
    }
    // broadcast all matrix data to all rank
