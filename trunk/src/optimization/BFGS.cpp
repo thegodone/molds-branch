@@ -205,14 +205,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
 
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
-         MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-         for(int i=0;i<molecule.GetNumberAtoms();i++){
-            const Atom*   atom = molecule.GetAtom(i);
-            const double* xyz  = atom->GetXyz();
-            for(int j=0;j<CartesianType_end;j++){
-               matrixDisplacement[i][j] = xyz[j] - matrixOldCoordinates[i][j];
-            }
-         }
+         this->CalcDisplacement(matrixDisplacement, matrixOldCoordinates, molecule);
+
          matrixForce = electronicStructure->GetForce(elecState);
          vectorForce = &matrixForce[0][0];
 
@@ -567,5 +561,19 @@ void BFGS::RollbackMolecularGeometry(MolDS_base::Molecule& molecule,
       }
    }
    molecule.SetCanOutputLogs(tempCanOutputLogs);
+}
+
+void BFGS::CalcDisplacement(double      *      *& matrixDisplacement,
+                            double const* const*  matrixOldCoordinates,
+                            const MolDS_base::Molecule& molecule)const{
+   //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
+   MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
+   for(int i=0;i<molecule.GetNumberAtoms();i++){
+      const Atom*   atom = molecule.GetAtom(i);
+      const double* xyz  = atom->GetXyz();
+      for(int j=0;j<CartesianType_end;j++){
+         matrixDisplacement[i][j] = xyz[j] - matrixOldCoordinates[i][j];
+      }
+   }
 }
 }
