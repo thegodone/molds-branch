@@ -186,15 +186,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
          this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
 
-         // Calculate the correctness of the approximation
-         double r = (lineSearchCurrentEnergy - lineSearchInitialEnergy)
-            / approximateChange; // correctness of the step
-         bool aproxcheckCanOutputLogs = true;
-         tempCanOutputLogs = molecule.CanOutputLogs();
-         molecule.SetCanOutputLogs(aproxcheckCanOutputLogs);
-         this->OutputLog(boost::format(this->formatEnergyChangeComparison)
-               % (lineSearchCurrentEnergy-lineSearchInitialEnergy) % approximateChange % r);
-         molecule.SetCanOutputLogs(tempCanOutputLogs);
+         this->UpdateTrustRadius(trustRadius, approximateChange, lineSearchInitialEnergy, lineSearchCurrentEnergy);
 
          // check convergence
          if(this->SatisfiesConvergenceCriterion(matrixForce,
@@ -207,9 +199,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             break;
          }
 
-         // Update the trust radius
-         if(r < 0)
-         {
+         if(lineSearchCurrentEnergy > lineSearchInitialEnergy){
             // Rollback molecular geometry
             bool tempCanOutputLogs = molecule.CanOutputLogs();
             bool rollbackCanOutputLogs = true;
@@ -224,23 +214,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             }
             lineSearchCurrentEnergy = lineSearchInitialEnergy;
             molecule.SetCanOutputLogs(tempCanOutputLogs);
-            // and rerun with smaller trust radius
-            // without updating Hessian
-            trustRadius /= 4;
-            continue;
          }
-         else if(r<0.25){
-            trustRadius /= 4;
-         }
-         else if(r<0.75){
-            // keep trust radius
-         }
-         else if(r<2){
-            trustRadius *= 2;
-         }
-         else{
-            trustRadius /= 2;
-         }
+
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
          MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
          for(int i=0;i<molecule.GetNumberAtoms();i++){
@@ -555,8 +530,37 @@ double BFGS::ApproximateEnergyChange(int dimension,
       approximateChangeDenominator += vectorStep[i] * vectorStep[i];
       for(int j=0;j<dimension;j++){
          approximateChangeNumerator += vectorStep[i] * matrixHessian[i][j] * vectorStep[j] / 2;
-         }
       }
-      return approximateChangeNumerator / approximateChangeDenominator;
    }
+   return approximateChangeNumerator / approximateChangeDenominator;
+}
+
+void BFGS::UpdateTrustRadius(double &trustRadius,
+                       double approximateEnergyChange,
+                       double initialEnergy,
+                       double currentEnergy)const{
+   // Calculate the correctness of the approximation
+   double r = (currentEnergy - initialEnergy)
+            / approximateEnergyChange;
+
+   this->OutputLog(boost::format(this->formatEnergyChangeComparison)
+                   % (currentEnergy-initialEnergy) % approximateEnergyChange % r);
+
+   if(r < 0)
+   {
+      trustRadius /= 4;
+   }
+   else if(r<0.25){
+      trustRadius /= 4;
+   }
+   else if(r<0.75){
+      // keep trust radius
+   }
+   else if(r<2){
+      trustRadius *= 2;
+   }
+   else{
+      trustRadius /= 2;
+   }
+}
 }

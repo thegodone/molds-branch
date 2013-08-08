@@ -67,6 +67,10 @@ protected:
                                   double const* const* matrixHessian,
                                   double const* vectorForce,
                                   double const* vectorStep) const;
+   void UpdateTrustRadius(double &trustRadius,
+                          double approximateEnergyChange,
+                          double currentEnergy,
+                          double initialEnergy)const;
 };
 
 }
