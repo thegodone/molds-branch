@@ -27,7 +27,7 @@ public:
    ~BFGS();
 protected:
    void SetMessages();
-private:
+
    std::string errorMessageNaNInRFOStep;
 
    std::string messageStartBFGSStep;
@@ -44,10 +44,13 @@ private:
    std::string formatTrustRadiusIs;
    std::string formatIncreaseScalingFactor;
 
+private:
    virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
                               MolDS_base::Molecule& molecule,
                               double* lineSearchedEnergy,
                               bool* obainesOptimizedStructure) const;
+
+protected:
    void CalcRFOStep(double* vectorStep,
                     double const* const* matrixHessian,
                     double const* vectorForce,
