@@ -165,19 +165,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          vectorStep = &matrixStep[0][0];
          this->CalcRFOStep(vectorStep, matrixHessian, vectorForce, trustRadius, dimension);
 
-         // Calculate approximate change of energy using
-         // [2/2] Pade approximant
-         // See Eq. (2) in [BB_1998]
-         double approximateChangeNumerator   = 0;
-         double approximateChangeDenominator = 1;
-         for(int i=0;i<dimension;i++){
-            approximateChangeNumerator -= vectorForce[i] * vectorStep[i];
-            approximateChangeDenominator += vectorStep[i] * vectorStep[i];
-            for(int j=0;j<dimension;j++){
-               approximateChangeNumerator += vectorStep[i] * matrixHessian[i][j] * vectorStep[j] / 2;
-            }
-         }
-         double approximateChange = approximateChangeNumerator / approximateChangeDenominator;
+         double approximateChange = this->ApproximateEnergyChange(dimension, matrixHessian, vectorForce, vectorStep);
 
          // Take a RFO step
          bool doLineSearch = false;
@@ -552,4 +540,23 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
    MallocerFreer::GetInstance()->Free(&vectorHessianEigenValues, dimension);
    MallocerFreer::GetInstance()->Free(&vectorsHessianModes, dimension, dimension);
 }
+
+double BFGS::ApproximateEnergyChange(int dimension,
+                                     double const* const* matrixHessian,
+                                     double const* vectorForce,
+                                     double const* vectorStep) const{
+   // Calculate approximate change of energy using
+   // [2/2] Pade approximant
+   // See Eq. (2) in [BB_1998]
+   double approximateChangeNumerator   = 0;
+   double approximateChangeDenominator = 1;
+   for(int i=0;i<dimension;i++){
+      approximateChangeNumerator -= vectorForce[i] * vectorStep[i];
+      approximateChangeDenominator += vectorStep[i] * vectorStep[i];
+      for(int j=0;j<dimension;j++){
+         approximateChangeNumerator += vectorStep[i] * matrixHessian[i][j] * vectorStep[j] / 2;
+         }
+      }
+      return approximateChangeNumerator / approximateChangeDenominator;
+   }
 }

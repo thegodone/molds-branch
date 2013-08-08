@@ -63,6 +63,10 @@ protected:
                       double const* vectorDisplacement) const;
    void ShiftHessianRedundantMode(double** matrixHessian,
                                   const MolDS_base::Molecule& molecule) const;
+   double ApproximateEnergyChange(int dimension,
+                                  double const* const* matrixHessian,
+                                  double const* vectorForce,
+                                  double const* vectorStep) const;
 };
 
 }
