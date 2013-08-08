@@ -141,9 +141,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
 
          // Store old Force data
          MallocerFreer::GetInstance()->Malloc(&vectorOldForce, dimension);
-         for(int i =0;i < dimension; i++){
-            vectorOldForce[i] = vectorForce[i];
-         }
+         MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension, vectorForce, vectorOldForce);
 
          this->StoreMolecularGeometry(matrixOldCoordinates, molecule);
 
