@@ -3416,29 +3416,37 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
 
 void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore, 
                               const Molecule& molecule) const{
+   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int totalAtomNumber = molecule.GetNumberAtoms();
+
 #ifdef MOLDS_DBG
    if(twoElecTwoCore == NULL){
       throw MolDSException(this->errorMessageCalcTwoElecTwoCoreNullMatrix);
    }
 #endif
    MallocerFreer::GetInstance()->Initialize<double>(twoElecTwoCore, 
-                                                    molecule.GetNumberAtoms(),
-                                                    molecule.GetNumberAtoms(),
+                                                    totalAtomNumber,
+                                                    totalAtomNumber,
                                                     dxy, dxy, dxy, dxy);
 
-   stringstream ompErrors;
+
+   // this loop-a is MPI-parallelized
+   for(int a=0; a<totalAtomNumber; a++){
+      if(a%mpiSize != mpiRank){continue;}
+      stringstream ompErrors;
 #pragma omp parallel
-   {
-      double**** diatomicTwoElecTwoCore = NULL;
-      double**   tmpRotMat              = NULL;
-      try{
-         MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
-         MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
-         // note that terms with condition a==b are not needed to calculate. 
+      {
+         double**** diatomicTwoElecTwoCore = NULL;
+         double**   tmpRotMat              = NULL;
+         try{
+            MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
+            MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
+            // note that terms with condition a==b are not needed to calculate. 
 #pragma omp for schedule(auto)
-         for(int a=0; a<molecule.GetNumberAtoms(); a++){
-            for(int b=a+1; b<molecule.GetNumberAtoms(); b++){
+            for(int b=a+1; b<totalAtomNumber; b++){
                this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, tmpRotMat, a, b);
+
                for(int mu=0; mu<dxy; mu++){
                   for(int nu=mu; nu<dxy; nu++){
                      for(int lambda=0; lambda<dxy; lambda++){
@@ -3456,20 +3464,26 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
                      }
                   }
                }
-            }
-         }
-      }
-      catch(MolDSException ex){
+
+            }  // end of loop b parallelized with MPI
+
+         }  // end of try
+         catch(MolDSException ex){
 #pragma omp critical
-         ex.Serialize(ompErrors);
+            ex.Serialize(ompErrors);
+         }
+         MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
+         MallocerFreer::GetInstance()->Free<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
+      }  // end of omp-parallelized region
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException::Deserialize(ompErrors);
       }
-      MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
-      MallocerFreer::GetInstance()->Free<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
-   }
-   // Exception throwing for omp-region
-   if(!ompErrors.str().empty()){
-      throw MolDSException::Deserialize(ompErrors);
-   }
+   } // end of loop a parallelized with MPI
+
+   // communication to reduce thsi->matrixForce on all node (namely, all_reduce)
+   int numTransported = totalAtomNumber*totalAtomNumber*dxy*dxy*dxy*dxy;
+   MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&twoElecTwoCore[0][0][0][0][0][0], numTransported, std::plus<double>());
 }
 
 // Calculation of two electrons two cores integral (mu, nu | lambda, sigma) in space fixed frame, 
