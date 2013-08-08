@@ -56,6 +56,9 @@ protected:
                     double const* vectorForce,
                     const double maxNormStep,
                     const int dimension) const;
+   void CalcDisplacement(double      *      *& matrixDisplacement,
+                         double const* const*  matrixOldCoordinates,
+                         const MolDS_base::Molecule& molecule)const;
    void UpdateHessian(double**      matrixHessian,
                       const int     dimension,
                       double const* vectorForce,
