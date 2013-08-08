@@ -71,6 +71,8 @@ protected:
                           double approximateEnergyChange,
                           double currentEnergy,
                           double initialEnergy)const;
+   void RollbackMolecularGeometry(MolDS_base::Molecule& molecule,
+                                  double const* const* matrixOldCoordinates) const;
 };
 
 }
