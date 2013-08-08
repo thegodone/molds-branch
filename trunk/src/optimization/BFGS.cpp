@@ -145,15 +145,8 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             vectorOldForce[i] = vectorForce[i];
          }
 
-         //Store old coordinates
-         MallocerFreer::GetInstance()->Malloc(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
-         for(int i=0;i<molecule.GetNumberAtoms();i++){
-            const Atom*   atom = molecule.GetAtom(i);
-            const double* xyz  = atom->GetXyz();
-            for(int j=0;j<CartesianType_end;j++){
-               matrixOldCoordinates[i][j] = xyz[j];
-            }
-         }
+         this->StoreMolecularGeometry(matrixOldCoordinates, molecule);
+
          // Level shift Hessian redundant modes
          this->ShiftHessianRedundantMode(matrixHessian, molecule);
 
@@ -573,6 +566,19 @@ void BFGS::CalcDisplacement(double      *      *& matrixDisplacement,
       const double* xyz  = atom->GetXyz();
       for(int j=0;j<CartesianType_end;j++){
          matrixDisplacement[i][j] = xyz[j] - matrixOldCoordinates[i][j];
+      }
+   }
+}
+
+void BFGS::StoreMolecularGeometry(double **& matrixCoordinates, 
+                                  const MolDS_base::Molecule& molecule)const{
+   //Store old coordinates
+   MallocerFreer::GetInstance()->Malloc(&matrixCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+   for(int i=0;i<molecule.GetNumberAtoms();i++){
+      const Atom*   atom = molecule.GetAtom(i);
+      const double* xyz  = atom->GetXyz();
+      for(int j=0;j<CartesianType_end;j++){
+         matrixCoordinates[i][j] = xyz[j];
       }
    }
 }
