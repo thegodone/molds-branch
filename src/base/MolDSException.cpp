@@ -27,8 +27,8 @@
 #include<boost/archive/text_iarchive.hpp>
 #include<boost/archive/text_oarchive.hpp>
 #include<boost/scoped_ptr.hpp>
-#include"MolDSException.h"
 #include"Enums.h"
+#include"MolDSException.h"
 using namespace std;
 
 namespace boost { namespace serialization {

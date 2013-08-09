@@ -23,9 +23,9 @@
 #include<math.h>
 #include<string>
 #include<stdexcept>
-#include"MolDSException.h"
-#include"Uncopyable.h"
 #include"Enums.h"
+#include"Uncopyable.h"
+#include"MolDSException.h"
 #include"GTOExpansionSTO.h"
 using namespace std;
 namespace MolDS_base{

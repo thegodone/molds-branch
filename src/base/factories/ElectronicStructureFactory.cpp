@@ -24,12 +24,12 @@
 #include<vector>
 #include<stdexcept>
 #include<boost/format.hpp>
+#include"../Enums.h"
 #include"../Uncopyable.h"
 #include"../PrintController.h"
 #include"../MolDSException.h"
 #include"../MallocerFreer.h"
 #include"../../mpi/MpiProcess.h"
-#include"../Enums.h"
 #include"../EularAngle.h"
 #include"../Parameters.h"
 #include"../atoms/Atom.h"

@@ -28,6 +28,7 @@
 #include<stdexcept>
 #include<omp.h>
 #include<boost/format.hpp>
+#include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
@@ -35,7 +36,6 @@
 #include"../mpi/MpiProcess.h"
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
-#include"../base/Enums.h"
 #include"../base/MathUtilities.h"
 #include"../base/MallocerFreer.h"
 #include"../base/EularAngle.h"
