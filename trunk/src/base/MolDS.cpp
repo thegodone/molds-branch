@@ -30,6 +30,7 @@
 #include<boost/shared_ptr.hpp>
 #include<boost/random.hpp>
 #include<boost/format.hpp>
+#include"Enums.h"
 #include"Uncopyable.h"
 #include"PrintController.h"
 #include"MolDSException.h"
@@ -38,7 +39,6 @@
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"Utilities.h"
-#include"Enums.h"
 #include"EularAngle.h"
 #include"Parameters.h"
 #include"atoms/Atom.h"
