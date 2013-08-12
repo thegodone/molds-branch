@@ -191,6 +191,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          }
 
          if(lineSearchCurrentEnergy > lineSearchInitialEnergy){
+            this->OutputLog(this->messageHillClimbing);
             this->RollbackMolecularGeometry(molecule, matrixOldCoordinates);
             lineSearchCurrentEnergy = lineSearchInitialEnergy;
          }
@@ -543,7 +544,6 @@ void BFGS::RollbackMolecularGeometry(MolDS_base::Molecule& molecule,
    bool tempCanOutputLogs = molecule.CanOutputLogs();
    bool rollbackCanOutputLogs = true;
    molecule.SetCanOutputLogs(rollbackCanOutputLogs);
-   this->OutputLog(this->messageHillClimbing);
    for(int i=0;i<molecule.GetNumberAtoms();i++){
       const Atom* atom = molecule.GetAtom(i);
       double*     xyz  = atom->GetXyz();
