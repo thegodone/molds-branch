@@ -33,7 +33,7 @@ if ARGV.empty?
 	Tests = Object.new.extend(AllInclude)
 else
 	Tests = ARGV.collect do |s|
-		s.sub(/\.(in|dat)$/,'').freeze
+		File.basename(s, '.*')
 	end.freeze
 end
 
