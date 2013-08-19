@@ -33,7 +33,9 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/MallocerFreer.h"
+#include"../base/containers/ThreadSafeQueue.h"
 #include"../mpi/MpiProcess.h"
+#include"../mpi/AsyncCommunicator.h"
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"../base/MathUtilities.h"
@@ -1374,95 +1376,100 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                            double const* atomicElectronPopulation,
                            double const* const* const* const* const* const* twoElecTwoCore, 
                            bool isGuess) const{
-   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int totalNumberAOs   = molecule.GetTotalNumberAOs();
    int totalNumberAtoms = molecule.GetNumberAtoms();
-   MallocerFreer::GetInstance()->Initialize<double>(fockMatrix, 
-                                                    totalNumberAOs, 
-                                                    totalNumberAOs);
+
+   // MPI setting of each rank
+   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mPassingTimes = MolDS_mpi::MpiProcess::GetInstance()->GetMessagePassingTimes(totalNumberAOs);
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, 
+                                                  &asyncCommunicator, 
+                                                  mPassingTimes) );
+
+   MallocerFreer::GetInstance()->Initialize<double>(fockMatrix, totalNumberAOs, totalNumberAOs);
    for(int A=0; A<totalNumberAtoms; A++){
       const Atom& atomA = *molecule.GetAtom(A);
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
       for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-      if(mu%mpiSize != mpiRank){continue;}
-
-         stringstream ompErrors;
-#pragma omp parallel for schedule(auto) 
-         for(int B=A; B<totalNumberAtoms; B++){
-            try{
-               const Atom& atomB = *molecule.GetAtom(B);
-               int firstAOIndexB = atomB.GetFirstAOIndex();
-               int lastAOIndexB  = atomB.GetLastAOIndex();
-               for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
-                  if(mu == nu){
-                     // diagonal part
-                     fockMatrix[mu][mu] = this->GetFockDiagElement(atomA, 
-                                                                   A, 
-                                                                   mu, 
-                                                                   molecule, 
-                                                                   gammaAB,
-                                                                   orbitalElectronPopulation, 
-                                                                   atomicElectronPopulation,
-                                                                   twoElecTwoCore,
-                                                                   isGuess);
-                  }
-                  else if(mu < nu){
-                     // upper right part
-                     fockMatrix[mu][nu] = this->GetFockOffDiagElement(atomA, 
-                                                                      atomB,
+         int calcRank = mu%mpiSize;
+         if(mpiRank == calcRank){
+            int maxThreads = omp_get_max_threads();
+            stringstream ompErrors;
+#pragma omp parallel for schedule(auto) num_threads(maxThreads-1)
+            for(int B=A; B<totalNumberAtoms; B++){
+               try{
+                  const Atom& atomB = *molecule.GetAtom(B);
+                  int firstAOIndexB = atomB.GetFirstAOIndex();
+                  int lastAOIndexB  = atomB.GetLastAOIndex();
+                  for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
+                     if(mu == nu){
+                        // diagonal part
+                        fockMatrix[mu][mu] = this->GetFockDiagElement(atomA, 
                                                                       A, 
-                                                                      B, 
                                                                       mu, 
-                                                                      nu, 
                                                                       molecule, 
                                                                       gammaAB,
-                                                                      overlapAOs,
                                                                       orbitalElectronPopulation, 
+                                                                      atomicElectronPopulation,
                                                                       twoElecTwoCore,
                                                                       isGuess);
-                  }
-                  else{
-                     // lower left part (not calculated)
-                  }
-               }  // end of loop nu
-            }  // end of try
-            catch(MolDSException ex){
+                     }
+                     else if(mu < nu){
+                        // upper right part
+                        fockMatrix[mu][nu] = this->GetFockOffDiagElement(atomA, 
+                                                                         atomB,
+                                                                         A, 
+                                                                         B, 
+                                                                         mu, 
+                                                                         nu, 
+                                                                         molecule, 
+                                                                         gammaAB,
+                                                                         overlapAOs,
+                                                                         orbitalElectronPopulation, 
+                                                                         twoElecTwoCore,
+                                                                         isGuess);
+                     }
+                     else{
+                        // lower left part (not calculated)
+                     }
+                  }  // end of loop nu
+               }  // end of try
+               catch(MolDSException ex){
 #pragma omp critical
-               ex.Serialize(ompErrors);
+                  ex.Serialize(ompErrors);
+               }
+            }  // end of loop B parallelized with openMP
+            // Exception throwing for omp-region
+            if(!ompErrors.str().empty()){
+               throw MolDSException::Deserialize(ompErrors);
             }
-         }  // end of loop B parallelized with openMP
-         // Exception throwing for omp-region
-         if(!ompErrors.str().empty()){
-            throw MolDSException::Deserialize(ompErrors);
+         }  // end of if(mpiRank == calcRank) 
+
+         // set data to gater in mpiHeadRank with asynchronous MPI 
+         int tag = mu;
+         int source = calcRank;
+         int dest = mpiHeadRank;
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedVector(&fockMatrix[mu][mu], 
+                                              totalNumberAOs-mu, 
+                                              source,
+                                              tag);
+         }
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentVector(&fockMatrix[mu][mu], 
+                                            totalNumberAOs-mu, 
+                                            dest,
+                                            tag);
          }
       }  // end of loop mu parallelized with MPI
    }  // end of loop A 
-
-   // communication to collect all matrix data on head-rank
-   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
-   if(mpiRank == mpiHeadRank){
-      // receive the matrix data from other ranks
-      for(int mu=0; mu<totalNumberAOs; mu++){
-         if(mu%mpiSize == mpiHeadRank){continue;}
-         int source  = mu%mpiSize;
-         int tag     = mu;
-         MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, &fockMatrix[mu][mu], totalNumberAOs-mu);
-      }
-   }
-   else{
-      // send the matrix data to head-rank
-      for(int mu=0; mu<totalNumberAOs; mu++){
-         if(mu%mpiSize != mpiRank){continue;}
-         int dest = mpiHeadRank;
-         int tag  = mu;
-         MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, &fockMatrix[mu][mu], totalNumberAOs-mu);
-      }
-   }
-   // broadcast all matrix data to all rank
-   int root=mpiHeadRank;
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&fockMatrix[0][0], totalNumberAOs*totalNumberAOs, root);
+   // Delete the communication thread.
+   communicationThread.join();
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&fockMatrix[0][0], totalNumberAOs*totalNumberAOs, mpiHeadRank);
 
    /*  
    this->OutputLog("fock matrix\n");
@@ -1590,104 +1597,109 @@ void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
 
 // calculate gammaAB matrix. (B.56) and (B.62) in J. A. Pople book.
 void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
-   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int totalAtomNumber = molecule.GetNumberAtoms();
+
+   // MPI setting of each rank
+   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mPassingTimes = MolDS_mpi::MpiProcess::GetInstance()->GetMessagePassingTimes(totalAtomNumber);
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, 
+                                                  &asyncCommunicator, 
+                                                  mPassingTimes) );
 
    // This loop (A) is parallelized by MPI
    for(int A=0; A<totalAtomNumber; A++){
-      if(A%mpiSize != mpiRank){continue;}
-      const Atom& atomA = *molecule.GetAtom(A);
-      int na = atomA.GetValenceShellType() + 1;
-      double orbitalExponentA = atomA.GetOrbitalExponent(
-                                      atomA.GetValenceShellType(), s, this->theory);
-      stringstream ompErrors;
-#pragma omp parallel for schedule(auto) 
-      for(int B=A; B<totalAtomNumber; B++){
-         try{
-            const Atom& atomB = *molecule.GetAtom(B);
-            int nb = atomB.GetValenceShellType() + 1;
-            double orbitalExponentB = atomB.GetOrbitalExponent(
-                                            atomB.GetValenceShellType(), s, this->theory);
+      int calcRank = A%mpiSize;
+      if(mpiRank == calcRank){
+         const Atom& atomA = *molecule.GetAtom(A);
+         int na = atomA.GetValenceShellType() + 1;
+         double orbitalExponentA = atomA.GetOrbitalExponent(
+                                         atomA.GetValenceShellType(), s, this->theory);
+         int maxThreads = omp_get_max_threads();
+         stringstream ompErrors;
+#pragma omp parallel for schedule(auto) num_threads(maxThreads-1)
+         for(int B=A; B<totalAtomNumber; B++){
+            try{
+               const Atom& atomB = *molecule.GetAtom(B);
+               int nb = atomB.GetValenceShellType() + 1;
+               double orbitalExponentB = atomB.GetOrbitalExponent(
+                                               atomB.GetValenceShellType(), s, this->theory);
 
-            double value = 0.0;
-            double R = molecule.GetDistanceAtoms(A, B);
-            double temp = 0.0;
-            if(R>0.0){
-               // (B.56)
-               value = pow(0.5*R, 2.0*na);
-               value *= this->GetReducedOverlapAOs(2*na-1, 0, 2.0*orbitalExponentA*R, 0);
+               double value = 0.0;
+               double R = molecule.GetDistanceAtoms(A, B);
+               double temp = 0.0;
+               if(R>0.0){
+                  // (B.56)
+                  value = pow(0.5*R, 2.0*na);
+                  value *= this->GetReducedOverlapAOs(2*na-1, 0, 2.0*orbitalExponentA*R, 0);
 
-               for(int l=1; l<=2*nb; l++){
-                  temp = 0.0;
-                  temp = l;
-                  temp *= pow(2.0*orbitalExponentB, 2*nb-l);
-                  temp /= Factorial(2*nb-l)*2.0*nb;
-                  temp *= pow(0.5*R, 2.0*nb-l+2.0*na);
-                  temp *= this->GetReducedOverlapAOs(2*na-1, 
-                                                     2*nb-l, 
-                                                     2.0*orbitalExponentA*R, 
-                                                     2.0*orbitalExponentB*R);
-                  value -= temp;
+                  for(int l=1; l<=2*nb; l++){
+                     temp = 0.0;
+                     temp = l;
+                     temp *= pow(2.0*orbitalExponentB, 2*nb-l);
+                     temp /= Factorial(2*nb-l)*2.0*nb;
+                     temp *= pow(0.5*R, 2.0*nb-l+2.0*na);
+                     temp *= this->GetReducedOverlapAOs(2*na-1, 
+                                                        2*nb-l, 
+                                                        2.0*orbitalExponentA*R, 
+                                                        2.0*orbitalExponentB*R);
+                     value -= temp;
+                  }
+
+                  value *= pow(2.0*orbitalExponentA, 2.0*na+1.0);
+                  value /= Factorial(2*na);
                }
+               else{
+                  // (B.62)
+                  value =  Factorial(2*na-1);
+                  value /= pow(2.0*orbitalExponentA, 2.0*na);
 
-               value *= pow(2.0*orbitalExponentA, 2.0*na+1.0);
-               value /= Factorial(2*na);
-            }
-            else{
-               // (B.62)
-               value =  Factorial(2*na-1);
-               value /= pow(2.0*orbitalExponentA, 2.0*na);
-
-               for(int l=1; l<=2*nb; l++){
-                  temp = l;
-                  temp *= pow(2.0*orbitalExponentB, 2*nb-l);
-                  temp *= Factorial(2*na+2*nb-l-1);
-                  temp /= Factorial(2*nb-l);
-                  temp /= 2.0*nb;
-                  temp /= pow( 2.0*orbitalExponentA + 2.0*orbitalExponentB, 2.0*(na+nb)-l );
-                  value -= temp;
+                  for(int l=1; l<=2*nb; l++){
+                     temp = l;
+                     temp *= pow(2.0*orbitalExponentB, 2*nb-l);
+                     temp *= Factorial(2*na+2*nb-l-1);
+                     temp /= Factorial(2*nb-l);
+                     temp /= 2.0*nb;
+                     temp /= pow( 2.0*orbitalExponentA + 2.0*orbitalExponentB, 2.0*(na+nb)-l );
+                     value -= temp;
+                  }
+                  value *= pow(2.0*orbitalExponentA, 2.0*na+1);
+                  value /= Factorial(2*na);
                }
-               value *= pow(2.0*orbitalExponentA, 2.0*na+1);
-               value /= Factorial(2*na);
+               gammaAB[A][B] = value;
             }
-            gammaAB[A][B] = value;
+            catch(MolDSException ex){
+            #pragma omp critical
+               ex.Serialize(ompErrors);
+            }
+         }  // end of loop B parallelized by openMP
+         // Exception throwing for omp-region
+         if(!ompErrors.str().empty()){
+            throw MolDSException::Deserialize(ompErrors);
          }
-         catch(MolDSException ex){
-         #pragma omp critical
-            ex.Serialize(ompErrors);
-         }
-      }  // end of loop B parallelized by openMP
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
+      }  //  end of if(mpiRank==calcRank)
+
+      // set data to gater in mpiHeadRank with asynchronous MPI 
+      int tag = A;
+      int source = calcRank;
+      int dest = mpiHeadRank;
+      if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+         asyncCommunicator.SetRecvedVector(&gammaAB[A][A], 
+                                           totalAtomNumber-A, 
+                                           source,
+                                           tag);
+      }
+      if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+         asyncCommunicator.SetSentVector(&gammaAB[A][A], 
+                                         totalAtomNumber-A, 
+                                         dest,
+                                         tag);
       }
    }  // end of loop A prallelized by MPI
-
-   // communication to collect all matrix data on head-rank
-   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
-   if(mpiRank == mpiHeadRank){
-      // receive the matrix data from other ranks
-      for(int A=0; A<totalAtomNumber; A++){
-         if(A%mpiSize == mpiHeadRank){continue;}
-         int source   = A%mpiSize;
-         int tag      = A;
-         MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, &gammaAB[A][A], totalAtomNumber-A);
-      }
-   }
-   else{
-      // send the matrix data to head-rank
-      for(int A=0; A<totalAtomNumber; A++){
-         if(A%mpiSize != mpiRank){continue;}
-         int dest = mpiHeadRank;
-         int tag  = A;
-         MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, &gammaAB[A][A], totalAtomNumber-A);
-      }
-   }
-   // broadcast all matrix data to all rank
-   int root=mpiHeadRank;
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&gammaAB[0][0], totalAtomNumber*totalAtomNumber, root);
-
+   communicationThread.join();
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&gammaAB[0][0], totalAtomNumber*totalAtomNumber, mpiHeadRank);
 
 #pragma omp parallel for schedule(auto)
    for(int A=0; A<totalAtomNumber; A++){
@@ -1786,44 +1798,97 @@ void Cndo2::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment,
 void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix, 
                                               const Molecule& molecule, 
                                               STOnGType stonG) const{
-   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int totalAONumber   = molecule.GetTotalNumberAOs();
    int totalAtomNumber = molecule.GetNumberAtoms();
 
+   // MPI setting of each rank
+   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mPassingTimes = MolDS_mpi::MpiProcess::GetInstance()->GetMessagePassingTimes(totalAtomNumber);
+   mPassingTimes    *= CartesianType_end;
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, 
+                                                  &asyncCommunicator, 
+                                                  mPassingTimes) );
+
    // This loop (A and mu) is parallelized by MPI
    for(int A=0; A<totalAtomNumber; A++){
-      const Atom& atomA = *molecule.GetAtom(A);
-      int firstAOIndexAtomA = atomA.GetFirstAOIndex();
-      for(int a=0; a<atomA.GetValenceSize(); a++){
-         int mu = firstAOIndexAtomA + a;      
-         if(mu%mpiSize != mpiRank){continue;}
-         stringstream ompErrors;
-         #pragma omp parallel for schedule(auto) 
-         for(int B=0; B<totalAtomNumber; B++){
-            try{
-               const Atom& atomB = *molecule.GetAtom(B);
-               int firstAOIndexAtomB = atomB.GetFirstAOIndex();
-               for(int b=0; b<atomB.GetValenceSize(); b++){
-                  int nu = firstAOIndexAtomB + b;      
-                  this->CalcCartesianMatrixElementsByGTOExpansion(cartesianMatrix[XAxis][mu][nu], 
-                                                                  cartesianMatrix[YAxis][mu][nu],
-                                                                  cartesianMatrix[ZAxis][mu][nu],
-                                                                  atomA, a, atomB, b, stonG);
+      const Atom& atomA  = *molecule.GetAtom(A);
+      int firstAOIndexA  = atomA.GetFirstAOIndex();
+      int numValenceAOsA = atomA.GetValenceSize();
+      int calcRank = A%mpiSize;
+      if(mpiRank == calcRank){
+         for(int a=0; a<numValenceAOsA; a++){
+            int mu = firstAOIndexA + a;      
+            int maxThreads = omp_get_max_threads();
+            stringstream ompErrors;
+#pragma omp parallel for schedule(auto) num_threads(maxThreads-1)
+            for(int B=0; B<totalAtomNumber; B++){
+               try{
+                  const Atom& atomB  = *molecule.GetAtom(B);
+                  int firstAOIndexB  = atomB.GetFirstAOIndex();
+                  int numValenceAOsB = atomB.GetValenceSize();
+                  for(int b=0; b<numValenceAOsB; b++){
+                     int nu = firstAOIndexB + b;      
+                     this->CalcCartesianMatrixElementsByGTOExpansion(cartesianMatrix[XAxis][mu][nu], 
+                                                                     cartesianMatrix[YAxis][mu][nu],
+                                                                     cartesianMatrix[ZAxis][mu][nu],
+                                                                     atomA, a, atomB, b, stonG);
+                  }
                }
+               catch(MolDSException ex){
+#pragma omp critical
+                  ex.Serialize(ompErrors);
+               }  
+            }// end of loop for int B with openMP
+            // Exception throwing for omp-region
+            if(!ompErrors.str().empty()){
+               throw MolDSException::Deserialize(ompErrors);
             }
-            catch(MolDSException ex){
-            #pragma omp critical
-               ex.Serialize(ompErrors);
-            }  
-         }// end of loop for int B with openMP
-         // Exception throwing for omp-region
-         if(!ompErrors.str().empty()){
-            throw MolDSException::Deserialize(ompErrors);
-         }
-      } 
-   } // end of loop for int A with openMP
+         } 
+      } // end lof if(mpiRank == calcRank)
 
+      // set data to gater in mpiHeadRank with asynchronous MPI 
+      int tagX = A* CartesianType_end + XAxis;
+      int tagY = A* CartesianType_end + YAxis;
+      int tagZ = A* CartesianType_end + ZAxis;
+      int source = calcRank;
+      int dest = mpiHeadRank;
+      if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+         asyncCommunicator.SetRecvedVector(&cartesianMatrix[XAxis][firstAOIndexA][0], 
+                                           numValenceAOsA*totalAONumber, 
+                                           source,
+                                           tagX);
+         asyncCommunicator.SetRecvedVector(&cartesianMatrix[YAxis][firstAOIndexA][0], 
+                                           numValenceAOsA*totalAONumber, 
+                                           source,
+                                           tagY);
+         asyncCommunicator.SetRecvedVector(&cartesianMatrix[ZAxis][firstAOIndexA][0], 
+                                           numValenceAOsA*totalAONumber, 
+                                           source,
+                                           tagZ);
+      }
+      if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+         asyncCommunicator.SetSentVector(&cartesianMatrix[XAxis][firstAOIndexA][0], 
+                                         numValenceAOsA*totalAONumber, 
+                                         dest,
+                                         tagX);
+         asyncCommunicator.SetSentVector(&cartesianMatrix[YAxis][firstAOIndexA][0], 
+                                         numValenceAOsA*totalAONumber, 
+                                         dest,
+                                         tagY);
+         asyncCommunicator.SetSentVector(&cartesianMatrix[ZAxis][firstAOIndexA][0], 
+                                         numValenceAOsA*totalAONumber, 
+                                         dest,
+                                         tagZ);
+      }
+   } // end of loop for int A with MPI
+   // Delete the communication thread.
+   communicationThread.join();
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&cartesianMatrix[0][0][0], CartesianType_end*totalAONumber*totalAONumber, mpiHeadRank);
+
+/*
    // communication to collect all matrix data on head-rank
    int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
    if(mpiRank == mpiHeadRank){
@@ -1857,6 +1922,7 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
    // broadcast all matrix data to all rank
    int root=mpiHeadRank;
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&cartesianMatrix[0][0][0], CartesianType_end*totalAONumber*totalAONumber, root);
+   */
 }
 
 // Calculate elements of Cartesian matrix between atomic orbitals. 
@@ -3817,10 +3883,19 @@ void Cndo2::CalcOverlapESsWithAnotherElectronicStructure(double** overlapESs,
 
 // calculate OverlapAOs matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book.
 void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
-   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int totalAONumber = molecule.GetTotalNumberAOs();
    int totalAtomNumber = molecule.GetNumberAtoms();
+
+   // MPI setting of each rank
+   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mPassingTimes = MolDS_mpi::MpiProcess::GetInstance()->GetMessagePassingTimes(totalAtomNumber);
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, 
+                                                  &asyncCommunicator, 
+                                                  mPassingTimes) );
+
    MallocerFreer::GetInstance()->Initialize<double>(overlapAOs,
                                                     totalAONumber,
                                                     totalAONumber);
@@ -3828,51 +3903,73 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
    // This loop A is parallelized with MPI
    for(int A=0; A<totalAtomNumber; A++){
       const Atom& atomA = *molecule.GetAtom(A);
-      if(A%mpiSize != mpiRank){continue;}
-   
-      stringstream ompErrors;
-#pragma omp parallel 
-      {
-         double** diatomicOverlapAOs = NULL;
-         double** rotatingMatrix = NULL;
-         try{
-            // malloc
-            MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs,
-                                                         OrbitalType_end, 
-                                                         OrbitalType_end);
-            MallocerFreer::GetInstance()->Malloc<double>(&rotatingMatrix,
-                                                         OrbitalType_end, 
-                                                         OrbitalType_end);
-
+      int firstAOIndexA = atomA.GetFirstAOIndex();
+      int numValenceAOs = atomA.GetValenceSize();
+      int calcRank = A%mpiSize;
+      if(mpiRank == calcRank){
+         int maxThreads = omp_get_max_threads();
+         stringstream ompErrors;
+#pragma omp parallel num_threads(maxThreads-1)
+         {
+            double** diatomicOverlapAOs = NULL;
+            double** rotatingMatrix = NULL;
+            try{
+               // malloc
+               MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs,
+                                                            OrbitalType_end, 
+                                                            OrbitalType_end);
+               MallocerFreer::GetInstance()->Malloc<double>(&rotatingMatrix,
+                                                            OrbitalType_end, 
+                                                            OrbitalType_end);
+               bool symmetrize = false;
 #pragma omp for schedule(auto)
-            for(int B=A+1; B<totalAtomNumber; B++){
-               const Atom& atomB = *molecule.GetAtom(B);
-               this->CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, atomA, atomB);
-               this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
-               this->RotateDiatmicOverlapAOsToSpaceFrame(diatomicOverlapAOs, rotatingMatrix);
-               this->SetOverlapAOsElement(overlapAOs, diatomicOverlapAOs, atomA, atomB);
-            } // end of loop B parallelized with openMP
+               for(int B=A+1; B<totalAtomNumber; B++){
+                  const Atom& atomB = *molecule.GetAtom(B);
+                  this->CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, atomA, atomB);
+                  this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
+                  this->RotateDiatmicOverlapAOsToSpaceFrame(diatomicOverlapAOs, rotatingMatrix);
+                  this->SetOverlapAOsElement(overlapAOs, diatomicOverlapAOs, atomA, atomB, symmetrize);
+               } // end of loop B parallelized with openMP
 
-         }  // end of try
-         catch(MolDSException ex){
+            }  // end of try
+            catch(MolDSException ex){
 #pragma omp critical
-            ex.Serialize(ompErrors);
+               ex.Serialize(ompErrors);
+            }
+            this->FreeDiatomicOverlapAOsAndRotatingMatrix(&diatomicOverlapAOs, &rotatingMatrix);
+         }  // end of omp-parallelized region
+         // Exception throwing for omp-region
+         if(!ompErrors.str().empty()){
+            throw MolDSException::Deserialize(ompErrors);
          }
-         this->FreeDiatomicOverlapAOsAndRotatingMatrix(&diatomicOverlapAOs, &rotatingMatrix);
-      }  // end of omp-parallelized region
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
+      } // end of if(mpiRank == calcRnak)
+
+      // set data to gater in mpiHeadRank with asynchronous MPI 
+      int tag = A;
+      int source = calcRank;
+      int dest = mpiHeadRank;
+      if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+         asyncCommunicator.SetRecvedVector(overlapAOs[firstAOIndexA], 
+                                           totalAONumber*numValenceAOs, 
+                                           source,
+                                           tag);
+      }
+      if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+         asyncCommunicator.SetSentVector(overlapAOs[firstAOIndexA], 
+                                         totalAONumber*numValenceAOs, 
+                                         dest,
+                                         tag);
       }
    }  // end of loop A parallelized with MPI
-
-   // communication to reduce thsi->matrixForce on all node (namely, all_reduce)
-   int numTransported = totalAONumber*totalAONumber;
-   MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&overlapAOs[0][0], numTransported, std::plus<double>());
+   communicationThread.join();
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&overlapAOs[0][0], totalAONumber*totalAONumber, mpiHeadRank);
 
    #pragma omp parallel for schedule(auto)
    for(int mu=0; mu<totalAONumber; mu++){
       overlapAOs[mu][mu] = 1.0;
+      for(int nu=mu+1; nu<totalAONumber; nu++){
+         overlapAOs[nu][mu] = overlapAOs[mu][nu];
+      }
    }
 
    /* 

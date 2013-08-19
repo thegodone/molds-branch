@@ -154,7 +154,15 @@ RENUMSTR_END()
 
 RENUMSTR_BEGIN( ExceptionKey, ExceptionKeyStr )
    RENUMSTR( LapackInfo, "LapackInfo" )
+   RENUMSTR( EmptyQueue, "EmptyQueue" )
    RENUMSTR( ExceptionKey_end,  "ExceptionKey_end" )
+RENUMSTR_END()
+
+RENUMSTR_BEGIN( MpiFunctionType, MpiFunctionTypeStr )
+   RENUMSTR( Send,      "Send" )
+   RENUMSTR( Recv,      "Recv" )
+   RENUMSTR( Broadcast, "Broadcast" )
+   RENUMSTR( MpiFunctionType_end,  "MpiFunctionType_end" )
 RENUMSTR_END()
 
 }
