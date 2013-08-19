@@ -31,7 +31,9 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/MallocerFreer.h"
+#include"../base/containers/ThreadSafeQueue.h"
 #include"../mpi/MpiProcess.h"
+#include"../mpi/AsyncCommunicator.h"
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"../base/MallocerFreer.h"
@@ -739,8 +741,9 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
       // single excitation from I-th (occupied)MO to A-th (virtual)MO
       int moI = this->GetActiveOccIndex(*this->molecule, k);
       int moA = this->GetActiveVirIndex(*this->molecule, k);
+      int maxThreads = omp_get_max_threads();
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(auto) num_threads(maxThreads-1)
       for(int l=k; l<this->matrixCISdimension; l++){
          try{
             // single excitation from J-th (occupied)MO to B-th (virtual)MO
@@ -2552,8 +2555,9 @@ void Mndo::CalcForce(const vector<int>& elecStates){
       const Atom& atomA = *molecule->GetAtom(a);
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
+      int maxThreads = omp_get_max_threads();
       stringstream ompErrors;
-#pragma omp parallel
+#pragma omp parallel num_threads(maxThreads-1)
       {
          double***   diatomicOverlapAOs1stDerivs = NULL;
          double***** diatomicTwoElecTwoCore1stDerivs = NULL;
@@ -3416,74 +3420,113 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
 
 void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore, 
                               const Molecule& molecule) const{
-   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
-   int totalAtomNumber = molecule.GetNumberAtoms();
+   int totalNumberAtoms = molecule.GetNumberAtoms();
 
+   // MPI setting of each rank
+   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mPassingTimes = MolDS_mpi::MpiProcess::GetInstance()->GetMessagePassingTimes(totalNumberAtoms);
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, 
+                                                  &asyncCommunicator, 
+                                                  mPassingTimes) );
 #ifdef MOLDS_DBG
    if(twoElecTwoCore == NULL){
       throw MolDSException(this->errorMessageCalcTwoElecTwoCoreNullMatrix);
    }
 #endif
    MallocerFreer::GetInstance()->Initialize<double>(twoElecTwoCore, 
-                                                    totalAtomNumber,
-                                                    totalAtomNumber,
+                                                    totalNumberAtoms,
+                                                    totalNumberAtoms,
                                                     dxy, dxy, dxy, dxy);
 
-
    // this loop-a is MPI-parallelized
-   for(int a=0; a<totalAtomNumber; a++){
-      if(a%mpiSize != mpiRank){continue;}
-      stringstream ompErrors;
-#pragma omp parallel
-      {
-         double**** diatomicTwoElecTwoCore = NULL;
-         double**   tmpRotMat              = NULL;
-         try{
-            MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
-            // note that terms with condition a==b are not needed to calculate. 
+   for(int a=0; a<totalNumberAtoms; a++){
+      int calcRank = a%mpiSize;
+      if(mpiRank == calcRank){
+         int maxThreads = omp_get_max_threads();
+         stringstream ompErrors;
+#pragma omp parallel num_threads(maxThreads-1)
+         {
+            double**** diatomicTwoElecTwoCore = NULL;
+            double**   tmpRotMat              = NULL;
+            try{
+               MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
+               MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
+               // note that terms with condition a==b are not needed to calculate. 
 #pragma omp for schedule(auto)
-            for(int b=a+1; b<totalAtomNumber; b++){
-               this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, tmpRotMat, a, b);
+               for(int b=a+1; b<totalNumberAtoms; b++){
+                  this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, tmpRotMat, a, b);
 
-               for(int mu=0; mu<dxy; mu++){
-                  for(int nu=mu; nu<dxy; nu++){
-                     for(int lambda=0; lambda<dxy; lambda++){
-                        for(int sigma=lambda; sigma<dxy; sigma++){
-                           double value = diatomicTwoElecTwoCore[mu][nu][lambda][sigma];
-                           twoElecTwoCore[a][b][mu][nu][lambda][sigma] = value;
-                           twoElecTwoCore[a][b][mu][nu][sigma][lambda] = value;
-                           twoElecTwoCore[a][b][nu][mu][lambda][sigma] = value;
-                           twoElecTwoCore[a][b][nu][mu][sigma][lambda] = value;
-                           twoElecTwoCore[b][a][lambda][sigma][mu][nu] = value;
-                           twoElecTwoCore[b][a][lambda][sigma][nu][mu] = value;
-                           twoElecTwoCore[b][a][sigma][lambda][mu][nu] = value;
-                           twoElecTwoCore[b][a][sigma][lambda][nu][mu] = value;
+                  for(int mu=0; mu<dxy; mu++){
+                     for(int nu=mu; nu<dxy; nu++){
+                        for(int lambda=0; lambda<dxy; lambda++){
+                           for(int sigma=lambda; sigma<dxy; sigma++){
+                              double value = diatomicTwoElecTwoCore[mu][nu][lambda][sigma];
+                              twoElecTwoCore[a][b][mu][nu][lambda][sigma] = value;
+                              twoElecTwoCore[a][b][mu][nu][sigma][lambda] = value;
+                              twoElecTwoCore[a][b][nu][mu][lambda][sigma] = value;
+                              twoElecTwoCore[a][b][nu][mu][sigma][lambda] = value;
+                           }
                         }
                      }
                   }
-               }
 
-            }  // end of loop b parallelized with MPI
+               }  // end of loop b parallelized with MPI
 
-         }  // end of try
-         catch(MolDSException ex){
+            }  // end of try
+            catch(MolDSException ex){
 #pragma omp critical
-            ex.Serialize(ompErrors);
+               ex.Serialize(ompErrors);
+            }
+            MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
+            MallocerFreer::GetInstance()->Free<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
+         }  // end of omp-parallelized region
+         // Exception throwing for omp-region
+         if(!ompErrors.str().empty()){
+            throw MolDSException::Deserialize(ompErrors);
          }
-         MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
-      }  // end of omp-parallelized region
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
+      } // end of if(mpiRnak == calcRank)
+      // set data to gater in mpiHeadRank with asynchronous MPI 
+      int tag            = a;
+      int source         = calcRank;
+      int dest           = mpiHeadRank;
+      int numTransported = totalNumberAtoms*dxy*dxy*dxy*dxy;
+      if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+         asyncCommunicator.SetRecvedVector(&twoElecTwoCore[a][0][0][0][0][0], 
+                                           numTransported, 
+                                           source,
+                                           tag);
+      }
+      if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+         asyncCommunicator.SetSentVector(&twoElecTwoCore[a][0][0][0][0][0], 
+                                         numTransported, 
+                                         dest,
+                                         tag);
       }
    } // end of loop a parallelized with MPI
+   communicationThread.join();
+   int numTransported = totalNumberAtoms*totalNumberAtoms*dxy*dxy*dxy*dxy;
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&twoElecTwoCore[0][0][0][0][0][0], numTransported, mpiHeadRank);
 
-   // communication to reduce thsi->matrixForce on all node (namely, all_reduce)
-   int numTransported = totalAtomNumber*totalAtomNumber*dxy*dxy*dxy*dxy;
-   MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&twoElecTwoCore[0][0][0][0][0][0], numTransported, std::plus<double>());
+   for(int a=0; a<totalNumberAtoms; a++){
+      for(int b=a+1; b<totalNumberAtoms; b++){
+         for(int mu=0; mu<dxy; mu++){
+            for(int nu=mu; nu<dxy; nu++){
+               for(int lambda=0; lambda<dxy; lambda++){
+                  for(int sigma=lambda; sigma<dxy; sigma++){
+                     double value = twoElecTwoCore[a][b][mu][nu][lambda][sigma];
+                     twoElecTwoCore[b][a][lambda][sigma][mu][nu] = value;
+                     twoElecTwoCore[b][a][lambda][sigma][nu][mu] = value;
+                     twoElecTwoCore[b][a][sigma][lambda][mu][nu] = value;
+                     twoElecTwoCore[b][a][sigma][lambda][nu][mu] = value;
+                  }
+               }
+            }
+         }
+      }
+   }
 }
 
 // Calculation of two electrons two cores integral (mu, nu | lambda, sigma) in space fixed frame, 

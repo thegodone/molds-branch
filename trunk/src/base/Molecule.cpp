@@ -24,6 +24,7 @@
 #include<string>
 #include<vector>
 #include<stdexcept>
+#include<omp.h>
 #include<boost/format.hpp>
 #include"Enums.h"
 #include"Uncopyable.h"
