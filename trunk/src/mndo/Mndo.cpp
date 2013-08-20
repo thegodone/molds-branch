@@ -6127,13 +6127,13 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
 
    // Eq. (52) in [DT_1977]
    if(multipoleA == sQ && multipoleB == sQ){
-      value = pow((rAB*rAB) + (a*a), -0.5);
+      value = 1.0/sqrt(rAB*rAB + a*a);
    }
    // Eq. (53) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == muz){
       double temp1 = ((rAB+DB)*(rAB+DB)) + (a*a);
       double temp2 = ((rAB-DB)*(rAB-DB)) + (a*a);
-      value = pow(temp1,-0.5)/2.0 - pow(temp2,-0.5)/2.0;
+      value = 1.0/sqrt(temp1)/2.0 - 1.0/sqrt(temp2)/2.0;
    }
    else if(multipoleA == muz && multipoleB == sQ){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6143,7 +6143,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
    else if(multipoleA == sQ && multipoleB == Qxx){
       double temp1 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
       double temp2 = (rAB*rAB) + (a*a);
-      value = pow(temp1,-0.5)/2.0 - pow(temp2,-0.5)/2.0;
+      value = 1.0/sqrt(temp1)/2.0 - 1.0/sqrt(temp2)/2.0;
    }
    else if(multipoleA == Qxx && multipoleB == sQ){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6159,7 +6159,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp1 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
       double temp2 = (rAB*rAB) + (a*a);
       double temp3 = ((rAB-2.0*DB)*(rAB-2.0*DB)) + (a*a);
-      value = pow(temp1,-0.5)/4.0 - pow(temp2,-0.5)/2.0 + pow(temp3,-0.5)/4.0;
+      value = 1.0/sqrt(temp1)/4.0 - 1.0/sqrt(temp2)/2.0 + 1.0/sqrt(temp3)/4.0;
    }
    else if(multipoleA == Qzz && multipoleB == sQ){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6168,7 +6168,7 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
    else if(multipoleA == mux && multipoleB == mux){
       double temp1 = (rAB*rAB) + ((DA-DB)*(DA-DB)) + (a*a);
       double temp2 = (rAB*rAB) + ((DA+DB)*(DA+DB)) + (a*a);
-      value = pow(temp1,-0.5)/2.0 - pow(temp2,-0.5)/2.0;
+      value = 1.0/sqrt(temp1)/2.0 - 1.0/sqrt(temp2)/2.0;
    }
    else if(multipoleA == muy && multipoleB == muy){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomA, atomB, mux, mux, rAB);
@@ -6179,8 +6179,8 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp2 = ((rAB+DA+DB)*(rAB+DA+DB)) + (a*a);
       double temp3 = ((rAB-DA-DB)*(rAB-DA-DB)) + (a*a);
       double temp4 = ((rAB-DA+DB)*(rAB-DA+DB)) + (a*a);
-      value = pow(temp1,-0.5)/4.0 - pow(temp2,-0.5)/4.0 
-             -pow(temp3,-0.5)/4.0 + pow(temp4,-0.5)/4.0;
+      value = 1.0/sqrt(temp1)/4.0 - 1.0/sqrt(temp2)/4.0 
+             -1.0/sqrt(temp3)/4.0 + 1.0/sqrt(temp4)/4.0;
    }
    // Eq. (58) in [DT_1977]
    else if(multipoleA == mux && multipoleB == Qxz){
@@ -6188,8 +6188,8 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp2 = ((rAB-DB)*(rAB-DB)) + ((DA+DB)*(DA+DB)) + (a*a);
       double temp3 = ((rAB+DB)*(rAB+DB)) + ((DA-DB)*(DA-DB)) + (a*a);
       double temp4 = ((rAB+DB)*(rAB+DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      value =-pow(temp1,-0.5)/4.0 + pow(temp2,-0.5)/4.0 
-             +pow(temp3,-0.5)/4.0 - pow(temp4,-0.5)/4.0;
+      value =-1.0/sqrt(temp1)/4.0 + 1.0/sqrt(temp2)/4.0 
+             +1.0/sqrt(temp3)/4.0 - 1.0/sqrt(temp4)/4.0;
    }
    else if(multipoleA == Qxz && multipoleB == mux){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6208,8 +6208,8 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp2 = ((rAB-DA)*(rAB-DA)) + (4.0*DB*DB) + (a*a);
       double temp3 = ((rAB+DA)*(rAB+DA)) + (a*a);
       double temp4 = ((rAB-DA)*(rAB-DA)) + (a*a);
-      value =-pow(temp1,-0.5)/4.0 + pow(temp2,-0.5)/4.0 
-             +pow(temp3,-0.5)/4.0 - pow(temp4,-0.5)/4.0;
+      value =-1.0/sqrt(temp1)/4.0 + 1.0/sqrt(temp2)/4.0 
+             +1.0/sqrt(temp3)/4.0 - 1.0/sqrt(temp4)/4.0;
    }
    else if(multipoleA == Qxx && multipoleB == muz){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6230,9 +6230,9 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp4 = ((rAB-DA+2.0*DB)*(rAB-DA+2.0*DB)) + (a*a);
       double temp5 = ((rAB+DA)*(rAB+DA)) + (a*a);
       double temp6 = ((rAB-DA)*(rAB-DA)) + (a*a);
-      value =-pow(temp1,-0.5)/8.0 + pow(temp2,-0.5)/8.0 
-             -pow(temp3,-0.5)/8.0 + pow(temp4,-0.5)/8.0
-             +pow(temp5,-0.5)/4.0 - pow(temp6,-0.5)/4.0;
+      value =-1.0/sqrt(temp1)/8.0 + 1.0/sqrt(temp2)/8.0 
+             -1.0/sqrt(temp3)/8.0 + 1.0/sqrt(temp4)/8.0
+             +1.0/sqrt(temp5)/4.0 - 1.0/sqrt(temp6)/4.0;
    }
    else if(multipoleA == Qzz && multipoleB == muz){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6245,9 +6245,9 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp3 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
       double temp4 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
       double temp5 = (rAB*rAB) + (a*a);
-      value = pow(temp1,-0.5)/8.0 + pow(temp2,-0.5)/8.0 
-             -pow(temp3,-0.5)/4.0 - pow(temp4,-0.5)/4.0
-             +pow(temp5,-0.5)/4.0;
+      value = 1.0/sqrt(temp1)/8.0 + 1.0/sqrt(temp2)/8.0 
+             -1.0/sqrt(temp3)/4.0 - 1.0/sqrt(temp4)/4.0
+             +1.0/sqrt(temp5)/4.0;
    }
    else if(multipoleA == Qyy && multipoleB == Qyy){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomA, atomB, Qxx, Qxx, rAB);
@@ -6258,8 +6258,8 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp2 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
       double temp3 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
       double temp4 = (rAB*rAB) + (a*a);
-      value = pow(temp1,-0.5)/4.0 - pow(temp2,-0.5)/4.0 
-             -pow(temp3,-0.5)/4.0 + pow(temp4,-0.5)/4.0;
+      value = 1.0/sqrt(temp1)/4.0 - 1.0/sqrt(temp2)/4.0 
+             -1.0/sqrt(temp3)/4.0 + 1.0/sqrt(temp4)/4.0;
    }
    else if(multipoleA == Qyy && multipoleB == Qxx){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6272,9 +6272,9 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp4 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
       double temp5 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
       double temp6 = (rAB*rAB) + (a*a);
-      value = pow(temp1,-0.5)/8.0 + pow(temp2,-0.5)/8.0 
-             -pow(temp3,-0.5)/8.0 - pow(temp4,-0.5)/8.0
-             -pow(temp5,-0.5)/4.0 + pow(temp6,-0.5)/4.0;
+      value = 1.0/sqrt(temp1)/8.0 + 1.0/sqrt(temp2)/8.0 
+             -1.0/sqrt(temp3)/8.0 - 1.0/sqrt(temp4)/8.0
+             -1.0/sqrt(temp5)/4.0 + 1.0/sqrt(temp6)/4.0;
    }
    else if(multipoleA == Qzz && multipoleB == Qxx){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6291,16 +6291,16 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp2 = ((rAB+2.0*DA+2.0*DB)*(rAB+2.0*DA+2.0*DB)) + (a*a);
       double temp3 = ((rAB-2.0*DA-2.0*DB)*(rAB-2.0*DA-2.0*DB)) + (a*a);
       double temp4 = ((rAB-2.0*DA+2.0*DB)*(rAB-2.0*DA+2.0*DB)) + (a*a);
-      double temp5 = pow(rAB+2.0*DA,2.0) + (a*a);
-      double temp6 = pow(rAB-2.0*DA,2.0) + (a*a);
+      double temp5 = ((rAB+2.0*DA)*(rAB+2.0*DA)) + (a*a);
+      double temp6 = ((rAB-2.0*DA)*(rAB-2.0*DA)) + (a*a);
       double temp7 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
       double temp8 = ((rAB-2.0*DB)*(rAB-2.0*DB)) + (a*a);
       double temp9 = (rAB*rAB) + (a*a);
-      value = pow(temp1,-0.5)/16.0 + pow(temp2,-0.5)/16.0 
-             +pow(temp3,-0.5)/16.0 + pow(temp4,-0.5)/16.0
-             -pow(temp5,-0.5)/8.0 - pow(temp6,-0.5)/8.0
-             -pow(temp7,-0.5)/8.0 - pow(temp8,-0.5)/8.0
-             +pow(temp9,-0.5)/4.0;
+      value = 1.0/sqrt(temp1)/16.0 + 1.0/sqrt(temp2)/16.0 
+             +1.0/sqrt(temp3)/16.0 + 1.0/sqrt(temp4)/16.0
+             -1.0/sqrt(temp5)/8.0 - 1.0/sqrt(temp6)/8.0
+             -1.0/sqrt(temp7)/8.0 - 1.0/sqrt(temp8)/8.0
+             +1.0/sqrt(temp9)/4.0;
    }
    // Eq. (65) in [DT_1977]
    else if(multipoleA == Qxz && multipoleB == Qxz){
@@ -6312,10 +6312,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp6 = ((rAB-DA-DB)*(rAB-DA-DB)) + ((DA+DB)*(DA+DB)) + (a*a);
       double temp7 = ((rAB-DA+DB)*(rAB-DA+DB)) + ((DA-DB)*(DA-DB)) + (a*a);
       double temp8 = ((rAB-DA+DB)*(rAB-DA+DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      value = pow(temp1,-0.5)/8.0 - pow(temp2,-0.5)/8.0 
-             -pow(temp3,-0.5)/8.0 + pow(temp4,-0.5)/8.0
-             -pow(temp5,-0.5)/8.0 + pow(temp6,-0.5)/8.0
-             +pow(temp7,-0.5)/8.0 - pow(temp8,-0.5)/8.0;
+      value = 1.0/sqrt(temp1)/8.0 - 1.0/sqrt(temp2)/8.0 
+             -1.0/sqrt(temp3)/8.0 + 1.0/sqrt(temp4)/8.0
+             -1.0/sqrt(temp5)/8.0 + 1.0/sqrt(temp6)/8.0
+             +1.0/sqrt(temp7)/8.0 - 1.0/sqrt(temp8)/8.0;
    }
    else if(multipoleA == Qyz && multipoleB == Qyz){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomA, atomB, Qxz, Qxz, rAB);
@@ -6325,8 +6325,8 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
       double temp1 = (rAB*rAB) + 2.0*((DA-DB)*(DA-DB)) + (a*a);
       double temp2 = (rAB*rAB) + 2.0*((DA+DB)*(DA+DB)) + (a*a);
       double temp3 = (rAB*rAB) + 2.0*(DA*DA) + 2.0*(DB*DB) + (a*a);
-      value = pow(temp1,-0.5)/4.0 + pow(temp2,-0.5)/4.0 
-             -pow(temp3,-0.5)/2.0;
+      value = 1.0/sqrt(temp1)/4.0 + 1.0/sqrt(temp2)/4.0 
+             -1.0/sqrt(temp3)/2.0;
    }
    else{
       stringstream ss;
@@ -6355,14 +6355,14 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
 
    // Eq. (52) in [DT_1977]
    if(multipoleA == sQ && multipoleB == sQ){
-      value = -1.0*rAB*pow((rAB*rAB) + (a*a), -1.5);
+      value = -1.0*rAB/((rAB*rAB + a*a)*sqrt(rAB*rAB + a*a));
    }
    // Eq. (53) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == muz){
       double temp1 = ((rAB+DB)*(rAB+DB)) + (a*a);
       double temp2 = ((rAB-DB)*(rAB-DB)) + (a*a);
-      value = (rAB+DB)*pow(temp1,-1.5)/2.0 
-             -(rAB-DB)*pow(temp2,-1.5)/2.0;
+      value = (rAB+DB)/(temp1*sqrt(temp1))/2.0 
+             -(rAB-DB)/(temp2*sqrt(temp2))/2.0;
       value *= -1.0;
    }
    else if(multipoleA == muz && multipoleB == sQ){
@@ -6373,8 +6373,8 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
    else if(multipoleA == sQ && multipoleB == Qxx){
       double temp1 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
       double temp2 = (rAB*rAB) + (a*a);
-      value = rAB*pow(temp1,-1.5)/2.0 
-             -rAB*pow(temp2,-1.5)/2.0;
+      value = rAB/(temp1*sqrt(temp1))/2.0 
+             -rAB/(temp2*sqrt(temp2))/2.0;
       value *= -1.0;
    }
    else if(multipoleA == Qxx && multipoleB == sQ){
@@ -6391,9 +6391,9 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp1 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
       double temp2 = (rAB*rAB) + (a*a);
       double temp3 = ((rAB-2.0*DB)*(rAB-2.0*DB)) + (a*a);
-      value = (rAB+2.0*DB)*pow(temp1,-1.5)/4.0 
-             -(rAB)*pow(temp2,-1.5)/2.0 
-             +(rAB-2.0*DB)*pow(temp3,-1.5)/4.0;
+      value = (rAB+2.0*DB)/(temp1*sqrt(temp1))/4.0 
+             -(rAB)/(temp2*sqrt(temp2))/2.0 
+             +(rAB-2.0*DB)/(temp3*sqrt(temp3))/4.0;
       value *= -1.0;
    }
    else if(multipoleA == Qzz && multipoleB == sQ){
@@ -6403,8 +6403,8 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
    else if(multipoleA == mux && multipoleB == mux){
       double temp1 = (rAB*rAB) + ((DA-DB)*(DA-DB)) + (a*a);
       double temp2 = (rAB*rAB) + ((DA+DB)*(DA+DB)) + (a*a);
-      value = (rAB)*pow(temp1,-1.5)/2.0 
-             -(rAB)*pow(temp2,-1.5)/2.0;
+      value = (rAB)/(temp1*sqrt(temp1))/2.0 
+             -(rAB)/(temp2*sqrt(temp2))/2.0;
       value *= -1.0;
    }
    else if(multipoleA == muy && multipoleB == muy){
@@ -6416,10 +6416,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp2 = ((rAB+DA+DB)*(rAB+DA+DB)) + (a*a);
       double temp3 = ((rAB-DA-DB)*(rAB-DA-DB)) + (a*a);
       double temp4 = ((rAB-DA+DB)*(rAB-DA+DB)) + (a*a);
-      value = (rAB+DA-DB)*pow(temp1,-1.5)/4.0 
-             -(rAB+DA+DB)*pow(temp2,-1.5)/4.0 
-             -(rAB-DA-DB)*pow(temp3,-1.5)/4.0 
-             +(rAB-DA+DB)*pow(temp4,-1.5)/4.0;
+      value = (rAB+DA-DB)/(temp1*sqrt(temp1))/4.0 
+             -(rAB+DA+DB)/(temp2*sqrt(temp2))/4.0 
+             -(rAB-DA-DB)/(temp3*sqrt(temp3))/4.0 
+             +(rAB-DA+DB)/(temp4*sqrt(temp4))/4.0;
       value *= -1.0;
    }
    // Eq. (58) in [DT_1977]
@@ -6428,10 +6428,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp2 = ((rAB-DB)*(rAB-DB)) + ((DA+DB)*(DA+DB)) + (a*a);
       double temp3 = ((rAB+DB)*(rAB+DB)) + ((DA-DB)*(DA-DB)) + (a*a);
       double temp4 = ((rAB+DB)*(rAB+DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      value =-(rAB-DB)*pow(temp1,-1.5)/4.0 
-             +(rAB-DB)*pow(temp2,-1.5)/4.0 
-             +(rAB+DB)*pow(temp3,-1.5)/4.0 
-             -(rAB+DB)*pow(temp4,-1.5)/4.0;
+      value =-(rAB-DB)/(temp1*sqrt(temp1))/4.0 
+             +(rAB-DB)/(temp2*sqrt(temp2))/4.0 
+             +(rAB+DB)/(temp3*sqrt(temp3))/4.0 
+             -(rAB+DB)/(temp4*sqrt(temp4))/4.0;
       value *= -1.0;
    }
    else if(multipoleA == Qxz && multipoleB == mux){
@@ -6451,10 +6451,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp2 = ((rAB-DA)*(rAB-DA)) + (4.0*DB*DB) + (a*a);
       double temp3 = ((rAB+DA)*(rAB+DA)) + (a*a);
       double temp4 = ((rAB-DA)*(rAB-DA)) + (a*a);
-      value =-(rAB+DA)*pow(temp1,-1.5)/4.0 
-             +(rAB-DA)*pow(temp2,-1.5)/4.0 
-             +(rAB+DA)*pow(temp3,-1.5)/4.0 
-             -(rAB-DA)*pow(temp4,-1.5)/4.0;
+      value =-(rAB+DA)/(temp1*sqrt(temp1))/4.0 
+             +(rAB-DA)/(temp2*sqrt(temp2))/4.0 
+             +(rAB+DA)/(temp3*sqrt(temp3))/4.0 
+             -(rAB-DA)/(temp4*sqrt(temp4))/4.0;
       value *= -1.0;
    }
    else if(multipoleA == Qxx && multipoleB == muz){
@@ -6476,12 +6476,12 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp4 = ((rAB-DA+2.0*DB)*(rAB-DA+2.0*DB)) + (a*a);
       double temp5 = ((rAB+DA)*(rAB+DA)) + (a*a);
       double temp6 = ((rAB-DA)*(rAB-DA)) + (a*a);
-      value =-(rAB+DA-2.0*DB)*pow(temp1,-1.5)/8.0 
-             +(rAB-DA-2.0*DB)*pow(temp2,-1.5)/8.0 
-             -(rAB+DA+2.0*DB)*pow(temp3,-1.5)/8.0 
-             +(rAB-DA+2.0*DB)*pow(temp4,-1.5)/8.0
-             +(rAB+DA       )*pow(temp5,-1.5)/4.0 
-             -(rAB-DA       )*pow(temp6,-1.5)/4.0;
+      value =-(rAB+DA-2.0*DB)/(temp1*sqrt(temp1))/8.0 
+             +(rAB-DA-2.0*DB)/(temp2*sqrt(temp2))/8.0 
+             -(rAB+DA+2.0*DB)/(temp3*sqrt(temp3))/8.0 
+             +(rAB-DA+2.0*DB)/(temp4*sqrt(temp4))/8.0
+             +(rAB+DA       )/(temp5*sqrt(temp5))/4.0 
+             -(rAB-DA       )/(temp6*sqrt(temp6))/4.0;
       value *= -1.0;
    }
    else if(multipoleA == Qzz && multipoleB == muz){
@@ -6495,11 +6495,11 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp3 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
       double temp4 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
       double temp5 = (rAB*rAB) + (a*a);
-      value = (rAB)*pow(temp1,-1.5)/8.0 
-             +(rAB)*pow(temp2,-1.5)/8.0 
-             -(rAB)*pow(temp3,-1.5)/4.0 
-             -(rAB)*pow(temp4,-1.5)/4.0
-             +(rAB)*pow(temp5,-1.5)/4.0;
+      value = (rAB)/(temp1*sqrt(temp1))/8.0 
+             +(rAB)/(temp2*sqrt(temp2))/8.0 
+             -(rAB)/(temp3*sqrt(temp3))/4.0 
+             -(rAB)/(temp4*sqrt(temp4))/4.0
+             +(rAB)/(temp5*sqrt(temp5))/4.0;
       value *= -1.0;
    }
    else if(multipoleA == Qyy && multipoleB == Qyy){
@@ -6511,10 +6511,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp2 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
       double temp3 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
       double temp4 = (rAB*rAB) + (a*a);
-      value = (rAB)*pow(temp1,-1.5)/4.0 
-             -(rAB)*pow(temp2,-1.5)/4.0 
-             -(rAB)*pow(temp3,-1.5)/4.0 
-             +(rAB)*pow(temp4,-1.5)/4.0;
+      value = (rAB)/(temp1*sqrt(temp1))/4.0 
+             -(rAB)/(temp2*sqrt(temp2))/4.0 
+             -(rAB)/(temp3*sqrt(temp3))/4.0 
+             +(rAB)/(temp4*sqrt(temp4))/4.0;
       value *= -1.0;
    }
    else if(multipoleA == Qyy && multipoleB == Qxx){
@@ -6528,12 +6528,12 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp4 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
       double temp5 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
       double temp6 = (rAB*rAB) + (a*a);
-      value = (rAB-2.0*DB)*pow(temp1,-1.5)/8.0 
-             +(rAB+2.0*DB)*pow(temp2,-1.5)/8.0 
-             -(rAB-2.0*DB)*pow(temp3,-1.5)/8.0 
-             -(rAB+2.0*DB)*pow(temp4,-1.5)/8.0
-             -(rAB       )*pow(temp5,-1.5)/4.0 
-             +(rAB       )*pow(temp6,-1.5)/4.0;
+      value = (rAB-2.0*DB)/(temp1*sqrt(temp1))/8.0 
+             +(rAB+2.0*DB)/(temp2*sqrt(temp2))/8.0 
+             -(rAB-2.0*DB)/(temp3*sqrt(temp3))/8.0 
+             -(rAB+2.0*DB)/(temp4*sqrt(temp4))/8.0
+             -(rAB       )/(temp5*sqrt(temp5))/4.0 
+             +(rAB       )/(temp6*sqrt(temp6))/4.0;
       value *= -1.0;
    }
    else if(multipoleA == Qzz && multipoleB == Qxx){
@@ -6551,20 +6551,20 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp2 = ((rAB+2.0*DA+2.0*DB)*(rAB+2.0*DA+2.0*DB)) + (a*a);
       double temp3 = ((rAB-2.0*DA-2.0*DB)*(rAB-2.0*DA-2.0*DB)) + (a*a);
       double temp4 = ((rAB-2.0*DA+2.0*DB)*(rAB-2.0*DA+2.0*DB)) + (a*a);
-      double temp5 = pow(rAB+2.0*DA,2.0) + (a*a);
-      double temp6 = pow(rAB-2.0*DA,2.0) + (a*a);
+      double temp5 = ((rAB+2.0*DA)*(rAB+2.0*DA)) + (a*a);
+      double temp6 = ((rAB-2.0*DA)*(rAB-2.0*DA)) + (a*a);
       double temp7 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
       double temp8 = ((rAB-2.0*DB)*(rAB-2.0*DB)) + (a*a);
       double temp9 = (rAB*rAB) + (a*a);
-      value = (rAB+2.0*DA-2.0*DB)*pow(temp1,-1.5)/16.0 
-             +(rAB+2.0*DA+2.0*DB)*pow(temp2,-1.5)/16.0 
-             +(rAB-2.0*DA-2.0*DB)*pow(temp3,-1.5)/16.0 
-             +(rAB-2.0*DA+2.0*DB)*pow(temp4,-1.5)/16.0
-             -(rAB+2.0*DA)*pow(temp5,-1.5)/8.0 
-             -(rAB-2.0*DA)*pow(temp6,-1.5)/8.0
-             -(rAB+2.0*DB)*pow(temp7,-1.5)/8.0 
-             -(rAB-2.0*DB)*pow(temp8,-1.5)/8.0
-             +(rAB)*pow(temp9,-1.5)/4.0;
+      value = (rAB+2.0*DA-2.0*DB)/(temp1*sqrt(temp1))/16.0 
+             +(rAB+2.0*DA+2.0*DB)/(temp2*sqrt(temp2))/16.0 
+             +(rAB-2.0*DA-2.0*DB)/(temp3*sqrt(temp3))/16.0 
+             +(rAB-2.0*DA+2.0*DB)/(temp4*sqrt(temp4))/16.0
+             -(rAB+2.0*DA)/(temp5*sqrt(temp5))/8.0 
+             -(rAB-2.0*DA)/(temp6*sqrt(temp6))/8.0
+             -(rAB+2.0*DB)/(temp7*sqrt(temp7))/8.0 
+             -(rAB-2.0*DB)/(temp8*sqrt(temp8))/8.0
+             +(rAB)/(temp9*sqrt(temp9))/4.0;
       value *= -1.0;
    }
    // Eq. (65) in [DT_1977]
@@ -6577,14 +6577,14 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp6 = ((rAB-DA-DB)*(rAB-DA-DB)) + ((DA+DB)*(DA+DB)) + (a*a);
       double temp7 = ((rAB-DA+DB)*(rAB-DA+DB)) + ((DA-DB)*(DA-DB)) + (a*a);
       double temp8 = ((rAB-DA+DB)*(rAB-DA+DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      value = (rAB+DA-DB)*pow(temp1,-1.5)/8.0 
-             -(rAB+DA-DB)*pow(temp2,-1.5)/8.0 
-             -(rAB+DA+DB)*pow(temp3,-1.5)/8.0 
-             +(rAB+DA+DB)*pow(temp4,-1.5)/8.0
-             -(rAB-DA-DB)*pow(temp5,-1.5)/8.0 
-             +(rAB-DA-DB)*pow(temp6,-1.5)/8.0
-             +(rAB-DA+DB)*pow(temp7,-1.5)/8.0 
-             -(rAB-DA+DB)*pow(temp8,-1.5)/8.0;
+      value = (rAB+DA-DB)/(temp1*sqrt(temp1))/8.0 
+             -(rAB+DA-DB)/(temp2*sqrt(temp2))/8.0 
+             -(rAB+DA+DB)/(temp3*sqrt(temp3))/8.0 
+             +(rAB+DA+DB)/(temp4*sqrt(temp4))/8.0
+             -(rAB-DA-DB)/(temp5*sqrt(temp5))/8.0 
+             +(rAB-DA-DB)/(temp6*sqrt(temp6))/8.0
+             +(rAB-DA+DB)/(temp7*sqrt(temp7))/8.0 
+             -(rAB-DA+DB)/(temp8*sqrt(temp8))/8.0;
       value *= -1.0;
    }
    else if(multipoleA == Qyz && multipoleB == Qyz){
@@ -6595,9 +6595,9 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative(const Atom& atomA
       double temp1 = (rAB*rAB) + 2.0*((DA-DB)*(DA-DB)) + (a*a);
       double temp2 = (rAB*rAB) + 2.0*((DA+DB)*(DA+DB)) + (a*a);
       double temp3 = (rAB*rAB) + 2.0*(DA*DA) + 2.0*(DB*DB) + (a*a);
-      value = (rAB)*pow(temp1,-1.5)/4.0 
-             +(rAB)*pow(temp2,-1.5)/4.0 
-             -(rAB)*pow(temp3,-1.5)/2.0;
+      value = (rAB)/(temp1*sqrt(temp1))/4.0 
+             +(rAB)/(temp2*sqrt(temp2))/4.0 
+             -(rAB)/(temp3*sqrt(temp3))/2.0;
       value *= -1.0;
    }
    else{
@@ -6630,7 +6630,8 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double c1 = 1.0;
       double f1 = (rAB*rAB);
       double a1 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
+      double af1 = a1+f1;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
    }
    // Eq. (53) in [DT_1977]
    else if(multipoleA == sQ && multipoleB == muz){
@@ -6640,8 +6641,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double f2 = ((rAB-DB)*(rAB-DB));
       double a1 = (a*a);
       double a2 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
    }
    else if(multipoleA == muz && multipoleB == sQ){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6655,8 +6658,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double f2 = (rAB*rAB);
       double a1 = (4.0*DB*DB) + (a*a);
       double a2 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
    }
    else if(multipoleA == Qxx && multipoleB == sQ){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6678,9 +6683,12 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a1 = (a*a);
       double a2 = (a*a);
       double a3 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
    }
    else if(multipoleA == Qzz && multipoleB == sQ){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6693,8 +6701,10 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double f2 = (rAB*rAB);
       double a1 = ((DA-DB)*(DA-DB)) + (a*a);
       double a2 = ((DA+DB)*(DA+DB)) + (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
    }
    else if(multipoleA == muy && multipoleB == muy){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, mux, mux, rAB);
@@ -6713,10 +6723,14 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a2 = (a*a);
       double a3 = (a*a);
       double a4 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
    }
    // Eq. (58) in [DT_1977]
    else if(multipoleA == mux && multipoleB == Qxz){
@@ -6732,10 +6746,14 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a2 = ((DA+DB)*(DA+DB)) + (a*a);
       double a3 = ((DA-DB)*(DA-DB)) + (a*a);
       double a4 = ((DA+DB)*(DA+DB)) + (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
    }
    else if(multipoleA == Qxz && multipoleB == mux){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6762,10 +6780,14 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a2 = (4.0*DB*DB) + (a*a);
       double a3 = (a*a);
       double a4 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
    }
    else if(multipoleA == Qxx && multipoleB == muz){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6798,12 +6820,18 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a4 = (a*a);
       double a5 = (a*a);
       double a6 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
-      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
-      value += c6*(3.0*f6*pow(f6+a6,-2.5) - pow(f6+a6,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      double af5 = a5+f5;
+      double af6 = a6+f6;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
+      value += c5*(3.0*f5/(af5*af5*sqrt(af5)) - 1.0/(af5*sqrt(af5)));
+      value += c6*(3.0*f6/(af6*af6*sqrt(af6)) - 1.0/(af6*sqrt(af6)));
    }
    else if(multipoleA == Qzz && multipoleB == muz){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6826,11 +6854,16 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a3 = (4.0*DA*DA)    + (a*a);
       double a4 = (4.0*DB*DB)    + (a*a);
       double a5 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
-      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      double af5 = a5+f5;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
+      value += c5*(3.0*f5/(af5*af5*sqrt(af5)) - 1.0/(af5*sqrt(af5)));
    }
    else if(multipoleA == Qyy && multipoleB == Qyy){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxx, Qxx, rAB);
@@ -6849,10 +6882,14 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a2 = (4.0*DA*DA) +                   (a*a);
       double a3 = (4.0*DB*DB) +                   (a*a);
       double a4 =                                     (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
    }
    else if(multipoleA == Qyy && multipoleB == Qxx){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6877,12 +6914,18 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a4 =               (a*a);
       double a5 = (4.0*DA*DA) + (a*a);
       double a6 =               (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
-      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
-      value += c6*(3.0*f6*pow(f6+a6,-2.5) - pow(f6+a6,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      double af5 = a5+f5;
+      double af6 = a6+f6;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
+      value += c5*(3.0*f5/(af5*af5*sqrt(af5)) - 1.0/(af5*sqrt(af5)));
+      value += c6*(3.0*f6/(af6*af6*sqrt(af6)) - 1.0/(af6*sqrt(af6)));
    }
    else if(multipoleA == Qzz && multipoleB == Qxx){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomB, atomA, multipoleB, multipoleA, rAB);
@@ -6922,15 +6965,24 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a7 = (a*a);
       double a8 = (a*a);
       double a9 = (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
-      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
-      value += c6*(3.0*f6*pow(f6+a6,-2.5) - pow(f6+a6,-1.5));
-      value += c7*(3.0*f7*pow(f7+a7,-2.5) - pow(f7+a7,-1.5));
-      value += c8*(3.0*f8*pow(f8+a8,-2.5) - pow(f8+a8,-1.5));
-      value += c9*(3.0*f9*pow(f9+a9,-2.5) - pow(f9+a9,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      double af5 = a5+f5;
+      double af6 = a6+f6;
+      double af7 = a7+f7;
+      double af8 = a8+f8;
+      double af9 = a9+f9;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
+      value += c5*(3.0*f5/(af5*af5*sqrt(af5)) - 1.0/(af5*sqrt(af5)));
+      value += c6*(3.0*f6/(af6*af6*sqrt(af6)) - 1.0/(af6*sqrt(af6)));
+      value += c7*(3.0*f7/(af7*af7*sqrt(af7)) - 1.0/(af7*sqrt(af7)));
+      value += c8*(3.0*f8/(af8*af8*sqrt(af8)) - 1.0/(af8*sqrt(af8)));
+      value += c9*(3.0*f9/(af9*af9*sqrt(af9)) - 1.0/(af9*sqrt(af9)));
    }
    // Eq. (65) in [DT_1977]
    else if(multipoleA == Qxz && multipoleB == Qxz){
@@ -6958,14 +7010,22 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a6 = ((DA+DB)*(DA+DB)) + (a*a);
       double a7 = ((DA-DB)*(DA-DB)) + (a*a);
       double a8 = ((DA+DB)*(DA+DB)) + (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
-      value += c4*(3.0*f4*pow(f4+a4,-2.5) - pow(f4+a4,-1.5));
-      value += c5*(3.0*f5*pow(f5+a5,-2.5) - pow(f5+a5,-1.5));
-      value += c6*(3.0*f6*pow(f6+a6,-2.5) - pow(f6+a6,-1.5));
-      value += c7*(3.0*f7*pow(f7+a7,-2.5) - pow(f7+a7,-1.5));
-      value += c8*(3.0*f8*pow(f8+a8,-2.5) - pow(f8+a8,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      double af4 = a4+f4;
+      double af5 = a5+f5;
+      double af6 = a6+f6;
+      double af7 = a7+f7;
+      double af8 = a8+f8;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
+      value += c4*(3.0*f4/(af4*af4*sqrt(af4)) - 1.0/(af4*sqrt(af4)));
+      value += c5*(3.0*f5/(af5*af5*sqrt(af5)) - 1.0/(af5*sqrt(af5)));
+      value += c6*(3.0*f6/(af6*af6*sqrt(af6)) - 1.0/(af6*sqrt(af6)));
+      value += c7*(3.0*f7/(af7*af7*sqrt(af7)) - 1.0/(af7*sqrt(af7)));
+      value += c8*(3.0*f8/(af8*af8*sqrt(af8)) - 1.0/(af8*sqrt(af8)));
    }
    else if(multipoleA == Qyz && multipoleB == Qyz){
       value = this->GetSemiEmpiricalMultipoleInteraction2ndDerivative(atomA, atomB, Qxz, Qxz, rAB);
@@ -6981,9 +7041,12 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative(const Atom& atomA
       double a1 = 2.0*((DA-DB)*(DA-DB)) + (a*a);
       double a2 = 2.0*((DA+DB)*(DA+DB)) + (a*a);
       double a3 = 2.0*(DA*DA) + 2.0*(DB*DB) + (a*a);
-      value  = c1*(3.0*f1*pow(f1+a1,-2.5) - pow(f1+a1,-1.5));
-      value += c2*(3.0*f2*pow(f2+a2,-2.5) - pow(f2+a2,-1.5));
-      value += c3*(3.0*f3*pow(f3+a3,-2.5) - pow(f3+a3,-1.5));
+      double af1 = a1+f1;
+      double af2 = a2+f2;
+      double af3 = a3+f3;
+      value  = c1*(3.0*f1/(af1*af1*sqrt(af1)) - 1.0/(af1*sqrt(af1)));
+      value += c2*(3.0*f2/(af2*af2*sqrt(af2)) - 1.0/(af2*sqrt(af2)));
+      value += c3*(3.0*f3/(af3*af3*sqrt(af3)) - 1.0/(af3*sqrt(af3)));
    }
    else{
       stringstream ss;
