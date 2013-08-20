@@ -23,6 +23,7 @@
 #include<math.h>
 #include<vector>
 #include<boost/format.hpp>
+#include<boost/shared_ptr.hpp>
 #include"../Enums.h"
 #include"../Uncopyable.h"
 #include"../PrintController.h"
@@ -31,6 +32,7 @@
 #include"../../mpi/MpiProcess.h"
 #include"../EularAngle.h"
 #include"../Parameters.h"
+#include"../RealSphericalHarmonicsIndex.h"
 #include"Atom.h"
 #include"Hatom.h"
 using namespace std;
@@ -49,6 +51,9 @@ void Hatom::SetAtomicParameters(){
    this->numberValenceElectrons = 1;
    this->valenceShellType = k;
    this->valence.push_back(s);
+   for(int i=0; i<this->valence.size();i++){
+      this->realSphericalHarmonicsIndeces.push_back(new RealSphericalHarmonicsIndex(this->valence[i]));
+   }
    this->vdWCoefficient = 0.16*Parameters::GetInstance()->GetJ2AU()
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();

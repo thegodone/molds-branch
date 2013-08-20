@@ -31,6 +31,7 @@
 #include"../../mpi/MpiProcess.h"
 #include"../EularAngle.h"
 #include"../Parameters.h"
+#include"../RealSphericalHarmonicsIndex.h"
 #include"Atom.h"
 #include"Satom.h"
 using namespace std;
@@ -57,6 +58,9 @@ void Satom::SetAtomicParameters(){
       this->valence.push_back(dzz);
       this->valence.push_back(dzx);
       this->valence.push_back(dxxyy);
+   }
+   for(int i=0; i<this->valence.size();i++){
+      this->realSphericalHarmonicsIndeces.push_back(new RealSphericalHarmonicsIndex(this->valence[i]));
    }
    this->vdWCoefficient = 10.3*Parameters::GetInstance()->GetJ2AU()
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)

@@ -29,6 +29,7 @@
 #include"../MolDSException.h"
 #include"../MallocerFreer.h"
 #include"../../mpi/MpiProcess.h"
+#include"../RealSphericalHarmonicsIndex.h"
 #include"../atoms/Atom.h"
 #include"../atoms/Hatom.h"
 #include"../atoms/Liatom.h"

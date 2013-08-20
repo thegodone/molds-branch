@@ -35,6 +35,7 @@
 #include"../MathUtilities.h"
 #include"../MallocerFreer.h"
 #include"../EularAngle.h"
+#include"../RealSphericalHarmonicsIndex.h"
 #include"Atom.h"
 using namespace std;
 using namespace MolDS_base;
@@ -59,6 +60,11 @@ Atom::Atom(int index){
 Atom::~Atom(){
    MallocerFreer::GetInstance()->Free<double>(&this->xyz, CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(&this->pxyz, CartesianType_end);
+   int valenceSize = this->valence.size();
+   for(int i=0; i<valenceSize; i++){
+      delete this->realSphericalHarmonicsIndeces[i];
+   }
+   this->realSphericalHarmonicsIndeces.clear();
    //this->OutputLog("atom deleted\n");
 }
 

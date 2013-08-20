@@ -39,6 +39,7 @@
 #include"../base/MallocerFreer.h"
 #include"../base/EularAngle.h"
 #include"../base/Parameters.h"
+#include"../base/RealSphericalHarmonicsIndex.h"
 #include"../base/atoms/Atom.h"
 #include"../base/atoms/Hatom.h"
 #include"../base/atoms/Liatom.h"
