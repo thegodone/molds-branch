@@ -280,6 +280,8 @@ private:
    std::string errorMessageCalcRotatingMatrixNullRotMatrix;
    std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullDiaMatrix;
    std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullRotMatrix;
+   std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpOldDiaMatrix;
+   std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpMatrixBC;
    std::string errorMessageSetOverlapAOsElementNullDiaMatrix;
    std::string errorMessageCalcOverlapAOsDifferentConfigurationsDiffAOs;
    std::string errorMessageCalcOverlapAOsDifferentConfigurationsDiffAtoms;
@@ -458,7 +460,9 @@ private:
                        double const* const* const* const* const* const* twoElecTwoCore,
                        bool isGuess) const;
    void RotateDiatmicOverlapAOsToSpaceFrame(double** diatomicOverlapAOs, 
-                                            double const* const* rotatingMatrix) const;
+                                            double const* const* rotatingMatrix,
+                                            double** oldDiatomicOverlapAOs,
+                                            double** tmpMatrixBC) const;
    void SetOverlapAOsElement(double** overlapAOs, 
                              double const* const* diatomicOverlapAOs, 
                              const MolDS_base_atoms::Atom& atomA, 
