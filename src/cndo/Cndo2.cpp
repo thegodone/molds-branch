@@ -42,6 +42,7 @@
 #include"../base/MallocerFreer.h"
 #include"../base/EularAngle.h"
 #include"../base/Parameters.h"
+#include"../base/RealSphericalHarmonicsIndex.h"
 #include"../base/atoms/Atom.h"
 #include"../base/atoms/Hatom.h"
 #include"../base/atoms/Liatom.h"
@@ -51,7 +52,6 @@
 #include"../base/atoms/Satom.h"
 #include"../base/Molecule.h"
 #include"../base/GTOExpansionSTO.h"
-#include"../base/RealSphericalHarmonicsIndex.h"
 #include"../base/loggers/MOLogger.h"
 #include"../base/ElectronicStructure.h"
 #include"Cndo2.h"
@@ -5650,7 +5650,8 @@ void Cndo2::CalcDiatomicOverlapAOsInDiatomicFrame(double** diatomicOverlapAOs,
 
    for(int a=0; a<atomA.GetValenceSize(); a++){
       OrbitalType valenceOrbitalA = atomA.GetValence(a);
-      RealSphericalHarmonicsIndex realShpericalHarmonicsA(valenceOrbitalA);
+      RealSphericalHarmonicsIndex const* realShpericalHarmonicsA 
+         = atomA.GetRealSphericalHarmonicsIndex(a);
       orbitalExponentA = atomA.GetOrbitalExponent(
                                atomA.GetValenceShellType(), 
                                valenceOrbitalA, 
@@ -5658,19 +5659,20 @@ void Cndo2::CalcDiatomicOverlapAOsInDiatomicFrame(double** diatomicOverlapAOs,
 
       for(int b=0; b<atomB.GetValenceSize(); b++){
          OrbitalType valenceOrbitalB = atomB.GetValence(b);
-         RealSphericalHarmonicsIndex realShpericalHarmonicsB(valenceOrbitalB);
+         RealSphericalHarmonicsIndex const* realShpericalHarmonicsB
+            = atomB.GetRealSphericalHarmonicsIndex(b);
          orbitalExponentB = atomB.GetOrbitalExponent(
                                   atomB.GetValenceShellType(), 
                                   valenceOrbitalB, 
                                   this->theory);
 
-         if(realShpericalHarmonicsA.GetM() == realShpericalHarmonicsB.GetM()){
-            m = abs(realShpericalHarmonicsA.GetM());
+         if(realShpericalHarmonicsA->GetM() == realShpericalHarmonicsB->GetM()){
+            m = abs(realShpericalHarmonicsA->GetM());
             alpha = orbitalExponentA * rAB;
             beta =  orbitalExponentB * rAB;
 
-            reducedOverlapAOs = this->GetReducedOverlapAOs(na, realShpericalHarmonicsA.GetL(), m,
-                                                           nb, realShpericalHarmonicsB.GetL(), alpha, beta);
+            reducedOverlapAOs = this->GetReducedOverlapAOs(na, realShpericalHarmonicsA->GetL(), m,
+                                                           nb, realShpericalHarmonicsB->GetL(), alpha, beta);
 
 
             pre =  pow(2.0*orbitalExponentA, na+0.5);

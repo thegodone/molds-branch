@@ -34,6 +34,8 @@ public:
    inline double GetCoreMass()               const{return this->atomicMass - static_cast<double>(this->numberValenceElectrons);}
    inline int GetValenceSize()               const{return this->valence.size();}
    inline MolDS_base::OrbitalType GetValence(int index) const{return this->valence[index];}
+   inline MolDS_base::RealSphericalHarmonicsIndex const* GetRealSphericalHarmonicsIndex(int valenceIndex) const{
+                                                   return this->realSphericalHarmonicsIndeces[valenceIndex];}
    inline double GetVdWCoefficient()         const{return this->vdWCoefficient;}
    inline double GetVdWRadii()               const{return this->vdWRadii;}
    double GetAtomicBasisValue(double x, 
@@ -109,6 +111,7 @@ protected:
    MolDS_base::AtomType atomType;
    double atomicMass;  // Appendix 1 in [I_1998]
    std::vector<MolDS_base::OrbitalType> valence;
+   std::vector<MolDS_base::RealSphericalHarmonicsIndex*> realSphericalHarmonicsIndeces;
    MolDS_base::ShellType valenceShellType;
    int firstAOIndex;
    int numberValenceElectrons;
