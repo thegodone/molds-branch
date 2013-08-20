@@ -1094,9 +1094,11 @@ void ZindoS::CalcCISProperties(){
    int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    double*** dipoleMOs = NULL;
    double**  overlapMOs = NULL;
+   double**  tmpMatrixBC = NULL;
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&dipoleMOs,       CartesianType_end, totalNumberAOs, totalNumberAOs);
       MallocerFreer::GetInstance()->Malloc<double>(&overlapMOs, totalNumberAOs, totalNumberAOs);
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC, totalNumberAOs, totalNumberAOs);
       double alpha=1.0;
       double beta =0.0;
       //double ompStartTime = omp_get_wtime();
@@ -1106,21 +1108,24 @@ void ZindoS::CalcCISProperties(){
                                                   this->cartesianMatrix[XAxis],
                                                   this->fockMatrix,
                                                   beta,
-                                                  dipoleMOs[XAxis]);
+                                                  dipoleMOs[XAxis],
+                                                  tmpMatrixBC);
       MolDS_wrappers::Blas::GetInstance()->Dgemmm(false, false, true, totalNumberAOs, totalNumberAOs, totalNumberAOs, totalNumberAOs,
                                                   alpha, 
                                                   this->fockMatrix,
                                                   this->cartesianMatrix[YAxis],
                                                   this->fockMatrix,
                                                   beta,
-                                                  dipoleMOs[YAxis]);
+                                                  dipoleMOs[YAxis],
+                                                  tmpMatrixBC);
       MolDS_wrappers::Blas::GetInstance()->Dgemmm(false, false, true, totalNumberAOs, totalNumberAOs, totalNumberAOs, totalNumberAOs,
                                                   alpha, 
                                                   this->fockMatrix,
                                                   this->cartesianMatrix[ZAxis],
                                                   this->fockMatrix,
                                                   beta,
-                                                  dipoleMOs[ZAxis]);
+                                                  dipoleMOs[ZAxis],
+                                                  tmpMatrixBC);
  
       double const* centerOfDipole = this->molecule->GetXyzCOC();
       // set orign of dipole
@@ -1130,7 +1135,8 @@ void ZindoS::CalcCISProperties(){
                                                   this->overlapAOs,
                                                   this->fockMatrix,
                                                   beta,
-                                                  overlapMOs);
+                                                  overlapMOs,
+                                                  tmpMatrixBC);
       MolDS_wrappers::Blas::GetInstance()->Daxpy(totalNumberAOs*totalNumberAOs,
                                                  -centerOfDipole[XAxis], 
                                                  &overlapMOs[0][0],
@@ -1237,10 +1243,12 @@ void ZindoS::CalcCISProperties(){
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free<double>(&dipoleMOs, CartesianType_end, totalNumberAOs, totalNumberAOs);
       MallocerFreer::GetInstance()->Free<double>(&overlapMOs, totalNumberAOs, totalNumberAOs);
+      MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC, totalNumberAOs, totalNumberAOs);
       throw ex;
    }
    MallocerFreer::GetInstance()->Free<double>(&dipoleMOs, CartesianType_end, totalNumberAOs, totalNumberAOs);
    MallocerFreer::GetInstance()->Free<double>(&overlapMOs, totalNumberAOs, totalNumberAOs);
+   MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC, totalNumberAOs, totalNumberAOs);
 
    // communication to collect all matrix data on head-rank  
    int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();

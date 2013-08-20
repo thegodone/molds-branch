@@ -298,6 +298,7 @@ private:
                                                  MolDS_base::CartesianType axisA) const;
    void CalcDiatomicTwoElecTwoCore(double**** matrix, 
                                    double**   tmpRotMat,
+                                   double**   tmpMatrixBC,
                                    int        indexAtomA, 
                                    int        indexAtomB) const;
    void CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix, 
@@ -314,8 +315,9 @@ private:
                                                  double*****  tmpDiatomicTwoElecTwoCore1stDerivs,
                                                  int indexAtomA, 
                                                  int indexAtomB) const;
-   void RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix, 
-                                                 double const* const* rotatingMatrix) const;
+   void RotateDiatomicTwoElecTwoCoreToSpaceFrame(double****           matrix, 
+                                                 double const* const* rotatingMatrix,
+                                                 double**             tmpMatrixBC) const;
    void RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(double***** matrix, 
                                                                double const* const* const* const* diatomicTwoElecTwoCore,
                                                                double const* const* rotatingMatrix,

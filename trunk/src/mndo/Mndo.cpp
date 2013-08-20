@@ -3452,13 +3452,15 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
          {
             double**** diatomicTwoElecTwoCore = NULL;
             double**   tmpRotMat              = NULL;
+            double**   tmpMatrixBC            = NULL;
             try{
                MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
                MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
+               MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC, dxy*dxy, dxy*dxy);
                // note that terms with condition a==b are not needed to calculate. 
 #pragma omp for schedule(auto)
                for(int b=a+1; b<totalNumberAtoms; b++){
-                  this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, tmpRotMat, a, b);
+                  this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, tmpRotMat, tmpMatrixBC, a, b);
 
                   for(int mu=0; mu<dxy; mu++){
                      for(int nu=mu; nu<dxy; nu++){
@@ -3483,6 +3485,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
             }
             MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecTwoCore, dxy, dxy, dxy, dxy);
             MallocerFreer::GetInstance()->Free<double>(&tmpRotMat, OrbitalType_end, OrbitalType_end);
+            MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC, dxy*dxy, dxy*dxy);
          }  // end of omp-parallelized region
          // Exception throwing for omp-region
          if(!ompErrors.str().empty()){
@@ -3537,7 +3540,11 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
 // Note that atomA != atomB.
 // Note taht d-orbital cannot be treated, 
 // that is, matrix[dxy][dxy][dxy][dxy] cannot be treatable.
-void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, double** tmpRotMat, int indexAtomA, int indexAtomB) const{
+void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, 
+                                      double** tmpRotMat, 
+                                      double** tmpMatrixBC,
+                                      int indexAtomA, 
+                                      int indexAtomB) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    if(indexAtomA == indexAtomB){
@@ -3576,7 +3583,7 @@ void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix, double** tmpRotMat, int
    }
    // rotate matirix into the space frame
    this->CalcRotatingMatrix(tmpRotMat, atomA, atomB);
-   this->RotateDiatomicTwoElecTwoCoreToSpaceFrame(matrix, tmpRotMat);
+   this->RotateDiatomicTwoElecTwoCoreToSpaceFrame(matrix, tmpRotMat, tmpMatrixBC);
 
    /* 
    this->OutputLog("(mu, nu | lambda, sigma) matrix\n");
@@ -3774,8 +3781,9 @@ void Mndo::CalcDiatomicTwoElecTwoCore2ndDerivatives(double****** matrix,
 
 // Rotate 4-dimensional matrix from diatomic frame to space frame
 // Note tha in this method d-orbitals can not be treatable.
-void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix, 
-                                                    double const* const* rotatingMatrix) const{
+void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double****           matrix, 
+                                                    double const* const* rotatingMatrix,
+                                                    double**             tmpMatrixBC) const{
    double oldMatrix[dxy][dxy][dxy][dxy];
    MolDS_wrappers::Blas::GetInstance()->Dcopy(dxy*dxy*dxy*dxy, &matrix[0][0][0][0], &oldMatrix[0][0][0][0]);
 
@@ -3811,7 +3819,8 @@ void Mndo::RotateDiatomicTwoElecTwoCoreToSpaceFrame(double**** matrix,
                                                &ptrOldMatrix[0],
                                                &ptrTwiceRotatingMatrix[0],
                                                beta, 
-                                               &ptrMatrix[0]);
+                                               &ptrMatrix[0],
+                                               tmpMatrixBC);
 
    /*
    // rotate (slow algorithm)
