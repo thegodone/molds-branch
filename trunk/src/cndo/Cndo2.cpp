@@ -356,7 +356,7 @@ double Cndo2::GetDiatomCoreRepulsion1stDerivative(int indexAtomA, int indexAtomB
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    value = atomA.GetCoreCharge()*atomB.GetCoreCharge();
    value *= (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/distance;
-   value *= -1.0/pow(distance,2.0);
+   value *= -1.0/(distance*distance);
    return value;
 }
 
@@ -393,7 +393,8 @@ double Cndo2::GetVdwDampingValue1stDerivative(double vdWDistance, double distanc
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    return (dampingFactor/vdWDistance)
          *exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0))
-         *pow(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)),-2.0);
+         /(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)))
+         /(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)));
 }
 
 // See damping function in (2) in [G_2004] ((11) in [G_2006])
@@ -402,8 +403,8 @@ double Cndo2::GetVdwDampingValue2ndDerivative(double vdWDistance, double distanc
    double exponent = -1.0*dampingFactor*(distance/vdWDistance - 1.0);
    double pre = dampingFactor/vdWDistance;
    double dominator = 1.0+exp(exponent);
-   return 2.0*pow(dominator,-3.0)*pre*pre*exp(2.0*exponent) 
-         -    pow(dominator,-2.0)*pre*pre*exp(    exponent);
+   return 2.0*pre*pre*exp(2.0*exponent)/(dominator*dominator*dominator) 
+         -    pre*pre*exp(    exponent)/(dominator*dominator);
 }
 
 // See (2) in [G_2004] ((11) in [G_2006])
@@ -416,7 +417,8 @@ double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const
                            /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
    double damping = this->GetVdwDampingValue(vdWDistance, distance);
    double scalingFactor = Parameters::GetInstance()->GetVdWScalingFactorSCF();
-   return -1.0*scalingFactor*vdWCoefficients*pow(distance,-6.0)*damping;
+   return -1.0*scalingFactor*vdWCoefficients*damping
+         /(distance*distance*distance*distance*distance*distance);
 }
 
 // First derivative of the vdW correction related to the coordinate of atom A.
@@ -433,7 +435,9 @@ double Cndo2::GetDiatomVdWCorrection1stDerivative(int indexAtomA, int indexAtomB
    double damping = this->GetVdwDampingValue(vdWDistance, distance);
    double damping1stDerivative = this->GetVdwDampingValue1stDerivative(vdWDistance, distance);
    double value=0.0;
-   value += 6.0*pow(distance,-7.0)*damping - pow(distance,-6.0)*damping1stDerivative;
+   double tmp = distance*distance*distance*distance*distance*distance;
+   value += 6.0*damping/(tmp*distance) 
+           -damping1stDerivative/tmp;
    value *= vdWCoefficients;
    value *= Parameters::GetInstance()->GetVdWScalingFactorSCF();
    value *= (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/distance;
@@ -461,24 +465,25 @@ double Cndo2::GetDiatomVdWCorrection2ndDerivative(int indexAtomA,
    double damping1stDerivative = this->GetVdwDampingValue1stDerivative(vdWDistance, distance);
    double damping2ndDerivative = this->GetVdwDampingValue2ndDerivative(vdWDistance, distance);
 
-   double temp1 = -6.0*pow(distance,-7.0)*damping 
-                  +    pow(distance,-6.0)*damping1stDerivative;
-   double temp2 = 42.0*pow(distance,-8.0)*damping 
-                 -12.0*pow(distance,-7.0)*damping1stDerivative
-                 +     pow(distance,-6.0)*damping2ndDerivative;
+   double dis6 = distance*distance*distance*distance*distance*distance;
+   double tmp1 = -6.0*damping             /(dis6*distance) 
+                 +    damping1stDerivative/dis6;
+   double tmp2 = 42.0*damping             /(dis6*distance*distance) 
+                -12.0*damping1stDerivative/(dis6*distance)
+                +     damping2ndDerivative/dis6;
 
    double pre1=0.0;
    double pre2=0.0;
    if(axisA1 != axisA2){
-      pre1 = -dCartesian1*dCartesian2/pow(distance,3.0);
-      pre2 =  dCartesian1*dCartesian2/pow(distance,2.0);
+      pre1 = -dCartesian1*dCartesian2/(distance*distance*distance);
+      pre2 =  dCartesian1*dCartesian2/(distance*distance);
    }
    else{
-      pre1 = 1.0/distance - dCartesian1*dCartesian1/pow(distance,3.0);
-      pre2 = pow(dCartesian1/distance,2.0);
+      pre1 = 1.0/distance - dCartesian1*dCartesian1/(distance*distance*distance);
+      pre2 = (dCartesian1*dCartesian1)/(distance*distance);
    }
 
-   double value= pre1*temp1 + pre2*temp2;
+   double value= pre1*tmp1 + pre2*tmp2;
    value *= -1.0*vdWScalingFacotor*vdWCoefficients;
    return value;
 }
@@ -1330,7 +1335,8 @@ bool Cndo2::SatisfyConvergenceCriterion(double const* const * oldOrbitalElectron
    for(int i=0; i<numberAOs; i++){
       try{
          for(int j=0; j<numberAOs; j++){
-            change += pow(oldOrbitalElectronPopulation[i][j] - orbitalElectronPopulation[i][j], 2.0);
+            change += (oldOrbitalElectronPopulation[i][j] - orbitalElectronPopulation[i][j])
+                     *(oldOrbitalElectronPopulation[i][j] - orbitalElectronPopulation[i][j]);
          }
       }
       catch(MolDSException ex){
@@ -1949,9 +1955,10 @@ void Cndo2::CalcCartesianMatrixElementsByGTOExpansion(double& xComponent,
    double gaussianExponentA = 0.0;
    double gaussianExponentB = 0.0;
    double overlapSASB = 0.0;
-   double rAB = sqrt( pow(atomA.GetXyz()[XAxis]-atomB.GetXyz()[XAxis], 2.0) 
-                     +pow(atomA.GetXyz()[YAxis]-atomB.GetXyz()[YAxis], 2.0) 
-                     +pow(atomA.GetXyz()[ZAxis]-atomB.GetXyz()[ZAxis], 2.0) );
+   double dX  = atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis];
+   double dY  = atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis];
+   double dZ  = atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis];
+   double rAB = sqrt(dX*dX + dY*dY + dZ*dZ);
    double temp  = 0.0;
    double tempX = 0.0;
    double tempY = 0.0;
@@ -1966,12 +1973,12 @@ void Cndo2::CalcCartesianMatrixElementsByGTOExpansion(double& xComponent,
                                                                 shellTypeB, 
                                                                 valenceOrbitalB, 
                                                                 j); 
-         gaussianExponentA = pow(orbitalExponentA, 2.0) *
+         gaussianExponentA = (orbitalExponentA*orbitalExponentA) *
                              GTOExpansionSTO::GetInstance()->GetExponent(stonG, 
                                                                          shellTypeA, 
                                                                          valenceOrbitalA, 
                                                                          i);
-         gaussianExponentB = pow(orbitalExponentB, 2.0) *
+         gaussianExponentB = (orbitalExponentB*orbitalExponentB) *
                              GTOExpansionSTO::GetInstance()->GetExponent(stonG, 
                                                                          shellTypeB, 
                                                                          valenceOrbitalB, 
@@ -2162,8 +2169,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       double temp2 = gaussianExponentA*xyzA[axis] - gaussianExponentA*xyzB[axis];
       double temp3 = gaussianExponentB*xyzA[axis] - gaussianExponentB*xyzB[axis];
       value = 0.5*(temp1+temp2-temp3);
-      value -= temp1*temp2*temp3*pow(beta,-1.0);
-      value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-2.0);
+      value -= temp1*temp2*temp3/beta;
+      value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)/(beta*beta);
       value *= overlapSASB;
       return value;
    }
@@ -2185,9 +2192,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       }
       double temp1 = gaussianExponentA*xyzA[piDirection] - gaussianExponentA*xyzB[piDirection];
       double temp2 = gaussianExponentB*xyzA[piDirection] - gaussianExponentB*xyzB[piDirection];
-      value = 0.5 - temp1*temp2*pow(beta,-1.0);
+      value = 0.5 - temp1*temp2/beta;
       value *= gaussianExponentA*xyzA[axis] + gaussianExponentB*xyzB[axis];
-      value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-2.0);
+      value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)/(beta*beta);
       value *= overlapSASB;
       return value;
    }
@@ -2209,9 +2216,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       }
       double temp1 = gaussianExponentA*xyzA[axis] + gaussianExponentB*xyzB[axis];
       double temp2 = gaussianExponentA*xyzA[axis] - gaussianExponentA*xyzB[axis];
-      value = 0.5 + temp1*temp2*pow(beta,-1.0);
+      value = 0.5 + temp1*temp2/beta;
       value *= gaussianExponentB*xyzA[piDirectionA] - gaussianExponentB*xyzB[piDirectionA];
-      value *= -4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-2.0);
+      value *= -4.0*sqrt(gaussianExponentA*gaussianExponentB)/(beta*beta);
       value *= overlapSASB;
       return value;
    }
@@ -2233,9 +2240,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       }
       double temp1 = gaussianExponentA*xyzA[axis] + gaussianExponentB*xyzB[axis];
       double temp2 = gaussianExponentB*xyzA[axis] - gaussianExponentB*xyzB[axis];
-      value = 0.5 - temp1*temp2*pow(beta,-1.0);
+      value = 0.5 - temp1*temp2/beta;
       value *= gaussianExponentA*xyzA[piDirectionB] - gaussianExponentA*xyzB[piDirectionB];
-      value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-2.0);
+      value *= 4.0*sqrt(gaussianExponentA*gaussianExponentB)/(beta*beta);
       value *= overlapSASB;
       return value;
    }
@@ -2268,7 +2275,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       double temp1 = gaussianExponentB*xyzA[piDirectionA] - gaussianExponentB*xyzB[piDirectionA];
       double temp2 = gaussianExponentA*xyzA[axis]         + gaussianExponentB*xyzB[axis];
       double temp3 = gaussianExponentA*xyzA[piDirectionB] - gaussianExponentA*xyzB[piDirectionB];
-      value = -4.0*sqrt(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0);
+      value = -4.0*sqrt(gaussianExponentA*gaussianExponentB)/(beta*beta*beta);
       value *= temp1*temp2*temp3;
       value *= overlapSASB;
       return value;
@@ -2317,8 +2324,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        overlapSASB);
       value = 0.5*gaussianExponentA*dxyz[axis]
              -gaussianExponentB*dxyz[axis]
-             +pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[axis],3.0)/beta;
-      value *= 8.0*pow(gaussianExponentA, 1.5)*gaussianExponentB*pow(beta,-3.0)*dxyz[anotherAxis]*overlapSASB;
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA
+             *dxyz[axis]*dxyz[axis]*dxyz[axis]/beta;
+      value *= 8.0*gaussianExponentA*sqrt(gaussianExponentA)
+              *gaussianExponentB*dxyz[anotherAxis]*overlapSASB/(beta*beta*beta);
       value += xyzA[axis]*overlapAOs1;
       return value;
    }
@@ -2366,8 +2375,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        overlapSASB);
       value = 0.5*gaussianExponentB*dxyz[axis]
              -gaussianExponentA*dxyz[axis]
-             +pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[axis],3.0)/beta;
-      value *= 8.0*pow(gaussianExponentB, 1.5)*gaussianExponentA*pow(beta,-3.0)*dxyz[anotherAxis]*overlapSASB;
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB
+             *dxyz[axis]*dxyz[axis]*dxyz[axis]/beta;
+      value *= 8.0*gaussianExponentB*sqrt(gaussianExponentB)*gaussianExponentA
+              *dxyz[anotherAxis]*overlapSASB/(beta*beta*beta);
       value += xyzB[axis]*overlapAOs1;
       return value;
    }
@@ -2400,8 +2411,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                 dxyz[ZAxis], 
                                                 rAB,
                                                 overlapSASB);
-      value = 0.5+pow(gaussianExponentB*dxyz[axis], 2.0)/beta;
-      value *= 8.0*pow(gaussianExponentA, 2.5)*gaussianExponentB*pow(beta, -3.0)*overlapSASB;
+      value = 0.5+gaussianExponentB*gaussianExponentB*dxyz[axis]*dxyz[axis]/beta;
+      value *= 8.0*gaussianExponentA*gaussianExponentA*sqrt(gaussianExponentA)
+              *gaussianExponentB*overlapSASB/(beta*beta*beta);
       value *= dxyz[anotherAxis1]*dxyz[anotherAxis2];
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -2434,8 +2446,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 0.5+pow(gaussianExponentA*dxyz[axis], 2.0)/beta;
-      value *= 8.0*pow(gaussianExponentB, 2.5)*gaussianExponentA*pow(beta, -3.0)*overlapSASB;
+      value = 0.5+gaussianExponentA*gaussianExponentA*dxyz[axis]*dxyz[axis]/beta;
+      value *= 8.0*gaussianExponentB*gaussianExponentB*sqrt(gaussianExponentB)
+              *gaussianExponentA*overlapSASB/(beta*beta*beta);
       value *= dxyz[anotherAxis1]*dxyz[anotherAxis2];
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -2588,11 +2601,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 0.5-2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[XAxis],2.0)/beta;
-      value += 0.5*pow(gaussianExponentA,2.0)*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta;
-      value += pow(gaussianExponentA*gaussianExponentB*dxyz[XAxis]/beta,2.0)
-              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
-      value *= 4.0*pow(gaussianExponentA,0.5)*gaussianExponentB*pow(beta,-2.0);
+      value = 0.5-2.0*gaussianExponentA*gaussianExponentB*(dxyz[XAxis]*dxyz[XAxis])/beta;
+      value += 0.5*(gaussianExponentA*gaussianExponentA)*((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/beta;
+      value += (gaussianExponentA*gaussianExponentB*dxyz[XAxis]
+               *gaussianExponentA*gaussianExponentB*dxyz[XAxis])
+              *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/(beta*beta);
+      value *= 4.0*sqrt(gaussianExponentA)*gaussianExponentB/(beta*beta);
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -2609,11 +2623,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 0.5-2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[XAxis],2.0)/beta;
-      value += 0.5*pow(gaussianExponentB,2.0)*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta;
-      value += pow(gaussianExponentA*gaussianExponentB*dxyz[XAxis]/beta,2.0)
-              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
-      value *= 4.0*pow(gaussianExponentB,0.5)*gaussianExponentA*pow(beta,-2.0);
+      value = 0.5-2.0*gaussianExponentA*gaussianExponentB*(dxyz[XAxis]*dxyz[XAxis])/beta;
+      value += 0.5*(gaussianExponentB*gaussianExponentB)*((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/beta;
+      value += (gaussianExponentA*gaussianExponentB*dxyz[XAxis]
+               *gaussianExponentA*gaussianExponentB*dxyz[XAxis])
+              *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/(beta*beta);
+      value *= 4.0*sqrt(gaussianExponentB)*gaussianExponentA/(beta*beta);
       value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -2630,11 +2645,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 0.5-2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[YAxis],2.0)/beta;
-      value += 0.5*pow(gaussianExponentA,2.0)*(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/beta;
-      value += pow(gaussianExponentA*gaussianExponentB*dxyz[YAxis]/beta,2.0)
-              *(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0));
-      value *= -4.0*pow(gaussianExponentA,0.5)*gaussianExponentB*pow(beta,-2.0);
+      value = 0.5-2.0*gaussianExponentA*gaussianExponentB*(dxyz[YAxis]*dxyz[YAxis])/beta;
+      value += 0.5*(gaussianExponentA*gaussianExponentA)*((dxyz[YAxis]*dxyz[YAxis])-(dxyz[XAxis]*dxyz[XAxis]))/beta;
+      value += (gaussianExponentA*gaussianExponentB*dxyz[YAxis]
+               *gaussianExponentA*gaussianExponentB*dxyz[YAxis])
+              *((dxyz[YAxis]*dxyz[YAxis])-(dxyz[XAxis]*dxyz[XAxis]))/(beta*beta);
+      value *= -4.0*sqrt(gaussianExponentA)*gaussianExponentB/(beta*beta);
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -2651,11 +2667,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 0.5-2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[YAxis],2.0)/beta;
-      value += 0.5*pow(gaussianExponentB,2.0)*(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/beta;
-      value += pow(gaussianExponentA*gaussianExponentB*dxyz[YAxis]/beta,2.0)
-              *(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0));
-      value *= -4.0*pow(gaussianExponentB,0.5)*gaussianExponentA*pow(beta,-2.0);
+      value = 0.5-2.0*gaussianExponentA*gaussianExponentB*(dxyz[YAxis]*dxyz[YAxis])/beta;
+      value += 0.5*(gaussianExponentB*gaussianExponentB)*((dxyz[YAxis]*dxyz[YAxis])-(dxyz[XAxis]*dxyz[XAxis]))/beta;
+      value += (gaussianExponentA*gaussianExponentB*dxyz[YAxis]
+               *gaussianExponentA*gaussianExponentB*dxyz[YAxis])
+              *((dxyz[YAxis]*dxyz[YAxis])-(dxyz[XAxis]*dxyz[XAxis]))/(beta*beta);
+      value *= -4.0*sqrt(gaussianExponentB)*gaussianExponentA/(beta*beta);
       value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -2672,11 +2689,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 0.5*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
-      value += pow(gaussianExponentB*dxyz[ZAxis],2.0)
-              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))
+      value = 0.5*((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]));
+      value += gaussianExponentB*gaussianExponentB*dxyz[ZAxis]*dxyz[ZAxis]
+              *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))
               /beta;
-      value *= 4.0*pow(gaussianExponentA,2.5)*gaussianExponentB*pow(beta,-3.0);
+      value *= 4.0*gaussianExponentA*gaussianExponentA*sqrt(gaussianExponentA)
+              *gaussianExponentB/(beta*beta*beta);
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -2693,11 +2711,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 0.5*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
+      value = 0.5*((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]));
       value += pow(gaussianExponentA*dxyz[ZAxis],2.0)
-              *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))
+              *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))
               /beta;
-      value *= 4.0*pow(gaussianExponentB,2.5)*gaussianExponentA*pow(beta,-3.0);
+      value *= 4.0*pow(gaussianExponentB,2.5)*gaussianExponentA/(beta*beta*beta);
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -2716,12 +2734,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = -0.5
-             +2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[axis],2.0)/beta
-             +0.5*pow(gaussianExponentA,2.0)
-                 *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta
+             +2.0*gaussianExponentA*gaussianExponentB*(dxyz[axis]*dxyz[axis])/beta
+             +0.5*(gaussianExponentA*gaussianExponentA)
+                 *(2.0*(dxyz[ZAxis]*dxyz[ZAxis])-(dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/beta
              +pow(gaussianExponentA*gaussianExponentB*dxyz[axis]/beta,2.0)
-              *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
-      value *= 4.0*pow(gaussianExponentA,0.5)*gaussianExponentB*pow(beta,-2.0)/sqrt(3.0);
+              *(2.0*(dxyz[ZAxis]*dxyz[ZAxis])-(dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]));
+      value *= 4.0*sqrt(gaussianExponentA)*gaussianExponentB/(beta*beta*sqrt(3.0));
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -2740,12 +2758,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = -0.5
-             +2.0*gaussianExponentA*gaussianExponentB*pow(dxyz[axis],2.0)/beta
-             +0.5*pow(gaussianExponentB,2.0)
-                 *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta
+             +2.0*gaussianExponentA*gaussianExponentB*(dxyz[axis]*dxyz[axis])/beta
+             +0.5*(gaussianExponentB*gaussianExponentB)
+                 *(2.0*(dxyz[ZAxis]*dxyz[ZAxis])-(dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/beta
              +pow(gaussianExponentA*gaussianExponentB*dxyz[axis]/beta,2.0)
-              *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
-      value *= 4.0*pow(gaussianExponentB,0.5)*gaussianExponentA*pow(beta,-2.0)/sqrt(3.0);
+              *(2.0*(dxyz[ZAxis]*dxyz[ZAxis])-(dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]));
+      value *= 4.0*sqrt(gaussianExponentB)*gaussianExponentA/(beta*beta*sqrt(3.0));
       value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -2763,12 +2781,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = 1.0
-             -4.0*gaussianExponentA*gaussianExponentB*pow(dxyz[axis],2.0)/beta
-             +0.5*pow(gaussianExponentA,2.0)
-                 *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta
+             -4.0*gaussianExponentA*gaussianExponentB*(dxyz[axis]*dxyz[axis])/beta
+             +0.5*(gaussianExponentA*gaussianExponentA)
+                 *(2.0*(dxyz[ZAxis]*dxyz[ZAxis])-(dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/beta
              +pow(gaussianExponentA*gaussianExponentB*dxyz[axis]/beta,2.0)
-              *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
-      value *= 4.0*pow(gaussianExponentA,0.5)*gaussianExponentB*pow(beta,-2.0)/sqrt(3.0);
+              *(2.0*(dxyz[ZAxis]*dxyz[ZAxis])-(dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]));
+      value *= 4.0*sqrt(gaussianExponentA)*gaussianExponentB/(beta*beta*sqrt(3.0));
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -2786,12 +2804,12 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = 1.0
-             -4.0*gaussianExponentA*gaussianExponentB*pow(dxyz[axis],2.0)/beta
-             +0.5*pow(gaussianExponentB,2.0)
-                 *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta
+             -4.0*gaussianExponentA*gaussianExponentB*(dxyz[axis]*dxyz[axis])/beta
+             +0.5*(gaussianExponentB*gaussianExponentB)
+                 *(2.0*(dxyz[ZAxis]*dxyz[ZAxis])-(dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/beta
              +pow(gaussianExponentA*gaussianExponentB*dxyz[axis]/beta,2.0)
-              *(2.0*pow(dxyz[ZAxis],2.0)-pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0));
-      value *= 4.0*pow(gaussianExponentB,0.5)*gaussianExponentA*pow(beta,-2.0)/sqrt(3.0);
+              *(2.0*(dxyz[ZAxis]*dxyz[ZAxis])-(dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]));
+      value *= 4.0*sqrt(gaussianExponentB)*gaussianExponentA/(beta*beta*sqrt(3.0));
       value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -2842,7 +2860,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
       value = 0.5*(gaussianExponentA-gaussianExponentB)*dxyz[axis]
              +(gaussianExponentA-gaussianExponentB)*(gaussianExponentA*gaussianExponentB)
               *dxyz[axis]*pow(dxyz[anotherAxis],2.0)/beta;
-      value *= 8.0*(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0);
+      value *= 8.0*(gaussianExponentA*gaussianExponentB)/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -2889,8 +2907,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        overlapSASB);
       value = (gaussianExponentA-gaussianExponentB)*dxyz[axis]
              -(gaussianExponentA-gaussianExponentB)*(gaussianExponentA*gaussianExponentB)
-              *(pow(dxyz[axis],2.0) - pow(dxyz[anotherAxis],2.0))*dxyz[axis]/beta;
-      value *= 4.0*(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0);
+              *((dxyz[axis]*dxyz[axis]) - pow(dxyz[anotherAxis],2.0))*dxyz[axis]/beta;
+      value *= 4.0*(gaussianExponentA*gaussianExponentB)/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -2911,7 +2929,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        overlapSASB);
       value = (gaussianExponentA-gaussianExponentB)*dxyz[axis]
              -(gaussianExponentA-gaussianExponentB)*(gaussianExponentA*gaussianExponentB)
-              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))*dxyz[axis]/beta;
+              *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))*dxyz[axis]/beta;
       value *= 4.0*(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0)/3.0;
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
@@ -2932,7 +2950,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        overlapSASB);
       value = 2.0*(gaussianExponentA-gaussianExponentB)*dxyz[axis]
              -(gaussianExponentA-gaussianExponentB)*(gaussianExponentA*gaussianExponentB)
-              *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))*dxyz[axis]/beta;
+              *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))*dxyz[axis]/beta;
       value *= 8.0*(gaussianExponentA*gaussianExponentB)*pow(beta,-3.0)/3.0;
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
@@ -3007,7 +3025,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = 0.5-gaussianExponentA*gaussianExponentB*pow(dxyz[anotherAxis1],2.0)/beta;
-      value *= 8.0*pow(gaussianExponentA,2.0)*gaussianExponentB*pow(beta,-3.0)*dxyz[anotherAxis2];
+      value *= 8.0*(gaussianExponentA*gaussianExponentA)*gaussianExponentB*pow(beta,-3.0)*dxyz[anotherAxis2];
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3058,7 +3076,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = 0.5-gaussianExponentA*gaussianExponentB*pow(dxyz[anotherAxis1],2.0)/beta;
-      value *= -8.0*pow(gaussianExponentB,2.0)*gaussianExponentA*pow(beta,-3.0)*dxyz[anotherAxis2];
+      value *= -8.0*(gaussianExponentB*gaussianExponentB)*gaussianExponentA*pow(beta,-3.0)*dxyz[anotherAxis2];
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3077,9 +3095,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = 0.5*beta
-             -pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[XAxis],2.0)/beta
-             +pow(gaussianExponentB,2.0)*gaussianExponentA
-             *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
+             -(gaussianExponentA*gaussianExponentA)*gaussianExponentB*(dxyz[XAxis]*dxyz[XAxis])/beta
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA
+             *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta);
       value *= 8.0*gaussianExponentA*gaussianExponentB*pow(beta,-3.0)*dxyz[YAxis];
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
@@ -3099,9 +3117,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = 0.5*beta
-             -pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[XAxis],2.0)/beta
-             +pow(gaussianExponentA,2.0)*gaussianExponentB
-             *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
+             -(gaussianExponentB*gaussianExponentB)*gaussianExponentA*(dxyz[XAxis]*dxyz[XAxis])/beta
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB
+             *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta);
       value *= -8.0*gaussianExponentA*gaussianExponentB*pow(beta,-3.0)*dxyz[YAxis];
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
@@ -3121,9 +3139,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = -0.5*beta
-             +pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[YAxis],2.0)/beta
-             +pow(gaussianExponentB,2.0)*gaussianExponentA
-             *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB*(dxyz[YAxis]*dxyz[YAxis])/beta
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA
+             *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta);
       value *= 8.0*gaussianExponentA*gaussianExponentB*pow(beta,-3.0)*dxyz[XAxis];
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
@@ -3143,9 +3161,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = -0.5*beta
-             +pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[YAxis],2.0)/beta
-             +pow(gaussianExponentA,2.0)*gaussianExponentB
-             *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA*(dxyz[YAxis]*dxyz[YAxis])/beta
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB
+             *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta);
       value *= -8.0*gaussianExponentA*gaussianExponentB*pow(beta,-3.0)*dxyz[XAxis];
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
@@ -3167,7 +3185,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        overlapSASB);
       value = 8.0*pow(gaussianExponentA,4.0)*pow(gaussianExponentB,3.0)
              *dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis]
-             *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/pow(beta,5.0);
+             *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/pow(beta,5.0);
       value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -3188,7 +3206,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        overlapSASB);
       value = -8.0*pow(gaussianExponentA,3.0)*pow(gaussianExponentB,4.0)
              *dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis]
-             *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/pow(beta,5.0);
+             *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/pow(beta,5.0);
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -3207,10 +3225,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = -0.5*gaussianExponentA
-             +pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[YAxis],2.0)/beta
-             +pow(gaussianExponentB,2.0)*gaussianExponentA
-             *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
-      value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]*pow(beta,-3.0);
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB*(dxyz[YAxis]*dxyz[YAxis])/beta
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA
+             *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta);
+      value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3229,10 +3247,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = -0.5*gaussianExponentB
-             +pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[YAxis],2.0)/beta
-             +pow(gaussianExponentA,2.0)*gaussianExponentB
-             *(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/(2.0*beta);
-      value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]*pow(beta,-3.0);
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA*(dxyz[YAxis]*dxyz[YAxis])/beta
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB
+             *((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta);
+      value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3251,10 +3269,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = -0.5*gaussianExponentA
-             +pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[XAxis],2.0)/beta
-             +pow(gaussianExponentB,2.0)*gaussianExponentA
-             *(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/(2.0*beta);
-      value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]*pow(beta,-3.0);
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB*(dxyz[XAxis]*dxyz[XAxis])/beta
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA
+             *((dxyz[YAxis]*dxyz[YAxis])-(dxyz[XAxis]*dxyz[XAxis]))/(2.0*beta);
+      value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3273,10 +3291,10 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = -0.5*gaussianExponentB
-             +pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[YAxis],2.0)/beta
-             +pow(gaussianExponentA,2.0)*gaussianExponentB
-             *(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/(2.0*beta);
-      value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]*pow(beta,-3.0);
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA*(dxyz[YAxis]*dxyz[YAxis])/beta
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB
+             *((dxyz[YAxis]*dxyz[YAxis])-(dxyz[XAxis]*dxyz[XAxis]))/(2.0*beta);
+      value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3294,8 +3312,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = gaussianExponentA*gaussianExponentB*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta+1.0;
-      value *= 4.0*gaussianExponentA*pow(gaussianExponentB,2.0)*dxyz[YAxis]*pow(beta,-3.0);
+      value = gaussianExponentA*gaussianExponentB*((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/beta+1.0;
+      value *= 4.0*gaussianExponentA*(gaussianExponentB*gaussianExponentB)*dxyz[YAxis]/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3313,8 +3331,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = gaussianExponentA*gaussianExponentB*(pow(dxyz[XAxis],2.0)-pow(dxyz[YAxis],2.0))/beta+1.0;
-      value *= -4.0*gaussianExponentB*pow(gaussianExponentA,2.0)*dxyz[YAxis]*pow(beta,-3.0);
+      value = gaussianExponentA*gaussianExponentB*((dxyz[XAxis]*dxyz[XAxis])-(dxyz[YAxis]*dxyz[YAxis]))/beta+1.0;
+      value *= -4.0*gaussianExponentB*(gaussianExponentA*gaussianExponentA)*dxyz[YAxis]/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3332,8 +3350,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = gaussianExponentA*gaussianExponentB*(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/beta+1.0;
-      value *= -4.0*gaussianExponentA*pow(gaussianExponentB,2.0)*dxyz[XAxis]*pow(beta,-3.0);
+      value = gaussianExponentA*gaussianExponentB*((dxyz[YAxis]*dxyz[YAxis])-(dxyz[XAxis]*dxyz[XAxis]))/beta+1.0;
+      value *= -4.0*gaussianExponentA*(gaussianExponentB*gaussianExponentB)*dxyz[XAxis]/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3351,8 +3369,8 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = gaussianExponentA*gaussianExponentB*(pow(dxyz[YAxis],2.0)-pow(dxyz[XAxis],2.0))/beta+1.0;
-      value *= 4.0*gaussianExponentB*pow(gaussianExponentA,2.0)*dxyz[XAxis]*pow(beta,-3.0);
+      value = gaussianExponentA*gaussianExponentB*((dxyz[YAxis]*dxyz[YAxis])-(dxyz[XAxis]*dxyz[XAxis]))/beta+1.0;
+      value *= 4.0*gaussianExponentB*(gaussianExponentA*gaussianExponentA)*dxyz[XAxis]/(beta*beta*beta);
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3371,7 +3389,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0);
+      value = 2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]);
       value *= dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis];
       value *= 8.0*pow(gaussianExponentA,4.0)*pow(gaussianExponentB,3.0);
       value /= sqrt(3.0)*pow(beta,5.0);
@@ -3393,7 +3411,7 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = 2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0);
+      value = 2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]);
       value *= dxyz[XAxis]*dxyz[YAxis]*dxyz[ZAxis];
       value *= -8.0*pow(gaussianExponentB,4.0)*pow(gaussianExponentA,3.0);
       value /= sqrt(3.0)*pow(beta,5.0);
@@ -3422,12 +3440,14 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = 0.5*(gaussianExponentB-gaussianExponentA)
-             +3.0*pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[axis],2.0)*pow(beta,-2.0)
-             +gaussianExponentA*pow(gaussianExponentB,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/(2.0*beta)
-             +pow(gaussianExponentA,3.0)*pow(gaussianExponentB,2.0)*pow(dxyz[axis],2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))*pow(beta,-2.0);
-      value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]/(sqrt(3.0)*pow(beta,3.0));
+             +3.0*(gaussianExponentA*gaussianExponentA)*gaussianExponentB
+             *(dxyz[axis]*dxyz[axis])/(beta*beta)
+             +gaussianExponentA*(gaussianExponentB*gaussianExponentB)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta)
+             +pow(gaussianExponentA,3.0)*(gaussianExponentB*gaussianExponentB)*(dxyz[axis]*dxyz[axis])
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))
+             /(beta*beta);
+      value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]/(sqrt(3.0)*beta*beta*beta);
       value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -3453,12 +3473,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = 0.5*(gaussianExponentA-gaussianExponentB)
-             +3.0*pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[axis],2.0)*pow(beta,-2.0)
-             +gaussianExponentB*pow(gaussianExponentA,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/(2.0*beta)
-             +pow(gaussianExponentB,3.0)*pow(gaussianExponentA,2.0)*pow(dxyz[axis],2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))*pow(beta,-2.0);
-      value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]/(sqrt(3.0)*pow(beta,3.0));
+             +3.0*(gaussianExponentB*gaussianExponentB)*gaussianExponentA
+             *(dxyz[axis]*dxyz[axis])/(beta*beta)
+             +gaussianExponentB*(gaussianExponentA*gaussianExponentA)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta)
+             +pow(gaussianExponentB,3.0)*(gaussianExponentA*gaussianExponentA)*(dxyz[axis]*dxyz[axis])
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/(beta*beta);
+      value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]/(sqrt(3.0)*(beta*beta*beta));
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -3477,13 +3498,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = gaussianExponentB-0.5*gaussianExponentA
-             +gaussianExponentA*pow(gaussianExponentB,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/(2.0*beta)
+             +gaussianExponentA*(gaussianExponentB*gaussianExponentB)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta)
              +pow(gaussianExponentA,3.0)*pow(gaussianExponentB*dxyz[axis],2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))
-             *pow(beta,-2.0);
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))
+             /(beta*beta);
       value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]
-              /(sqrt(3.0)*pow(beta,3.0));
+              /(sqrt(3.0)*(beta*beta*beta));
       value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -3502,13 +3523,13 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = gaussianExponentA-0.5*gaussianExponentB
-             +gaussianExponentB*pow(gaussianExponentA,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/(2.0*beta)
-             +pow(gaussianExponentB,3.0)*pow(gaussianExponentA*dxyz[axis],2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))
-             *pow(beta,-2.0);
+             +gaussianExponentB*(gaussianExponentA*gaussianExponentA)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta)
+             +pow(gaussianExponentB,3.0)*(gaussianExponentA*gaussianExponentA*dxyz[axis]*dxyz[axis])
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))
+             /(beta*beta);
       value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[ZAxis]
-              /(sqrt(3.0)*pow(beta,3.0));
+              /(sqrt(3.0)*(beta*beta*beta));
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -3534,14 +3555,14 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = gaussianExponentA-0.5*gaussianExponentB
-             -3.0*pow(gaussianExponentA,2.0)*gaussianExponentB*pow(dxyz[axis]/beta,2.0)
-             +gaussianExponentA*pow(gaussianExponentB,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/(2.0*beta)
+             -3.0*(gaussianExponentA*gaussianExponentA)*gaussianExponentB*pow(dxyz[axis]/beta,2.0)
+             +gaussianExponentA*(gaussianExponentB*gaussianExponentB)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta)
              +pow(gaussianExponentA,3.0)*pow(gaussianExponentB*dxyz[axis],2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))
-             *pow(beta,-2.0);
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))
+             /(beta*beta);
       value *= 8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]
-              /(sqrt(3.0)*pow(beta,3.0));
+              /(sqrt(3.0)*(beta*beta*beta));
       value *= overlapSASB;
       value += xyzB[axis]*overlapAOs1;
       return value;
@@ -3567,14 +3588,15 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = gaussianExponentB-0.5*gaussianExponentA
-             -3.0*pow(gaussianExponentB,2.0)*gaussianExponentA*pow(dxyz[axis]/beta,2.0)
-             +gaussianExponentB*pow(gaussianExponentA,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/(2.0*beta)
-             +pow(gaussianExponentB,3.0)*pow(gaussianExponentA*dxyz[axis],2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))
-             *pow(beta,-2.0);
+             -3.0*(gaussianExponentB*gaussianExponentB)*gaussianExponentA*dxyz[axis]*dxyz[axis]/(beta*beta)
+             +gaussianExponentB*(gaussianExponentA*gaussianExponentA)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/(2.0*beta)
+             +pow(gaussianExponentB,3.0)
+             *(gaussianExponentA*gaussianExponentA*dxyz[axis]*dxyz[axis])
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))
+             /(beta*beta);
       value *= -8.0*gaussianExponentA*gaussianExponentB*dxyz[anotherAxis]
-              /(sqrt(3.0)*pow(beta,3.0));
+              /(sqrt(3.0)*(beta*beta*beta));
       value *= overlapSASB;
       value += xyzA[axis]*overlapAOs1;
       return value;
@@ -3593,11 +3615,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = gaussianExponentB - gaussianExponentA
-             +gaussianExponentA*pow(gaussianExponentB,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta
-             +pow(gaussianExponentA,2.0)*gaussianExponentB
-             *(pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta;
-      value *= 4.0*gaussianExponentA*gaussianExponentB*dxyz[XAxis]*pow(beta,-3.0)/sqrt(3.0);
+             +gaussianExponentA*(gaussianExponentB*gaussianExponentB)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/beta
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB
+             *((dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/beta;
+      value *= 4.0*gaussianExponentA*gaussianExponentB*dxyz[XAxis]/(beta*beta*beta*sqrt(3.0));
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3616,11 +3638,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = gaussianExponentA - gaussianExponentB
-             +gaussianExponentB*pow(gaussianExponentA,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta
-             +pow(gaussianExponentB,2.0)*gaussianExponentA
-             *(pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta;
-      value *= -4.0*gaussianExponentA*gaussianExponentB*dxyz[XAxis]*pow(beta,-3.0)/sqrt(3.0);
+             +gaussianExponentB*(gaussianExponentA*gaussianExponentA)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/beta
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA
+             *((dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/beta;
+      value *= -4.0*gaussianExponentA*gaussianExponentB*dxyz[XAxis]/(beta*beta*beta*sqrt(3.0));
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3639,11 +3661,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = gaussianExponentB - gaussianExponentA
-             +gaussianExponentA*pow(gaussianExponentB,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta
-             +pow(gaussianExponentA,2.0)*gaussianExponentB
-             *(pow(dxyz[YAxis],2.0) - pow(dxyz[XAxis],2.0))/beta;
-      value *= -4.0*gaussianExponentA*gaussianExponentB*dxyz[YAxis]*pow(beta,-3.0)/sqrt(3.0);
+             +gaussianExponentA*(gaussianExponentB*gaussianExponentB)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/beta
+             +(gaussianExponentA*gaussianExponentA)*gaussianExponentB
+             *((dxyz[YAxis]*dxyz[YAxis]) - (dxyz[XAxis]*dxyz[XAxis]))/beta;
+      value *= -4.0*gaussianExponentA*gaussianExponentB*dxyz[YAxis]/(beta*beta*beta*sqrt(3.0));
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3662,11 +3684,11 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        rAB,
                                                        overlapSASB);
       value = gaussianExponentA - gaussianExponentB
-             +gaussianExponentB*pow(gaussianExponentA,2.0)
-             *(2.0*pow(dxyz[ZAxis],2.0) - pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0))/beta
-             +pow(gaussianExponentB,2.0)*gaussianExponentA
-             *(pow(dxyz[YAxis],2.0) - pow(dxyz[XAxis],2.0))/beta;
-      value *= 4.0*gaussianExponentA*gaussianExponentB*dxyz[YAxis]*pow(beta,-3.0)/sqrt(3.0);
+             +gaussianExponentB*(gaussianExponentA*gaussianExponentA)
+             *(2.0*(dxyz[ZAxis]*dxyz[ZAxis]) - (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]))/beta
+             +(gaussianExponentB*gaussianExponentB)*gaussianExponentA
+             *((dxyz[YAxis]*dxyz[YAxis]) - (dxyz[XAxis]*dxyz[XAxis]))/beta;
+      value *= 4.0*gaussianExponentA*gaussianExponentB*dxyz[YAxis]/(beta*beta*beta*sqrt(3.0));
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3684,9 +3706,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0);
-      value *= -8.0*pow(gaussianExponentA,3.0)*pow(gaussianExponentB,2.0)*dxyz[ZAxis];
-      value /= sqrt(3.0)*pow(beta,4.0);
+      value = (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]);
+      value *= -8.0*pow(gaussianExponentA,3.0)*(gaussianExponentB*gaussianExponentB)*dxyz[ZAxis];
+      value /= sqrt(3.0)*beta*beta*beta*beta;
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -3704,9 +3726,9 @@ double Cndo2::GetGaussianCartesianMatrix(AtomType atomTypeA,
                                                        dxyz[ZAxis], 
                                                        rAB,
                                                        overlapSASB);
-      value = pow(dxyz[XAxis],2.0) - pow(dxyz[YAxis],2.0);
-      value *= 8.0*pow(gaussianExponentA,2.0)*pow(gaussianExponentB,3.0)*dxyz[ZAxis];
-      value /= sqrt(3.0)*pow(beta,4.0);
+      value = (dxyz[XAxis]*dxyz[XAxis]) - (dxyz[YAxis]*dxyz[YAxis]);
+      value *= 8.0*(gaussianExponentA*gaussianExponentA)*pow(gaussianExponentB,3.0)*dxyz[ZAxis];
+      value /= sqrt(3.0)*beta*beta*beta*beta;
       value *= overlapSASB;
       value += axisAverage*overlapAOs1;
       return value;
@@ -4001,9 +4023,7 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
                                           atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
                                           atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
-   double R = sqrt( pow(cartesian[XAxis],2.0) + 
-                    pow(cartesian[YAxis],2.0) + 
-                    pow(cartesian[ZAxis],2.0) );
+   double R = this->molecule->GetDistanceAtoms(atomA, atomB);
    
    this->CalcDiatomicOverlapAOsInDiatomicFrame(tmpDiaOverlapAOsInDiaFrame, atomA, atomB);
    this->CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(tmpDiaOverlapAOs1stDerivInDiaFrame, atomA, atomB);
@@ -4133,9 +4153,7 @@ void Cndo2::CalcDiatomicOverlapAOs2ndDerivatives(double**** diatomicOverlapAOs2n
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
                                           atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
                                           atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
-   double R = sqrt( pow(cartesian[XAxis],2.0) + 
-                    pow(cartesian[YAxis],2.0) + 
-                    pow(cartesian[ZAxis],2.0) );
+   double R = this->molecule->GetDistanceAtoms(atomA, atomB);
    
    this->CalcDiatomicOverlapAOsInDiatomicFrame(tmpDiaOverlapAOsInDiaFrame, atomA, atomB);
    this->CalcDiatomicOverlapAOs1stDerivativeInDiatomicFrame(tmpDiaOverlapAOs1stDerivInDiaFrame, atomA, atomB);
@@ -4266,13 +4284,13 @@ double Cndo2::Get2ndDerivativeElementFromDistanceDerivatives(double firstDistanc
                                                              double rAB) const{
    double value=0.0;               
    if(axisA1 != axisA2){
-      value = -1.0*pow(rAB, -3.0)*firstDistanceDeri;
-      value += pow(rAB, -2.0)*secondDistanceDeri;
+      value = -1.0*firstDistanceDeri/(rAB*rAB*rAB);
+      value += secondDistanceDeri/(rAB*rAB);
       value *= cartesian[axisA1]*cartesian[axisA2];
    }
    else{
-      value = (pow(rAB,2.0) - pow(cartesian[axisA1],2.0))*pow(rAB, -3.0)*firstDistanceDeri;
-      value += pow(cartesian[axisA1]/rAB, 2.0)*secondDistanceDeri;
+      value = (rAB*rAB - cartesian[axisA1]*cartesian[axisA1])*firstDistanceDeri/(rAB*rAB*rAB);
+      value += cartesian[axisA1]*cartesian[axisA1]*secondDistanceDeri/(rAB*rAB);
    }
    return value;
 }
@@ -4341,7 +4359,7 @@ double Cndo2::GetOverlapAOsElementByGTOExpansion(const Atom& atomA, int valenceI
    double dx = atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis];
    double dy = atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis];
    double dz = atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis];
-   double rAB = sqrt( pow(dx, 2.0) + pow(dy, 2.0) + pow(dz,2.0) );
+   double rAB = sqrt( dx*dx + dy*dy + dz*dz );
    ShellType shellTypeA = atomA.GetValenceShellType();
    ShellType shellTypeB = atomB.GetValenceShellType();
    OrbitalType valenceOrbitalA = atomA.GetValence(valenceIndexA);
@@ -4366,12 +4384,12 @@ double Cndo2::GetOverlapAOsElementByGTOExpansion(const Atom& atomA, int valenceI
                                                                 shellTypeB, 
                                                                 valenceOrbitalB, 
                                                                 j); 
-         gaussianExponentA = pow(orbitalExponentA, 2.0) *
+         gaussianExponentA = (orbitalExponentA*orbitalExponentA) *
                              GTOExpansionSTO::GetInstance()->GetExponent(stonG, 
                                                                          shellTypeA, 
                                                                          valenceOrbitalA, 
                                                                          i);
-         gaussianExponentB = pow(orbitalExponentB, 2.0) *
+         gaussianExponentB = (orbitalExponentB*orbitalExponentB) *
                              GTOExpansionSTO::GetInstance()->GetExponent(stonG, 
                                                                          shellTypeB, 
                                                                          valenceOrbitalB, 
@@ -4397,7 +4415,7 @@ double Cndo2::GetGaussianOverlapAOsSASB(double gaussianExponentA,
    double value;
    double temp1 = 0.0;
    double temp2 = 0.0;
-   temp1 = 2.0*pow(gaussianExponentA*gaussianExponentB, 0.5)
+   temp1 = 2.0*sqrt(gaussianExponentA*gaussianExponentB)
             /(gaussianExponentA+gaussianExponentB);
    temp2 = -1.0* gaussianExponentA*gaussianExponentB
             /(gaussianExponentA+gaussianExponentB);
@@ -4445,125 +4463,125 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
    }
 
    else if(valenceOrbitalA == s && valenceOrbitalB == px){
-      value = 2.0*gaussianExponentA*pow(gaussianExponentB, 0.5)*dx;
+      value = 2.0*gaussianExponentA*sqrt(gaussianExponentB)*dx;
       value /= (gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == py){
-      value = 2.0*gaussianExponentA*pow(gaussianExponentB, 0.5)*dy;
+      value = 2.0*gaussianExponentA*sqrt(gaussianExponentB)*dy;
       value /= (gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == pz){
-      value = 2.0*gaussianExponentA*pow(gaussianExponentB, 0.5)*dz;
+      value = 2.0*gaussianExponentA*sqrt(gaussianExponentB)*dz;
       value /= (gaussianExponentA+gaussianExponentB);
    }
 
    else if(valenceOrbitalA == px && valenceOrbitalB == s){
-      value = -2.0*pow(gaussianExponentA, 0.5)*gaussianExponentB*dx;
+      value = -2.0*sqrt(gaussianExponentA)*gaussianExponentB*dx;
       value /= (gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == s){
-      value = -2.0*pow(gaussianExponentA, 0.5)*gaussianExponentB*dy;
+      value = -2.0*sqrt(gaussianExponentA)*gaussianExponentB*dy;
       value /= (gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == s){
-      value = -2.0*pow(gaussianExponentA, 0.5)*gaussianExponentB*dz;
+      value = -2.0*sqrt(gaussianExponentA)*gaussianExponentB*dz;
       value /= (gaussianExponentA+gaussianExponentB);
    }
 
    else if(valenceOrbitalA == px && valenceOrbitalB == px){
       double temp = 0.0;
-      temp = -1.0*pow(dx,2.0)*gaussianExponentA*gaussianExponentB;
+      temp = -1.0*(dx*dx)*gaussianExponentA*gaussianExponentB;
       temp /= (gaussianExponentA+gaussianExponentB);
       temp += 0.5;
-      value = 4.0*pow(gaussianExponentA*gaussianExponentB, 0.5);
+      value = 4.0*sqrt(gaussianExponentA*gaussianExponentB);
       value /= (gaussianExponentA+gaussianExponentB);
       value *= temp;
    }
    else if(valenceOrbitalA == px && valenceOrbitalB == py){
-      value = -4.0*pow(gaussianExponentA*gaussianExponentB, 1.5);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value = -4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= dx*dy;
    }
    else if(valenceOrbitalA == px && valenceOrbitalB == pz){
-      value = -4.0*pow(gaussianExponentA*gaussianExponentB, 1.5);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value = -4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= dx*dz;
    }
 
    else if(valenceOrbitalA == py && valenceOrbitalB == px){
-      value = -4.0*pow(gaussianExponentA*gaussianExponentB, 1.5);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value = -4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= dy*dx;
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == py){
       double temp = 0.0;
-      temp = -1.0*pow(dy,2.0)*gaussianExponentA*gaussianExponentB;
+      temp = -1.0*(dy*dy)*gaussianExponentA*gaussianExponentB;
       temp /= (gaussianExponentA+gaussianExponentB);
       temp += 0.5;
-      value = 4.0*pow(gaussianExponentA*gaussianExponentB, 0.5);
+      value = 4.0*sqrt(gaussianExponentA*gaussianExponentB);
       value /= (gaussianExponentA+gaussianExponentB);
       value *= temp;
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == pz){
-      value = -4.0*pow(gaussianExponentA*gaussianExponentB, 1.5);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value = -4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= dy*dz;
    }
 
    else if(valenceOrbitalA == pz && valenceOrbitalB == px){
-      value = -4.0*pow(gaussianExponentA*gaussianExponentB, 1.5);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value = -4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= dz*dx;
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == py){
-      value = -4.0*pow(gaussianExponentA*gaussianExponentB, 1.5);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value = -4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= dz*dy;
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == pz){
       double temp = 0.0;
-      temp = -1.0*pow(dz,2.0)*gaussianExponentA*gaussianExponentB;
+      temp = -1.0*(dz*dz)*gaussianExponentA*gaussianExponentB;
       temp /= (gaussianExponentA+gaussianExponentB);
       temp += 0.5;
-      value = 4.0*pow(gaussianExponentA*gaussianExponentB, 0.5);
+      value = 4.0*sqrt(gaussianExponentA*gaussianExponentB);
       value /= (gaussianExponentA+gaussianExponentB);
       value *= temp;
    }
 
    else if(valenceOrbitalA == dxy && valenceOrbitalB == s){
       value = 4.0*gaussianExponentA;
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= gaussianExponentB*dx;
       value *= gaussianExponentB*dy;
    }
    else if(valenceOrbitalA == dyz && valenceOrbitalB == s){
       value = 4.0*gaussianExponentA;
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= gaussianExponentB*dy;
       value *= gaussianExponentB*dz;
    }
    else if(valenceOrbitalA == dzx && valenceOrbitalB == s){
       value = 4.0*gaussianExponentA;
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= gaussianExponentB*dz;
       value *= gaussianExponentB*dx;
    }
 
    else if(valenceOrbitalA == s && valenceOrbitalB == dxy){
       value = 4.0*gaussianExponentB;
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= gaussianExponentA*dx;
       value *= gaussianExponentA*dy;
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == dyz){
       value = 4.0*gaussianExponentB;
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= gaussianExponentA*dy;
       value *= gaussianExponentA*dz;
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == dzx){
       value = 4.0*gaussianExponentB;
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= gaussianExponentA*dz;
       value *= gaussianExponentA*dx;
    }
@@ -4573,7 +4591,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = gaussianExponentB*dx*gaussianExponentA*dx*gaussianExponentB*dy;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value *= 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == dxy && valenceOrbitalB == py){
@@ -4581,7 +4599,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = gaussianExponentB*dy*gaussianExponentA*dy*gaussianExponentB*dx;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value *= 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == dyz && valenceOrbitalB == py){
@@ -4589,7 +4607,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = gaussianExponentB*dy*gaussianExponentA*dy*gaussianExponentB*dz;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value *= 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == dyz && valenceOrbitalB == pz){
@@ -4597,7 +4615,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = gaussianExponentB*dz*gaussianExponentA*dz*gaussianExponentB*dy;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value *= 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == dzx && valenceOrbitalB == pz){
@@ -4605,7 +4623,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = gaussianExponentB*dz*gaussianExponentA*dz*gaussianExponentB*dx;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value *= 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == dzx && valenceOrbitalB == px){
@@ -4613,7 +4631,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = gaussianExponentB*dx*gaussianExponentA*dx*gaussianExponentB*dz;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value *= 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
 
@@ -4622,7 +4640,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = -1.0*gaussianExponentA*dx*gaussianExponentB*dx*gaussianExponentA*dy;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value *= 8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == dxy){
@@ -4630,7 +4648,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = -1.0*gaussianExponentA*dy*gaussianExponentB*dy*gaussianExponentA*dx;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value *= 8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == dyz){
@@ -4638,7 +4656,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = -1.0*gaussianExponentA*dy*gaussianExponentB*dy*gaussianExponentA*dz;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value *= 8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == dyz){
@@ -4646,7 +4664,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = -1.0*gaussianExponentA*dz*gaussianExponentB*dz*gaussianExponentA*dy;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value *= 8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == dzx){
@@ -4654,7 +4672,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = -1.0*gaussianExponentA*dz*gaussianExponentB*dz*gaussianExponentA*dx;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value *= 8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == px && valenceOrbitalB == dzx){
@@ -4662,170 +4680,170 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp2 = -1.0*gaussianExponentA*dx*gaussianExponentB*dx*gaussianExponentA*dz;
       temp2 /= gaussianExponentA+gaussianExponentB;
       value = temp1 + temp2;
-      value *= 8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value *= 8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
 
    else if(valenceOrbitalA == dxy && valenceOrbitalB == pz){
-      value = 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value = 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 3.0);
       value *= gaussianExponentB*dx*gaussianExponentB*dy*gaussianExponentA*dz;
    }
    else if(valenceOrbitalA == dyz && valenceOrbitalB == px){
-      value = 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value = 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 3.0);
       value *= gaussianExponentB*dy*gaussianExponentB*dz*gaussianExponentA*dx;
    }
    else if(valenceOrbitalA == dzx && valenceOrbitalB == py){
-      value = 8.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value = 8.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 3.0);
       value *= gaussianExponentB*dz*gaussianExponentB*dx*gaussianExponentA*dy;
    }
 
    else if(valenceOrbitalA == pz && valenceOrbitalB == dxy){
-      value = -8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value = -8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 3.0);
       value *= gaussianExponentA*dx*gaussianExponentA*dy*gaussianExponentB*dz;
    }
    else if(valenceOrbitalA == px && valenceOrbitalB == dyz){
-      value = -8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value = -8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 3.0);
       value *= gaussianExponentA*dy*gaussianExponentA*dz*gaussianExponentB*dx;
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == dzx){
-      value = -8.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value = -8.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 3.0);
       value *= gaussianExponentA*dz*gaussianExponentA*dx*gaussianExponentB*dy;
    }
 
    else if(valenceOrbitalA == dxxyy && valenceOrbitalB == s){
       value = 2.0*gaussianExponentA;
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
-      value *= pow(gaussianExponentB*dx, 2.0) - pow(gaussianExponentB*dy, 2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
+      value *= (gaussianExponentB*gaussianExponentB*dx*dx) - (gaussianExponentB*gaussianExponentB*dy*dy);
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == dxxyy){
       value = 2.0*gaussianExponentB;
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
-      value *= pow(gaussianExponentA*dx, 2.0) - pow(gaussianExponentA*dy, 2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
+      value *= (gaussianExponentA*gaussianExponentA*dx*dx) - (gaussianExponentA*gaussianExponentA*dy*dy);
    }
    else if(valenceOrbitalA == dxxyy && valenceOrbitalB == px){
       value = gaussianExponentB*dx;
-      value -= pow(gaussianExponentB*dx, 2.0)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
-      value += pow(gaussianExponentB*dy, 2.0)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
-      value *= -4.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value -= (gaussianExponentB*gaussianExponentB*dx*dx)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
+      value += (gaussianExponentB*gaussianExponentB*dy*dy)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
+      value *= -4.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == px && valenceOrbitalB == dxxyy){
       value = gaussianExponentA*dx;
-      value -= pow(gaussianExponentA*dx, 2.0)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
-      value += pow(gaussianExponentA*dy, 2.0)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
-      value *= 4.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value -= (gaussianExponentA*gaussianExponentA*dx*dx)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
+      value += (gaussianExponentA*gaussianExponentA*dy*dy)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
+      value *= 4.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == dxxyy && valenceOrbitalB == py){
       value = gaussianExponentB*dy;
-      value += pow(gaussianExponentB*dx, 2.0)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
-      value -= pow(gaussianExponentB*dy, 2.0)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
-      value *= 4.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value += (gaussianExponentB*gaussianExponentB*dx*dx)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
+      value -= (gaussianExponentB*gaussianExponentB*dy*dy)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
+      value *= 4.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == dxxyy){
       value = gaussianExponentA*dy;
-      value += pow(gaussianExponentA*dx, 2.0)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
-      value -= pow(gaussianExponentA*dy, 2.0)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
-      value *= -4.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value += (gaussianExponentA*gaussianExponentA*dx*dx)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
+      value -= (gaussianExponentA*gaussianExponentA*dy*dy)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
+      value *= -4.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 2.0);
    }
    else if(valenceOrbitalA == dxxyy && valenceOrbitalB == pz){
-      value = pow(gaussianExponentB*dx, 2.0) - pow(gaussianExponentB*dy, 2.0);
+      value = (gaussianExponentB*gaussianExponentB*dx*dx) - (gaussianExponentB*gaussianExponentB*dy*dy);
       value *= gaussianExponentA*dz;
-      value *= 4.0*gaussianExponentA*pow(gaussianExponentB, 0.5);
+      value *= 4.0*gaussianExponentA*sqrt(gaussianExponentB);
       value /= pow(gaussianExponentA+gaussianExponentB, 3.0);
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == dxxyy){
-      value = pow(gaussianExponentA*dx, 2.0) - pow(gaussianExponentA*dy, 2.0);
+      value = (gaussianExponentA*gaussianExponentA*dx*dx) - (gaussianExponentA*gaussianExponentA*dy*dy);
       value *= gaussianExponentB*dz;
-      value *= -4.0*gaussianExponentB*pow(gaussianExponentA, 0.5);
+      value *= -4.0*gaussianExponentB*sqrt(gaussianExponentA);
       value /= pow(gaussianExponentA+gaussianExponentB, 3.0);
    }
 
    else if(valenceOrbitalA == dzz && valenceOrbitalB == s){
       double temp = 0.0;
-      temp = 2.0*pow(gaussianExponentB*dz, 2.0) 
-            -    pow(gaussianExponentB*dx, 2.0) 
-            -    pow(gaussianExponentB*dy, 2.0);
+      temp = 2.0*(gaussianExponentB*gaussianExponentB*dz*dz) 
+            -    (gaussianExponentB*gaussianExponentB*dx*dx) 
+            -    (gaussianExponentB*gaussianExponentB*dy*dy);
       value = 2.0*gaussianExponentA/sqrt(3.0);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= temp;
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == dzz){
       double temp = 0.0;
-      temp = 2.0*pow(gaussianExponentA*dz, 2.0) 
-            -    pow(gaussianExponentA*dx, 2.0) 
-            -    pow(gaussianExponentA*dy, 2.0);
+      temp = 2.0*(gaussianExponentA*gaussianExponentA*dz*dz) 
+            -    (gaussianExponentA*gaussianExponentA*dx*dx) 
+            -    (gaussianExponentA*gaussianExponentA*dy*dy);
       value = 2.0*gaussianExponentB/sqrt(3.0);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
       value *= temp;
    }
    else if(valenceOrbitalA == dzz && valenceOrbitalB == px){
       double temp = 0.0;
       temp = gaussianExponentB*dx;
-      temp += 2.0*pow(gaussianExponentB*dz, 2.0)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentB*dx, 2.0)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentB*dy, 2.0)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
+      temp += 2.0*(gaussianExponentB*gaussianExponentB*dz*dz)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentB*gaussianExponentB*dx*dx)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentB*gaussianExponentB*dy*dy)*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
       value = temp;
-      value *= 4.0*gaussianExponentA*pow(gaussianExponentB, 0.5)/sqrt(3.0);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value *= 4.0*gaussianExponentA*sqrt(gaussianExponentB)/sqrt(3.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == px && valenceOrbitalB == dzz){
       double temp = 0.0;
       temp = gaussianExponentA*dx;
-      temp += 2.0*pow(gaussianExponentA*dz, 2.0)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentA*dx, 2.0)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentA*dy, 2.0)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
+      temp += 2.0*(gaussianExponentA*gaussianExponentA*dz*dz)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentA*gaussianExponentA*dx*dx)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentA*gaussianExponentA*dy*dy)*gaussianExponentB*dx/(gaussianExponentA+gaussianExponentB);
       value = temp;
-      value *= -4.0*gaussianExponentB*pow(gaussianExponentA, 0.5)/sqrt(3.0);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value *= -4.0*gaussianExponentB*sqrt(gaussianExponentA)/sqrt(3.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == dzz && valenceOrbitalB == py){
       double temp = 0.0;
       temp = gaussianExponentB*dy;
-      temp += 2.0*pow(gaussianExponentB*dz, 2.0)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentB*dx, 2.0)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentB*dy, 2.0)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
+      temp += 2.0*(gaussianExponentB*gaussianExponentB*dz*dz)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentB*gaussianExponentB*dx*dx)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentB*gaussianExponentB*dy*dy)*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
       value = temp;
-      value *= 4.0*gaussianExponentA*pow(gaussianExponentB, 0.5)/sqrt(3.0);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value *= 4.0*gaussianExponentA*sqrt(gaussianExponentB)/sqrt(3.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == dzz){
       double temp = 0.0;
       temp = gaussianExponentA*dy;
-      temp += 2.0*pow(gaussianExponentA*dz, 2.0)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentA*dx, 2.0)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentA*dy, 2.0)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
+      temp += 2.0*(gaussianExponentA*gaussianExponentA*dz*dz)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentA*gaussianExponentA*dx*dx)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentA*gaussianExponentA*dy*dy)*gaussianExponentB*dy/(gaussianExponentA+gaussianExponentB);
       value = temp;
-      value *= -4.0*gaussianExponentB*pow(gaussianExponentA, 0.5)/sqrt(3.0);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value *= -4.0*gaussianExponentB*sqrt(gaussianExponentA)/sqrt(3.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == dzz && valenceOrbitalB == pz){
       double temp = 0.0;
       temp = -2.0*gaussianExponentB*dz;
-      temp += 2.0*pow(gaussianExponentB*dz, 2.0)*gaussianExponentA*dz/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentB*dx, 2.0)*gaussianExponentA*dz/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentB*dy, 2.0)*gaussianExponentA*dz/(gaussianExponentA+gaussianExponentB);
+      temp += 2.0*(gaussianExponentB*gaussianExponentB*dz*dz)*gaussianExponentA*dz/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentB*gaussianExponentB*dx*dx)*gaussianExponentA*dz/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentB*gaussianExponentB*dy*dy)*gaussianExponentA*dz/(gaussianExponentA+gaussianExponentB);
       value = temp;
-      value *= 4.0*gaussianExponentA*pow(gaussianExponentB, 0.5)/sqrt(3.0);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value *= 4.0*gaussianExponentA*sqrt(gaussianExponentB)/sqrt(3.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == dzz){
       double temp = 0.0;
       temp = -2.0*gaussianExponentA*dz;
-      temp += 2.0*pow(gaussianExponentA*dz, 2.0)*gaussianExponentB*dz/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentA*dx, 2.0)*gaussianExponentB*dz/(gaussianExponentA+gaussianExponentB);
-      temp -=     pow(gaussianExponentA*dy, 2.0)*gaussianExponentB*dz/(gaussianExponentA+gaussianExponentB);
+      temp += 2.0*(gaussianExponentA*gaussianExponentA*dz*dz)*gaussianExponentB*dz/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentA*gaussianExponentA*dx*dx)*gaussianExponentB*dz/(gaussianExponentA+gaussianExponentB);
+      temp -=     (gaussianExponentA*gaussianExponentA*dy*dy)*gaussianExponentB*dz/(gaussianExponentA+gaussianExponentB);
       value = temp;
-      value *= -4.0*gaussianExponentB*pow(gaussianExponentA, 0.5)/sqrt(3.0);
-      value *= pow(gaussianExponentA+gaussianExponentB, -2.0);
+      value *= -4.0*gaussianExponentB*sqrt(gaussianExponentA)/sqrt(3.0);
+      value /= (gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB);
    }
 
    else if(valenceOrbitalA == dxy && valenceOrbitalB == dxy){
@@ -4834,9 +4852,9 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       temp -= 0.5*gaussianExponentB*dy*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
       temp += gaussianExponentB*dx*gaussianExponentA*dx
              *gaussianExponentB*dy*gaussianExponentA*dy
-             *pow(gaussianExponentA+gaussianExponentB, -2.0);
+             /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       value = 16.0*temp*gaussianExponentA*gaussianExponentB
-             *pow(gaussianExponentA+gaussianExponentB, -2.0);
+             /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
    }
    else if(valenceOrbitalA == dyz && valenceOrbitalB == dyz){
       double temp = 0.25;
@@ -4844,9 +4862,9 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       temp -= 0.5*gaussianExponentB*dz*gaussianExponentA*dz/(gaussianExponentA+gaussianExponentB);
       temp += gaussianExponentB*dy*gaussianExponentA*dy
              *gaussianExponentB*dz*gaussianExponentA*dz
-             *pow(gaussianExponentA+gaussianExponentB, -2.0);
+             /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       value = 16.0*temp*gaussianExponentA*gaussianExponentB
-             *pow(gaussianExponentA+gaussianExponentB, -2.0);
+             /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
    }
    else if(valenceOrbitalA == dzx && valenceOrbitalB == dzx){
       double temp = 0.25;
@@ -4854,42 +4872,41 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       temp -= 0.5*gaussianExponentB*dx*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
       temp += gaussianExponentB*dz*gaussianExponentA*dz
              *gaussianExponentB*dx*gaussianExponentA*dx
-             *pow(gaussianExponentA+gaussianExponentB, -2.0);
+             /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       value = 16.0*temp*gaussianExponentA*gaussianExponentB
-             *pow(gaussianExponentA+gaussianExponentB, -2.0);
+             /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
    }
    else if(valenceOrbitalA == dxxyy && valenceOrbitalB == dxxyy){
       double temp1 = 1.0;
       temp1 -= 2.0*gaussianExponentB*dx*gaussianExponentA*dx/(gaussianExponentA+gaussianExponentB);
       temp1 -= 2.0*gaussianExponentB*dy*gaussianExponentA*dy/(gaussianExponentA+gaussianExponentB);
-      double temp2 = gaussianExponentA*gaussianExponentB*(pow(dx,2.0)-pow(dy,2.0))
+      double temp2 = gaussianExponentA*gaussianExponentB*((dx*dx)-(dy*dy))
              /(gaussianExponentA+gaussianExponentB);
       temp1 += pow(temp2,2.0);
       value = 4.0*temp1*gaussianExponentA*gaussianExponentB
-             *pow(gaussianExponentA+gaussianExponentB, -2.0);
+             /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
    }
    else if(valenceOrbitalA == dzz && valenceOrbitalB == dzz){
       double temp = 3.0;
       temp -= gaussianExponentA*gaussianExponentB
              /(gaussianExponentA+gaussianExponentB)
-             *(8.0*pow(dz,2.0)+2.0*pow(dx,2.0)+2.0*pow(dy,2.0));
+             *(8.0*(dz*dz)+2.0*(dx*dx)+2.0*(dy*dy));
       temp += pow(gaussianExponentA*gaussianExponentB,2.0)
-             *pow(gaussianExponentA+gaussianExponentB, -2.0)
-             *(4.0*pow(dz,4.0)
-                  +pow(dx,4.0)
-                  +pow(dy,4.0)
-              -4.0*pow(dx*dz,2.0)
-              -4.0*pow(dy*dz,2.0)
-              +2.0*pow(dx*dy,2.0));
+             *(4.0*(dz*dz*dz*dz)
+                  +(dx*dx*dx*dx)
+                  +(dy*dy*dy*dy)
+              -4.0*(dx*dx*dz*dz)
+              -4.0*(dy*dy*dz*dz)
+              +2.0*(dx*dx*dy*dy))
+             /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       value = 4.0*temp*gaussianExponentA*gaussianExponentB
-             *pow(gaussianExponentA+gaussianExponentB, -2.0)
-             /3.0;
+             /(3.0*(gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
    }
 
    else if((valenceOrbitalA == dxy && valenceOrbitalB == dyz) ||
            (valenceOrbitalA == dyz && valenceOrbitalB == dxy)){
       double temp = 0.5;
-      temp -= gaussianExponentA*gaussianExponentB*pow(dy,2.0)/(gaussianExponentA+gaussianExponentB);
+      temp -= gaussianExponentA*gaussianExponentB*(dy*dy)/(gaussianExponentA+gaussianExponentB);
       value = -16.0*pow(gaussianExponentA*gaussianExponentB,2.0)
              *pow(gaussianExponentA+gaussianExponentB,-3.0)
              *dx*dz*temp;
@@ -4897,7 +4914,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
    else if((valenceOrbitalA == dyz && valenceOrbitalB == dzx) ||
            (valenceOrbitalA == dzx && valenceOrbitalB == dyz)){
       double temp = 0.5;
-      temp -= gaussianExponentA*gaussianExponentB*pow(dz,2.0)/(gaussianExponentA+gaussianExponentB);
+      temp -= gaussianExponentA*gaussianExponentB*(dz*dz)/(gaussianExponentA+gaussianExponentB);
       value = -16.0*pow(gaussianExponentA*gaussianExponentB,2.0)
              *pow(gaussianExponentA+gaussianExponentB,-3.0)
              *dy*dx*temp;
@@ -4905,7 +4922,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
    else if((valenceOrbitalA == dzx && valenceOrbitalB == dxy) ||
            (valenceOrbitalA == dxy && valenceOrbitalB == dzx)){
       double temp = 0.5;
-      temp -= gaussianExponentA*gaussianExponentB*pow(dx,2.0)/(gaussianExponentA+gaussianExponentB);
+      temp -= gaussianExponentA*gaussianExponentB*(dx*dx)/(gaussianExponentA+gaussianExponentB);
       value = -16.0*pow(gaussianExponentA*gaussianExponentB,2.0)
              *pow(gaussianExponentA+gaussianExponentB,-3.0)
              *dz*dy*temp;
@@ -4922,7 +4939,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp = 2.0*gaussianExponentA*gaussianExponentB;
       value = pow(temp,3.0)*(dy*dz*(gaussianExponentA+gaussianExponentB)
                             /(gaussianExponentA*gaussianExponentB)
-                             +(pow(dx,2.0)*dy*dz - pow(dy,3.0)*dz))
+                             +((dx*dx)*dy*dz - pow(dy,3.0)*dz))
              *pow(gaussianExponentA+gaussianExponentB,-4.0);
    }
    else if((valenceOrbitalA == dxxyy && valenceOrbitalB == dzx) ||
@@ -4930,13 +4947,13 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
       double temp = 2.0*gaussianExponentA*gaussianExponentB;
       value = -1.0*pow(temp,3.0)*(dx*dz*(gaussianExponentA+gaussianExponentB)
                             /(gaussianExponentA*gaussianExponentB)
-                             +(pow(dy,2.0)*dx*dz - pow(dx,3.0)*dz))
+                             +((dy*dy)*dx*dz - pow(dx,3.0)*dz))
              *pow(gaussianExponentA+gaussianExponentB,-4.0);
    }
 
    else if((valenceOrbitalA == dzz && valenceOrbitalB == dxy) ||
            (valenceOrbitalA == dxy && valenceOrbitalB == dzz)){
-      double temp = 2.0*dx*dy*pow(dz,2.0) - pow(dx,3.0)*dy - dx*pow(dy,3.0);
+      double temp = 2.0*dx*dy*(dz*dz) - pow(dx,3.0)*dy - dx*pow(dy,3.0);
       temp *= gaussianExponentA*gaussianExponentB/(gaussianExponentA+gaussianExponentB);
       temp += 2.0*dx*dy;
       value = 8.0*pow(gaussianExponentA*gaussianExponentB,2.0)*temp;
@@ -4945,7 +4962,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
    else if((valenceOrbitalA == dzz && valenceOrbitalB == dyz) ||
            (valenceOrbitalA == dyz && valenceOrbitalB == dzz)){
       double temp1 = -1.0*dy*dz;
-      double temp2 = 2.0*dy*pow(dz,3.0) - pow(dy,3.0)*dz - pow(dx,2.0)*dy*dz;
+      double temp2 = 2.0*dy*pow(dz,3.0) - pow(dy,3.0)*dz - (dx*dx)*dy*dz;
       temp2 *= gaussianExponentA*gaussianExponentB/(gaussianExponentA+gaussianExponentB);
       temp1 += temp2;
       value = 8.0*pow(gaussianExponentA*gaussianExponentB,2.0)*temp1;
@@ -4954,7 +4971,7 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
    else if((valenceOrbitalA == dzz && valenceOrbitalB == dzx) ||
            (valenceOrbitalA == dzx && valenceOrbitalB == dzz)){
       double temp1 = -1.0*dx*dz;
-      double temp2 = 2.0*dx*pow(dz,3.0) - pow(dx,3.0)*dz - pow(dy,2.0)*dx*dz;
+      double temp2 = 2.0*dx*pow(dz,3.0) - pow(dx,3.0)*dz - (dy*dy)*dx*dz;
       temp2 *= gaussianExponentA*gaussianExponentB/(gaussianExponentA+gaussianExponentB);
       temp1 += temp2;
       value = 8.0*pow(gaussianExponentA*gaussianExponentB,2.0)*temp1;
@@ -4962,12 +4979,12 @@ double Cndo2::GetGaussianOverlapAOs(AtomType atomTypeA,
    }
    else if((valenceOrbitalA == dxxyy && valenceOrbitalB == dzz) ||
            (valenceOrbitalA == dzz && valenceOrbitalB == dxxyy)){
-      double temp = 2.0*pow(dz,2.0)-pow(dx,2.0)-pow(dy,2.0);
+      double temp = 2.0*(dz*dz)-(dx*dx)-(dy*dy);
       temp *= gaussianExponentA*gaussianExponentB/(gaussianExponentA+gaussianExponentB);
       temp += 2.0;
       value = 4.0*pow(gaussianExponentA*gaussianExponentB,2.0);
       value /= sqrt(3.0)*pow(gaussianExponentA+gaussianExponentB,3.0);
-      value *= (pow(dx,2.0)-pow(dy,2.0))*temp;
+      value *= ((dx*dx)-(dy*dy))*temp;
    }
 
    else{
@@ -5000,7 +5017,7 @@ double Cndo2::GetOverlapAOsElement1stDerivativeByGTOExpansion(const Atom& atomA,
    double dx = atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis];
    double dy = atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis];
    double dz = atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis];
-   double rAB = sqrt( pow(dx, 2.0) + pow(dy, 2.0) + pow(dz,2.0) );
+   double rAB = sqrt( dx*dx + dy*dy + dz*dz );
    ShellType shellTypeA = atomA.GetValenceShellType();
    ShellType shellTypeB = atomB.GetValenceShellType();
    OrbitalType valenceOrbitalA = atomA.GetValence(valenceIndexA);
@@ -5025,12 +5042,12 @@ double Cndo2::GetOverlapAOsElement1stDerivativeByGTOExpansion(const Atom& atomA,
                                                                 shellTypeB, 
                                                                 valenceOrbitalB, 
                                                                 j); 
-         gaussianExponentA = pow(orbitalExponentA, 2.0) 
+         gaussianExponentA = (orbitalExponentA*orbitalExponentA) 
                             *GTOExpansionSTO::GetInstance()->GetExponent(stonG, 
                                                                          shellTypeA, 
                                                                          valenceOrbitalA, 
                                                                          i);
-         gaussianExponentB = pow(orbitalExponentB, 2.0)
+         gaussianExponentB = (orbitalExponentB*orbitalExponentB)
                             *GTOExpansionSTO::GetInstance()->GetExponent(stonG, 
                                                                          shellTypeB, 
                                                                          valenceOrbitalB, 
@@ -5079,10 +5096,10 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       }
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == px){
-      double temp1 = 4.0*pow(gaussianExponentA,2.0)*pow(gaussianExponentB, 1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 4.0*(gaussianExponentA*gaussianExponentA)*gaussianExponentB*sqrt(gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
-         double temp2 = 2.0*gaussianExponentA*pow(gaussianExponentB, 0.5)
+         double temp2 = 2.0*gaussianExponentA*sqrt(gaussianExponentB)
                         /(gaussianExponentA+gaussianExponentB);
          value = temp2-temp1*dx*dx;
       }
@@ -5094,13 +5111,13 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       }
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == py){
-      double temp1 = 4.0*pow(gaussianExponentA,2.0)*pow(gaussianExponentB, 1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 4.0*(gaussianExponentA*gaussianExponentA)*gaussianExponentB*sqrt(gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = -1.0*temp1*dx*dy;
       }
       else if(axisA == YAxis){
-         double temp2 = 2.0*gaussianExponentA*pow(gaussianExponentB, 0.5)
+         double temp2 = 2.0*gaussianExponentA*sqrt(gaussianExponentB)
                         /(gaussianExponentA+gaussianExponentB);
          value = temp2-temp1*dy*dy;
       }
@@ -5109,8 +5126,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       }
    }
    else if(valenceOrbitalA == s && valenceOrbitalB == pz){
-      double temp1 = 4.0*pow(gaussianExponentA,2.0)*pow(gaussianExponentB, 1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 4.0*(gaussianExponentA*gaussianExponentA)*gaussianExponentB*sqrt(gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = -1.0*temp1*dx*dz;
       }
@@ -5118,16 +5135,17 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
          value = -1.0*temp1*dy*dz;
       }
       else if(axisA == ZAxis){
-         double temp2 = 2.0*gaussianExponentA*pow(gaussianExponentB, 0.5)
+         double temp2 = 2.0*gaussianExponentA*sqrt(gaussianExponentB)
                         /(gaussianExponentA+gaussianExponentB);
          value = temp2-temp1*dz*dz;
       }
    }
    else if(valenceOrbitalA == px && valenceOrbitalB == s){
-      double temp1 = 4.0*pow(gaussianExponentA,1.5)*pow(gaussianExponentB, 2.0)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 4.0*gaussianExponentA*sqrt(gaussianExponentA)
+                    *gaussianExponentB*gaussianExponentB
+                    /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
-         double temp2 = 2.0*pow(gaussianExponentA,0.5)*gaussianExponentB
+         double temp2 = 2.0*sqrt(gaussianExponentA)*gaussianExponentB
                         /(gaussianExponentA+gaussianExponentB);
          value = -1.0*temp2+temp1*dx*dx;
       }
@@ -5139,13 +5157,14 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       }
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == s){
-      double temp1 = 4.0*pow(gaussianExponentA,1.5)*pow(gaussianExponentB, 2.0)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 4.0*gaussianExponentA*sqrt(gaussianExponentA)
+                    *gaussianExponentB*gaussianExponentB
+                    /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = temp1*dx*dy;
       }
       else if(axisA == YAxis){
-         double temp2 = 2.0*pow(gaussianExponentA,0.5)*gaussianExponentB
+         double temp2 = 2.0*sqrt(gaussianExponentA)*gaussianExponentB
                         /(gaussianExponentA+gaussianExponentB);
          value = -1.0*temp2+temp1*dy*dy;
       }
@@ -5154,8 +5173,9 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       }
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == s){
-      double temp1 = 4.0*pow(gaussianExponentA,1.5)*pow(gaussianExponentB, 2.0)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 4.0*gaussianExponentA*sqrt(gaussianExponentA)
+                    *gaussianExponentB*gaussianExponentB
+                    /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = temp1*dx*dz;
       }
@@ -5163,7 +5183,7 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
          value = temp1*dy*dz;
       }
       else if(axisA == ZAxis){
-         double temp2 = 2.0*pow(gaussianExponentA,0.5)*gaussianExponentB
+         double temp2 = 2.0*sqrt(gaussianExponentA)*gaussianExponentB
                         /(gaussianExponentA+gaussianExponentB);
          value = -1.0*temp2+temp1*dz*dz;
       }
@@ -5171,8 +5191,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
    else if(valenceOrbitalA == px && valenceOrbitalB == py){
       double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,2.5)
                      /pow(gaussianExponentA+gaussianExponentB,3.0);
-      double temp2 = 4.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp2 = 4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = -1.0*temp2*dy+temp1*dx*dx*dy;
       }
@@ -5186,8 +5206,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
    else if(valenceOrbitalA == py && valenceOrbitalB == px){
       double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,2.5)
                      /pow(gaussianExponentA+gaussianExponentB,3.0);
-      double temp2 = 4.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp2 = 4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = -1.0*temp2*dy+temp1*dy*dx*dx;
       }
@@ -5201,8 +5221,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
    else if(valenceOrbitalA == px && valenceOrbitalB == pz){
       double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,2.5)
                      /pow(gaussianExponentA+gaussianExponentB,3.0);
-      double temp2 = 4.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp2 = 4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = -1.0*temp2*dz+temp1*dx*dx*dz;
       }
@@ -5216,8 +5236,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
    else if(valenceOrbitalA == pz && valenceOrbitalB == px){
       double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,2.5)
                      /pow(gaussianExponentA+gaussianExponentB,3.0);
-      double temp2 = 4.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp2 = 4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = -1.0*temp2*dz+temp1*dz*dx*dx;
       }
@@ -5231,8 +5251,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
    else if(valenceOrbitalA == py && valenceOrbitalB == pz){
       double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,2.5)
                      /pow(gaussianExponentA+gaussianExponentB,3.0);
-      double temp2 = 4.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp2 = 4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = temp1*dx*dy*dz;
       }
@@ -5246,8 +5266,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
    else if(valenceOrbitalA == pz && valenceOrbitalB == py){
       double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,2.5)
                      /pow(gaussianExponentA+gaussianExponentB,3.0);
-      double temp2 = 4.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp2 = 4.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       if(axisA == XAxis){
          value = temp1*dx*dy*dz;
       }
@@ -5259,8 +5279,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       }
    }
    else if(valenceOrbitalA == px && valenceOrbitalB == px){
-      double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 8.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       double temp2 = gaussianExponentA*gaussianExponentB
                      /(gaussianExponentA+gaussianExponentB); 
       if(axisA == XAxis){
@@ -5274,8 +5294,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       }
    }
    else if(valenceOrbitalA == py && valenceOrbitalB == py){
-      double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 8.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       double temp2 = gaussianExponentA*gaussianExponentB
                      /(gaussianExponentA+gaussianExponentB); 
       if(axisA == XAxis){
@@ -5289,8 +5309,8 @@ double Cndo2::GetGaussianOverlapAOs1stDerivative(AtomType atomTypeA,
       }
    }
    else if(valenceOrbitalA == pz && valenceOrbitalB == pz){
-      double temp1 = 8.0*pow(gaussianExponentA*gaussianExponentB,1.5)
-                     /pow(gaussianExponentA+gaussianExponentB,2.0);
+      double temp1 = 8.0*gaussianExponentA*gaussianExponentB*sqrt(gaussianExponentA*gaussianExponentB)
+                     /((gaussianExponentA+gaussianExponentB)*(gaussianExponentA+gaussianExponentB));
       double temp2 = gaussianExponentA*gaussianExponentB
                      /(gaussianExponentA+gaussianExponentB); 
       if(axisA == XAxis){
@@ -5361,15 +5381,15 @@ void Cndo2::CalcRotatingMatrix(double** rotatingMatrix,
    // rotating matrix for d-function
    // dMatrix is (37) in J. Mol. Strct. 419, 19(1997) (ref. [BFB_1997])
    double dMatrix[OrbitalType_end][OrbitalType_end];
-   dMatrix[dzz][dzz] = 0.5*(3.0*pow(cos(beta),2.0) - 1.0);
-   dMatrix[dxxyy][dxxyy] = pow(cos(0.5*beta),4.0);
-   dMatrix[dzx][dzx] = (2.0*cos(beta)-1.0)*pow(cos(0.5*beta),2.0);
-   dMatrix[dxxyy][dzx] = -2.0*sin(0.5*beta)*pow(cos(0.5*beta),3.0);
-   dMatrix[dxxyy][dzz] = sqrt(6.0)*pow(sin(0.5*beta),2.0)*pow(cos(0.5*beta),2.0);
-   dMatrix[dxxyy][dyz] = -2.0*pow(sin(0.5*beta),3.0)*pow(cos(0.5*beta),1.0);
-   dMatrix[dxxyy][dxy] = pow(sin(0.5*beta),4.0);
+   dMatrix[dzz][dzz] = 0.5*(3.0*(cos(beta)*cos(beta)) - 1.0);
+   dMatrix[dxxyy][dxxyy] = cos(0.5*beta)*cos(0.5*beta)*cos(0.5*beta)*cos(0.5*beta);
+   dMatrix[dzx][dzx] = (2.0*cos(beta)-1.0)*cos(0.5*beta)*cos(0.5*beta);
+   dMatrix[dxxyy][dzx] = -2.0*sin(0.5*beta)*cos(0.5*beta)*cos(0.5*beta)*cos(0.5*beta);
+   dMatrix[dxxyy][dzz] = sqrt(6.0)*(sin(0.5*beta)*sin(0.5*beta))*((cos(0.5*beta))*(cos(0.5*beta)));
+   dMatrix[dxxyy][dyz] = -2.0*sin(0.5*beta)*sin(0.5*beta)*sin(0.5*beta)*cos(0.5*beta);
+   dMatrix[dxxyy][dxy] = sin(0.5*beta)*sin(0.5*beta)*sin(0.5*beta)*sin(0.5*beta);
    dMatrix[dzx][dzz] = -sqrt(6.0)*cos(beta)*cos(0.5*beta)*sin(0.5*beta);
-   dMatrix[dzx][dyz] = (2.0*cos(beta)+1.0)*pow(sin(0.5*beta),2.0);
+   dMatrix[dzx][dyz] = (2.0*cos(beta)+1.0)*(sin(0.5*beta)*sin(0.5*beta));
 
    rotatingMatrix[dxy][dxy] = cos(2.0*alpha)*            (dMatrix[dxxyy][dxxyy] - dMatrix[dxxyy][dxy]);
    rotatingMatrix[dxy][dyz] = cos(2.0*alpha)*            (-1.0*dMatrix[dxxyy][dzx] - dMatrix[dxxyy][dyz]);
@@ -5420,8 +5440,8 @@ void Cndo2::CalcRotatingMatrix1stDerivatives(double*** rotMat1stDerivatives,
    double x = atomB.GetXyz()[0] - atomA.GetXyz()[0];
    double y = atomB.GetXyz()[1] - atomA.GetXyz()[1];
    double z = atomB.GetXyz()[2] - atomA.GetXyz()[2];
-   double r = sqrt( pow(x,2.0) + pow(y,2.0) );
-   double R = sqrt( pow(x,2.0) + pow(y,2.0) + pow(z,2.0) );
+   double r = sqrt( x*x + y*y );
+   double R = sqrt( x*x + y*y + z*z );
 
    if(r==0e0){
       return;
@@ -5433,43 +5453,43 @@ void Cndo2::CalcRotatingMatrix1stDerivatives(double*** rotMat1stDerivatives,
    rotMat1stDerivatives[s][s][ZAxis] = 0.0;
 
    // for p-function
-   rotMat1stDerivatives[py][py][XAxis] = -1.0/r + pow(x,2.0)/pow(r,3.0);
-   rotMat1stDerivatives[py][pz][XAxis] = x*y/pow(R,3.0);
-   rotMat1stDerivatives[py][px][XAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*x*y*z;
+   rotMat1stDerivatives[py][py][XAxis] = -1.0/r + x*x/(r*r*r);
+   rotMat1stDerivatives[py][pz][XAxis] = x*y/(R*R*R);
+   rotMat1stDerivatives[py][px][XAxis] = (1.0/(r*r*r*R) + 1.0/(R*R*R*r))*x*y*z;
 
    rotMat1stDerivatives[pz][py][XAxis] = 0.0;
-   rotMat1stDerivatives[pz][pz][XAxis] = x*z/pow(R,3.0);
-   rotMat1stDerivatives[pz][px][XAxis] = x/(r*R) - x*r/pow(R,3.0);
+   rotMat1stDerivatives[pz][pz][XAxis] = x*z/(R*R*R);
+   rotMat1stDerivatives[pz][px][XAxis] = x/(r*R) - x*r/(R*R*R);
 
-   rotMat1stDerivatives[px][py][XAxis] = -1.0*x*y/pow(r,3.0);
-   rotMat1stDerivatives[px][pz][XAxis] = -1.0/R + x*x/pow(R,3.0); 
+   rotMat1stDerivatives[px][py][XAxis] = -1.0*x*y/(r*r*r);
+   rotMat1stDerivatives[px][pz][XAxis] = -1.0/R + x*x/(R*R*R); 
    rotMat1stDerivatives[px][px][XAxis] = -1.0*z/(r*R) + 
-                                  (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*x*x*z;
+                                         (1.0/(r*r*r*R) + 1.0/(R*R*R*r))*x*x*z;
 
-   rotMat1stDerivatives[py][py][YAxis] = x*y/pow(r,3.0);
-   rotMat1stDerivatives[py][pz][YAxis] = -1.0/R + y*y/pow(R,3.0);
+   rotMat1stDerivatives[py][py][YAxis] = x*y/(r*r*r);
+   rotMat1stDerivatives[py][pz][YAxis] = -1.0/R + y*y/(R*R*R);
    rotMat1stDerivatives[py][px][YAxis] = -1.0*z/(r*R) +
-                                  (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*y*y*z;
+                                         (1.0/(r*r*r*R) + 1.0/(R*R*R*r))*y*y*z;
 
    rotMat1stDerivatives[pz][py][YAxis] = 0.0;
-   rotMat1stDerivatives[pz][pz][YAxis] = y*z/pow(R,3.0); 
-   rotMat1stDerivatives[pz][px][YAxis] = y/(r*R) - y*r/pow(R,3.0);
+   rotMat1stDerivatives[pz][pz][YAxis] = y*z/(R*R*R); 
+   rotMat1stDerivatives[pz][px][YAxis] = y/(r*R) - y*r/(R*R*R);
 
-   rotMat1stDerivatives[px][py][YAxis] = 1.0/r - y*y/pow(r,3.0);
-   rotMat1stDerivatives[px][pz][YAxis] = x*y/pow(R,3.0);
-   rotMat1stDerivatives[px][px][YAxis] = (1.0/(pow(r,3.0)*R) + 1.0/(pow(R,3.0)*r))*x*y*z;
+   rotMat1stDerivatives[px][py][YAxis] = 1.0/r - y*y/(r*r*r);
+   rotMat1stDerivatives[px][pz][YAxis] = x*y/(R*R*R);
+   rotMat1stDerivatives[px][px][YAxis] = (1.0/(r*r*r*R) + 1.0/(R*R*R*r))*x*y*z;
 
    rotMat1stDerivatives[py][py][ZAxis] = 0.0;
-   rotMat1stDerivatives[py][pz][ZAxis] = y*z/pow(R,3.0);
-   rotMat1stDerivatives[py][px][ZAxis] = -1.0*y/(r*R) + y*z*z/(r*pow(R,3.0));
+   rotMat1stDerivatives[py][pz][ZAxis] = y*z/(R*R*R);
+   rotMat1stDerivatives[py][px][ZAxis] = -1.0*y/(r*R) + y*z*z/(r*R*R*R);
 
    rotMat1stDerivatives[pz][py][ZAxis] = 0.0;
-   rotMat1stDerivatives[pz][pz][ZAxis] = -1.0/R + z*z/pow(R,3.0); 
-   rotMat1stDerivatives[pz][px][ZAxis] = -1.0*z*r/pow(R,3.0);
+   rotMat1stDerivatives[pz][pz][ZAxis] = -1.0/R + z*z/(R*R*R); 
+   rotMat1stDerivatives[pz][px][ZAxis] = -1.0*z*r/(R*R*R);
 
    rotMat1stDerivatives[px][py][ZAxis] = 0.0;
-   rotMat1stDerivatives[px][pz][ZAxis] = x*z/pow(R,3.0);
-   rotMat1stDerivatives[px][px][ZAxis] = -1.0*x/(r*R) + x*z*z/(r*pow(R,3.0));
+   rotMat1stDerivatives[px][pz][ZAxis] = x*z/(R*R*R);
+   rotMat1stDerivatives[px][px][ZAxis] = -1.0*x/(r*R) + x*z*z/(r*R*R*R);
 
    // for d-function
    // ToDo: First derivative of rotating matrix for d-orbital...
@@ -5495,16 +5515,16 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    double x = atomB.GetXyz()[0] - atomA.GetXyz()[0];
    double y = atomB.GetXyz()[1] - atomA.GetXyz()[1];
    double z = atomB.GetXyz()[2] - atomA.GetXyz()[2];
-   double r = sqrt( pow(x,2.0) + pow(y,2.0) );
-   double R = sqrt( pow(x,2.0) + pow(y,2.0) + pow(z,2.0) );
+   double r = sqrt( x*x + y*y );
+   double R = sqrt( x*x + y*y + z*z );
 
    if(r==0e0){
       return;
    }
 
-   double temp1 = 1.0/(pow(r,3.0)*R) + 1.0/(r*pow(R,3.0));
-   double temp2 = 2.0*pow(r*R,-3.0) + 3.0/(pow(r,5.0)*R) + 3.0/(r*pow(R,5.0));
-   double temp3 = pow(r*R,-3.0) + 3.0/(r*pow(R,5.0));
+   double temp1 = 1.0/(r*r*r*R) + 1.0/(r*R*R*R);
+   double temp2 = 2.0/(r*r*r*R*R*R) + 3.0/(r*r*r*r*r*R) + 3.0/(r*R*R*R*R*R);
+   double temp3 = 1.0/(r*r*r*R*R*R) + 3.0/(r*R*R*R*R*R);
 
    // for s-function
    rotMat2ndDerivatives[s][s][XAxis][XAxis] = 0.0;
@@ -5518,29 +5538,29 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    rotMat2ndDerivatives[s][s][ZAxis][ZAxis] = 0.0;
 
    // for p-function, xx-derivatives
-   rotMat2ndDerivatives[py][py][XAxis][XAxis] = -3.0*x*pow(r,-3.0) + 3.0*pow(x,3.0)*pow(r,-5.0);
-   rotMat2ndDerivatives[py][pz][XAxis][XAxis] = -1.0*y*pow(R,-3.0) + 3.0*pow(x,2.0)*y*pow(R,-5.0);
-   rotMat2ndDerivatives[py][px][XAxis][XAxis] = -1.0*temp1*y*z+temp2*pow(x,2.0)*y*z;
+   rotMat2ndDerivatives[py][py][XAxis][XAxis] = -3.0*x/(r*r*r) + 3.0*x*x*x/(r*r*r*r*r);
+   rotMat2ndDerivatives[py][pz][XAxis][XAxis] = -1.0*y/(R*R*R) + 3.0*x*x*y/(R*R*R*R*R);
+   rotMat2ndDerivatives[py][px][XAxis][XAxis] = -1.0*temp1*y*z+temp2*x*x*y*z;
                                               
    rotMat2ndDerivatives[pz][py][XAxis][XAxis] = 0.0;
-   rotMat2ndDerivatives[pz][pz][XAxis][XAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(x,2.0)*z*pow(R,-5.0);
-   rotMat2ndDerivatives[pz][px][XAxis][XAxis] = -1.0*pow(r*R,-1.0) + temp1*pow(x,2.0)
-                                                   +r*pow(R,-3.0) - 3.0*pow(x,2.0)*r*pow(R,-5.0) + pow(x,2.0)*pow(r,-1.0)*pow(R,-3.0);
+   rotMat2ndDerivatives[pz][pz][XAxis][XAxis] = -1.0*z/(R*R*R) + 3.0*x*x*z/(R*R*R*R*R);
+   rotMat2ndDerivatives[pz][px][XAxis][XAxis] = -1.0/(r*R) + temp1*x*x
+                                                   +r/(R*R*R) - 3.0*x*x*r/(R*R*R*R*R) + x*x/(r*R*R*R);
                                               
-   rotMat2ndDerivatives[px][py][XAxis][XAxis] = y*pow(r,-3.0) - 3.0*pow(x,2.0)*y*pow(r,-5.0);
-   rotMat2ndDerivatives[px][pz][XAxis][XAxis] = -3.0*x*pow(R,-3.0) + 3.0*pow(x,3.0)*pow(R,-5.0);
-   rotMat2ndDerivatives[px][px][XAxis][XAxis] = -3.0*temp1*x*z+temp2*pow(x,3.0)*z;
+   rotMat2ndDerivatives[px][py][XAxis][XAxis] = y/(r*r*r) - 3.0*x*x*y/(r*r*r*r*r);
+   rotMat2ndDerivatives[px][pz][XAxis][XAxis] = -3.0*x/(R*R*R) + 3.0*x*x*x/(R*R*R*R*R);
+   rotMat2ndDerivatives[px][px][XAxis][XAxis] = -3.0*temp1*x*z+temp2*x*x*x*z;
 
    // for p-function, xy-derivatives
-   rotMat2ndDerivatives[py][py][XAxis][YAxis] = -1.0*y*pow(r,-3.0) + 3.0*pow(x,2.0)*y*pow(r,-5.0);
-   rotMat2ndDerivatives[py][pz][XAxis][YAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(y,2.0)*pow(R,-5.0);  
-   rotMat2ndDerivatives[py][px][XAxis][YAxis] = -1.0*temp1*x*z+temp2*x*pow(y,2.0)*z;
+   rotMat2ndDerivatives[py][py][XAxis][YAxis] = -1.0*y/(r*r*r) + 3.0*x*x*y/(r*r*r*r*r);
+   rotMat2ndDerivatives[py][pz][XAxis][YAxis] = -1.0*x/(R*R*R) + 3.0*x*y*y/(R*R*R*R*R);  
+   rotMat2ndDerivatives[py][px][XAxis][YAxis] = -1.0*temp1*x*z+temp2*x*y*y*z;
                                               
    rotMat2ndDerivatives[pz][py][XAxis][YAxis] = 0.0;
-   rotMat2ndDerivatives[pz][pz][XAxis][YAxis] = 3.0*x*y*z*pow(R,-5.0);
-   rotMat2ndDerivatives[pz][px][XAxis][YAxis] = temp1*x*y + x*y*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*y*r*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][pz][XAxis][YAxis] = 3.0*x*y*z/(R*R*R*R*R);
+   rotMat2ndDerivatives[pz][px][XAxis][YAxis] = temp1*x*y + x*y/(r*R*R*R) - 3.0*x*y*r/(R*R*R*R*R);
                                               
-   rotMat2ndDerivatives[px][py][XAxis][YAxis] = x*pow(r,-3.0) - 3.0*x*pow(y,2.0)*pow(r,-5.0);
+   rotMat2ndDerivatives[px][py][XAxis][YAxis] = x/(r*r*r) - 3.0*x*y*y/(r*r*r*r*r);
    rotMat2ndDerivatives[px][pz][XAxis][YAxis] = rotMat2ndDerivatives[py][pz][XAxis][XAxis];
    rotMat2ndDerivatives[px][px][XAxis][YAxis] = rotMat2ndDerivatives[py][px][XAxis][XAxis];
 
@@ -5553,16 +5573,16 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    // for p-function, xz-derivatives
    rotMat2ndDerivatives[py][py][XAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[py][pz][XAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][YAxis];
-   rotMat2ndDerivatives[py][px][XAxis][ZAxis] = -1.0*temp1*x*y +temp3*x*y*pow(z,2.0);
+   rotMat2ndDerivatives[py][px][XAxis][ZAxis] = -1.0*temp1*x*y +temp3*x*y*z*z;
                                               
    rotMat2ndDerivatives[pz][py][XAxis][ZAxis] = 0.0;
-   rotMat2ndDerivatives[pz][pz][XAxis][ZAxis] = -1.0*x*pow(R,-3.0) + 3.0*x*pow(z,2.0)*pow(R,-5.0); 
-   rotMat2ndDerivatives[pz][px][XAxis][ZAxis] = x*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*x*z*r*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][pz][XAxis][ZAxis] = -1.0*x/(R*R*R) + 3.0*x*z*z/(R*R*R*R*R); 
+   rotMat2ndDerivatives[pz][px][XAxis][ZAxis] = x*z/(r*R*R*R) - 3.0*x*z*r/(R*R*R*R*R);
                                               
    rotMat2ndDerivatives[px][py][XAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[px][pz][XAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][XAxis];
-   rotMat2ndDerivatives[px][px][XAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
-                                                   -1.0*temp1*pow(x,2.0)+temp3*pow(x*z,2.0);
+   rotMat2ndDerivatives[px][px][XAxis][ZAxis] = 1.0/(r*R) - z*z/(r*R*R*R)
+                                                   -1.0*temp1*x*x+temp3*x*x*z*z;
 
 
    // for p-function, zx-derivatives
@@ -5573,32 +5593,32 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    }
 
    // for p-function, yy-derivatives
-   rotMat2ndDerivatives[py][py][YAxis][YAxis] = -1.0*x*pow(r,-3.0) + 3.0*x*pow(y,2.0)*pow(r,-5.0); 
-   rotMat2ndDerivatives[py][pz][YAxis][YAxis] = -3.0*y*pow(R,-3.0) + 3.0*pow(y,3.0)*pow(R,-5.0);
-   rotMat2ndDerivatives[py][px][YAxis][YAxis] = -3.0*temp1*y*z+temp2*pow(y,3.0)*z;
+   rotMat2ndDerivatives[py][py][YAxis][YAxis] = -1.0*x/(r*r*r) + 3.0*x*y*y/(r*r*r*r*r); 
+   rotMat2ndDerivatives[py][pz][YAxis][YAxis] = -3.0*y/(R*R*R) + 3.0*y*y*y/(R*R*R*R*R);
+   rotMat2ndDerivatives[py][px][YAxis][YAxis] = -3.0*temp1*y*z+temp2*y*y*y*z;
                                               
    rotMat2ndDerivatives[pz][py][YAxis][YAxis] = 0.0;
-   rotMat2ndDerivatives[pz][pz][YAxis][YAxis] = -1.0*z*pow(R,-3.0) + 3.0*pow(y,2.0)*z*pow(R,-5.0);
-   rotMat2ndDerivatives[pz][px][YAxis][YAxis] = -1.0*pow(r*R,-1.0) + temp1*pow(y,2.0)
-                                                   +r*pow(R,-3.0) - 3.0*pow(y,2.0)*r*pow(R,-5.0) + pow(y,2.0)*pow(r,-1.0)*pow(R,-3.0);
+   rotMat2ndDerivatives[pz][pz][YAxis][YAxis] = -1.0*z/(R*R*R) + 3.0*y*y*z/(R*R*R*R*R);
+   rotMat2ndDerivatives[pz][px][YAxis][YAxis] = -1.0/(r*R) + temp1*y*y
+                                                   +r/(R*R*R) - 3.0*y*y*r/(R*R*R*R*R) + y*y/(r*R*R*R);
                                               
-   rotMat2ndDerivatives[px][py][YAxis][YAxis] = 3.0*y*pow(r,-3.0) - 3.0*pow(y,3.0)*pow(r,-5.0);
+   rotMat2ndDerivatives[px][py][YAxis][YAxis] = 3.0*y/(r*r*r) - 3.0*y*y*y/(r*r*r*r*r);
    rotMat2ndDerivatives[px][pz][YAxis][YAxis] = rotMat2ndDerivatives[py][pz][XAxis][YAxis];
-   rotMat2ndDerivatives[px][px][YAxis][YAxis] = -1.0*temp1*x*z+temp2*x*pow(y,2.0)*z;
+   rotMat2ndDerivatives[px][px][YAxis][YAxis] = -1.0*temp1*x*z+temp2*x*y*y*z;
                
    // for p-function, yz-derivatives
    rotMat2ndDerivatives[py][py][YAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[py][pz][YAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][YAxis][YAxis];
-   rotMat2ndDerivatives[py][px][YAxis][ZAxis] = pow(r*R,-1.0) - pow(z,2.0)*pow(r,-1.0)*pow(R,-3.0)
-                                                   -1.0*temp1*pow(y,2.0)+temp3*pow(y*z,2.0);
+   rotMat2ndDerivatives[py][px][YAxis][ZAxis] = 1.0/(r*R) - z*z/(r*R*R*R)
+                                                   -1.0*temp1*y*y+temp3*y*y*z*z;
                                               
    rotMat2ndDerivatives[pz][py][YAxis][ZAxis] = 0.0;
-   rotMat2ndDerivatives[pz][pz][YAxis][ZAxis] = -1.0*y*pow(R,-3.0) + 3.0*y*pow(z,2.0)*pow(R,-5.0);
-   rotMat2ndDerivatives[pz][px][YAxis][ZAxis] = y*z*pow(r,-1.0)*pow(R,-3.0) - 3.0*y*z*r*pow(R,-5.0);
+   rotMat2ndDerivatives[pz][pz][YAxis][ZAxis] = -1.0*y/(R*R*R) + 3.0*y*z*z/(R*R*R*R*R);
+   rotMat2ndDerivatives[pz][px][YAxis][ZAxis] = y*z/(r*R*R*R) - 3.0*y*z*r/(R*R*R*R*R);
                                               
    rotMat2ndDerivatives[px][py][YAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[px][pz][YAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][YAxis];
-   rotMat2ndDerivatives[px][px][YAxis][ZAxis] = -1.0*temp1*x*y+temp3*x*y*pow(z,2.0);
+   rotMat2ndDerivatives[px][px][YAxis][ZAxis] = -1.0*temp1*x*y+temp3*x*y*z*z;
                                           
                
    // for p-function, zy-derivatives
@@ -5611,15 +5631,15 @@ void Cndo2::CalcRotatingMatrix2ndDerivatives(double**** rotMat2ndDerivatives,
    // for p-function, zz-derivatives
    rotMat2ndDerivatives[py][py][ZAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[py][pz][ZAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][YAxis][ZAxis];
-   rotMat2ndDerivatives[py][px][ZAxis][ZAxis] = -3.0*y*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*y*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
+   rotMat2ndDerivatives[py][px][ZAxis][ZAxis] = -3.0*y*z/(r*R*R*R) + 3.0*y*z*z*z/(r*R*R*R*R*R);
                                               
    rotMat2ndDerivatives[pz][py][ZAxis][ZAxis] = 0.0;
-   rotMat2ndDerivatives[pz][pz][ZAxis][ZAxis] = -3.0*z*pow(R,-3.0) + 3.0*pow(z,3.0)*pow(R,-5.0); 
-   rotMat2ndDerivatives[pz][px][ZAxis][ZAxis] = -3.0*pow(z,2.0)*r*pow(R,-5.0) + r*pow(R,-3.0);
+   rotMat2ndDerivatives[pz][pz][ZAxis][ZAxis] = -3.0*z/(R*R*R) + 3.0*z*z*z/(R*R*R*R*R); 
+   rotMat2ndDerivatives[pz][px][ZAxis][ZAxis] = -3.0*z*z*r/(R*R*R*R*R) + r/(R*R*R);
                                               
    rotMat2ndDerivatives[px][py][ZAxis][ZAxis] = 0.0;
    rotMat2ndDerivatives[px][pz][ZAxis][ZAxis] = rotMat2ndDerivatives[pz][pz][XAxis][ZAxis];
-   rotMat2ndDerivatives[px][px][ZAxis][ZAxis] = -3.0*x*z*pow(r,-1.0)*pow(R,-3.0) + 3.0*x*pow(z,3.0)*pow(r,-1.0)*pow(R,-5.0);
+   rotMat2ndDerivatives[px][px][ZAxis][ZAxis] = -3.0*x*z/(r*R*R*R) + 3.0*x*z*z*z/(r*R*R*R*R*R);
 
    // for d-function
    // ToDo: Second derivative of rotating matrix for d-orbital...
@@ -6275,7 +6295,8 @@ double Cndo2::GetAuxiliaryD(int la, int lb, int m) const{
       throw MolDSException(ss.str());
    }
 
-   double pre = pow(Factorial(m+1)/8.0, 2.0);
+   double tmp = Factorial(m+1)/8.0;
+   double pre = tmp*tmp;
    double termA = ( (2.0*la+1.0)*Factorial(la-m) ) / ( 2.0*Factorial(la+m) );
    double termB = ( (2.0*lb+1.0)*Factorial(lb-m) ) / ( 2.0*Factorial(lb+m) );
    value = pre*sqrt(termA)*sqrt(termB);
