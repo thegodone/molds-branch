@@ -1407,9 +1407,8 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
       for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
          int calcRank = mu%mpiSize;
          if(mpiRank == calcRank){
-            int maxThreads = omp_get_max_threads();
             stringstream ompErrors;
-#pragma omp parallel for schedule(auto) num_threads(maxThreads-1)
+#pragma omp parallel for schedule(auto)
             for(int B=A; B<totalNumberAtoms; B++){
                try{
                   const Atom& atomB = *molecule.GetAtom(B);
@@ -1627,9 +1626,8 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
          int na = atomA.GetValenceShellType() + 1;
          double orbitalExponentA = atomA.GetOrbitalExponent(
                                          atomA.GetValenceShellType(), s, this->theory);
-         int maxThreads = omp_get_max_threads();
          stringstream ompErrors;
-#pragma omp parallel for schedule(auto) num_threads(maxThreads-1)
+#pragma omp parallel for schedule(auto)
          for(int B=A; B<totalAtomNumber; B++){
             try{
                const Atom& atomB = *molecule.GetAtom(B);
@@ -1831,9 +1829,8 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
       if(mpiRank == calcRank){
          for(int a=0; a<numValenceAOsA; a++){
             int mu = firstAOIndexA + a;      
-            int maxThreads = omp_get_max_threads();
             stringstream ompErrors;
-#pragma omp parallel for schedule(auto) num_threads(maxThreads-1)
+#pragma omp parallel for schedule(auto)
             for(int B=0; B<totalAtomNumber; B++){
                try{
                   const Atom& atomB  = *molecule.GetAtom(B);
@@ -3949,9 +3946,8 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
       int numValenceAOs = atomA.GetValenceSize();
       int calcRank = A%mpiSize;
       if(mpiRank == calcRank){
-         int maxThreads = omp_get_max_threads();
          stringstream ompErrors;
-#pragma omp parallel num_threads(maxThreads-1)
+#pragma omp parallel 
          {
             double** diatomicOverlapAOs = NULL;
             double** rotatingMatrix = NULL;

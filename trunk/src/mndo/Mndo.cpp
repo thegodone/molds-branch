@@ -742,9 +742,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
       // single excitation from I-th (occupied)MO to A-th (virtual)MO
       int moI = this->GetActiveOccIndex(*this->molecule, k);
       int moA = this->GetActiveVirIndex(*this->molecule, k);
-      int maxThreads = omp_get_max_threads();
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto) num_threads(maxThreads-1)
+#pragma omp parallel for schedule(auto) 
       for(int l=k; l<this->matrixCISdimension; l++){
          try{
             // single excitation from J-th (occupied)MO to B-th (virtual)MO
@@ -2556,9 +2555,8 @@ void Mndo::CalcForce(const vector<int>& elecStates){
       const Atom& atomA = *molecule->GetAtom(a);
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
-      int maxThreads = omp_get_max_threads();
       stringstream ompErrors;
-#pragma omp parallel num_threads(maxThreads-1)
+#pragma omp parallel
       {
          double***   diatomicOverlapAOs1stDerivs = NULL;
          double***** diatomicTwoElecTwoCore1stDerivs = NULL;
@@ -3446,9 +3444,8 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
    for(int a=0; a<totalNumberAtoms; a++){
       int calcRank = a%mpiSize;
       if(mpiRank == calcRank){
-         int maxThreads = omp_get_max_threads();
          stringstream ompErrors;
-#pragma omp parallel num_threads(maxThreads-1)
+#pragma omp parallel 
          {
             double**** diatomicTwoElecTwoCore = NULL;
             double**   tmpRotMat              = NULL;
