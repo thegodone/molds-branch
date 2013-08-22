@@ -32,7 +32,6 @@
 #include"../mpi/MpiProcess.h"
 #include"../wrappers/Lapack.h"
 #include"MathUtilities.h"
-#include"MallocerFreer.h"
 using namespace std;
 
 namespace MolDS_base{
@@ -66,26 +65,6 @@ int Conbination(int n, int k){
    }
    else{
       return Factorial(n)/(Factorial(k)*Factorial(n-k));
-   }
-}
-
-// max
-template <typename T> T Max(T a, T b){
-   if(a<b){
-      return b;
-   }
-   else{
-      return a;
-   }
-}
-
-// min
-template <typename T> T min(T a, T b){
-   if(a<b){
-      return a;
-   }
-   else{
-      return b;
    }
 }
 
