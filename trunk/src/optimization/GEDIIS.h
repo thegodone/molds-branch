@@ -34,6 +34,7 @@ protected:
    std::string messageStartGEDIISStep;
    std::string messageTakingGEDIISStep;
    std::string messageTakingRFOStep;
+   std::string messageDiscardHistory;
 
    class GEDIISHistory{
    public:
