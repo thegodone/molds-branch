@@ -27,6 +27,9 @@ public:
    ~GEDIIS();
 protected:
    void SetMessages();
+
+   std::string messageStartGEDIISStep;
+
 private:
    virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
                               MolDS_base::Molecule& molecule,
