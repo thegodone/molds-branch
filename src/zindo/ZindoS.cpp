@@ -2063,7 +2063,7 @@ void ZindoS::UpdateExpansionVectors(double** expansionVectors,
       double temp = interactionEigenEnergies[residualVectorIndex]-this->matrixCIS[j][j];
       if(temp == 0.0){
          // prevent dividing by 0.
-         temp = pow(10,-100);
+         temp = 1e-100;
       }
       newExpansionVector[j]=pow(temp, -1.0)*residualVector[j];
    }
