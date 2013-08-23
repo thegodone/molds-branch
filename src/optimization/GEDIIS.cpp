@@ -66,13 +66,18 @@ void GEDIIS::SetMessages(){
       = "Error in optimization::GEDIIS::Optimize: Optimization did not met convergence criterion.\n";
    this->messageStartGEDIISStep
       = "\n==========  START: GEDIIS step ";
+   this->messageTakingGEDIISStep
+      = "Taking GEDIIS step.\n";
+   this->messageTakingRFOStep
+      = "Taking RFO step.\n";
+   this->messageDiscardHistory
+      = "GDIIS: Discarding all entries from history.\n";
 }
 
 void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
                            Molecule& molecule,
                            double* lineSearchedEnergy,
                            bool* obtainesOptimizedStructure) const {
-   throw MolDSException("GEDIIS not yet implemented");
    int elecState = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
    double dt = Parameters::GetInstance()->GetTimeWidthOptimization();
    int totalSteps = Parameters::GetInstance()->GetTotalStepsOptimization();
@@ -83,15 +88,19 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
    double const* const* matrixForce = NULL;
    double const* vectorForce        = NULL;
    const int dimension = molecule.GetNumberAtoms()*CartesianType_end;
-   double** matrixHessian        = NULL;
-   double*  vectorOldForce       = NULL;
-   double*  vectorStep           = NULL;
-   double** matrixStep           = NULL;
-   double** matrixOldCoordinates = NULL;
-   double*  vectorOldCoordinates = NULL;
-   double** matrixDisplacement   = NULL;
+   double** matrixHessian           = NULL;
+   double*  vectorOldForce          = NULL;
+   double*  vectorStep              = NULL;
+   double** matrixStep              = NULL;
+   double** matrixOldCoordinates    = NULL;
+   double*  vectorOldCoordinates    = NULL;
+   double** matrixDisplacement      = NULL;
+   double** matrixGEDIISCoordinates = NULL;
+   double** matrixGEDIISForce       = NULL;
+   double*  vectorGEDIISForce       = NULL;
    double       trustRadius      = Parameters::GetInstance()->GetInitialTrustRadiusOptimization();
    const double maxNormStep      = Parameters::GetInstance()->GetMaxNormStepOptimization();
+   GEDIISHistory history;
 
    try{
       // initialize Hessian with unit matrix
@@ -108,6 +117,9 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
       matrixForce = electronicStructure->GetForce(elecState);
       vectorForce = &matrixForce[0][0];
 
+      // Add initial entry into GEDIIS history
+      history.AddEntry(lineSearchCurrentEnergy, molecule, matrixForce);
+
       for(int s=0; s<totalSteps; s++){
          this->OutputLog(boost::format("%s%d\n\n") % this->messageStartGEDIISStep % (s+1));
 
@@ -117,23 +129,60 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
 
          this->StoreMolecularGeometry(matrixOldCoordinates, molecule);
 
-         // Level shift Hessian redundant modes
-         this->ShiftHessianRedundantMode(matrixHessian, molecule);
-
          // Limit the trustRadius to maxNormStep
          trustRadius=min(trustRadius,maxNormStep);
+
+         lineSearchInitialEnergy = lineSearchCurrentEnergy;
+         double preRFOEnergy = lineSearchInitialEnergy;
+
+         MallocerFreer::GetInstance()->Malloc(&matrixGEDIISCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+         MallocerFreer::GetInstance()->Malloc(&matrixGEDIISForce,       molecule.GetNumberAtoms(), CartesianType_end);
+         try{
+            history.SolveGEDIISEquation(&preRFOEnergy, matrixGEDIISCoordinates, matrixGEDIISForce);
+
+            this->OutputLog(this->messageTakingGEDIISStep);
+            this->RollbackMolecularGeometry(molecule, matrixGEDIISCoordinates);
+
+            bool tempCanOutputLogs = false;
+            this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
+            lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
+            vectorGEDIISForce = &matrixGEDIISForce[0][0];
+         }
+         catch(MolDSException ex){
+            //Check whether the exception is from GEDIIS routine
+            if(!ex.HasKey(GEDIISErrorID)){
+               throw ex;
+            }
+            else{
+               // Show GEDIIS error message
+               this->OutputLog(ex.What());
+               this->OutputLog("\n");
+
+               // If the error is not about insufficient history
+               if(ex.GetKeyValue<int>(GEDIISErrorID) != GEDIISNotSufficientHistory){
+                  history.DiscardEntries();
+               }
+
+               // Skip GEDIIS step and proceed to RFO step
+               preRFOEnergy = lineSearchCurrentEnergy;
+               vectorGEDIISForce = vectorOldForce;
+            }
+         }
+         this->OutputLog(messageTakingRFOStep);
+
+         // Level shift Hessian redundant modes
+         this->ShiftHessianRedundantMode(matrixHessian, molecule);
 
          //Calculate RFO step
          MallocerFreer::GetInstance()->Malloc(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
          vectorStep = &matrixStep[0][0];
          this->CalcRFOStep(vectorStep, matrixHessian, vectorForce, trustRadius, dimension);
 
-         double approximateChange = this->ApproximateEnergyChange(dimension, matrixHessian, vectorForce, vectorStep);
+         double approximateChange = this->ApproximateEnergyChange(dimension, matrixHessian, vectorGEDIISForce, vectorStep);
 
          // Take a RFO step
          bool doLineSearch = false;
          bool tempCanOutputLogs = false;
-         lineSearchInitialEnergy = lineSearchCurrentEnergy;
          if(doLineSearch){
             this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixStep, elecState, dt);
          }
@@ -147,9 +196,9 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
             this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, tempCanOutputLogs);
             lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
          }
-         this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
+         this->UpdateTrustRadius(trustRadius, approximateChange, preRFOEnergy, lineSearchCurrentEnergy);
 
-         this->UpdateTrustRadius(trustRadius, approximateChange, lineSearchInitialEnergy, lineSearchCurrentEnergy);
+         this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
 
          // check convergence
          if(this->SatisfiesConvergenceCriterion(matrixForce,
@@ -162,20 +211,23 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
             break;
          }
 
-         if(lineSearchCurrentEnergy > lineSearchInitialEnergy){
-            this->OutputLog(this->messageHillClimbing);
-            this->RollbackMolecularGeometry(molecule, matrixOldCoordinates);
-            lineSearchCurrentEnergy = lineSearchInitialEnergy;
-         }
-
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
          this->CalcDisplacement(matrixDisplacement, matrixOldCoordinates, molecule);
 
          matrixForce = electronicStructure->GetForce(elecState);
          vectorForce = &matrixForce[0][0];
 
+         history.AddEntry(lineSearchCurrentEnergy, molecule, matrixForce);
+
          // Update Hessian
          this->UpdateHessian(matrixHessian, dimension, vectorForce, vectorOldForce, &matrixDisplacement[0][0]);
+
+         // Check for hill climbing
+         if(lineSearchCurrentEnergy > lineSearchInitialEnergy){
+            this->OutputLog(this->messageHillClimbing);
+            this->RollbackMolecularGeometry(molecule, matrixOldCoordinates);
+            lineSearchCurrentEnergy = lineSearchInitialEnergy;
+         }
 
       }
       *lineSearchedEnergy = lineSearchCurrentEnergy;
@@ -183,16 +235,20 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
       MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
-      MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
-      MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-      MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixStep             , molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixDisplacement     , molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixOldCoordinates   , molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixGEDIISCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixGEDIISForce      , molecule.GetNumberAtoms(), CartesianType_end);
       throw ex;
    }
    MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
    MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
-   MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
-   MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-   MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixStep             , molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixDisplacement     , molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixOldCoordinates   , molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixGEDIISCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixGEDIISForce      , molecule.GetNumberAtoms(), CartesianType_end);
 }
 
 GEDIIS::GEDIISHistory::GEDIISHistory(){
