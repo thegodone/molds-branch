@@ -495,7 +495,7 @@ HOW TO WRITE INPUT:
        "method", "total_steps", "electronic_state", "max_gradient", "rms_gradient", 
         "dt", "initial_trust_radius" and "max_norm_step" are prepared as options.
 
-       "method" should be set as "conjugate_gradient", "steepest_descent", or "bfgs". 
+       "method" should be set as "conjugate_gradient", "steepest_descent", "bfgs" or "gediis". 
        The default of the "method" is conjugate gradient.
 
        "electronic_state" means the electronic eigenstate 
@@ -505,7 +505,7 @@ HOW TO WRITE INPUT:
 
       "line_search_times" means the times of line-search trials.
       The default value of the "line_search_times" is 50.
-      This parameter have no effect if method is "bfgs".
+      This parameter have no effect if method is "bfgs" or "gediis".
 
       "steep_step" means the number of steps of the steepest descent.
       The default value of the "steep_step" is 50.
@@ -517,13 +517,13 @@ HOW TO WRITE INPUT:
 
       "dt" is initial fictious time steps for the steepest descent algorythms.
       The default value of the "dt" is 50[fs].
-      This parameter have no effect if method is "bfgs".
+      This parameter have no effect if method is "bfgs" or "gediis".
 
-      "initial_trust_radius" is an initial value for trust radius used by BFGS method.
+      "initial_trust_radius" is an initial value for trust radius used by RFO step method.
       The default value of the "initial_trust_radius" is 0.3.
       This parameter have no effect if method is "steepest_descent" or "conjugate_gradient".
 
-      "max_norm_step" is the maximum value for trust radius used by BFGS method.
+      "max_norm_step" is the maximum value for trust radius used by RFO ssep method.
       The default value of the "max_norm_step" is 0.3.
       This parameter have no effect if method is "steepest_descent" or "conjugate_gradient".
 
