@@ -195,4 +195,41 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
    MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
 }
 
+GEDIIS::GEDIISHistory::GEDIISHistory(){
+}
+
+GEDIIS::GEDIISHistory::~GEDIISHistory(){
+   for(entryList_t::iterator i = this->entryList.begin(); i != this->entryList.end(); i++){
+     delete *i;
+   }
+}
+
+void GEDIIS::GEDIISHistory::AddEntry(double energy,
+                                     const MolDS_base::Molecule& molecule,
+                                     double const* const* matrixForce){
+   this->entryList.push_back(new Entry(energy, molecule, matrixForce));
+}
+
+GEDIIS::GEDIISHistory::Entry::Entry(double energy,
+                                    const MolDS_base::Molecule& molecule,
+                                    double const* const* matrixForce):
+   energy(energy),numAtoms(molecule.GetNumberAtoms()),matrixCoordinate(NULL),matrixForce(NULL) {
+   MallocerFreer::GetInstance()->Malloc(&this->matrixCoordinate, this->numAtoms, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc(&this->matrixForce,      this->numAtoms, CartesianType_end);
+#pragma omp parallel for schedule(auto)
+   for(int i = 0; i < this->numAtoms; i++){
+      const Atom*   atom = molecule.GetAtom(i);
+      const double* xyz  = atom->GetXyz();
+      for(int j = 0; j < CartesianType_end; j++){
+         this->matrixCoordinate[i][j] = xyz[j];
+         this->matrixForce[i][j]      = matrixForce[i][j];
+      }
+   }
+}
+
+GEDIIS::GEDIISHistory::Entry::~Entry(){
+   MallocerFreer::GetInstance()->Free(&this->matrixCoordinate, this->numAtoms, CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&this->matrixForce,      this->numAtoms, CartesianType_end);
+}
+
 }
