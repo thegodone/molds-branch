@@ -56,6 +56,7 @@
 [G_2004] S. Grimme, J. Comp. Chem. 1463 (2004)
 [BGJ_2003] I. T.-Brohman, C. R. W. Guimar\~{a}es, and, W. L. Jorgensen, J. Comp. Theor. Chem. 1, 817 (2004)
 [G_2006] S. Grimme, J. Comp. Chem. 271787 (2006)
+[LF_2006] X. Li, M. J. Frisch, J. Chem. Theory Comput. 2, 835 (2006)
 [S_2007] J. J. P. Stewart, J. Mol. Model. 13, 1173 (2007)
 [MH_2007] J. P. McNamara and I. H. Hillier, Phys. Chem. Chem. Phys. 9, 2362 (2007)
 [MMHBV_2007] C. A. Morgado, J. P. McNamara, I. H. Hillier, N. A. Burton, and M. A. Vincent, J. Chem. Theory Comput. 3, 1656 (2007)
