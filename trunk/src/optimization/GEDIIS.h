@@ -42,6 +42,7 @@ protected:
       void AddEntry(double energy,
                     const MolDS_base::Molecule& molecule,
                     double const* const* matrixForce);
+      void DiscardEntries();
       void SolveGEDIISEquation(double* gediisEnergy, double** matrixCoordinate, double** matrixForce);
    private:
       class Entry{

@@ -218,6 +218,10 @@ void GEDIIS::GEDIISHistory::AddEntry(double energy,
    this->entryList.push_back(new Entry(energy, molecule, matrixForce));
 }
 
+void GEDIIS::GEDIISHistory::DiscardEntries(){
+   this->entryList.clear();
+}
+
 GEDIIS::GEDIISHistory::Entry::Entry(double energy,
                                     const MolDS_base::Molecule& molecule,
                                     double const* const* matrixForce):
