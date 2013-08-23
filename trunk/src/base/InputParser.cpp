@@ -368,6 +368,7 @@ void InputParser::SetMessages(){
    this->stringOptimizationEnd               = "optimization_end";
    this->stringOptimizationMethod            = "method";
    this->stringOptimizationBFGS              = "bfgs";
+   this->stringOptimizationGEDIIS            = "gediis";
    this->stringOptimizationConjugateGradient = "conjugate_gradient";
    this->stringOptimizationSteepestDescent   = "steepest_descent";
    this->stringOptimizationTotalSteps        = "total_steps";
@@ -1019,6 +1020,9 @@ int InputParser::ParseConditionsOptimization(vector<string>* inputTerms, int par
          }
          else if((*inputTerms)[parseIndex+1].compare(this->stringOptimizationBFGS) == 0){
             Parameters::GetInstance()->SetMethodOptimization(BFGSMethod);
+         }
+         else if((*inputTerms)[parseIndex+1].compare(this->stringOptimizationGEDIIS) == 0){
+            Parameters::GetInstance()->SetMethodOptimization(GEDIISMethod);
          }
          else{
          }
@@ -1739,9 +1743,14 @@ void InputParser::OutputOptimizationConditions() const{
          break;
 			case BFGSMethod:
          this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationInitialTrustRadius.c_str()
-                                                    % Parameters::GetInstance()->GetInitialTrustRadiusOptimization());
+                                                  % Parameters::GetInstance()->GetInitialTrustRadiusOptimization());
          this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationMaxNormStep.c_str()
-                                                    % Parameters::GetInstance()->GetMaxNormStepOptimization());
+                                                  % Parameters::GetInstance()->GetMaxNormStepOptimization());
+			case GEDIISMethod:
+         this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationInitialTrustRadius.c_str()
+                                                  % Parameters::GetInstance()->GetInitialTrustRadiusOptimization());
+         this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationMaxNormStep.c_str()
+                                                  % Parameters::GetInstance()->GetMaxNormStepOptimization());
       default:
          break;
    }

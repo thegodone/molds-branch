@@ -282,6 +282,7 @@ private:
    std::string stringOptimizationMethod;
    std::string stringOptimizationBFGS;
    std::string stringOptimizationConjugateGradient;
+   std::string stringOptimizationGEDIIS;
    std::string stringOptimizationSteepestDescent;
    std::string stringOptimizationTotalSteps;
    std::string stringOptimizationElecState;
