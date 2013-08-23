@@ -32,6 +32,8 @@ protected:
    void SetMessages();
 
    std::string messageStartGEDIISStep;
+   std::string messageTakingGEDIISStep;
+   std::string messageTakingRFOStep;
 
    class GEDIISHistory{
    public:
@@ -40,7 +42,7 @@ protected:
       void AddEntry(double energy,
                     const MolDS_base::Molecule& molecule,
                     double const* const* matrixForce);
-      void SolveGEDIISEquation()const;
+      void SolveGEDIISEquation(double* gediisEnergy, double** matrixCoordinate, double** matrixForce);
    private:
       class Entry{
       public:
@@ -48,6 +50,10 @@ protected:
                const MolDS_base::Molecule& molecule,
                double const* const* matrixForce);
          ~Entry();
+         int GetNumberAtoms()                 const { return this->numAtoms;         }
+         double GetEnergy()                   const { return this->energy;           }
+         double const* const* GetCoordinate() const { return this->matrixCoordinate; }
+         double const* const* GetForce()      const { return this->matrixForce;      }
       private:
          int      numAtoms;
          double   energy;
@@ -56,6 +62,10 @@ protected:
       };
       typedef std::list< const Entry* > entryList_t;
       entryList_t entryList;
+      void SetMessages();
+
+      std::string errorMessageNegativeGEDIISCoefficient;
+      std::string errorMessageNotSufficientHistory;
    };
 
 private:

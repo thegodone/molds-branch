@@ -156,6 +156,7 @@ RENUMSTR_END()
 RENUMSTR_BEGIN( ExceptionKey, ExceptionKeyStr )
    RENUMSTR( LapackInfo, "LapackInfo" )
    RENUMSTR( EmptyQueue, "EmptyQueue" )
+   RENUMSTR( GEDIISErrorID, "GEDIISErrorID" )
    RENUMSTR( ExceptionKey_end,  "ExceptionKey_end" )
 RENUMSTR_END()
 
@@ -164,6 +165,13 @@ RENUMSTR_BEGIN( MpiFunctionType, MpiFunctionTypeStr )
    RENUMSTR( Recv,      "Recv" )
    RENUMSTR( Broadcast, "Broadcast" )
    RENUMSTR( MpiFunctionType_end,  "MpiFunctionType_end" )
+RENUMSTR_END()
+
+RENUMSTR_BEGIN( GEDIISErrorID, GEDIISErrorStr )
+   RENUMSTR( GEDIISNotSufficientHistory, "GEDIISNotSufficientHistory" )
+   RENUMSTR( GEDIISNegativeCoefficient, "GEDIISNegativeCoefficient" )
+   RENUMSTR( GEDIISLapackInfo, "GEDIISLapackInfo" )
+   RENUMSTR( GEDIISErrorID_end,  "GEDIISErrorID_end" )
 RENUMSTR_END()
 
 }

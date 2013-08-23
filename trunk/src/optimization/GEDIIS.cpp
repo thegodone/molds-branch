@@ -196,12 +196,20 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
 }
 
 GEDIIS::GEDIISHistory::GEDIISHistory(){
+   this->SetMessages();
 }
 
 GEDIIS::GEDIISHistory::~GEDIISHistory(){
    for(entryList_t::iterator i = this->entryList.begin(); i != this->entryList.end(); i++){
      delete *i;
    }
+}
+
+void GEDIIS::GEDIISHistory::SetMessages(){
+   this->errorMessageNegativeGEDIISCoefficient
+      = "GEDIIS coefficients contains negative value.";
+   this->errorMessageNotSufficientHistory
+      = "GEDIIS history is not sufficient.";
 }
 
 void GEDIIS::GEDIISHistory::AddEntry(double energy,
@@ -230,6 +238,80 @@ GEDIIS::GEDIISHistory::Entry::Entry(double energy,
 GEDIIS::GEDIISHistory::Entry::~Entry(){
    MallocerFreer::GetInstance()->Free(&this->matrixCoordinate, this->numAtoms, CartesianType_end);
    MallocerFreer::GetInstance()->Free(&this->matrixForce,      this->numAtoms, CartesianType_end);
+}
+
+void GEDIIS::GEDIISHistory::SolveGEDIISEquation(double* gediisEnergy, double** matrixCoordinate, double** matrixForce){
+   double**  gediisMatrix = NULL;
+   double*   gediisCoeffs = NULL;
+   double*   bufForce     = NULL;
+   double*   bufCoord     = NULL;
+   const int numCoeffs    = this->entryList.size();
+   const int size         = numCoeffs + 1;
+   const int numAtoms     = this->entryList.front()->GetNumberAtoms();
+   const int dimension    = numAtoms * CartesianType_end;
+   typedef entryList_t::iterator iter;
+
+   if(numCoeffs <= 1){
+      MolDSException ex(this->errorMessageNotSufficientHistory);
+      ex.SetKeyValue<int>(GEDIISErrorID, GEDIISNotSufficientHistory);
+      throw ex;
+   }
+
+   MallocerFreer::GetInstance()->Malloc(&gediisMatrix, size, size);
+   MallocerFreer::GetInstance()->Malloc(&gediisCoeffs, size);
+   MallocerFreer::GetInstance()->Malloc(&bufForce, dimension);
+   MallocerFreer::GetInstance()->Malloc(&bufCoord, dimension);
+   try{
+      iter it1 = this->entryList.begin();
+      for(int i = 0; it1 != this->entryList.end(); it1++,i++){
+         const Entry* entry1 = *it1;
+         gediisCoeffs[i] = entry1->GetEnergy();
+         iter it2 = it1;
+         for(int j = i; it2 != this->entryList.end(); it2++, j++){
+            const Entry* entry2 = *it2;
+            MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension,       &entry1->GetForce()[0][0],      &bufForce[0]);
+            MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension,       &entry1->GetCoordinate()[0][0], &bufCoord[0]);
+            MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension, -1.0, &entry2->GetForce()[0][0],      &bufForce[0]);
+            MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension, -1.0, &entry2->GetCoordinate()[0][0], &bufCoord[0]);
+            gediisMatrix[i][j] = gediisMatrix[j][i] =
+               - MolDS_wrappers::Blas::GetInstance()->Ddot(dimension, bufCoord, bufForce);
+         }
+         gediisMatrix[i][size-1] = gediisMatrix[size-1][i] = 1;
+      }
+      gediisMatrix[size-1][size-1] = 0;
+      gediisCoeffs[size-1]         = 1;
+
+      MolDS_wrappers::Lapack::GetInstance()->Dsysv(gediisMatrix, gediisCoeffs, size);
+
+      MallocerFreer::GetInstance()->Initialize(matrixCoordinate, numAtoms, CartesianType_end);
+      it1 = this->entryList.begin();
+      for(int i = 0; it1 != this->entryList.end(); it1++,i++){
+         if(gediisCoeffs[i]<0){
+//            delete *it1;
+//            this->entryList.erase(it1);
+            MolDSException ex(this->errorMessageNegativeGEDIISCoefficient);
+            ex.SetKeyValue<int>(GEDIISErrorID, GEDIISNegativeCoefficient);
+            throw ex;
+         }
+         MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension, gediisCoeffs[i], &(*it1)->GetCoordinate()[0][0], &matrixCoordinate[0][0]);
+         MolDS_wrappers::Blas::GetInstance()->Daxpy(dimension, gediisCoeffs[i], &(*it1)->GetForce()[0][0],      &matrixForce[0][0]);
+      }
+      *gediisEnergy = gediisCoeffs[numCoeffs];
+   }
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free(&gediisMatrix, size, size);
+      MallocerFreer::GetInstance()->Free(&gediisCoeffs, size);
+      MallocerFreer::GetInstance()->Free(&bufForce, dimension);
+      MallocerFreer::GetInstance()->Free(&bufCoord, dimension);
+      if(ex.HasKey(LapackInfo)){
+         ex.SetKeyValue<int>(GEDIISErrorID, GEDIISLapackInfo);
+      }
+      throw ex;
+   }
+   MallocerFreer::GetInstance()->Free(&gediisMatrix, size, size);
+   MallocerFreer::GetInstance()->Free(&gediisCoeffs, size);
+   MallocerFreer::GetInstance()->Free(&bufForce, dimension);
+   MallocerFreer::GetInstance()->Free(&bufCoord, dimension);
 }
 
 }
