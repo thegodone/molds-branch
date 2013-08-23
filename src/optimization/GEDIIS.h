@@ -62,6 +62,7 @@ protected:
          double** matrixCoordinate;
          double** matrixForce;
       };
+      const int maxEntryCount;
       typedef std::list< const Entry* > entryList_t;
       entryList_t entryList;
       void SetMessages();

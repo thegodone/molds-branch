@@ -251,7 +251,7 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
    MallocerFreer::GetInstance()->Free(&matrixGEDIISForce      , molecule.GetNumberAtoms(), CartesianType_end);
 }
 
-GEDIIS::GEDIISHistory::GEDIISHistory(){
+GEDIIS::GEDIISHistory::GEDIISHistory():maxEntryCount(5){
    this->SetMessages();
 }
 
@@ -272,6 +272,10 @@ void GEDIIS::GEDIISHistory::AddEntry(double energy,
                                      const MolDS_base::Molecule& molecule,
                                      double const* const* matrixForce){
    this->entryList.push_back(new Entry(energy, molecule, matrixForce));
+   if(this->entryList.size() > this->maxEntryCount){
+      delete this->entryList.front();
+      this->entryList.pop_front();
+   }
 }
 
 void GEDIIS::GEDIISHistory::DiscardEntries(){
