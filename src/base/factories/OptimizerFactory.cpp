@@ -40,6 +40,7 @@
 #include"../../optimization/Optimizer.h"
 #include"../../optimization/ConjugateGradient.h"
 #include"../../optimization/BFGS.h"
+#include"../../optimization/GEDIIS.h"
 #include"../../optimization/SteepestDescent.h"
 #include"OptimizerFactory.h"
 using namespace std;
@@ -56,6 +57,9 @@ MolDS_optimization::Optimizer* OptimizerFactory::Create(OptimizationMethodType m
    }
    else if(methodType == BFGSMethod ){
       optimizer = new MolDS_optimization::BFGS();
+   }
+   else if(methodType == GEDIISMethod ){
+      optimizer = new MolDS_optimization::GEDIIS();
    }
    else if(methodType == SteepestDescentMethod ){
       optimizer = new MolDS_optimization::SteepestDescent();

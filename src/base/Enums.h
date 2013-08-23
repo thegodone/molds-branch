@@ -56,6 +56,7 @@ RENUMSTR_BEGIN( OptimizationMethodType, OptimizationMethodTypeStr )
    RENUMSTR( ConjugateGradientMethod,  "Conjugate gradient" )
    RENUMSTR( SteepestDescentMethod,  "Steepest descent" )
    RENUMSTR( BFGSMethod,  "BFGS" )
+   RENUMSTR( GEDIISMethod,  "GEDIIS" )
    RENUMSTR( OptimizationMethodType_end,  "OptimizationMethodType_end" )
 RENUMSTR_END()
 
