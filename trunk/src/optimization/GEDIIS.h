@@ -30,6 +30,16 @@ protected:
 
    std::string messageStartGEDIISStep;
 
+   class GEDIISHistory{
+   public:
+      GEDIISHistory();
+      ~GEDIISHistory();
+      void AddEntry(double energy,
+                    const MolDS_base::Molecule& molecule,
+                    double const* const* matrixForce);
+      void SolveGEDIISEquation()const;
+   };
+
 private:
    virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
                               MolDS_base::Molecule& molecule,
