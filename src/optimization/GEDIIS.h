@@ -19,6 +19,9 @@
 //************************************************************************//
 #ifndef INCLUDED_GEDIIS
 #define INCLUDED_GEDIIS
+
+#include <list>
+
 namespace MolDS_optimization{
 
 class GEDIIS : public MolDS_optimization::BFGS{
@@ -38,6 +41,21 @@ protected:
                     const MolDS_base::Molecule& molecule,
                     double const* const* matrixForce);
       void SolveGEDIISEquation()const;
+   private:
+      class Entry{
+      public:
+         Entry(double energy,
+               const MolDS_base::Molecule& molecule,
+               double const* const* matrixForce);
+         ~Entry();
+      private:
+         int      numAtoms;
+         double   energy;
+         double** matrixCoordinate;
+         double** matrixForce;
+      };
+      typedef std::list< const Entry* > entryList_t;
+      entryList_t entryList;
    };
 
 private:
