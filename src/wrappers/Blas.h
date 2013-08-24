@@ -45,6 +45,10 @@ public:
    double Ddot(molds_blas_int n,
                double const* vectorX, molds_blas_int incrementX,
                double const* vectorY, molds_blas_int incrementY)const;
+   double Damax(molds_blas_int n,
+                      double const* vectorX) const;
+   double Damax(molds_blas_int n,
+                      double const* vectorX, molds_blas_int incrementX)const;
    void Dgemv(molds_blas_int m, molds_blas_int n,
               double const* const* matrixA,
               double const* vectorX,

@@ -810,94 +810,64 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
                    int       diisNumErrorVect,
                    const     Molecule& molecule,
                    int       step) const{
-   int totalNumberAOs = molecule.GetTotalNumberAOs();
-   double diisStartError = Parameters::GetInstance()->GetDiisStartErrorSCF();
-   double diisEndError = Parameters::GetInstance()->GetDiisEndErrorSCF();
+   const int totalNumberAOs = molecule.GetTotalNumberAOs();
+   const double diisStartError = Parameters::GetInstance()->GetDiisStartErrorSCF();
+   const double diisEndError = Parameters::GetInstance()->GetDiisEndErrorSCF();
 
    if( 0 < diisNumErrorVect){
-      for(int m=0; m<diisNumErrorVect-1; m++){
-         stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
-         for(int j=0; j<totalNumberAOs; j++){
-            try{
-               for(int k=0; k<totalNumberAOs; k++){
-                  diisStoredDensityMatrix[m][j][k] = diisStoredDensityMatrix[m+1][j][k];
-                  diisStoredErrorVect[m][j][k] = diisStoredErrorVect[m+1][j][k];
-               }
-            }
-            catch(MolDSException ex){
-#pragma omp critical
-               ex.Serialize(ompErrors);
-            }
-         }
-         // Exception throwing for omp-region
-         if(!ompErrors.str().empty()){
-            throw MolDSException::Deserialize(ompErrors);
-         }
-      }
+#pragma omp parallel sections
       {
-         stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
-         for(int j=0; j<totalNumberAOs; j++){
-            try{
-               for(int k=0; k<totalNumberAOs; k++){
-                  diisStoredDensityMatrix[diisNumErrorVect-1][j][k] = orbitalElectronPopulation[j][k];
-                  diisStoredErrorVect[diisNumErrorVect-1][j][k] = orbitalElectronPopulation[j][k] 
-                                                                 -oldOrbitalElectronPopulation[j][k];
-                     
-               }
-            }
-            catch(MolDSException ex){
-#pragma omp critical
-               ex.Serialize(ompErrors);
-            }
+#pragma omp section
+         {
+            memmove(&diisStoredDensityMatrix[0][0][0],
+                    &diisStoredDensityMatrix[1][0][0],
+                    sizeof(diisStoredDensityMatrix[0][0][0])*
+                    (diisNumErrorVect-1)*totalNumberAOs*totalNumberAOs);
          }
-         // Exception throwing for omp-region
-         if(!ompErrors.str().empty()){
-            throw MolDSException::Deserialize(ompErrors);
+#pragma omp section
+         {
+            memmove(&diisStoredErrorVect[0][0][0],
+                    &diisStoredErrorVect[1][0][0],
+                    sizeof(diisStoredErrorVect[0][0][0])*
+                    (diisNumErrorVect-1)*totalNumberAOs*totalNumberAOs);
          }
       }
+
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(totalNumberAOs*totalNumberAOs,
+                                                 &orbitalElectronPopulation[0][0],
+                                                 &diisStoredDensityMatrix[diisNumErrorVect-1][0][0]);
+      MolDS_wrappers::Blas::GetInstance()->Dcopy(totalNumberAOs*totalNumberAOs,
+                                                 &orbitalElectronPopulation[0][0],
+                                                 &diisStoredErrorVect[diisNumErrorVect-1][0][0]);
+      MolDS_wrappers::Blas::GetInstance()->Daxpy(totalNumberAOs*totalNumberAOs, -1.0,
+                                                 &oldOrbitalElectronPopulation[0][0],
+                                                 &diisStoredErrorVect[diisNumErrorVect-1][0][0]);
+
+#pragma parallel for schedule(auto)
       for(int mi=0; mi<diisNumErrorVect-1; mi++){
          for(int mj=0; mj<diisNumErrorVect-1; mj++){
             diisErrorProducts[mi][mj] = diisErrorProducts[mi+1][mj+1];
          }
       }
-               
+
+      MolDS_wrappers::Blas::GetInstance()->Dgemv(diisNumErrorVect, totalNumberAOs*totalNumberAOs,
+                                                 &diisStoredErrorVect[0][0],
+                                                 &diisStoredErrorVect[diisNumErrorVect-1][0][0],
+                                                 &diisErrorProducts[diisNumErrorVect-1][0]);
+
+#pragma parallel for schedule(auto)
       for(int mi=0; mi<diisNumErrorVect; mi++){
-         double tempErrorProduct = 0.0;
-         stringstream ompErrors;
-#pragma omp parallel for schedule(auto) reduction(+:tempErrorProduct)
-         for(int j=0; j<totalNumberAOs; j++){
-            try{
-               for(int k=0; k<totalNumberAOs; k++){
-                  tempErrorProduct += diisStoredErrorVect[mi][j][k]
-                                     *diisStoredErrorVect[diisNumErrorVect-1][j][k];
-               }
-            }
-            catch(MolDSException ex){
-#pragma omp critical
-               ex.Serialize(ompErrors);
-            }
-         }
-         // Exception throwing for omp-region
-         if(!ompErrors.str().empty()){
-            throw MolDSException::Deserialize(ompErrors);
-         }
-         diisErrorProducts[mi][diisNumErrorVect-1] = tempErrorProduct;
-         diisErrorProducts[diisNumErrorVect-1][mi] = tempErrorProduct;
+         diisErrorProducts[mi][diisNumErrorVect-1] = diisErrorProducts[diisNumErrorVect-1][mi];
          diisErrorProducts[mi][diisNumErrorVect] = -1.0;
          diisErrorProducts[diisNumErrorVect][mi] = -1.0;
          diisErrorCoefficients[mi] = 0.0;
       }
+
       diisErrorProducts[diisNumErrorVect][diisNumErrorVect] = 0.0;
       diisErrorCoefficients[diisNumErrorVect] = -1.0;
 
-      diisError = 0.0;
-      for(int j=0; j<totalNumberAOs; j++){
-         for(int k=0; k<totalNumberAOs; k++){
-            diisError = max(diisError, fabs(diisStoredErrorVect[diisNumErrorVect-1][j][k]));
-         }
-      }
+      diisError = MolDS_wrappers::Blas::GetInstance()->Damax(totalNumberAOs*totalNumberAOs,
+                                                             &diisStoredErrorVect[diisNumErrorVect-1][0][0]);
 
       hasAppliedDIIS = false;
       if(diisNumErrorVect <= step && diisEndError<diisError && diisError<diisStartError){
@@ -916,14 +886,19 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
                throw ex;
             }
          }
-         for(int j=0; j<totalNumberAOs; j++){
-            for(int k=0; k<totalNumberAOs; k++){
-               orbitalElectronPopulation[j][k] = 0.0;
-               for(int m=0; m<diisNumErrorVect; m++){
-                  orbitalElectronPopulation[j][k] += diisErrorCoefficients[m]*diisStoredDensityMatrix[m][j][k];
-               }
-            }
-         }
+
+         const bool isColumnMajor = true;
+         const int incrementX = 1, incrementY = 1;
+         MolDS_wrappers::Blas::GetInstance()->Dgemv(isColumnMajor,
+                                                    totalNumberAOs*totalNumberAOs,
+                                                    diisNumErrorVect,
+                                                    1.0,
+                                                    &diisStoredDensityMatrix[0][0],
+                                                    &diisErrorCoefficients[0],
+                                                    incrementX,
+                                                    0.0,
+                                                    &orbitalElectronPopulation[0][0],
+                                                    incrementY);
       }
    }
 }

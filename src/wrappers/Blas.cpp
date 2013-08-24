@@ -130,6 +130,23 @@ double Blas::Ddot(molds_blas_int n,
    return cblas_ddot(n, x, incrementX, y, incrementY);
 }
 
+// returns max(abs(vectorX[i]))
+//    vectorX: n-vector
+double Blas::Damax(molds_blas_int n,
+                   double const* vectorX) const{
+   molds_blas_int incrementX=1;
+   return this->Damax(n, vectorX, incrementX);
+}
+
+// returns max(abs(vectorX[i]))
+//    vectorX: n-vector
+double Blas::Damax(molds_blas_int n,
+                  double const* vectorX, molds_blas_int incrementX)const{
+   double* x=const_cast<double*>(vectorX);
+   molds_blas_int i = cblas_idamax(n, x, incrementX);
+   return abs(vectorX[incrementX*i]);
+}
+
 // vectorY = matrixA*vectorX
 //    matrixA: m*n-matrix (matrixA[m][n] in row-major (C/C++ style))
 //    vectorX: n-vector
