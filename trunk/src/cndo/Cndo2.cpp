@@ -1432,7 +1432,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
             }
          }  // end of if(mpiRank == calcRank) 
 
-         // set data to gater in mpiHeadRank with asynchronous MPI 
+         // set data to gather in mpiHeadRank with asynchronous MPI 
          int tag = mu;
          int source = calcRank;
          int dest = mpiHeadRank;
@@ -3970,7 +3970,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
          }
       } // end of if(mpiRank == calcRnak)
 
-      // set data to gater in mpiHeadRank with asynchronous MPI 
+      // set data to gather in mpiHeadRank with asynchronous MPI 
       int tag = A;
       int source = calcRank;
       int dest = mpiHeadRank;
