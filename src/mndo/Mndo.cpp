@@ -3489,7 +3489,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
             throw MolDSException::Deserialize(ompErrors);
          }
       } // end of if(mpiRnak == calcRank)
-      // set data to gater in mpiHeadRank with asynchronous MPI 
+      // set data to gather in mpiHeadRank with asynchronous MPI 
       int tag            = a;
       int source         = calcRank;
       int dest           = mpiHeadRank;
