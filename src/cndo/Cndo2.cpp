@@ -843,7 +843,6 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
                                                  &oldOrbitalElectronPopulation[0][0],
                                                  &diisStoredErrorVect[diisNumErrorVect-1][0][0]);
 
-#pragma omp parallel for schedule(auto)
       for(int mi=0; mi<diisNumErrorVect-1; mi++){
          for(int mj=0; mj<diisNumErrorVect-1; mj++){
             diisErrorProducts[mi][mj] = diisErrorProducts[mi+1][mj+1];
