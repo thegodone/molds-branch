@@ -909,14 +909,15 @@ void Cndo2::DoDamp(double rmsDensity,
                    const Molecule& molecule) const{
    double dampingThresh = Parameters::GetInstance()->GetDampingThreshSCF();
    double dampingWeight = Parameters::GetInstance()->GetDampingWeightSCF();
+   int totalNumberAOs = molecule.GetTotalNumberAOs();
    hasAppliedDamping = false;
    if(0.0 < dampingWeight && dampingThresh < rmsDensity){
       hasAppliedDamping = true;
       stringstream ompErrors;
 #pragma omp parallel for schedule(auto)
-      for(int j=0; j<molecule.GetTotalNumberAOs(); j++){
+      for(int j=0; j<totalNumberAOs; j++){
          try{
-            for(int k=0; k<molecule.GetTotalNumberAOs(); k++){
+            for(int k=0; k<totalNumberAOs; k++){
                orbitalElectronPopulation[j][k] *= (1.0 - dampingWeight);
                orbitalElectronPopulation[j][k] += dampingWeight*oldOrbitalElectronPopulation[j][k];
             }
@@ -936,10 +937,12 @@ void Cndo2::DoDamp(double rmsDensity,
 
 void Cndo2::OutputMOEnergies() const{
    double eV2AU = Parameters::GetInstance()->GetEV2AU();
+   int totalNumberAOs  = this->molecule->GetTotalNumberAOs();
+   int totalNumberOccs = this->molecule->GetTotalNumberValenceElectrons()/2;
    this->OutputLog(this->messageEnergyMOTitle);
-   for(int mo=0; mo<this->molecule->GetTotalNumberAOs(); mo++){
+   for(int mo=0; mo<totalNumberAOs; mo++){
       string occUnOcc = this->messageUnOcc;
-      if(mo < this->molecule->GetTotalNumberValenceElectrons()/2){
+      if(mo < totalNumberOccs){
          occUnOcc = this->messageOcc;
       }
       this->OutputLog(boost::format("%s\t%d\t%s\t%e\t%e\n") % this->messageEnergyMO
@@ -1456,8 +1459,8 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
 
    /*  
    this->OutputLog("fock matrix\n");
-   for(int o=0; o<this->molecule.GetTotalNumberAOs(); o++){
-      for(int p=0; p<this->molecule.GetTotalNumberAOs(); p++){
+   for(int o=0; o<totalNumberAOs; o++){
+      for(int p=0; p<totalNumberAOs; p++){
          this->OutputLog(boost::format("%lf\t") % fockMatrix[o][p]);
       }
       this->OutputLog("\n");
@@ -1522,8 +1525,9 @@ double Cndo2::GetFockOffDiagElement(const Atom& atomA,
 }
 
 void Cndo2::TransposeFockMatrixMatrix(double** transposedFockMatrix) const{
-   for(int i=0; i<this->molecule->GetTotalNumberAOs(); i++){
-      for(int j=0; j<this->molecule->GetTotalNumberAOs(); j++){
+   const int totalNumberAOs = this->molecule->GetTotalNumberAOs();
+   for(int i=0; i<totalNumberAOs; i++){
+      for(int j=0; j<totalNumberAOs; j++){
          transposedFockMatrix[j][i] = this->fockMatrix[i][j];
       }
    }
@@ -4000,8 +4004,8 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
 
    /* 
    this->OutputLog("overlapAOs matrix\n"); 
-   for(int o=0; o<molecule.GetTotalNumberAOs(); o++){
-      for(int p=0; p<molecule.GetTotalNumberAOs(); p++){
+   for(int o=0; o<totalAONumber; o++){
+      for(int p=0; p<totalAONumber; p++){
          this->OutputLog(boost::format("%lf\t") % overlapAOs[o][p]);
       }
       this->OutputLog("\n");
@@ -4343,8 +4347,8 @@ void Cndo2::CalcOverlapAOsByGTOExpansion(double** overlapAOs,
    }
    /* 
    this->OutputLog("overlapAOs matrix by STOnG\n"); 
-   for(int o=0; o<molecule.GetTotalNumberAOs(); o++){
-      for(int p=0; p<molecule.GetTotalNumberAOs(); p++){
+   for(int o=0; o<totalAONumber; o++){
+      for(int p=0; p<totalAONumber; p++){
          this->OutputLog(boost::format("%lf\t") % overlapAOs[o][p]);
       }
       this->OutputLog("\n");
