@@ -1377,7 +1377,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                                                   mPassingTimes) );
 
    MallocerFreer::GetInstance()->Initialize<double>(fockMatrix, totalNumberAOs, totalNumberAOs);
-   for(int A=0; A<totalNumberAtoms; A++){
+   for(int A=totalNumberAtoms-1; 0<=A; A--){
       const Atom& atomA = *molecule.GetAtom(A);
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
@@ -3918,7 +3918,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
                                                     totalAONumber);
 
    // This loop A is parallelized with MPI
-   for(int A=0; A<totalAtomNumber; A++){
+   for(int A=totalAtomNumber-1; 0<=A; A--){
       const Atom& atomA = *molecule.GetAtom(A);
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int numValenceAOs = atomA.GetValenceSize();
