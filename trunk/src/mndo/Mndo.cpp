@@ -66,19 +66,26 @@ Mndo::Mndo() : MolDS_zindo::ZindoS(){
    this->SetMessages();
    this->SetEnableAtomTypes();
    // private variables
+   this->twoElecTwoCoreMpiBuff = NULL;
    this->heatsFormation = 0.0;
    //this->OutputLog("Mndo created\n");
 }
 
 Mndo::~Mndo(){
-   MallocerFreer::GetInstance()->Free<double>(
-                                 &this->twoElecTwoCore, 
-                                 this->molecule->GetNumberAtoms(),
-                                 this->molecule->GetNumberAtoms(),
-                                 dxy,
-                                 dxy,
-                                 dxy,
-                                 dxy);
+   OrbitalType twoElecLimit = dxy;
+   MallocerFreer::GetInstance()->Free<double>(&this->twoElecTwoCore, 
+                                              this->molecule->GetNumberAtoms(),
+                                              this->molecule->GetNumberAtoms(),
+                                              twoElecLimit,
+                                              twoElecLimit,
+                                              twoElecLimit,
+                                              twoElecLimit);
+   int numBuff = (twoElecLimit+1)*twoElecLimit/2;
+   MallocerFreer::GetInstance()->Free<double>(&this->twoElecTwoCoreMpiBuff, 
+                                              this->molecule->GetNumberAtoms(),
+                                              this->molecule->GetNumberAtoms(),
+                                              numBuff,
+                                              numBuff);
    MallocerFreer::GetInstance()->Free<double>(&this->normalForceConstants,
                                               CartesianType_end*molecule->GetNumberAtoms());
    MallocerFreer::GetInstance()->Free<double>(&this->normalModes,
@@ -88,10 +95,20 @@ Mndo::~Mndo(){
 
 void Mndo::SetMolecule(Molecule* molecule){
    ZindoS::SetMolecule(molecule);
+   OrbitalType twoElecLimit = dxy;
    MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecTwoCore,
                                                 molecule->GetNumberAtoms(),
                                                 molecule->GetNumberAtoms(),
-                                                dxy, dxy, dxy, dxy);
+                                                twoElecLimit,
+                                                twoElecLimit,
+                                                twoElecLimit,
+                                                twoElecLimit);
+   int numBuff = (twoElecLimit+1)*twoElecLimit/2;
+   MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecTwoCoreMpiBuff, 
+                                                this->molecule->GetNumberAtoms(),
+                                                this->molecule->GetNumberAtoms(),
+                                                numBuff,
+                                                numBuff);
    MallocerFreer::GetInstance()->Malloc<double>(&this->normalForceConstants,
                                                 CartesianType_end*molecule->GetNumberAtoms());
    MallocerFreer::GetInstance()->Malloc<double>(&this->normalModes,
@@ -3425,7 +3442,8 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
    int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
-   int mPassingTimes = MolDS_mpi::MpiProcess::GetInstance()->GetMessagePassingTimes(totalNumberAtoms);
+   //int mPassingTimes = MolDS_mpi::MpiProcess::GetInstance()->GetMessagePassingTimes(totalNumberAtoms);
+   int mPassingTimes = totalNumberAtoms-1;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, 
                                                   &asyncCommunicator, 
@@ -3441,7 +3459,8 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
                                                     dxy, dxy, dxy, dxy);
 
    // this loop-a is MPI-parallelized
-   for(int a=0; a<totalNumberAtoms; a++){
+   //for(int a=0; a<totalNumberAtoms; a++){
+   for(int a=totalNumberAtoms-1; 0<=a; a--){
       int calcRank = a%mpiSize;
       if(mpiRank == calcRank){
          stringstream ompErrors;
@@ -3459,17 +3478,19 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
                for(int b=a+1; b<totalNumberAtoms; b++){
                   this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, tmpRotMat, tmpMatrixBC, a, b);
 
+                  int i=0;
                   for(int mu=0; mu<dxy; mu++){
                      for(int nu=mu; nu<dxy; nu++){
+                        int j=0;
                         for(int lambda=0; lambda<dxy; lambda++){
                            for(int sigma=lambda; sigma<dxy; sigma++){
-                              double value = diatomicTwoElecTwoCore[mu][nu][lambda][sigma];
-                              twoElecTwoCore[a][b][mu][nu][lambda][sigma] = value;
-                              twoElecTwoCore[a][b][mu][nu][sigma][lambda] = value;
-                              twoElecTwoCore[a][b][nu][mu][lambda][sigma] = value;
-                              twoElecTwoCore[a][b][nu][mu][sigma][lambda] = value;
+                              //double value = diatomicTwoElecTwoCore[mu][nu][lambda][sigma];
+                              this->twoElecTwoCoreMpiBuff[a][b][i][j] 
+                                 = diatomicTwoElecTwoCore[mu][nu][lambda][sigma];
+                              j++;
                            }
                         }
+                        i++;
                      }
                   }
 
@@ -3490,44 +3511,43 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
          }
       } // end of if(mpiRnak == calcRank)
       // set data to gather in mpiHeadRank with asynchronous MPI 
-      int tag            = a;
-      int source         = calcRank;
-      int dest           = mpiHeadRank;
-      int numTransported = totalNumberAtoms*dxy*dxy*dxy*dxy;
-      if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(&twoElecTwoCore[a][0][0][0][0][0], 
-                                           numTransported, 
-                                           source,
-                                           tag);
-      }
-      if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(&twoElecTwoCore[a][0][0][0][0][0], 
-                                         numTransported, 
-                                         dest,
-                                         tag);
+      if(a<totalNumberAtoms-1){
+         int b = a+1;
+         OrbitalType twoElecLimit = dxy;
+         int numBuff = (twoElecLimit+1)*twoElecLimit/2;
+         int num = (totalNumberAtoms-b)*numBuff*numBuff;
+         asyncCommunicator.SetBroadcastedVector(&this->twoElecTwoCoreMpiBuff[a][b][0][0], num, calcRank);
       }
    } // end of loop a parallelized with MPI
    communicationThread.join();
-   int numTransported = totalNumberAtoms*totalNumberAtoms*dxy*dxy*dxy*dxy;
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&twoElecTwoCore[0][0][0][0][0][0], numTransported, mpiHeadRank);
 
+#pragma omp parallel for schedule(auto)
    for(int a=0; a<totalNumberAtoms; a++){
       for(int b=a+1; b<totalNumberAtoms; b++){
+         int i=0;
          for(int mu=0; mu<dxy; mu++){
             for(int nu=mu; nu<dxy; nu++){
+               int j=0;
                for(int lambda=0; lambda<dxy; lambda++){
                   for(int sigma=lambda; sigma<dxy; sigma++){
-                     double value = twoElecTwoCore[a][b][mu][nu][lambda][sigma];
+                     double value = this->twoElecTwoCoreMpiBuff[a][b][i][j];
+                     twoElecTwoCore[a][b][mu][nu][lambda][sigma] = value;
+                     twoElecTwoCore[a][b][mu][nu][sigma][lambda] = value;
+                     twoElecTwoCore[a][b][nu][mu][lambda][sigma] = value;
+                     twoElecTwoCore[a][b][nu][mu][sigma][lambda] = value;
                      twoElecTwoCore[b][a][lambda][sigma][mu][nu] = value;
                      twoElecTwoCore[b][a][lambda][sigma][nu][mu] = value;
                      twoElecTwoCore[b][a][sigma][lambda][mu][nu] = value;
                      twoElecTwoCore[b][a][sigma][lambda][nu][mu] = value;
+                     j++;
                   }
                }
+               i++;
             }
          }
       }
    }
+
 }
 
 // Calculation of two electrons two cores integral (mu, nu | lambda, sigma) in space fixed frame, 
@@ -3563,17 +3583,20 @@ void Mndo::CalcDiatomicTwoElecTwoCore(double**** matrix,
 
    // calclation in diatomic frame
    for(int mu=0; mu<atomA.GetValenceSize(); mu++){
-      for(int nu=0; nu<atomA.GetValenceSize(); nu++){
+      for(int nu=mu; nu<atomA.GetValenceSize(); nu++){
          for(int lambda=0; lambda<atomB.GetValenceSize(); lambda++){
-            for(int sigma=0; sigma<atomB.GetValenceSize(); sigma++){
-               matrix[mu][nu][lambda][sigma] = this->GetNddoRepulsionIntegral(
-                                                     atomA, 
-                                                     atomA.GetValence(mu),
-                                                     atomA.GetValence(nu),
-                                                     atomB, 
-                                                     atomB.GetValence(lambda),
-                                                     atomB.GetValence(sigma));
-                     
+            for(int sigma=lambda; sigma<atomB.GetValenceSize(); sigma++){
+               double value = this->GetNddoRepulsionIntegral(
+                                    atomA, 
+                                    atomA.GetValence(mu),
+                                    atomA.GetValence(nu),
+                                    atomB, 
+                                    atomB.GetValence(lambda),
+                                    atomB. GetValence(sigma));
+               matrix[mu][nu][lambda][sigma] = value;
+               matrix[mu][nu][sigma][lambda] = value;
+               matrix[nu][mu][lambda][sigma] = value;
+               matrix[nu][mu][sigma][lambda] = value;
             }
          }
       }

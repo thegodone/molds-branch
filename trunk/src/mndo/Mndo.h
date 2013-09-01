@@ -112,7 +112,8 @@ private:
    std::string errorMessageMultipoleB;
    std::string messageHeatsFormation;
    std::string messageHeatsFormationTitle;
-   double    heatsFormation;
+   double**** twoElecTwoCoreMpiBuff;
+   double heatsFormation;
    double GetAuxiliaryDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
                                                 const MolDS_base_atoms::Atom& atomB,
                                                 double distanceAB) const;
