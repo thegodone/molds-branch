@@ -205,7 +205,7 @@ void Blas::Dsymv(molds_blas_int n,
 }
 
 // vectorY = alpha*matrixA*vectorX + beta*vectorY
-//    matrixA: n*n-matrix,symmetric (Use the upper triangular part)
+//    matrixA: n*n-matrix,symmetric (Use the upper triangular part in row-major(C/C++ style))
 //    vectorX: n-vector
 //    vectorY: n-vector
 void Blas::Dsymv(molds_blas_int n, double alpha,
@@ -241,7 +241,7 @@ void Blas::Dsyr(molds_blas_int n, double alpha,
 #pragma omp parallel for schedule(auto)
    for(molds_blas_int i=0;i<n;i++){
       for(molds_blas_int j=i+1;j<n;j++){
-         matrixA[j][i] = matrixA[i][j];
+         matrixA[j][i] = matrixA[i][j]; // Note that output matrixA is row-major(C/C++ stype) 
       }
    }
 }
@@ -470,10 +470,20 @@ void Blas::Dsyrk(molds_blas_int n, molds_blas_int k,
    for(molds_blas_int i=0;i<n;i++){
       for(molds_blas_int j=i+1;j<n;j++){
          if(isLowerTriangularPartMatrixCUsed){
-            matrixC[i][j] = matrixC[j][i];
+            if(orderA == CblasRowMajor){
+               matrixC[i][j] = matrixC[j][i]; // Note that output matrixC is row-major(C/C++ style) 
+            }
+            else{
+               matrixC[j][i] = matrixC[i][j]; // Note that output matrixC is column-major(Fortran style) 
+            }
          }
          else{
-            matrixC[j][i] = matrixC[i][j];
+            if(orderA == CblasRowMajor){
+               matrixC[j][i] = matrixC[i][j]; // Note that output matrixC is row-major(C/C++ style)
+            }
+            else{
+               matrixC[i][j] = matrixC[j][i]; // Note that output matrixC is column-major(Fortran style) 
+            }
          }
       }
    }
