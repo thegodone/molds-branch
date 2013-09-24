@@ -292,7 +292,7 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
                  double** matrixC) const{
    double* a = const_cast<double*>(&matrixA[0][0]);
    double* b = const_cast<double*>(&matrixB[0][0]);
-   double*       c = &matrixC[0][0];
+//   double*       c = &matrixC[0][0];
 
    molds_blas_int lda;
    CBLAS_TRANSPOSE transA;
