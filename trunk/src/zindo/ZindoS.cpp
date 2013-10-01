@@ -2360,7 +2360,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
                                                   mPassingTimes) );
 
    // this loop-a is MPI-parallelized
-   for(int k=this->matrixCISdimension-1; 0<=k; k++){
+   for(int k=this->matrixCISdimension-1; 0<=k; k--){
       int calcRank = k%mpiSize;
       if(calcRank == mpiRank){
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
