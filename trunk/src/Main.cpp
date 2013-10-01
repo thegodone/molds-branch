@@ -38,10 +38,16 @@ using namespace std;
 using namespace MolDS_base;
 int main(int argc, char *argv[]){
    string optionHelp="-h";
+   string optionVersion="-v";
    string messageHelp="See README.txt: \"http://sourceforge.jp/projects/molds/scm/svn/blobs/head/trunk/doc/README.txt\"\n";
+   string messageVersion="MolDS 0.3.0 (under development)\n";
    for(int i=0; i<argc; i++){
       if(optionHelp.compare(argv[i])==0){
          std::cout << messageHelp;
+         return 0;
+      }
+      if(optionVersion.compare(argv[i])==0){
+         std::cout << messageVersion;
          return 0;
       }
    }
