@@ -37,6 +37,14 @@
 using namespace std;
 using namespace MolDS_base;
 int main(int argc, char *argv[]){
+   string optionHelp="-h";
+   string messageHelp="See README.txt: \"http://sourceforge.jp/projects/molds/scm/svn/blobs/head/trunk/doc/README.txt\"\n";
+   for(int i=0; i<argc; i++){
+      if(optionHelp.compare(argv[i])==0){
+         std::cout << messageHelp;
+         return 0;
+      }
+   }
    try{
       MolDS_mpi::MpiProcess::CreateInstance(argc, argv);
       boost::shared_ptr<MolDS_base::MolDS> molds(new MolDS_base::MolDS());
