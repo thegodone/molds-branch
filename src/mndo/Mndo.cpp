@@ -3442,7 +3442,6 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
    int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
-   //int mPassingTimes = MolDS_mpi::MpiProcess::GetInstance()->GetMessagePassingTimes(totalNumberAtoms);
    int mPassingTimes = totalNumberAtoms-1;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, 
@@ -3459,7 +3458,6 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
                                                     dxy, dxy, dxy, dxy);
 
    // this loop-a is MPI-parallelized
-   //for(int a=0; a<totalNumberAtoms; a++){
    for(int a=totalNumberAtoms-1; 0<=a; a--){
       int calcRank = a%mpiSize;
       if(mpiRank == calcRank){
