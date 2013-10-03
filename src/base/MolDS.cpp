@@ -35,6 +35,7 @@
 #include"PrintController.h"
 #include"MolDSException.h"
 #include"MallocerFreer.h"
+#include"../mpi/MpiInt.h"
 #include"../mpi/MpiProcess.h"
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"

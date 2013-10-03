@@ -31,6 +31,7 @@
 #include"../PrintController.h"
 #include"../MolDSException.h"
 #include"../MallocerFreer.h"
+#include"../../mpi/MpiInt.h"
 #include"../../mpi/MpiProcess.h"
 #include"../MathUtilities.h"
 #include"../MallocerFreer.h"

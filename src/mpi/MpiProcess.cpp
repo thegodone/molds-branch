@@ -29,11 +29,16 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/MallocerFreer.h"
+#include"MpiInt.h"
 #include"MpiProcess.h"
 using namespace std;
 namespace MolDS_mpi{
 
 MpiProcess* MpiProcess::mpiProcess = NULL;
+string      MpiProcess::errorMessageCreateInstanceDuplicate
+               = "Error in mpi::MpiProcess::CreateInstance: mpiProcess has been already created, namely duplication error.\n";
+string      MpiProcess::errorMessageGetInstanceNULL
+               = "Error in mpi::MpiProcess::GetInstance: mpiProcess is NULL.\n";
 
 MpiProcess::MpiProcess(){
 }
@@ -47,6 +52,7 @@ MpiProcess::MpiProcess(int argc, char *argv[]){
    this->mpiConsumingTimeRecv=0.0;
    this->mpiConsumingTimeBrodCast=0.0;
    this->mpiConsumingTimeAllReduce=0.0;
+   this->SetMessages();
 }
 
 MpiProcess::~MpiProcess(){
@@ -64,7 +70,10 @@ MpiProcess::~MpiProcess(){
 
 void MpiProcess::CreateInstance(int argc, char *argv[]){
    if(mpiProcess != NULL){
-      // ToDo: error
+      std::stringstream ss;
+      ss << errorMessageCreateInstanceDuplicate;
+      MolDS_base::MolDSException ex(ss.str());
+      throw ex;
    }
    mpiProcess = new MpiProcess(argc, argv);
 }
@@ -78,15 +87,17 @@ void MpiProcess::DeleteInstance(){
 
 MpiProcess* MpiProcess::GetInstance(){
    if(mpiProcess == NULL){
-      //mpiProcess = new MpiProcess();
-      // ToDo: error
+      std::stringstream ss;
+      ss << errorMessageGetInstanceNULL;
+      MolDS_base::MolDSException ex(ss.str());
+      throw ex;
    }
    return mpiProcess;
 }
 
 void MpiProcess::Barrier(){this->communicator->barrier();}
 
-int MpiProcess::GetMessagePassingTimes(intptr_t num)const{
+int MpiProcess::GetMessagePassingTimes(molds_mpi_int num)const{
    int mpiRank     = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
@@ -102,6 +113,16 @@ int MpiProcess::GetMessagePassingTimes(intptr_t num)const{
    return mpiPassingTimes;
 }
 
+void MpiProcess::SetMessages(){
+   this->errorMessageSplitMessageElemLimNegative
+      = "Error in mpi::MpiProcess::SplitMessage2Chunks: elementsLimit is negative. \nelementsLimit=";
+   this->errorMessageSplitMessageNumChnkNegative
+      = "Error in mpi::MpiProcess::SplitMessage2Chunks: numChunks is negative. \nnumChunks=";
+   this->errorMessageSplitMessageTagBaseNegative
+      = "Error in mpi::MpiProcess::SplitMessage2Chunks: tagBase is negative. \ntagBase=";
+   this->errorMessageSplitMessageRemainingNegative
+      = "Error in mpi::MpiProcess::SplitMessage2Chunks: remaining is negative. \nremaining=";
+}
 
 }
 
