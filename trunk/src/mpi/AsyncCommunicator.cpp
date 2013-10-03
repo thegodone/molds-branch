@@ -30,6 +30,7 @@
 #include"../base/MolDSException.h"
 #include"../base/containers/ThreadSafeQueue.h"
 #include"../base/MallocerFreer.h"
+#include"MpiInt.h"
 #include"MpiProcess.h"
 #include"AsyncCommunicator.h"
 using namespace std;

@@ -74,7 +74,7 @@ public:
    }
 
    template<typename T> void SetSentVector(T* vector, 
-                                           intptr_t num, 
+                                           molds_mpi_int num, 
                                            int dest,
                                            int tag){
       int source = NON_USED;
@@ -83,7 +83,7 @@ public:
    }
 
    template<typename T> void SetRecvedVector(T* vector, 
-                                             intptr_t num, 
+                                             molds_mpi_int num, 
                                              int source, 
                                              int tag){
       int dest   = NON_USED;
@@ -91,7 +91,7 @@ public:
       this->SetVector(vector, num, source, dest, tag, mpiFuncType);
    }
 
-   template<typename T> void SetBroadcastedVector(T* vector, intptr_t num, int root){
+   template<typename T> void SetBroadcastedVector(T* vector, molds_mpi_int num, int root){
       int source = root;
       int dest   = NON_USED;
       int tag    = NON_USED;
@@ -101,7 +101,7 @@ public:
 
 private:
    struct DataInfo{intptr_t vectorPtr; 
-                   intptr_t num; 
+                   molds_mpi_int num; 
                    int source; 
                    int dest; 
                    int tag;
@@ -110,7 +110,7 @@ private:
    boost::condition stateChange;
    MolDS_base_containers::ThreadSafeQueue<DataInfo> dataQueue;
    template<typename T> void SetVector(T* vector, 
-                                       intptr_t num, 
+                                       molds_mpi_int num, 
                                        int source, 
                                        int dest, 
                                        int tag,

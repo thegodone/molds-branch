@@ -33,6 +33,7 @@
 #include"../base/PrintController.h"
 #include"../base/MolDSException.h"
 #include"../base/MallocerFreer.h"
+#include"../mpi/MpiInt.h"
 #include"../mpi/MpiProcess.h"
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"

@@ -31,13 +31,13 @@ public:
    int GetHeadRank() const{return 0;}
    int GetRank() const{return this->communicator->rank();}
    int GetSize() const{return this->communicator->size();}
-   //template<typename T> void Send(int dest, int tag, const T* values, intptr_t num) const{
-   template<typename T> void Send(int dest, int tag, const T* values, intptr_t num) {
+   //template<typename T> void Send(int dest, int tag, const T* values, molds_mpi_int num) const{
+   template<typename T> void Send(int dest, int tag, const T* values, molds_mpi_int num) {
       double startTime=0.0;
       double endTime=0.0;
       std::vector<Chunk> chunks;
       this->SplitMessage2Chunks(chunks, tag, values, num);
-      for(intptr_t i=0; i<chunks.size(); i++){
+      for(molds_mpi_int i=0; i<chunks.size(); i++){
          startTime = omp_get_wtime();
          this->communicator->send(dest, chunks[i].tag, &values[chunks[i].first], chunks[i].num);
          endTime = omp_get_wtime();
@@ -45,13 +45,13 @@ public:
          this->mpiConsumingTimeSend += endTime - startTime;
       }
    }
-   //template<typename T> void Recv(int source, int tag, T* values, intptr_t num) const{
-   template<typename T> void Recv(int source, int tag, T* values, intptr_t num) {
+   //template<typename T> void Recv(int source, int tag, T* values, molds_mpi_int num) const{
+   template<typename T> void Recv(int source, int tag, T* values, molds_mpi_int num) {
       double startTime=0.0;
       double endTime=0.0;
       std::vector<Chunk> chunks;
       this->SplitMessage2Chunks(chunks, tag, values, num);
-      for(intptr_t i=0; i<chunks.size(); i++){
+      for(molds_mpi_int i=0; i<chunks.size(); i++){
          startTime = omp_get_wtime();
          this->communicator->recv(source, chunks[i].tag, &values[chunks[i].first], chunks[i].num);
          endTime = omp_get_wtime();
@@ -59,14 +59,14 @@ public:
          this->mpiConsumingTimeRecv += endTime - startTime;
       }
    }
-   //template<typename T> void Broadcast(T* values, intptr_t num, int root) const{
-   template<typename T> void Broadcast(T* values, intptr_t num, int root){
+   //template<typename T> void Broadcast(T* values, molds_mpi_int num, int root) const{
+   template<typename T> void Broadcast(T* values, molds_mpi_int num, int root){
       double startTime=0.0;
       double endTime=0.0;
       std::vector<Chunk> chunks;
-      intptr_t tag=0;
+      molds_mpi_int tag=0;
       this->SplitMessage2Chunks(chunks, tag, values, num);
-      for(intptr_t i=0; i<chunks.size(); i++){
+      for(molds_mpi_int i=0; i<chunks.size(); i++){
          startTime = omp_get_wtime();
          broadcast(*this->communicator, &values[chunks[i].first], chunks[i].num, root);
          endTime = omp_get_wtime();
@@ -74,22 +74,22 @@ public:
          this->mpiConsumingTimeBrodCast += endTime - startTime;
       }
    }
-   template<typename T, typename Op> void Reduce(const T* inValues, intptr_t num, T* outValues, Op op, int root) const{
+   template<typename T, typename Op> void Reduce(const T* inValues, molds_mpi_int num, T* outValues, Op op, int root) const{
       std::vector<Chunk> chunks;
-      intptr_t tag=0;
+      molds_mpi_int tag=0;
       this->SplitMessage2Chunks(chunks, tag, inValues, num);
-      for(intptr_t i=0; i<chunks.size(); i++){
+      for(molds_mpi_int i=0; i<chunks.size(); i++){
          reduce(*this->communicator, &inValues[chunks[i].first], chunks[i].num, &outValues[chunks[i].first], op, root);
       }
    }
-   //template<typename T, typename Op> void AllReduce(const T* inValues, intptr_t num, T* outValues, Op op) const{
-   template<typename T, typename Op> void AllReduce(const T* inValues, intptr_t num, T* outValues, Op op){
+   //template<typename T, typename Op> void AllReduce(const T* inValues, molds_mpi_int num, T* outValues, Op op) const{
+   template<typename T, typename Op> void AllReduce(const T* inValues, molds_mpi_int num, T* outValues, Op op){
       double startTime=0.0;
       double endTime=0.0;
       std::vector<Chunk> chunks;
-      intptr_t tag=0;
+      molds_mpi_int tag=0;
       this->SplitMessage2Chunks(chunks, tag, inValues, num);
-      for(intptr_t i=0; i<chunks.size(); i++){
+      for(molds_mpi_int i=0; i<chunks.size(); i++){
          startTime = omp_get_wtime();
          all_reduce(*this->communicator, &inValues[chunks[i].first], chunks[i].num, &outValues[chunks[i].first], op);
          endTime = omp_get_wtime();
@@ -97,13 +97,13 @@ public:
          this->mpiConsumingTimeAllReduce += endTime - startTime;
       }
    }
-   //template<typename T, typename Op> void AllReduce(T* values, intptr_t num, Op op) const{
-   template<typename T, typename Op> void AllReduce(T* values, intptr_t num, Op op){
+   //template<typename T, typename Op> void AllReduce(T* values, molds_mpi_int num, Op op) const{
+   template<typename T, typename Op> void AllReduce(T* values, molds_mpi_int num, Op op){
       double* tmpValues=NULL;
       try{
          MolDS_base::MallocerFreer::GetInstance()->Malloc<double>(&tmpValues, num);
          this->AllReduce(values, num, tmpValues, op);
-         for(intptr_t i=0; i<num; i++){
+         for(molds_mpi_int i=0; i<num; i++){
             values[i] = tmpValues[i];
          }
       }
@@ -114,28 +114,60 @@ public:
       MolDS_base::MallocerFreer::GetInstance()->Free<double>(&tmpValues, num);
    }
    void Barrier();
-   int  GetMessagePassingTimes(intptr_t num) const;
+   int  GetMessagePassingTimes(molds_mpi_int num) const;
 private:
    static MpiProcess* mpiProcess;
    MpiProcess();
    MpiProcess(int argc, char *argv[]);
    ~MpiProcess();
+   static std::string errorMessageCreateInstanceDuplicate;
+   static std::string errorMessageGetInstanceNULL;
+   std::string errorMessageSplitMessageElemLimNegative;
+   std::string errorMessageSplitMessageNumChnkNegative;
+   std::string errorMessageSplitMessageTagBaseNegative;
+   std::string errorMessageSplitMessageRemainingNegative;
    boost::mpi::environment*  environment;
    boost::mpi::communicator* communicator;
-   struct Chunk{int tag; intptr_t first; int num;};
    double messageLimit;
-   template<typename T> void SplitMessage2Chunks(std::vector<Chunk>& chunks, const int origianlTag, T* values, intptr_t num) const{
+   struct Chunk{int tag; molds_mpi_int first; int num;};
+   void SetMessages();
+   template<typename T> void SplitMessage2Chunks(std::vector<Chunk>& chunks, const int origianlTag, T* values, molds_mpi_int num) const{
       if(this->messageLimit < static_cast<double>(sizeof(T))*static_cast<double>(num) ){
-         int  elementsLimit = static_cast<intptr_t>(messageLimit/sizeof(T));
-         intptr_t numChunks = num/elementsLimit;
-         int      remaining = num%elementsLimit;
+         int elementsLimit = static_cast<int>(messageLimit/sizeof(T));
+         int numChunks     = num/elementsLimit;
+         int remaining     = num%elementsLimit;
          if(0 < remaining){
             numChunks++;
          }
          int tagBase = origianlTag*numChunks;
-         for(intptr_t i=0; i<numChunks; i++){
-            int tag = tagBase+i;
-            Chunk chunk = {tag, i*elementsLimit, elementsLimit};
+         if(elementsLimit < 0){
+            std::stringstream ss;
+            ss << this->errorMessageSplitMessageElemLimNegative << elementsLimit << endl;
+            MolDS_base::MolDSException ex(ss.str());
+            throw ex;
+         }
+         if(numChunks < 0){
+            std::stringstream ss;
+            ss << this->errorMessageSplitMessageNumChnkNegative << numChunks << endl;
+            MolDS_base::MolDSException ex(ss.str());
+            throw ex;
+         }
+         if(remaining < 0){
+            std::stringstream ss;
+            ss << this->errorMessageSplitMessageRemainingNegative << remaining << endl;
+            MolDS_base::MolDSException ex(ss.str());
+            throw ex;
+         }
+         if(tagBase < 0){
+            std::stringstream ss;
+            ss << this->errorMessageSplitMessageTagBaseNegative << tagBase << endl;
+            MolDS_base::MolDSException ex(ss.str());
+            throw ex;
+         }
+         for(int i=0; i<numChunks; i++){
+            int tag             = tagBase+i;
+            molds_mpi_int first = i*static_cast<molds_mpi_int>(elementsLimit);
+            Chunk chunk         = {tag, first, elementsLimit};
             chunks.push_back(chunk);
          }
          if(0 < remaining){

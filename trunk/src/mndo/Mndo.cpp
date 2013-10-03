@@ -32,6 +32,7 @@
 #include"../base/MolDSException.h"
 #include"../base/MallocerFreer.h"
 #include"../base/containers/ThreadSafeQueue.h"
+#include"../mpi/MpiInt.h"
 #include"../mpi/MpiProcess.h"
 #include"../mpi/AsyncCommunicator.h"
 #include"../wrappers/Blas.h"
