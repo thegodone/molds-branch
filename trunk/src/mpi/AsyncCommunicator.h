@@ -31,7 +31,6 @@ public:
    template<typename T> void Run(int passingTimes){
       int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
       while(0<passingTimes){
-         sleep(0.1);
          boost::mutex::scoped_lock lk(this->stateGuard);
          try{
             DataInfo dInfo = this->dataQueue.FrontPop();
