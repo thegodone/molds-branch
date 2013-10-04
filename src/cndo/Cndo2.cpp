@@ -1437,26 +1437,24 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
          }  // end of if(mpiRank == calcRank) 
 
          // set data to gather in mpiHeadRank with asynchronous MPI 
-         int tag = mu;
-         int source = calcRank;
-         int dest = mpiHeadRank;
+         int tag                      = mu;
+         int source                   = calcRank;
+         int dest                     = mpiHeadRank;
+         double* buff                 = &fockMatrix[mu][mu];
+         MolDS_mpi::molds_mpi_int num = totalNumberAOs-mu;
          if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-            asyncCommunicator.SetRecvedVector(&fockMatrix[mu][mu], 
-                                              totalNumberAOs-mu, 
-                                              source,
-                                              tag);
+            asyncCommunicator.SetRecvedVector(buff, num, source, tag);
          }
          if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-            asyncCommunicator.SetSentVector(&fockMatrix[mu][mu], 
-                                            totalNumberAOs-mu, 
-                                            dest,
-                                            tag);
+            asyncCommunicator.SetSentVector(buff, num, dest, tag);
          }
       }  // end of loop mu parallelized with MPI
    }  // end of loop A 
    // Delete the communication thread.
    communicationThread.join();
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&fockMatrix[0][0], totalNumberAOs*totalNumberAOs, mpiHeadRank);
+   double* buff                 = &fockMatrix[0][0];
+   MolDS_mpi::molds_mpi_int num = totalNumberAOs*totalNumberAOs;
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
 
    /*  
    this->OutputLog("fock matrix\n");
@@ -1669,24 +1667,22 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
       }  //  end of if(mpiRank==calcRank)
 
       // set data to gater in mpiHeadRank with asynchronous MPI 
-      int tag = A;
-      int source = calcRank;
-      int dest = mpiHeadRank;
+      int tag                      = A;
+      int source                   = calcRank;
+      int dest                     = mpiHeadRank;
+      double* buff                 = &gammaAB[A][A];
+      MolDS_mpi::molds_mpi_int num = totalAtomNumber-A;
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(&gammaAB[A][A], 
-                                           totalAtomNumber-A, 
-                                           source,
-                                           tag);
+         asyncCommunicator.SetRecvedVector(buff, num, source, tag);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(&gammaAB[A][A], 
-                                         totalAtomNumber-A, 
-                                         dest,
-                                         tag);
+         asyncCommunicator.SetSentVector(buff, num, dest, tag);
       }
    }  // end of loop A prallelized by MPI
    communicationThread.join();
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&gammaAB[0][0], totalAtomNumber*totalAtomNumber, mpiHeadRank);
+   double* buff                 = &gammaAB[0][0];
+   MolDS_mpi::molds_mpi_int num = totalAtomNumber*totalAtomNumber;
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
 
 #pragma omp parallel for schedule(auto)
    for(int A=0; A<totalAtomNumber; A++){
@@ -1836,43 +1832,31 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
       } // end lof if(mpiRank == calcRank)
 
       // set data to gater in mpiHeadRank with asynchronous MPI 
-      int tagX = A* CartesianType_end + XAxis;
-      int tagY = A* CartesianType_end + YAxis;
-      int tagZ = A* CartesianType_end + ZAxis;
-      int source = calcRank;
-      int dest = mpiHeadRank;
+      int tagX                     = A* CartesianType_end + XAxis;
+      int tagY                     = A* CartesianType_end + YAxis;
+      int tagZ                     = A* CartesianType_end + ZAxis;
+      int source                   = calcRank;
+      int dest                     = mpiHeadRank;
+      double* buffX                = &cartesianMatrix[XAxis][firstAOIndexA][0];
+      double* buffY                = &cartesianMatrix[YAxis][firstAOIndexA][0];
+      double* buffZ                = &cartesianMatrix[ZAxis][firstAOIndexA][0];
+      MolDS_mpi::molds_mpi_int num = numValenceAOsA*totalAONumber;
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(&cartesianMatrix[XAxis][firstAOIndexA][0], 
-                                           numValenceAOsA*totalAONumber, 
-                                           source,
-                                           tagX);
-         asyncCommunicator.SetRecvedVector(&cartesianMatrix[YAxis][firstAOIndexA][0], 
-                                           numValenceAOsA*totalAONumber, 
-                                           source,
-                                           tagY);
-         asyncCommunicator.SetRecvedVector(&cartesianMatrix[ZAxis][firstAOIndexA][0], 
-                                           numValenceAOsA*totalAONumber, 
-                                           source,
-                                           tagZ);
+         asyncCommunicator.SetRecvedVector(buffX, num, source, tagX);
+         asyncCommunicator.SetRecvedVector(buffY, num, source, tagY);
+         asyncCommunicator.SetRecvedVector(buffZ, num, source, tagZ);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(&cartesianMatrix[XAxis][firstAOIndexA][0], 
-                                         numValenceAOsA*totalAONumber, 
-                                         dest,
-                                         tagX);
-         asyncCommunicator.SetSentVector(&cartesianMatrix[YAxis][firstAOIndexA][0], 
-                                         numValenceAOsA*totalAONumber, 
-                                         dest,
-                                         tagY);
-         asyncCommunicator.SetSentVector(&cartesianMatrix[ZAxis][firstAOIndexA][0], 
-                                         numValenceAOsA*totalAONumber, 
-                                         dest,
-                                         tagZ);
+         asyncCommunicator.SetSentVector(buffX, num, dest, tagX);
+         asyncCommunicator.SetSentVector(buffY, num, dest, tagY);
+         asyncCommunicator.SetSentVector(buffZ, num, dest, tagZ);
       }
    } // end of loop for int A with MPI
    // Delete the communication thread.
    communicationThread.join();
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&cartesianMatrix[0][0][0], CartesianType_end*totalAONumber*totalAONumber, mpiHeadRank);
+   double* buff                 = &cartesianMatrix[0][0][0];
+   MolDS_mpi::molds_mpi_int num = CartesianType_end*totalAONumber*totalAONumber;
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
 
 /*
    // communication to collect all matrix data on head-rank
@@ -3976,24 +3960,22 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
       } // end of if(mpiRank == calcRnak)
 
       // set data to gather in mpiHeadRank with asynchronous MPI 
-      int tag = A;
-      int source = calcRank;
-      int dest = mpiHeadRank;
+      int tag                      = A;
+      int source                   = calcRank;
+      int dest                     = mpiHeadRank;
+      double* buff                 = overlapAOs[firstAOIndexA];
+      MolDS_mpi::molds_mpi_int num = totalAONumber*numValenceAOs;
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(overlapAOs[firstAOIndexA], 
-                                           totalAONumber*numValenceAOs, 
-                                           source,
-                                           tag);
+         asyncCommunicator.SetRecvedVector(buff, num, source, tag);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(overlapAOs[firstAOIndexA], 
-                                         totalAONumber*numValenceAOs, 
-                                         dest,
-                                         tag);
+         asyncCommunicator.SetSentVector(buff, num, dest, tag);
       }
    }  // end of loop A parallelized with MPI
    communicationThread.join();
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&overlapAOs[0][0], totalAONumber*totalAONumber, mpiHeadRank);
+   double* buff                 = &overlapAOs[0][0];
+   MolDS_mpi::molds_mpi_int num = totalAONumber*totalAONumber;
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
 
    #pragma omp parallel for schedule(auto)
    for(int mu=0; mu<totalAONumber; mu++){
