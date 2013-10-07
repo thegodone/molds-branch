@@ -1295,6 +1295,7 @@ double Cndo2::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
 void Cndo2::UpdateOldOrbitalElectronPopulation(double** oldOrbitalElectronPopulation, 
                                                double const* const* orbitalElectronPopulation,
                                                int numberAOs) const{
+#pragma omp parallel for schedule(auto)
    for(int i=0; i<numberAOs; i++){
       for(int j=0; j<numberAOs; j++){
          oldOrbitalElectronPopulation[i][j] = orbitalElectronPopulation[i][j];
@@ -1568,12 +1569,10 @@ void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
                                          const Molecule& molecule) const{
    int totalNumberAtoms = molecule.GetNumberAtoms();
    MallocerFreer::GetInstance()->Initialize<double>(atomicElectronPopulation, totalNumberAtoms);
-
-   int firstAOIndex = 0;
-   int numberAOs = 0;
+#pragma omp parallel for schedule(auto)
    for(int A=0; A<totalNumberAtoms; A++){
-      firstAOIndex = molecule.GetAtom(A)->GetFirstAOIndex();
-      numberAOs = molecule.GetAtom(A)->GetValenceSize();
+      int firstAOIndex = molecule.GetAtom(A)->GetFirstAOIndex();
+      int numberAOs = molecule.GetAtom(A)->GetValenceSize();
       for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
          atomicElectronPopulation[A] += orbitalElectronPopulation[i][i];
       }
