@@ -3443,11 +3443,9 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
    int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
-   int mPassingTimes = totalNumberAtoms-1;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, 
-                                                  &asyncCommunicator, 
-                                                  mPassingTimes) );
+                                                  &asyncCommunicator) );
 #ifdef MOLDS_DBG
    if(twoElecTwoCore == NULL){
       throw MolDSException(this->errorMessageCalcTwoElecTwoCoreNullMatrix);
@@ -3518,6 +3516,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
          asyncCommunicator.SetBroadcastedMessage(&this->twoElecTwoCoreMpiBuff[a][b][0][0], num, calcRank);
       }
    } // end of loop a parallelized with MPI
+   asyncCommunicator.Finalize();
    communicationThread.join();
 
 #pragma omp parallel for schedule(auto)

@@ -97,22 +97,6 @@ MpiProcess* MpiProcess::GetInstance(){
 
 void MpiProcess::Barrier(){this->communicator->barrier();}
 
-int MpiProcess::GetMessagePassingTimes(molds_mpi_int num)const{
-   int mpiRank     = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
-   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
-   int calcTimes = num/mpiSize;
-   if(mpiRank < num%mpiSize){calcTimes+=1;}
-   int mpiPassingTimes;
-   if(mpiRank == mpiHeadRank){
-      mpiPassingTimes = num - calcTimes;
-   }
-   else{
-      mpiPassingTimes = calcTimes;
-   }
-   return mpiPassingTimes;
-}
-
 void MpiProcess::SetMessages(){
    this->errorMessageSplitMessageElemLimNegative
       = "Error in mpi::MpiProcess::SplitMessage2Chunks: elementsLimit is negative. \nelementsLimit=";

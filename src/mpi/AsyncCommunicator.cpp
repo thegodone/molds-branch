@@ -35,8 +35,15 @@
 #include"AsyncCommunicator.h"
 using namespace std;
 namespace MolDS_mpi{
-AsyncCommunicator::AsyncCommunicator(){}
+AsyncCommunicator::AsyncCommunicator(){
+   this->hasAllMessagesSet=false;
+}
 AsyncCommunicator::~AsyncCommunicator(){}
+void AsyncCommunicator::Finalize(){
+   boost::mutex::scoped_lock lk(this->stateGuard);
+   this->hasAllMessagesSet = true;
+   this->stateChange.notify_all();
+}
 }
 
 

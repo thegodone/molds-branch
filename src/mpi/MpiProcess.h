@@ -114,7 +114,6 @@ public:
       MolDS_base::MallocerFreer::GetInstance()->Free<double>(&tmpValues, num);
    }
    void Barrier();
-   int  GetMessagePassingTimes(molds_mpi_int num) const;
 private:
    static MpiProcess* mpiProcess;
    MpiProcess();
