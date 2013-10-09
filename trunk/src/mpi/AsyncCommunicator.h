@@ -28,9 +28,9 @@ class AsyncCommunicator{
 public:
    AsyncCommunicator();
    ~AsyncCommunicator();
-   template<typename T> void Run(int passingTimes){
+   template<typename T> void Run(){
       int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-      while(0<passingTimes){
+      while(true){
          boost::mutex::scoped_lock lk(this->stateGuard);
          try{
             MessageInfo mInfo = this->messageQueue.FrontPop();
@@ -58,10 +58,12 @@ public:
                throw ex;
             }
             this->stateChange.notify_all();
-            passingTimes--;
          }
          catch(MolDS_base::MolDSException ex){
-            if(ex.HasKey(MolDS_base::EmptyQueue)){
+            if(ex.HasKey(MolDS_base::EmptyQueue && this->hasAllMessagesSet)){
+               break;
+            }
+            else if(ex.HasKey(MolDS_base::EmptyQueue && !this->hasAllMessagesSet)){
                this->stateChange.wait(lk);
                continue;
             }
@@ -98,6 +100,8 @@ public:
       this->SetMessage(vector, num, source, dest, tag, mpiFuncType);
    }
 
+   void Finalize();
+
 private:
    struct MessageInfo{intptr_t vectorPtr; 
                       molds_mpi_int num; 
@@ -107,6 +111,7 @@ private:
                       MolDS_base::MpiFunctionType mpiFuncType;};
    boost::mutex     stateGuard;
    boost::condition stateChange;
+   bool hasAllMessagesSet;
    MolDS_base_containers::ThreadSafeQueue<MessageInfo> messageQueue;
    template<typename T> void SetMessage(T* vector, 
                                         molds_mpi_int num, 
