@@ -3515,7 +3515,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
          OrbitalType twoElecLimit = dxy;
          int numBuff = (twoElecLimit+1)*twoElecLimit/2;
          int num = (totalNumberAtoms-b)*numBuff*numBuff;
-         asyncCommunicator.SetBroadcastedVector(&this->twoElecTwoCoreMpiBuff[a][b][0][0], num, calcRank);
+         asyncCommunicator.SetBroadcastedMessage(&this->twoElecTwoCoreMpiBuff[a][b][0][0], num, calcRank);
       }
    } // end of loop a parallelized with MPI
    communicationThread.join();

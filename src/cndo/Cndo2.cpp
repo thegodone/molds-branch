@@ -1444,10 +1444,10 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
          double* buff                 = &fockMatrix[mu][mu];
          MolDS_mpi::molds_mpi_int num = totalNumberAOs-mu;
          if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-            asyncCommunicator.SetRecvedVector(buff, num, source, tag);
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
          }
          if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-            asyncCommunicator.SetSentVector(buff, num, dest, tag);
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
          }
       }  // end of loop mu parallelized with MPI
    }  // end of loop A 
@@ -1672,10 +1672,10 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
       double* buff                 = &gammaAB[A][A];
       MolDS_mpi::molds_mpi_int num = totalAtomNumber-A;
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(buff, num, source, tag);
+         asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(buff, num, dest, tag);
+         asyncCommunicator.SetSentMessage(buff, num, dest, tag);
       }
    }  // end of loop A prallelized by MPI
    communicationThread.join();
@@ -1841,14 +1841,14 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
       double* buffZ                = &cartesianMatrix[ZAxis][firstAOIndexA][0];
       MolDS_mpi::molds_mpi_int num = numValenceAOsA*totalAONumber;
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(buffX, num, source, tagX);
-         asyncCommunicator.SetRecvedVector(buffY, num, source, tagY);
-         asyncCommunicator.SetRecvedVector(buffZ, num, source, tagZ);
+         asyncCommunicator.SetRecvedMessage(buffX, num, source, tagX);
+         asyncCommunicator.SetRecvedMessage(buffY, num, source, tagY);
+         asyncCommunicator.SetRecvedMessage(buffZ, num, source, tagZ);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(buffX, num, dest, tagX);
-         asyncCommunicator.SetSentVector(buffY, num, dest, tagY);
-         asyncCommunicator.SetSentVector(buffZ, num, dest, tagZ);
+         asyncCommunicator.SetSentMessage(buffX, num, dest, tagX);
+         asyncCommunicator.SetSentMessage(buffY, num, dest, tagY);
+         asyncCommunicator.SetSentMessage(buffZ, num, dest, tagZ);
       }
    } // end of loop for int A with MPI
    // Delete the communication thread.
@@ -3965,10 +3965,10 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
       double* buff                 = overlapAOs[firstAOIndexA];
       MolDS_mpi::molds_mpi_int num = totalAONumber*numValenceAOs;
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(buff, num, source, tag);
+         asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(buff, num, dest, tag);
+         asyncCommunicator.SetSentMessage(buff, num, dest, tag);
       }
    }  // end of loop A parallelized with MPI
    communicationThread.join();

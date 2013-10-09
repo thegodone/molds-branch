@@ -33,23 +33,23 @@ public:
       while(0<passingTimes){
          boost::mutex::scoped_lock lk(this->stateGuard);
          try{
-            DataInfo dInfo = this->dataQueue.FrontPop();
-            if(dInfo.mpiFuncType == MolDS_base::Send){
-               MolDS_mpi::MpiProcess::GetInstance()->Send(dInfo.dest,
-                                                          dInfo.tag,
-                                                          reinterpret_cast<T*>(dInfo.vectorPtr), 
-                                                          dInfo.num);
+            MessageInfo mInfo = this->messageQueue.FrontPop();
+            if(mInfo.mpiFuncType == MolDS_base::Send){
+               MolDS_mpi::MpiProcess::GetInstance()->Send(mInfo.dest,
+                                                          mInfo.tag,
+                                                          reinterpret_cast<T*>(mInfo.vectorPtr), 
+                                                          mInfo.num);
             }
-            else if(dInfo.mpiFuncType == MolDS_base::Recv){
-               MolDS_mpi::MpiProcess::GetInstance()->Recv(dInfo.source,
-                                                          dInfo.tag,
-                                                          reinterpret_cast<T*>(dInfo.vectorPtr), 
-                                                          dInfo.num);
+            else if(mInfo.mpiFuncType == MolDS_base::Recv){
+               MolDS_mpi::MpiProcess::GetInstance()->Recv(mInfo.source,
+                                                          mInfo.tag,
+                                                          reinterpret_cast<T*>(mInfo.vectorPtr), 
+                                                          mInfo.num);
             }
-            else if(dInfo.mpiFuncType == MolDS_base::Broadcast){
-               MolDS_mpi::MpiProcess::GetInstance()->Broadcast(reinterpret_cast<T*>(dInfo.vectorPtr), 
-                                                               dInfo.num, 
-                                                               dInfo.source);
+            else if(mInfo.mpiFuncType == MolDS_base::Broadcast){
+               MolDS_mpi::MpiProcess::GetInstance()->Broadcast(reinterpret_cast<T*>(mInfo.vectorPtr), 
+                                                               mInfo.num, 
+                                                               mInfo.source);
             }
             else{
                std::stringstream ss;
@@ -72,51 +72,51 @@ public:
       }
    }
 
-   template<typename T> void SetSentVector(T* vector, 
-                                           molds_mpi_int num, 
-                                           int dest,
-                                           int tag){
+   template<typename T> void SetSentMessage(T* vector, 
+                                            molds_mpi_int num, 
+                                            int dest,
+                                            int tag){
       int source = NON_USED;
       MolDS_base::MpiFunctionType mpiFuncType = MolDS_base::Send;
-      this->SetVector(vector, num, source, dest, tag, mpiFuncType);
+      this->SetMessage(vector, num, source, dest, tag, mpiFuncType);
    }
 
-   template<typename T> void SetRecvedVector(T* vector, 
-                                             molds_mpi_int num, 
-                                             int source, 
-                                             int tag){
+   template<typename T> void SetRecvedMessage(T* vector, 
+                                              molds_mpi_int num, 
+                                              int source, 
+                                              int tag){
       int dest   = NON_USED;
       MolDS_base::MpiFunctionType mpiFuncType = MolDS_base::Recv;
-      this->SetVector(vector, num, source, dest, tag, mpiFuncType);
+      this->SetMessage(vector, num, source, dest, tag, mpiFuncType);
    }
 
-   template<typename T> void SetBroadcastedVector(T* vector, molds_mpi_int num, int root){
+   template<typename T> void SetBroadcastedMessage(T* vector, molds_mpi_int num, int root){
       int source = root;
       int dest   = NON_USED;
       int tag    = NON_USED;
       MolDS_base::MpiFunctionType mpiFuncType = MolDS_base::Broadcast;
-      this->SetVector(vector, num, source, dest, tag, mpiFuncType);
+      this->SetMessage(vector, num, source, dest, tag, mpiFuncType);
    }
 
 private:
-   struct DataInfo{intptr_t vectorPtr; 
-                   molds_mpi_int num; 
-                   int source; 
-                   int dest; 
-                   int tag;
-                   MolDS_base::MpiFunctionType mpiFuncType;};
+   struct MessageInfo{intptr_t vectorPtr; 
+                      molds_mpi_int num; 
+                      int source; 
+                      int dest; 
+                      int tag;
+                      MolDS_base::MpiFunctionType mpiFuncType;};
    boost::mutex     stateGuard;
    boost::condition stateChange;
-   MolDS_base_containers::ThreadSafeQueue<DataInfo> dataQueue;
-   template<typename T> void SetVector(T* vector, 
-                                       molds_mpi_int num, 
-                                       int source, 
-                                       int dest, 
-                                       int tag,
-                                       MolDS_base::MpiFunctionType mpiFuncType){
+   MolDS_base_containers::ThreadSafeQueue<MessageInfo> messageQueue;
+   template<typename T> void SetMessage(T* vector, 
+                                        molds_mpi_int num, 
+                                        int source, 
+                                        int dest, 
+                                        int tag,
+                                        MolDS_base::MpiFunctionType mpiFuncType){
       boost::mutex::scoped_lock lk(this->stateGuard);
-      DataInfo dInfo = {reinterpret_cast<intptr_t>(vector), num, source, dest, tag, mpiFuncType};
-      this->dataQueue.Push(dInfo);
+      MessageInfo mInfo = {reinterpret_cast<intptr_t>(vector), num, source, dest, tag, mpiFuncType};
+      this->messageQueue.Push(mInfo);
       this->stateChange.notify_all();
    }
 };

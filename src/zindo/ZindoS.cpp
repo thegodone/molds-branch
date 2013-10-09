@@ -2418,10 +2418,10 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
       int num      = this->matrixCISdimension - k;
       double* buff = &this->matrixCIS[k][k];
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(buff, num, source, tag);
+         asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(buff, num, dest, tag);
+         asyncCommunicator.SetSentMessage(buff, num, dest, tag);
       }
    } // end of k-loop which is MPI-parallelized
    communicationThread.join();
@@ -3361,10 +3361,10 @@ void ZindoS::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<Mo
       int num    = nonRedundantQIndecesSize - i;
       double* buff = &gammaNRMinusKNR[i][i];
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(buff, num, source, tag);
+         asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(buff, num, dest, tag);
+         asyncCommunicator.SetSentMessage(buff, num, dest, tag);
       }
    } // end of loop-i parallelized with MPI
    communicationThread.join();
@@ -3425,10 +3425,10 @@ void ZindoS::CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv,
       int num      = redundantQIndecesSize;
       double* buff = &kRDagerGammaRInv[i][0];
       if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedVector(buff, num, source, tag);
+         asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
       }
       if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentVector(buff, num, dest, tag);
+         asyncCommunicator.SetSentMessage(buff, num, dest, tag);
       }
    } // end of loop-i parallelized with MPI
    communicationThread.join();
