@@ -110,11 +110,7 @@ molds_lapack_int Lapack::Dsyevd(double** matrix, double* eigenValues, molds_lapa
    }
 
    // call Lapack
-#ifdef __INTEL_COMPILER
    info = LAPACKE_dsyevd(LAPACK_ROW_MAJOR, job, uplo, size, &matrix[0][0], lda, eigenValues);
-#else
-   info = LAPACKE_dsyevd(LAPACK_ROW_MAJOR, job, uplo, size, &matrix[0][0], lda, eigenValues);
-#endif
 
    // make i-th row i-the eigenvector
    double** tmpMatrix=NULL;
@@ -185,11 +181,8 @@ molds_lapack_int Lapack::Dsysv(double** matrix, double* b, molds_lapack_int size
    // malloc
    ipiv = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*2*size, 16 );
 
-#ifdef __INTEL_COMPILER
+   // call Lapack
    info = LAPACKE_dsysv(LAPACK_ROW_MAJOR, uplo, size, nrhs, &matrix[0][0], lda, ipiv, b, ldb);
-#else
-   info = LAPACKE_dsysv(LAPACK_ROW_MAJOR, uplo, size, nrhs, &matrix[0][0], lda, ipiv, b, ldb);
-#endif
 
    // free
    MOLDS_LAPACK_free(ipiv);
@@ -238,11 +231,8 @@ molds_lapack_int Lapack::Dgetrs(double** matrix, double** b, molds_lapack_int si
          }
       }
       this->Dgetrf(&matrix[0][0], ipiv, size, size);
-#ifdef __INTEL_COMPILER
+      // call Lapack
       info = LAPACKE_dgetrs(LAPACK_ROW_MAJOR, trans, size, nrhs, &matrix[0][0], lda, ipiv, tmpB, ldb);
-#else
-      info = LAPACKE_dgetrs(LAPACK_ROW_MAJOR, trans, size, nrhs, &matrix[0][0], lda, ipiv, tmpB, ldb);
-#endif
       for(molds_lapack_int i = 0; i < nrhs; i++){
          for(molds_lapack_int j = 0; j < size; j++){
             b[i][j] = tmpB[j*nrhs+i];
@@ -291,11 +281,8 @@ molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int* ipiv, molds_l
 molds_lapack_int Lapack::Dgetrf(double* matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
    molds_lapack_int info = 0;
    molds_lapack_int lda = sizeM;
-#ifdef __INTEL_COMPILER
+   // call Lapack
    info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, sizeM, sizeN, matrix, lda, ipiv);
-#else
-   info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, sizeM, sizeN, matrix, lda, ipiv);
-#endif
    if(info != 0){
       stringstream ss;
       ss << errorMessageDgetrfInfo;
