@@ -514,6 +514,7 @@ void Cndo2::DoSCF(bool requiresGuess){
    double*** diisStoredDensityMatrix = NULL;
    double*** diisStoredErrorVect = NULL;
    double**  diisErrorProducts = NULL;
+   double**  tmpDiisErrorProducts = NULL;
    double*   diisErrorCoefficients = NULL;
 
    try{
@@ -521,6 +522,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                                        &diisStoredDensityMatrix,
                                        &diisStoredErrorVect,
                                        &diisErrorProducts,
+                                       &tmpDiisErrorProducts,
                                        &diisErrorCoefficients);
       // calculate electron integral
       this->CalcGammaAB(this->gammaAB, *this->molecule);
@@ -590,6 +592,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                             diisStoredDensityMatrix,
                             diisStoredErrorVect,
                             diisErrorProducts,
+                            tmpDiisErrorProducts,
                             diisErrorCoefficients,
                             diisError,
                             hasAppliedDIIS,
@@ -612,6 +615,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                                      &diisStoredDensityMatrix,
                                      &diisStoredErrorVect,
                                      &diisErrorProducts,
+                                     &tmpDiisErrorProducts,
                                      &diisErrorCoefficients);
 
       throw ex;
@@ -620,6 +624,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                                   &diisStoredDensityMatrix,
                                   &diisStoredErrorVect,
                                   &diisErrorProducts,
+                                  &tmpDiisErrorProducts,
                                   &diisErrorCoefficients);
 
    double ompEndTime = omp_get_wtime();
@@ -750,6 +755,7 @@ void Cndo2::FreeSCFTemporaryMatrices(double*** oldOrbitalElectronPopulation,
                                      double**** diisStoredDensityMatrix,
                                      double**** diisStoredErrorVect,
                                      double*** diisErrorProducts,
+                                     double*** tmpDiisErrorProducts,
                                      double** diisErrorCoefficients) const{
 
    int diisNumErrorVect = Parameters::GetInstance()->GetDiisNumErrorVectSCF();
@@ -767,6 +773,9 @@ void Cndo2::FreeSCFTemporaryMatrices(double*** oldOrbitalElectronPopulation,
    MallocerFreer::GetInstance()->Free<double>(diisErrorProducts, 
                                               diisNumErrorVect+1,
                                               diisNumErrorVect+1);
+   MallocerFreer::GetInstance()->Free<double>(tmpDiisErrorProducts, 
+                                              diisNumErrorVect+1,
+                                              diisNumErrorVect+1);
    MallocerFreer::GetInstance()->Free<double>(diisErrorCoefficients,
                                               diisNumErrorVect+1);
 }
@@ -775,6 +784,7 @@ void Cndo2::MallocSCFTemporaryMatrices(double*** oldOrbitalElectronPopulation,
                                        double**** diisStoredDensityMatrix,
                                        double**** diisStoredErrorVect,
                                        double*** diisErrorProducts,
+                                       double*** tmpDiisErrorProducts,
                                        double** diisErrorCoefficients){
 
    int diisNumErrorVect = Parameters::GetInstance()->GetDiisNumErrorVectSCF();
@@ -791,6 +801,7 @@ void Cndo2::MallocSCFTemporaryMatrices(double*** oldOrbitalElectronPopulation,
                                                    this->molecule->GetTotalNumberAOs(), 
                                                    this->molecule->GetTotalNumberAOs());
       MallocerFreer::GetInstance()->Malloc<double>(diisErrorProducts, diisNumErrorVect+1, diisNumErrorVect+1);
+      MallocerFreer::GetInstance()->Malloc<double>(tmpDiisErrorProducts, diisNumErrorVect+1, diisNumErrorVect+1);
       MallocerFreer::GetInstance()->Malloc<double>(diisErrorCoefficients, diisNumErrorVect+1);
    }
 }
@@ -805,6 +816,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
                    double*** diisStoredDensityMatrix,
                    double*** diisStoredErrorVect,
                    double**  diisErrorProducts,
+                   double**  tmpDiisErrorProducts,
                    double*   diisErrorCoefficients,
                    double&   diisError,
                    bool&     hasAppliedDIIS,
@@ -873,7 +885,13 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
       if(diisNumErrorVect <= step && diisEndError<diisError && diisError<diisStartError){
          hasAppliedDIIS = true;
          try{
-            MolDS_wrappers::Lapack::GetInstance()->Dsysv(diisErrorProducts, 
+#pragma omp parallel for schedule(auto)
+            for(int i=0; i<diisNumErrorVect+1; i++){
+               for(int j=0; j<diisNumErrorVect+1; j++){
+                  tmpDiisErrorProducts[i][j] = diisErrorProducts[i][j];
+               }
+            }
+            MolDS_wrappers::Lapack::GetInstance()->Dsysv(tmpDiisErrorProducts, 
                                                          diisErrorCoefficients, 
                                                          diisNumErrorVect+1);
          }catch(MolDSException ex){
