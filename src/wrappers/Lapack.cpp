@@ -98,18 +98,10 @@ void Lapack::DeleteInstance(){
  * ***/
 molds_lapack_int Lapack::Dsyevd(double** matrix, double* eigenValues, molds_lapack_int size, bool calcEigenVectors){
    molds_lapack_int info = 0;
-   molds_lapack_int k = 0;
-   molds_lapack_int lwork;
-   molds_lapack_int liwork;
-   char job;
    char uplo = 'U';
    molds_lapack_int lda = size;
-   double* convertedMatrix;
-   double* tempEigenValues;
-   double* work;
-   molds_lapack_int* iwork;
-
    // set job type
+   char job;
    if(calcEigenVectors){
       job = 'V';
    }
@@ -117,84 +109,47 @@ molds_lapack_int Lapack::Dsyevd(double** matrix, double* eigenValues, molds_lapa
       job = 'N';
    }
 
-   // calc. lwork and liwork
-   if(size < 1 ){
-      stringstream ss;
-      ss << errorMessageDsyevdSize;
-      MolDSException ex(ss.str());
-      ex.SetKeyValue<int>(LapackInfo, info);
-      throw ex;
-   }
-   else if(size == 1){
-      lwork = 1;
-      liwork = 1;
-   }
-   else if(1 < size && job == 'N'){
-      lwork = 2*size + 1;
-      liwork = 2;
-   }
-   else{
-      // calc. k
-      double temp = log((double)size)/log(2.0);
-      if( (double)((molds_lapack_int)temp) < temp ){
-         k = (molds_lapack_int)temp + 1;
-      }
-      else{
-         k = (molds_lapack_int)temp;
-      }
-      lwork = 3*size*size + (5+2*k)*size + 1;
-      liwork = 5*size + 3;
-   }
-
-   // malloc
-   work = (double*)MOLDS_LAPACK_malloc( sizeof(double)*lwork, 16 );
-   iwork = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*liwork, 16 );
-   convertedMatrix = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size*size, 16 );
-   tempEigenValues = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size, 16 );
-
-   for(molds_lapack_int i = 0; i < size; i++){
-      for(molds_lapack_int j = i; j < size; j++){
-         convertedMatrix[i+j*size] = matrix[i][j];
-      }
-   }
-
    // call Lapack
 #ifdef __INTEL_COMPILER
-   dsyevd(&job, &uplo, &size, convertedMatrix, &lda, tempEigenValues, work, &lwork, iwork, &liwork, &info);
+   info = LAPACKE_dsyevd(LAPACK_ROW_MAJOR, job, uplo, size, &matrix[0][0], lda, eigenValues);
 #else
-   info = LAPACKE_dsyevd_work(LAPACK_COL_MAJOR, job, uplo, size, convertedMatrix, lda, tempEigenValues, work, lwork, iwork, liwork);
+   info = LAPACKE_dsyevd(LAPACK_ROW_MAJOR, job, uplo, size, &matrix[0][0], lda, eigenValues);
 #endif
 
-   for(molds_lapack_int i = 0; i < size; i++){
-      for(molds_lapack_int j = 0; j < size; j++){
-         matrix[i][j] = convertedMatrix[j+i*size];  //i-th row is i-th eigen vector
-         //matrix[j][i] = convertedMatrix[j+i*size];  //i-th column is i-th eigen vector
+   // make i-th row i-the eigenvector
+   double** tmpMatrix=NULL;
+   try{
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix, size, size);
+      for(molds_lapack_int i = 0; i < size; i++){
+         for(molds_lapack_int j = 0; j < size; j++){
+            tmpMatrix[j][i] = matrix[i][j];
+         }
+      }
+      for(molds_lapack_int i = 0; i < size; i++){
+         for(molds_lapack_int j = 0; j < size; j++){
+            matrix[i][j] = tmpMatrix[i][j];
+         }
       }
    }
+   catch(MolDSException ex){
+      MallocerFreer::GetInstance()->Free<double>(&tmpMatrix, size, size);
+      throw ex;
+   }
+   MallocerFreer::GetInstance()->Free<double>(&tmpMatrix, size, size);
 
+   // adjust phase of eigenvectors
    for(molds_lapack_int i=0;i<size;i++){
-      double temp = 0.0;
+      double tmp = 0.0;
       for(molds_lapack_int j=0;j<size;j++){
-         temp += matrix[i][j];
+         tmp += matrix[i][j];
       }
-      if(temp<0){
+      if(tmp<0){
          for(molds_lapack_int j=0;j<size;j++){
             matrix[i][j]*=-1.0;
          }
       }
    }   
 
-   for(molds_lapack_int i = 0; i < size; i++){
-      eigenValues[i] = tempEigenValues[i];
-   }
-   //this->OutputLog(boost::format("size=%d lwork=%d liwork=%d k=%d info=%d\n") % size % lwork % liwork % k % info);
-
-   // free
-   MOLDS_LAPACK_free(work);
-   MOLDS_LAPACK_free(iwork);
-   MOLDS_LAPACK_free(convertedMatrix);
-   MOLDS_LAPACK_free(tempEigenValues);
-  
    if(info != 0){
       stringstream ss;
       ss << errorMessageDsyevdInfo;
@@ -210,18 +165,15 @@ molds_lapack_int Lapack::Dsyevd(double** matrix, double* eigenValues, molds_lapa
  *
  * "matrix*X=b" is solved, then we get X by this method.
  * The X will be stored in b.
+ * The matrix will be overwriten by this method.
  *
  */
-molds_lapack_int Lapack::Dsysv(double const* const* matrix, double* b, molds_lapack_int size){
+molds_lapack_int Lapack::Dsysv(double** matrix, double* b, molds_lapack_int size){
    molds_lapack_int info = 0;
-   molds_lapack_int lwork;
-   char uplo = 'U';
-   molds_lapack_int lda = size;
-   molds_lapack_int ldb = size;
+   char uplo             = 'U';
    molds_lapack_int nrhs = 1;
-   double* convertedMatrix;
-   double* work;
-   double* tempB;
+   molds_lapack_int lda  = size;
+   molds_lapack_int ldb  = nrhs;
    molds_lapack_int* ipiv;
 
    if(size < 1 ){
@@ -232,50 +184,15 @@ molds_lapack_int Lapack::Dsysv(double const* const* matrix, double* b, molds_lap
 
    // malloc
    ipiv = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*2*size, 16 );
-   convertedMatrix = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size*size, 16 );
-   tempB = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size, 16 );
 
-   for(molds_lapack_int i = 0; i < size; i++){
-      for(molds_lapack_int j = i; j < size; j++){
-         convertedMatrix[i+j*size] = matrix[i][j];
-      }
-   }
-   for(molds_lapack_int i = 0; i < size; i++){
-      tempB[i] = b[i];
-   }
-
-   // calc. lwork
-   double blockSize=0.0;
-#pragma omp critical
-   {
-      lwork = -1;
-      double tempWork[3]={0.0, 0.0, 0.0};
 #ifdef __INTEL_COMPILER
-         dsysv(&uplo, &size, &nrhs, convertedMatrix, &lda, ipiv, tempB, &ldb, tempWork, &lwork, &info);
+   info = LAPACKE_dsysv(LAPACK_ROW_MAJOR, uplo, size, nrhs, &matrix[0][0], lda, ipiv, b, ldb);
 #else
-         info = LAPACKE_dsysv_work(LAPACK_COL_MAJOR, uplo, size, nrhs, convertedMatrix, lda, ipiv, tempB, ldb, tempWork, lwork);
+   info = LAPACKE_dsysv(LAPACK_ROW_MAJOR, uplo, size, nrhs, &matrix[0][0], lda, ipiv, b, ldb);
 #endif
-      blockSize = tempWork[0]/size;
-   }
-   info = 0;
-   lwork = blockSize*size;
-   work = (double*)MOLDS_LAPACK_malloc( sizeof(double)*lwork, 16 );
-
-   // call Lapack
-#ifdef __INTEL_COMPILER
-   dsysv(&uplo, &size, &nrhs, convertedMatrix, &lda, ipiv, tempB, &ldb, work, &lwork, &info);
-#else
-   info = LAPACKE_dsysv_work(LAPACK_COL_MAJOR, uplo, size, nrhs, convertedMatrix, lda, ipiv, tempB, ldb, work, lwork);
-#endif
-   for(molds_lapack_int i = 0; i < size; i++){
-      b[i] = tempB[i];
-   }
 
    // free
-   MOLDS_LAPACK_free(convertedMatrix);
    MOLDS_LAPACK_free(ipiv);
-   MOLDS_LAPACK_free(work);
-   MOLDS_LAPACK_free(tempB);
   
    if(info != 0){
       stringstream ss;
@@ -291,17 +208,17 @@ molds_lapack_int Lapack::Dsysv(double const* const* matrix, double* b, molds_lap
 /***
  *
  * "matrix*X[i]=b[i] (i=0, 1, ... , nrhs-1) is solved, then we get X[i] by this method.
- * The X[i] will be stored in b[i].
- * b[i][j] is j-th element of i-th solution, b[i].
+ * The X[i] will be stored in b[i], namely
+ * the b[i][j] will be j-th element of i-th solution, b[i].
+ * Besides, the matrix will be overwriten by this method.
  *
  */
-molds_lapack_int Lapack::Dgetrs(double const* const* matrix, double** b, molds_lapack_int size, molds_lapack_int nrhs) const{
+molds_lapack_int Lapack::Dgetrs(double** matrix, double** b, molds_lapack_int size, molds_lapack_int nrhs) const{
    molds_lapack_int info = 0;
    char trans = 'N';
    molds_lapack_int lda = size;
-   molds_lapack_int ldb = size;
-   double* convertedMatrix;
-   double* convertedB;
+   molds_lapack_int ldb = nrhs;
+   double* tmpB;
    molds_lapack_int* ipiv;
 
    if(size < 1 ){
@@ -310,45 +227,37 @@ molds_lapack_int Lapack::Dgetrs(double const* const* matrix, double** b, molds_l
       throw MolDSException(ss.str());
    }
 
-
    try{
       // malloc
       ipiv = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*2*size, 16 );
-      convertedMatrix = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size*size, 16 );
-      convertedB = (double*)MOLDS_LAPACK_malloc( sizeof(double)*nrhs*size, 16 );
-      for(molds_lapack_int i = 0; i < size; i++){
-         for(molds_lapack_int j = 0; j < size; j++){
-            convertedMatrix[i+j*size] = matrix[i][j];
-         }
-      }
+      tmpB = (double*)MOLDS_LAPACK_malloc( sizeof(double)*size*nrhs, 16 );
+      // matrix b should be transposed
       for(molds_lapack_int i = 0; i < nrhs; i++){
          for(molds_lapack_int j = 0; j < size; j++){
-            convertedB[j+i*size] = b[i][j];
+            tmpB[j*nrhs+i] = b[i][j];
          }
       }
-      this->Dgetrf(convertedMatrix, ipiv, size, size);
+      this->Dgetrf(&matrix[0][0], ipiv, size, size);
 #ifdef __INTEL_COMPILER
-      dgetrs(&trans, &size, &nrhs, convertedMatrix, &lda, ipiv, convertedB, &ldb, &info);
+      info = LAPACKE_dgetrs(LAPACK_ROW_MAJOR, trans, size, nrhs, &matrix[0][0], lda, ipiv, tmpB, ldb);
 #else
-      info = LAPACKE_dgetrs_work(LAPACK_COL_MAJOR, trans, size, nrhs, convertedMatrix, lda, ipiv, convertedB, ldb);
+      info = LAPACKE_dgetrs(LAPACK_ROW_MAJOR, trans, size, nrhs, &matrix[0][0], lda, ipiv, tmpB, ldb);
 #endif
       for(molds_lapack_int i = 0; i < nrhs; i++){
          for(molds_lapack_int j = 0; j < size; j++){
-            b[i][j] = convertedB[j+i*size];
+            b[i][j] = tmpB[j*nrhs+i];
          }
       }
    }
    catch(MolDSException ex){
       // free
-      MOLDS_LAPACK_free(convertedMatrix);
-      MOLDS_LAPACK_free(convertedB);
+      MOLDS_LAPACK_free(tmpB);
       MOLDS_LAPACK_free(ipiv);
       throw ex;
    }
    // free
-   MOLDS_LAPACK_free(convertedMatrix);
-   MOLDS_LAPACK_free(convertedB);
    MOLDS_LAPACK_free(ipiv);
+   MOLDS_LAPACK_free(tmpB);
   
    if(info != 0){
       stringstream ss;
@@ -363,41 +272,29 @@ molds_lapack_int Lapack::Dgetrs(double const* const* matrix, double** b, molds_l
 // Argument "matrix" will be LU-decomposed.
 molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
    molds_lapack_int* ipiv = (molds_lapack_int*)MOLDS_LAPACK_malloc( sizeof(molds_lapack_int)*2*sizeM,        16 );
-   this->Dgetrf(matrix, ipiv, sizeM, sizeN);
+   this->Dgetrf(&matrix[0][0], ipiv, sizeM, sizeN);
    MOLDS_LAPACK_free(ipiv);
    molds_lapack_int info = 0;
    return info;
 }
 
-// Argument "matrix" is sizeM*sizeN matrix.
+// Argument "matrix" is sizeM*sizeN matrix in Row-major (C/C++ style)
 // Argument "matrix" will be LU-decomposed.
 molds_lapack_int Lapack::Dgetrf(double** matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
-   double* convertedMatrix = (double*)MOLDS_LAPACK_malloc( sizeof(double)*sizeM*sizeN, 16 );
-   for(molds_lapack_int i=0; i<sizeM; i++){
-      for(molds_lapack_int j=0; j<sizeN; j++){
-         convertedMatrix[i+j*sizeM] = matrix[i][j];
-      }
-   }
-   this->Dgetrf(convertedMatrix, ipiv, sizeM, sizeN);
-   for(molds_lapack_int i=0; i<sizeM; i++){
-      for(molds_lapack_int j=0; j<sizeN; j++){
-         matrix[i][j] = convertedMatrix[i+j*sizeM];
-      }
-   }
-   MOLDS_LAPACK_free(convertedMatrix);
+   this->Dgetrf(&matrix[0][0], ipiv, sizeM, sizeN);
    molds_lapack_int info = 0;
    return info;
 }
 
 // Argument "matrix" is sizeM*sizeN matrix.
-// The each element of "matrix" should be stored in 1-dimensional vecotre with column major (Fortran type).
+// The each element of "matrix" should be stored in 1-dimensional vecotre with Row major (C/C++ style).
 molds_lapack_int Lapack::Dgetrf(double* matrix, molds_lapack_int* ipiv, molds_lapack_int sizeM, molds_lapack_int sizeN) const{
    molds_lapack_int info = 0;
    molds_lapack_int lda = sizeM;
 #ifdef __INTEL_COMPILER
-   dgetrf(&sizeM, &sizeN, matrix, &lda, ipiv, &info);
+   info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, sizeM, sizeN, matrix, lda, ipiv);
 #else
-   info = LAPACKE_dgetrf_work(LAPACK_COL_MAJOR, sizeM, sizeN, matrix, lda, ipiv);
+   info = LAPACKE_dgetrf(LAPACK_ROW_MAJOR, sizeM, sizeN, matrix, lda, ipiv);
 #endif
    if(info != 0){
       stringstream ss;
