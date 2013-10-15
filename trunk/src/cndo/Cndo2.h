@@ -201,7 +201,7 @@ protected:
                                              double**  tmpRotMat1stDeriv,
                                              double*** tmpRotMat1stDerivs,
                                              double**  tmpRotatedDiatomicOverlap,
-                                             double**  tmpMatrix,
+                                             double**  tmpMatrixBC,
                                              const MolDS_base_atoms::Atom& atomA, 
                                              const MolDS_base_atoms::Atom& atomB) const;
    void CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1stDerivs, 
@@ -211,7 +211,7 @@ protected:
                                              double**  tmpRotMat1stDeriv,
                                              double*** tmpRotMat1stDerivs,
                                              double**  tmpRotatedDiatomicOverlap,
-                                             double**  tmpMatrix,
+                                             double**  tmpMatrixBC,
                                              int indexAtomA, 
                                              int indexAtomB) const;
    void CalcDiatomicOverlapAOs2ndDerivatives(double**** overlapAOs2ndDeri, 
@@ -280,8 +280,10 @@ private:
    std::string errorMessageCalcRotatingMatrixNullRotMatrix;
    std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullDiaMatrix;
    std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullRotMatrix;
+   std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpDiaMatrix;
    std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpOldDiaMatrix;
    std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpMatrixBC;
+   std::string errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpBC;
    std::string errorMessageSetOverlapAOsElementNullDiaMatrix;
    std::string errorMessageCalcOverlapAOsDifferentConfigurationsDiffAOs;
    std::string errorMessageCalcOverlapAOsDifferentConfigurationsDiffAtoms;
@@ -459,10 +461,12 @@ private:
                        double const* atomicElectronPopulation,
                        double const* const* const* const* const* const* twoElecTwoCore,
                        bool isGuess) const;
-   void RotateDiatmicOverlapAOsToSpaceFrame(double** diatomicOverlapAOs, 
+   void RotateDiatmicOverlapAOsToSpaceFrame(double**             diatomicOverlapAOs, 
                                             double const* const* rotatingMatrix,
-                                            double** oldDiatomicOverlapAOs,
-                                            double** tmpMatrixBC) const;
+                                            double*              tmpDiatomicOverlapAOs,
+                                            double**             tmpOldDiatomicOverlapAOs,
+                                            double**             tmpMatrixBC,
+                                            double*              tmpBC) const;
    void SetOverlapAOsElement(double** overlapAOs, 
                              double const* const* diatomicOverlapAOs, 
                              const MolDS_base_atoms::Atom& atomA, 
