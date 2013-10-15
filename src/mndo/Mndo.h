@@ -298,8 +298,10 @@ private:
                                                  double const* const* const* const* const* diatomicTwoElecTwoCore1stDerivatives,
                                                  MolDS_base::CartesianType axisA) const;
    void CalcDiatomicTwoElecTwoCore(double**** matrix, 
+                                   double*    tmpVec,
                                    double**   tmpRotMat,
                                    double**   tmpMatrixBC,
+                                   double*    tmpBC,
                                    int        indexAtomA, 
                                    int        indexAtomB) const;
    void CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix, 
@@ -317,8 +319,10 @@ private:
                                                  int indexAtomA, 
                                                  int indexAtomB) const;
    void RotateDiatomicTwoElecTwoCoreToSpaceFrame(double****           matrix, 
+                                                 double*              tmpVec,
                                                  double const* const* rotatingMatrix,
-                                                 double**             tmpMatrixBC) const;
+                                                 double**             tmpMatrixBC,
+                                                 double*              tmpBC) const;
    void RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(double***** matrix, 
                                                                double const* const* const* const* diatomicTwoElecTwoCore,
                                                                double const* const* rotatingMatrix,
@@ -334,14 +338,18 @@ private:
                                                                 double*** twiceRotatingMatrixDerivB,
                                                                 double*** oldMatrix,
                                                                 double*** rotatedMatrix,
+                                                                double**  tmpRotatedVec,
                                                                 double*** tmpMatrix,                
+                                                                double**  tmpVector,                
                                                                 double*** ptrDiatomic) const;              
    void FreeTempMatricesRotateDiatomicTwoElecTwoCore1stDerivs(double*** twiceRotatingMatrix,
                                                               double*** twiceRotatingMatrixDerivA,
                                                               double*** twiceRotatingMatrixDerivB,
                                                               double*** oldMatrix,
                                                               double*** rotatedMatrix,
+                                                              double**  tmpRotatedVec,
                                                               double*** tmpMatrix,                
+                                                              double**  tmpVector,                
                                                               double*** ptrDiatomic) const;              
    double GetNddoRepulsionIntegral(const MolDS_base_atoms::Atom& atomA, 
                                    MolDS_base::OrbitalType mu, 
@@ -387,7 +395,7 @@ private:
                                     double***    tmpRotMat1stDeriv,
                                     double****   tmpRotMat1stDerivs,
                                     double***    tmpRotatedDiatomicOverlap,
-                                    double***    tmpMatrix,
+                                    double***    tmpMatrixBC,
                                     double*****  tmpDiatomicTwoElecTwoCore) const;
    void FreeTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs, 
                                   double****** diatomicTwoElecTwoCore1stDerivs,
@@ -397,7 +405,7 @@ private:
                                   double***    tmpRotMat1stDeriv,
                                   double****   tmpRotMat1stDerivs,
                                   double***    tmpRotatedDiatomicOverlap,
-                                  double***    tmpMatrix,
+                                  double***    tmpMatrixBC,
                                   double*****  tmpDiatomicTwoElecTwoCore) const;
    void CalcForceSCFElecCoreAttractionPart(double* force, 
                                            int indexAtomA,

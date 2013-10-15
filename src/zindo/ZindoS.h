@@ -279,7 +279,7 @@ private:
                                     double***  tmpRotMat1stDeriv,
                                     double**** tmpRotMat1stDerivs,
                                     double***  tmpRotatedDiatomicOverlap,
-                                    double***  tmpMatrix) const;         
+                                    double***  tmpMatrixBC) const;         
    void FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
                                   double**** diatomicTwoElecTwoCore1stDerivs,
                                   double***  tmpDiaOverlapAOsInDiaFrame,       
@@ -288,7 +288,7 @@ private:
                                   double***  tmpRotMat1stDeriv,
                                   double**** tmpRotMat1stDerivs,
                                   double***  tmpRotatedDiatomicOverlap,
-                                  double***  tmpMatrix) const;         
+                                  double***  tmpMatrixBC) const;         
    void CalcForceExcitedStaticPart(double* force, 
                                    int elecStateIndex,
                                    int indexAtomA,

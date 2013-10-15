@@ -291,9 +291,65 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
                  double const* const* matrixB,
                  double beta,
                  double** matrixC) const{
+   double* tmpC;
+#ifdef __INTEL_COMPILER
+   tmpC = (double*)mkl_malloc( sizeof(double)*m*n, 16 );
+#else
+   tmpC = (double*)malloc( sizeof(double)*m*n);
+#endif
+   this->Dgemm(isColumnMajorMatrixA, 
+               isColumnMajorMatrixB, 
+               isColumnMajorMatrixC, 
+               m, n, k, 
+               alpha, 
+               matrixA, 
+               matrixB, 
+               beta,
+               matrixC, 
+               tmpC);
+
+#ifdef __INTEL_COMPILER
+   mkl_free(tmpC);
+#else
+   free(tmpC);
+#endif
+}
+
+// matrixC = alpha*matrixA*matrixB + beta*matrixC
+//    matrixA: m*k-matrix 
+//    matrixB: k*n-matrix
+//    matrixC: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
+//    tmpC:    temporary 1-dimensional m*n-array for matrixC
+void Blas::Dgemm(bool isColumnMajorMatrixA, 
+                 bool isColumnMajorMatrixB, 
+                 molds_blas_int m, molds_blas_int n, molds_blas_int k,  
+                 double alpha,
+                 double const* const* matrixA,
+                 double const* const* matrixB,
+                 double beta,
+                 double** matrixC,
+                 double*  tmpC) const{
+   bool isColumnMajorMatrixC = false;
+   this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixB, isColumnMajorMatrixC,m, n, k, alpha, matrixA, matrixB, beta, matrixC, tmpC);
+}
+
+// matrixC = alpha*matrixA*matrixB + beta*matrixC
+//    matrixA: m*k-matrix 
+//    matrixB: k*n-matrix
+//    matrixC: m*n-matrix
+//    tmpC:    temporary 1-dimensional m*n-array for matrixC
+void Blas::Dgemm(bool isColumnMajorMatrixA, 
+                 bool isColumnMajorMatrixB, 
+                 bool isColumnMajorMatrixC, 
+                 molds_blas_int m, molds_blas_int n, molds_blas_int k,  
+                 double alpha,
+                 double const* const* matrixA,
+                 double const* const* matrixB,
+                 double beta,
+                 double** matrixC,
+                 double*  tmpC) const{
    double* a = const_cast<double*>(&matrixA[0][0]);
    double* b = const_cast<double*>(&matrixB[0][0]);
-//   double*       c = &matrixC[0][0];
 
    molds_blas_int lda;
    CBLAS_TRANSPOSE transA;
@@ -317,12 +373,6 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
       ldb = n;
    }
 
-   double* tmpC;
-#ifdef __INTEL_COMPILER
-   tmpC = (double*)mkl_malloc( sizeof(double)*m*n, 16 );
-#else
-   tmpC = (double*)malloc( sizeof(double)*m*n);
-#endif
    molds_blas_int ldc = m;
    if(isColumnMajorMatrixC){
       this->Dcopy(m*n, &matrixC[0][0], tmpC);
@@ -348,11 +398,6 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
          }
       }
    }
-#ifdef __INTEL_COMPILER
-   mkl_free(tmpC);
-#else
-   free(tmpC);
-#endif
 }
 
 // matrixD = matrixA*matrixB*matrixC
@@ -433,6 +478,36 @@ void Blas::Dgemmm(bool isColumnMajorMatrixA,
    bool isColumnMajorMatrixBC = false;
    this->Dgemm(isColumnMajorMatrixB, isColumnMajorMatrixC,  k, n, l, alphaBC, matrixB, matrixC,     betaBC, tmpMatrixBC);
    this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixBC, m, n, k, alpha,   matrixA, tmpMatrixBC, beta,   matrixD );
+}
+
+// matrixD = alpha*matrixA*matrixB*matrixC + beta*matrixD
+//    matrixA: m*k-matrix 
+//    matrixB: k*l-matrix
+//    matrixC: l*n-matrix
+//    matrixD: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
+//       tmpMatrixBC is temporary calculated matrix in row-major, (C/C++ style) 
+//       tmpMatrixBC = matrixB*matrixC
+//       tmpBC       is temporary 1 dimensional k*n-array for matrixBC
+//       tmpD        is temporary 1 dimensional m*n-array for matrixD
+void Blas::Dgemmm(bool isColumnMajorMatrixA,
+                  bool isColumnMajorMatrixB, 
+                  bool isColumnMajorMatrixC, 
+                  molds_blas_int m, molds_blas_int n, molds_blas_int k, molds_blas_int l,
+                  double alpha,
+                  double const* const* matrixA,
+                  double const* const* matrixB,
+                  double const* const* matrixC,
+                  double beta,
+                  double** matrixD,
+                  double*  tmpD,
+                  double** tmpMatrixBC,
+                  double*  tmpBC) const{
+   
+   double alphaBC = 1.0;
+   double betaBC  = 0.0;
+   bool isColumnMajorMatrixBC = false;
+   this->Dgemm(isColumnMajorMatrixB, isColumnMajorMatrixC,  k, n, l, alphaBC, matrixB, matrixC,     betaBC, tmpMatrixBC, tmpBC);
+   this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixBC, m, n, k, alpha,   matrixA, tmpMatrixBC, beta,   matrixD, tmpD);
 }
 
 // matrixC = matrixA*matrixA^T
