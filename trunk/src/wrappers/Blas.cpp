@@ -487,8 +487,8 @@ void Blas::Dgemmm(bool isColumnMajorMatrixA,
 //    matrixD: m*n-matrix (matrixC[m][n] in row-major (C/C++ style))
 //       tmpMatrixBC is temporary calculated matrix in row-major, (C/C++ style) 
 //       tmpMatrixBC = matrixB*matrixC
-//       tmpBC       is temporary 1 dimensional k*n-array for matrixBC
-//       tmpD        is temporary 1 dimensional m*n-array for matrixD
+//       tmpVectorBC is temporary 1 dimensional k*n-array for matrixBC
+//       tmpVectorD  is temporary 1 dimensional m*n-array for matrixD
 void Blas::Dgemmm(bool isColumnMajorMatrixA,
                   bool isColumnMajorMatrixB, 
                   bool isColumnMajorMatrixC, 
@@ -499,15 +499,15 @@ void Blas::Dgemmm(bool isColumnMajorMatrixA,
                   double const* const* matrixC,
                   double beta,
                   double** matrixD,
-                  double*  tmpD,
+                  double*  tmpVectorD,
                   double** tmpMatrixBC,
-                  double*  tmpBC) const{
+                  double*  tmpVectorBC) const{
    
    double alphaBC = 1.0;
    double betaBC  = 0.0;
    bool isColumnMajorMatrixBC = false;
-   this->Dgemm(isColumnMajorMatrixB, isColumnMajorMatrixC,  k, n, l, alphaBC, matrixB, matrixC,     betaBC, tmpMatrixBC, tmpBC);
-   this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixBC, m, n, k, alpha,   matrixA, tmpMatrixBC, beta,   matrixD, tmpD);
+   this->Dgemm(isColumnMajorMatrixB, isColumnMajorMatrixC,  k, n, l, alphaBC, matrixB, matrixC,     betaBC, tmpMatrixBC, tmpVectorBC);
+   this->Dgemm(isColumnMajorMatrixA, isColumnMajorMatrixBC, m, n, k, alpha,   matrixA, tmpMatrixBC, beta,   matrixD,     tmpVectorD);
 }
 
 // matrixC = matrixA*matrixA^T

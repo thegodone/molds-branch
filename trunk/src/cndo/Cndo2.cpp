@@ -188,8 +188,8 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2::RotateDiatmicOverlapAOsToSpaceFrame: tmpOldDiatomicOverlapAOs is NULL.\n";
    this->errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpMatrixBC
       = "Error in cndo::Cndo2::RotateDiatmicOverlapAOsToSpaceFrame: tmpMatrixBC is NULL.\n";
-   this->errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpBC
-      = "Error in cndo::Cndo2::RotateDiatmicOverlapAOsToSpaceFrame: tmpBC is NULL.\n";
+   this->errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpVectorBC
+      = "Error in cndo::Cndo2::RotateDiatmicOverlapAOsToSpaceFrame: tmpVectorBC is NULL.\n";
    this->errorMessageSetOverlapAOsElementNullDiaMatrix 
       = "Error in cndo::Cndo2::SetOverlapAOsElement: diatomicOverlapAOs is NULL.\n";
    this->errorMessageCalcElectronicTransitionDipoleMomentBadState
@@ -3932,7 +3932,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
             double*  tmpDiatomicOverlapAOs    = NULL;
             double** tmpOldDiatomicOverlapAOs = NULL;
             double** tmpMatrixBC              = NULL;
-            double*  tmpBC                    = NULL;
+            double*  tmpVectorBC              = NULL;
             try{
                // malloc
                MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs,
@@ -3949,7 +3949,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
                MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,              
                                                             OrbitalType_end, 
                                                             OrbitalType_end);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpBC,              
+               MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,              
                                                             OrbitalType_end*OrbitalType_end);
                bool symmetrize = false;
 #pragma omp for schedule(auto)
@@ -3957,7 +3957,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
                   const Atom& atomB = *molecule.GetAtom(B);
                   this->CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, atomA, atomB);
                   this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
-                  this->RotateDiatmicOverlapAOsToSpaceFrame(diatomicOverlapAOs, rotatingMatrix, tmpDiatomicOverlapAOs, tmpOldDiatomicOverlapAOs, tmpMatrixBC, tmpBC);
+                  this->RotateDiatmicOverlapAOsToSpaceFrame(diatomicOverlapAOs, rotatingMatrix, tmpDiatomicOverlapAOs, tmpOldDiatomicOverlapAOs, tmpMatrixBC, tmpVectorBC);
                   this->SetOverlapAOsElement(overlapAOs, diatomicOverlapAOs, atomA, atomB, symmetrize);
                } // end of loop B parallelized with openMP
 
@@ -3975,7 +3975,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
             MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,              
                                                        OrbitalType_end, 
                                                        OrbitalType_end);
-            MallocerFreer::GetInstance()->Free<double>(&tmpBC,              
+            MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,              
                                                        OrbitalType_end*OrbitalType_end);
          }  // end of omp-parallelized region
          // Exception throwing for omp-region
@@ -5959,7 +5959,7 @@ void Cndo2::RotateDiatmicOverlapAOsToSpaceFrame(double**             diatomicOve
                                                 double*              tmpDiatomicOverlapAOs,
                                                 double**             tmpOldDiatomicOverlapAOs,
                                                 double**             tmpMatrixBC,
-                                                double*              tmpBC) const{
+                                                double*              tmpVectorBC) const{
 #ifdef MOLDS_DBG
    if(diatomicOverlapAOs==NULL){
       throw MolDSException(this->errorMessageRotDiaOverlapAOsToSpaceFrameNullDiaMatrix);
@@ -5976,8 +5976,8 @@ void Cndo2::RotateDiatmicOverlapAOsToSpaceFrame(double**             diatomicOve
    if(tmpMatrixBC==NULL){
       throw MolDSException(this->errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpMatrixBC);
    }
-   if(tmpBC==NULL){
-      throw MolDSException(this->errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpBC);
+   if(tmpVectorBC==NULL){
+      throw MolDSException(this->errorMessageRotDiaOverlapAOsToSpaceFrameNullTmpVectorBC);
    }
 #endif
    for(int i=0; i<OrbitalType_end; i++){
@@ -6002,7 +6002,7 @@ void Cndo2::RotateDiatmicOverlapAOsToSpaceFrame(double**             diatomicOve
                                                diatomicOverlapAOs,
                                                tmpDiatomicOverlapAOs,
                                                tmpMatrixBC,
-                                               tmpBC);
+                                               tmpVectorBC);
    /*
    for(int i=0;i<OrbitalType_end;i++){
       for(int j=0;j<OrbitalType_end;j++){

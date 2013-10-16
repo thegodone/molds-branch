@@ -301,7 +301,7 @@ private:
                                    double*    tmpVec,
                                    double**   tmpRotMat,
                                    double**   tmpMatrixBC,
-                                   double*    tmpBC,
+                                   double*    tmpVectorBC,
                                    int        indexAtomA, 
                                    int        indexAtomB) const;
    void CalcDiatomicTwoElecTwoCore1stDerivatives(double***** matrix, 
@@ -322,7 +322,7 @@ private:
                                                  double*              tmpVec,
                                                  double const* const* rotatingMatrix,
                                                  double**             tmpMatrixBC,
-                                                 double*              tmpBC) const;
+                                                 double*              tmpVectorBC) const;
    void RotateDiatomicTwoElecTwoCore1stDerivativesToSpaceFrame(double***** matrix, 
                                                                double const* const* const* const* diatomicTwoElecTwoCore,
                                                                double const* const* rotatingMatrix,
