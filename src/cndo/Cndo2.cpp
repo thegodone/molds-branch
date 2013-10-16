@@ -6262,13 +6262,17 @@ double Cndo2::GetReducedOverlapAOs2ndDerivativeAlphaBeta(int na,
 // see (B.22) in J. A. Pople book.
 double Cndo2::GetAuxiliaryA(int k, double rho) const{
    double value = 0.0;
-   double temp = 0.0;
+   double tmp1 = 0.0;
 
    value = exp(-1.0*rho)*static_cast<double>(Factorial(k));
    for(int mu=1; mu<=k+1; mu++){
-      temp += pow(rho,-1.0*mu)/static_cast<double>(Factorial(k-mu+1));
+      double tmp2=rho; // tmp2 = pow(rho,mu)
+      for(int nu=1; nu<mu; nu++){
+         tmp2 *= rho;
+      }
+      tmp1 += 1.0/(tmp2*static_cast<double>(Factorial(k-mu+1)));
    }
-   value *= temp;
+   value *= tmp1;
 
    return value;
 }
@@ -6288,18 +6292,24 @@ double Cndo2::GetAuxiliaryB(int k, double rho) const{
    double value = 0.0;
    double pre1 = 0.0;
    double pre2 = 0.0;
-   double temp1 = 0.0;
-   double temp2 = 0.0;
+   double tmp1 = 0.0;
+   double tmp2 = 0.0;
 
    if(fabs(rho)>0){
       pre1 = -1.0*exp(-1.0*rho);
       pre2 = -1.0*exp(rho);
       
       for(int mu=1; mu<=k+1; mu++){
-         temp1 += pow(rho,-1.0*mu)  *static_cast<double>(Factorial(k)/Factorial(k-mu+1)) ;
-         temp2 += pow(rho,-1.0*mu)  *static_cast<double>(Factorial(k)/Factorial(k-mu+1)) *pow(-1.0,k-mu);
+         double tmp3 = rho; // tmp3 = pow(rho,mu)
+         for(int nu=1; nu<mu; nu++){
+            tmp3 *= rho;
+         }  
+         double tmp4 = -1.0; // tmp4 = pow(-1.0,k-mu)
+         if((k-mu)%2==0){tmp4=1.0;}
+         tmp1 += static_cast<double>(Factorial(k)/Factorial(k-mu+1))     /tmp3;
+         tmp2 += static_cast<double>(Factorial(k)/Factorial(k-mu+1))*tmp4/tmp3;
       }
-      value = pre1*temp1 + pre2*temp2;
+      value = pre1*tmp1 + pre2*tmp2;
    }
    else{
       if(k%2 == 0){
