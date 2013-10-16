@@ -201,7 +201,9 @@ protected:
                                              double**  tmpRotMat1stDeriv,
                                              double*** tmpRotMat1stDerivs,
                                              double**  tmpRotatedDiatomicOverlap,
+                                             double*   tmpRotatedDiatomicOverlapVec,
                                              double**  tmpMatrixBC,
+                                             double*   tmpVectorBC,
                                              const MolDS_base_atoms::Atom& atomA, 
                                              const MolDS_base_atoms::Atom& atomB) const;
    void CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1stDerivs, 
@@ -211,7 +213,9 @@ protected:
                                              double**  tmpRotMat1stDeriv,
                                              double*** tmpRotMat1stDerivs,
                                              double**  tmpRotatedDiatomicOverlap,
+                                             double*   tmpRotatedDiatomicOverlapVec,
                                              double**  tmpMatrixBC,
+                                             double*   tmpVectorBC,
                                              int indexAtomA, 
                                              int indexAtomB) const;
    void CalcDiatomicOverlapAOs2ndDerivatives(double**** overlapAOs2ndDeri, 

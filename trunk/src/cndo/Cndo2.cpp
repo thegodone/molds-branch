@@ -4034,7 +4034,9 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                  double**  tmpRotMat1stDeriv,
                                                  double*** tmpRotMat1stDerivs,
                                                  double**  tmpRotatedDiatomicOverlap,
+                                                 double*   tmpRotatedDiatomicOverlapVec,
                                                  double**  tmpMatrixBC,
+                                                 double*   tmpVectorBC,
                                                  const     Atom& atomA, 
                                                  const     Atom& atomB) const{
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
@@ -4069,7 +4071,9 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                   tmpRotMat,
                                                   beta,
                                                   tmpRotatedDiatomicOverlap,
-                                                  tmpMatrixBC);
+                                                  tmpRotatedDiatomicOverlapVec,
+                                                  tmpMatrixBC,
+                                                  tmpVectorBC);
       alpha = 1.0;
       beta  = 1.0;
       MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
@@ -4082,7 +4086,9 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                   tmpRotMat,
                                                   beta,
                                                   tmpRotatedDiatomicOverlap,
-                                                  tmpMatrixBC);
+                                                  tmpRotatedDiatomicOverlapVec,
+                                                  tmpMatrixBC,
+                                                  tmpVectorBC);
       MolDS_wrappers::Blas::GetInstance()->Dgemmm(isColumnMajorRotatingMatrix,
                                                   isColumnMajorDiaOverlapAOs,
                                                   !isColumnMajorRotatingMatrix,
@@ -4093,7 +4099,9 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                   tmpRotMat1stDeriv,
                                                   beta,
                                                   tmpRotatedDiatomicOverlap,
-                                                  tmpMatrixBC);
+                                                  tmpRotatedDiatomicOverlapVec,
+                                                  tmpMatrixBC,
+                                                  tmpVectorBC);
       MolDS_wrappers::Blas::GetInstance()->Dcopy(OrbitalType_end*OrbitalType_end, 
                                                  &tmpRotatedDiatomicOverlap[0][0],                      incrementOne,
                                                  &diatomicOverlapAOs1stDerivs[0][0][c], CartesianType_end);
@@ -4137,7 +4145,9 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                                  double**  tmpRotMat1stDeriv,
                                                  double*** tmpRotMat1stDerivs,
                                                  double**  tmpRotatedDiatomicOverlap,
+                                                 double*   tmpRotatedDiatomicOverlapVec,
                                                  double**  tmpMatrixBC,
+                                                 double*   tmpVectorBC,
                                                  int       indexAtomA, 
                                                  int       indexAtomB) const{
    this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs,
@@ -4147,7 +4157,9 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                               tmpRotMat1stDeriv,
                                               tmpRotMat1stDerivs,
                                               tmpRotatedDiatomicOverlap,
+                                              tmpRotatedDiatomicOverlapVec,
                                               tmpMatrixBC,
+                                              tmpVectorBC,
                                               *this->molecule->GetAtom(indexAtomA),
                                               *this->molecule->GetAtom(indexAtomB));
 }

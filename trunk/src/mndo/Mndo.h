@@ -164,7 +164,9 @@ private:
                                                    double****     tmpDiaOverlapAOs1stDerivs,
                                                    double*****    tmpDiaOverlapAOs2ndDerivs,
                                                    double***      tmpRotatedDiatomicOverlap,
-                                                   double***      tmpMatrix) const;
+                                                   double**       tmpRotatedDiatomicOverlapVec,
+                                                   double***      tmpMatrixBC,
+                                                   double**      tmpVectorBC) const;
    void FreeTempMatricesEachThreadCalcHessianSCF(double*****    diatomicOverlapAOs1stDerivs,
                                                  double******   diatomicOverlapAOs2ndDerivs,
                                                  double*******  diatomicTwoElecTwoCore1stDerivs,
@@ -181,7 +183,9 @@ private:
                                                  double****     tmpDiaOverlapAOs1stDerivs,
                                                  double*****    tmpDiaOverlapAOs2ndDerivs,
                                                  double***      tmpRotatedDiatomicOverlap,
-                                                 double***      tmpMatrix) const;
+                                                 double**       tmpRotatedDiatomicOverlapVec,
+                                                 double***      tmpMatrixBC,
+                                                 double**       tmpVectorBC) const;
    double GetAuxiliaryHessianElement1(int mu, 
                                       int nu, 
                                       int indexAtomA,
@@ -395,7 +399,9 @@ private:
                                     double***    tmpRotMat1stDeriv,
                                     double****   tmpRotMat1stDerivs,
                                     double***    tmpRotatedDiatomicOverlap,
+                                    double**     tmpRotatedDiatomicOverlapVec,
                                     double***    tmpMatrixBC,
+                                    double**     tmpVectorBC,
                                     double*****  tmpDiatomicTwoElecTwoCore) const;
    void FreeTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs, 
                                   double****** diatomicTwoElecTwoCore1stDerivs,
@@ -405,7 +411,9 @@ private:
                                   double***    tmpRotMat1stDeriv,
                                   double****   tmpRotMat1stDerivs,
                                   double***    tmpRotatedDiatomicOverlap,
+                                  double**     tmpRotatedDiatomicOverlapVec,
                                   double***    tmpMatrixBC,
+                                  double**     tmpVectorBC,
                                   double*****  tmpDiatomicTwoElecTwoCore) const;
    void CalcForceSCFElecCoreAttractionPart(double* force, 
                                            int indexAtomA,
