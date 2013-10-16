@@ -153,9 +153,9 @@ public:
                double const* const* matrixC,
                double beta,
                double**             matrixD,
-               double*              tmpD,
+               double*              tmpVectorD,
                double**             tmpMatrixBC,
-               double*              tmpBC) const;
+               double*              tmpVectorBC) const;
   void Dsyrk(molds_blas_int n, molds_blas_int k,
              double const *const* matrixA,
              double**             matrixC)const;
