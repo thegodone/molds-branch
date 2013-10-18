@@ -2353,18 +2353,16 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
    int mpiRank     = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
-   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>,
-                                                  &asyncCommunicator) );
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
-   // this loop-a is MPI-parallelized
-   for(int k=this->matrixCISdimension-1; 0<=k; k--){
+   for(int k=0; k<this->matrixCISdimension; k++){
       int calcRank = k%mpiSize;
       if(calcRank == mpiRank){
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
          int moI = this->GetActiveOccIndex(*this->molecule, k);
          int moA = this->GetActiveVirIndex(*this->molecule, k);
-         stringstream ompErrors;
 #pragma omp parallel for schedule(auto)
          for(int l=k; l<this->matrixCISdimension; l++){
             try{
@@ -2401,30 +2399,29 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
             }
             catch(MolDSException ex){
 #pragma omp critical
-               ex.Serialize(ompErrors);
+               ex.Serialize(errorStream);
             }
-         } // end of l-loop
-         // Exception throwing for omp-region
-         if(!ompErrors.str().empty()){
-            throw MolDSException::Deserialize(ompErrors);
          }
-      } // end of if(calcRank == mpiRank)
-      // Send data to head rank
-      int tag      = k;
-      int source   = calcRank;
-      int dest     = mpiHeadRank;
-      int num      = this->matrixCISdimension - k;
-      double* buff = &this->matrixCIS[k][k];
-      if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
       }
-      if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentMessage(buff, num, dest, tag);
+      if(errorStream.str().empty()){
+         int tag      = k;
+         int source   = calcRank;
+         int dest     = mpiHeadRank;
+         int num      = this->matrixCISdimension - k;
+         double* buff = &this->matrixCIS[k][k];
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
+         }
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
+         }
       }
-   } // end of k-loop which is MPI-parallelized
+   }
    asyncCommunicator.Finalize();
    communicationThread.join();
-   // Broadcast data to all rank
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
+   }
    for(int k=0; k<this->matrixCISdimension; k++){
       int     num  = this->matrixCISdimension - k;
       double* buff = &this->matrixCIS[k][k];
@@ -3319,20 +3316,19 @@ void ZindoS::CalcAuxiliaryVector(double* y,
 // Note taht K_{NR} is not calculated.
 void ZindoS::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<MoIndexPair>& nonRedundantQIndeces) const{
    int nonRedundantQIndecesSize = nonRedundantQIndeces.size();
-   //MPI setting of each rank
+   // MPI setting of each rank
    int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
-   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>,
-                                                  &asyncCommunicator) );
-   // this loop-i is MPI-parallelized
-   for(int i=nonRedundantQIndecesSize-1; 0<=i; i--){
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
+
+   for(int i=0; i<nonRedundantQIndecesSize; i++){
       int calcRank = i%mpiSize;
       if(mpiRank == calcRank){
          int moI = nonRedundantQIndeces[i].moI;
          int moJ = nonRedundantQIndeces[i].moJ;
-         stringstream ompErrors;
 #pragma omp parallel for schedule(auto)
          for(int j=i; j<nonRedundantQIndecesSize; j++){
             try{
@@ -3343,30 +3339,29 @@ void ZindoS::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<Mo
             } // end of try
             catch(MolDSException ex){
 #pragma omp critical
-               ex.Serialize(ompErrors);
+               ex.Serialize(errorStream);
             }
-         } //end of loop j parallelized with openMP
-         // Exception throwing for omp-region
-         if(!ompErrors.str().empty()){
-            throw MolDSException::Deserialize(ompErrors);
-         } 
-      } /// end of if(mpiRnak == calcRank)
-      // Send data to head rank
-      int tag    = i;
-      int source = calcRank;
-      int dest   = mpiHeadRank;
-      int num    = nonRedundantQIndecesSize - i;
-      double* buff = &gammaNRMinusKNR[i][i];
-      if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
+         }
       }
-      if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentMessage(buff, num, dest, tag);
+      if(errorStream.str().empty()){
+         int tag      = i;
+         int source   = calcRank;
+         int dest     = mpiHeadRank;
+         int num      = nonRedundantQIndecesSize - i;
+         double* buff = &gammaNRMinusKNR[i][i];
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
+         }
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
+         }
       }
-   } // end of loop-i parallelized with MPI
+   }
    asyncCommunicator.Finalize();
    communicationThread.join();
-   // broadcast data to all rank
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
+   } 
    for(int i=0; i<nonRedundantQIndecesSize; i++){
       int     num  = nonRedundantQIndecesSize - i;
       double* buff = &gammaNRMinusKNR[i][i];
@@ -3382,20 +3377,19 @@ void ZindoS::CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv,
                                       const vector<MoIndexPair>& redundantQIndeces) const{
    int nonRedundantQIndecesSize = nonRedundantQIndeces.size();
    int redundantQIndecesSize    = redundantQIndeces.size();
-   //MPI setting of each rank
+   // MPI setting of each rank
    int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
-   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>,
-                                                  &asyncCommunicator) );
-   // this loop-i is MPI-parallelized
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
+
    for(int i=0; i<nonRedundantQIndecesSize; i++){
       int calcRank = i%mpiSize;
       if(mpiRank == calcRank){
          int moI = nonRedundantQIndeces[i].moI;
          int moJ = nonRedundantQIndeces[i].moJ;
-         stringstream ompErrors;
 #pragma omp parallel for schedule(auto)
          for(int j=0; j<redundantQIndecesSize; j++){
             try{
@@ -3406,30 +3400,29 @@ void ZindoS::CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv,
             } // end of try
             catch(MolDSException ex){
 #pragma omp critical
-               ex.Serialize(ompErrors);
+               ex.Serialize(errorStream);
             }
-         } // end of loop-j parallelized with openMP
-         // Exception throwing for omp-region
-         if(!ompErrors.str().empty()){
-            throw MolDSException::Deserialize(ompErrors);
          }
-      } // // end of if(mpiRnak == calcRank)
-      // Send data to head rank
-      int tag      = i;
-      int source   = calcRank;
-      int dest     = mpiHeadRank;
-      int num      = redundantQIndecesSize;
-      double* buff = &kRDagerGammaRInv[i][0];
-      if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-         asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
       }
-      if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-         asyncCommunicator.SetSentMessage(buff, num, dest, tag);
+      if(errorStream.str().empty()){
+         int tag      = i;
+         int source   = calcRank;
+         int dest     = mpiHeadRank;
+         int num      = redundantQIndecesSize;
+         double* buff = &kRDagerGammaRInv[i][0];
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
+         }
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
+         }
       }
-   } // end of loop-i parallelized with MPI
+   }
    asyncCommunicator.Finalize();
    communicationThread.join();
-   // broadcast data to all rank
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
+   }
    for(int i=0; i<nonRedundantQIndecesSize; i++){
       int     num  = redundantQIndecesSize;
       double* buff = &kRDagerGammaRInv[i][0];
