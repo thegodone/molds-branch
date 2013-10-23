@@ -89,14 +89,24 @@ void Satom::SetAtomicParameters(){
    this->indoG1CoefficientP = 0.0;
    this->indoF2CoefficientS = 0.0;
    this->indoF2CoefficientP = 0.0;
-   // the zindoBondingParameterS for sulfer atoms are set to be equal 
-   // to the one (10.09eV) in "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
+   // ORCA parameter set
+   // see "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
    //this->zindoBondingParameterS = -15.0*Parameters::GetInstance()->GetEV2AU();
+   //this->zindoBondingParameterD =   0.0*Parameters::GetInstance()->GetEV2AU();
+   //this->zindoF0ss = 10.09 * Parameters::GetInstance()->GetEV2AU(); 
+   //this->zindoF0sd = 0.0;                   
+   //this->zindoF0dd = 0.0;                 
+   //this->zindoG1sp = 3.0756 * Parameters::GetInstance()->GetEV2AU();                 
+   //this->zindoF2pp = 4.5377 * Parameters::GetInstance()->GetEV2AU();
+   //this->zindoG2sd = 0.0;
+   //this->zindoG1pd = 0.0;        
+   //this->zindoF2pd = 0.0;
+   //this->zindoG3pd = 0.0;
+   //this->zindoF2dd = 0.0;
+   //this->zindoF4dd = 0.0;
+   // end (ORCA parameter set)
    this->zindoBondingParameterS = -14.0*Parameters::GetInstance()->GetEV2AU();
    this->zindoBondingParameterD =   4.0*Parameters::GetInstance()->GetEV2AU();
-   // the zindoF0ss for sulfer atoms are set to be equal 
-   // to the one (10.09eV) in "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
-   //this->zindoF0ss = 10.09 * Parameters::GetInstance()->GetEV2AU(); 
    this->zindoF0ss = 8.96 * Parameters::GetInstance()->GetEV2AU();                  
    this->zindoF0sd = 0.0;                   
    this->zindoF0dd = 0.0;                 
