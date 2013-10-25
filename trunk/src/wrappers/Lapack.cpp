@@ -35,6 +35,7 @@
 
 #ifdef __INTEL_COMPILER
 #include"mkl.h"
+#include"mkl_lapacke.h"
 #else
 #if ( __WORDSIZE == 32 )
 #else
