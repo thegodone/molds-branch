@@ -26,6 +26,7 @@
 #include<stdexcept>
 #include<boost/shared_ptr.hpp>
 #include<boost/format.hpp>
+#include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"
@@ -136,7 +137,7 @@ void MD::DoMD(){
 }
 
 void MD::UpdateMomenta(const Molecule& molecule, double const* const* matrixForce, double dt) const{
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int a=0; a<molecule.GetNumberAtoms(); a++){
       Atom* atom = molecule.GetAtom(a);
       for(int i=0; i<CartesianType_end; i++){
@@ -146,7 +147,7 @@ void MD::UpdateMomenta(const Molecule& molecule, double const* const* matrixForc
 }
 
 void MD::UpdateCoordinates(Molecule& molecule, double dt) const{
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int a=0; a<molecule.GetNumberAtoms(); a++){
          Atom* atom = molecule.GetAtom(a);
          double coreMass = atom->GetAtomicMass() - static_cast<double>(atom->GetNumberValenceElectrons());

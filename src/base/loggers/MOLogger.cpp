@@ -28,6 +28,7 @@
 #include<stdexcept>
 #include<omp.h>
 #include<boost/format.hpp>
+#include"../../config.h"
 #include"../Enums.h"
 #include"../Uncopyable.h"
 #include"../PrintController.h"
@@ -91,7 +92,7 @@ void MOLogger::DrawMO(vector<int> moIndeces){
 
    // MO output 
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
    for(int i=0; i<moIndeces.size(); i++){
       try{
          // validate mo number

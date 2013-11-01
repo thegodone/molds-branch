@@ -29,6 +29,7 @@
 #include<stdexcept>
 #include<boost/shared_ptr.hpp>
 #include<boost/format.hpp>
+#include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"
@@ -381,7 +382,7 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
          vectorsRedundantModes[c] = &matrixesRedundantModes[c][0][0];
       }
       for(int c=0; c<numTranslationalModes;c++){
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int n=0;n<numAtoms;n++){
             for(int d=0;d<CartesianType_end;d++){
                matrixesRedundantModes[c][n][d] = c==d? 1.0 : 0.0;
@@ -394,7 +395,7 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
          vectorsRedundantModes[c+numTranslationalModes] = &matrixesRedundantModes[c+numTranslationalModes][0][0];
       }
       for(int c=0; c<numRotationalModes;c++){
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int n=0;n<numAtoms;n++){
             const double* xyz = molecule.GetAtom(n)->GetXyz();
             for(int d=0;d<CartesianType_end;d++){

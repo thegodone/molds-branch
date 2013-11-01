@@ -28,6 +28,7 @@
 #include<stdexcept>
 #include<omp.h>
 #include<boost/format.hpp>
+#include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"
@@ -871,7 +872,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
                                                  &diisStoredErrorVect[diisNumErrorVect-1][0][0],
                                                  &diisErrorProducts[diisNumErrorVect-1][0]);
 
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int mi=0; mi<diisNumErrorVect; mi++){
          diisErrorProducts[mi][diisNumErrorVect-1] = diisErrorProducts[diisNumErrorVect-1][mi];
          diisErrorProducts[mi][diisNumErrorVect] = -1.0;
@@ -889,7 +890,7 @@ void Cndo2::DoDIIS(double** orbitalElectronPopulation,
       if(diisNumErrorVect <= step && diisEndError<diisError && diisError<diisStartError){
          hasAppliedDIIS = true;
          try{
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int i=0; i<diisNumErrorVect+1; i++){
                for(int j=0; j<diisNumErrorVect+1; j++){
                   tmpDiisErrorProducts[i][j] = diisErrorProducts[i][j];
@@ -937,7 +938,7 @@ void Cndo2::DoDamp(double rmsDensity,
    if(0.0 < dampingWeight && dampingThresh < rmsDensity){
       hasAppliedDamping = true;
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int j=0; j<totalNumberAOs; j++){
          try{
             for(int k=0; k<totalNumberAOs; k++){
@@ -1317,7 +1318,7 @@ double Cndo2::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
 void Cndo2::UpdateOldOrbitalElectronPopulation(double** oldOrbitalElectronPopulation, 
                                                double const* const* orbitalElectronPopulation,
                                                int numberAOs) const{
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int i=0; i<numberAOs; i++){
       for(int j=0; j<numberAOs; j++){
          oldOrbitalElectronPopulation[i][j] = orbitalElectronPopulation[i][j];
@@ -1336,7 +1337,7 @@ bool Cndo2::SatisfyConvergenceCriterion(double const* const * oldOrbitalElectron
    bool satisfy = false;
    double change = 0.0;
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto) reduction(+:change)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) reduction(+:change)
    for(int i=0; i<numberAOs; i++){
       try{
          for(int j=0; j<numberAOs; j++){
@@ -1406,7 +1407,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
       for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
          int calcRank = mu%mpiSize;
          if(mpiRank == calcRank){
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int B=A; B<totalNumberAtoms; B++){
                try{
                   const Atom& atomB = *molecule.GetAtom(B);
@@ -1587,7 +1588,7 @@ void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
                                          const Molecule& molecule) const{
    int totalNumberAtoms = molecule.GetNumberAtoms();
    MallocerFreer::GetInstance()->Initialize<double>(atomicElectronPopulation, totalNumberAtoms);
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int A=0; A<totalNumberAtoms; A++){
       int firstAOIndex = molecule.GetAtom(A)->GetFirstAOIndex();
       int numberAOs = molecule.GetAtom(A)->GetValenceSize();
@@ -1617,7 +1618,7 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
          int na = atomA.GetValenceShellType() + 1;
          double orbitalExponentA = atomA.GetOrbitalExponent(
                                          atomA.GetValenceShellType(), s, this->theory);
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int B=A; B<totalAtomNumber; B++){
             try{
                const Atom& atomB = *molecule.GetAtom(B);
@@ -1697,7 +1698,7 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
    MolDS_mpi::molds_mpi_int num = totalAtomNumber*totalAtomNumber;
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
 
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int A=0; A<totalAtomNumber; A++){
       for(int B=0; B<A; B++){
          gammaAB[A][B] = gammaAB[B][A];
@@ -1813,7 +1814,7 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
       if(mpiRank == calcRank){
          for(int a=0; a<numValenceAOsA; a++){
             int mu = firstAOIndexA + a;      
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int B=0; B<totalAtomNumber; B++){
                try{
                   const Atom& atomB  = *molecule.GetAtom(B);
@@ -3793,7 +3794,7 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
             overlapAOs[mu][mu] = 1.0;
          }
          bool isSymmetricOverlapAOs = false;
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int A=0; A<totalAtomNumber; A++){
             const Atom& lhsAtom = *lhsMolecule.GetAtom(A);
             const Atom& rhsAtom = *rhsMolecule->GetAtom(A);
@@ -3937,7 +3938,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
                MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,              
                                                             OrbitalType_end*OrbitalType_end);
                bool symmetrize = false;
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                for(int B=A+1; B<totalAtomNumber; B++){
                   const Atom& atomB = *molecule.GetAtom(B);
                   this->CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, atomA, atomB);
@@ -3986,7 +3987,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
    MolDS_mpi::molds_mpi_int num = totalAONumber*totalAONumber;
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
 
-   #pragma omp parallel for schedule(auto)
+   #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int mu=0; mu<totalAONumber; mu++){
       overlapAOs[mu][mu] = 1.0;
       for(int nu=mu+1; nu<totalAONumber; nu++){
@@ -4321,7 +4322,7 @@ void Cndo2::CalcOverlapAOsByGTOExpansion(double** overlapAOs,
    }
 
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
    for(int A=0; A<totalAtomNumber; A++){
       try{
          const Atom& atomA = *molecule.GetAtom(A);

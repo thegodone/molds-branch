@@ -27,6 +27,7 @@
 #include<stdexcept>
 #include<boost/shared_ptr.hpp>
 #include<boost/format.hpp>
+#include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"
@@ -129,7 +130,7 @@ void Optimizer::CheckEnableTheoryType(TheoryType theoryType) const{
 }
 
 void Optimizer::ClearMolecularMomenta(Molecule& molecule) const{
-#pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
    for(int a=0; a<molecule.GetNumberAtoms(); a++){
       const Atom* atom = molecule.GetAtom(a);
       atom->SetPxyz(0.0, 0.0, 0.0);
@@ -137,7 +138,7 @@ void Optimizer::ClearMolecularMomenta(Molecule& molecule) const{
 }
 
 void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* const* matrixForce, double dt) const{
-#pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
    for(int a=0; a<molecule.GetNumberAtoms(); a++){
       const Atom* atom = molecule.GetAtom(a);
       double coreMass = atom->GetAtomicMass() - static_cast<double>(atom->GetNumberValenceElectrons());
@@ -149,7 +150,7 @@ void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* con
 }
 
 void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* const* matrixForce) const{
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int a=0; a<molecule.GetNumberAtoms(); a++){
       const Atom* atom = molecule.GetAtom(a);
       for(int i=0; i<CartesianType_end; i++){

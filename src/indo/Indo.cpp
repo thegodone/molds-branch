@@ -25,6 +25,7 @@
 #include<vector>
 #include<stdexcept>
 #include<boost/format.hpp>
+#include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"

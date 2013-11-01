@@ -28,6 +28,7 @@
 #include<stdexcept>
 #include<omp.h>
 #include<boost/format.hpp>
+#include"../../config.h"
 #include"../Enums.h"
 #include"../Uncopyable.h"
 #include"../PrintController.h"
@@ -106,7 +107,7 @@ void DensityLogger::DrawDensity(vector<int> elecStateIndeces) const{
 
       // density output 
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
       for(int n=0; n<elecStateIndeces.size(); n++){
          try{
             // validate electronic state
