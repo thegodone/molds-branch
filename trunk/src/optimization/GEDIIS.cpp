@@ -28,6 +28,7 @@
 #include<stdexcept>
 #include<boost/shared_ptr.hpp>
 #include<boost/format.hpp>
+#include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"
@@ -289,7 +290,7 @@ GEDIIS::GEDIISHistory::Entry::Entry(double energy,
    energy(energy),numAtoms(molecule.GetNumberAtoms()),matrixCoordinate(NULL),matrixForce(NULL) {
    MallocerFreer::GetInstance()->Malloc(&this->matrixCoordinate, this->numAtoms, CartesianType_end);
    MallocerFreer::GetInstance()->Malloc(&this->matrixForce,      this->numAtoms, CartesianType_end);
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int i = 0; i < this->numAtoms; i++){
       const Atom*   atom = molecule.GetAtom(i);
       const double* xyz  = atom->GetXyz();

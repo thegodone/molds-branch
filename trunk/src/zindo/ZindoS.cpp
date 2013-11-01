@@ -28,6 +28,7 @@
 #include<algorithm>
 #include<omp.h>
 #include<boost/format.hpp>
+#include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"
@@ -732,7 +733,7 @@ double ZindoS::GetNishimotoMatagaTwoEleInt1stDerivative(const Atom& atomA,
 void ZindoS::CalcNishimotoMatagaMatrix(double**** nishimotoMatagaMatrix, const Molecule& molecule) const{
    int totalNumberAtoms = molecule.GetNumberAtoms();
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int A=0; A<totalNumberAtoms; A++){
       try{
          const Atom& atomA = *molecule.GetAtom(A);
@@ -1170,7 +1171,7 @@ void ZindoS::CalcCISProperties(){
          this->electronicTransitionDipoleMoments[excitedState][excitedState][YAxis] = this->electronicTransitionDipoleMoments[groundState][groundState][YAxis];
          this->electronicTransitionDipoleMoments[excitedState][excitedState][ZAxis] = this->electronicTransitionDipoleMoments[groundState][groundState][ZAxis];
          double tmpX=0.0, tmpY=0.0, tmpZ=0.0;
-#pragma omp parallel for reduction(+:tmpX,tmpY,tmpZ) schedule(auto)
+#pragma omp parallel for reduction(+:tmpX,tmpY,tmpZ) schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int l=0; l<this->matrixCISdimension; l++){
             // single excitation from I-th (occupied)MO to A-th (virtual)MO
             int moI = this->GetActiveOccIndex(*this->molecule, l);
@@ -1201,7 +1202,7 @@ void ZindoS::CalcCISProperties(){
          this->electronicTransitionDipoleMoments[excitedState][groundState][YAxis] = 0.0;
          this->electronicTransitionDipoleMoments[excitedState][groundState][ZAxis] = 0.0;
          double tmpX=0.0, tmpY=0.0, tmpZ=0.0;
-#pragma omp parallel for reduction(+:tmpX,tmpY,tmpZ) schedule(auto)
+#pragma omp parallel for reduction(+:tmpX,tmpY,tmpZ) schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int l=0; l<this->matrixCISdimension; l++){
             // single excitation from I-th (occupied)MO to A-th (virtual)MO
             int moI = this->GetActiveOccIndex(*this->molecule, l);
@@ -1226,7 +1227,7 @@ void ZindoS::CalcCISProperties(){
                this->electronicTransitionDipoleMoments[destinationExcitedState][departureExcitedState][YAxis] = 0.0;
                this->electronicTransitionDipoleMoments[destinationExcitedState][departureExcitedState][ZAxis] = 0.0;
                double tmpX=0.0, tmpY=0.0, tmpZ=0.0;
-#pragma omp parallel for reduction(+:tmpX,tmpY,tmpZ) schedule(auto)
+#pragma omp parallel for reduction(+:tmpX,tmpY,tmpZ) schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                for(int l=0; l<this->matrixCISdimension; l++){
                   // single excitation from I-th (occupied)MO to A-th (virtual)MO
                   int moI = this->GetActiveOccIndex(*this->molecule, l);
@@ -1424,7 +1425,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
    if(from != to){
       if(from != groundState && to != groundState){
          // transition dipole moment between different excited states
-#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(auto)
+#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int l=0; l<this->matrixCISdimension; l++){
             try{
                double temp  = 0.0;
@@ -1462,7 +1463,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
       }
       else if(from == groundState && to != groundState){
          // transition dipole moment from the ground to excited states
-#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(auto)
+#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int l=0; l<this->matrixCISdimension; l++){
             try{
                double temp  = 0.0;
@@ -1500,7 +1501,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
       }
       else if(from != groundState && to == groundState){
          // transition dipole moment from the excited to ground states
-#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(auto)
+#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int l=0; l<this->matrixCISdimension; l++){
             try{
                double temp  = 0.0;
@@ -1540,7 +1541,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
    else{
       if(from != groundState){
          // dipole moment of the excited state. It is needed that the dipole of ground state has been already calculated!!
-#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(auto)
+#pragma omp parallel for reduction(+:valueX,valueY,valueZ) schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int l=0; l<this->matrixCISdimension; l++){
             try{
                double temp  = 0.0;
@@ -1650,7 +1651,7 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
    for(int k=0; k<elecStates->size(); k++){
       int excitedStateIndex = (*elecStates)[k]-1;
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
          try{
             for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
@@ -1714,7 +1715,7 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
    // clac atomic electron population
    for(int k=0; k<elecStates->size(); k++){
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int a=0; a<totalNumberAtoms; a++){
          try{
             int firstAOIndex = molecule.GetAtom(a)->GetFirstAOIndex();
@@ -1760,7 +1761,7 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
    // calc atomic electron population
    for(int k=0; k<elecStates->size(); k++){
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int a=0; a<totalNumberAtoms; a++){
          try{
             int firstAOIndex = molecule.GetAtom(a)->GetFirstAOIndex();
@@ -2099,7 +2100,7 @@ void ZindoS::CalcInteractionMatrix(double** interactionMatrix,
                                    double const* const* expansionVectors, 
                                    int interactionMatrixDimension) const{
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int k=0; k<interactionMatrixDimension*interactionMatrixDimension; k++){
       try{
          int i = k/interactionMatrixDimension;
@@ -2363,7 +2364,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
          int moI = this->GetActiveOccIndex(*this->molecule, k);
          int moA = this->GetActiveVirIndex(*this->molecule, k);
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int l=k; l<this->matrixCISdimension; l++){
             try{
                // single excitation from J-th (occupied)MO to B-th (virtual)MO
@@ -2731,7 +2732,7 @@ void ZindoS::CalcEtaMatrixForce(const vector<int>& elecStates){
 
             // calc each element
             stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int mu=0; mu<numberAOs; mu++){
                try{
                   for(int nu=0; nu<numberAOs; nu++){
@@ -2828,7 +2829,7 @@ void ZindoS::CalcZMatrixForce(const vector<int>& elecStates){
                                                       nonRedundantQIndeces.size());
          // calculate each element of Z matrix.
          stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int mu=0; mu<this->molecule->GetTotalNumberAOs(); mu++){
             try{
                for(int nu=0; nu<this->molecule->GetTotalNumberAOs(); nu++){
@@ -2963,7 +2964,7 @@ void ZindoS::CalcDeltaVector(double* delta, int exciteState) const{
    int numberActiveMO = numberActiveOcc + numberActiveVir;
    MallocerFreer::GetInstance()->Initialize<double>(delta, numberActiveMO);
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int r=0; r<numberActiveMO; r++){
       try{
          double value = 0.0;
@@ -3044,7 +3045,7 @@ void ZindoS::CalcQVector(double* q,
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
       try{
          int moI = nonRedundantQIndeces[i].moI;
@@ -3074,7 +3075,7 @@ void ZindoS::CalcQVector(double* q,
    if(!ompErrors.str().empty()){
       throw MolDSException::Deserialize(ompErrors);
    }
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int i=0; i<redundantQIndeces.size(); i++){
       try{
          int r = nonRedundantQIndeces.size() + i;
@@ -3229,7 +3230,7 @@ void ZindoS::CalcXiMatrices(double** xiOcc,
                                  xiVir, numberActiveVir, numberAOs);
    stringstream ompErrors;
    // xiOcc
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int p=0; p<numberActiveOcc; p++){
       try{
          for(int mu=0; mu<numberAOs; mu++){
@@ -3251,7 +3252,7 @@ void ZindoS::CalcXiMatrices(double** xiOcc,
       throw MolDSException::Deserialize(ompErrors);
    }
    // xiVir
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int p=0; p<numberActiveVir; p++){
       try{
          for(int mu=0; mu<numberAOs; mu++){
@@ -3329,7 +3330,7 @@ void ZindoS::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<Mo
       if(mpiRank == calcRank){
          int moI = nonRedundantQIndeces[i].moI;
          int moJ = nonRedundantQIndeces[i].moJ;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int j=i; j<nonRedundantQIndecesSize; j++){
             try{
                int moK = nonRedundantQIndeces[j].moI;
@@ -3390,7 +3391,7 @@ void ZindoS::CalcKRDagerGammaRInvMatrix(double** kRDagerGammaRInv,
       if(mpiRank == calcRank){
          int moI = nonRedundantQIndeces[i].moI;
          int moJ = nonRedundantQIndeces[i].moJ;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int j=0; j<redundantQIndecesSize; j++){
             try{
                int moK = redundantQIndeces[j].moI;
@@ -3686,7 +3687,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                         &tmpRotatedDiatomicOverlapVec,
                                         &tmpMatrixBC,
                                         &tmpVectorBC);
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
                if(a == b){continue;}
                const Atom& atomB = *molecule->GetAtom(b);
@@ -3845,7 +3846,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    // First derivative of overlapAOs integral is
    // calculated with GTO expansion technique.
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
       try{
          const Atom& atomA = *molecule->GetAtom(a);

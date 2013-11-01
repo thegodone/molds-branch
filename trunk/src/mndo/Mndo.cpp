@@ -26,6 +26,7 @@
 #include<stdexcept>
 #include<omp.h>
 #include<boost/format.hpp>
+#include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
 #include"../base/PrintController.h"
@@ -761,7 +762,7 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
       int moI = this->GetActiveOccIndex(*this->molecule, k);
       int moA = this->GetActiveVirIndex(*this->molecule, k);
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto) 
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
       for(int l=k; l<this->matrixCISdimension; l++){
          try{
             // single excitation from J-th (occupied)MO to B-th (virtual)MO
@@ -1770,7 +1771,7 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
                                                              &tmpRotatedDiatomicOverlapVec,         
                                                              &tmpMatrixBC,
                                                              &tmpVectorBC);
-#pragma omp for schedule(auto)                                                 
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)                                                 
             for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
                const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
                int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -1945,7 +1946,7 @@ void Mndo::CalcOrbitalElectronPopulation1stDerivatives(double**** orbitalElectro
       this->SolveCPHF(solutionsCPHF, nonRedundantQIndeces, redundantQIndeces);
       this->TransposeFockMatrixMatrix(transposedFockMatrix);
       stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int mu=0; mu<totalNumberAOs; mu++){
          try{
             for(int nu=0; nu<totalNumberAOs; nu++){
@@ -2036,7 +2037,7 @@ void Mndo::CalcStaticFirstOrderFocks(double** staticFirstOrderFocks,
                                      const vector<MoIndexPair>& nonRedundantQIndeces,
                                      const vector<MoIndexPair>& redundantQIndeces) const{
    stringstream ompErrors;
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int indexAtomA=0; indexAtomA<this->molecule->GetNumberAtoms(); indexAtomA++){
       try{
          for(int axisA=XAxis; axisA<CartesianType_end; axisA++){
@@ -2325,7 +2326,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
    {
       try{
          // calc diagonal part of N
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int i=0; i<dimensionCPHF; i++){
             if(i<nonRedundantQIndeces.size()){
                int moI = nonRedundantQIndeces[i].moI;
@@ -2340,7 +2341,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
          }
 
          // calc (\Gamma - K)N
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int i=0; i<nonRedundantQIndeces.size(); i++){
             int moI = nonRedundantQIndeces[i].moI;
             int moJ = nonRedundantQIndeces[i].moJ;
@@ -2352,7 +2353,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
             }    
          }  
    
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int i=nonRedundantQIndeces.size(); i<dimensionCPHF; i++){
             int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
             int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
@@ -2363,7 +2364,7 @@ void Mndo::CalcMatrixCPHF(double** matrixCPHF,
             }
          }
    
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int i=nonRedundantQIndeces.size(); i<dimensionCPHF; i++){
             int moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
             int moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
@@ -2633,7 +2634,7 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                               &tmpVectorBC,
                                               &tmpDiatomicTwoElecTwoCore);
 
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
                if(a == b){continue;}
                const Atom& atomB = *molecule->GetAtom(b);
@@ -3523,7 +3524,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
                MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,               dxy*dxy, dxy*dxy);
                MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,               dxy*dxy*dxy*dxy);
                // note that terms with condition a==b are not needed to calculate. 
-#pragma omp for schedule(auto)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                for(int b=a+1; b<totalNumberAtoms; b++){
                   this->CalcDiatomicTwoElecTwoCore(diatomicTwoElecTwoCore, 
                                                    tmpDiatomicTwoElecTwoCore,
@@ -3574,7 +3575,7 @@ void Mndo::CalcTwoElecTwoCore(double****** twoElecTwoCore,
       throw MolDSException::Deserialize(errorStream);
    }
 
-#pragma omp parallel for schedule(auto)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int a=0; a<totalNumberAtoms; a++){
       for(int b=a+1; b<totalNumberAtoms; b++){
          int i=0;
