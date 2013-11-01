@@ -33,7 +33,7 @@ LIBS = -lmkl_intel_ilp64 $(LIBSBASE) $(BOOST_LIBS)
 else
 LIBS = -lmkl_intel       $(LIBSBASE) $(BOOST_LIBS)
 endif
-EXENAME = MolDS.out
+EXENAME = molds
 DEPFILE = obj/objfile.dep
 LDFLAGS =
 
