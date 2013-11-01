@@ -18,9 +18,7 @@
 //************************************************************************//
 #ifndef INCLUDED_CONFIG
 #define INCLUDED_CONFIG
-namespace MolDS_base{
 #define MOLDS_OMP_DYNAMIC_CHUNK_SIZE 3
-}
 #endif
 
 
