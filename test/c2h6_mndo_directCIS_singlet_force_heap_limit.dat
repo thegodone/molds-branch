@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/6/3(Mon.) 11:50:29  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/11/1(Fri.) 16:15:35  <<<<<
 
 
 **********  START: Parse input  **********
@@ -70,32 +70,33 @@ Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the "limit_h
 		Current Heap:  0.091712[MB].
 		Required Heap: 0.131072[MB].
 
+key value pairs:
 backtrace:
-../src/MolDS.out(_ZN10MolDS_base14MolDSException12GetBacktraceEi+0x2f)[0x430f0f]
-../src/MolDS.out(_ZN10MolDS_base14MolDSExceptionC2ESs+0x42)[0x431052]
-../src/MolDS.out(_ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd+0x150)[0x440840]
-../src/MolDS.out(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m+0x4a)[0x45a0aa]
-../src/MolDS.out(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm+0xbd)[0x45a2ed]
-../src/MolDS.out(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm+0xbb)[0x4760eb]
-../src/MolDS.out(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm+0x8a)[0x4a0aca]
-../src/MolDS.out(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm+0x98)[0x4e3368]
-../src/MolDS.out(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm+0xb5)[0x4e36e5]
-../src/MolDS.out(_ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE+0x79)[0x4d95d9]
-../src/MolDS.out(_ZN8MolDS_md2MD4DoMDEv+0xe0)[0x4eba20]
-../src/MolDS.out(_ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb+0xb6)[0x50dac6]
-../src/MolDS.out(_ZN10MolDS_base5MolDS3RunEiPPc+0x46e)[0x50e62e]
-../src/MolDS.out(main+0x85)[0x430085]
-/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xfd)[0x7f48d980eead]
-../src/MolDS.out[0x430b49]
+	./molds(_ZN10MolDS_base14MolDSException12GetBacktraceEi+0x61) [0x4a3cc1]
+	./molds(_ZN10MolDS_base14MolDSExceptionC1ESs+0xb2) [0x4a2d4a]
+	./molds(_ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd+0x2e5) [0x4b2dcf]
+	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m+0x58) [0x4b942c]
+	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm+0xc1) [0x4b8fdd]
+	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm+0xda) [0x51822e]
+	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm+0xf3) [0x517ba7]
+	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm+0x102) [0x58bba2]
+	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm+0x10e) [0x58b47a]
+	./molds(_ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE+0xc1) [0x58dba1]
+	./molds(_ZN8MolDS_md2MD4DoMDEv+0x14c) [0x5d2c72]
+	./molds(_ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb+0x16e) [0x5f0c8c]
+	./molds(_ZN10MolDS_base5MolDS3RunEiPPc+0x394) [0x5f0094]
+	./molds(main+0x6e2) [0x5f2ff6]
+	/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xed) [0x7f234416d76d]
+	./molds() [0x48f4f9]
 	Summary for memory usage:
 		Max Heap: 0.091712[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished abnormally..............  <<<<<
-     >>>>>  CPU time: 0.01[s].  <<<<<
+     >>>>>  CPU time: 0[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00183718[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00606799[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -30,7 +30,7 @@ OPENBLAS_LIB_DIR = $(OPENBLAS_TOP_DIR)lib/
 OPENBLAS_LIBS    = -lopenblas
 LIBSBASE = -lpthread -lgomp
 LIBS = $(LIBSBASE) $(BOOST_LIBS) $(OPENBLAS_LIBS)
-EXENAME = MolDS.out
+EXENAME = molds
 DEPFILE = obj/objfile.dep
 LDFLAGS =
 

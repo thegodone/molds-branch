@@ -21,7 +21,7 @@
 
 Dir.chdir(File.dirname(__FILE__))
 
-MolDSBin = "../src/MolDS.out".freeze
+MolDSBin = "../src/molds".freeze
 
 module AllInclude
 	def include? *arg
@@ -123,7 +123,7 @@ puts <<EOS
 *****************************************
 EOS
 
-puts 'MD5 sum of the MolDS.out to be tested:'
+puts 'MD5 sum of the molds to be tested:'
 system "md5sum #{MolDSBin}"
 puts '',''
 

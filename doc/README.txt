@@ -87,7 +87,7 @@ COMPILE(using GNUmake):
       Then, just type: 
       $ make -f Makefile_GNU 
 
-   For all case, the compile succeeded if you could fine "MolDS.out" in the "src" directory. 
+   For all case, the compile succeeded if you could fine "molds" in the "src" directory. 
    If you want to clean the compilation, type 
    $ make clean
    If you want to compile MolDS in debug-mode, 
@@ -100,22 +100,22 @@ CARRY OUT MolDS:
    After the compile, in the "src" directory,
 
    For the calculations with single process:
-   $ ./MolDS.out < input.in
+   $ ./molds < input.in
    or
-   $ ./MolDS.out input.in
+   $ ./molds input.in
 
    For the calculations with muliple threads, type
    $ export OMP_NUM_THREADS=n1
-   $ ./MolDS.out input.in
+   $ ./molds input.in
    , where n1 is the number of threads.
 
    For the calculations with multiple processes by MPI:
-   $ mpirun -np n2 MolDS.out input.in
+   $ mpirun -np n2 molds input.in
    , where n2 after the "-np" is the number of process.
 
    For the calculations with muliple threads and muliple processes, type
    $ export OMP_NUM_THREADS=n1
-   $ mpirun -np n2 MolDS.out input.in
+   $ mpirun -np n2 molds input.in
    , where n1 is the number of cores of each node and n2 is the number of nodes.
 
    In the multiple processes calculations, process-0 can only output results.
@@ -126,7 +126,7 @@ CARRY OUT MolDS:
    namely, 
    $ make CFLAGS="-DMOLDS_DBG"
    $ export OMP_NUM_THREADS=n1
-   $ mpirun -np n2 MolDS.out input.in > /localFileSyste/output.dat
+   $ mpirun -np n2 molds input.in > /localFileSyste/output.dat
    , where n1 is the number of cores of each node and n2 is the number of nodes.
 
 ==============================================================================
