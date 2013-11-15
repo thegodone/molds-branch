@@ -528,14 +528,14 @@ HOW TO WRITE INPUT:
       This parameter have no effect if method is "steepest_descent" or "conjugate_gradient".
 
       E.g.
-         OPTIMIZE
+         OPTIMIZATION
             method steepest_descent
             total_steps 50
             electronic_state 0
             max_gradient 0.00045
             rms_gradient 0.00030
             dt 50
-         OPTIMIZE_END
+         OPTIMIZATION_END
   
       
 
