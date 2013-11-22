@@ -193,27 +193,39 @@ CAPABILITIES:
 ==============================================================================
 HOW TO WRITE INPUT:
 
+   <Terminiology>
+      "hoge-directive" means line block stating "hoge" and ending "hoge_end" in input files.
+      Uppercase and lowercase letters are treated as identical in input files.
+
    <Comment Out>
       Lines starting with "//" or "#" in input-files are treated as comments.
 
-   <SCF>
+   <Theory>
       Write "cndo/2", "indo", "zindo/s", "mndo", "am1", "am1-d",
       "pm3", "pm3-d", or "pm3/pddg" in theory-directive.
       This theory-directive indicate a electronic structure theory used in your simulations.
       MNDO only supports (can calculate) Heats of formation.
-      SCF module outputs also the dipole moment arrond the center of cores of the molecule.
-      To calculate the dipole moment, STO-6G [DY_1977] is used.
 
       E.g. 
          THEORY
             indo 
          THEORY_END
+
+   <SCF>
+      Write SCF-directive. In the SCF-directive, settings(options) of SCF should be written.
+
+      E.g.
+         SCF
+            (options)
+         SCf_END
    
       -options
        Write below options in SCF-directive.
        "max_iter", "rms_density", "damping_thresh", "damping_weight", 
        "diis_num_error_vect", "diis_start_error", "diis_end_error",
        "vdW", "vdW_s6", and "vdW_d" are prepared as options.
+       SCF module outputs also the dipole moment arrond the center of cores of the molecule.
+       To calculate the dipole moment, STO-6G [DY_1977] is used.
 
        The default value of the "max_iter" is 100.
        The default value of the "rms_density" is 10**(-8.0).
@@ -256,7 +268,25 @@ HOW TO WRITE INPUT:
             vdW_s6 0.75
             vdW_d 30
          SCF_END
-   
+
+   <GEOMETRY>
+      To set geometry of the system calculated by MolDS should be written in geometry-directive.
+      Each line inside the geometry-directive indicates each atom of the system.  
+      Namely, each line should containe one character and three doubles.
+      The character indicates atomtype and three doubles indicate the cartesian coordinates of
+      each atom in angstrom unit.
+
+         GEOMETRY
+            C -0.1000 0.1000 0.0000
+            C 1.6938 0.0000 -0.1000
+            H -0.381 1.1411 0.0000
+            H -0.2681 -0.5205 -0.9016
+            H -0.3681 -0.4725 0.8016
+            H 1.9519 0.5200 -0.9007
+            H 1.8519 0.5300 0.8007
+            H 1.7519 -1.0401 -0.1000
+         GEOMETRY_END
+         
    <MEMORY>
       For settings of memory usage, write options in memory-directive.
 
@@ -275,26 +305,6 @@ HOW TO WRITE INPUT:
          MEMORY
             limit_heap 512
          MEMORY_END
-
-   <Frequencies (Normal modes analysis)>
-      write frequencies-directive. Note taht not only the frequencies but also the normal modes are calculated.
-
-      E.g.
-         FREQUENCIES
-            (options)
-         FREQUENCIES_END
-
-      -options
-       "electronic_state" is only prepared.
-       "electronic_state" is index of the electronic state used for calculating the normal modes. 
-       electronic_state=0 means the electronic ground state.
-       electronic_state=1 means, then, first electornic excited state.
-       The default value of the "electronic_state" is 0.
-
-       E.g. 
-         FREQUENCIES
-            electronic_state 0
-         FREQUENCIES_END
 
    <MO Plot>
       write MO plot directive.
@@ -327,6 +337,26 @@ HOW TO WRITE INPUT:
             frame_length 10 10 10
             file_prefix MOPlot_
          MOPLOT_END
+
+   <Frequencies (Normal modes analysis)>
+      write frequencies-directive. Note taht not only the frequencies but also the normal modes are calculated.
+
+      E.g.
+         FREQUENCIES
+            (options)
+         FREQUENCIES_END
+
+      -options
+       "electronic_state" is only prepared.
+       "electronic_state" is index of the electronic state used for calculating the normal modes. 
+       electronic_state=0 means the electronic ground state.
+       electronic_state=1 means, then, first electornic excited state.
+       The default value of the "electronic_state" is 0.
+
+       E.g. 
+         FREQUENCIES
+            electronic_state 0
+         FREQUENCIES_END
 
    <CIS>
       Write CIS-directive.
@@ -481,15 +511,15 @@ HOW TO WRITE INPUT:
          PARTICLEPLOT_END
 
    <OPT (geometry optimization)>
-      Write OPT-directive. This module uses line search and steepest descent algorythms.
+      Write optimization-directive. This module uses line search and steepest descent algorythms.
       In the early stage the line search algorythm is used, 
       then the algorythm used in this module is switched to steepest descent algorythm.
       Note that ZINDO/S is not suitable for geometry optimizations.
 
       E.g.
-         OPTIMIZE
+         OPTIMIZATION
             (options)
-         OPTIMIZE_END
+         OPTIMIZATION_END
   
       -options
        "method", "total_steps", "electronic_state", "max_gradient", "rms_gradient", 
@@ -536,8 +566,6 @@ HOW TO WRITE INPUT:
             rms_gradient 0.00030
             dt 50
          OPTIMIZATION_END
-  
-      
 
    <MD (Molecular dynamics)>
       Write MD-directive. Note that ZINDO/S is not suitable for molcular dynamics simulations.
@@ -708,7 +736,6 @@ HOW TO WRITE INPUT:
        "angles" indicates Euler angles for the rotation in degree unit.
        The default values of "angles" are 0, 0, and 0.
        This option is valid only for "type" set as Euler angles.
-   
 
        E.g. for "type" set as axis
          ROTATE
@@ -723,7 +750,6 @@ HOW TO WRITE INPUT:
             type eular_angle
             angles 15 25 35
          ROTATE_END
-
 
    <Translate Molecule>
       Write translate-directive.
