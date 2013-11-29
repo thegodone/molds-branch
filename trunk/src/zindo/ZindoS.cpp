@@ -224,7 +224,7 @@ double ZindoS::GetFockDiagElement(const Atom& atomA,
                                   double const* const* gammaAB,
                                   double const* const* orbitalElectronPopulation, 
                                   double const* atomicElectronPopulation,
-                                  double const* const* const* const* const* const* twoElecTwoCore, 
+                                  double const* const* const* const* const* const* twoElecsTwoAtomCores, 
                                   bool isGuess) const{
    double value=0.0;
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -289,7 +289,7 @@ double ZindoS::GetFockOffDiagElement(const Atom& atomA,
                                      double const* const* gammaAB, 
                                      double const* const* overlapAOs,
                                      double const* const* orbitalElectronPopulation, 
-                                     double const* const* const* const* const* const* twoElecTwoCore, 
+                                     double const* const* const* const* const* const* twoElecsTwoAtomCores, 
                                      bool isGuess) const{
    double value = 0.0;
    OrbitalType orbitalMu = atomA.GetValence(mu-atomA.GetFirstAOIndex());
@@ -585,8 +585,8 @@ double ZindoS::GetExchangeInt(OrbitalType orbital1, OrbitalType orbital2, const 
    return value;
 }
 
-void ZindoS::CalcTwoElecTwoCore(double****** twoElecTwoCore, 
-                              const Molecule& molecule) const{
+void ZindoS::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
+                                  const Molecule& molecule) const{
    this->CalcNishimotoMatagaMatrix(this->nishimotoMatagaMatrix, molecule);
 }
 
@@ -3620,9 +3620,9 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
    return value;
 }
 
-void ZindoS::CalcDiatomicTwoElecTwoCore1stDerivatives(double*** matrix,  
-                                                      int indexAtomA, 
-                                                      int indexAtomB) const{
+void ZindoS::CalcDiatomicTwoElecsTwoCores1stDerivatives(double*** matrix,  
+                                                        int indexAtomA, 
+                                                        int indexAtomB) const{
    const Atom& atomA = *molecule->GetAtom(indexAtomA);
    const int firstAOIndexA = atomA.GetFirstAOIndex();
    const int lastAOIndexA  = atomA.GetLastAOIndex();
@@ -3665,7 +3665,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
 #pragma omp parallel 
       {
          double*** diatomicOverlapAOs1stDerivs        = NULL;
-         double*** diatomicTwoElecTwoCore1stDerivs    = NULL;
+         double*** diatomicTwoElecsTwoCores1stDerivs  = NULL;
          double**  tmpDiaOverlapAOsInDiaFrame         = NULL; // diatomic overlapAOs in diatomic frame
          double**  tmpDiaOverlapAOs1stDerivInDiaFrame = NULL; // first derivative of the diaOverlapAOs. This derivative is related to the distance between two atoms.
          double**  tmpRotMat                          = NULL; // rotating Matrix from the diatomic frame to space fixed frame.
@@ -3677,7 +3677,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
          double*   tmpVectorBC                        = NULL; // used in dgemmm
          try{
             MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
-                                        &diatomicTwoElecTwoCore1stDerivs,
+                                        &diatomicTwoElecsTwoCores1stDerivs,
                                         &tmpDiaOverlapAOsInDiaFrame,       
                                         &tmpDiaOverlapAOs1stDerivInDiaFrame,
                                         &tmpRotMat,
@@ -3710,7 +3710,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                                           atomB);
 
                // calc. first derivative of two elec two core interaction by Nishimoto-Mataga
-               this->CalcDiatomicTwoElecTwoCore1stDerivatives(diatomicTwoElecTwoCore1stDerivs, a, b);
+               this->CalcDiatomicTwoElecsTwoCores1stDerivatives(diatomicTwoElecsTwoCores1stDerivs, a, b);
 
                double coreRepulsion       [CartesianType_end] = {0.0,0.0,0.0};
                double forceElecCoreAttPart[CartesianType_end] = {0.0,0.0,0.0};
@@ -3723,7 +3723,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                   // electron core attraction part (ground state)                     
                   forceElecCoreAttPart[i] = ( atomA.GetCoreCharge()*atomicElectronPopulation[b]
                                              +atomB.GetCoreCharge()*atomicElectronPopulation[a])
-                                           *diatomicTwoElecTwoCore1stDerivs[s][s][i];
+                                           *diatomicTwoElecsTwoCores1stDerivs[s][s][i];
                }
                double forceOverlapAOsPart [CartesianType_end] = {0.0,0.0,0.0};
                double forceTwoElecPart    [CartesianType_end] = {0.0,0.0,0.0};
@@ -3742,7 +3742,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                         forceTwoElecPart[i] += (this->orbitalElectronPopulation[mu][mu]
                                                *this->orbitalElectronPopulation[nu][nu]
                                                -0.5*pow(this->orbitalElectronPopulation[mu][nu],2.0))
-                                              *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
+                                              *diatomicTwoElecsTwoCores1stDerivs[mu-firstAOIndexA][nu-firstAOIndexB][i];
                      }
                   }
                }
@@ -3767,7 +3767,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                                    n,
                                                    a,
                                                    b,
-                                                   diatomicTwoElecTwoCore1stDerivs);
+                                                   diatomicTwoElecsTwoCores1stDerivs);
                   // sum up contributions from static part (excited state)
 #pragma omp critical
                   {
@@ -3785,7 +3785,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                              n,
                                              a,
                                              b,
-                                             diatomicTwoElecTwoCore1stDerivs);
+                                             diatomicTwoElecsTwoCores1stDerivs);
                   // overlapAOs part (excited states)
                   double forceExcitedOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
                   this->CalcForceExcitedOverlapAOsPart(forceExcitedOverlapAOsPart, 
@@ -3799,7 +3799,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                                        n,
                                                        a,
                                                        b,
-                                                       diatomicTwoElecTwoCore1stDerivs);
+                                                       diatomicTwoElecsTwoCores1stDerivs);
                   // sum up contributions from response part (excited state)
 #pragma omp critical
                   {
@@ -3820,7 +3820,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
             ex.Serialize(ompErrors);
          }
          FreeTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
-                                   &diatomicTwoElecTwoCore1stDerivs,
+                                   &diatomicTwoElecsTwoCores1stDerivs,
                                    &tmpDiaOverlapAOsInDiaFrame,       
                                    &tmpDiaOverlapAOs1stDerivInDiaFrame,
                                    &tmpRotMat,
@@ -3925,7 +3925,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
 }
 
 void ZindoS::MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
-                                         double**** diatomicTwoElecTwoCore1stDerivs,
+                                         double**** diatomicTwoElecsTwoCores1stDerivs,
                                          double***  tmpDiaOverlapAOsInDiaFrame,       
                                          double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
                                          double***  tmpRotMat,
@@ -3936,7 +3936,7 @@ void ZindoS::MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs,
                                          double***  tmpMatrixBC,
                                          double**   tmpVectorBC) const{
    MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDerivs,        OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecTwoCore1stDerivs,    OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecsTwoCores1stDerivs,  OrbitalType_end, OrbitalType_end, CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOs1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat,                          OrbitalType_end, OrbitalType_end);
@@ -3949,7 +3949,7 @@ void ZindoS::MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs,
 }
 
 void ZindoS::FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
-                                       double**** diatomicTwoElecTwoCore1stDerivs,
+                                       double**** diatomicTwoElecsTwoCores1stDerivs,
                                        double***  tmpDiaOverlapAOsInDiaFrame,       
                                        double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
                                        double***  tmpRotMat,
@@ -3960,7 +3960,7 @@ void ZindoS::FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs,
                                        double***  tmpMatrixBC,
                                        double**   tmpVectorBC) const{
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDerivs,        OrbitalType_end, OrbitalType_end, CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecTwoCore1stDerivs,    OrbitalType_end, OrbitalType_end, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecsTwoCores1stDerivs,  OrbitalType_end, OrbitalType_end, CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOs1stDerivInDiaFrame, OrbitalType_end, OrbitalType_end);
    MallocerFreer::GetInstance()->Free<double>(tmpRotMat,                          OrbitalType_end, OrbitalType_end);
@@ -3976,7 +3976,7 @@ void ZindoS::CalcForceExcitedStaticPart(double* force,
                                       int elecStateIndex,
                                       int indexAtomA, 
                                       int indexAtomB,
-                                      double const* const* const* diatomicTwoElecTwoCore1stDerivs) const{
+                                      double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -3991,9 +3991,9 @@ void ZindoS::CalcForceExcitedStaticPart(double* force,
                         -1.0*this->etaMatrixForce[elecStateIndex][mu][lambda]
                             *this->etaMatrixForce[elecStateIndex][mu][lambda];
             force[i] += temp
-                       *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                       [lambda-firstAOIndexB]
-                                                       [i];
+                       *diatomicTwoElecsTwoCores1stDerivs[mu-firstAOIndexA]
+                                                         [lambda-firstAOIndexB]
+                                                         [i];
          }
       }
    }
@@ -4003,7 +4003,7 @@ void ZindoS::CalcForceExcitedElecCoreAttractionPart(double* force,
                                                   int elecStateIndex,
                                                   int indexAtomA, 
                                                   int indexAtomB,
-                                                  double const* const* const* diatomicTwoElecTwoCore1stDerivs) const{
+                                                  double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -4012,7 +4012,7 @@ void ZindoS::CalcForceExcitedElecCoreAttractionPart(double* force,
       for(int i=0; i<CartesianType_end; i++){
          force[i] += this->zMatrixForce[elecStateIndex][mu][mu]
                     *atomB.GetCoreCharge()
-                    *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA][s][i];
+                    *diatomicTwoElecsTwoCores1stDerivs[mu-firstAOIndexA][s][i];
       }
    }
 }
@@ -4051,7 +4051,7 @@ void ZindoS::CalcForceExcitedTwoElecPart(double* force,
                                          int elecStateIndex,
                                          int indexAtomA, 
                                          int indexAtomB,
-                                         double const* const* const* diatomicTwoElecTwoCore1stDerivs) const{
+                                         double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const{
    const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -4063,15 +4063,15 @@ void ZindoS::CalcForceExcitedTwoElecPart(double* force,
          for(int i=0; i<CartesianType_end; i++){
             force[i] -= this->zMatrixForce[elecStateIndex][mu][mu]
                        *this->orbitalElectronPopulation[lambda][lambda]
-                       *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                       [lambda-firstAOIndexB]
-                                                       [i];
+                       *diatomicTwoElecsTwoCores1stDerivs[mu-firstAOIndexA]
+                                                         [lambda-firstAOIndexB]
+                                                         [i];
             force[i] += 0.50
                        *this->zMatrixForce[elecStateIndex][mu][lambda]
                        *this->orbitalElectronPopulation[mu][lambda]
-                       *diatomicTwoElecTwoCore1stDerivs[mu-firstAOIndexA]
-                                                       [lambda-firstAOIndexB]
-                                                       [i];
+                       *diatomicTwoElecsTwoCores1stDerivs[mu-firstAOIndexA]
+                                                         [lambda-firstAOIndexB]
+                                                         [i];
          }
       }
    }

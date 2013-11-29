@@ -70,7 +70,7 @@ protected:
                                      double const* const* gammaAB,
                                      double const* const* orbitalElectronPopulation, 
                                      double const* atomicElectronPopulation,
-                                     double const* const* const* const* const* const* twoElecTwoCore,
+                                     double const* const* const* const* const* const* twoElecsTwoAtomCores,
                                      bool isGuess) const;
    virtual double GetFockOffDiagElement(const MolDS_base_atoms::Atom& atomA, 
                                         const MolDS_base_atoms::Atom& atomB, 
@@ -81,7 +81,7 @@ protected:
                                         double const* const* gammaAB, 
                                         double const* const* overelap,
                                         double const* const* orbitalElectronPopulation, 
-                                        double const* const* const* const* const* const* twoElecTwoCore,
+                                        double const* const* const* const* const* const* twoElecsTwoAtomCores,
                                         bool isGuess) const;
    virtual void CalcDiatomicOverlapAOsInDiatomicFrame(double** diatomicOverlapAOs, 
                                                       const MolDS_base_atoms::Atom& atomA, 
@@ -98,8 +98,8 @@ protected:
    virtual double GetExchangeInt(MolDS_base::OrbitalType orbital1, 
                                  MolDS_base::OrbitalType orbital2, 
                                  const MolDS_base_atoms::Atom& atom) const; // Apendix in [BZ_1979]
-   virtual void CalcTwoElecTwoCore(double****** twoElecTwoCore, 
-                                   const MolDS_base::Molecule& molecule) const;
+   virtual void CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
+                                     const MolDS_base::Molecule& molecule) const;
    virtual double GetMolecularIntegralElement(int moI, 
                                               int moJ, 
                                               int moK, 
@@ -268,11 +268,11 @@ private:
    void FreeDavidsonRoopCISTemporaryMtrices(double*** interactionMatrix, 
                                             int interactionMatrixDimension, 
                                             double** interactionEigenEnergies) const;
-   void CalcDiatomicTwoElecTwoCore1stDerivatives(double*** matrix, 
-                                                 int indexAtomA, 
-                                                 int indexAtomB) const;
+   void CalcDiatomicTwoElecsTwoCores1stDerivatives(double*** matrix, 
+                                                   int indexAtomA, 
+                                                   int indexAtomB) const;
    void MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
-                                    double**** diatomicTwoElecTwoCore1stDerivs,
+                                    double**** diatomicTwoElecsTwoCores1stDerivs,
                                     double***  tmpDiaOverlapAOsInDiaFrame,       
                                     double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
                                     double***  tmpRotMat,
@@ -283,7 +283,7 @@ private:
                                     double***  tmpMatrixBC,
                                     double**   tmpVectorBC) const;         
    void FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
-                                  double**** diatomicTwoElecTwoCore1stDerivs,
+                                  double**** diatomicTwoElecsTwoCores1stDerivs,
                                   double***  tmpDiaOverlapAOsInDiaFrame,       
                                   double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
                                   double***  tmpRotMat,
@@ -297,17 +297,17 @@ private:
                                    int elecStateIndex,
                                    int indexAtomA,
                                    int indexAtomB,
-                                   double const* const* const* diatomicTwoElecTwoCore1stDerivs) const;
+                                   double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const;
    void CalcForceExcitedElecCoreAttractionPart(double* force, 
                                                int elecStateIndex,
                                                int indexAtomA,
                                                int indexAtomB,
-                                               double const* const* const* diatomicTwoElecTwoCore1stDerivs) const;
+                                               double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const;
    void CalcForceExcitedTwoElecPart(double* force, 
                                     int elecStateIndex,
                                     int indexAtomA,
                                     int indexAtomB,
-                                    double const* const* const* diatomicTwoElecTwoCore1stDerivs) const;
+                                    double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const;
    void CheckZMatrixForce(const std::vector<int>& elecStates);
    void CheckEtaMatrixForce(const std::vector<int>& elecStates);
    double GetZMatrixForceElement(double const* y,

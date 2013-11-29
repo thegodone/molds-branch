@@ -37,7 +37,7 @@ protected:
                                      double const* const* gammaAB,
                                      double const* const* orbitalElectronPopulation, 
                                      double const* atomicElectronPopulation,
-                                     double const* const* const* const* const* const* twoElecTwoCore,
+                                     double const* const* const* const* const* const* twoElecsTwoAtomCores,
                                      bool isGuess) const;
    virtual double GetFockOffDiagElement(const MolDS_base_atoms::Atom& atomA, 
                                         const MolDS_base_atoms::Atom& atomB, 
@@ -49,7 +49,7 @@ protected:
                                         double const* const* gammaAB, 
                                         double const* const* overelap,
                                         double const* const* orbitalElectronPopulation,
-                                        double const* const* const* const* const* const* twoElecTwoCore,
+                                        double const* const* const* const* const* const* twoElecsTwoAtomCores,
                                         bool isGuess) const;
    virtual double GetMolecularIntegralElement(int moI, int moJ, int moK, int moL, 
                                               const MolDS_base::Molecule& molecule, 

@@ -125,6 +125,7 @@ RENUMSTR_BEGIN( AtomType, AtomTypeStr )
    RENUMSTR( S,  "S" )
    RENUMSTR( Cl,  "Cl" )
    RENUMSTR( Ar,  "Ar" )
+   RENUMSTR( EPC,  "Environmental Point Charge" )
    RENUMSTR( AtomType_end,  "AtomType_end" )
 RENUMSTR_END()
 

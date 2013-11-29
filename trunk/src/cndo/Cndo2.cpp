@@ -82,7 +82,7 @@ Cndo2::Cndo2(){
    this->atomicElectronPopulationCIS  = NULL;
    this->atomicUnpairedPopulationCIS  = NULL;
    this->overlapAOs = NULL;
-   this->twoElecTwoCore = NULL;
+   this->twoElecsTwoAtomCores = NULL;
    this->cartesianMatrix = NULL;
    this->electronicTransitionDipoleMoments = NULL;
    this->coreDipoleMoment = NULL;
@@ -533,7 +533,7 @@ void Cndo2::DoSCF(bool requiresGuess){
       this->CalcGammaAB(this->gammaAB, *this->molecule);
       this->CalcOverlapAOs(this->overlapAOs, *this->molecule);
       this->CalcCartesianMatrixByGTOExpansion(this->cartesianMatrix, *this->molecule, STO6G);
-      this->CalcTwoElecTwoCore(this->twoElecTwoCore, *this->molecule);
+      this->CalcTwoElecsTwoCores(this->twoElecsTwoAtomCores, *this->molecule);
 
       // SCF
       double rmsDensity=0.0;
@@ -556,7 +556,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                               this->gammaAB,
                               this->orbitalElectronPopulation, 
                               this->atomicElectronPopulation,
-                              this->twoElecTwoCore,
+                              this->twoElecsTwoAtomCores,
                               isGuess);
 
          // diagonalization of the Fock matrix
@@ -744,8 +744,8 @@ double const* const* Cndo2::GetForce(int elecState){
    return this->matrixForce[0];
 }
 
-void Cndo2::CalcTwoElecTwoCore(double****** twoElecTwoCore, 
-                               const Molecule& molecule) const{
+void Cndo2::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
+                                 const Molecule& molecule) const{
    // do nothing for CNDO, INDO, and ZINDO/S.
    // two electron two core integrals are not needed for CNDO, INDO, and ZINDO/S.
 }
@@ -1214,7 +1214,7 @@ void Cndo2::CalcElecSCFEnergy(double* elecSCFEnergy,
                            this->gammaAB,
                            this->orbitalElectronPopulation, 
                            this->atomicElectronPopulation,
-                           this->twoElecTwoCore,
+                           this->twoElecsTwoAtomCores,
                            isGuess);
       this->CalcFockMatrix(hMatrix, 
                            molecule, 
@@ -1222,7 +1222,7 @@ void Cndo2::CalcElecSCFEnergy(double* elecSCFEnergy,
                            this->gammaAB,
                            dammyOrbitalElectronPopulation, 
                            dammyAtomicElectronPopulation,
-                           this->twoElecTwoCore,
+                           this->twoElecsTwoAtomCores,
                            isGuess);
 
       for(int i=0; i<totalNumberAOs; i++){
@@ -1386,7 +1386,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                            double const* const* gammaAB,
                            double const* const* orbitalElectronPopulation, 
                            double const* atomicElectronPopulation,
-                           double const* const* const* const* const* const* twoElecTwoCore, 
+                           double const* const* const* const* const* const* twoElecsTwoAtomCores, 
                            bool isGuess) const{
    int totalNumberAOs   = molecule.GetTotalNumberAOs();
    int totalNumberAtoms = molecule.GetNumberAtoms();
@@ -1423,7 +1423,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                                                                       gammaAB,
                                                                       orbitalElectronPopulation, 
                                                                       atomicElectronPopulation,
-                                                                      twoElecTwoCore,
+                                                                      twoElecsTwoAtomCores,
                                                                       isGuess);
                      }
                      else if(mu < nu){
@@ -1438,7 +1438,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                                                                          gammaAB,
                                                                          overlapAOs,
                                                                          orbitalElectronPopulation, 
-                                                                         twoElecTwoCore,
+                                                                         twoElecsTwoAtomCores,
                                                                          isGuess);
                      }
                      else{
@@ -1495,7 +1495,7 @@ double Cndo2::GetFockDiagElement(const Atom& atomA,
                                  double const* const* gammaAB,
                                  double const* const* orbitalElectronPopulation, 
                                  double const* atomicElectronPopulation,
-                                 double const* const* const* const* const* const* twoElecTwoCore, 
+                                 double const* const* const* const* const* const* twoElecsTwoAtomCores, 
                                  bool isGuess) const{
    double value;
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -1531,7 +1531,7 @@ double Cndo2::GetFockOffDiagElement(const Atom& atomA,
                                     double const* const* gammaAB, 
                                     double const* const* overlapAOs,
                                     double const* const* orbitalElectronPopulation, 
-                                    double const* const* const* const* const* const* twoElecTwoCore, 
+                                    double const* const* const* const* const* const* twoElecsTwoAtomCores, 
                                     bool isGuess) const{
    double value;
    double K = this->GetBondingAdjustParameterK(atomA.GetValenceShellType(), atomB.GetValenceShellType());

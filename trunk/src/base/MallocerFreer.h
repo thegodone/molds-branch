@@ -30,6 +30,7 @@ public:
    //1d
    template<typename T> void Malloc(T** matrix, size_t size1) const{
       if(*matrix!=NULL) return;
+      if(size1<=0)      return;
       double requiredMalloc = this->GetMemoryAmount<T>(size1);
       this->CheckLimitHeap(requiredMalloc);
       *matrix = new T[size1]();
@@ -58,6 +59,7 @@ public:
    // 2d
    template<typename T> void Malloc(T*** matrix, size_t size1, size_t size2) const{
       if(*matrix!=NULL) return;
+      if(size1*size2<=0)      return;
       double requiredMalloc = this->GetMemoryAmount<T*>(size1);
       this->CheckLimitHeap(requiredMalloc);
 
@@ -100,6 +102,7 @@ public:
    // 3d
    template<typename T> void Malloc(T**** matrix, size_t size1, size_t size2, size_t size3) const{
       if(*matrix!=NULL) return;
+      if(size1*size2*size3<=0) return;
       double requiredMalloc = this->GetMemoryAmount<T**>(size1);
       this->CheckLimitHeap(requiredMalloc);
 
@@ -144,6 +147,7 @@ public:
    //4d
    template<typename T> void Malloc(T***** matrix, size_t size1, size_t size2, size_t size3, size_t size4) const{
       if(*matrix!=NULL) return;
+      if(size1*size2*size3*size4<=0) return;
       double requiredMalloc = this->GetMemoryAmount<T***>(size1);
       this->CheckLimitHeap(requiredMalloc);
 
@@ -189,6 +193,7 @@ public:
    //5d
    template<typename T> void Malloc(T****** matrix, size_t size1, size_t size2, size_t size3, size_t size4, size_t size5) const{
       if(*matrix!=NULL) return;
+      if(size1*size2*size3*size4*size5<=0) return;
       double requiredMalloc = this->GetMemoryAmount<T****>(size1);
       this->CheckLimitHeap(requiredMalloc);
 
@@ -235,6 +240,7 @@ public:
    //6d
    template<typename T> void Malloc(T******* matrix, size_t size1, size_t size2, size_t size3, size_t size4, size_t size5, size_t size6) const{
       if(*matrix!=NULL) return;
+      if(size1*size2*size3*size4*size5*size6<=0) return;
       double requiredMalloc = this->GetMemoryAmount<T*****>(size1);
       this->CheckLimitHeap(requiredMalloc);
 
@@ -282,6 +288,7 @@ public:
    //7d
    template<typename T> void Malloc(T******** matrix, size_t size1, size_t size2, size_t size3, size_t size4, size_t size5, size_t size6, size_t size7) const{
       if(*matrix!=NULL) return;
+      if(size1*size2*size3*size4*size5*size6*size7<=0) return;
       double requiredMalloc = this->GetMemoryAmount<T******>(size1);
       this->CheckLimitHeap(requiredMalloc);
 

@@ -57,15 +57,30 @@ Molecule::Molecule(const Molecule& rhs){
 Molecule& Molecule::operator=(const Molecule& rhs){
    double*  oldXyzCOM = this->xyzCOM;
    double*  oldXyzCOC = this->xyzCOC;
-   double** oldDistanceMatrix = this->distanceMatrix;
+   double** oldDistanceAtoms     = this->distanceAtoms;
+   double** oldDistanceEpcs      = this->distanceEpcs;
+   double** oldDistanceAtomsEpcs = this->distanceAtomsEpcs;
    vector<Atom*>* oldAtomVect = this->atomVect;
+   vector<Atom*>* oldEpcVect  = this->epcVect;
    this->CopyInitialize(rhs);
-   this->Finalize(&oldAtomVect, &oldXyzCOM, &oldXyzCOC, &oldDistanceMatrix);
+   this->Finalize(&oldAtomVect, 
+                  &oldEpcVect, 
+                  &oldXyzCOM, 
+                  &oldXyzCOC, 
+                  &oldDistanceAtoms,
+                  &oldDistanceEpcs,
+                  &oldDistanceAtomsEpcs);
    return *this;
 }
 
 Molecule::~Molecule(){
-   this->Finalize(&this->atomVect, &this->xyzCOM, &this->xyzCOC, &this->distanceMatrix);
+   this->Finalize(&this->atomVect, 
+                  &this->epcVect, 
+                  &this->xyzCOM, 
+                  &this->xyzCOC, 
+                  &this->distanceAtoms,
+                  &this->distanceEpcs,
+                  &this->distanceAtomsEpcs);
    //this->OutputLog("molecule deleted\n");
 }
 
@@ -78,48 +93,101 @@ void Molecule::CopyInitialize(const Molecule& rhs){
    this->totalNumberAOs = rhs.totalNumberAOs;
    this->totalNumberValenceElectrons = rhs.totalNumberValenceElectrons;
    this->totalCoreMass = rhs.totalCoreMass;
-   for(int i=0; i<rhs.atomVect->size(); i++){
-      Atom* atom = (*rhs.atomVect)[i];
-      this->atomVect->push_back(AtomFactory::Create(atom->GetAtomType(),
-                                                    atom->GetIndex(),
-                                                    atom->GetXyz()[XAxis],
-                                                    atom->GetXyz()[YAxis],
-                                                    atom->GetXyz()[ZAxis],
-                                                    atom->GetPxyz()[XAxis],
-                                                    atom->GetPxyz()[YAxis],
-                                                    atom->GetPxyz()[ZAxis]));
-      (*this->atomVect)[i]->SetFirstAOIndex(atom->GetFirstAOIndex());
-   }                                                                     
-   int atomNum = this->atomVect->size();
-   MallocerFreer::GetInstance()->Malloc<double>(&this->distanceMatrix, atomNum, atomNum);
-   for(int i=0; i<atomNum; i++){
-      for(int j=0; j<atomNum; j++){
-         this->distanceMatrix[i][j] = rhs.distanceMatrix[i][j];
+   if(rhs.atomVect != NULL){
+      int atomNum = rhs.atomVect->size();
+      for(int i=0; i<atomNum; i++){
+         Atom* atom = (*rhs.atomVect)[i];
+         this->atomVect->push_back(AtomFactory::Create(atom->GetAtomType(),
+                                                       atom->GetIndex(),
+                                                       atom->GetXyz()[XAxis],
+                                                       atom->GetXyz()[YAxis],
+                                                       atom->GetXyz()[ZAxis],
+                                                       atom->GetPxyz()[XAxis],
+                                                       atom->GetPxyz()[YAxis],
+                                                       atom->GetPxyz()[ZAxis]));
+         (*this->atomVect)[i]->SetFirstAOIndex(atom->GetFirstAOIndex());
+      }
+      MallocerFreer::GetInstance()->Malloc<double>(&this->distanceAtoms, atomNum, atomNum);
+      for(int i=0; i<atomNum; i++){
+         for(int j=0; j<atomNum; j++){
+            this->distanceAtoms[i][j] = rhs.distanceAtoms[i][j];
+         }
       }
    }
-
+   if(rhs.epcVect != NULL){
+      int epcNum = rhs.epcVect->size();
+      for(int i=0; i<epcNum; i++){
+         Atom* epc = (*rhs.epcVect)[i];
+         this->epcVect->push_back(
+            AtomFactory::Create(EPC,
+                                epc->GetIndex(),
+                                epc->GetXyz()[XAxis],
+                                epc->GetXyz()[YAxis],
+                                epc->GetXyz()[ZAxis],
+                                epc->GetPxyz()[XAxis],
+                                epc->GetPxyz()[YAxis],
+                                epc->GetPxyz()[ZAxis],
+                                epc->GetCoreCharge()));
+         (*this->epcVect)[i]->SetFirstAOIndex(epc->GetFirstAOIndex());
+      }
+      MallocerFreer::GetInstance()->Malloc<double>(&this->distanceEpcs, epcNum, epcNum);
+      for(int i=0; i<epcNum; i++){
+         for(int j=0; j<epcNum; j++){
+            this->distanceEpcs[i][j] = rhs.distanceEpcs[i][j];
+         }
+      }
+   }
+   if(rhs.atomVect != NULL && rhs.epcVect != NULL){
+      int atomNum = rhs.atomVect->size();
+      int epcNum = rhs.epcVect->size();
+      MallocerFreer::GetInstance()->Malloc<double>(&this->distanceAtomsEpcs, atomNum, epcNum);
+      for(int i=0; i<atomNum; i++){
+         for(int j=0; j<epcNum; j++){
+            this->distanceAtomsEpcs[i][j] = rhs.distanceAtomsEpcs[i][j];
+         }
+      }
+   }
 }
 
 void Molecule::Initialize(){
    this->SetMessages();
-   this->xyzCOM         = NULL;
-   this->xyzCOC         = NULL;
-   this->distanceMatrix = NULL;
-   this->atomVect       = NULL;
+   this->xyzCOM             = NULL;
+   this->xyzCOC             = NULL;
+   this->distanceAtoms      = NULL;
+   this->distanceEpcs       = NULL;
+   this->distanceAtomsEpcs  = NULL;
+   this->atomVect           = NULL;
+   this->epcVect            = NULL;
    try{
       this->atomVect = new vector<Atom*>;
+      this->epcVect  = new vector<Atom*>;
       MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOM, CartesianType_end);
       MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOC, CartesianType_end);
    }
    catch(exception ex){
-      this->Finalize(&this->atomVect, &this->xyzCOM, &this->xyzCOC, &this->distanceMatrix);
+      this->Finalize(&this->atomVect, 
+                     &this->epcVect, 
+                     &this->xyzCOM, 
+                     &this->xyzCOC, 
+                     &this->distanceAtoms,
+                     &this->distanceEpcs,
+                     &this->distanceAtomsEpcs);
       throw MolDSException(ex.what());
    }
 }
 
-void Molecule::Finalize(vector<Atom*>** atomVect, double** xyzCOM, double** xyzCOC, double*** distanceMatrix){
-   int atomNum = (*atomVect)->size();
+void Molecule::Finalize(vector<Atom*>** atomVect, 
+                        vector<Atom*>** epcVect, 
+                        double** xyzCOM, 
+                        double** xyzCOC, 
+                        double*** distanceAtoms,
+                        double*** distanceEpcs,
+                        double*** distanceAtomsEpcs){
+   MallocerFreer::GetInstance()->Free<double>(xyzCOM, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(xyzCOC, CartesianType_end);
+   int atomNum=0;
    if(*atomVect != NULL){
+      atomNum = (*atomVect)->size();
       for(int i=0; i<atomNum; i++){
          if((**atomVect)[i] != NULL){
             delete (**atomVect)[i];
@@ -130,16 +198,37 @@ void Molecule::Finalize(vector<Atom*>** atomVect, double** xyzCOM, double** xyzC
       delete *atomVect;
       *atomVect = NULL;
       //this->OutputLog("atomVect deleted\n");
+      MallocerFreer::GetInstance()->Free<double>(distanceAtoms, atomNum, atomNum);
    }
-   MallocerFreer::GetInstance()->Free<double>(xyzCOM, CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(xyzCOC, CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(distanceMatrix, atomNum, atomNum);
+   int epcNum = 0;
+   if(*epcVect != NULL){
+      epcNum = (*epcVect)->size();
+      for(int i=0; i<epcNum; i++){
+         if((**epcVect)[i] != NULL){
+            delete (**epcVect)[i];
+            (**epcVect)[i] = NULL;
+         }
+      }
+      (*epcVect)->clear();
+      delete *epcVect;
+      *epcVect = NULL;
+      //this->OutputLog("epcVect deleted\n");
+      MallocerFreer::GetInstance()->Free<double>(distanceEpcs, epcNum, epcNum);
+   }
+   if(*atomVect != NULL && *epcVect != NULL){
+      atomNum = (*atomVect)->size();
+      epcNum = (*epcVect)->size();
+      MallocerFreer::GetInstance()->Free<double>(distanceAtomsEpcs, atomNum, epcNum);
+   }
 }
 
 void Molecule::SetMessages(){
    this->errorMessageGetAtomNull = "Error in base::Molecule::GetAtom: atomVect is NULL.\n";
+   this->errorMessageGetEPCNull  = "Error in base::Molecule::GetEnviromentalPointCharge: enviromentalPointChargeVect is NULL.\n";
    this->errorMessageAddAtomNull = "Error in base::Molecule::AddAtom: atomVect is NULL.\n";
+   this->errorMessageAddEPCNull  = "Error in base::Molecule::AddEnviromentalPointCharge: enviromentalPointChargeVect is NULL.\n";
    this->errorMessageGetNumberAtomsNull = "Error in base::Molecule::GetNumberAtoms: atomVect is NULL.\n";
+   this->errorMessageGetNumberEPCsNull  = "Error in base::Molecule::GetNumberEnviromentalPointChargess: epcVect is NULL.\n";
    this->errorMessageGetXyzCOMNull = "Error in base::Molecule::GetXyzCOM: xyzCOM is NULL.\n";
    this->errorMessageGetXyzCOCNull = "Error in base::Molecule::GetXyzCOC: xyzCOC is NULL.\n";
    this->errorMessageCalcXyzCOMNull = "Error in base::Molecule::CalcXyzCOM: xyzCOM is NULL.\n";
@@ -151,6 +240,9 @@ void Molecule::SetMessages(){
    this->messageAtomCoordinates = "\tAtom coordinates:";
    this->messageAtomMomenta = "\tAtom momenta:";
    this->messageAtomMomentaTitle = "\t\t\t| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |\t\t|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]\n";
+   this->messageEpcConfiguration = "\tEnvironmental Point Charge(EPC) configuration:\n";
+   this->messageEpcCoordinates = "\tEPC coordinates:";
+   this->messageEpcCoordinatesTitle = "\t\t\t\t| i-th |  charge[a.u.]  |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
    this->messageCOM = "\tCenter of Mass:";
    this->messageCOC = "\tCenter of Core:";
    this->messageCOMTitle = "\t\t\t|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
@@ -182,7 +274,13 @@ void Molecule::AddAtom(Atom* atom){
    if(this->atomVect==NULL) throw MolDSException(this->errorMessageAddAtomNull);
 #endif
    this->atomVect->push_back(atom);
-   
+}
+
+void Molecule::AddEpc(Atom* epc){
+#ifdef MOLDS_DBG
+   if(this->epcVect==NULL) throw MolDSException(this->errorMessageAddEPCNull);
+#endif
+   this->epcVect->push_back(epc);
 }
 
 double const* Molecule::GetXyzCOM() const{
@@ -251,9 +349,9 @@ void Molecule::CalcXyzCOC(){
    }
 }
 
-void Molecule::CalcDistanceMatrix(){
-   if(this->distanceMatrix==NULL){
-      MallocerFreer::GetInstance()->Malloc<double>(&this->distanceMatrix, this->atomVect->size(), this->atomVect->size());
+void Molecule::CalcDistanceAtoms(){
+   if(this->distanceAtoms==NULL){
+      MallocerFreer::GetInstance()->Malloc<double>(&this->distanceAtoms, this->atomVect->size(), this->atomVect->size());
    }
    for(int a=0; a<this->atomVect->size(); a++){
       const Atom& atomA = *(*this->atomVect)[a];
@@ -263,8 +361,45 @@ void Molecule::CalcDistanceMatrix(){
          distance = sqrt( pow(atomA.GetXyz()[0] - atomB.GetXyz()[0], 2.0)
                          +pow(atomA.GetXyz()[1] - atomB.GetXyz()[1], 2.0)
                          +pow(atomA.GetXyz()[2] - atomB.GetXyz()[2], 2.0) );
-         this->distanceMatrix[a][b] = distance;
-         this->distanceMatrix[b][a] = distance;
+         this->distanceAtoms[a][b] = distance;
+         this->distanceAtoms[b][a] = distance;
+      }
+   }
+}
+
+void Molecule::CalcDistanceEpcs(){
+   if(this->epcVect == NULL){return;}
+   if(this->distanceEpcs==NULL){
+      MallocerFreer::GetInstance()->Malloc<double>(&this->distanceEpcs, this->epcVect->size(), this->epcVect->size());
+   }
+   for(int a=0; a<this->epcVect->size(); a++){
+      const Atom& epcA = *(*this->epcVect)[a];
+      for(int b=a; b<this->epcVect->size(); b++){
+         const Atom& epcB = *(*this->epcVect)[b];
+         double distance=0.0;
+         distance = sqrt( pow(epcA.GetXyz()[0] - epcB.GetXyz()[0], 2.0)
+                         +pow(epcA.GetXyz()[1] - epcB.GetXyz()[1], 2.0)
+                         +pow(epcA.GetXyz()[2] - epcB.GetXyz()[2], 2.0) );
+         this->distanceEpcs[a][b] = distance;
+         this->distanceEpcs[b][a] = distance;
+      }
+   }
+}
+
+void Molecule::CalcDistanceAtomsEpcs(){
+   if(this->epcVect == NULL){return;}
+   if(this->distanceAtomsEpcs==NULL){
+      MallocerFreer::GetInstance()->Malloc<double>(&this->distanceAtomsEpcs, this->atomVect->size(), this->epcVect->size());
+   }
+   for(int a=0; a<this->atomVect->size(); a++){
+      const Atom& atom = *(*this->atomVect)[a];
+      for(int b=0; b<this->epcVect->size(); b++){
+         const Atom& epc = *(*this->epcVect)[b];
+         double distance=0.0;
+         distance = sqrt( pow(atom.GetXyz()[0] - epc.GetXyz()[0], 2.0)
+                         +pow(atom.GetXyz()[1] - epc.GetXyz()[1], 2.0)
+                         +pow(atom.GetXyz()[2] - epc.GetXyz()[2], 2.0) );
+         this->distanceAtomsEpcs[a][b] = distance;
       }
    }
 }
@@ -279,7 +414,9 @@ void Molecule::CalcBasics(){
 void Molecule::CalcBasicsConfiguration(){
    this->CalcXyzCOM();
    this->CalcXyzCOC();
-   this->CalcDistanceMatrix();
+   this->CalcDistanceAtoms();
+   this->CalcDistanceEpcs();
+   this->CalcDistanceAtomsEpcs();
 }
 
 void Molecule::CalcTotalNumberAOs(){
@@ -343,6 +480,27 @@ void Molecule::OutputMomenta() const{
          % atom.GetPxyz()[0]
          % atom.GetPxyz()[1]
          % atom.GetPxyz()[2]);
+   }
+   this->OutputLog("\n");
+}
+
+void Molecule::OutputEpcs() const{
+   if(this->epcVect == NULL || this->epcVect->size() <= 0) {return;}
+   double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
+   this->OutputLog(this->messageEpcConfiguration);
+   this->OutputLog(this->messageEpcCoordinatesTitle);
+   for(int a=0; a<this->epcVect->size(); a++){
+      const Atom& atom = *(*this->epcVect)[a];
+      this->OutputLog(boost::format("%s\t%d\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\n") 
+         % this->messageEpcCoordinates
+         % a
+         % atom.GetCoreCharge()
+         % atom.GetXyz()[0]
+         % atom.GetXyz()[1]
+         % atom.GetXyz()[2]
+         % (atom.GetXyz()[0]/ang2AU)
+         % (atom.GetXyz()[1]/ang2AU)
+         % (atom.GetXyz()[2]/ang2AU));
    }
    this->OutputLog("\n");
 }
@@ -672,14 +830,6 @@ void Molecule::OutputTranslatingConditions(double const* translatingDifference) 
       % (translatingDifference[1]/angst2AU)
       % (translatingDifference[2]/angst2AU));
 }
-
-//double Molecule::GetDistanceAtoms(int indexAtomA, int indexAtomB) const{
-//   return this->distanceMatrix[indexAtomA][indexAtomB];
-//}
-//
-//double Molecule::GetDistanceAtoms(const Atom& atomA, const Atom& atomB) const{
-//   return this->GetDistanceAtoms(atomA.GetIndex(), atomB.GetIndex());
-//}
 
 void Molecule::SynchronizeConfigurationTo(const Molecule& ref){
    for(int a=0; a<this->GetNumberAtoms(); a++){

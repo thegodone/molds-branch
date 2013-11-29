@@ -35,11 +35,27 @@ public:
                                          int index,
                                          double x,
                                          double y,
+                                         double z,
+                                         double px,
+                                         double py,
+                                         double pz,
+                                         double charge);
+   static MolDS_base_atoms::Atom* Create(MolDS_base::AtomType atomType,
+                                         int index,
+                                         double x,
+                                         double y,
                                          double z);
+   static MolDS_base_atoms::Atom* Create(MolDS_base::AtomType atomType,
+                                         int index,
+                                         double x,
+                                         double y,
+                                         double z,
+                                         double charge);
 private:
    AtomFactory(); 
    ~AtomFactory(); 
    static std::string errorMessageNotEnableAtom;
+   static std::string errorMessageNotEnvironmentalPointCharge;
    static std::string errorMessageAtomType;
 };
 

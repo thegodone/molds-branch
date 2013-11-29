@@ -82,6 +82,8 @@ void InputParser::SetMessages(){
       = "Error in base::InputParser::GetInputTerms: Input file is empty.\n"; 
    this->errorMessageNotFoundInputFile
       = "Error in base::InputParser::StoreInputTermsFromFile: Not found.\n"; 
+   this->errorMessageNonValidTheoriesEpc
+      = "Error in base::InputParser::ValidateEpcConditions: Theory you set is not supported for EPC. The supported theories are MNDO-sefies(MNDO, AM1, AM1D, PM3, PM3D, PDDG/PM3) only.\n";
    this->errorMessageNonValidTheoriesMD
       = "Error in base::InputParser::ValidateMdConditions: Theory you set is not supported for MD.\n";
    this->errorMessageNonValidExcitedStatesMD
@@ -247,6 +249,10 @@ void InputParser::SetMessages(){
    // geometry
    this->stringGeometry    = "geometry";
    this->stringGeometryEnd = "geometry_end";
+
+   // Environmental Point Charge
+   this->stringEpc    = "epc";
+   this->stringEpcEnd = "epc_end";
 
    // SCF
    this->stringScf                 = "scf";
@@ -483,6 +489,22 @@ int InputParser::ParseMolecularGeometry(Molecule* molecule, vector<string>* inpu
       int index = molecule->GetNumberAtoms();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
       molecule->AddAtom(atom);
+      parseIndex += 4;
+   }
+   return parseIndex;
+}
+
+int InputParser::ParseEpcsConfiguration(Molecule* molecule, vector<string>* inputTerms, int parseIndex) const{
+   parseIndex++;
+   while((*inputTerms)[parseIndex].compare(this->stringEpcEnd) != 0){
+      double x      = atof((*inputTerms)[parseIndex+0].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
+      double y      = atof((*inputTerms)[parseIndex+1].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
+      double z      = atof((*inputTerms)[parseIndex+2].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
+      double charge = atof((*inputTerms)[parseIndex+3].c_str());
+      AtomType atomType = EPC;
+      int index = molecule->GetNumberEpcs();
+      Atom* atom = AtomFactory::Create(atomType, index, x, y, z, charge);
+      molecule->AddEpc(atom);
       parseIndex += 4;
    }
    return parseIndex;
@@ -1169,6 +1191,11 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
          i = this->ParseMolecularGeometry(molecule, &inputTerms, i);
       }
 
+      // Environmental Point Charges Configuration
+      if(inputTerms[i].compare(this->stringEpc) == 0){
+         i = this->ParseEpcsConfiguration(molecule, &inputTerms, i);
+      }
+
       // scf condition
       if(inputTerms[i].compare(this->stringScf) == 0){
          i = this->ParseConditionsSCF(&inputTerms, i);
@@ -1249,6 +1276,7 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
    // calculate basics and validate conditions
    this->CalcMolecularBasics(molecule);
    this->ValidateVdWConditions();
+   this->ValidateEpcConditions(*molecule);
    if(Parameters::GetInstance()->RequiresCIS()){
       this->ValidateCisConditions(*molecule);
    }
@@ -1323,6 +1351,25 @@ void InputParser::ValidateVdWConditions() const{
       Parameters::GetInstance()->SetRequiresVdWSCF(true);
       Parameters::GetInstance()->SetVdWScalingFactorSCF();
       Parameters::GetInstance()->SetVdWDampingFactorSCF();
+   }
+}
+
+void InputParser::ValidateEpcConditions(const Molecule& molecule) const{
+   if(molecule.GetNumberEpcs()<=0){return;}
+   TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
+   // Validate theory
+   if(theory == MNDO || 
+      theory == AM1  || 
+      theory == AM1D || 
+      theory == PM3  || 
+      theory == PM3D || 
+      theory == PM3PDDG ){
+   }
+   else{
+      stringstream ss;
+      ss << this->errorMessageNonValidTheoriesEpc;
+      ss << this->errorMessageTheory << TheoryTypeStr(theory) << endl;
+      throw MolDSException(ss.str());
    }
 }
 
@@ -1550,6 +1597,7 @@ void InputParser::OutputMolecularBasics(Molecule* molecule) const{
    molecule->OutputConfiguration();
    molecule->OutputXyzCOM();
    molecule->OutputXyzCOC();
+   molecule->OutputEpcs();
 }
 
 void InputParser::OutputScfConditions() const{
