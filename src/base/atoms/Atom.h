@@ -47,6 +47,7 @@ public:
    double        GetBondingParameter(MolDS_base::TheoryType theory, 
                                      MolDS_base::OrbitalType orbital) const;
    inline double GetCoreCharge()           const{return this->coreCharge;}
+   inline void   SetCoreCharge(double charge)   {this->coreCharge=charge;}
    inline int  GetFirstAOIndex()           const{return this->firstAOIndex;}
    inline void SetFirstAOIndex(int firstAOIndex){this->firstAOIndex = firstAOIndex;}
    inline int  GetLastAOIndex()            const{return this->firstAOIndex + this->valence.size()-1;}

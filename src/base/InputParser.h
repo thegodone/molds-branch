@@ -35,6 +35,7 @@ private:
    void SetMessages();
    std::string errorMessageInputFileEmpty;
    std::string errorMessageNotFoundInputFile; 
+   std::string errorMessageNonValidTheoriesEpc;
    std::string errorMessageNonValidTheoriesMD;
    std::string errorMessageNonValidExcitedStatesMD;
    std::string errorMessageNonValidExcitedStatesMC;
@@ -173,6 +174,9 @@ private:
    // geometry
    std::string stringGeometry;
    std::string stringGeometryEnd;
+   // EPC
+   std::string stringEpc;
+   std::string stringEpcEnd;
    // SCF
    std::string stringScf;
    std::string stringScfEnd;
@@ -297,6 +301,7 @@ private:
    std::string stringFrequenciesElecState;
    void CalcMolecularBasics(Molecule* molecule) const;
    void ValidateVdWConditions() const;
+   void ValidateEpcConditions(const Molecule& molecule) const;
    void ValidateCisConditions(const Molecule& molecule) const;
    void ValidateMdConditions(const Molecule& molecule) const;
    void ValidateMcConditions(const Molecule& molecule) const;
@@ -324,6 +329,7 @@ private:
    void StoreInputTermsFromFile(std::vector<std::string>& inputTerms, char* fileName) const;
    void AddInputTermsFromString(std::vector<std::string>& inputTerms, std::string str) const;
    int ParseMolecularGeometry(Molecule* molecule, std::vector<std::string>* inputTerms, int parseIndex) const;
+   int ParseEpcsConfiguration(Molecule* molecule, std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseTheory(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsSCF(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsPrincipalAxes(std::vector<std::string>* inputTerms, int parseIndex) const;

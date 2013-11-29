@@ -113,7 +113,7 @@ double Indo::GetFockDiagElement(const Atom& atomA,
                                 double const* const* gammaAB,
                                 double const* const* orbitalElectronPopulation, 
                                 double const* atomicElectronPopulation,
-                                double const* const* const* const* const* const* twoElecTwoCore,
+                                double const* const* const* const* const* const* twoElecsTwoAtomCores,
                                 bool isGuess) const{
    double value;
    int firstAOIndexA = atomA.GetFirstAOIndex();
@@ -160,7 +160,7 @@ double Indo::GetFockOffDiagElement(const Atom& atomA,
                                    double const* const* gammaAB, 
                                    double const* const* overlapAOs,
                                    double const* const* orbitalElectronPopulation, 
-                                   double const* const* const* const* const* const* twoElecTwoCore,
+                                   double const* const* const* const* const* const* twoElecsTwoAtomCores,
                                    bool isGuess) const{
    double value;
    double K = this->GetBondingAdjustParameterK(atomA.GetValenceShellType(), atomB.GetValenceShellType());

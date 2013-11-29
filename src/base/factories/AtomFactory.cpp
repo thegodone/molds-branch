@@ -38,14 +38,17 @@
 #include"../atoms/Natom.h"
 #include"../atoms/Oatom.h"
 #include"../atoms/Satom.h"
+#include"../atoms/mm/EnvironmentalPointCharge.h"
 #include"AtomFactory.h"
 using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
+using namespace MolDS_base_atoms_mm;
 namespace MolDS_base_factories{
 
-string AtomFactory::errorMessageNotEnableAtom = "Error in base::AtomFactory::Create: Not Enable AtomType is set.";
-string AtomFactory::errorMessageAtomType = "\tatom type = ";
+string AtomFactory::errorMessageNotEnableAtom               = "Error in base::AtomFactory::Create: Not Enable AtomType is set.";
+string AtomFactory::errorMessageNotEnvironmentalPointCharge = "Error in base::AtomFactory::Create: Not Environmental point charge is set.";
+string AtomFactory::errorMessageAtomType                    = "\tatom type = ";
 
 Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, double z, double px, double py, double pz){
    Atom* atom=NULL;
@@ -78,11 +81,35 @@ Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, doub
    return atom;
 }
 
+Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, double z, double px, double py, double pz, double charge){
+   Atom* atom=NULL;
+   if(atomType == EPC){
+      atom = new EnvironmentalPointCharge(index);
+   }
+   else{
+      stringstream ss;
+      ss << AtomFactory::errorMessageNotEnvironmentalPointCharge << endl;
+      ss << AtomFactory::errorMessageAtomType << AtomTypeStr(atomType) << endl;
+      throw MolDSException(ss.str());
+   }
+   atom->SetXyz(x, y, z);
+   atom->SetPxyz(px, py, pz);
+   atom->SetCoreCharge(charge);
+   return atom;
+}
+
 Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, double z){
    double px=0.0;
    double py=0.0;
    double pz=0.0;
    return AtomFactory::Create(atomType, index, x, y, z, px, py, pz);
+}
+
+Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, double z, double charge){
+   double px=0.0;
+   double py=0.0;
+   double pz=0.0;
+   return AtomFactory::Create(atomType, index, x, y, z, px, py, pz, charge);
 }
 }
 
