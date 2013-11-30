@@ -30,15 +30,19 @@ public:
    virtual void SetMolecule(MolDS_base::Molecule* molecule);
    virtual void OutputSCFResults() const;
 protected:
+   std::string errorMessageGetSemiEmpiricalMultipoleInteractionBadAtomTypes;
    std::string errorMessageGetSemiEmpiricalMultipoleInteractionBadMultipoles;
    std::string errorMessageGetSemiEmpiricalMultipoleInteraction1stDeriBadMultipoles;
    std::string errorMessageGetSemiEmpiricalMultipoleInteraction2ndDeriBadMultipoles;
    std::string errorMessageGetNddoRepulsionIntegral;
+   std::string errorMessageGetNddoRepulsionIntegralBadAtomTypes;
    std::string errorMessageGetNddoRepulsionIntegral1stDerivative;
    std::string errorMessageGetNddoRepulsionIntegral2ndDerivative;
    std::string errorMessageCalcDiatomicTwoElecsTwoCoresNullMatrix;
-   std::string errorMessageCalcTwoElecsTwoCoresNullMatrix;
+   std::string errorMessageCalcTwoElecsTwoAtomCoresNullMatrix;
+   std::string errorMessageCalcTwoElecsAtomEpcCoresNullMatrix;
    std::string errorMessageCalcDiatomicTwoElecsTwoCoresSameAtoms;
+   std::string errorMessageCalcDiatomicTwoElecsTwoCoresSameEpcs;
    std::string errorMessageCalcDiatomicTwoElecsTwoCores1stDerivativesSameAtoms;
    std::string errorMessageCalcDiatomicTwoElecsTwoCores2ndDerivativesSameAtoms;
    std::string errorMessageCalcDiatomicTwoElecsTwoCores1stDerivativesNullMatrix;
@@ -92,6 +96,7 @@ protected:
                                  MolDS_base::OrbitalType orbital2, 
                                  const MolDS_base_atoms::Atom& atom) const; 
    virtual void CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
+                                     double****** twoElecsAtomEpcCores,
                                      const MolDS_base::Molecule& molecule) const;
    virtual double GetMolecularIntegralElement(int moI, 
                                               int moJ, 
@@ -113,7 +118,12 @@ private:
    std::string messageHeatsFormation;
    std::string messageHeatsFormationTitle;
    double**** twoElecsTwoAtomCoresMpiBuff;
+   double**** twoElecsAtomEpcCoresMpiBuff;
    double heatsFormation;
+   void CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores, 
+                                 const MolDS_base::Molecule& molecule) const;
+   void CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores, 
+                                 const MolDS_base::Molecule& molecule) const;
    double GetAuxiliaryDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
                                                 const MolDS_base_atoms::Atom& atomB,
                                                 double distanceAB) const;
@@ -301,13 +311,13 @@ private:
                                                  int nu, 
                                                  double const* const* const* const* const* diatomicTwoElecsTwoCores1stDerivatives,
                                                  MolDS_base::CartesianType axisA) const;
-   void CalcDiatomicTwoElecsTwoCoresPointCharge(double**** matrix, 
-                                   double*    tmpVec,
-                                   double**   tmpRotMat,
-                                   double**   tmpMatrixBC,
-                                   double*    tmpVectorBC,
-                                   const MolDS_base_atoms::Atom& atomA,
-                                   const MolDS_base_atoms::Atom& pc) const;
+   void CalcDiatomicTwoElecsTwoCores(double**** matrix, 
+                                     double*    tmpVec,
+                                     double**   tmpRotMat,
+                                     double**   tmpMatrixBC,
+                                     double*    tmpVectorBC,
+                                     const MolDS_base_atoms::Atom& atomA,
+                                     const MolDS_base_atoms::Atom& atomB) const;
    void CalcDiatomicTwoElecsTwoCores(double**** matrix, 
                                      double*    tmpVec,
                                      double**   tmpRotMat,
@@ -362,12 +372,6 @@ private:
                                                                 double*** tmpMatrix,                
                                                                 double**  tmpVector,                
                                                                 double*** ptrDiatomic) const;              
-   double GetNddoRepulsionIntegralPointCharge(const MolDS_base_atoms::Atom& atomA, 
-                                   MolDS_base::OrbitalType mu, 
-                                   MolDS_base::OrbitalType nu,
-                                   const MolDS_base_atoms::Atom& atomB, 
-                                   MolDS_base::OrbitalType lambda, 
-                                   MolDS_base::OrbitalType sigma) const;
    double GetNddoRepulsionIntegral(const MolDS_base_atoms::Atom& atomA, 
                                    MolDS_base::OrbitalType mu, 
                                    MolDS_base::OrbitalType nu,
@@ -389,11 +393,6 @@ private:
                                                 MolDS_base::OrbitalType sigma,
                                                 MolDS_base::CartesianType axisA1,
                                                 MolDS_base::CartesianType axisA2) const;
-   double GetSemiEmpiricalMultipoleInteractionPointCharge(const MolDS_base_atoms::Atom& atomA,
-                                               const MolDS_base_atoms::Atom& atomB,
-                                               MolDS_base::MultipoleType multipoleA,
-                                               MolDS_base::MultipoleType multipoleB,
-                                               double rAB) const;
    double GetSemiEmpiricalMultipoleInteraction(const MolDS_base_atoms::Atom& atomA,
                                                const MolDS_base_atoms::Atom& atomB,
                                                MolDS_base::MultipoleType multipoleA,

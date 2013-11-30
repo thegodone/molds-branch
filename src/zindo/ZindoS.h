@@ -99,6 +99,7 @@ protected:
                                  MolDS_base::OrbitalType orbital2, 
                                  const MolDS_base_atoms::Atom& atom) const; // Apendix in [BZ_1979]
    virtual void CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
+                                     double****** twoElecsAtomEpcCores,
                                      const MolDS_base::Molecule& molecule) const;
    virtual double GetMolecularIntegralElement(int moI, 
                                               int moJ, 

@@ -81,21 +81,29 @@ void Am1::SetMessages(){
       = "Error in am1::Am1::CalcCISMatrix: Non available orbital is contained.\n";
    this->errorMessageDavidsonNotConverged =  "Error in am1::Am1::DoCISDavidson: Davidson did not met convergence criterion. \n";
    this->errorMessageGetSemiEmpiricalMultipoleInteractionBadMultipoles
-      = "Error in am1:: Am1::GetSemiEmpiricalMultipoleInteraction: Bad multipole combintaion is set\n";
+      = "Error in am1::Am1::GetSemiEmpiricalMultipoleInteraction: Bad multipole combintaion is set\n";
+   this->errorMessageGetSemiEmpiricalMultipoleInteractionBadAtomTypes
+      = "Error in am1::Am1::GetSemiEmpiricalMultipoleInteraction: Bad atom types are set\n";
    this->errorMessageGetSemiEmpiricalMultipoleInteraction1stDeriBadMultipoles
-      = "Error in am1:: Am1::GetSemiEmpiricalMultipoleInteraction1stDerivative: Bad multipole combintaion is set\n";
+      = "Error in am1::Am1::GetSemiEmpiricalMultipoleInteraction1stDerivative: Bad multipole combintaion is set\n";
    this->errorMessageGetSemiEmpiricalMultipoleInteraction2ndDeriBadMultipoles
-      = "Error in am1:: Am1::GetSemiEmpiricalMultipoleInteraction2ndDerivative: Bad multipole combintaion is set\n";
+      = "Error in am1::Am1::GetSemiEmpiricalMultipoleInteraction2ndDerivative: Bad multipole combintaion is set\n";
    this->errorMessageGetNddoRepulsionIntegral 
       = "Error in am1::Am1::GetNddoRepulsionIntegral: Bad orbital is set.\n";
+   this->errorMessageGetNddoRepulsionIntegralBadAtomTypes
+      = "Error in am1::Am1::GetNddoRepulsionIntegral: Bad atom types are set.\n";
    this->errorMessageGetNddoRepulsionIntegral1stDerivative 
       = "Error in am1::Am1::GetNddoRepulsionIntegral1stDerivative: Bad orbital is set.\n";
    this->errorMessageGetNddoRepulsionIntegral2ndDerivative 
       = "Error in am1::Am1::GetNddoRepulsionIntegral2ndDerivative: Bad orbital is set.\n";
-   this->errorMessageCalcTwoElecsTwoCoresNullMatrix 
-      = "Error in am1::Am1::CalcTwoElecsTwoCores: The two elec two core matrix is NULL.\n"; 
+   this->errorMessageCalcTwoElecsTwoAtomCoresNullMatrix 
+      = "Error in am1::Am1::CalcTwoElecsTwoAtomCores: The two elec two atom core matrix is NULL.\n"; 
+   this->errorMessageCalcTwoElecsAtomEpcCoresNullMatrix 
+      = "Error in am1::Am1::CalcTwoElecsAtomEpcCores: The two elec atom-epc core matrix is NULL.\n"; 
    this->errorMessageCalcDiatomicTwoElecsTwoCoresSameAtoms
-      = "Error in am1::Am1::CalcDiatomicTwoElecsTwoCores: Atom A and B is same.\n"; 
+      = "Error in am1::Am1::CalcDiatomicTwoElecsTwoCores: Atom A and B is same atom (not EPC).\n"; 
+   this->errorMessageCalcDiatomicTwoElecsTwoCoresSameEpcs
+      = "Error in am1::Am1::CalcDiatomicTwoElecsTwoCores: Atom A and B is same EPC.\n"; 
    this->errorMessageCalcDiatomicTwoElecsTwoCores1stDerivativesSameAtoms
       = "Error in am1::Am1::CalcDiatomicTwoElecsTwoCores1stDerivatives: Atom A and B is same.\n"; 
    this->errorMessageCalcDiatomicTwoElecsTwoCores2ndDerivativesSameAtoms

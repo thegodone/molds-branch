@@ -186,6 +186,12 @@ void Molecule::Finalize(vector<Atom*>** atomVect,
    MallocerFreer::GetInstance()->Free<double>(xyzCOM, CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(xyzCOC, CartesianType_end);
    int atomNum=0;
+   int epcNum = 0;
+   if(*atomVect != NULL && *epcVect != NULL){
+      atomNum = (*atomVect)->size();
+      epcNum = (*epcVect)->size();
+      MallocerFreer::GetInstance()->Free<double>(distanceAtomsEpcs, atomNum, epcNum);
+   }
    if(*atomVect != NULL){
       atomNum = (*atomVect)->size();
       for(int i=0; i<atomNum; i++){
@@ -200,7 +206,6 @@ void Molecule::Finalize(vector<Atom*>** atomVect,
       //this->OutputLog("atomVect deleted\n");
       MallocerFreer::GetInstance()->Free<double>(distanceAtoms, atomNum, atomNum);
    }
-   int epcNum = 0;
    if(*epcVect != NULL){
       epcNum = (*epcVect)->size();
       for(int i=0; i<epcNum; i++){
@@ -214,11 +219,6 @@ void Molecule::Finalize(vector<Atom*>** atomVect,
       *epcVect = NULL;
       //this->OutputLog("epcVect deleted\n");
       MallocerFreer::GetInstance()->Free<double>(distanceEpcs, epcNum, epcNum);
-   }
-   if(*atomVect != NULL && *epcVect != NULL){
-      atomNum = (*atomVect)->size();
-      epcNum = (*epcVect)->size();
-      MallocerFreer::GetInstance()->Free<double>(distanceAtomsEpcs, atomNum, epcNum);
    }
 }
 

@@ -105,6 +105,7 @@ protected:
    double**     atomicUnpairedPopulationCIS; 
    double**     overlapAOs; // overlap integral between AOs
    double****** twoElecsTwoAtomCores;
+   double****** twoElecsAtomEpcCores;
    double***    cartesianMatrix; // cartesian matrix represented by AOs
    double***    electronicTransitionDipoleMoments; // Diagnonal terms are electronic dipole moments of each eigenstates (i.e. electronicDipole[0][0][XAxis] is the x-component of the electronic dipole moment of the ground state. electronicDipole[10][10][XAxis] is the x-component of the electronic dipole moment of the 10-th excited state). Off-diagonal terms are transition dipole moments between eigenstates (i.e. electronicDipole[10][0][XAxis] is the x-component of the transition dipole moment from the ground state to 10-th excited state.).
    double*      coreDipoleMoment; // dipole moment of configuration.
@@ -251,6 +252,7 @@ protected:
                                               double const* const* fockMatrix, 
                                               double const* const* gammaAB) const;
    virtual void CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
+                                     double****** twoElecsAtomEpcCores,
                                      const MolDS_base::Molecule& molecule) const;
    virtual void CalcForce(const std::vector<int>& elecStates);
    void CalcRotatingMatrix1stDerivatives(double*** rotMat1stDerivatives, 

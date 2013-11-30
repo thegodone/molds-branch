@@ -70,6 +70,7 @@ Mndo::Mndo() : MolDS_zindo::ZindoS(){
    this->SetEnableAtomTypes();
    // private variables
    this->twoElecsTwoAtomCoresMpiBuff = NULL;
+   this->twoElecsAtomEpcCoresMpiBuff = NULL;
    this->heatsFormation = 0.0;
    //this->OutputLog("Mndo created\n");
 }
@@ -83,10 +84,22 @@ Mndo::~Mndo(){
                                               twoElecLimit,
                                               twoElecLimit,
                                               twoElecLimit);
+   MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCores, 
+                                              this->molecule->GetNumberAtoms(),
+                                              this->molecule->GetNumberEpcs(),
+                                              twoElecLimit,
+                                              twoElecLimit,
+                                              twoElecLimit,
+                                              twoElecLimit);
    int numBuff = (twoElecLimit+1)*twoElecLimit/2;
    MallocerFreer::GetInstance()->Free<double>(&this->twoElecsTwoAtomCoresMpiBuff, 
                                               this->molecule->GetNumberAtoms(),
                                               this->molecule->GetNumberAtoms(),
+                                              numBuff,
+                                              numBuff);
+   MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
+                                              this->molecule->GetNumberAtoms(),
+                                              this->molecule->GetNumberEpcs(),
                                               numBuff,
                                               numBuff);
    MallocerFreer::GetInstance()->Free<double>(&this->normalForceConstants,
@@ -106,10 +119,22 @@ void Mndo::SetMolecule(Molecule* molecule){
                                                 twoElecLimit,
                                                 twoElecLimit,
                                                 twoElecLimit);
+   MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCores,
+                                                molecule->GetNumberAtoms(),
+                                                molecule->GetNumberEpcs(),
+                                                twoElecLimit,
+                                                twoElecLimit,
+                                                twoElecLimit,
+                                                twoElecLimit);
    int numBuff = (twoElecLimit+1)*twoElecLimit/2;
    MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsTwoAtomCoresMpiBuff, 
                                                 this->molecule->GetNumberAtoms(),
                                                 this->molecule->GetNumberAtoms(),
+                                                numBuff,
+                                                numBuff);
+   MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
+                                                this->molecule->GetNumberAtoms(),
+                                                this->molecule->GetNumberEpcs(),
                                                 numBuff,
                                                 numBuff);
    MallocerFreer::GetInstance()->Malloc<double>(&this->normalForceConstants,
@@ -132,24 +157,32 @@ void Mndo::SetMessages(){
    this->errorMessageCalcCISMatrix
       = "Error in mndo::Mndo::CalcCISMatrix: Non available orbital is contained.\n";
    this->errorMessageDavidsonNotConverged =  "Error in mndo::Mndo::DoCISDavidson: Davidson did not met convergence criterion. \n";
+   this->errorMessageGetSemiEmpiricalMultipoleInteractionBadAtomTypes
+      = "Error in mndo::Mndo::GetSemiEmpiricalMultipoleInteraction: Bad atom types are set\n";
    this->errorMessageGetSemiEmpiricalMultipoleInteractionBadMultipoles
-      = "Error in mndo:: Mndo::GetSemiEmpiricalMultipoleInteraction: Bad multipole combintaion is set\n";
+      = "Error in mndo::Mndo::GetSemiEmpiricalMultipoleInteraction: Bad multipole combintaion is set\n";
    this->errorMessageGetSemiEmpiricalMultipoleInteraction1stDeriBadMultipoles
-      = "Error in mndo:: Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative: Bad multipole combintaion is set\n";
+      = "Error in mndo::Mndo::GetSemiEmpiricalMultipoleInteraction1stDerivative: Bad multipole combintaion is set\n";
    this->errorMessageGetSemiEmpiricalMultipoleInteraction2ndDeriBadMultipoles
-      = "Error in mndo:: Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative: Bad multipole combintaion is set\n";
+      = "Error in mndo::Mndo::GetSemiEmpiricalMultipoleInteraction2ndDerivative: Bad multipole combintaion is set\n";
    this->errorMessageMultipoleA = "Multipole A is: ";
    this->errorMessageMultipoleB = "Multipole B is: ";
    this->errorMessageGetNddoRepulsionIntegral 
       = "Error in mndo::Mndo::GetNddoRepulsionIntegral: Bad orbital is set.\n";
+   this->errorMessageGetNddoRepulsionIntegralBadAtomTypes
+      = "Error in mndo::Mndo::GetNddoRepulsionIntegral: Bad atom types are set.\n";
    this->errorMessageGetNddoRepulsionIntegral1stDerivative 
       = "Error in mndo::Mndo::GetNddoRepulsionIntegral1stDerivative: Bad orbital is set.\n";
    this->errorMessageGetNddoRepulsionIntegral2ndDerivative 
       = "Error in mndo::Mndo::GetNddoRepulsionIntegral2ndDerivative: Bad orbital is set.\n";
-   this->errorMessageCalcTwoElecsTwoCoresNullMatrix 
-      = "Error in mndo::Mndo::CalcTwoElecsTwoCores: The two elec two core matrix is NULL.\n"; 
+   this->errorMessageCalcTwoElecsTwoAtomCoresNullMatrix 
+      = "Error in mndo::Mndo::CalcTwoElecsTwoAtomCores: The two elec two atom cores matrix is NULL.\n"; 
+   this->errorMessageCalcTwoElecsAtomEpcCoresNullMatrix 
+      = "Error in mndo::Mndo::CalcTwoElecsAtomEpcCores: The two elec atom-epc cores matrix is NULL.\n"; 
    this->errorMessageCalcDiatomicTwoElecsTwoCoresSameAtoms
-      = "Error in mndo::Mndo::CalcDiatomicTwoElecsTwoCores: Atom A and B is same.\n"; 
+      = "Error in mndo::Mndo::CalcDiatomicTwoElecsTwoCores: Atom A and B is same atom (not EPC).\n"; 
+   this->errorMessageCalcDiatomicTwoElecsTwoCoresSameEpcs
+      = "Error in mndo::Mndo::CalcDiatomicTwoElecsTwoCores: Atom A and B is same EPC.\n"; 
    this->errorMessageCalcDiatomicTwoElecsTwoCores1stDerivativesSameAtoms
       = "Error in mndo::Mndo::CalcDiatomicTwoElecsTwoCores1stDerivatives: Atom A and B is same.\n"; 
    this->errorMessageCalcDiatomicTwoElecsTwoCores2ndDerivativesSameAtoms
@@ -450,39 +483,16 @@ double Mndo::GetFockDiagElement(const Atom& atomA,
       }
       value += temp;
       
-      /* coulomb repulsion with point charge *
-      {
-         Atom* pointCharge = new MolDS_base_atoms_mm::EnvironmentalPointCharge(1000);
-         pointCharge->SetXyz(0.0,0.0,0.0);
-         pointCharge->SetPxyz(0.0,0.0,0.0);
-
-         double**** diatomicTwoElecsTwoCores    = NULL;
-         double*    tmpDiatomicTwoElecsTwoCores = NULL;
-         double**   tmpRotMat                   = NULL;
-         double**   tmpMatrixBC                 = NULL;
-         double*    tmpVectorBC                 = NULL;
-         MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-         MallocerFreer::GetInstance()->Malloc<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-         MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat,                 OrbitalType_end, OrbitalType_end);
-         MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,               dxy*dxy, dxy*dxy);
-         MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,               dxy*dxy*dxy*dxy);
-         this->CalcDiatomicTwoElecsTwoCoresPointCharge(diatomicTwoElecsTwoCores, 
-                                          tmpDiatomicTwoElecsTwoCores,
-                                          tmpRotMat, 
-                                          tmpMatrixBC, 
-                                          tmpVectorBC, 
-                                          atomA,
-                                          *pointCharge);
-         value += diatomicTwoElecsTwoCores[mu][mu][s][s];
-         MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-         MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
-
-         delete pointCharge;
+      // coulomb repulsion with point charge *
+      int numEpcs = molecule.GetNumberEpcs();
+      if(0<numEpcs){
+         double elecCharge = -1.0;
+         for(int i=0; i<numEpcs; i++){
+            double epcCharge = molecule.GetEpc(i)->GetCoreCharge();
+            value += elecCharge*epcCharge*twoElecsAtomEpcCores[indexAtomA][i][mu][mu][s][s];
+         }
       }
-      */ 
+       
    }
    return value;
 }
@@ -545,39 +555,15 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
                                                        twoElecsTwoAtomCores);
             }
          }
-         /* coulomb repulsion with point charge *
-         {
-            Atom* pointCharge = new MolDS_base_atoms_mm::EnvironmentalPointCharge(1000);
-            pointCharge->SetXyz(0.0,0.0,0.0);
-            pointCharge->SetPxyz(0.0,0.0,0.0);
-      
-            double**** diatomicTwoElecsTwoCores    = NULL;
-            double*    tmpDiatomicTwoElecsTwoCores = NULL;
-            double**   tmpRotMat                   = NULL;
-            double**   tmpMatrixBC                 = NULL;
-            double*    tmpVectorBC                 = NULL;
-            MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
-            this->CalcDiatomicTwoElecsTwoCoresPointCharge(diatomicTwoElecsTwoCores, 
-                                             tmpDiatomicTwoElecsTwoCores,
-                                             tmpRotMat, 
-                                             tmpMatrixBC, 
-                                             tmpVectorBC, 
-                                             atomA,
-                                             *pointCharge);
-            value += diatomicTwoElecsTwoCores[mu][nu][s][s];
-            MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-            MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
-      
-            delete pointCharge;
+         // coulomb repulsion with point charge *
+         int numEpcs = molecule.GetNumberEpcs();
+         if(0<numEpcs){
+            double elecCharge = -1.0;
+            for(int i=0; i<numEpcs; i++){
+               double epcCharge = molecule.GetEpc(i)->GetCoreCharge();
+               value += elecCharge*epcCharge*twoElecsAtomEpcCores[indexAtomA][i][mu][nu][s][s];
+            }
          }
-         */ 
       }
       else{
          temp = bondParameter*overlapAOs[mu+firstAOIndexA][nu+firstAOIndexB];
@@ -3555,10 +3541,17 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
 }
 
 void Mndo::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
-                              const Molecule& molecule) const{
+                                double****** twoElecsAtomEpcCores,
+                                const Molecule& molecule) const{
+   this->CalcTwoElecsTwoAtomCores(twoElecsTwoAtomCores, molecule);
+   this->CalcTwoElecsAtomEpcCores(twoElecsAtomEpcCores, molecule);
+}
+
+void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores, 
+                                    const Molecule& molecule) const{
 #ifdef MOLDS_DBG
    if(twoElecsTwoAtomCores == NULL){
-      throw MolDSException(this->errorMessageCalcTwoElecsTwoCoresNullMatrix);
+      throw MolDSException(this->errorMessageCalcTwoElecsTwoAtomCoresNullMatrix);
    }
 #endif
    int totalNumberAtoms = molecule.GetNumberAtoms();
@@ -3669,66 +3662,126 @@ void Mndo::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores,
          }
       }
    }
-
 }
 
-// Calculation of two electrons two cores integral (mu, nu | lambda, sigma) in space fixed frame, 
-// taht is, Eq. (9) in ref. [DT_1977-2].
-// mu and nu are included in atomA's AOs. 
-// lambda and sigma are included in atomB's AOs.
-// Note that atomA != atomB.
-// Note taht d-orbital cannot be treated, 
-// that is, matrix[dxy][dxy][dxy][dxy] cannot be treatable.
-void Mndo::CalcDiatomicTwoElecsTwoCoresPointCharge(double**** matrix, 
-                                      double*    tmpVec,
-                                      double**   tmpRotMat, 
-                                      double**   tmpMatrixBC,
-                                      double*    tmpVectorBC,
-                                      const Atom& atomA,
-                                      const Atom& pc) const{
-   MallocerFreer::GetInstance()->Initialize<double>(matrix, dxy, dxy, dxy, dxy);
+void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores, 
+                                    const Molecule& molecule) const{
+   if(molecule.GetNumberEpcs()<=0){return;}
+#ifdef MOLDS_DBG
+   if(twoElecsAtomEpcCores == NULL){
+      throw MolDSException(this->errorMessageCalcTwoElecsAtomEpcCoresNullMatrix);
+   }
+#endif
+   int totalNumberAtoms = molecule.GetNumberAtoms();
+   int totalNumberEpcs  = molecule.GetNumberEpcs();
+   MallocerFreer::GetInstance()->Initialize<double>(twoElecsAtomEpcCores, 
+                                                    totalNumberAtoms,
+                                                    totalNumberEpcs,
+                                                    dxy, dxy, dxy, dxy);
 
-   // calclation in diatomic frame
-   for(int mu=0; mu<atomA.GetValenceSize(); mu++){
-      for(int nu=mu; nu<atomA.GetValenceSize(); nu++){
-         for(int lambda=0; lambda<pc.GetValenceSize(); lambda++){
-            for(int sigma=lambda; sigma<pc.GetValenceSize(); sigma++){
-               double value = this->GetNddoRepulsionIntegralPointCharge(
-                                    atomA, 
-                                    atomA.GetValence(mu),
-                                    atomA.GetValence(nu),
-                                    pc, 
-                                    pc.GetValence(lambda),
-                                    pc.GetValence(sigma));
-               matrix[mu][nu][lambda][sigma] = value;
-               matrix[mu][nu][sigma][lambda] = value;
-               matrix[nu][mu][lambda][sigma] = value;
-               matrix[nu][mu][sigma][lambda] = value;
+   // MPI setting of each rank
+   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   stringstream errorStream;
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
+
+   for(int a=0; a<totalNumberAtoms; a++){
+      int calcRank = a%mpiSize;
+      if(mpiRank == calcRank){
+//#pragma omp parallel 
+         {
+            double**** diatomicTwoElecsTwoCores    = NULL;
+            double*    tmpDiatomicTwoElecsTwoCores = NULL;
+            double**   tmpRotMat                   = NULL;
+            double**   tmpMatrixBC                 = NULL;
+            double*    tmpVectorBC                 = NULL;
+            const Atom& atom = *molecule.GetAtom(a);
+            try{
+               MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
+               MallocerFreer::GetInstance()->Malloc<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
+               MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
+               MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
+               MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+               // note that terms with condition a==b are not needed to calculate. 
+//#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
+               for(int b=0; b<totalNumberEpcs; b++){
+                  const Atom& epc  = *molecule.GetEpc(b);
+                  this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                     tmpDiatomicTwoElecsTwoCores,
+                                                     tmpRotMat, 
+                                                     tmpMatrixBC, 
+                                                     tmpVectorBC, 
+                                                     atom,
+                                                     epc);
+                  int i=0;
+                  for(int mu=0; mu<dxy; mu++){
+                     for(int nu=mu; nu<dxy; nu++){
+                        int j=0;
+                        for(int lambda=0; lambda<dxy; lambda++){
+                           for(int sigma=lambda; sigma<dxy; sigma++){
+                              this->twoElecsAtomEpcCoresMpiBuff[a][b][i][j] 
+                                 = diatomicTwoElecsTwoCores[mu][nu][lambda][sigma];
+                              j++;
+                           }
+                        }
+                        i++;
+                     }
+                  }
+               }
+            }
+            catch(MolDSException ex){
+#pragma omp critical
+               ex.Serialize(errorStream);
+            }
+            MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
+            MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
+            MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
+            MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
+            MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+         }
+      }
+      if(errorStream.str().empty()){
+         if(a<totalNumberAtoms-1){
+            int b = 0;
+            OrbitalType twoElecLimit = dxy;
+            int numBuff = (twoElecLimit+1)*twoElecLimit/2;
+            int num = totalNumberEpcs*numBuff*numBuff;
+            asyncCommunicator.SetBroadcastedMessage(&this->twoElecsAtomEpcCoresMpiBuff[a][b][0][0], num, calcRank);
+         }
+      }
+   }
+   asyncCommunicator.Finalize();
+   communicationThread.join();
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
+   }
+
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
+   for(int a=0; a<totalNumberAtoms; a++){
+      for(int b=0; b<totalNumberEpcs; b++){
+         int i=0;
+         for(int mu=0; mu<dxy; mu++){
+            for(int nu=mu; nu<dxy; nu++){
+               int j=0;
+               for(int lambda=0; lambda<dxy; lambda++){
+                  for(int sigma=lambda; sigma<dxy; sigma++){
+                     double value = this->twoElecsAtomEpcCoresMpiBuff[a][b][i][j];
+                     twoElecsAtomEpcCores[a][b][mu][nu][lambda][sigma] = value;
+                     twoElecsAtomEpcCores[a][b][mu][nu][sigma][lambda] = value;
+                     twoElecsAtomEpcCores[a][b][nu][mu][lambda][sigma] = value;
+                     twoElecsAtomEpcCores[a][b][nu][mu][sigma][lambda] = value;
+                     j++;
+                  }
+               }
+               i++;
             }
          }
       }
    }
-   // rotate matirix into the space frame
-   this->CalcRotatingMatrix(tmpRotMat, atomA, pc);
-   this->RotateDiatomicTwoElecsTwoCoresToSpaceFrame(matrix, tmpVec, tmpRotMat, tmpMatrixBC, tmpVectorBC);
-
-   /* 
-   this->OutputLog("(mu, nu | lambda, sigma) matrix\n");
-   for(int mu=0; mu<dxy; mu++){
-      for(int nu=0; nu<dxy; nu++){
-         for(int lambda=0; lambda<dxy; lambda++){
-            for(int sigma=0; sigma<dxy; sigma++){
-               this->OutputLog(boost::format("mu=%d nu=%d lambda=%d sigma=%d $e\n") % mu
-                                                                                    % nu
-                                                                                    % lambda
-                                                                                    % sigma 
-                                                                                    % matrix[mu][nu][lambda][sigma]);
-            }
-         }
-      }
-   }
-   */
 }
+
 // Calculation of two electrons two cores integral (mu, nu | lambda, sigma) in space fixed frame, 
 // taht is, Eq. (9) in ref. [DT_1977-2].
 // mu and nu are included in atomA's AOs. 
@@ -3741,18 +3794,29 @@ void Mndo::CalcDiatomicTwoElecsTwoCores(double**** matrix,
                                         double**   tmpRotMat, 
                                         double**   tmpMatrixBC,
                                         double*    tmpVectorBC,
-                                        int indexAtomA, 
-                                        int indexAtomB) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
-   if(indexAtomA == indexAtomB){
-      stringstream ss;
-      ss << this->errorMessageCalcDiatomicTwoElecsTwoCoresSameAtoms;
-      ss << this->errorMessageAtomA << indexAtomA 
-                                    << AtomTypeStr(atomA.GetAtomType()) << endl;
-      ss << this->errorMessageAtomB << indexAtomB 
-                                    << AtomTypeStr(atomB.GetAtomType()) << endl;
-      throw MolDSException(ss.str());
+                                        const Atom& atomA, 
+                                        const Atom& atomB) const{
+   if(atomA.GetAtomType() != EPC && atomB.GetAtomType() != EPC){
+      if(atomA.GetIndex() == atomB.GetIndex()){
+         stringstream ss;
+         ss << this->errorMessageCalcDiatomicTwoElecsTwoCoresSameAtoms;
+         ss << this->errorMessageAtomA << atomA.GetIndex() 
+                                       << AtomTypeStr(atomA.GetAtomType()) << endl;
+         ss << this->errorMessageAtomB << atomB.GetIndex()
+                                       << AtomTypeStr(atomB.GetAtomType()) << endl;
+         throw MolDSException(ss.str());
+      }
+   }
+   if(atomA.GetAtomType() == EPC && atomB.GetAtomType() == EPC){
+      if(atomA.GetIndex() == atomB.GetIndex()){
+         stringstream ss;
+         ss << this->errorMessageCalcDiatomicTwoElecsTwoCoresSameEpcs;
+         ss << this->errorMessageAtomA << atomA.GetIndex()
+                                       << AtomTypeStr(atomA.GetAtomType()) << endl;
+         ss << this->errorMessageAtomB << atomB.GetIndex()
+                                       << AtomTypeStr(atomB.GetAtomType()) << endl;
+         throw MolDSException(ss.str());
+      }
    }
 
 #ifdef MOLDS_DBG
@@ -3802,6 +3866,24 @@ void Mndo::CalcDiatomicTwoElecsTwoCores(double**** matrix,
       }
    }
    */
+}
+
+void Mndo::CalcDiatomicTwoElecsTwoCores(double**** matrix, 
+                                        double*    tmpVec,
+                                        double**   tmpRotMat, 
+                                        double**   tmpMatrixBC,
+                                        double*    tmpVectorBC,
+                                        int indexAtomA, 
+                                        int indexAtomB) const{
+   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
+   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   this->CalcDiatomicTwoElecsTwoCores(matrix, 
+                                      tmpVec,
+                                      tmpRotMat, 
+                                      tmpMatrixBC,
+                                      tmpVectorBC,
+                                      atomA, 
+                                      atomB);
 }
 
 // Calculation of first derivatives of the two electrons two cores integral in space fixed frame,
@@ -4644,101 +4726,6 @@ void Mndo::RotateDiatomicTwoElecsTwoCores2ndDerivativesToSpaceFrame(
 // See Apendix in [DT_1977]
 // Orbital mu and nu belong atom A, 
 // orbital lambda and sigma belong atomB.
-double Mndo::GetNddoRepulsionIntegralPointCharge(const Atom& atomA, 
-                                      OrbitalType mu, 
-                                      OrbitalType nu,
-                                      const Atom& atomB,  // Point Charge
-                                      OrbitalType lambda, 
-                                      OrbitalType sigma) const{
-   double value = 0.0;
-   double DA=0.0;
-   double DB=0.0;
-   double rhoA = 0.0;
-   double rhoB = 0.0;
-   double x = atomA.GetXyz()[0];
-   double y = atomA.GetXyz()[1];
-   double z = atomA.GetXyz()[2];
-   double rAB = sqrt(pow(x,2.0) + pow(y,2.0) + pow(z,2.0));
-   int lA = 0;
-   int lB = 0;
-   // (28) in [DT_1977]
-   if(mu == s && nu == s && lambda == s && sigma == s){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, sQ, rAB);
-   }
-   // (29) in [DT_1977]
-   else if(mu == s && nu == s && lambda == px && sigma == px){
-      double temp1 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, sQ, rAB);
-      double temp2 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, Qxx, rAB);
-      value = temp1 + temp2;
-   }
-   else if(mu == s && nu == s && lambda == py && sigma == py){
-      double temp1 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, sQ, rAB);
-      double temp2 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, Qyy, rAB);
-      value = temp1 + temp2;
-   }
-   // (30) in [DT_1977]
-   else if(mu == s && nu == s && lambda == pz && sigma == pz){
-      double temp1 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, sQ, rAB);
-      double temp2 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, Qzz, rAB);
-      value = temp1 + temp2;
-   }
-   // (31) in [DT_1977]
-   else if(mu == px && nu == px && lambda == s && sigma == s){
-      double temp1 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, sQ, rAB);
-      double temp2 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, Qxx, sQ, rAB);
-      value = temp1 + temp2;
-   }
-   else if(mu == py && nu == py && lambda == s && sigma == s){
-      double temp1 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, sQ, rAB);
-      double temp2 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, Qyy, sQ, rAB);
-      value = temp1 + temp2;
-   }
-   // (32) in [DT_1977]
-   else if(mu == pz && nu == pz && lambda == s && sigma == s){
-      double temp1 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, sQ, rAB);
-      double temp2 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, Qzz, sQ, rAB);
-      value = temp1 + temp2;
-   }
-   // (38) in [DT_1977]
-   else if(mu == s && nu == pz && lambda == s && sigma == s){
-      double temp1 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, muz, sQ, rAB);
-      value = temp1;
-   }
-   else if(mu == pz && nu == s && lambda == s && sigma == s){
-      value = this->GetNddoRepulsionIntegralPointCharge(atomA, nu, mu, atomB, lambda, sigma);
-   }
-   // (41) in [DT_1977]
-   else if(mu == s && nu == s && lambda == s && sigma == pz){
-      double temp1 = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, sQ, muz, rAB);
-      value = temp1;
-   }
-   else if(mu == s && nu == s && lambda == pz && sigma == s){
-      value = this->GetNddoRepulsionIntegralPointCharge(atomA, mu, nu, atomB, sigma, lambda);
-   }
-   // d-orbitals
-   else if(mu == dxy || mu == dyz || mu == dzz || mu == dzx || mu == dxxyy ||
-           nu == dxy || nu == dyz || nu == dzz || nu == dzx || nu == dxxyy ||
-           lambda == dxy || lambda == dyz || lambda == dzz || lambda  == dzx || lambda == dxxyy ||
-           sigma == dxy || sigma == dyz || sigma == dzz || sigma  == dzx || sigma == dxxyy){
-
-      stringstream ss;
-      ss << this->errorMessageGetNddoRepulsionIntegral;
-      ss << this->errorMessageAtomA << AtomTypeStr(atomA.GetAtomType()) << endl;
-      ss << "\t" << this->errorMessageOrbitalType << OrbitalTypeStr(mu) << endl;
-      ss << "\t" << this->errorMessageOrbitalType << OrbitalTypeStr(nu) << endl;
-      ss << this->errorMessageAtomB << AtomTypeStr(atomB.GetAtomType()) << endl;
-      ss << "\t" << this->errorMessageOrbitalType << OrbitalTypeStr(lambda) << endl;
-      ss << "\t" << this->errorMessageOrbitalType << OrbitalTypeStr(sigma) << endl;
-      throw MolDSException(ss.str());
-   }
-   else{
-      value = 0.0;
-   }
-   return value;
-}
-// See Apendix in [DT_1977]
-// Orbital mu and nu belong atom A, 
-// orbital lambda and sigma belong atomB.
 double Mndo::GetNddoRepulsionIntegral(const Atom& atomA, 
                                       OrbitalType mu, 
                                       OrbitalType nu,
@@ -4746,14 +4733,24 @@ double Mndo::GetNddoRepulsionIntegral(const Atom& atomA,
                                       OrbitalType lambda, 
                                       OrbitalType sigma) const{
    double value = 0.0;
-   double DA=0.0;
-   double DB=0.0;
-   double rhoA = 0.0;
-   double rhoB = 0.0;
-   double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
-   int lA = 0;
-   int lB = 0;
-   // (28) in [DT_1977]
+   double rAB = 0.0;
+   if(atomA.GetAtomType() != EPC && atomB.GetAtomType() != EPC){
+      rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
+   }
+   else if(atomA.GetAtomType() != EPC && atomB.GetAtomType() == EPC){
+      rAB = this->molecule->GetDistanceAtomEpc(atomA, atomB);
+   }
+   else if(atomA.GetAtomType() == EPC && atomB.GetAtomType() != EPC){
+      rAB = this->molecule->GetDistanceAtomEpc(atomB, atomA);
+   }
+   else{
+      stringstream ss;
+      ss << this->errorMessageGetNddoRepulsionIntegralBadAtomTypes;
+      ss << this->errorMessageAtomA << AtomTypeStr(atomA.GetAtomType()) << endl;
+      ss << this->errorMessageAtomB << AtomTypeStr(atomB.GetAtomType()) << endl;
+      throw MolDSException(ss.str());
+   }
+
    if(mu == s && nu == s && lambda == s && sigma == s){
       value = this->GetSemiEmpiricalMultipoleInteraction(atomA, atomB, sQ, sQ, rAB);
    }
@@ -5093,14 +5090,8 @@ double Mndo::GetNddoRepulsionIntegral1stDerivative(
                                        const Atom& atomB, OrbitalType lambda, OrbitalType sigma,
                                        CartesianType axisA) const{
    double value = 0.0;
-   double DA=0.0;
-   double DB=0.0;
-   double rhoA = 0.0;
-   double rhoB = 0.0;
    double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
    double drABDa = (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/rAB;
-   int lA = 0;
-   int lB = 0;
    // (28) in [DT_1977]
    if(mu == s && nu == s && lambda == s && sigma == s){
       value = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, rAB);
@@ -5517,18 +5508,12 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
                                        CartesianType axisA1,
                                        CartesianType axisA2) const{
    double value = 0.0;
-   double DA=0.0;
-   double DB=0.0;
-   double rhoA = 0.0;
-   double rhoB = 0.0;
    double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
    double cartesian[CartesianType_end] = {atomA.GetXyz()[XAxis] - atomB.GetXyz()[XAxis], 
                                           atomA.GetXyz()[YAxis] - atomB.GetXyz()[YAxis],
                                           atomA.GetXyz()[ZAxis] - atomB.GetXyz()[ZAxis]};
    double deriv1st=0.0; // first derivative of semi empirical multipole interaction
    double deriv2nd=0.0; // second derivative of semi empirical multipole interaction
-   int lA = 0;
-   int lB = 0;
    // (28) in [DT_1977]
    if(mu == s && nu == s && lambda == s && sigma == s){
       deriv1st = this->GetSemiEmpiricalMultipoleInteraction1stDerivative(atomA, atomB, sQ, sQ, rAB);
@@ -6447,231 +6432,6 @@ double Mndo::GetNddoRepulsionIntegral2ndDerivative(
    return value;
 }
 
-// See Apendix in [DT_1977]
-double Mndo::GetSemiEmpiricalMultipoleInteractionPointCharge(const Atom& atomA,
-                                                  const Atom& atomB,
-                                                  MultipoleType multipoleA,
-                                                  MultipoleType multipoleB,
-                                                  double rAB) const{
-   double value = 0.0;
-   double DA = atomA.GetNddoDerivedParameterD(this->theory, multipoleA);
-   double DB = atomB.GetNddoDerivedParameterD(this->theory, multipoleB);
-   double rhoA = 0.0;
-   double rhoB = 0.0;
-   double a = rhoA + rhoB;
-
-   // Eq. (52) in [DT_1977]
-   if(multipoleA == sQ && multipoleB == sQ){
-      value = 1.0/sqrt(rAB*rAB + a*a);
-   }
-   // Eq. (53) in [DT_1977]
-   else if(multipoleA == sQ && multipoleB == muz){
-      double temp1 = ((rAB+DB)*(rAB+DB)) + (a*a);
-      double temp2 = ((rAB-DB)*(rAB-DB)) + (a*a);
-      value = 1.0/sqrt(temp1)/2.0 - 1.0/sqrt(temp2)/2.0;
-   }
-   else if(multipoleA == muz && multipoleB == sQ){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-      value *= -1.0;
-   }
-   // Eq. (54) in [DT_1977]
-   else if(multipoleA == sQ && multipoleB == Qxx){
-      double temp1 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
-      double temp2 = (rAB*rAB) + (a*a);
-      value = 1.0/sqrt(temp1)/2.0 - 1.0/sqrt(temp2)/2.0;
-   }
-   else if(multipoleA == Qxx && multipoleB == sQ){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-   }
-   else if(multipoleA == sQ && multipoleB == Qyy){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, multipoleA, Qxx, rAB);
-   }
-   else if(multipoleA == Qyy && multipoleB == sQ){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-   }
-   // Eq. (55) in [DT_1977]
-   else if(multipoleA == sQ && multipoleB == Qzz){
-      double temp1 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
-      double temp2 = (rAB*rAB) + (a*a);
-      double temp3 = ((rAB-2.0*DB)*(rAB-2.0*DB)) + (a*a);
-      value = 1.0/sqrt(temp1)/4.0 - 1.0/sqrt(temp2)/2.0 + 1.0/sqrt(temp3)/4.0;
-   }
-   else if(multipoleA == Qzz && multipoleB == sQ){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-   }
-   // Eq. (56) in [DT_1977]
-   else if(multipoleA == mux && multipoleB == mux){
-      double temp1 = (rAB*rAB) + ((DA-DB)*(DA-DB)) + (a*a);
-      double temp2 = (rAB*rAB) + ((DA+DB)*(DA+DB)) + (a*a);
-      value = 1.0/sqrt(temp1)/2.0 - 1.0/sqrt(temp2)/2.0;
-   }
-   else if(multipoleA == muy && multipoleB == muy){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, mux, mux, rAB);
-   }
-   // Eq. (57) in [DT_1977]
-   else if(multipoleA == muz && multipoleB == muz){
-      double temp1 = ((rAB+DA-DB)*(rAB+DA-DB)) + (a*a);
-      double temp2 = ((rAB+DA+DB)*(rAB+DA+DB)) + (a*a);
-      double temp3 = ((rAB-DA-DB)*(rAB-DA-DB)) + (a*a);
-      double temp4 = ((rAB-DA+DB)*(rAB-DA+DB)) + (a*a);
-      value = 1.0/sqrt(temp1)/4.0 - 1.0/sqrt(temp2)/4.0 
-             -1.0/sqrt(temp3)/4.0 + 1.0/sqrt(temp4)/4.0;
-   }
-   // Eq. (58) in [DT_1977]
-   else if(multipoleA == mux && multipoleB == Qxz){
-      double temp1 = ((rAB-DB)*(rAB-DB)) + ((DA-DB)*(DA-DB)) + (a*a);
-      double temp2 = ((rAB-DB)*(rAB-DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      double temp3 = ((rAB+DB)*(rAB+DB)) + ((DA-DB)*(DA-DB)) + (a*a);
-      double temp4 = ((rAB+DB)*(rAB+DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      value =-1.0/sqrt(temp1)/4.0 + 1.0/sqrt(temp2)/4.0 
-             +1.0/sqrt(temp3)/4.0 - 1.0/sqrt(temp4)/4.0;
-   }
-   else if(multipoleA == Qxz && multipoleB == mux){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-      value *= -1.0;
-   }
-   else if(multipoleA == muy && multipoleB == Qyz){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, mux, Qxz, rAB);
-   }
-   else if(multipoleA == Qyz && multipoleB == muy){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-      value *= -1.0;
-   }
-   // Eq. (59) in [DT_1977]
-   else if(multipoleA == muz && multipoleB == Qxx){
-      double temp1 = ((rAB+DA)*(rAB+DA)) + (4.0*DB*DB) + (a*a);
-      double temp2 = ((rAB-DA)*(rAB-DA)) + (4.0*DB*DB) + (a*a);
-      double temp3 = ((rAB+DA)*(rAB+DA)) + (a*a);
-      double temp4 = ((rAB-DA)*(rAB-DA)) + (a*a);
-      value =-1.0/sqrt(temp1)/4.0 + 1.0/sqrt(temp2)/4.0 
-             +1.0/sqrt(temp3)/4.0 - 1.0/sqrt(temp4)/4.0;
-   }
-   else if(multipoleA == Qxx && multipoleB == muz){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-      value *= -1.0;
-   }
-   else if(multipoleA == muz && multipoleB == Qyy){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, muz, Qxx, rAB);
-   }
-   else if(multipoleA == Qyy && multipoleB == muz){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-      value *= -1.0;
-   }
-   // Eq. (60) in [DT_1977]
-   else if(multipoleA == muz && multipoleB == Qzz){
-      double temp1 = ((rAB+DA-2.0*DB)*(rAB+DA-2.0*DB)) + (a*a);
-      double temp2 = ((rAB-DA-2.0*DB)*(rAB-DA-2.0*DB)) + (a*a);
-      double temp3 = ((rAB+DA+2.0*DB)*(rAB+DA+2.0*DB)) + (a*a);
-      double temp4 = ((rAB-DA+2.0*DB)*(rAB-DA+2.0*DB)) + (a*a);
-      double temp5 = ((rAB+DA)*(rAB+DA)) + (a*a);
-      double temp6 = ((rAB-DA)*(rAB-DA)) + (a*a);
-      value =-1.0/sqrt(temp1)/8.0 + 1.0/sqrt(temp2)/8.0 
-             -1.0/sqrt(temp3)/8.0 + 1.0/sqrt(temp4)/8.0
-             +1.0/sqrt(temp5)/4.0 - 1.0/sqrt(temp6)/4.0;
-   }
-   else if(multipoleA == Qzz && multipoleB == muz){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-      value *= -1.0;
-   }
-   // Eq. (61) in [DT_1977]
-   else if(multipoleA == Qxx && multipoleB == Qxx){
-      double temp1 = (rAB*rAB) + 4.0*((DA-DB)*(DA-DB)) + (a*a);
-      double temp2 = (rAB*rAB) + 4.0*((DA+DB)*(DA+DB)) + (a*a);
-      double temp3 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
-      double temp4 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
-      double temp5 = (rAB*rAB) + (a*a);
-      value = 1.0/sqrt(temp1)/8.0 + 1.0/sqrt(temp2)/8.0 
-             -1.0/sqrt(temp3)/4.0 - 1.0/sqrt(temp4)/4.0
-             +1.0/sqrt(temp5)/4.0;
-   }
-   else if(multipoleA == Qyy && multipoleB == Qyy){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, Qxx, Qxx, rAB);
-   }
-   // Eq. (62) in [DT_1977]
-   else if(multipoleA == Qxx && multipoleB == Qyy){
-      double temp1 = (rAB*rAB) + (4.0*DA*DA) + (4.0*DB*DB)+ (a*a);
-      double temp2 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
-      double temp3 = (rAB*rAB) + (4.0*DB*DB) + (a*a);
-      double temp4 = (rAB*rAB) + (a*a);
-      value = 1.0/sqrt(temp1)/4.0 - 1.0/sqrt(temp2)/4.0 
-             -1.0/sqrt(temp3)/4.0 + 1.0/sqrt(temp4)/4.0;
-   }
-   else if(multipoleA == Qyy && multipoleB == Qxx){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-   }
-   // Eq. (63) in [DT_1977]
-   else if(multipoleA == Qxx && multipoleB == Qzz){
-      double temp1 = ((rAB-2.0*DB)*(rAB-2.0*DB)) + (4.0*DA*DA) + (a*a);
-      double temp2 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (4.0*DA*DA) + (a*a);
-      double temp3 = ((rAB-2.0*DB)*(rAB-2.0*DB)) + (a*a);
-      double temp4 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
-      double temp5 = (rAB*rAB) + (4.0*DA*DA) + (a*a);
-      double temp6 = (rAB*rAB) + (a*a);
-      value = 1.0/sqrt(temp1)/8.0 + 1.0/sqrt(temp2)/8.0 
-             -1.0/sqrt(temp3)/8.0 - 1.0/sqrt(temp4)/8.0
-             -1.0/sqrt(temp5)/4.0 + 1.0/sqrt(temp6)/4.0;
-   }
-   else if(multipoleA == Qzz && multipoleB == Qxx){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-   }
-   else if(multipoleA == Qyy && multipoleB == Qzz){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, Qxx, multipoleB, rAB);
-   }
-   else if(multipoleA == Qzz && multipoleB == Qyy){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomB, atomA, multipoleB, multipoleA, rAB);
-   }
-   // Eq. (64) in [DT_1977]
-   else if(multipoleA == Qzz && multipoleB == Qzz){
-      double temp1 = ((rAB+2.0*DA-2.0*DB)*(rAB+2.0*DA-2.0*DB)) + (a*a);
-      double temp2 = ((rAB+2.0*DA+2.0*DB)*(rAB+2.0*DA+2.0*DB)) + (a*a);
-      double temp3 = ((rAB-2.0*DA-2.0*DB)*(rAB-2.0*DA-2.0*DB)) + (a*a);
-      double temp4 = ((rAB-2.0*DA+2.0*DB)*(rAB-2.0*DA+2.0*DB)) + (a*a);
-      double temp5 = ((rAB+2.0*DA)*(rAB+2.0*DA)) + (a*a);
-      double temp6 = ((rAB-2.0*DA)*(rAB-2.0*DA)) + (a*a);
-      double temp7 = ((rAB+2.0*DB)*(rAB+2.0*DB)) + (a*a);
-      double temp8 = ((rAB-2.0*DB)*(rAB-2.0*DB)) + (a*a);
-      double temp9 = (rAB*rAB) + (a*a);
-      value = 1.0/sqrt(temp1)/16.0 + 1.0/sqrt(temp2)/16.0 
-             +1.0/sqrt(temp3)/16.0 + 1.0/sqrt(temp4)/16.0
-             -1.0/sqrt(temp5)/8.0 - 1.0/sqrt(temp6)/8.0
-             -1.0/sqrt(temp7)/8.0 - 1.0/sqrt(temp8)/8.0
-             +1.0/sqrt(temp9)/4.0;
-   }
-   // Eq. (65) in [DT_1977]
-   else if(multipoleA == Qxz && multipoleB == Qxz){
-      double temp1 = ((rAB+DA-DB)*(rAB+DA-DB)) + ((DA-DB)*(DA-DB)) + (a*a);
-      double temp2 = ((rAB+DA-DB)*(rAB+DA-DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      double temp3 = ((rAB+DA+DB)*(rAB+DA+DB)) + ((DA-DB)*(DA-DB)) + (a*a);
-      double temp4 = ((rAB+DA+DB)*(rAB+DA+DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      double temp5 = ((rAB-DA-DB)*(rAB-DA-DB)) + ((DA-DB)*(DA-DB)) + (a*a);
-      double temp6 = ((rAB-DA-DB)*(rAB-DA-DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      double temp7 = ((rAB-DA+DB)*(rAB-DA+DB)) + ((DA-DB)*(DA-DB)) + (a*a);
-      double temp8 = ((rAB-DA+DB)*(rAB-DA+DB)) + ((DA+DB)*(DA+DB)) + (a*a);
-      value = 1.0/sqrt(temp1)/8.0 - 1.0/sqrt(temp2)/8.0 
-             -1.0/sqrt(temp3)/8.0 + 1.0/sqrt(temp4)/8.0
-             -1.0/sqrt(temp5)/8.0 + 1.0/sqrt(temp6)/8.0
-             +1.0/sqrt(temp7)/8.0 - 1.0/sqrt(temp8)/8.0;
-   }
-   else if(multipoleA == Qyz && multipoleB == Qyz){
-      value = this->GetSemiEmpiricalMultipoleInteractionPointCharge(atomA, atomB, Qxz, Qxz, rAB);
-   }
-   // Eq. (66) in [DT_1977]
-   else if(multipoleA == Qxy && multipoleB == Qxy){
-      double temp1 = (rAB*rAB) + 2.0*((DA-DB)*(DA-DB)) + (a*a);
-      double temp2 = (rAB*rAB) + 2.0*((DA+DB)*(DA+DB)) + (a*a);
-      double temp3 = (rAB*rAB) + 2.0*(DA*DA) + 2.0*(DB*DB) + (a*a);
-      value = 1.0/sqrt(temp1)/4.0 + 1.0/sqrt(temp2)/4.0 
-             -1.0/sqrt(temp3)/2.0;
-   }
-   else{
-      stringstream ss;
-      ss << this->errorMessageGetSemiEmpiricalMultipoleInteractionBadMultipoles;
-      ss << this->errorMessageMultipoleA << MultipoleTypeStr(multipoleA) << endl;
-      ss << this->errorMessageMultipoleB << MultipoleTypeStr(multipoleB) << endl;
-      throw MolDSException(ss.str());
-   }
-   return value;
-}
 double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
                                                   const Atom& atomB,
                                                   MultipoleType multipoleA,
@@ -6680,8 +6440,27 @@ double Mndo::GetSemiEmpiricalMultipoleInteraction(const Atom& atomA,
    double value = 0.0;
    double DA = atomA.GetNddoDerivedParameterD(this->theory, multipoleA);
    double DB = atomB.GetNddoDerivedParameterD(this->theory, multipoleB);
-   double rhoA = atomA.GetNddoDerivedParameterRho(this->theory, multipoleA);
-   double rhoB = atomB.GetNddoDerivedParameterRho(this->theory, multipoleB);
+   double rhoA = 0.0; 
+   double rhoB = 0.0; 
+   if(atomA.GetAtomType() != EPC && atomB.GetAtomType() != EPC){
+      rhoA = atomA.GetNddoDerivedParameterRho(this->theory, multipoleA);
+      rhoB = atomB.GetNddoDerivedParameterRho(this->theory, multipoleB);
+   }
+   else if(atomA.GetAtomType() != EPC && atomB.GetAtomType() == EPC){
+      rhoA = 0.0;
+      rhoB = 0.0;
+   }
+   else if(atomA.GetAtomType() == EPC && atomB.GetAtomType() != EPC){
+      rhoA = 0.0;
+      rhoB = 0.0;
+   }
+   else{
+      stringstream ss;
+      ss << this->errorMessageGetSemiEmpiricalMultipoleInteractionBadAtomTypes;
+      ss << this->errorMessageAtomA << AtomTypeStr(atomA.GetAtomType()) << endl;
+      ss << this->errorMessageAtomB << AtomTypeStr(atomB.GetAtomType()) << endl;
+      throw MolDSException(ss.str());
+   }
    double a = rhoA + rhoB;
 
    // Eq. (52) in [DT_1977]
