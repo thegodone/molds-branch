@@ -586,6 +586,7 @@ double ZindoS::GetExchangeInt(OrbitalType orbital1, OrbitalType orbital2, const 
 }
 
 void ZindoS::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
+                                  double****** twoElecsAtomEpcCores,
                                   const Molecule& molecule) const{
    this->CalcNishimotoMatagaMatrix(this->nishimotoMatagaMatrix, molecule);
 }

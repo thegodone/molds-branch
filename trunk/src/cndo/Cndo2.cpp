@@ -81,17 +81,18 @@ Cndo2::Cndo2(){
    this->atomicElectronPopulation     = NULL;
    this->atomicElectronPopulationCIS  = NULL;
    this->atomicUnpairedPopulationCIS  = NULL;
-   this->overlapAOs = NULL;
-   this->twoElecsTwoAtomCores = NULL;
-   this->cartesianMatrix = NULL;
+   this->overlapAOs                   = NULL;
+   this->twoElecsTwoAtomCores         = NULL;
+   this->twoElecsAtomEpcCores         = NULL;
+   this->cartesianMatrix              = NULL;
    this->electronicTransitionDipoleMoments = NULL;
-   this->coreDipoleMoment = NULL;
-   this->normalForceConstants = NULL;
-   this->normalModes = NULL;
-   this->matrixCIS = NULL;
-   this->excitedEnergies = NULL;
-   this->freeExcitonEnergiesCIS = NULL;
-   this->matrixForce = NULL;
+   this->coreDipoleMoment             = NULL;
+   this->normalForceConstants         = NULL;
+   this->normalModes                  = NULL;
+   this->matrixCIS                    = NULL;
+   this->excitedEnergies              = NULL;
+   this->freeExcitonEnergiesCIS       = NULL;
+   this->matrixForce                  = NULL;
 
    //protected methods
    this->SetMessages();
@@ -516,11 +517,11 @@ void Cndo2::DoSCF(bool requiresGuess){
 
    // temporary matrices for scf
    double**  oldOrbitalElectronPopulation = NULL;
-   double*** diisStoredDensityMatrix = NULL;
-   double*** diisStoredErrorVect = NULL;
-   double**  diisErrorProducts = NULL;
-   double**  tmpDiisErrorProducts = NULL;
-   double*   diisErrorCoefficients = NULL;
+   double*** diisStoredDensityMatrix      = NULL;
+   double*** diisStoredErrorVect          = NULL;
+   double**  diisErrorProducts            = NULL;
+   double**  tmpDiisErrorProducts         = NULL;
+   double*   diisErrorCoefficients        = NULL;
 
    try{
       this->MallocSCFTemporaryMatrices(&oldOrbitalElectronPopulation,
@@ -533,7 +534,9 @@ void Cndo2::DoSCF(bool requiresGuess){
       this->CalcGammaAB(this->gammaAB, *this->molecule);
       this->CalcOverlapAOs(this->overlapAOs, *this->molecule);
       this->CalcCartesianMatrixByGTOExpansion(this->cartesianMatrix, *this->molecule, STO6G);
-      this->CalcTwoElecsTwoCores(this->twoElecsTwoAtomCores, *this->molecule);
+      this->CalcTwoElecsTwoCores(this->twoElecsTwoAtomCores, 
+                                 this->twoElecsAtomEpcCores,
+                                 *this->molecule);
 
       // SCF
       double rmsDensity=0.0;
@@ -745,6 +748,7 @@ double const* const* Cndo2::GetForce(int elecState){
 }
 
 void Cndo2::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
+                                 double****** twoElecsAtomEpcCores,
                                  const Molecule& molecule) const{
    // do nothing for CNDO, INDO, and ZINDO/S.
    // two electron two core integrals are not needed for CNDO, INDO, and ZINDO/S.

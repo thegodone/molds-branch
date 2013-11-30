@@ -1191,7 +1191,7 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
          i = this->ParseMolecularGeometry(molecule, &inputTerms, i);
       }
 
-      // Environmental Point Charges Configuration
+      // Environmental Point Charges Configuration(EPC)
       if(inputTerms[i].compare(this->stringEpc) == 0){
          i = this->ParseEpcsConfiguration(molecule, &inputTerms, i);
       }
