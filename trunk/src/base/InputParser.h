@@ -177,6 +177,7 @@ private:
    // EPC
    std::string stringEpc;
    std::string stringEpcEnd;
+   std::string stringEpcCharge;
    // SCF
    std::string stringScf;
    std::string stringScfEnd;

@@ -71,9 +71,10 @@ Cndo2::Cndo2(){
    //protected variables
    this->molecule = NULL;
    this->theory = CNDO2;
-   this->coreRepulsionEnergy = 0.0;
-   this->vdWCorrectionEnergy = 0.0;
-   this->matrixCISdimension = 0;
+   this->coreRepulsionEnergy  = 0.0;
+   this->coreEpcCoulombEnergy = 0.0;
+   this->vdWCorrectionEnergy  = 0.0;
+   this->matrixCISdimension   = 0;
    this->fockMatrix = NULL;
    this->energiesMO = NULL;
    this->orbitalElectronPopulation    = NULL;
@@ -228,12 +229,16 @@ void Cndo2::SetMessages(){
    this->messageUnpairedAtoms      = "\tUnpaired electron population:";
    this->messageUnpairedAtomsTitle = "\t\t\t\t| k-th eigenstate | i-th atom | atom type | Unpaired electron population[a.u.]| \n";
    this->messageElecEnergy = "\tElectronic energy(SCF):";
-   this->messageNoteElecEnergy = "\tNote that this electronic energy includes core-repulsions.\n\n";
-   this->messageNoteElecEnergyVdW = "\tNote that this electronic energy includes core-repulsions and vdW correction.\n\n";
+   this->messageNoteElecEnergy       = "\tNote that this electronic energy includes core-repulsions.\n\n";
+   this->messageNoteElecEnergyVdW    = "\tNote that this electronic energy includes core-repulsions and vdW correction.\n\n";
+   this->messageNoteElecEnergyEpcVdW = "\tNote that this electronic energy includes core-repulsions, core-EPC coulomb, and vdW correction.\n\n";
+   this->messageNoteElecEnergyEpc    = "\tNote that this electronic energy includes core-repulsions and core-EPC coulomb.\n\n";
    this->messageElecEnergyTitle = "\t\t\t\t|   [a.u.]   |   [eV]   |\n";
    this->messageUnitSec = "[s].";
    this->messageCoreRepulsionTitle = "\t\t\t\t|   [a.u.]   |   [eV]   |\n";
    this->messageCoreRepulsion = "\tCore repulsion energy:";
+   this->messageCoreEpcCoulombTitle = "\t\t\t\t\t\t\t\t|   [a.u.]   |   [eV]   |\n";
+   this->messageCoreEpcCoulomb = "\tCoulomb interaction between cores and EPCs energy:";
    this->messageVdWCorrectionTitle = "\t\t\t\t\t\t|   [a.u.]   |   [eV]   |\n";
    this->messageVdWCorrection = "\tEmpirical van der Waals correction:";
    this->messageElectronicDipoleMomentTitle = "\t\t\t\t\t|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |\t\t|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |\n";
@@ -341,6 +346,7 @@ void Cndo2::CheckEnableAtomType(const Molecule& molecule) const{
 }
 
 void Cndo2::CalcCoreRepulsionEnergy(){
+   // interaction between atoms
    double energy = 0.0;
    for(int i=0; i<this->molecule->GetNumberAtoms(); i++){
       for(int j=i+1; j<this->molecule->GetNumberAtoms(); j++){
@@ -348,6 +354,17 @@ void Cndo2::CalcCoreRepulsionEnergy(){
       }
    }
    this->coreRepulsionEnergy = energy;
+
+   // interaction between atoms and epcs
+   if(this->molecule->GetNumberEpcs()<=0){return;}
+   energy = 0.0;
+   for(int i=0; i<this->molecule->GetNumberAtoms(); i++){
+      for(int j=0; j<this->molecule->GetNumberEpcs(); j++){
+         energy += this->GetAtomCoreEpcCoulombEnergy(i, j);
+      }
+   }
+   this->coreEpcCoulombEnergy = energy;
+
 }
 
 double Cndo2::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
@@ -355,6 +372,11 @@ double Cndo2::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const
    const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    return atomA.GetCoreCharge()*atomB.GetCoreCharge()/distance; 
+}
+
+double Cndo2::GetAtomCoreEpcCoulombEnergy(int indexAtom, int indexEpc) const{
+   // do nothiing
+   return 0.0;
 }
 
 // First derivative of diatomic core repulsion energy.
@@ -652,12 +674,13 @@ void Cndo2::CalcSCFProperties(){
       this->CalcVdWCorrectionEnergy();
    }
    this->CalcElecSCFEnergy(&this->elecSCFEnergy, 
-                          *this->molecule, 
-                          this->energiesMO, 
-                          this->fockMatrix, 
-                          this->gammaAB,
-                          this->coreRepulsionEnergy,
-                          this->vdWCorrectionEnergy);
+                           *this->molecule, 
+                           this->energiesMO, 
+                           this->fockMatrix, 
+                           this->gammaAB,
+                           this->coreRepulsionEnergy,
+                           this->coreEpcCoulombEnergy,
+                           this->vdWCorrectionEnergy);
    this->CalcCoreDipoleMoment(this->coreDipoleMoment, *this->molecule);
    this->CalcElectronicDipoleMomentGroundState(this->electronicTransitionDipoleMoments, 
                                                this->cartesianMatrix,
@@ -990,8 +1013,14 @@ void Cndo2::OutputSCFEnergies() const{
    this->OutputLog(boost::format("%s\t%e\t%e\n") % this->messageElecEnergy
                                                  % this->elecSCFEnergy
                                                  % (this->elecSCFEnergy/eV2AU));
-   if(Parameters::GetInstance()->RequiresVdWSCF()){
+   if(Parameters::GetInstance()->RequiresVdWSCF() && this->molecule->GetNumberEpcs()<=0){
       this->OutputLog(this->messageNoteElecEnergyVdW);
+   }
+   else if(Parameters::GetInstance()->RequiresVdWSCF() && 0<this->molecule->GetNumberEpcs()){
+      this->OutputLog(this->messageNoteElecEnergyEpcVdW);
+   }
+   else if(!Parameters::GetInstance()->RequiresVdWSCF() && 0<this->molecule->GetNumberEpcs()){
+      this->OutputLog(this->messageNoteElecEnergyEpc);
    }
    else{
       this->OutputLog(this->messageNoteElecEnergy);
@@ -1002,6 +1031,14 @@ void Cndo2::OutputSCFEnergies() const{
    this->OutputLog(boost::format("%s\t%e\t%e\n\n") % this->messageCoreRepulsion
                                                    % this->coreRepulsionEnergy 
                                                    % (this->coreRepulsionEnergy/eV2AU));
+
+   // output coulomb interaction between atoms and epcs
+   if(0<this->molecule->GetNumberEpcs()){
+      this->OutputLog(this->messageCoreEpcCoulombTitle);
+      this->OutputLog(boost::format("%s\t%e\t%e\n\n") % this->messageCoreEpcCoulomb
+                                                      % this->coreEpcCoulombEnergy 
+                                                      % (this->coreEpcCoulombEnergy/eV2AU));
+   }
 
    // output van der Waals correction 
    if(Parameters::GetInstance()->RequiresVdWSCF()){
@@ -1194,6 +1231,7 @@ void Cndo2::CalcElecSCFEnergy(double* elecSCFEnergy,
                              double const* const* fockMatrix, 
                              double const* const* gammaAB, 
                              double coreRepulsionEnergy,
+                             double coreEpcCoulombEnergy,
                              double vdWCorrectionEnergy) const{
    double electronicEnergy = 0.0;
    // use density matrix for electronic energy
@@ -1273,7 +1311,10 @@ void Cndo2::CalcElecSCFEnergy(double* elecSCFEnergy,
    }
    */
 
-   *elecSCFEnergy = electronicEnergy + coreRepulsionEnergy + vdWCorrectionEnergy;
+   *elecSCFEnergy = electronicEnergy
+                   +coreRepulsionEnergy
+                   +coreEpcCoulombEnergy
+                   +vdWCorrectionEnergy;
 }
 
 void Cndo2::FreeElecEnergyMatrices(double*** fMatrix, 

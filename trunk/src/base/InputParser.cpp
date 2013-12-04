@@ -251,8 +251,9 @@ void InputParser::SetMessages(){
    this->stringGeometryEnd = "geometry_end";
 
    // Environmental Point Charge
-   this->stringEpc    = "epc";
-   this->stringEpcEnd = "epc_end";
+   this->stringEpc       = "epc";
+   this->stringEpcEnd    = "epc_end";
+   this->stringEpcCharge = "charge";
 
    // SCF
    this->stringScf                 = "scf";
@@ -500,12 +501,16 @@ int InputParser::ParseEpcsConfiguration(Molecule* molecule, vector<string>* inpu
       double x      = atof((*inputTerms)[parseIndex+0].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
       double y      = atof((*inputTerms)[parseIndex+1].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
       double z      = atof((*inputTerms)[parseIndex+2].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
-      double charge = atof((*inputTerms)[parseIndex+3].c_str());
+      parseIndex += 3;
+      double charge = 0.0;
+      if((*inputTerms)[parseIndex].compare(this->stringEpcCharge) == 0){
+         charge = atof((*inputTerms)[parseIndex+1].c_str());
+         parseIndex += 2;
+      }
       AtomType atomType = EPC;
       int index = molecule->GetNumberEpcs();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z, charge);
       molecule->AddEpc(atom);
-      parseIndex += 4;
    }
    return parseIndex;
 }
