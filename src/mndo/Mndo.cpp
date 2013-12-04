@@ -326,6 +326,13 @@ double Mndo::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
          *tmp;
 }
 
+double Mndo::GetAtomCoreEpcCoulombEnergy(int indexAtom, int indexEpc) const{
+   const Atom& atom = *this->molecule->GetAtom(indexAtom);
+   const Atom& epc  = *this->molecule->GetAtom(indexEpc);
+   double distance = this->molecule->GetDistanceAtomEpc(indexAtom, indexEpc);
+   return atom.GetCoreCharge()*epc.GetCoreCharge()/distance; 
+}
+
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
 double Mndo::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,

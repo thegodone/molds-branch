@@ -53,6 +53,7 @@ protected:
    virtual void CalcNormalModes(double** normalModes, double* normalForceConstants, const MolDS_base::Molecule& molecule) const;
    virtual void CalcForce(const std::vector<int>& elecStates);
    virtual double GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const;
+   virtual double GetAtomCoreEpcCoulombEnergy (int indexAtom,  int indexEpc  ) const;
    virtual double GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
                                                       int indexAtomB, 
                                                       MolDS_base::CartesianType axisA) const;

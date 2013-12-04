@@ -50,6 +50,7 @@
 [BFB_1997] M. A. Blanco, M. Fl{\'o}rez, and M. Bermejo, J. Mol. Struct. 419, 19 (1997)
 [BB_1998] E. Besalu, J. M. Bofill, Theor. Chem. Acc. 100, 265 (1998)
 [I_1998] IWANAMI-SHOTEN "IWANAMI RIKAGAKUJITEN", ISBN4-00-080090-6 (1988)
+[LRCL_2000] F. J. Luque, N. Reuter, A. Cartier, and M. F. R.-Lopez, J. Phys. Chem. A 104, 10923 (2000)
 [RCJ_2002] M. P. Repasky, J. Chandrasekhar, and W. L. Jorgensen, J. Comp. Chem. 23, 1601 (2002)
 [BGRJ_2003] I. T.-Brohman, C. R. W. Guimar\~{a}es, M. P. Repasky, and W. L. Jorgensen, J. Comp. Chem. 25, 138 (2003)
 [S_2004] J. J. P. Stewart, J. Mol. Model. 10, 155 (2004)

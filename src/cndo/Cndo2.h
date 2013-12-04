@@ -94,6 +94,7 @@ protected:
    MolDS_base::Molecule* molecule;
    MolDS_base::TheoryType theory;
    double       coreRepulsionEnergy;
+   double       coreEpcCoulombEnergy;
    double       vdWCorrectionEnergy;
    int          matrixCISdimension;
    double**     fockMatrix;
@@ -132,6 +133,7 @@ protected:
    double GetBondingAdjustParameterK(MolDS_base::ShellType shellA, 
                                      MolDS_base::ShellType shellB) const;
    virtual double GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const;
+   virtual double GetAtomCoreEpcCoulombEnergy (int indexAtom,  int indexEpc) const;
    virtual double GetDiatomCoreRepulsion1stDerivative(int indexAtomA, 
                                                       int indexAtomB, 
                                                       MolDS_base::CartesianType axisA) const;
@@ -305,11 +307,15 @@ private:
    std::string messageElecEnergy;
    std::string messageNoteElecEnergy;
    std::string messageNoteElecEnergyVdW;
+   std::string messageNoteElecEnergyEpcVdW;
+   std::string messageNoteElecEnergyEpc;
    std::string messageElecEnergyTitle;
    std::string messageOcc;
    std::string messageUnOcc;
    std::string messageCoreRepulsionTitle;
    std::string messageCoreRepulsion;
+   std::string messageCoreEpcCoulombTitle;
+   std::string messageCoreEpcCoulomb;
    std::string messageVdWCorrectionTitle;
    std::string messageVdWCorrection;
    std::string messageElectronicDipoleMomentTitle;
@@ -512,6 +518,7 @@ private:
                           double const* const* fockMatrix, 
                           double const* const* gammaAB, 
                           double coreRepulsionEnergy,
+                          double coreEpcCoulombEnergy,
                           double vdWCorrectionEnergy) const;
    void FreeElecEnergyMatrices(double*** fMatrix, 
                                double*** hMatrix, 
