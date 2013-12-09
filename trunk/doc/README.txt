@@ -57,10 +57,11 @@ REQUIREMENTS:
     http://d.hatena.ne.jp/futofuji/20130627/p1
 
 ==============================================================================
-COMPILE(using GNUmake): 
-   In the "src" directory of the MolDS package.
+COMPILE:
+   GNUMake is used to compile the MolDS in the "src" directory of the MolDS package.
+   MolDS officially suport the following three cases.
 
-   Case i) The Intel mpi compiler (mpiicpc) which is wrapping the Intel c++ compiler (icpc)
+   Case i) The Intel mpi compiler (mpiicpc) wrapping the Intel c++ compiler (icpc)
       Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
       Boost C++ Libraries in your systems.
 
@@ -70,7 +71,7 @@ COMPILE(using GNUmake):
       To compile MolDS on 64 bits machine,
       $ make INTEL=64
    
-   Case ii) The openMPI compiler (mpicxx) which is wrapping the Intel c++ compiler (icpc)
+   Case ii) The openMPI compiler (mpicxx) wrapping the Intel c++ compiler (icpc)
       Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
       Boost C++ Libraries in your systems.
 
@@ -80,8 +81,7 @@ COMPILE(using GNUmake):
       To compile MolDS on 64 bits machine,
       $ make INTEL=64 CC=mpicxx
    
-
-   Case iii) The openMPI compiler (mpicxx) which is wrapping the GNU c++ compiler (g++) 
+   Case iii) The openMPI compiler (mpicxx) wrapping the GNU c++ compiler (g++):
       Change the "BOOST_TOP_DIR" in "Makefile_GNU" to the top directory of the 
       Boost C++ Libraries in your systems.
       Change the "OPENBLAS_TOP_DIR" in "Makefile_GNU" to the top directory of the 
