@@ -51,7 +51,10 @@ REQUIREMENTS:
     To get and install the OpenBLAS-libraries, see the HP:<http://xianyi.github.com/OpenBLAS/>.
     The version of the OpenBLAS would be no problem if 0.2.5 or later is used.
     Note that "USE_OPENMP = 1" should be set for the installation of the opneBLAS.
-    Furthermore, "INTERFACE64 = 1" is also needed when you install the OpenBLAS into 64-bits machines
+    Furthermore, "BINARY=64" and "INTERFACE64 = 1" are also needed 
+    when you install the OpenBLAS into 64-bits machines.
+    An example of building the openBLAS-0.2.5 by M.F. is shown in:
+    http://d.hatena.ne.jp/futofuji/20130627/p1
 
 ==============================================================================
 COMPILE(using GNUmake): 
