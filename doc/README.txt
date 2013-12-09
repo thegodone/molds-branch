@@ -58,7 +58,7 @@ REQUIREMENTS:
 
 ==============================================================================
 COMPILE(using GNUmake): 
-   In the "src" directory in the MolDS package.
+   In the "src" directory of the MolDS package.
 
    Case i) The Intel mpi compiler (mpiicpc) which is wrapping the Intel c++ compiler (icpc)
       Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
