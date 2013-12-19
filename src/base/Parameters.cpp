@@ -43,16 +43,16 @@ namespace MolDS_base{
 Parameters* Parameters::parameters = NULL;
 // Physical constsnts
 const double Parameters::eV2AU         = 0.03674903;
-const double Parameters::j2AU          = pow(10.0,18.0)/4.35974394;
+const double Parameters::j2AU          = 1.0e18/4.35974394;
 const double Parameters::kcalMolin2AU  = 0.00159360175;
 const double Parameters::angstrom2AU   = 1.0/0.5291772;
 const double Parameters::nm2AU         = 10.0*Parameters::angstrom2AU;
-const double Parameters::kayser2AU     = 4.556336*pow(10.0,-6.0);
-const double Parameters::fs2AU         = 1.0/(2.418884326505*pow(10.0,-2.0));
-const double Parameters::gMolin2AU     = pow(10.0,5.0)/(6.0221415*9.1095);
+const double Parameters::kayser2AU     = 4.556336e-6;
+const double Parameters::fs2AU         = 1.0/(2.418884326505e-2);
+const double Parameters::gMolin2AU     = 1.0e5/(6.0221415*9.1095);
 const double Parameters::degree2Radian = M_PI / 180.0;
-const double Parameters::boltzmann     = 3.166791*pow(10.0,-6.0);
-const double Parameters::avogadro      = 6.0221415*pow(10.0, 23.0);
+const double Parameters::boltzmann     = 3.166791e-6;
+const double Parameters::avogadro      = 6.0221415e23;
 const double Parameters::debye2AU      = 0.393430191;
 
 // constant
@@ -114,13 +114,13 @@ void Parameters::SetDefaultValues(){
    this->currentSimulation = Once;
    this->currentTheory = CNDO2;
    // SCF
-   this->thresholdSCF        = pow(10.0, -8.0);
+   this->thresholdSCF        = 1.0e-8;
    this->maxIterationsSCF    = 100;
    this->dampingThreshSCF    = 1.0;
    this->dampingWeightSCF    = 0.8;
    this->diisNumErrorVectSCF = 5;
-   this->diisStartErrorSCF   = pow(10.0, -2.0);
-   this->diisEndErrorSCF     = pow(10.0, -8.0);
+   this->diisStartErrorSCF   = 1.0e-2;
+   this->diisEndErrorSCF     = 1.0e-8;
    this->requiresVdWSCF      = false;
    this->vdWScalingFactorSCF = 1.40;
    this->vdWDampingFactorSCF = 23.0;
@@ -171,7 +171,7 @@ void Parameters::SetDefaultValues(){
    this->isDavidsonCIS                         = true;
    this->maxIterationsCIS                      = 100;
    this->maxDimensionsCIS                      = 100;
-   this->normToleranceCIS                      = pow(10.0, -6.0);
+   this->normToleranceCIS                      = 1.0e-6;
    this->numberPrintCoefficientsCIS            = 1;
    this->requiresExcitonEnergiesCIS            = false;
    this->requiresAllTransitionDipoleMomentsCIS = false;
