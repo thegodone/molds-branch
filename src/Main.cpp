@@ -58,7 +58,7 @@ int main(int argc, char *argv[]){
       molds->Run(argc, argv);
       MolDS_mpi::MpiProcess::DeleteInstance();
    }
-   catch(exception ex){
+   catch(exception& ex){
       cout << ex.what();
    }
    return 0;
