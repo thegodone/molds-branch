@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:53:39  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/12/19(Thu.) 19:52:6  <<<<<
 
 
 **********  START: Parse input  **********
@@ -95,13 +95,13 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 	Mulliken charge(SCF):	0	1	H	1.000000e+00	2.567713e-01
 	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.567165e-01
 
-	Elapsed time(omp) for the SCF = 0.019819[s].
+	Elapsed time(omp) for the SCF = 0.020332[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000354[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000411[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -152,19 +152,19 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 	Transition dipole moment:	0 -> 8		-4.878901e-01	3.146245e-01	-3.700473e-03	5.805506e-01		-1.240093e+00	7.996959e-01	-9.405666e-03	1.475613e+00
 
 
-	Elapsed time(omp) for the CIS = 0.004831[s].
+	Elapsed time(omp) for the CIS = 0.002594[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.012352[MB].
+		Max Heap: 0.019012[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.01[s].  <<<<<
+     >>>>>  CPU time: 0.03[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0289741[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0287461[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

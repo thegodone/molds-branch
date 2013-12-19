@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/5/23(Thu.) 10:34:52  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/12/19(Thu.) 19:50:47  <<<<<
 
 
 **********  START: Parse input  **********
@@ -123,13 +123,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.599962e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.221356e-02
 
-	Elapsed time(omp) for the SCF = 0.018571[s].
+	Elapsed time(omp) for the SCF = 0.025901[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.012142[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.012465[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -344,7 +344,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		9.910273e-02	9.947454e-03	3.077606e-03	9.964825e-02		2.518941e-01	2.528391e-02	7.822497e-03	2.532806e-01
 
 
-	Elapsed time(omp) for the CIS = 0.024507[s].
+	Elapsed time(omp) for the CIS = 0.025786[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -440,13 +440,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.597562e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.219481e-02
 
-	Elapsed time(omp) for the SCF = 0.008297[s].
+	Elapsed time(omp) for the SCF = 0.007707[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.011966[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.012815[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -661,7 +661,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		9.908558e-02	9.959176e-03	3.078920e-03	9.963241e-02		2.518505e-01	2.531371e-02	7.825836e-03	2.532404e-01
 
 
-	Elapsed time(omp) for the CIS = 0.040697[s].
+	Elapsed time(omp) for the CIS = 0.025521[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -758,13 +758,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.590416e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.213913e-02
 
-	Elapsed time(omp) for the SCF = 0.008263[s].
+	Elapsed time(omp) for the SCF = 0.013152[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.011964[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.019316[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -979,7 +979,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		9.902882e-02	9.995041e-03	3.083132e-03	9.957969e-02		2.517062e-01	2.540487e-02	7.836542e-03	2.531064e-01
 
 
-	Elapsed time(omp) for the CIS = 0.023307[s].
+	Elapsed time(omp) for the CIS = 0.041726[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -1077,13 +1077,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.578552e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.204697e-02
 
-	Elapsed time(omp) for the SCF = 0.008635[s].
+	Elapsed time(omp) for the SCF = 0.007562[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.011982[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.012379[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1298,7 +1298,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		9.893189e-02	1.005440e-02	3.090074e-03	9.948949e-02		2.514598e-01	2.555574e-02	7.854187e-03	2.528771e-01
 
 
-	Elapsed time(omp) for the CIS = 0.023547[s].
+	Elapsed time(omp) for the CIS = 0.032913[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -1396,13 +1396,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.562094e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.191973e-02
 
-	Elapsed time(omp) for the SCF = 0.008551[s].
+	Elapsed time(omp) for the SCF = 0.027673[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.012028[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.014696[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1617,7 +1617,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		9.879218e-02	1.013667e-02	3.099576e-03	9.935922e-02		2.511047e-01	2.576486e-02	7.878339e-03	2.525460e-01
 
 
-	Elapsed time(omp) for the CIS = 0.023581[s].
+	Elapsed time(omp) for the CIS = 0.034894[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -1715,13 +1715,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.541167e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.175894e-02
 
-	Elapsed time(omp) for the SCF = 0.008694[s].
+	Elapsed time(omp) for the SCF = 0.021432[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.011938[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.018793[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1813,7 +1813,7 @@ geometry_end |
 	Total dipole moment:	29	-1.813418e-01	-5.926066e-03	-1.364928e-03	1.814437e-01		-4.609249e-01	-1.506256e-02	-3.469301e-03	4.611840e-01
 	Total dipole moment:	30	1.164943e-01	2.823457e-02	-6.095560e-03	1.200220e-01		2.960991e-01	7.176513e-02	-1.549337e-02	3.050655e-01
 	Total dipole moment:	31	3.816331e-01	-3.117206e-03	-9.005612e-03	3.817521e-01		9.700148e-01	-7.923149e-03	-2.288999e-02	9.703171e-01
-	Total dipole moment:	32	1.920828e-01	-3.846657e-02	-6.746100e-03	1.960128e-01		4.882260e-01	-9.777228e-02	-1.714688e-02	4.982148e-01
+	Total dipole moment:	32	1.920828e-01	-3.846657e-02	-6.746100e-03	1.960128e-01		4.882259e-01	-9.777228e-02	-1.714688e-02	4.982148e-01
 	Total dipole moment:	33	1.172546e-01	-4.554781e-02	8.983112e-04	1.257937e-01		2.980316e-01	-1.157710e-01	2.283280e-03	3.197358e-01
 	Total dipole moment:	34	1.769175e-01	-1.569319e-03	-1.745718e-02	1.777836e-01		4.496794e-01	-3.988812e-03	-4.437173e-02	4.518809e-01
 	Total dipole moment:	35	1.134022e-01	-1.511764e-02	-1.199453e-02	1.150325e-01		2.882397e-01	-3.842522e-02	-3.048707e-02	2.923835e-01
@@ -1936,7 +1936,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		9.860533e-02	1.024109e-02	3.111451e-03	9.918453e-02		2.506298e-01	2.603027e-02	7.908521e-03	2.521020e-01
 
 
-	Elapsed time(omp) for the CIS = 0.024025[s].
+	Elapsed time(omp) for the CIS = 0.033918[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -1979,14 +1979,14 @@ geometry_end |
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.150012[MB].
+		Max Heap: 0.194652[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.96[s].  <<<<<
+     >>>>>  CPU time: 0.7[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.967917[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.697775[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

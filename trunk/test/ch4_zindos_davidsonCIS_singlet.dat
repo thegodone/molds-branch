@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:53:39  <<<<<
+     >>>>>  Welcome to the MolDS world at 2013/12/19(Thu.) 19:51:12  <<<<<
 
 
 **********  START: Parse input  **********
@@ -106,13 +106,13 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	2.583597e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.214567e-02
 
-	Elapsed time(omp) for the SCF = 0.020299[s].
+	Elapsed time(omp) for the SCF = 0.025306[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.001602[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000821[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -135,10 +135,10 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	  4-th excited: norm of the residual = 4.105571e-02
 
 	Davidson iter=3
-	  1-th excited: norm of the residual = 1.945677e-16
-	  2-th excited: norm of the residual = 2.872783e-16
-	  3-th excited: norm of the residual = 3.443520e-16
-	  4-th excited: norm of the residual = 1.251500e-15
+	  1-th excited: norm of the residual = 2.830027e-16
+	  2-th excited: norm of the residual = 2.429848e-16
+	  3-th excited: norm of the residual = 3.723431e-16
+	  4-th excited: norm of the residual = 4.122073e-16
 
 
 
@@ -175,19 +175,19 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Transition dipole moment:	0 -> 4		1.003970e-02	1.724657e-02	4.710944e-02	5.116189e-02		2.551838e-02	4.383642e-02	1.197403e-01	1.300406e-01
 
 
-	Elapsed time(omp) for the CIS = 0.008720[s].
+	Elapsed time(omp) for the CIS = 0.004599[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.025440[MB].
+		Max Heap: 0.032660[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.03[s].  <<<<<
+     >>>>>  CPU time: 0.04[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0331411[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0362041[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
