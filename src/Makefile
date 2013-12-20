@@ -18,7 +18,7 @@
 #// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 #//************************************************************************//
 CC = mpiicpc
-CFLAGS = -O2
+CFLAGS = -O0
 override CFLAGS += -openmp -DMKL_INT=intptr_t
 ifeq ($(INTEL), 64)
 override CFLAGS += -DMKL_ILP64
