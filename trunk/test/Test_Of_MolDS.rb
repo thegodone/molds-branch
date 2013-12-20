@@ -302,6 +302,20 @@ mklNumThreads = "4"
 ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
+prefix = "c4h4s_zindos_directCIS_singlet"
+tester = Tester.new(prefix, <<"TITLE")
+\t\t\t>>> C4H4S(Thiophene) <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
 prefix = "ch4_zindos_davidsonCIS_singlet"
 tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
 ------------------------------------------------
