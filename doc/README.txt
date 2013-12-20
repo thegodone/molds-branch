@@ -22,7 +22,7 @@
 ==============================================================================
 
 
-   MolDS ("Mol"ecular "D"ynamics "S"imulation package) ver. 0.2.0
+   MolDS ("Mol"ecular "D"ynamics "S"imulation package) ver. 0.3.0
       developed by Mikiya Fujii, Ph.D., Katsuhiko Nishimra, and Michihiro Okuyama, Ph.D..
       For Questions and bug reports: molds-dev@lists.sourceforge.jp
 
@@ -42,6 +42,8 @@ REQUIREMENTS:
     The version of the boost would be no problem if 1.46.0 or later is used.
     Especially, the Boost should be builded with MPI 
     because MolDS needs boost_mpi-library(i.e. -lboost_mpi).
+    An example of manually building of the boost 1.48.0 by M.F. is shown in:
+    http://d.hatena.ne.jp/futofuji/20120320/p2
 
    -Linear Algebra Packages (i.e. BLAS and LAPACK)
     MolDS needs a linear algebra package. In the current implementation of MolDS, 
@@ -51,9 +53,9 @@ REQUIREMENTS:
     To get and install the OpenBLAS-libraries, see the HP:<http://xianyi.github.com/OpenBLAS/>.
     The version of the OpenBLAS would be no problem if 0.2.5 or later is used.
     Note that "USE_OPENMP = 1" should be set for the installation of the opneBLAS.
-    Furthermore, "BINARY=64" and "INTERFACE64 = 1" are also needed 
+    Furthermore, "BINARY = 64" and "INTERFACE64 = 1" are also needed 
     when you install the OpenBLAS into 64-bits machines.
-    An example of building the openBLAS-0.2.5 by M.F. is shown in:
+    An example of manually building of the openBLAS 0.2.5 by M.F. is shown in:
     http://d.hatena.ne.jp/futofuji/20130627/p1
 
 ==============================================================================
@@ -340,46 +342,6 @@ HOW TO WRITE INPUT:
             frame_length 10 10 10
             file_prefix MOPlot_
          MOPLOT_END
-
-   <Environmental Point Charge(EPC) method>
-      Environmental point charge method is a simplified method of the QM/MM,
-      namely the environmental point changes are treated as atoms in the MM region.
-      The differences between the QM/MM and EPC are summarized below:
-         - Electrostatic interaction between QM and MM region:
-            QM/MM: Electrostatic interaction may be mutually added to QM and MM atoms.
-            EPC  : Electrostatic field caused by the EPCs affects the QM region
-                   although the each EPC is not affected by electrostatic field 
-                   caused by the QM atoms and other EPCs. 
-                   Namely, each EPC is fixed at point of space.
-         - Van der Waals interaction between QM and MM region:
-            QM/MM: Included.
-            EPC  : Not included.
-      In this EPC method, core-core replustion between QM and MM atoms is implemented with
-      the method I (simple coulomb interaction: qq/r) of ref [LRCL_2000].
-      This EPC method can be used with MNDO-series (MNDO, AM1, AM1-D, PM3, PM3-D, and PDDG/PM3) only.
-      To use this environmental point charges method, write EPC-directive. 
-
-      E.g.
-         EPC
-            (options)
-         EPC_END
-      
-      -options
-       "the cartesian coordinates and charge" is only prepared.
-       Namely, each line should containe 4 doubles and a term. 
-       The first three doubles are the cartesian coordinates of 
-       each environmental point charge in angstrom unit.
-       The term is "charge". The last double following the term, "charge", 
-       is the charge in atomic unit, 
-       e.g. -1 and 1 mean charge of an electron and a proton, respectively.
-       Multiple setting of the environmental point charge is approvable, of course.
-
-       E.g. 
-         EPC 
-            0.0 0.0 0.0 charge -1   
-            2.2 1.5 3.0 charge -1.5
-            0.0 2.0 5.0 charge  0.3
-         EPC_END
 
    <Frequencies (Normal modes analysis)>
       write frequencies-directive. Note taht not only the frequencies but also the normal modes are calculated.
