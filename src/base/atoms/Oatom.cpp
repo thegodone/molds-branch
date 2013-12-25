@@ -47,7 +47,7 @@ void Oatom::SetAtomicParameters(){
    this->atomicMass = 15.9994*Parameters::GetInstance()->GetGMolin2AU();
    this->coreCharge = 6.0;
    this->numberValenceElectrons = 6;
-   this->valenceShellType = l;
+   this->valenceShellType = lShell;
    this->valence.push_back(s);
    this->valence.push_back(py);
    this->valence.push_back(pz);

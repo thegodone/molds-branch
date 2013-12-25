@@ -47,7 +47,7 @@ void Natom::SetAtomicParameters(){
    this->atomicMass = 14.00674*Parameters::GetInstance()->GetGMolin2AU();
    this->coreCharge = 5.0;
    this->numberValenceElectrons = 5;
-   this->valenceShellType = l;
+   this->valenceShellType = lShell;
    this->valence.push_back(s);
    this->valence.push_back(py);
    this->valence.push_back(pz);

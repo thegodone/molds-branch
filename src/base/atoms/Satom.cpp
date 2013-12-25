@@ -47,7 +47,7 @@ void Satom::SetAtomicParameters(){
    this->atomicMass = 32.066*Parameters::GetInstance()->GetGMolin2AU();
    this->coreCharge = 6.0;
    this->numberValenceElectrons = 6;
-   this->valenceShellType = m;
+   this->valenceShellType = mShell;
    this->valence.push_back(s);
    this->valence.push_back(py);
    this->valence.push_back(pz);

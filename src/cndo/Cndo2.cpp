@@ -702,7 +702,7 @@ void Cndo2::CalcNormalModes(double** normalModes, double* normalForceConstants, 
 
 double Cndo2::GetBondingAdjustParameterK(ShellType shellA, ShellType shellB) const{
    double value=1.0;
-   if(shellA >= m || shellB >= m){
+   if(shellA >= mShell || shellB >= mShell){
       return this->bondingAdjustParameterK[1];
    }
    return value;
