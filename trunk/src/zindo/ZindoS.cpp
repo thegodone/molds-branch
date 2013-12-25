@@ -2003,7 +2003,7 @@ void ZindoS::SortCISEigenVectorCoefficients(vector<CISEigenVectorCoefficient>* c
       // single excitation from I-th (occupied)MO to A-th (virtual)MO
       int moI = this->GetActiveOccIndex(*this->molecule, l);
       int moA = this->GetActiveVirIndex(*this->molecule, l);
-      CISEigenVectorCoefficient cisEigenVectorCoefficient = {cisEigenVector[l], moI, moA, k};
+      CISEigenVectorCoefficient cisEigenVectorCoefficient = {cisEigenVector[l], moI, moA, l};
       cisEigenVectorCoefficients->push_back(cisEigenVectorCoefficient);
    }
    sort(cisEigenVectorCoefficients->begin(), 
