@@ -50,7 +50,7 @@ void Hatom::SetAtomicParameters(){
    this->atomicMass = 1.00794*Parameters::GetInstance()->GetGMolin2AU();
    this->coreCharge = 1.0;
    this->numberValenceElectrons = 1;
-   this->valenceShellType = k;
+   this->valenceShellType = kShell;
    this->valence.push_back(s);
    for(int i=0; i<this->valence.size();i++){
       this->realSphericalHarmonicsIndeces.push_back(new RealSphericalHarmonicsIndex(this->valence[i]));

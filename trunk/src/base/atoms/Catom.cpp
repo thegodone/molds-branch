@@ -47,7 +47,7 @@ void Catom::SetAtomicParameters(){
    this->atomicMass = 12.0107*Parameters::GetInstance()->GetGMolin2AU();
    this->coreCharge = 4.0;
    this->numberValenceElectrons = 4;
-   this->valenceShellType = l;
+   this->valenceShellType = lShell;
    this->valence.push_back(s);
    this->valence.push_back(py);
    this->valence.push_back(pz);

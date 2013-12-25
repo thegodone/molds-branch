@@ -48,7 +48,7 @@ void Liatom::SetAtomicParameters(){
    this->atomicMass = 6.941*Parameters::GetInstance()->GetGMolin2AU();
    this->coreCharge = 1.0;
    this->numberValenceElectrons = 1;
-   this->valenceShellType = l;
+   this->valenceShellType = lShell;
    this->valence.push_back(s);
    this->valence.push_back(py);
    this->valence.push_back(pz);

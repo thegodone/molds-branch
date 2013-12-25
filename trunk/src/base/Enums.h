@@ -73,9 +73,9 @@ RENUMSTR_BEGIN( RotatedObjectType, RotatedObjectTypeStr )
 RENUMSTR_END()
 
 RENUMSTR_BEGIN( ShellType, ShellTypeStr )
-   RENUMSTR( k,  "k" )
-   RENUMSTR( l,  "l" )
-   RENUMSTR( m,  "m" )
+   RENUMSTR( kShell,  "k-shell" )
+   RENUMSTR( lShell,  "l-shell" )
+   RENUMSTR( mShell,  "m-shell" )
    RENUMSTR( ShellType_end,  "ShellType_end" )
 RENUMSTR_END()
 
