@@ -23,9 +23,8 @@
 
 
    MolDS ("Mol"ecular "D"ynamics "S"imulation package) ver. 0.4.0 (Under developement)
-      Developers: Mikiya Fujii, Ph.D.(project lead), Katsuhiko Nishimra, and Michihiro Okuyama, Ph.D..
-      Other contributors: Michael Banck 
-      Questions and bug reports: molds-dev@lists.sourceforge.jp
+      developed by Mikiya Fujii, Ph.D., Katsuhiko Nishimra, and Michihiro Okuyama, Ph.D..
+      For Questions and bug reports: molds-dev@lists.sourceforge.jp
 
 
 ==============================================================================
