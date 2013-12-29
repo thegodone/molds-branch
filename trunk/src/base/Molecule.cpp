@@ -438,7 +438,7 @@ void Molecule::CalcTotalCoreMass(){
    this->totalCoreMass = 0; 
    for(int i=0; i<this->atomVect->size(); i++){
       const Atom& atom = *(*this->atomVect)[i]; 
-      double coreMass = atom.GetAtomicMass() - static_cast<double>(atom.GetNumberValenceElectrons());
+      double coreMass = atom.GetCoreMass();
       this->totalCoreMass += coreMass;
    }
 }
