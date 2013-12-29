@@ -141,7 +141,7 @@ void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* con
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
    for(int a=0; a<molecule.GetNumberAtoms(); a++){
       const Atom* atom = molecule.GetAtom(a);
-      double coreMass = atom->GetAtomicMass() - static_cast<double>(atom->GetNumberValenceElectrons());
+      double coreMass = atom->GetCoreMass();
       for(int i=0; i<CartesianType_end; i++){
          atom->GetXyz()[i] += dt*matrixForce[a][i]/coreMass;
       }
