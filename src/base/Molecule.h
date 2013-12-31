@@ -26,29 +26,17 @@ public:
    explicit Molecule(const Molecule& rhs);
    Molecule& operator=(const Molecule& rhs);
    ~Molecule();
-   inline int GetNumberAtoms() const{
+   inline const std::vector<MolDS_base_atoms::Atom*>& GetAtomVect() const{
 #ifdef MOLDS_DBG
-      if(this->atomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetNumberAtomsNull);
+      if(this->atomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetAtomVectNull);
 #endif
-      return this->atomVect->size();
+      return *this->atomVect;
    }
-   inline MolDS_base_atoms::Atom* GetAtom(int atomIndex) const{
+   inline const std::vector<MolDS_base_atoms::Atom*>& GetEpcVect() const{
 #ifdef MOLDS_DBG
-      if(this->atomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetAtomNull);
+      if(this->epcVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetEpcVectNull);
 #endif
-      return (*this->atomVect)[atomIndex];
-   }
-   inline int GetNumberEpcs() const{
-#ifdef MOLDS_DBG
-      if(this->epcVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetNumberEPCsNull);
-#endif
-      return this->epcVect->size();
-   }
-   inline MolDS_base_atoms::Atom* GetEpc(int epcIndex) const{
-#ifdef MOLDS_DBG
-      if(this->epcVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetEPCNull);
-#endif
-      return (*this->epcVect)[epcIndex];
+      return *this->epcVect;
    }
    void AddAtom(MolDS_base_atoms::Atom* atom);
    void AddEpc(MolDS_base_atoms::Atom* epc);
@@ -128,12 +116,10 @@ private:
                                  double rotatingAngle, 
                                  MolDS_base::EularAngle rotatingEularAngles)const;
    void OutputTranslatingConditions(double const* translatingDifference) const;
-   std::string errorMessageGetAtomNull;
-   std::string errorMessageGetEPCNull;
+   std::string errorMessageGetAtomVectNull;
+   std::string errorMessageGetEPCVectNull;
    std::string errorMessageAddAtomNull;
    std::string errorMessageAddEPCNull;
-   std::string errorMessageGetNumberAtomsNull;
-   std::string errorMessageGetNumberEPCsNull;
    std::string errorMessageGetXyzCOMNull;
    std::string errorMessageGetXyzCOCNull;
    std::string errorMessageCalcXyzCOMNull;

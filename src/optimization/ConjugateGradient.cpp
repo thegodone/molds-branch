@@ -88,9 +88,9 @@ void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> ele
    requireGuess = false;
    matrixForce = electronicStructure->GetForce(elecState);
    try{
-      MallocerFreer::GetInstance()->Malloc<double>(&oldMatrixForce, molecule.GetNumberAtoms(), CartesianType_end);
-      MallocerFreer::GetInstance()->Malloc<double>(&matrixSearchDirection, molecule.GetNumberAtoms(), CartesianType_end);
-      for(int a=0;a<molecule.GetNumberAtoms();a++){
+      MallocerFreer::GetInstance()->Malloc<double>(&oldMatrixForce, molecule.GetAtomVect().size(), CartesianType_end);
+      MallocerFreer::GetInstance()->Malloc<double>(&matrixSearchDirection, molecule.GetAtomVect().size(), CartesianType_end);
+      for(int a=0;a<molecule.GetAtomVect().size();a++){
          for(int i=0; i<CartesianType_end; i++){
             matrixSearchDirection[a][i] = matrixForce[a][i];
          }
@@ -120,12 +120,12 @@ void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> ele
       }
    }
    catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&oldMatrixForce, molecule.GetNumberAtoms(), CartesianType_end);
-      MallocerFreer::GetInstance()->Free<double>(&matrixSearchDirection, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free<double>(&oldMatrixForce, molecule.GetAtomVect().size(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free<double>(&matrixSearchDirection, molecule.GetAtomVect().size(), CartesianType_end);
       throw ex;
    }
-   MallocerFreer::GetInstance()->Free<double>(&oldMatrixForce, molecule.GetNumberAtoms(), CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(&matrixSearchDirection, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(&oldMatrixForce, molecule.GetAtomVect().size(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(&matrixSearchDirection, molecule.GetAtomVect().size(), CartesianType_end);
    *lineSearchedEnergy = lineSearchCurrentEnergy;
 }
 
@@ -135,7 +135,7 @@ void ConjugateGradient::UpdateSearchDirection(double const* const** matrixForce,
                                               boost::shared_ptr<ElectronicStructure> electronicStructure, 
                                               const MolDS_base::Molecule& molecule,
                                               int elecState) const{
-   for(int a=0;a<molecule.GetNumberAtoms();a++){
+   for(int a=0;a<molecule.GetAtomVect().size();a++){
       for(int i=0; i<CartesianType_end; i++){
          oldMatrixForce[a][i] = (*matrixForce)[a][i];
       }
@@ -143,14 +143,14 @@ void ConjugateGradient::UpdateSearchDirection(double const* const** matrixForce,
    *matrixForce = electronicStructure->GetForce(elecState);
    double beta=0.0;
    double temp=0.0;
-   for(int a=0;a<molecule.GetNumberAtoms();a++){
+   for(int a=0;a<molecule.GetAtomVect().size();a++){
       for(int i=0; i<CartesianType_end; i++){
          temp += pow(oldMatrixForce[a][i],2.0);
          beta += ((*matrixForce)[a][i] - oldMatrixForce[a][i])*(*matrixForce)[a][i];
       }
    }
    beta /= temp;
-   for(int a=0;a<molecule.GetNumberAtoms();a++){
+   for(int a=0;a<molecule.GetAtomVect().size();a++){
       for(int i=0; i<CartesianType_end; i++){
          matrixSearchDirection[a][i] *= beta;
          matrixSearchDirection[a][i] += (*matrixForce)[a][i];

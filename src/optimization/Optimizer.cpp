@@ -131,16 +131,16 @@ void Optimizer::CheckEnableTheoryType(TheoryType theoryType) const{
 
 void Optimizer::ClearMolecularMomenta(Molecule& molecule) const{
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      const Atom* atom = molecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      const Atom* atom = molecule.GetAtomVect()[a];
       atom->SetPxyz(0.0, 0.0, 0.0);
    }
 }
 
 void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* const* matrixForce, double dt) const{
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      const Atom* atom = molecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      const Atom* atom = molecule.GetAtomVect()[a];
       double coreMass = atom->GetCoreMass();
       for(int i=0; i<CartesianType_end; i++){
          atom->GetXyz()[i] += dt*matrixForce[a][i]/coreMass;
@@ -151,8 +151,8 @@ void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* con
 
 void Optimizer::UpdateMolecularCoordinates(Molecule& molecule, double const* const* matrixForce) const{
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      const Atom* atom = molecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      const Atom* atom = molecule.GetAtomVect()[a];
       for(int i=0; i<CartesianType_end; i++){
          atom->GetXyz()[i] += matrixForce[a][i];
       }
@@ -233,7 +233,7 @@ bool Optimizer::SatisfiesConvergenceCriterion(double const* const* matrixForce,
    double maxGradient = 0.0;
    double sumSqureGradient = 0.0;
    double energyDifference = currentEnergy - oldEnergy;
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
       for(int i=0; i<CartesianType_end; i++){
          if(maxGradient<fabs(matrixForce[a][i])){
             maxGradient = fabs(matrixForce[a][i]);
@@ -241,7 +241,7 @@ bool Optimizer::SatisfiesConvergenceCriterion(double const* const* matrixForce,
          sumSqureGradient += pow(matrixForce[a][i],2.0);
       }
    }
-   sumSqureGradient /= static_cast<double>(molecule.GetNumberAtoms()*CartesianType_end);
+   sumSqureGradient /= static_cast<double>(molecule.GetAtomVect().size()*CartesianType_end);
    double rmsGradient = sqrt(sumSqureGradient);
 
    // output logs

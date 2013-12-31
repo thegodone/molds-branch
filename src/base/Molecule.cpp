@@ -223,12 +223,10 @@ void Molecule::Finalize(vector<Atom*>** atomVect,
 }
 
 void Molecule::SetMessages(){
-   this->errorMessageGetAtomNull = "Error in base::Molecule::GetAtom: atomVect is NULL.\n";
-   this->errorMessageGetEPCNull  = "Error in base::Molecule::GetEnviromentalPointCharge: enviromentalPointChargeVect is NULL.\n";
+   this->errorMessageGetAtomVectNull  = "Error in base::Molecule::GetAtomVect: atomVect is NULL.\n";
+   this->errorMessageGetEPCVectNull  = "Error in base::Molecule::GetEpcVect: epcVect is NULL.\n";
    this->errorMessageAddAtomNull = "Error in base::Molecule::AddAtom: atomVect is NULL.\n";
-   this->errorMessageAddEPCNull  = "Error in base::Molecule::AddEnviromentalPointCharge: enviromentalPointChargeVect is NULL.\n";
-   this->errorMessageGetNumberAtomsNull = "Error in base::Molecule::GetNumberAtoms: atomVect is NULL.\n";
-   this->errorMessageGetNumberEPCsNull  = "Error in base::Molecule::GetNumberEnviromentalPointChargess: epcVect is NULL.\n";
+   this->errorMessageAddEPCNull  = "Error in base::Molecule::AddEnviromentalPointCharge: epcVect is NULL.\n";
    this->errorMessageGetXyzCOMNull = "Error in base::Molecule::GetXyzCOM: xyzCOM is NULL.\n";
    this->errorMessageGetXyzCOCNull = "Error in base::Molecule::GetXyzCOC: xyzCOC is NULL.\n";
    this->errorMessageCalcXyzCOMNull = "Error in base::Molecule::CalcXyzCOM: xyzCOM is NULL.\n";
@@ -832,9 +830,9 @@ void Molecule::OutputTranslatingConditions(double const* translatingDifference) 
 }
 
 void Molecule::SynchronizeConfigurationTo(const Molecule& ref){
-   for(int a=0; a<this->GetNumberAtoms(); a++){
-      Atom& atom = *this->GetAtom(a);
-      const Atom& refAtom = *ref.GetAtom(a);
+   for(int a=0; a<this->GetAtomVect().size(); a++){
+      Atom& atom = *this->GetAtomVect()[a];
+      const Atom& refAtom = *ref.GetAtomVect()[a];
       for(int i=0; i<CartesianType_end; i++){
          atom.GetXyz()[i] = refAtom.GetXyz()[i];
       }
@@ -843,9 +841,9 @@ void Molecule::SynchronizeConfigurationTo(const Molecule& ref){
 }
 
 void Molecule::SynchronizeMomentaTo(const Molecule& ref){
-   for(int a=0; a<this->GetNumberAtoms(); a++){
-      Atom& atom = *this->GetAtom(a);
-      const Atom& refAtom = *ref.GetAtom(a);
+   for(int a=0; a<this->GetAtomVect().size(); a++){
+      Atom& atom = *this->GetAtomVect()[a];
+      const Atom& refAtom = *ref.GetAtomVect()[a];
       for(int i=0; i<CartesianType_end; i++){
          atom.GetPxyz()[i] = refAtom.GetPxyz()[i];
       }
@@ -853,9 +851,9 @@ void Molecule::SynchronizeMomentaTo(const Molecule& ref){
 }
 
 void Molecule::SynchronizePhaseSpacePointTo(const Molecule& ref){
-   for(int a=0; a<this->GetNumberAtoms(); a++){
-      Atom& atom = *this->GetAtom(a);
-      const Atom& refAtom = *ref.GetAtom(a);
+   for(int a=0; a<this->GetAtomVect().size(); a++){
+      Atom& atom = *this->GetAtomVect()[a];
+      const Atom& refAtom = *ref.GetAtomVect()[a];
       for(int i=0; i<CartesianType_end; i++){
          atom.GetXyz() [i] = refAtom.GetXyz() [i];
          atom.GetPxyz()[i] = refAtom.GetPxyz()[i];
@@ -865,19 +863,19 @@ void Molecule::SynchronizePhaseSpacePointTo(const Molecule& ref){
 }
 
 void Molecule::BroadcastConfigurationToAllProcesses(int root) const{
-   int numTransported = this->GetNumberAtoms()*CartesianType_end;
+   int numTransported = this->GetAtomVect().size()*CartesianType_end;
    double* tmp=NULL;
    try{
       MolDS_base::MallocerFreer::GetInstance()->Malloc<double>(&tmp, numTransported);
-      for(int a=0; a<this->GetNumberAtoms(); a++){
-         Atom& atom = *this->GetAtom(a);
+      for(int a=0; a<this->GetAtomVect().size(); a++){
+         Atom& atom = *this->GetAtomVect()[a];
          for(int i=0; i<CartesianType_end; i++){
             tmp[a*CartesianType_end+i] = atom.GetXyz()[i];
          }
       }
       MolDS_mpi::MpiProcess::GetInstance()->Broadcast(tmp, numTransported, root);
-      for(int a=0; a<this->GetNumberAtoms(); a++){
-         Atom& atom = *this->GetAtom(a);
+      for(int a=0; a<this->GetAtomVect().size(); a++){
+         Atom& atom = *this->GetAtomVect()[a];
          for(int i=0; i<CartesianType_end; i++){
             atom.GetXyz()[i] = tmp[a*CartesianType_end+i];
          }
@@ -891,19 +889,19 @@ void Molecule::BroadcastConfigurationToAllProcesses(int root) const{
 }
 
 void Molecule::BroadcastMomentaToAllProcesses(int root) const{
-   int numTransported = this->GetNumberAtoms()*CartesianType_end;
+   int numTransported = this->GetAtomVect().size()*CartesianType_end;
    double* tmp=NULL;
    try{
       MolDS_base::MallocerFreer::GetInstance()->Malloc<double>(&tmp, numTransported);
-      for(int a=0; a<this->GetNumberAtoms(); a++){
-         Atom& atom = *this->GetAtom(a);
+      for(int a=0; a<this->GetAtomVect().size(); a++){
+         Atom& atom = *this->GetAtomVect()[a];
          for(int i=0; i<CartesianType_end; i++){
             tmp[a*CartesianType_end+i] = atom.GetPxyz()[i];
          }
       }
       MolDS_mpi::MpiProcess::GetInstance()->Broadcast(tmp, numTransported, root);
-      for(int a=0; a<this->GetNumberAtoms(); a++){
-         Atom& atom = *this->GetAtom(a);
+      for(int a=0; a<this->GetAtomVect().size(); a++){
+         Atom& atom = *this->GetAtomVect()[a];
          for(int i=0; i<CartesianType_end; i++){
             atom.GetPxyz()[i] = tmp[a*CartesianType_end+i];
          }
@@ -917,12 +915,12 @@ void Molecule::BroadcastMomentaToAllProcesses(int root) const{
 }
 
 void Molecule::BroadcastPhaseSpacePointToAllProcesses(int root) const{
-   int numTransported = 2*this->GetNumberAtoms()*CartesianType_end;
+   int numTransported = 2*this->GetAtomVect().size()*CartesianType_end;
    double* tmp=NULL;
    try{
       MolDS_base::MallocerFreer::GetInstance()->Malloc<double>(&tmp, numTransported);
-      for(int a=0; a<this->GetNumberAtoms(); a++){
-         Atom& atom = *this->GetAtom(a);
+      for(int a=0; a<this->GetAtomVect().size(); a++){
+         Atom& atom = *this->GetAtomVect()[a];
          for(int i=0; i<CartesianType_end; i++){
             int k = a*CartesianType_end+i;
             tmp[2*k  ] = atom.GetXyz() [i];
@@ -930,8 +928,8 @@ void Molecule::BroadcastPhaseSpacePointToAllProcesses(int root) const{
          }
       }
       MolDS_mpi::MpiProcess::GetInstance()->Broadcast(tmp, numTransported, root);
-      for(int a=0; a<this->GetNumberAtoms(); a++){
-         Atom& atom = *this->GetAtom(a);
+      for(int a=0; a<this->GetAtomVect().size(); a++){
+         Atom& atom = *this->GetAtomVect()[a];
          for(int i=0; i<CartesianType_end; i++){
             int k = a*CartesianType_end+i;
             atom.GetXyz() [i] = tmp[2*k  ];

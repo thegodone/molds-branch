@@ -165,10 +165,10 @@ void MOLogger::OutputHeaderToFile(ofstream& ofs, double const* origin, double dx
    // output header to the cube file
    ofs << this->messageCubeHeaderComment1;
    ofs << this->messageCubeHeaderComment2;
-   sprintf(data,"\t%d\t%e\t%e\t%e\n", this->molecule->GetNumberAtoms(),
-                                      origin[XAxis], 
-                                      origin[YAxis], 
-                                      origin[ZAxis]);
+   sprintf(data,"\t%ld\t%e\t%e\t%e\n", this->molecule->GetAtomVect().size(),
+                                       origin[XAxis], 
+                                       origin[YAxis], 
+                                       origin[ZAxis]);
    ofs << string(data);
    memset(data,0,sizeof(data));
    sprintf(data,"\t%d\t%e\t%e\t%e\n", gridNumber[XAxis], dx, 0.0, 0.0);
@@ -184,8 +184,8 @@ void MOLogger::OutputHeaderToFile(ofstream& ofs, double const* origin, double dx
 void MOLogger::OutputMoleculeToFile(ofstream& ofs, const Molecule& molecule) const{
    char data[1000] = "";
    // output molecule to the cube file
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      Atom* atomA = molecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      Atom* atomA = molecule.GetAtomVect()[a];
       memset(data,0,sizeof(data));
       sprintf(data,"\t%d\t%d\t%e\t%e\t%e\n", atomA->GetAtomType()+1, 
                                        atomA->GetNumberValenceElectrons(),
@@ -228,8 +228,8 @@ double MOLogger::GetMoValue(int moIndex,
                             double y, 
                             double z) const{
    double moValue = 0.0;
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      Atom* atomA = molecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      Atom* atomA = molecule.GetAtomVect()[a];
       int firstAOIndexA = atomA->GetFirstAOIndex();
       int numberAOsA = atomA->GetValenceSize();
       for(int mu=firstAOIndexA; mu<firstAOIndexA+numberAOsA; mu++){

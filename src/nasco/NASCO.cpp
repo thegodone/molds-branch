@@ -177,8 +177,8 @@ void NASCO::DoNASCO(Molecule& molecule){
 void NASCO::UpdateMomenta(Molecule& molecule, 
                           double const* const* matrixForce, 
                           const double dt) const{
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      Atom* atom = molecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      Atom* atom = molecule.GetAtomVect()[a];
       for(int i=0; i<CartesianType_end; i++){
          atom->GetPxyz()[i] += 0.5*dt*(matrixForce[a][i]);
       }
@@ -188,9 +188,9 @@ void NASCO::UpdateMomenta(Molecule& molecule,
 void NASCO::UpdateCoordinates(Molecule& tmpMolecule, 
                               const Molecule& molecule,
                               const double dt) const{
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      Atom* atom    = molecule.GetAtom(a);
-      Atom* tmpAtom = tmpMolecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      Atom* atom    = molecule.GetAtomVect()[a];
+      Atom* tmpAtom = tmpMolecule.GetAtomVect()[a];
       double coreMass = tmpAtom->GetCoreMass();
       for(int i=0; i<CartesianType_end; i++){
          tmpAtom->GetXyz()[i] =  atom->GetXyz()[i] + dt*atom->GetPxyz()[i]/coreMass;
@@ -253,8 +253,8 @@ double NASCO::OutputEnergies(const ElectronicStructure& electronicStructure,
                              int elecState) const{
    double eV2AU = Parameters::GetInstance()->GetEV2AU();
    double coreKineticEnergy = 0.0;
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      Atom* atom = molecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      Atom* atom = molecule.GetAtomVect()[a];
       double coreMass = atom->GetCoreMass();
       for(int i=0; i<CartesianType_end; i++){
          coreKineticEnergy += 0.5*pow(atom->GetPxyz()[i],2.0)/coreMass;

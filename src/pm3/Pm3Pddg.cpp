@@ -143,8 +143,8 @@ double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) con
    double pm3Term = Pm3::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
 
    // pddg additional term, eq. (4) in [RCJ_2002]
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    int na = atomA.GetNumberValenceElectrons();
    int nb = atomB.GetNumberValenceElectrons();
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
@@ -172,8 +172,8 @@ double Pm3Pddg::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
    double pm3Term = Pm3::GetDiatomCoreRepulsion1stDerivative(indexAtomA, indexAtomB, axisA);
 
    // pddg additional term, first derivative of eq. (4) in [RCJ_2002]
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    int na = atomA.GetNumberValenceElectrons();
    int nb = atomB.GetNumberValenceElectrons();
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
@@ -203,8 +203,8 @@ double Pm3Pddg::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
    double pm3Term = Pm3::GetDiatomCoreRepulsion2ndDerivative(indexAtomA, indexAtomB, axisA1, axisA2);
 
    // pddg additional term, first derivative of eq. (4) in [RCJ_2002]
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double dCartesian1 = (atomA.GetXyz()[axisA1] - atomB.GetXyz()[axisA1]);
    double dCartesian2 = (atomA.GetXyz()[axisA2] - atomB.GetXyz()[axisA2]);

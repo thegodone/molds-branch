@@ -140,8 +140,8 @@ double Am1::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
    double mndoTerm = Mndo::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
 
    // additional term, Eq. (4) in [S_1989].
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance   = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double ang2AU     = Parameters::GetInstance()->GetAngstrom2AU();
    double alphaA     = atomA.GetNddoAlpha(this->theory);
@@ -174,8 +174,8 @@ double Am1::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
 
    // additional term, first derivative of eq. (4) in [S_1989]
    double ang2AU     = Parameters::GetInstance()->GetAngstrom2AU();
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double alphaA     = atomA.GetNddoAlpha(this->theory);
    double alphaB     = atomB.GetNddoAlpha(this->theory);
    double distance   = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
@@ -215,8 +215,8 @@ double Am1::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
 
    // additional term, first derivative of eq. (4) in [S_1989]
    double ang2AU     = Parameters::GetInstance()->GetAngstrom2AU();
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double alphaA     = atomA.GetNddoAlpha(this->theory);
    double alphaB     = atomB.GetNddoAlpha(this->theory);
    double distance   = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
