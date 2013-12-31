@@ -117,7 +117,7 @@ Cndo2::~Cndo2(){
                                               this->molecule->GetTotalNumberAOs(),
                                               this->molecule->GetTotalNumberAOs());
    MallocerFreer::GetInstance()->Free<double>(&this->atomicElectronPopulation, 
-                                              this->molecule->GetNumberAtoms());
+                                              this->molecule->GetAtomVect().size());
    MallocerFreer::GetInstance()->Free<double>(&this->overlapAOs, 
                                               this->molecule->GetTotalNumberAOs(),
                                               this->molecule->GetTotalNumberAOs());
@@ -136,8 +136,8 @@ Cndo2::~Cndo2(){
    MallocerFreer::GetInstance()->Free<double>(&this->coreDipoleMoment, 
                                               CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(&this->gammaAB, 
-                                              this->molecule->GetNumberAtoms(),
-                                              this->molecule->GetNumberAtoms());
+                                              this->molecule->GetAtomVect().size(),
+                                              this->molecule->GetAtomVect().size());
    //this->OutputLog("cndo deleted\n");
 }
 
@@ -293,7 +293,7 @@ void Cndo2::SetMolecule(Molecule* molecule){
                                                 this->molecule->GetTotalNumberAOs(), 
                                                 this->molecule->GetTotalNumberAOs());
    MallocerFreer::GetInstance()->Malloc<double>(&this->atomicElectronPopulation,
-                                                this->molecule->GetNumberAtoms());
+                                                this->molecule->GetAtomVect().size());
    MallocerFreer::GetInstance()->Malloc<double>(&this->overlapAOs, 
                                                 this->molecule->GetTotalNumberAOs(), 
                                                 this->molecule->GetTotalNumberAOs());
@@ -313,8 +313,8 @@ void Cndo2::SetMolecule(Molecule* molecule){
                                                 CartesianType_end);
    if(this->theory == CNDO2 || this->theory == INDO){
       MallocerFreer::GetInstance()->Malloc<double>(&this->gammaAB,
-                                                   this->molecule->GetNumberAtoms(), 
-                                                   this->molecule->GetNumberAtoms());
+                                                   this->molecule->GetAtomVect().size(), 
+                                                   this->molecule->GetAtomVect().size());
    }
 }
 
@@ -327,8 +327,8 @@ void Cndo2::CheckNumberValenceElectrons(const Molecule& molecule) const{
 }
 
 void Cndo2::CheckEnableAtomType(const Molecule& molecule) const{
-   for(int i=0; i<molecule.GetNumberAtoms(); i++){
-      AtomType atomType = molecule.GetAtom(i)->GetAtomType();
+   for(int i=0; i<molecule.GetAtomVect().size(); i++){
+      AtomType atomType = molecule.GetAtomVect()[i]->GetAtomType();
       bool enable = false;
       for(int j=0; j<this->enableAtomTypes.size(); j++){
          if(atomType == this->enableAtomTypes[j]){
@@ -348,18 +348,18 @@ void Cndo2::CheckEnableAtomType(const Molecule& molecule) const{
 void Cndo2::CalcCoreRepulsionEnergy(){
    // interaction between atoms
    double energy = 0.0;
-   for(int i=0; i<this->molecule->GetNumberAtoms(); i++){
-      for(int j=i+1; j<this->molecule->GetNumberAtoms(); j++){
+   for(int i=0; i<this->molecule->GetAtomVect().size(); i++){
+      for(int j=i+1; j<this->molecule->GetAtomVect().size(); j++){
          energy += this->GetDiatomCoreRepulsionEnergy(i, j);
       }
    }
    this->coreRepulsionEnergy = energy;
 
    // interaction between atoms and epcs
-   if(this->molecule->GetNumberEpcs()<=0){return;}
+   if(this->molecule->GetEpcVect().empty()){return;}
    energy = 0.0;
-   for(int i=0; i<this->molecule->GetNumberAtoms(); i++){
-      for(int j=0; j<this->molecule->GetNumberEpcs(); j++){
+   for(int i=0; i<this->molecule->GetAtomVect().size(); i++){
+      for(int j=0; j<this->molecule->GetEpcVect().size(); j++){
          energy += this->GetAtomCoreEpcCoulombEnergy(i, j);
       }
    }
@@ -368,8 +368,8 @@ void Cndo2::CalcCoreRepulsionEnergy(){
 }
 
 double Cndo2::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    return atomA.GetCoreCharge()*atomB.GetCoreCharge()/distance; 
 }
@@ -384,8 +384,8 @@ double Cndo2::GetAtomCoreEpcCoulombEnergy(int indexAtom, int indexEpc) const{
 double Cndo2::GetDiatomCoreRepulsion1stDerivative(int indexAtomA, int indexAtomB, 
                                                   CartesianType axisA) const{
    double value=0.0;
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    value = atomA.GetCoreCharge()*atomB.GetCoreCharge();
    value *= (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/distance;
@@ -407,8 +407,8 @@ double Cndo2::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
 // See (2) in [G_2004] ((11) in [G_2006])
 void Cndo2::CalcVdWCorrectionEnergy(){
    double value = 0.0;
-   for(int i=0; i<this->molecule->GetNumberAtoms(); i++){
-      for(int j=i+1; j<this->molecule->GetNumberAtoms(); j++){
+   for(int i=0; i<this->molecule->GetAtomVect().size(); i++){
+      for(int j=i+1; j<this->molecule->GetAtomVect().size(); j++){
          value += this->GetDiatomVdWCorrectionEnergy(i, j);
       }
    }
@@ -442,8 +442,8 @@ double Cndo2::GetVdwDampingValue2ndDerivative(double vdWDistance, double distanc
 
 // See (2) in [G_2004] ((11) in [G_2006])
 double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
    double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
@@ -458,8 +458,8 @@ double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const
 // See (2) in [G_2004] ((11) in [G_2006]).
 double Cndo2::GetDiatomVdWCorrection1stDerivative(int indexAtomA, int indexAtomB, 
                                                   CartesianType axisA) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
    double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
@@ -484,8 +484,8 @@ double Cndo2::GetDiatomVdWCorrection2ndDerivative(int indexAtomA,
                                                      int indexAtomB, 
                                                      CartesianType axisA1,
                                                      CartesianType axisA2) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double dCartesian1 = atomA.GetXyz()[axisA1] - atomB.GetXyz()[axisA1];
    double dCartesian2 = atomA.GetXyz()[axisA2] - atomB.GetXyz()[axisA2];
@@ -1013,13 +1013,13 @@ void Cndo2::OutputSCFEnergies() const{
    this->OutputLog(boost::format("%s\t%e\t%e\n") % this->messageElecEnergy
                                                  % this->elecSCFEnergy
                                                  % (this->elecSCFEnergy/eV2AU));
-   if(Parameters::GetInstance()->RequiresVdWSCF() && this->molecule->GetNumberEpcs()<=0){
+   if(Parameters::GetInstance()->RequiresVdWSCF() && this->molecule->GetEpcVect().empty()){
       this->OutputLog(this->messageNoteElecEnergyVdW);
    }
-   else if(Parameters::GetInstance()->RequiresVdWSCF() && 0<this->molecule->GetNumberEpcs()){
+   else if(Parameters::GetInstance()->RequiresVdWSCF() && !this->molecule->GetEpcVect().empty()){
       this->OutputLog(this->messageNoteElecEnergyEpcVdW);
    }
-   else if(!Parameters::GetInstance()->RequiresVdWSCF() && 0<this->molecule->GetNumberEpcs()){
+   else if(!Parameters::GetInstance()->RequiresVdWSCF() && !this->molecule->GetEpcVect().empty()){
       this->OutputLog(this->messageNoteElecEnergyEpc);
    }
    else{
@@ -1033,7 +1033,7 @@ void Cndo2::OutputSCFEnergies() const{
                                                    % (this->coreRepulsionEnergy/eV2AU));
 
    // output coulomb interaction between atoms and epcs
-   if(0<this->molecule->GetNumberEpcs()){
+   if(!this->molecule->GetEpcVect().empty()){
       this->OutputLog(this->messageCoreEpcCoulombTitle);
       this->OutputLog(boost::format("%s\t%e\t%e\n\n") % this->messageCoreEpcCoulomb
                                                       % this->coreEpcCoulombEnergy 
@@ -1113,8 +1113,8 @@ void Cndo2::OutputSCFDipole() const{
 void Cndo2::OutputSCFMulliken() const{
    int groundState = 0;
    this->OutputLog(this->messageMullikenAtomsTitle);
-   for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
-      Atom* atom = this->molecule->GetAtom(a);
+   for(int a=0; a<this->molecule->GetAtomVect().size(); a++){
+      Atom* atom = this->molecule->GetAtomVect()[a];
       this->OutputLog(boost::format("%s\t%d\t%d\t%s\t%e\t%e\n") % this->messageMullikenAtomsSCF
                                                                 % groundState
                                                                 % a
@@ -1129,7 +1129,7 @@ void Cndo2::OutputNormalModes(double const* const* normalModes,
                               double const* normalForceConstants, 
                               const Molecule& molecule) const{
 
-   int hessianDim = CartesianType_end*molecule.GetNumberAtoms();
+   int hessianDim = CartesianType_end*molecule.GetAtomVect().size();
    double ang2AU = Parameters::GetInstance()->GetAngstrom2AU();
    double kayser2AU = Parameters::GetInstance()->GetKayser2AU();
 
@@ -1149,8 +1149,8 @@ void Cndo2::OutputNormalModes(double const* const* normalModes,
                                                                % sqrt(fabs(normalForceConstants[i]))
                                                                % (sqrt(fabs(normalForceConstants[i]))/kayser2AU));
       // normal modes
-      for(int a=0; a<molecule.GetNumberAtoms(); a++){
-         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+      for(int a=0; a<molecule.GetAtomVect().size(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtomVect()[a]->GetCoreMass());
          for(int j=XAxis; j<CartesianType_end; j++){
             int hessianIndex = CartesianType_end*a+j;
             this->OutputLog(boost::format("\t%e") % normalModes[i][hessianIndex]);
@@ -1178,8 +1178,8 @@ void Cndo2::OutputNormalModes(double const* const* normalModes,
                                                                % (sqrt(fabs(normalForceConstants[i]))/kayser2AU));
 
       double normSquare=0.0;
-      for(int a=0; a<molecule.GetNumberAtoms(); a++){
-         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+      for(int a=0; a<molecule.GetAtomVect().size(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtomVect()[a]->GetCoreMass());
          for(int j=XAxis; j<CartesianType_end; j++){
             int hessianIndex = CartesianType_end*a+j;
             normSquare += pow(normalModes[i][hessianIndex]/(sqrtCoreMass*ang2AU),2.0);
@@ -1188,8 +1188,8 @@ void Cndo2::OutputNormalModes(double const* const* normalModes,
       double norm = sqrt(normSquare);
 
       // normal modes
-      for(int a=0; a<molecule.GetNumberAtoms(); a++){
-         const double sqrtCoreMass = sqrt(molecule.GetAtom(a)->GetCoreMass());
+      for(int a=0; a<molecule.GetAtomVect().size(); a++){
+         const double sqrtCoreMass = sqrt(molecule.GetAtomVect()[a]->GetCoreMass());
          for(int j=XAxis; j<CartesianType_end; j++){
             int hessianIndex = CartesianType_end*a+j;
             this->OutputLog(boost::format("\t%e") % (normalModes[i][hessianIndex]/(sqrtCoreMass*ang2AU*norm)));
@@ -1248,7 +1248,7 @@ void Cndo2::CalcElecSCFEnergy(double* elecSCFEnergy,
                                                    totalNumberAOs, 
                                                    totalNumberAOs);
       MallocerFreer::GetInstance()->Malloc<double>(&dammyAtomicElectronPopulation,
-                                                   molecule.GetNumberAtoms());
+                                                   molecule.GetAtomVect().size());
       bool isGuess = false;
       this->CalcFockMatrix(fMatrix, 
                            molecule, 
@@ -1328,7 +1328,7 @@ void Cndo2::FreeElecEnergyMatrices(double*** fMatrix,
                                               totalNumberAOs,
                                               totalNumberAOs);
    MallocerFreer::GetInstance()->Free<double>(dammyAtomicElectronPopulation,
-                                              this->molecule->GetNumberAtoms());
+                                              this->molecule->GetAtomVect().size());
 }
 
 // The order of moI, moJ, moK, moL is consistent with Eq. (9) in [RZ_1973]
@@ -1337,13 +1337,13 @@ double Cndo2::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
                                           double const* const* fockMatrix, 
                                           double const* const* gammaAB) const{
    double value = 0.0;
-   for(int A=0; A<molecule.GetNumberAtoms(); A++){
-      const Atom& atomA = *molecule.GetAtom(A);
+   for(int A=0; A<molecule.GetAtomVect().size(); A++){
+      const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
-      for(int B=0; B<molecule.GetNumberAtoms(); B++){
-         const Atom& atomB = *molecule.GetAtom(B);
+      for(int B=0; B<molecule.GetAtomVect().size(); B++){
+         const Atom& atomB = *molecule.GetAtomVect()[B];
          int firstAOIndexB = atomB.GetFirstAOIndex();
          int lastAOIndexB  = atomB.GetLastAOIndex();
          double gamma = gammaAB[A][B];
@@ -1434,7 +1434,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                            double const* const* const* const* const* const* twoElecsTwoAtomCores, 
                            bool isGuess) const{
    int totalNumberAOs   = molecule.GetTotalNumberAOs();
-   int totalNumberAtoms = molecule.GetNumberAtoms();
+   int totalNumberAtoms = molecule.GetAtomVect().size();
    MallocerFreer::GetInstance()->Initialize<double>(fockMatrix, totalNumberAOs, totalNumberAOs);
 
    // MPI setting of each rank
@@ -1446,7 +1446,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int A=0; A<totalNumberAtoms; A++){
-      const Atom& atomA = *molecule.GetAtom(A);
+      const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
       for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
@@ -1455,7 +1455,7 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int B=A; B<totalNumberAtoms; B++){
                try{
-                  const Atom& atomB = *molecule.GetAtom(B);
+                  const Atom& atomB = *molecule.GetAtomVect()[B];
                   int firstAOIndexB = atomB.GetFirstAOIndex();
                   int lastAOIndexB  = atomB.GetLastAOIndex();
                   for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
@@ -1553,9 +1553,9 @@ double Cndo2::GetFockDiagElement(const Atom& atomA,
       value += temp*gammaAB[indexAtomA][indexAtomA];
 
       temp = 0.0;
-      for(int BB=0; BB<molecule.GetNumberAtoms(); BB++){
+      for(int BB=0; BB<molecule.GetAtomVect().size(); BB++){
          if(BB != indexAtomA){
-            const Atom& atomBB = *molecule.GetAtom(BB);
+            const Atom& atomBB = *molecule.GetAtomVect()[BB];
             temp += ( atomicElectronPopulation[BB] - atomBB.GetCoreCharge()  )
                      *gammaAB[indexAtomA][BB];
          }
@@ -1631,12 +1631,12 @@ void Cndo2::CalcOrbitalElectronPopulation(double** orbitalElectronPopulation,
 void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
                                          double const* const* orbitalElectronPopulation, 
                                          const Molecule& molecule) const{
-   int totalNumberAtoms = molecule.GetNumberAtoms();
+   int totalNumberAtoms = molecule.GetAtomVect().size();
    MallocerFreer::GetInstance()->Initialize<double>(atomicElectronPopulation, totalNumberAtoms);
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int A=0; A<totalNumberAtoms; A++){
-      int firstAOIndex = molecule.GetAtom(A)->GetFirstAOIndex();
-      int numberAOs = molecule.GetAtom(A)->GetValenceSize();
+      int firstAOIndex = molecule.GetAtomVect()[A]->GetFirstAOIndex();
+      int numberAOs    = molecule.GetAtomVect()[A]->GetValenceSize();
       for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
          atomicElectronPopulation[A] += orbitalElectronPopulation[i][i];
       }
@@ -1646,7 +1646,7 @@ void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
 
 // calculate gammaAB matrix. (B.56) and (B.62) in J. A. Pople book.
 void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
-   int totalAtomNumber = molecule.GetNumberAtoms();
+   int totalAtomNumber = molecule.GetAtomVect().size();
 
    // MPI setting of each rank
    int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
@@ -1659,14 +1659,14 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
    for(int A=0; A<totalAtomNumber; A++){
       int calcRank = A%mpiSize;
       if(mpiRank == calcRank){
-         const Atom& atomA = *molecule.GetAtom(A);
+         const Atom& atomA = *molecule.GetAtomVect()[A];
          int na = atomA.GetValenceShellType() + 1;
          double orbitalExponentA = atomA.GetOrbitalExponent(
                                          atomA.GetValenceShellType(), s, this->theory);
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int B=A; B<totalAtomNumber; B++){
             try{
-               const Atom& atomB = *molecule.GetAtom(B);
+               const Atom& atomB = *molecule.GetAtomVect()[B];
                int nb = atomB.GetValenceShellType() + 1;
                double orbitalExponentB = atomB.GetOrbitalExponent(
                                                atomB.GetValenceShellType(), s, this->theory);
@@ -1768,9 +1768,9 @@ void Cndo2::CalcCoreDipoleMoment(double* coreDipoleMoment,
 
    for(int i=0; i<CartesianType_end; i++){
       coreDipoleMoment[i] = 0.0;
-      for(int A=0; A<molecule.GetNumberAtoms(); A++){
-         coreDipoleMoment[i] += molecule.GetAtom(A)->GetCoreCharge()
-                               *(molecule.GetAtom(A)->GetXyz()[i] - molecule.GetXyzCOC()[i]);
+      for(int A=0; A<molecule.GetAtomVect().size(); A++){
+         coreDipoleMoment[i] += molecule.GetAtomVect()[A]->GetCoreCharge()
+                               *(molecule.GetAtomVect()[A]->GetXyz()[i] - molecule.GetXyzCOC()[i]);
       }
    }
 }
@@ -1841,7 +1841,7 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
                                               const Molecule& molecule, 
                                               STOnGType stonG) const{
    int totalAONumber   = molecule.GetTotalNumberAOs();
-   int totalAtomNumber = molecule.GetNumberAtoms();
+   int totalAtomNumber = molecule.GetAtomVect().size();
 
    // MPI setting of each rank
    int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
@@ -1852,7 +1852,7 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int A=0; A<totalAtomNumber; A++){
-      const Atom& atomA  = *molecule.GetAtom(A);
+      const Atom& atomA  = *molecule.GetAtomVect()[A];
       int firstAOIndexA  = atomA.GetFirstAOIndex();
       int numValenceAOsA = atomA.GetValenceSize();
       int calcRank = A%mpiSize;
@@ -1862,7 +1862,7 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int B=0; B<totalAtomNumber; B++){
                try{
-                  const Atom& atomB  = *molecule.GetAtom(B);
+                  const Atom& atomB  = *molecule.GetAtomVect()[B];
                   int firstAOIndexB  = atomB.GetFirstAOIndex();
                   int numValenceAOsB = atomB.GetValenceSize();
                   for(int b=0; b<numValenceAOsB; b++){
@@ -3804,11 +3804,11 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
       ss << this->errorMessageRhs << rhsMolecule->GetTotalNumberAOs() << endl;
       throw MolDSException(ss.str());
    }
-   if(lhsMolecule.GetNumberAtoms() != rhsMolecule->GetNumberAtoms()){
+   if(lhsMolecule.GetAtomVect().size() != rhsMolecule->GetAtomVect().size()){
       stringstream ss;
       ss << this->errorMessageCalcOverlapAOsDifferentConfigurationsDiffAtoms;
-      ss << this->errorMessageLhs << lhsMolecule.GetNumberAtoms() << endl;
-      ss << this->errorMessageRhs << rhsMolecule->GetNumberAtoms() << endl;
+      ss << this->errorMessageLhs << lhsMolecule.GetAtomVect().size() << endl;
+      ss << this->errorMessageRhs << rhsMolecule->GetAtomVect().size() << endl;
       throw MolDSException(ss.str());
    }
 #ifdef MOLDS_DBG
@@ -3818,7 +3818,7 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
 #endif
    
    int totalAONumber = lhsMolecule.GetTotalNumberAOs();
-   int totalAtomNumber = lhsMolecule.GetNumberAtoms();
+   int totalAtomNumber = lhsMolecule.GetAtomVect().size();
    MallocerFreer::GetInstance()->Initialize<double>(overlapAOs, totalAONumber, totalAONumber);
 
    stringstream ompErrors;
@@ -3841,8 +3841,8 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
          bool isSymmetricOverlapAOs = false;
 #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int A=0; A<totalAtomNumber; A++){
-            const Atom& lhsAtom = *lhsMolecule.GetAtom(A);
-            const Atom& rhsAtom = *rhsMolecule->GetAtom(A);
+            const Atom& lhsAtom = *lhsMolecule.GetAtomVect()[A];
+            const Atom& rhsAtom = *rhsMolecule->GetAtomVect()[A];
             int firstAOIndexLhsAtom = lhsAtom.GetFirstAOIndex();
             int firstAOIndexRhsAtom = rhsAtom.GetFirstAOIndex();
             for(int i=0; i<lhsAtom.GetValenceSize(); i++){
@@ -3939,7 +3939,7 @@ void Cndo2::CalcOverlapESsWithAnotherElectronicStructure(double** overlapESs,
 // calculate OverlapAOs matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book.
 void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
    int totalAONumber = molecule.GetTotalNumberAOs();
-   int totalAtomNumber = molecule.GetNumberAtoms();
+   int totalAtomNumber = molecule.GetAtomVect().size();
    MallocerFreer::GetInstance()->Initialize<double>(overlapAOs, totalAONumber, totalAONumber);
 
    // MPI setting of each rank
@@ -3951,7 +3951,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int A=0; A<totalAtomNumber; A++){
-      const Atom& atomA = *molecule.GetAtom(A);
+      const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int numValenceAOs = atomA.GetValenceSize();
       int calcRank = A%mpiSize;
@@ -3985,7 +3985,7 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
                bool symmetrize = false;
 #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                for(int B=A+1; B<totalAtomNumber; B++){
-                  const Atom& atomB = *molecule.GetAtom(B);
+                  const Atom& atomB = *molecule.GetAtomVect()[B];
                   this->CalcDiatomicOverlapAOsInDiatomicFrame(diatomicOverlapAOs, atomA, atomB);
                   this->CalcRotatingMatrix(rotatingMatrix, atomA, atomB);
                   this->RotateDiatmicOverlapAOsToSpaceFrame(diatomicOverlapAOs, rotatingMatrix, tmpDiatomicOverlapAOs, tmpOldDiatomicOverlapAOs, tmpMatrixBC, tmpVectorBC);
@@ -4189,8 +4189,8 @@ void Cndo2::CalcDiatomicOverlapAOs1stDerivatives(double*** diatomicOverlapAOs1st
                                               tmpRotatedDiatomicOverlapVec,
                                               tmpMatrixBC,
                                               tmpVectorBC,
-                                              *this->molecule->GetAtom(indexAtomA),
-                                              *this->molecule->GetAtom(indexAtomB));
+                                              *this->molecule->GetAtomVect()[indexAtomA],
+                                              *this->molecule->GetAtomVect()[indexAtomB]);
 }
 
 // Second derivative of diatomic overlapAOs integrals between AOs in space fixed flame.
@@ -4330,8 +4330,8 @@ void Cndo2::CalcDiatomicOverlapAOs2ndDerivatives(double**** diatomicOverlapAOs2n
                                               tmpRotMat,
                                               tmpRotMat1stDerivs,
                                               tmpRotMat2ndDerivs,
-                                              *this->molecule->GetAtom(indexAtomA),
-                                              *this->molecule->GetAtom(indexAtomB));
+                                              *this->molecule->GetAtomVect()[indexAtomA],
+                                              *this->molecule->GetAtomVect()[indexAtomB]);
 }
 
 double Cndo2::Get2ndDerivativeElementFromDistanceDerivatives(double firstDistanceDeri,
@@ -4358,8 +4358,8 @@ double Cndo2::Get2ndDerivativeElementFromDistanceDerivatives(double firstDistanc
 void Cndo2::CalcOverlapAOsByGTOExpansion(double** overlapAOs, 
                                          const Molecule& molecule, 
                                          STOnGType stonG) const{
-   int totalAONumber = molecule.GetTotalNumberAOs();
-   int totalAtomNumber = molecule.GetNumberAtoms();
+   int totalAONumber   = molecule.GetTotalNumberAOs();
+   int totalAtomNumber = molecule.GetAtomVect().size();
 
    // calculation overlapAOs matrix
    for(int mu=0; mu<totalAONumber; mu++){
@@ -4370,10 +4370,10 @@ void Cndo2::CalcOverlapAOsByGTOExpansion(double** overlapAOs,
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
    for(int A=0; A<totalAtomNumber; A++){
       try{
-         const Atom& atomA = *molecule.GetAtom(A);
+         const Atom& atomA = *molecule.GetAtomVect()[A];
          int firstAOIndexAtomA = atomA.GetFirstAOIndex();
          for(int B=A+1; B<totalAtomNumber; B++){
-            const Atom& atomB = *molecule.GetAtom(B);
+            const Atom& atomB = *molecule.GetAtomVect()[B];
             int firstAOIndexAtomB = atomB.GetFirstAOIndex();
             for(int a=0; a<atomA.GetValenceSize(); a++){
                for(int b=0; b<atomB.GetValenceSize(); b++){

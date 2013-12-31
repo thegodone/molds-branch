@@ -91,9 +91,9 @@ ZindoS::ZindoS() : MolDS_cndo::Cndo2(){
 ZindoS::~ZindoS(){
    if(this->theory==ZINDOS){
       MallocerFreer::GetInstance()->Free<double>(&this->nishimotoMatagaMatrix, 
-                                                 this->molecule->GetNumberAtoms(), 
+                                                 this->molecule->GetAtomVect().size(), 
                                                  OrbitalType_end, 
-                                                 this->molecule->GetNumberAtoms(), 
+                                                 this->molecule->GetAtomVect().size(), 
                                                  OrbitalType_end);
    }
    MallocerFreer::GetInstance()->Free<double>(&this->matrixCIS, 
@@ -105,7 +105,7 @@ ZindoS::~ZindoS(){
                                               this->matrixCISdimension);
    MallocerFreer::GetInstance()->Free<double>(&this->matrixForce, 
                                               this->matrixForceElecStatesNum,
-                                              this->molecule->GetNumberAtoms(),
+                                              this->molecule->GetAtomVect().size(),
                                               CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(&this->zMatrixForce, 
                                               this->zMatrixForceElecStatesNum,
@@ -123,11 +123,11 @@ ZindoS::~ZindoS(){
                                                  this->molecule->GetTotalNumberAOs());
       MallocerFreer::GetInstance()->Free<double>(&this->atomicElectronPopulationCIS, 
                                                  elecStates->size(),
-                                                 this->molecule->GetNumberAtoms());
+                                                 this->molecule->GetAtomVect().size());
       if(Parameters::GetInstance()->RequiresUnpairedPopCIS()){
          MallocerFreer::GetInstance()->Free<double>(&this->atomicUnpairedPopulationCIS, 
                                                     elecStates->size(),
-                                                    this->molecule->GetNumberAtoms());
+                                                    this->molecule->GetAtomVect().size());
       }
    }
    //this->OutputLog("ZindoS deleted\n");
@@ -137,9 +137,9 @@ void ZindoS::SetMolecule(Molecule* molecule){
    Cndo2::SetMolecule(molecule);
    if(this->theory==ZINDOS){
       MallocerFreer::GetInstance()->Malloc<double>(&this->nishimotoMatagaMatrix, 
-                                                   this->molecule->GetNumberAtoms(), 
+                                                   this->molecule->GetAtomVect().size(), 
                                                    OrbitalType_end, 
-                                                   this->molecule->GetNumberAtoms(), 
+                                                   this->molecule->GetAtomVect().size(), 
                                                    OrbitalType_end);
    }
 }
@@ -255,10 +255,10 @@ double ZindoS::GetFockDiagElement(const Atom& atomA,
       value += temp;
    
       temp = 0.0;
-      int totalNumberAtoms = molecule.GetNumberAtoms();
+      int totalNumberAtoms = molecule.GetAtomVect().size();
       for(int B=0; B<totalNumberAtoms; B++){
          if(B != indexAtomA){
-            const Atom& atomB = *molecule.GetAtom(B);
+            const Atom& atomB = *molecule.GetAtomVect()[B];
             OrbitalType orbitalSigma;
             int sigma;
             int atomBNumberValence = atomB.GetValenceSize();
@@ -732,18 +732,18 @@ double ZindoS::GetNishimotoMatagaTwoEleInt1stDerivative(const Atom& atomA,
 }
 
 void ZindoS::CalcNishimotoMatagaMatrix(double**** nishimotoMatagaMatrix, const Molecule& molecule) const{
-   int totalNumberAtoms = molecule.GetNumberAtoms();
+   int totalNumberAtoms = molecule.GetAtomVect().size();
    stringstream ompErrors;
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int A=0; A<totalNumberAtoms; A++){
       try{
-         const Atom& atomA = *molecule.GetAtom(A);
+         const Atom& atomA = *molecule.GetAtomVect()[A];
          int firstAOIndexA = atomA.GetFirstAOIndex();
          int lastAOIndexA  = atomA.GetLastAOIndex();
          for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
             OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
             for(int B=A; B<totalNumberAtoms; B++){
-               const Atom& atomB = *molecule.GetAtom(B);
+               const Atom& atomB = *molecule.GetAtomVect()[B];
                int firstAOIndexB = atomB.GetFirstAOIndex();
                int lastAOIndexB  = atomB.GetLastAOIndex();
                double rAB = molecule.GetDistanceAtoms(atomA, atomB);
@@ -956,8 +956,8 @@ double ZindoS::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
    double gamma;
    double exchange;
    double coulomb;
-   for(int A=0; A<molecule.GetNumberAtoms(); A++){
-      const Atom& atomA = *molecule.GetAtom(A);
+   for(int A=0; A<molecule.GetAtomVect().size(); A++){
+      const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
@@ -965,8 +965,8 @@ double ZindoS::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
          OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
 
          // CNDO term
-         for(int B=A; B<molecule.GetNumberAtoms(); B++){
-            const Atom& atomB = *molecule.GetAtom(B);
+         for(int B=A; B<molecule.GetAtomVect().size(); B++){
+            const Atom& atomB = *molecule.GetAtomVect()[B];
             int firstAOIndexB = atomB.GetFirstAOIndex();
             int lastAOIndexB  = atomB.GetLastAOIndex();
 
@@ -1700,7 +1700,7 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
    if(!Parameters::GetInstance()->RequiresMullikenCIS()){
       return;
    }
-   int totalNumberAtoms = molecule.GetNumberAtoms();
+   int totalNumberAtoms = molecule.GetAtomVect().size();
    vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
    // malloc or initialize free exciton energies
    if(*atomicElectronPopulationCIS == NULL){
@@ -1719,8 +1719,8 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int a=0; a<totalNumberAtoms; a++){
          try{
-            int firstAOIndex = molecule.GetAtom(a)->GetFirstAOIndex();
-            int numberAOs = molecule.GetAtom(a)->GetValenceSize();
+            int firstAOIndex = molecule.GetAtomVect()[a]->GetFirstAOIndex();
+            int numberAOs = molecule.GetAtomVect()[a]->GetValenceSize();
             for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
                (*atomicElectronPopulationCIS)[k][a] += orbitalElectronPopulationCIS[k][i][i];
             }
@@ -1746,7 +1746,7 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
    if(!Parameters::GetInstance()->RequiresUnpairedPopCIS()){
       return;
    }
-   int totalNumberAtoms = molecule.GetNumberAtoms();
+   int totalNumberAtoms = molecule.GetAtomVect().size();
    vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
    // malloc or initialize free exciton energies
    if(*atomicUnpairedPopulationCIS == NULL){
@@ -1765,8 +1765,8 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
       for(int a=0; a<totalNumberAtoms; a++){
          try{
-            int firstAOIndex = molecule.GetAtom(a)->GetFirstAOIndex();
-            int numberAOs = molecule.GetAtom(a)->GetValenceSize();
+            int firstAOIndex = molecule.GetAtomVect()[a]->GetFirstAOIndex();
+            int numberAOs = molecule.GetAtomVect()[a]->GetValenceSize();
             (*atomicUnpairedPopulationCIS)[k][a] = 0.0; 
             for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
                double orbitalSquarePopulation = 0.0; 
@@ -1957,12 +1957,12 @@ void ZindoS::OutputCISMulliken() const{
    if(!Parameters::GetInstance()->RequiresMullikenCIS()){
       return;
    }
-   int totalNumberAtoms = this->molecule->GetNumberAtoms();
+   int totalNumberAtoms = this->molecule->GetAtomVect().size();
    this->OutputLog(this->messageMullikenAtomsTitle);
    vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
    for(int k=0; k<elecStates->size(); k++){
       for(int a=0; a<totalNumberAtoms; a++){
-         const Atom& atom = *this->molecule->GetAtom(a);
+         const Atom& atom = *this->molecule->GetAtomVect()[a];
          this->OutputLog(boost::format("%s\t%d\t%d\t%s\t%e\t%e\n") % this->messageMullikenAtoms
                                                                    % (*elecStates)[k]
                                                                    % a
@@ -1981,12 +1981,12 @@ void ZindoS::OutputCISUnpairedPop() const{
    if(!Parameters::GetInstance()->RequiresUnpairedPopCIS()){
       return;
    }
-   int totalNumberAtoms = this->molecule->GetNumberAtoms();
+   int totalNumberAtoms = this->molecule->GetAtomVect().size();
    this->OutputLog(this->messageUnpairedAtomsTitle);
    vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
    for(int k=0; k<elecStates->size(); k++){
       for(int a=0; a<totalNumberAtoms; a++){
-         const Atom& atom = *this->molecule->GetAtom(a);
+         const Atom& atom = *this->molecule->GetAtomVect()[a];
          this->OutputLog(boost::format("%s\t%d\t%d\t%s\t%e\n") % this->messageUnpairedAtoms
                                                                % (*elecStates)[k]
                                                                % a
@@ -2447,9 +2447,9 @@ double ZindoS::GetCISDiagElement(double const* energiesMO,
    double gamma    = 0.0;
    double exchange = 0.0;
    double coulomb  = 0.0;
-   int totalNumberAtoms = molecule.GetNumberAtoms();
+   int totalNumberAtoms = molecule.GetAtomVect().size();
    for(int A=0; A<totalNumberAtoms; A++){
-      const Atom& atomA = *molecule.GetAtom(A);
+      const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
@@ -2461,7 +2461,7 @@ double ZindoS::GetCISDiagElement(double const* energiesMO,
 
          // CNDO term
          for(int B=A; B<totalNumberAtoms; B++){
-            const Atom& atomB = *molecule.GetAtom(B);
+            const Atom& atomB = *molecule.GetAtomVect()[B];
             int firstAOIndexB = atomB.GetFirstAOIndex();
             int lastAOIndexB  = atomB.GetLastAOIndex();
 
@@ -2540,9 +2540,9 @@ double ZindoS::GetCISOffDiagElement(double const* const* const* const* nishimoto
    double gamma    = 0.0;
    double exchange = 0.0;
    double coulomb  = 0.0;
-   int totalNumberAtoms = molecule.GetNumberAtoms();
+   int totalNumberAtoms = molecule.GetAtomVect().size();
    for(int A=0; A<totalNumberAtoms; A++){
-      const Atom& atomA = *molecule.GetAtom(A);
+      const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
@@ -2555,7 +2555,7 @@ double ZindoS::GetCISOffDiagElement(double const* const* const* const* nishimoto
 
          // CNDO term
          for(int B=A; B<totalNumberAtoms; B++){
-            const Atom& atomB = *molecule.GetAtom(B);
+            const Atom& atomB = *molecule.GetAtomVect()[B];
             int firstAOIndexB = atomB.GetFirstAOIndex(); 
             int lastAOIndexB  = atomB.GetLastAOIndex(); 
             for(int nu=firstAOIndexB; nu<=lastAOIndexB; nu++){
@@ -2636,7 +2636,7 @@ void ZindoS::CheckMatrixForce(const vector<int>& elecStates){
    if(this->matrixForce == NULL){
       MallocerFreer::GetInstance()->Malloc<double>(&this->matrixForce, 
                                                    elecStates.size(),
-                                                   this->molecule->GetNumberAtoms(), 
+                                                   this->molecule->GetAtomVect().size(), 
                                                    CartesianType_end);
       this->matrixForceElecStatesNum = elecStates.size();
    }
@@ -2644,7 +2644,7 @@ void ZindoS::CheckMatrixForce(const vector<int>& elecStates){
       MallocerFreer::GetInstance()->
       Initialize<double>(this->matrixForce,
                          elecStates.size(),
-                         this->molecule->GetNumberAtoms(),
+                         this->molecule->GetAtomVect().size(),
                          CartesianType_end);
    }
 }
@@ -3121,13 +3121,13 @@ double ZindoS::GetSmallQElement(int moI,
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    bool isMoPOcc = moP<numberOcc ? true : false;
    
-   for(int A=0; A<molecule->GetNumberAtoms(); A++){
-      const Atom& atomA = *molecule->GetAtom(A);
+   for(int A=0; A<molecule->GetAtomVect().size(); A++){
+      const Atom& atomA = *molecule->GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
-      for(int B=A; B<molecule->GetNumberAtoms(); B++){
-         const Atom& atomB = *molecule->GetAtom(B);
+      for(int B=A; B<molecule->GetAtomVect().size(); B++){
+         const Atom& atomB = *molecule->GetAtomVect()[B];
          int firstAOIndexB = atomB.GetFirstAOIndex();
          int lastAOIndexB  = atomB.GetLastAOIndex();
 
@@ -3518,8 +3518,8 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
 
    // Fast algorith, but this is not easy to read. 
    // Slow algorithm is alos written below.
-   for(int A=0; A<this->molecule->GetNumberAtoms(); A++){
-      const Atom& atomA = *this->molecule->GetAtom(A);
+   for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
+      const Atom& atomA = *this->molecule->GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
 
@@ -3566,8 +3566,8 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
          }
 
          //  (A==B || A!=B) && (mu==nu && lambda==sigma for (mu nu|lamba sigma))
-         for(int B=A; B<this->molecule->GetNumberAtoms(); B++){
-            const Atom& atomB = *this->molecule->GetAtom(B);
+         for(int B=A; B<this->molecule->GetAtomVect().size(); B++){
+            const Atom& atomB = *this->molecule->GetAtomVect()[B];
             int firstAOIndexB = atomB.GetFirstAOIndex();
             int lastAOIndexB  = atomB.GetLastAOIndex();
 
@@ -3624,10 +3624,10 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
 void ZindoS::CalcDiatomicTwoElecsTwoCores1stDerivatives(double*** matrix,  
                                                         int indexAtomA, 
                                                         int indexAtomB) const{
-   const Atom& atomA = *molecule->GetAtom(indexAtomA);
+   const Atom& atomA = *molecule->GetAtomVect()[indexAtomA];
    const int firstAOIndexA = atomA.GetFirstAOIndex();
    const int lastAOIndexA  = atomA.GetLastAOIndex();
-   const Atom& atomB = *molecule->GetAtom(indexAtomB);
+   const Atom& atomB = *molecule->GetAtomVect()[indexAtomB];
    const int firstAOIndexB = atomB.GetFirstAOIndex();
    const int lastAOIndexB  = atomB.GetLastAOIndex();
    const double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
@@ -3657,9 +3657,9 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    }
   
    // this loop is MPI-parallelized
-   for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
+   for(int a=0; a<this->molecule->GetAtomVect().size(); a++){
       if(a%mpiSize != mpiRank){continue;}
-      const Atom& atomA = *molecule->GetAtom(a);
+      const Atom& atomA = *molecule->GetAtomVect()[a];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
       stringstream ompErrors;
@@ -3689,9 +3689,9 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                                         &tmpMatrixBC,
                                         &tmpVectorBC);
 #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-            for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
+            for(int b=0; b<this->molecule->GetAtomVect().size(); b++){
                if(a == b){continue;}
-               const Atom& atomB = *molecule->GetAtom(b);
+               const Atom& atomB = *molecule->GetAtomVect()[b];
                int firstAOIndexB = atomB.GetFirstAOIndex();
                int lastAOIndexB  = atomB.GetLastAOIndex();
                double rAB = this->molecule->GetDistanceAtoms(atomA, atomB);
@@ -3839,7 +3839,7 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    }    // end of for(int a) with MPI parallelization
 
    // communication to reduce thsi->matrixForce on all node (namely, all_reduce)
-   int numTransported = elecStates.size()*this->molecule->GetNumberAtoms()*CartesianType_end;
+   int numTransported = elecStates.size()*this->molecule->GetAtomVect().size()*CartesianType_end;
    MolDS_mpi::MpiProcess::GetInstance()->AllReduce(&this->matrixForce[0][0][0], numTransported, std::plus<double>());
 
    /*
@@ -3848,9 +3848,9 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    // calculated with GTO expansion technique.
    stringstream ompErrors;
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-   for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
+   for(int a=0; a<this->molecule->GetAtomVect().size(); a++){
       try{
-         const Atom& atomA = *molecule->GetAtom(a);
+         const Atom& atomA = *molecule->GetAtomVect()[a];
          int firstAOIndexA = atomA.GetFirstAOIndex();
          int lastAOIndexA  = atomA.GetLastAOIndex();
          for(int i=0; i<CartesianType_end; i++){
@@ -3859,9 +3859,9 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
             double forceElecCoreAttPart = 0.0;
             double forceOverlapAOsPart = 0.0;
             double forceTwoElecPart = 0.0;
-            for(int b=0; b<this->molecule->GetNumberAtoms(); b++){
+            for(int b=0; b<this->molecule->GetAtomVect().size(); b++){
                if(a != b){
-                  const Atom& atomB = *molecule->GetAtom(b);
+                  const Atom& atomB = *molecule->GetAtomVect()[b];
                   int firstAOIndexB = atomB.GetFirstAOIndex();
                   int lastAOIndexB  = atomB.GetLastAOIndex();
 
@@ -3978,8 +3978,8 @@ void ZindoS::CalcForceExcitedStaticPart(double* force,
                                       int indexAtomA, 
                                       int indexAtomB,
                                       double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    int firstAOIndexA = atomA.GetFirstAOIndex();
    int firstAOIndexB = atomB.GetFirstAOIndex();
    int lastAOIndexA  = atomA.GetLastAOIndex();
@@ -4005,8 +4005,8 @@ void ZindoS::CalcForceExcitedElecCoreAttractionPart(double* force,
                                                   int indexAtomA, 
                                                   int indexAtomB,
                                                   double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    int firstAOIndexA = atomA.GetFirstAOIndex();
    int lastAOIndexA  = atomA.GetLastAOIndex();
    for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
@@ -4023,8 +4023,8 @@ void ZindoS::CalcForceExcitedOverlapAOsPart(double* force,
                                             int indexAtomA, 
                                             int indexAtomB,
                                             double const* const* const* diatomicOverlapAOs1stDerivs) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    int firstAOIndexA = atomA.GetFirstAOIndex();
    int firstAOIndexB = atomB.GetFirstAOIndex();
    int lastAOIndexA  = atomA.GetLastAOIndex();
@@ -4053,8 +4053,8 @@ void ZindoS::CalcForceExcitedTwoElecPart(double* force,
                                          int indexAtomA, 
                                          int indexAtomB,
                                          double const* const* const* diatomicTwoElecsTwoCores1stDerivs) const{
-   const Atom& atomA = *this->molecule->GetAtom(indexAtomA);
-   const Atom& atomB = *this->molecule->GetAtom(indexAtomB);
+   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
+   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    int firstAOIndexA = atomA.GetFirstAOIndex();
    int firstAOIndexB = atomB.GetFirstAOIndex();
    int lastAOIndexA  = atomA.GetLastAOIndex();

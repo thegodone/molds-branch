@@ -138,8 +138,8 @@ void MD::DoMD(){
 
 void MD::UpdateMomenta(const Molecule& molecule, double const* const* matrixForce, double dt) const{
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-   for(int a=0; a<molecule.GetNumberAtoms(); a++){
-      Atom* atom = molecule.GetAtom(a);
+   for(int a=0; a<molecule.GetAtomVect().size(); a++){
+      Atom* atom = molecule.GetAtomVect()[a];
       for(int i=0; i<CartesianType_end; i++){
          atom->GetPxyz()[i] += 0.5*dt*(matrixForce[a][i]);
       }
@@ -148,8 +148,8 @@ void MD::UpdateMomenta(const Molecule& molecule, double const* const* matrixForc
 
 void MD::UpdateCoordinates(Molecule& molecule, double dt) const{
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-      for(int a=0; a<molecule.GetNumberAtoms(); a++){
-         Atom* atom = molecule.GetAtom(a);
+      for(int a=0; a<molecule.GetAtomVect().size(); a++){
+         Atom* atom = molecule.GetAtomVect()[a];
          double coreMass = atom->GetCoreMass();
          for(int i=0; i<CartesianType_end; i++){
             atom->GetXyz()[i] += dt*atom->GetPxyz()[i]/coreMass;
@@ -183,8 +183,8 @@ double MD::OutputEnergies(boost::shared_ptr<ElectronicStructure> electronicStruc
    int elecState = Parameters::GetInstance()->GetElectronicStateIndexMD();
    double eV2AU  = Parameters::GetInstance()->GetEV2AU();
    double coreKineticEnergy = 0.0;
-   for(int a=0; a<this->molecule->GetNumberAtoms(); a++){
-      Atom* atom = this->molecule->GetAtom(a);
+   for(int a=0; a<this->molecule->GetAtomVect().size(); a++){
+      Atom* atom = this->molecule->GetAtomVect()[a];
       double coreMass = atom->GetCoreMass();
       for(int i=0; i<CartesianType_end; i++){
          coreKineticEnergy += 0.5*pow(atom->GetPxyz()[i],2.0)/coreMass;

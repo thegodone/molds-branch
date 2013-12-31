@@ -487,7 +487,7 @@ int InputParser::ParseMolecularGeometry(Molecule* molecule, vector<string>* inpu
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = S;
       }
-      int index = molecule->GetNumberAtoms();
+      int index = molecule->GetAtomVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
       molecule->AddAtom(atom);
       parseIndex += 4;
@@ -508,7 +508,7 @@ int InputParser::ParseEpcsConfiguration(Molecule* molecule, vector<string>* inpu
          parseIndex += 2;
       }
       AtomType atomType = EPC;
-      int index = molecule->GetNumberEpcs();
+      int index = molecule->GetEpcVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z, charge);
       molecule->AddEpc(atom);
    }
@@ -1360,7 +1360,7 @@ void InputParser::ValidateVdWConditions() const{
 }
 
 void InputParser::ValidateEpcConditions(const Molecule& molecule) const{
-   if(molecule.GetNumberEpcs()<=0){return;}
+   if(molecule.GetEpcVect().empty()){return;}
    TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
    // Validate theory
    if(theory == MNDO || 

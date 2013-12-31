@@ -114,7 +114,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    double lineSearchInitialEnergy   = 0.0;
    double const* const* matrixForce = NULL;
    double const* vectorForce        = NULL;
-   const int dimension = molecule.GetNumberAtoms()*CartesianType_end;
+   const int dimension = molecule.GetAtomVect().size()*CartesianType_end;
    double** matrixHessian        = NULL;
    double*  vectorOldForce       = NULL;
    double*  vectorStep           = NULL;
@@ -156,7 +156,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          trustRadius=min(trustRadius,maxNormStep);
 
          //Calculate RFO step
-         MallocerFreer::GetInstance()->Malloc(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
+         MallocerFreer::GetInstance()->Malloc(&matrixStep, molecule.GetAtomVect().size(), CartesianType_end);
          vectorStep = &matrixStep[0][0];
          this->CalcRFOStep(vectorStep, matrixHessian, vectorForce, trustRadius, dimension);
 
@@ -215,16 +215,16 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
    catch(MolDSException ex){
       MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
       MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
-      MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
-      MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-      MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetAtomVect().size(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetAtomVect().size(), CartesianType_end);
+      MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetAtomVect().size(), CartesianType_end);
       throw ex;
    }
    MallocerFreer::GetInstance()->Free(&matrixHessian, dimension, dimension);
    MallocerFreer::GetInstance()->Free(&vectorOldForce, dimension);
-   MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetNumberAtoms(), CartesianType_end);
-   MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-   MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixStep, molecule.GetAtomVect().size(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixDisplacement, molecule.GetAtomVect().size(), CartesianType_end);
+   MallocerFreer::GetInstance()->Free(&matrixOldCoordinates, molecule.GetAtomVect().size(), CartesianType_end);
 }
 
 void BFGS::CalcRFOStep(double* vectorStep,
@@ -356,7 +356,7 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
                                      const Molecule& molecule) const{
    const double one                      = 1;
    const double largeEigenvalue          = 1.0e3;
-   const int    numAtoms                 = molecule.GetNumberAtoms();
+   const int    numAtoms                 = molecule.GetAtomVect().size();
    const int    dimension                = numAtoms *CartesianType_end;
    const int    numTranslationalModes    = 3;
    const int    numRotationalModes       = 3;
@@ -397,7 +397,7 @@ void BFGS::ShiftHessianRedundantMode(double** matrixHessian,
       for(int c=0; c<numRotationalModes;c++){
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int n=0;n<numAtoms;n++){
-            const double* xyz = molecule.GetAtom(n)->GetXyz();
+            const double* xyz = molecule.GetAtomVect()[n]->GetXyz();
             for(int d=0;d<CartesianType_end;d++){
                matrixesRedundantModes[c+numTranslationalModes][n][d] = 0.0;
                for(int e=0;e<CartesianType_end;e++){
@@ -548,8 +548,8 @@ void BFGS::RollbackMolecularGeometry(MolDS_base::Molecule& molecule,
    bool tempCanOutputLogs = molecule.CanOutputLogs();
    bool rollbackCanOutputLogs = true;
    molecule.SetCanOutputLogs(rollbackCanOutputLogs);
-   for(int i=0;i<molecule.GetNumberAtoms();i++){
-      const Atom* atom = molecule.GetAtom(i);
+   for(int i=0;i<molecule.GetAtomVect().size();i++){
+      const Atom* atom = molecule.GetAtomVect()[i];
       double*     xyz  = atom->GetXyz();
       for(int j=0;j<CartesianType_end;j++){
          xyz[j] = matrixOldCoordinates[i][j];
@@ -562,9 +562,9 @@ void BFGS::CalcDisplacement(double      *      *& matrixDisplacement,
                             double const* const*  matrixOldCoordinates,
                             const MolDS_base::Molecule& molecule)const{
    //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
-   MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetNumberAtoms(), CartesianType_end);
-   for(int i=0;i<molecule.GetNumberAtoms();i++){
-      const Atom*   atom = molecule.GetAtom(i);
+   MallocerFreer::GetInstance()->Malloc(&matrixDisplacement, molecule.GetAtomVect().size(), CartesianType_end);
+   for(int i=0;i<molecule.GetAtomVect().size();i++){
+      const Atom*   atom = molecule.GetAtomVect()[i];
       const double* xyz  = atom->GetXyz();
       for(int j=0;j<CartesianType_end;j++){
          matrixDisplacement[i][j] = xyz[j] - matrixOldCoordinates[i][j];
@@ -575,9 +575,9 @@ void BFGS::CalcDisplacement(double      *      *& matrixDisplacement,
 void BFGS::StoreMolecularGeometry(double **& matrixCoordinates, 
                                   const MolDS_base::Molecule& molecule)const{
    //Store old coordinates
-   MallocerFreer::GetInstance()->Malloc(&matrixCoordinates, molecule.GetNumberAtoms(), CartesianType_end);
-   for(int i=0;i<molecule.GetNumberAtoms();i++){
-      const Atom*   atom = molecule.GetAtom(i);
+   MallocerFreer::GetInstance()->Malloc(&matrixCoordinates, molecule.GetAtomVect().size(), CartesianType_end);
+   for(int i=0;i<molecule.GetAtomVect().size();i++){
+      const Atom*   atom = molecule.GetAtomVect()[i];
       const double* xyz  = atom->GetXyz();
       for(int j=0;j<CartesianType_end;j++){
          matrixCoordinates[i][j] = xyz[j];
