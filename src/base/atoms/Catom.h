@@ -19,12 +19,13 @@
 #ifndef INCLUDED_CATOM
 #define INCLUDED_CATOM
 namespace MolDS_base_atoms{
-class Catom : public Atom {
+class Catom : virtual public Atom {
 public:
    Catom(int index);
+protected:
+   void virtual SetAtomicParameters();
 private:
    Catom();
-   void SetAtomicParameters();
 };
 }
 #endif

@@ -19,12 +19,13 @@
 #ifndef INCLUDED_SATOM
 #define INCLUDED_SATOM
 namespace MolDS_base_atoms{
-class Satom : public Atom {
+class Satom : virtual public Atom {
 public:
    Satom(int index);
+protected:
+   void virtual SetAtomicParameters();
 private:
    Satom();
-   void SetAtomicParameters();
 };
 }
 #endif

@@ -16,16 +16,16 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_OATOM
-#define INCLUDED_OATOM
-namespace MolDS_base_atoms{
-class Oatom : virtual public Atom {
+#ifndef INCLUDED_BQHATOM
+#define INCLUDED_BQHATOM
+namespace MolDS_base_atoms_bq{
+class BqHatom : public MolDS_base_atoms::Hatom, public Bq {
 public:
-   Oatom(int index);
+   BqHatom(int index);
 protected:
    void virtual SetAtomicParameters();
 private:
-   Oatom();
+   BqHatom();
 };
 }
 #endif

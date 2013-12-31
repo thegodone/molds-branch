@@ -16,16 +16,39 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_OATOM
-#define INCLUDED_OATOM
-namespace MolDS_base_atoms{
-class Oatom : virtual public Atom {
-public:
-   Oatom(int index);
-protected:
-   void virtual SetAtomicParameters();
-private:
-   Oatom();
-};
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<sstream>
+#include<math.h>
+#include<vector>
+#include<boost/format.hpp>
+#include"../../Enums.h"
+#include"../../Uncopyable.h"
+#include"../../PrintController.h"
+#include"../../MolDSException.h"
+#include"../../MallocerFreer.h"
+#include"../../../mpi/MpiInt.h"
+#include"../../../mpi/MpiProcess.h"
+#include"../../EularAngle.h"
+#include"../../Parameters.h"
+#include"../../RealSphericalHarmonicsIndex.h"
+#include"../Atom.h"
+#include"Bq.h"
+using namespace std;
+using namespace MolDS_base;
+using namespace MolDS_base_atoms;
+namespace MolDS_base_atoms_bq{
+Bq::Bq() : Atom(){
 }
-#endif
+
+void Bq::SetAtomicParameters(){
+   this->atomicMass = 0.0;
+   this->coreCharge = 0.0;
+   this->numberValenceElectrons = 0;
+   this->vdWCoefficient = 0.0;
+   for(int i=0; i<2; i++){
+      pm3PddgParameterPa[i]=0.0;
+   }
+}
+}

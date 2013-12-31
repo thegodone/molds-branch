@@ -19,12 +19,13 @@
 #ifndef INCLUDED_NATOM
 #define INCLUDED_NATOM
 namespace MolDS_base_atoms{
-class Natom : public Atom {
+class Natom : virtual public Atom {
 public:
    Natom(int index);
+protected:
+   void virtual SetAtomicParameters();
 private:
    Natom();
-   void SetAtomicParameters();
 };
 }
 #endif
