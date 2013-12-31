@@ -47,6 +47,6 @@ BqSatom::BqSatom(int index) : Satom(index),Bq(){
 void BqSatom::SetAtomicParameters(){
    Satom::SetAtomicParameters();
    Bq::SetAtomicParameters();
-   this->atomType = bqC;
+   this->atomType = bqS;
 }
 }

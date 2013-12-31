@@ -47,6 +47,6 @@ BqOatom::BqOatom(int index) : Oatom(index),Bq(){
 void BqOatom::SetAtomicParameters(){
    Oatom::SetAtomicParameters();
    Bq::SetAtomicParameters();
-   this->atomType = bqC;
+   this->atomType = bqO;
 }
 }

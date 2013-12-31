@@ -47,6 +47,6 @@ BqHatom::BqHatom(int index) : Hatom(index),Bq(){
 void BqHatom::SetAtomicParameters(){
    Hatom::SetAtomicParameters();
    Bq::SetAtomicParameters();
-   this->atomType = bqC;
+   this->atomType = bqH;
 }
 }

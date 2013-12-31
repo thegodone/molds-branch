@@ -47,6 +47,6 @@ BqLiatom::BqLiatom(int index) : Liatom(index),Bq(){
 void BqLiatom::SetAtomicParameters(){
    Liatom::SetAtomicParameters();
    Bq::SetAtomicParameters();
-   this->atomType = bqC;
+   this->atomType = bqLi;
 }
 }

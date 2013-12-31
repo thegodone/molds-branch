@@ -47,6 +47,6 @@ BqNatom::BqNatom(int index) : Natom(index),Bq(){
 void BqNatom::SetAtomicParameters(){
    Natom::SetAtomicParameters();
    Bq::SetAtomicParameters();
-   this->atomType = bqC;
+   this->atomType = bqN;
 }
 }
