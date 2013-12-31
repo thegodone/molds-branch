@@ -19,12 +19,13 @@
 #ifndef INCLUDED_LIATOM
 #define INCLUDED_LIATOM
 namespace MolDS_base_atoms{
-class Liatom : public Atom {
+class Liatom : virtual public Atom {
 public:
    Liatom(int index);
+protected:
+   void virtual SetAtomicParameters();
 private:
    Liatom();
-   void SetAtomicParameters();
 };
 }
 #endif

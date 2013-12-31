@@ -16,16 +16,37 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_OATOM
-#define INCLUDED_OATOM
-namespace MolDS_base_atoms{
-class Oatom : virtual public Atom {
-public:
-   Oatom(int index);
-protected:
-   void virtual SetAtomicParameters();
-private:
-   Oatom();
-};
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<sstream>
+#include<math.h>
+#include<vector>
+#include<boost/format.hpp>
+#include"../../Enums.h"
+#include"../../Uncopyable.h"
+#include"../../PrintController.h"
+#include"../../MolDSException.h"
+#include"../../MallocerFreer.h"
+#include"../../../mpi/MpiInt.h"
+#include"../../../mpi/MpiProcess.h"
+#include"../../EularAngle.h"
+#include"../../Parameters.h"
+#include"../../RealSphericalHarmonicsIndex.h"
+#include"../Atom.h"
+#include"../Liatom.h"
+#include"Bq.h"
+#include"BqLiatom.h"
+using namespace std;
+using namespace MolDS_base;
+using namespace MolDS_base_atoms;
+namespace MolDS_base_atoms_bq{
+BqLiatom::BqLiatom(int index) : Liatom(index),Bq(){
 }
-#endif
+
+void BqLiatom::SetAtomicParameters(){
+   Liatom::SetAtomicParameters();
+   Bq::SetAtomicParameters();
+   this->atomType = bqC;
+}
+}

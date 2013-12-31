@@ -107,6 +107,7 @@ public:
    double GetPm3PddgParameterPa(int paIndex) const;
    double GetPm3PddgParameterDa(int daIndex) const;
 protected:
+   Atom();
    double* xyz; // coordinates
    double* pxyz; // momentum. Note that this is not velocity!! 
    MolDS_base::AtomType atomType;
@@ -228,8 +229,8 @@ protected:
    double pm3DBondingParameterS; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
    double pm3DBondingParameterP; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
    double pm3DAlpha; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
+   virtual void SetAtomicParameters() = 0;
 private:
-   Atom();
    std::string errorMessageIonPot;
    std::string errorMessageAtomType;
    std::string errorMessageNumberValences;
@@ -306,7 +307,6 @@ private:
    double GetPm3CoreIntegral(MolDS_base::OrbitalType orbital) const; 
    double GetPm3DCoreIntegral(MolDS_base::OrbitalType orbital) const; 
    double GetPm3PddgCoreIntegral(MolDS_base::OrbitalType orbital) const; 
-   virtual void SetAtomicParameters() = 0;
 };
 }
 #endif

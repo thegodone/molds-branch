@@ -20,12 +20,13 @@
 #define INCLUDED_HATOM
 namespace MolDS_base_atoms{
 
-class Hatom : public Atom {
+class Hatom : virtual public Atom {
 public:
    Hatom(int index);
+protected:
+   void virtual SetAtomicParameters();
 private:
    Hatom();
-   void SetAtomicParameters();
 };
 
 }

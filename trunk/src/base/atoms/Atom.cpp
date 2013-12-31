@@ -58,6 +58,8 @@ Atom::Atom(int index){
    this->index = index;
 }
 
+Atom::Atom(){}
+
 Atom::~Atom(){
    MallocerFreer::GetInstance()->Free<double>(&this->xyz, CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(&this->pxyz, CartesianType_end);
