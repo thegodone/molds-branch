@@ -46,7 +46,7 @@ public:
    }
    inline const std::vector<MolDS_base_atoms::Atom*>& GetEpcVect() const{
 #ifdef MOLDS_DBG
-      if(this->epcVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetEpcVectNull);
+      if(this->epcVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetEPCVectNull);
 #endif
       return *this->epcVect;
    }
