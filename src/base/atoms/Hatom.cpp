@@ -45,6 +45,8 @@ Hatom::Hatom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 
+Hatom::~Hatom(){}
+
 void Hatom::SetAtomicParameters(){
    this->atomType = H;
    this->atomicMass = 1.00794*Parameters::GetInstance()->GetGMolin2AU();

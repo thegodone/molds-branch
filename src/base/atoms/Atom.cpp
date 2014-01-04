@@ -58,8 +58,6 @@ Atom::Atom(int index){
    this->index = index;
 }
 
-Atom::Atom(){}
-
 Atom::~Atom(){
    MallocerFreer::GetInstance()->Free<double>(&this->xyz, CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(&this->pxyz, CartesianType_end);
@@ -163,7 +161,11 @@ double* Atom::GetPxyz() const{
 
 void Atom::SetXyz(double x, double y, double z) const{
 #ifdef MOLDS_DBG
-   if(this->xyz==NULL) throw MolDSException(this->errorMessageSetXyzCoordinatesNull);
+   if(this->xyz==NULL){
+      printf("xyz\n\n");
+      throw MolDSException("aaa");
+      //throw MolDSException(this->errorMessageSetXyzCoordinatesNull);
+   }
 #endif
    xyz[0]= x; xyz[1]= y; xyz[2]= z;
 }

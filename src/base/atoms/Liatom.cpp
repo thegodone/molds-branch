@@ -43,6 +43,8 @@ Liatom::Liatom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 
+Liatom::~Liatom(){}
+
 void Liatom::SetAtomicParameters(){
    this->atomType = Li;
    this->atomicMass = 6.941*Parameters::GetInstance()->GetGMolin2AU();

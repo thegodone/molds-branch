@@ -42,6 +42,8 @@ Catom::Catom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 
+Catom::~Catom(){}
+
 void Catom::SetAtomicParameters(){
    this->atomType = C;
    this->atomicMass = 12.0107*Parameters::GetInstance()->GetGMolin2AU();

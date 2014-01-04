@@ -39,8 +39,11 @@ using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
 namespace MolDS_base_atoms_ghost{
-Ghost::Ghost() : Atom(){
+Ghost::Ghost(int index) : Atom(index){
+   this->SetAtomicParameters();
 }
+
+Ghost::~Ghost(){}
 
 void Ghost::SetAtomicParameters(){
    this->atomicMass = 0.0;

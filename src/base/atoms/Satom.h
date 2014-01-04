@@ -22,6 +22,7 @@ namespace MolDS_base_atoms{
 class Satom : virtual public Atom {
 public:
    Satom(int index);
+   virtual ~Satom();
 protected:
    void virtual SetAtomicParameters();
 private:

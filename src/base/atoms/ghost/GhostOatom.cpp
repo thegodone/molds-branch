@@ -41,12 +41,13 @@ using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
 namespace MolDS_base_atoms_ghost{
-GhostOatom::GhostOatom(int index) : Oatom(index),Ghost(){
+GhostOatom::GhostOatom(int index) : Atom(index),Oatom(index),Ghost(index){
+   this->SetAtomicParameters();
 }
 
+GhostOatom::~GhostOatom(){}
+
 void GhostOatom::SetAtomicParameters(){
-   Oatom::SetAtomicParameters();
-   Ghost::SetAtomicParameters();
    this->atomType = ghostO;
 }
 }

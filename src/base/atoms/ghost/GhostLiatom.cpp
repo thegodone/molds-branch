@@ -41,8 +41,11 @@ using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
 namespace MolDS_base_atoms_ghost{
-GhostLiatom::GhostLiatom(int index) : Liatom(index),Ghost(){
+GhostLiatom::GhostLiatom(int index) : Atom(index),Liatom(index),Ghost(index){
+   this->SetAtomicParameters();
 }
+
+GhostLiatom::~GhostLiatom(){}
 
 void GhostLiatom::SetAtomicParameters(){
    Liatom::SetAtomicParameters();

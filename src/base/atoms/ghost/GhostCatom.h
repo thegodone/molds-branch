@@ -22,6 +22,7 @@ namespace MolDS_base_atoms_ghost{
 class GhostCatom : public MolDS_base_atoms::Catom, public Ghost {
 public:
    GhostCatom(int index);
+   ~GhostCatom();
 protected:
    void virtual SetAtomicParameters();
 private:

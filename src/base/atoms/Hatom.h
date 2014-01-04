@@ -23,6 +23,7 @@ namespace MolDS_base_atoms{
 class Hatom : virtual public Atom {
 public:
    Hatom(int index);
+   virtual ~Hatom();
 protected:
    void virtual SetAtomicParameters();
 private:

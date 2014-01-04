@@ -42,6 +42,8 @@ Oatom::Oatom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 
+Oatom::~Oatom(){}
+
 void Oatom::SetAtomicParameters(){
    this->atomType = O;
    this->atomicMass = 15.9994*Parameters::GetInstance()->GetGMolin2AU();
