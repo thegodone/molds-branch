@@ -246,9 +246,13 @@ void InputParser::SetMessages(){
    this->stringTheory        = "theory";
    this->stringTheoryEnd     = "theory_end";
 
-   // geometry
+   // molecular configuratio
    this->stringGeometry    = "geometry";
    this->stringGeometryEnd = "geometry_end";
+
+   // Ghost (bq) atoms
+   this->stringGhost       = "ghost";
+   this->stringGhostEnd    = "ghost_end";
 
    // Environmental Point Charge
    this->stringEpc       = "epc";
@@ -462,7 +466,7 @@ void InputParser::AddInputTermsFromString(vector<string>& inputTerms, string str
    }
 }
 
-int InputParser::ParseMolecularGeometry(Molecule* molecule, vector<string>* inputTerms, int parseIndex) const{
+int InputParser::ParseMolecularConfiguration(Molecule* molecule, vector<string>* inputTerms, int parseIndex) const{
    parseIndex++;
    while((*inputTerms)[parseIndex].compare(this->stringGeometryEnd) != 0){
       double x = atof((*inputTerms)[parseIndex+1].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
@@ -487,9 +491,42 @@ int InputParser::ParseMolecularGeometry(Molecule* molecule, vector<string>* inpu
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = S;
       }
-      int index = molecule->GetAtomVect().size();
+      int index = molecule->GetRealAtomVect().size() + molecule->GetBqAtomVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
-      molecule->AddAtom(atom);
+      molecule->AddRealAtom(atom);
+      parseIndex += 4;
+   }
+   return parseIndex;
+}
+
+int InputParser::ParseGhostsConfiguration(Molecule* molecule, vector<string>* inputTerms, int parseIndex) const{
+   parseIndex++;
+   while((*inputTerms)[parseIndex].compare(this->stringGhostEnd) != 0){
+      double x = atof((*inputTerms)[parseIndex+1].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
+      double y = atof((*inputTerms)[parseIndex+2].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
+      double z = atof((*inputTerms)[parseIndex+3].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
+      AtomType atomType = H;
+      if((*inputTerms)[parseIndex] == "h"){
+        atomType = bqH;
+      }
+      else if((*inputTerms)[parseIndex] == "li"){
+         atomType = bqLi;
+      }
+      else if((*inputTerms)[parseIndex] == "c"){
+         atomType = bqC;
+      }
+      else if((*inputTerms)[parseIndex] == "n"){
+         atomType = bqN;
+      }
+      else if((*inputTerms)[parseIndex] == "o"){
+         atomType = bqO;
+      }
+      else if((*inputTerms)[parseIndex] == "s"){
+         atomType = bqS;
+      }
+      int index = molecule->GetRealAtomVect().size() + molecule->GetBqAtomVect().size();
+      Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
+      molecule->AddBqAtom(atom);
       parseIndex += 4;
    }
    return parseIndex;
@@ -1191,9 +1228,14 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
          i = this->ParseTheory(&inputTerms, i);
       }
 
-      // molecular geometry
+      // molecular configuration
       if(inputTerms[i].compare(this->stringGeometry) == 0){
-         i = this->ParseMolecularGeometry(molecule, &inputTerms, i);
+         i = this->ParseMolecularConfiguration(molecule, &inputTerms, i);
+      }
+
+      // ghost atom (bq) configuration
+      if(inputTerms[i].compare(this->stringGhost) == 0){
+         i = this->ParseGhostsConfiguration(molecule, &inputTerms, i);
       }
 
       // Environmental Point Charges Configuration(EPC)

@@ -308,6 +308,17 @@ private:
    double GetPm3DCoreIntegral(MolDS_base::OrbitalType orbital) const; 
    double GetPm3PddgCoreIntegral(MolDS_base::OrbitalType orbital) const; 
 };
+
+struct LessAtomIndex
+{
+public:
+    bool operator ()(const MolDS_base_atoms::Atom* const left, 
+                     const MolDS_base_atoms::Atom* const right) const
+    {
+        return ( left->GetIndex() < right->GetIndex() );
+    };
+};
+
 }
 #endif
 

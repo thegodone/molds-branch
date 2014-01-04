@@ -28,6 +28,7 @@
 #include<stdexcept>
 #include<omp.h>
 #include<boost/format.hpp>
+#include<boost/foreach.hpp>
 #include"../config.h"
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
@@ -348,9 +349,11 @@ void Cndo2::CheckEnableAtomType(const Molecule& molecule) const{
 void Cndo2::CalcCoreRepulsionEnergy(){
    // interaction between atoms
    double energy = 0.0;
-   for(int i=0; i<this->molecule->GetAtomVect().size(); i++){
-      for(int j=i+1; j<this->molecule->GetAtomVect().size(); j++){
-         energy += this->GetDiatomCoreRepulsionEnergy(i, j);
+   for(int i=0; i<this->molecule->GetRealAtomVect().size(); i++){
+      const Atom& atomI = *this->molecule->GetRealAtomVect()[i];
+      for(int j=i+1; j<this->molecule->GetRealAtomVect().size(); j++){
+         const Atom& atomJ = *this->molecule->GetRealAtomVect()[j];
+         energy += this->GetDiatomCoreRepulsionEnergy(atomI, atomJ);
       }
    }
    this->coreRepulsionEnergy = energy;
@@ -358,23 +361,21 @@ void Cndo2::CalcCoreRepulsionEnergy(){
    // interaction between atoms and epcs
    if(this->molecule->GetEpcVect().empty()){return;}
    energy = 0.0;
-   for(int i=0; i<this->molecule->GetAtomVect().size(); i++){
-      for(int j=0; j<this->molecule->GetEpcVect().size(); j++){
-         energy += this->GetAtomCoreEpcCoulombEnergy(i, j);
+   BOOST_FOREACH(const Atom* const atom, this->molecule->GetRealAtomVect()){
+      BOOST_FOREACH(const Atom* const epc, this->molecule->GetEpcVect()){
+         energy += this->GetAtomCoreEpcCoulombEnergy(*atom, *epc);
       }
    }
    this->coreEpcCoulombEnergy = energy;
 
 }
 
-double Cndo2::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+double Cndo2::GetDiatomCoreRepulsionEnergy(const Atom& atomA, const Atom& atomB) const{
+   double distance = this->molecule->GetDistanceAtoms(atomA, atomB);
    return atomA.GetCoreCharge()*atomB.GetCoreCharge()/distance; 
 }
 
-double Cndo2::GetAtomCoreEpcCoulombEnergy(int indexAtom, int indexEpc) const{
+double Cndo2::GetAtomCoreEpcCoulombEnergy(const Atom& atom, const Atom& epc) const{
    // do nothiing
    return 0.0;
 }
@@ -407,9 +408,11 @@ double Cndo2::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
 // See (2) in [G_2004] ((11) in [G_2006])
 void Cndo2::CalcVdWCorrectionEnergy(){
    double value = 0.0;
-   for(int i=0; i<this->molecule->GetAtomVect().size(); i++){
-      for(int j=i+1; j<this->molecule->GetAtomVect().size(); j++){
-         value += this->GetDiatomVdWCorrectionEnergy(i, j);
+   for(int i=0; i<this->molecule->GetRealAtomVect().size(); i++){
+      const int indexAtomI = this->molecule->GetRealAtomVect()[i]->GetIndex();
+      for(int j=i+1; j<this->molecule->GetRealAtomVect().size(); j++){
+         const int indexAtomJ = this->molecule->GetRealAtomVect()[j]->GetIndex();
+         value += this->GetDiatomVdWCorrectionEnergy(indexAtomI, indexAtomJ);
       }
    }
    this->vdWCorrectionEnergy = value;
@@ -446,8 +449,9 @@ double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const
    const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
-   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
-                           /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
+   double tmpSum = atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient();
+   if(tmpSum<=0e0){return 0e0;}
+   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()/tmpSum;
    double damping = this->GetVdwDampingValue(vdWDistance, distance);
    double scalingFactor = Parameters::GetInstance()->GetVdWScalingFactorSCF();
    return -1.0*scalingFactor*vdWCoefficients*damping
@@ -462,8 +466,9 @@ double Cndo2::GetDiatomVdWCorrection1stDerivative(int indexAtomA, int indexAtomB
    const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
    double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
-   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
-                           /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
+   double tmpSum = atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient();
+   if(tmpSum<=0e0){return 0e0;}
+   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()/tmpSum;
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    double damping = this->GetVdwDampingValue(vdWDistance, distance);
    double damping1stDerivative = this->GetVdwDampingValue1stDerivative(vdWDistance, distance);
@@ -491,8 +496,9 @@ double Cndo2::GetDiatomVdWCorrection2ndDerivative(int indexAtomA,
    double dCartesian2 = atomA.GetXyz()[axisA2] - atomB.GetXyz()[axisA2];
    double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
    double vdWScalingFacotor = Parameters::GetInstance()->GetVdWScalingFactorSCF();
-   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()
-                           /(atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient());
+   double tmpSum = atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient();
+   if(tmpSum<=0e0){return 0e0;}
+   double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()/tmpSum;
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    double damping = this->GetVdwDampingValue(vdWDistance, distance);
    double damping1stDerivative = this->GetVdwDampingValue1stDerivative(vdWDistance, distance);

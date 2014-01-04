@@ -132,8 +132,10 @@ protected:
                                                      double const* groundStateDipole) const;
    double GetBondingAdjustParameterK(MolDS_base::ShellType shellA, 
                                      MolDS_base::ShellType shellB) const;
-   virtual double GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const;
-   virtual double GetAtomCoreEpcCoulombEnergy (int indexAtom,  int indexEpc) const;
+   virtual double GetAtomCoreEpcCoulombEnergy (const MolDS_base_atoms::Atom& atom, 
+                                               const MolDS_base_atoms::Atom& epc) const;
+   virtual double GetDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
+                                               const MolDS_base_atoms::Atom& atomB) const;
    virtual double GetDiatomCoreRepulsion1stDerivative(int indexAtomA, 
                                                       int indexAtomB, 
                                                       MolDS_base::CartesianType axisA) const;
@@ -270,8 +272,8 @@ protected:
       int slaterIndex;
    };
    struct LessMoEnergyGap { 
-      bool operator()(const MoEnergyGap& rLeft, const MoEnergyGap& rRight) 
-      const { return rLeft.energyGap < rRight.energyGap; } 
+      bool operator()(const MoEnergyGap& left, const MoEnergyGap& right) 
+      const { return left.energyGap < right.energyGap; } 
    };
    struct CISEigenVectorCoefficient{
       double coefficient;
@@ -280,8 +282,8 @@ protected:
       int slaterIndex;
    };
    struct MoreCISEigenVectorCoefficient { 
-      bool operator()(const CISEigenVectorCoefficient& rLeft, const CISEigenVectorCoefficient& rRight) 
-      const { return fabs(rLeft.coefficient) > fabs(rRight.coefficient); } 
+      bool operator()(const CISEigenVectorCoefficient& left, const CISEigenVectorCoefficient& right) 
+      const { return fabs(left.coefficient) > fabs(right.coefficient); } 
    };
 private:
    std::string errorMessageCalDiaOverlapAOsDiaFrameNullMatrix;

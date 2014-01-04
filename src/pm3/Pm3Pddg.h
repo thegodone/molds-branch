@@ -30,7 +30,8 @@ public:
 protected:
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
-   virtual double GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const;
+   virtual double GetDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
+                                               const MolDS_base_atoms::Atom& atomB) const;
    virtual double GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
                                                       int indexAtomB, 
                                                       MolDS_base::CartesianType axisA) const;

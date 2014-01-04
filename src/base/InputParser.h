@@ -152,7 +152,6 @@ private:
    std::string messageK;
    std::string messageAngst;
    std::string messageMB;
-
    // others
    std::string stringYES;
    std::string stringNO;
@@ -171,9 +170,12 @@ private:
    std::string stringTheoryPM3;
    std::string stringTheoryPM3D;
    std::string stringTheoryPM3PDDG;
-   // geometry
+   // molecular configuraion(geometry)
    std::string stringGeometry;
    std::string stringGeometryEnd;
+   // Ghost
+   std::string stringGhost;
+   std::string stringGhostEnd;
    // EPC
    std::string stringEpc;
    std::string stringEpcEnd;
@@ -329,7 +331,8 @@ private:
    void StoreInputTermsFromRedirect(std::vector<std::string>& inputTerms) const;
    void StoreInputTermsFromFile(std::vector<std::string>& inputTerms, char* fileName) const;
    void AddInputTermsFromString(std::vector<std::string>& inputTerms, std::string str) const;
-   int ParseMolecularGeometry(Molecule* molecule, std::vector<std::string>* inputTerms, int parseIndex) const;
+   int ParseMolecularConfiguration(Molecule* molecule, std::vector<std::string>* inputTerms, int parseIndex) const;
+   int ParseGhostsConfiguration(Molecule* molecule, std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseEpcsConfiguration(Molecule* molecule, std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseTheory(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsSCF(std::vector<std::string>* inputTerms, int parseIndex) const;
