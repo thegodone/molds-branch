@@ -34,21 +34,19 @@
 #include"../../Parameters.h"
 #include"../../RealSphericalHarmonicsIndex.h"
 #include"../Atom.h"
-#include"Bq.h"
+#include"../Catom.h"
+#include"Ghost.h"
+#include"GhostCatom.h"
 using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
-namespace MolDS_base_atoms_bq{
-Bq::Bq() : Atom(){
+namespace MolDS_base_atoms_ghost{
+GhostCatom::GhostCatom(int index) : Catom(index),Ghost(){
 }
 
-void Bq::SetAtomicParameters(){
-   this->atomicMass = 0.0;
-   this->coreCharge = 0.0;
-   this->numberValenceElectrons = 0;
-   this->vdWCoefficient = 0.0;
-   for(int i=0; i<2; i++){
-      pm3PddgParameterPa[i]=0.0;
-   }
+void GhostCatom::SetAtomicParameters(){
+   Catom::SetAtomicParameters();
+   Ghost::SetAtomicParameters();
+   this->atomType = ghostC;
 }
 }

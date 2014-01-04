@@ -38,19 +38,19 @@
 #include"../atoms/Natom.h"
 #include"../atoms/Oatom.h"
 #include"../atoms/Satom.h"
-#include"../atoms/bq/Bq.h"
-#include"../atoms/bq/BqHatom.h"
-#include"../atoms/bq/BqLiatom.h"
-#include"../atoms/bq/BqCatom.h"
-#include"../atoms/bq/BqNatom.h"
-#include"../atoms/bq/BqOatom.h"
-#include"../atoms/bq/BqSatom.h"
+#include"../atoms/ghost/Ghost.h"
+#include"../atoms/ghost/GhostHatom.h"
+#include"../atoms/ghost/GhostLiatom.h"
+#include"../atoms/ghost/GhostCatom.h"
+#include"../atoms/ghost/GhostNatom.h"
+#include"../atoms/ghost/GhostOatom.h"
+#include"../atoms/ghost/GhostSatom.h"
 #include"../atoms/mm/EnvironmentalPointCharge.h"
 #include"AtomFactory.h"
 using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
-using namespace MolDS_base_atoms_bq;
+using namespace MolDS_base_atoms_ghost;
 using namespace MolDS_base_atoms_mm;
 namespace MolDS_base_factories{
 
@@ -78,23 +78,23 @@ Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, doub
    else if(atomType == S){
       atom = new Satom(index);
    }
-   else if(atomType == bqH){
-      atom = new BqHatom(index);
+   else if(atomType == ghostH){
+      atom = new GhostHatom(index);
    }
-   else if(atomType == bqLi){
-      atom = new BqLiatom(index);
+   else if(atomType == ghostLi){
+      atom = new GhostLiatom(index);
    }
-   else if(atomType == bqC){
-      atom = new BqCatom(index);
+   else if(atomType == ghostC){
+      atom = new GhostCatom(index);
    }
-   else if(atomType == bqN){
-      atom = new BqNatom(index);
+   else if(atomType == ghostN){
+      atom = new GhostNatom(index);
    }
-   else if(atomType == bqO){
-      atom = new BqOatom(index);
+   else if(atomType == ghostO){
+      atom = new GhostOatom(index);
    }
-   else if(atomType == bqS){
-      atom = new BqSatom(index);
+   else if(atomType == ghostS){
+      atom = new GhostSatom(index);
    }
    else{
       stringstream ss;

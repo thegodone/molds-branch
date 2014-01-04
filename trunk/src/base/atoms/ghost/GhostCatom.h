@@ -16,37 +16,16 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#include<stdio.h>
-#include<stdlib.h>
-#include<iostream>
-#include<sstream>
-#include<math.h>
-#include<vector>
-#include<boost/format.hpp>
-#include"../../Enums.h"
-#include"../../Uncopyable.h"
-#include"../../PrintController.h"
-#include"../../MolDSException.h"
-#include"../../MallocerFreer.h"
-#include"../../../mpi/MpiInt.h"
-#include"../../../mpi/MpiProcess.h"
-#include"../../EularAngle.h"
-#include"../../Parameters.h"
-#include"../../RealSphericalHarmonicsIndex.h"
-#include"../Atom.h"
-#include"../Catom.h"
-#include"Bq.h"
-#include"BqCatom.h"
-using namespace std;
-using namespace MolDS_base;
-using namespace MolDS_base_atoms;
-namespace MolDS_base_atoms_bq{
-BqCatom::BqCatom(int index) : Catom(index),Bq(){
+#ifndef INCLUDED_GHOSTCATOM
+#define INCLUDED_GHOSTCATOM
+namespace MolDS_base_atoms_ghost{
+class GhostCatom : public MolDS_base_atoms::Catom, public Ghost {
+public:
+   GhostCatom(int index);
+protected:
+   void virtual SetAtomicParameters();
+private:
+   GhostCatom();
+};
 }
-
-void BqCatom::SetAtomicParameters(){
-   Catom::SetAtomicParameters();
-   Bq::SetAtomicParameters();
-   this->atomType = bqC;
-}
-}
+#endif

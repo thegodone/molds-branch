@@ -38,11 +38,11 @@ public:
 #endif
       return *this->realAtomVect;
    }
-   inline const std::vector<MolDS_base_atoms::Atom*>& GetBqAtomVect() const{
+   inline const std::vector<MolDS_base_atoms::Atom*>& GetGhostAtomVect() const{
 #ifdef MOLDS_DBG
-      if(this->bqAtomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetBqAtomVectNull);
+      if(this->ghostAtomVect==NULL) throw MolDS_base::MolDSException(this->errorMessageGetGhostAtomVectNull);
 #endif
-      return *this->bqAtomVect;
+      return *this->ghostAtomVect;
    }
    inline const std::vector<MolDS_base_atoms::Atom*>& GetEpcVect() const{
 #ifdef MOLDS_DBG
@@ -52,7 +52,7 @@ public:
    }
    void AddAtom(MolDS_base_atoms::Atom* atom);
    void AddRealAtom(MolDS_base_atoms::Atom* atom);
-   void AddBqAtom(MolDS_base_atoms::Atom* atom);
+   void AddGhostAtom(MolDS_base_atoms::Atom* atom);
    void AddEpc(MolDS_base_atoms::Atom* epc);
    double const* GetXyzCOM() const;
    double const* GetXyzCOC() const;
@@ -88,7 +88,7 @@ public:
 private:
    std::vector<MolDS_base_atoms::Atom*>* atomVect;
    std::vector<MolDS_base_atoms::Atom*>* realAtomVect; // Vector of real (=not ghost) atoms
-   std::vector<MolDS_base_atoms::Atom*>* bqAtomVect;   // Vector of ghost atoms
+   std::vector<MolDS_base_atoms::Atom*>* ghostAtomVect;   // Vector of ghost atoms
    std::vector<MolDS_base_atoms::Atom*>* epcVect;      // Vector of Environmental Point Charges
    double*  xyzCOM; // x, y, z coordinates of Center of Mass;
    double*  xyzCOC; // x, y, z coordinates of Center of Core;
@@ -102,7 +102,7 @@ private:
    void CopyInitialize(const Molecule& rhs);
    void Finalize(std::vector<MolDS_base_atoms::Atom*>** atomVect, 
                  std::vector<MolDS_base_atoms::Atom*>** realAtomVect,
-                 std::vector<MolDS_base_atoms::Atom*>** bqAtomVect,
+                 std::vector<MolDS_base_atoms::Atom*>** ghostAtomVect,
                  std::vector<MolDS_base_atoms::Atom*>** epcVect,
                  double** xyzCOM, 
                  double** xyzCOC, 
@@ -110,7 +110,7 @@ private:
                  double*** distanceEpcs,
                  double*** distanceAtomsEpcs);
    void SetMessages();
-   void CopyRealBqAtom2Atom();
+   void CopyRealGhostAtom2Atom();
    void CalcTotalNumberAOs();
    void CalcTotalNumberValenceElectrons();
    void CalcTotalCoreMass();
@@ -137,13 +137,13 @@ private:
    void OutputTranslatingConditions(double const* translatingDifference) const;
    std::string errorMessageGetAtomVectNull;
    std::string errorMessageGetRealAtomVectNull;
-   std::string errorMessageGetBqAtomVectNull;
+   std::string errorMessageGetGhostAtomVectNull;
    std::string errorMessageGetEPCVectNull;
    std::string errorMessageAddAtomNull;
    std::string errorMessageAddRealAtomNull;
-   std::string errorMessageAddBqAtomNull;
+   std::string errorMessageAddGhostAtomNull;
    std::string errorMessageAddEPCNull;
-   std::string errorMessageCopyRealBqAtom2AtomNotEmpty;
+   std::string errorMessageCopyRealGhostAtom2AtomNotEmpty;
    std::string errorMessageGetXyzCOMNull;
    std::string errorMessageGetXyzCOCNull;
    std::string errorMessageCalcXyzCOMNull;
