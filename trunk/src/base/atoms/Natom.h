@@ -22,6 +22,7 @@ namespace MolDS_base_atoms{
 class Natom : virtual public Atom {
 public:
    Natom(int index);
+   virtual ~Natom();
 protected:
    void virtual SetAtomicParameters();
 private:

@@ -42,6 +42,8 @@ Satom::Satom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 
+Satom::~Satom(){}
+
 void Satom::SetAtomicParameters(){
    this->atomType = S;
    this->atomicMass = 32.066*Parameters::GetInstance()->GetGMolin2AU();

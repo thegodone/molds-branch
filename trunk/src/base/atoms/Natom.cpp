@@ -42,6 +42,8 @@ Natom::Natom(int index) : Atom(index){
    this->SetAtomicParameters();
 }
 
+Natom::~Natom(){}
+
 void Natom::SetAtomicParameters(){
    this->atomType = N;
    this->atomicMass = 14.00674*Parameters::GetInstance()->GetGMolin2AU();

@@ -22,6 +22,7 @@ namespace MolDS_base_atoms_ghost{
 class GhostLiatom : public MolDS_base_atoms::Liatom, public Ghost {
 public:
    GhostLiatom(int index);
+   ~GhostLiatom();
 protected:
    void virtual SetAtomicParameters();
 private:

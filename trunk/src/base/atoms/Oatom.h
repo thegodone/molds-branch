@@ -22,6 +22,7 @@ namespace MolDS_base_atoms{
 class Oatom : virtual public Atom {
 public:
    Oatom(int index);
+   virtual ~Oatom();
 protected:
    void virtual SetAtomicParameters();
 private:

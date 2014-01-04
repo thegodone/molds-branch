@@ -21,10 +21,12 @@
 namespace MolDS_base_atoms_ghost{
 class Ghost : virtual public MolDS_base_atoms::Atom {
 public:
-   Ghost();
+   Ghost(int index);
+   virtual ~Ghost();
 protected:
    void virtual SetAtomicParameters();
 private:
+   Ghost();
 };
 }
 #endif

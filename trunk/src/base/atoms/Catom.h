@@ -22,6 +22,7 @@ namespace MolDS_base_atoms{
 class Catom : virtual public Atom {
 public:
    Catom(int index);
+   virtual ~Catom();
 protected:
    void virtual SetAtomicParameters();
 private:
