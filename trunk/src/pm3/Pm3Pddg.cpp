@@ -138,16 +138,14 @@ void Pm3Pddg::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(S);
 }
 
-double Pm3Pddg::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
+double Pm3Pddg::GetDiatomCoreRepulsionEnergy(const Atom& atomA, const Atom& atomB) const{
    // PM3 term
-   double pm3Term = Pm3::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
+   double pm3Term = Pm3::GetDiatomCoreRepulsionEnergy(atomA, atomB);
 
    // pddg additional term, eq. (4) in [RCJ_2002]
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
    int na = atomA.GetNumberValenceElectrons();
    int nb = atomB.GetNumberValenceElectrons();
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+   double distance = this->molecule->GetDistanceAtoms(atomA, atomB);
    double temp = 0.0;
    for(int i=0; i<2; i++){
       double pa = atomA.GetPm3PddgParameterPa(i);

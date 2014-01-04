@@ -135,14 +135,12 @@ void Am1::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(S);
 }
 
-double Am1::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
+double Am1::GetDiatomCoreRepulsionEnergy(const Atom& atomA, const Atom& atomB) const{
    // MNDO term
-   double mndoTerm = Mndo::GetDiatomCoreRepulsionEnergy(indexAtomA, indexAtomB);
+   double mndoTerm = Mndo::GetDiatomCoreRepulsionEnergy(atomA, atomB);
 
    // additional term, Eq. (4) in [S_1989].
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
-   double distance   = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+   double distance   = this->molecule->GetDistanceAtoms(atomA, atomB);
    double ang2AU     = Parameters::GetInstance()->GetAngstrom2AU();
    double alphaA     = atomA.GetNddoAlpha(this->theory);
    double alphaB     = atomB.GetNddoAlpha(this->theory);

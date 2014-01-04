@@ -314,22 +314,18 @@ double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy2ndDerivative(const Atom& atom
    return value;
 }
 
-double Mndo::GetDiatomCoreRepulsionEnergy(int indexAtomA, int indexAtomB) const{
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
+double Mndo::GetDiatomCoreRepulsionEnergy(const Atom& atomA, const Atom& atomB) const{
    double tmp = this->GetAuxiliaryDiatomCoreRepulsionEnergy(atomA,
                                                             atomB,
                                                             this->molecule->GetDistanceAtoms(atomA, atomB));
    return atomA.GetCoreCharge()
          *atomB.GetCoreCharge()
-         *this->twoElecsTwoAtomCores[indexAtomA][indexAtomB][s][s][s][s]
+         *this->twoElecsTwoAtomCores[atomA.GetIndex()][atomB.GetIndex()][s][s][s][s]
          *tmp;
 }
 
-double Mndo::GetAtomCoreEpcCoulombEnergy(int indexAtom, int indexEpc) const{
-   const Atom& atom = *this->molecule->GetAtomVect()[indexAtom];
-   const Atom& epc  = *this->molecule->GetAtomVect()[indexEpc];
-   double distance = this->molecule->GetDistanceAtomEpc(indexAtom, indexEpc);
+double Mndo::GetAtomCoreEpcCoulombEnergy(const Atom& atom, const Atom& epc) const{
+   double distance = this->molecule->GetDistanceAtomEpc(atom.GetIndex(), epc.GetIndex());
    return atom.GetCoreCharge()*epc.GetCoreCharge()/distance; 
 }
 
