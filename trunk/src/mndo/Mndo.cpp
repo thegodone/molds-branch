@@ -331,14 +331,11 @@ double Mndo::GetAtomCoreEpcCoulombEnergy(const Atom& atom, const Atom& epc) cons
 
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
-double Mndo::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
-                                                 int indexAtomB, 
+double Mndo::GetDiatomCoreRepulsion1stDerivative(const Atom& atomA, const Atom& atomB, 
                                                  CartesianType axisA) const{
    double value =0.0;
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
-   double distanceAB = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
-   double twoElecInt = this->twoElecsTwoAtomCores[indexAtomA][indexAtomB][s][s][s][s];
+   double distanceAB = this->molecule->GetDistanceAtoms(atomA, atomB);
+   double twoElecInt = this->twoElecsTwoAtomCores[atomA.GetIndex()][atomB.GetIndex()][s][s][s][s];
    double twoElecInt1stDeriv = this->GetNddoRepulsionIntegral1stDerivative(
                                      atomA, s, s, atomB, s, s, axisA);
    double tmp = this->GetAuxiliaryDiatomCoreRepulsionEnergy(atomA, atomB, distanceAB);
@@ -350,15 +347,13 @@ double Mndo::GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
 
 // Second derivative of diatomic core repulsion energy.
 // Both derivatives are related to the coordinate of atomA.
-double Mndo::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
-                                                    int indexAtomB, 
-                                                    CartesianType axisA1,
-                                                    CartesianType axisA2) const{
+double Mndo::GetDiatomCoreRepulsion2ndDerivative(const Atom& atomA,
+                                                 const Atom& atomB, 
+                                                 CartesianType axisA1,
+                                                 CartesianType axisA2) const{
    double value =0.0;
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
-   double distanceAB = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
-   double twoElecInt = this->twoElecsTwoAtomCores[indexAtomA][indexAtomB][s][s][s][s];
+   double distanceAB = this->molecule->GetDistanceAtoms(atomA, atomB);
+   double twoElecInt = this->twoElecsTwoAtomCores[atomA.GetIndex()][atomB.GetIndex()][s][s][s][s];
    double twoElecInt1stDeriv1 = this->GetNddoRepulsionIntegral1stDerivative(atomA, s, s, 
                                                                             atomB, s, s, 
                                                                             axisA1);
@@ -1595,14 +1590,14 @@ double Mndo::GetHessianElementSameAtomsSCF(int indexAtomA,
          }
 
          // second derivatives of the nuclear repulsions
-         value += this->GetDiatomCoreRepulsion2ndDerivative(indexAtomA, 
-                                                            indexAtomC, 
+         value += this->GetDiatomCoreRepulsion2ndDerivative(atomA, 
+                                                            atomC, 
                                                             static_cast<CartesianType>(axisA1), 
                                                             static_cast<CartesianType>(axisA2));
          // second derivatives of the van der waals corrections
          if(Parameters::GetInstance()->RequiresVdWSCF()){
-            value += this->GetDiatomVdWCorrection2ndDerivative(indexAtomA, 
-                                                               indexAtomC, 
+            value += this->GetDiatomVdWCorrection2ndDerivative(atomA, 
+                                                               atomC, 
                                                                static_cast<CartesianType>(axisA1), 
                                                                static_cast<CartesianType>(axisA2));
          }
@@ -1759,14 +1754,14 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int indexAtomA,
    }
 
    // second derivatives of the nuclear repulsions
-   value -= this->GetDiatomCoreRepulsion2ndDerivative(indexAtomA, 
-                                                      indexAtomB, 
+   value -= this->GetDiatomCoreRepulsion2ndDerivative(atomA, 
+                                                      atomB, 
                                                       static_cast<CartesianType>(axisA), 
                                                       static_cast<CartesianType>(axisB));
    // second derivatives of the van der waals corrections
    if(Parameters::GetInstance()->RequiresVdWSCF()){
-      value -= this->GetDiatomVdWCorrection2ndDerivative(indexAtomA, 
-                                                         indexAtomB, 
+      value -= this->GetDiatomVdWCorrection2ndDerivative(atomA, 
+                                                         atomB, 
                                                          static_cast<CartesianType>(axisA), 
                                                          static_cast<CartesianType>(axisB));
    }
@@ -2723,10 +2718,10 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                double coreRepulsion[CartesianType_end] = {0.0,0.0,0.0};
                for(int i=0; i<CartesianType_end; i++){
                   coreRepulsion[i] += this->GetDiatomCoreRepulsion1stDerivative(
-                                            a, b, (CartesianType)i);
+                                            atomA, atomB, (CartesianType)i);
                   if(Parameters::GetInstance()->RequiresVdWSCF()){
                      coreRepulsion[i] += this->GetDiatomVdWCorrection1stDerivative(
-                                               a, b, (CartesianType)i);
+                                               atomA, atomB, (CartesianType)i);
                   }
                }  
                // electron core attraction part (ground state)
