@@ -34,19 +34,19 @@
 #include"../../Parameters.h"
 #include"../../RealSphericalHarmonicsIndex.h"
 #include"../Atom.h"
-#include"../Liatom.h"
-#include"Bq.h"
-#include"BqLiatom.h"
+#include"../Oatom.h"
+#include"Ghost.h"
+#include"GhostOatom.h"
 using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
-namespace MolDS_base_atoms_bq{
-BqLiatom::BqLiatom(int index) : Liatom(index),Bq(){
+namespace MolDS_base_atoms_ghost{
+GhostOatom::GhostOatom(int index) : Oatom(index),Ghost(){
 }
 
-void BqLiatom::SetAtomicParameters(){
-   Liatom::SetAtomicParameters();
-   Bq::SetAtomicParameters();
-   this->atomType = bqLi;
+void GhostOatom::SetAtomicParameters(){
+   Oatom::SetAtomicParameters();
+   Ghost::SetAtomicParameters();
+   this->atomType = ghostO;
 }
 }

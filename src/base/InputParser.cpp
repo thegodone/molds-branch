@@ -40,12 +40,6 @@
 #include"Parameters.h"
 #include"RealSphericalHarmonicsIndex.h"
 #include"atoms/Atom.h"
-#include"atoms/Hatom.h"
-#include"atoms/Liatom.h"
-#include"atoms/Catom.h"
-#include"atoms/Natom.h"
-#include"atoms/Oatom.h"
-#include"atoms/Satom.h"
 #include"factories/AtomFactory.h"
 #include"Molecule.h"
 #include"InputParser.h"
@@ -250,7 +244,7 @@ void InputParser::SetMessages(){
    this->stringGeometry    = "geometry";
    this->stringGeometryEnd = "geometry_end";
 
-   // Ghost (bq) atoms
+   // Ghost (ghost) atoms
    this->stringGhost       = "ghost";
    this->stringGhostEnd    = "ghost_end";
 
@@ -491,7 +485,7 @@ int InputParser::ParseMolecularConfiguration(Molecule* molecule, vector<string>*
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = S;
       }
-      int index = molecule->GetRealAtomVect().size() + molecule->GetBqAtomVect().size();
+      int index = molecule->GetRealAtomVect().size() + molecule->GetGhostAtomVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
       molecule->AddRealAtom(atom);
       parseIndex += 4;
@@ -507,26 +501,26 @@ int InputParser::ParseGhostsConfiguration(Molecule* molecule, vector<string>* in
       double z = atof((*inputTerms)[parseIndex+3].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
       AtomType atomType = H;
       if((*inputTerms)[parseIndex] == "h"){
-        atomType = bqH;
+        atomType = ghostH;
       }
       else if((*inputTerms)[parseIndex] == "li"){
-         atomType = bqLi;
+         atomType = ghostLi;
       }
       else if((*inputTerms)[parseIndex] == "c"){
-         atomType = bqC;
+         atomType = ghostC;
       }
       else if((*inputTerms)[parseIndex] == "n"){
-         atomType = bqN;
+         atomType = ghostN;
       }
       else if((*inputTerms)[parseIndex] == "o"){
-         atomType = bqO;
+         atomType = ghostO;
       }
       else if((*inputTerms)[parseIndex] == "s"){
-         atomType = bqS;
+         atomType = ghostS;
       }
-      int index = molecule->GetRealAtomVect().size() + molecule->GetBqAtomVect().size();
+      int index = molecule->GetRealAtomVect().size() + molecule->GetGhostAtomVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
-      molecule->AddBqAtom(atom);
+      molecule->AddGhostAtom(atom);
       parseIndex += 4;
    }
    return parseIndex;
@@ -1233,7 +1227,7 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
          i = this->ParseMolecularConfiguration(molecule, &inputTerms, i);
       }
 
-      // ghost atom (bq) configuration
+      // ghost atom configuration
       if(inputTerms[i].compare(this->stringGhost) == 0){
          i = this->ParseGhostsConfiguration(molecule, &inputTerms, i);
       }

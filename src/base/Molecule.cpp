@@ -63,12 +63,12 @@ Molecule& Molecule::operator=(const Molecule& rhs){
    double** oldDistanceAtomsEpcs = this->distanceAtomsEpcs;
    vector<Atom*>* oldAtomVect     = this->atomVect;
    vector<Atom*>* oldRealAtomVect = this->realAtomVect;
-   vector<Atom*>* oldBqAtomVect   = this->bqAtomVect;
+   vector<Atom*>* oldGhostAtomVect= this->ghostAtomVect;
    vector<Atom*>* oldEpcVect      = this->epcVect;
    this->CopyInitialize(rhs);
    this->Finalize(&oldAtomVect, 
                   &oldRealAtomVect, 
-                  &oldBqAtomVect, 
+                  &oldGhostAtomVect, 
                   &oldEpcVect, 
                   &oldXyzCOM, 
                   &oldXyzCOC, 
@@ -81,7 +81,7 @@ Molecule& Molecule::operator=(const Molecule& rhs){
 Molecule::~Molecule(){
    this->Finalize(&this->atomVect, 
                   &this->realAtomVect, 
-                  &this->bqAtomVect, 
+                  &this->ghostAtomVect, 
                   &this->epcVect, 
                   &this->xyzCOM, 
                   &this->xyzCOC, 
@@ -115,11 +115,11 @@ void Molecule::CopyInitialize(const Molecule& rhs){
          (*this->realAtomVect)[i]->SetFirstAOIndex(atom->GetFirstAOIndex());
       }
    }
-   if(rhs.bqAtomVect != NULL){
-      int bqAtomNum = rhs.bqAtomVect->size();
-      for(int i=0; i<bqAtomNum; i++){
-         Atom* atom = (*rhs.bqAtomVect)[i];
-         this->bqAtomVect->push_back(AtomFactory::Create(atom->GetAtomType(),
+   if(rhs.ghostAtomVect != NULL){
+      int ghostAtomNum = rhs.ghostAtomVect->size();
+      for(int i=0; i<ghostAtomNum; i++){
+         Atom* atom = (*rhs.ghostAtomVect)[i];
+         this->ghostAtomVect->push_back(AtomFactory::Create(atom->GetAtomType(),
                                                          atom->GetIndex(),
                                                          atom->GetXyz()[XAxis],
                                                          atom->GetXyz()[YAxis],
@@ -131,7 +131,7 @@ void Molecule::CopyInitialize(const Molecule& rhs){
       }
    }
    if(rhs.atomVect != NULL){
-      this->CopyRealBqAtom2Atom();
+      this->CopyRealGhostAtom2Atom();
       int atomNum = this->atomVect->size();
       MallocerFreer::GetInstance()->Malloc<double>(&this->distanceAtoms, atomNum, atomNum);
       for(int i=0; i<atomNum; i++){
@@ -184,12 +184,12 @@ void Molecule::Initialize(){
    this->distanceAtomsEpcs  = NULL;
    this->atomVect           = NULL;
    this->realAtomVect       = NULL;
-   this->bqAtomVect         = NULL;
+   this->ghostAtomVect         = NULL;
    this->epcVect            = NULL;
    try{
       this->atomVect     = new vector<Atom*>;
       this->realAtomVect = new vector<Atom*>;
-      this->bqAtomVect   = new vector<Atom*>;
+      this->ghostAtomVect= new vector<Atom*>;
       this->epcVect      = new vector<Atom*>;
       MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOM, CartesianType_end);
       MallocerFreer::GetInstance()->Malloc<double>(&this->xyzCOC, CartesianType_end);
@@ -197,7 +197,7 @@ void Molecule::Initialize(){
    catch(exception ex){
       this->Finalize(&this->atomVect, 
                      &this->realAtomVect, 
-                     &this->bqAtomVect, 
+                     &this->ghostAtomVect, 
                      &this->epcVect, 
                      &this->xyzCOM, 
                      &this->xyzCOC, 
@@ -210,7 +210,7 @@ void Molecule::Initialize(){
 
 void Molecule::Finalize(vector<Atom*>** atomVect, 
                         vector<Atom*>** realAtomVect, 
-                        vector<Atom*>** bqAtomVect, 
+                        vector<Atom*>** ghostAtomVect, 
                         vector<Atom*>** epcVect, 
                         double** xyzCOM, 
                         double** xyzCOC, 
@@ -246,18 +246,18 @@ void Molecule::Finalize(vector<Atom*>** atomVect,
       *realAtomVect = NULL;
       //this->OutputLog("realAtomVect deleted\n");
    }
-   if(*bqAtomVect != NULL){
-      int bqAtomNum = (*bqAtomVect)->size();
-      for(int i=0; i<bqAtomNum; i++){
-         if((**bqAtomVect)[i] != NULL){
-            delete (**bqAtomVect)[i];
-            (**bqAtomVect)[i] = NULL;
+   if(*ghostAtomVect != NULL){
+      int ghostAtomNum = (*ghostAtomVect)->size();
+      for(int i=0; i<ghostAtomNum; i++){
+         if((**ghostAtomVect)[i] != NULL){
+            delete (**ghostAtomVect)[i];
+            (**ghostAtomVect)[i] = NULL;
          }
       }
-      (*bqAtomVect)->clear();
-      delete *bqAtomVect;
-      *bqAtomVect = NULL;
-      //this->OutputLog("bqAtomVect deleted\n");
+      (*ghostAtomVect)->clear();
+      delete *ghostAtomVect;
+      *ghostAtomVect = NULL;
+      //this->OutputLog("ghostAtomVect deleted\n");
    }
    if(*epcVect != NULL){
       epcNum = (*epcVect)->size();
@@ -278,13 +278,13 @@ void Molecule::Finalize(vector<Atom*>** atomVect,
 void Molecule::SetMessages(){
    this->errorMessageGetAtomVectNull  = "Error in base::Molecule::GetAtomVect: atomVect is NULL.\n";
    this->errorMessageGetRealAtomVectNull  = "Error in base::Molecule::GetRealAtomVect: realAtomVect is NULL.\n";
-   this->errorMessageGetBqAtomVectNull  = "Error in base::Molecule::GetBqAtomVect: bqAtomVect is NULL.\n";
+   this->errorMessageGetGhostAtomVectNull  = "Error in base::Molecule::GetGhostAtomVect: ghostAtomVect is NULL.\n";
    this->errorMessageGetEPCVectNull  = "Error in base::Molecule::GetEpcVect: epcVect is NULL.\n";
    this->errorMessageAddAtomNull = "Error in base::Molecule::AddAtom: atomVect is NULL.\n";
    this->errorMessageAddRealAtomNull = "Error in base::Molecule::AddAtom: realAtomVect is NULL.\n";
-   this->errorMessageAddBqAtomNull = "Error in base::Molecule::AddAtom: bqAtomVect is NULL.\n";
+   this->errorMessageAddGhostAtomNull = "Error in base::Molecule::AddAtom: ghostAtomVect is NULL.\n";
    this->errorMessageAddEPCNull  = "Error in base::Molecule::AddEnviromentalPointCharge: epcVect is NULL.\n";
-   this->errorMessageCopyRealBqAtom2AtomNotEmpty = "Error in base::Molecule::CopyRealBqAtom2Atom: atomVect is not empty.\n";
+   this->errorMessageCopyRealGhostAtom2AtomNotEmpty = "Error in base::Molecule::CopyRealGhostAtom2Atom: atomVect is not empty.\n";
    this->errorMessageGetXyzCOMNull = "Error in base::Molecule::GetXyzCOM: xyzCOM is NULL.\n";
    this->errorMessageGetXyzCOCNull = "Error in base::Molecule::GetXyzCOC: xyzCOC is NULL.\n";
    this->errorMessageCalcXyzCOMNull = "Error in base::Molecule::CalcXyzCOM: xyzCOM is NULL.\n";
@@ -339,11 +339,11 @@ void Molecule::AddRealAtom(Atom* atom){
    this->realAtomVect->push_back(atom);
 }
 
-void Molecule::AddBqAtom(Atom* atom){
+void Molecule::AddGhostAtom(Atom* atom){
 #ifdef MOLDS_DBG
-   if(this->bqAtomVect==NULL) throw MolDSException(this->errorMessageAddBqAtomNull);
+   if(this->ghostAtomVect==NULL) throw MolDSException(this->errorMessageAddGhostAtomNull);
 #endif
-   this->bqAtomVect->push_back(atom);
+   this->ghostAtomVect->push_back(atom);
 }
 
 void Molecule::AddEpc(Atom* epc){
@@ -475,7 +475,7 @@ void Molecule::CalcDistanceAtomsEpcs(){
 }
 
 void Molecule::CalcBasics(){
-   this->CopyRealBqAtom2Atom();
+   this->CopyRealGhostAtom2Atom();
    this->CalcTotalNumberAOs();
    this->CalcTotalNumberValenceElectrons();
    this->CalcTotalCoreMass();
@@ -490,23 +490,23 @@ void Molecule::CalcBasicsConfiguration(){
    this->CalcDistanceAtomsEpcs();
 }
 
-void Molecule::CopyRealBqAtom2Atom(){
+void Molecule::CopyRealGhostAtom2Atom(){
    if(!this->atomVect->empty()){
-      throw MolDSException(this->errorMessageCopyRealBqAtom2AtomNotEmpty);
+      throw MolDSException(this->errorMessageCopyRealGhostAtom2AtomNotEmpty);
    }
    int realAtomNum = this->realAtomVect->size();
-   int bqAtomNum   = this->bqAtomVect->size();
+   int ghostAtomNum   = this->ghostAtomVect->size();
    for(int i=0; i<realAtomNum; i++){
       Atom* atom = (*this->realAtomVect)[i];
       this->atomVect->push_back(atom);
    }
-   for(int i=0; i<bqAtomNum; i++){
-      Atom* atom = (*this->bqAtomVect)[i];
+   for(int i=0; i<ghostAtomNum; i++){
+      Atom* atom = (*this->ghostAtomVect)[i];
       this->atomVect->push_back(atom);
    }
-   std::sort(this->realAtomVect->begin(), this->realAtomVect->end(), MolDS_base_atoms::LessAtomIndex());
-   std::sort(this->bqAtomVect->begin(),   this->bqAtomVect->end(),   MolDS_base_atoms::LessAtomIndex());
-   std::sort(this->atomVect->begin(),     this->atomVect->end(),     MolDS_base_atoms::LessAtomIndex());
+   std::sort(this->realAtomVect->begin(),  this->realAtomVect->end(),  MolDS_base_atoms::LessAtomIndex());
+   std::sort(this->ghostAtomVect->begin(), this->ghostAtomVect->end(), MolDS_base_atoms::LessAtomIndex());
+   std::sort(this->atomVect->begin(),      this->atomVect->end(),      MolDS_base_atoms::LessAtomIndex());
 }
 
 void Molecule::CalcTotalNumberAOs(){

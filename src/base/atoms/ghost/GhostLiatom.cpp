@@ -16,16 +16,37 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_BQOATOM
-#define INCLUDED_BQOATOM
-namespace MolDS_base_atoms_bq{
-class BqOatom : public MolDS_base_atoms::Oatom, public Bq {
-public:
-   BqOatom(int index);
-protected:
-   void virtual SetAtomicParameters();
-private:
-   BqOatom();
-};
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<sstream>
+#include<math.h>
+#include<vector>
+#include<boost/format.hpp>
+#include"../../Enums.h"
+#include"../../Uncopyable.h"
+#include"../../PrintController.h"
+#include"../../MolDSException.h"
+#include"../../MallocerFreer.h"
+#include"../../../mpi/MpiInt.h"
+#include"../../../mpi/MpiProcess.h"
+#include"../../EularAngle.h"
+#include"../../Parameters.h"
+#include"../../RealSphericalHarmonicsIndex.h"
+#include"../Atom.h"
+#include"../Liatom.h"
+#include"Ghost.h"
+#include"GhostLiatom.h"
+using namespace std;
+using namespace MolDS_base;
+using namespace MolDS_base_atoms;
+namespace MolDS_base_atoms_ghost{
+GhostLiatom::GhostLiatom(int index) : Liatom(index),Ghost(){
 }
-#endif
+
+void GhostLiatom::SetAtomicParameters(){
+   Liatom::SetAtomicParameters();
+   Ghost::SetAtomicParameters();
+   this->atomType = ghostLi;
+}
+}

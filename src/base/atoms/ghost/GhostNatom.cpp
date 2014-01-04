@@ -35,18 +35,18 @@
 #include"../../RealSphericalHarmonicsIndex.h"
 #include"../Atom.h"
 #include"../Natom.h"
-#include"Bq.h"
-#include"BqNatom.h"
+#include"Ghost.h"
+#include"GhostNatom.h"
 using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
-namespace MolDS_base_atoms_bq{
-BqNatom::BqNatom(int index) : Natom(index),Bq(){
+namespace MolDS_base_atoms_ghost{
+GhostNatom::GhostNatom(int index) : Natom(index),Ghost(){
 }
 
-void BqNatom::SetAtomicParameters(){
+void GhostNatom::SetAtomicParameters(){
    Natom::SetAtomicParameters();
-   Bq::SetAtomicParameters();
-   this->atomType = bqN;
+   Ghost::SetAtomicParameters();
+   this->atomType = ghostN;
 }
 }

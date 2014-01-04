@@ -16,16 +16,37 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_BQSATOM
-#define INCLUDED_BQSATOM
-namespace MolDS_base_atoms_bq{
-class BqSatom : public MolDS_base_atoms::Satom, public Bq {
-public:
-   BqSatom(int index);
-protected:
-   void virtual SetAtomicParameters();
-private:
-   BqSatom();
-};
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<sstream>
+#include<math.h>
+#include<vector>
+#include<boost/format.hpp>
+#include"../../Enums.h"
+#include"../../Uncopyable.h"
+#include"../../PrintController.h"
+#include"../../MolDSException.h"
+#include"../../MallocerFreer.h"
+#include"../../../mpi/MpiInt.h"
+#include"../../../mpi/MpiProcess.h"
+#include"../../EularAngle.h"
+#include"../../Parameters.h"
+#include"../../RealSphericalHarmonicsIndex.h"
+#include"../Atom.h"
+#include"../Hatom.h"
+#include"Ghost.h"
+#include"GhostHatom.h"
+using namespace std;
+using namespace MolDS_base;
+using namespace MolDS_base_atoms;
+namespace MolDS_base_atoms_ghost{
+GhostHatom::GhostHatom(int index) : Hatom(index),Ghost(){
 }
-#endif
+
+void GhostHatom::SetAtomicParameters(){
+   Hatom::SetAtomicParameters();
+   Ghost::SetAtomicParameters();
+   this->atomType = ghostH;
+}
+}

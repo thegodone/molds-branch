@@ -16,37 +16,16 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#include<stdio.h>
-#include<stdlib.h>
-#include<iostream>
-#include<sstream>
-#include<math.h>
-#include<vector>
-#include<boost/format.hpp>
-#include"../../Enums.h"
-#include"../../Uncopyable.h"
-#include"../../PrintController.h"
-#include"../../MolDSException.h"
-#include"../../MallocerFreer.h"
-#include"../../../mpi/MpiInt.h"
-#include"../../../mpi/MpiProcess.h"
-#include"../../EularAngle.h"
-#include"../../Parameters.h"
-#include"../../RealSphericalHarmonicsIndex.h"
-#include"../Atom.h"
-#include"../Oatom.h"
-#include"Bq.h"
-#include"BqOatom.h"
-using namespace std;
-using namespace MolDS_base;
-using namespace MolDS_base_atoms;
-namespace MolDS_base_atoms_bq{
-BqOatom::BqOatom(int index) : Oatom(index),Bq(){
+#ifndef INCLUDED_GHOSTSATOM
+#define INCLUDED_GHOSTSATOM
+namespace MolDS_base_atoms_ghost{
+class GhostSatom : public MolDS_base_atoms::Satom, public Ghost {
+public:
+   GhostSatom(int index);
+protected:
+   void virtual SetAtomicParameters();
+private:
+   GhostSatom();
+};
 }
-
-void BqOatom::SetAtomicParameters(){
-   Oatom::SetAtomicParameters();
-   Bq::SetAtomicParameters();
-   this->atomType = bqO;
-}
-}
+#endif
