@@ -56,11 +56,11 @@ protected:
                                                const MolDS_base_atoms::Atom& epc) const;
    virtual double GetDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
                                                const MolDS_base_atoms::Atom& atomB) const;
-   virtual double GetDiatomCoreRepulsion1stDerivative(int indexAtomA,
-                                                      int indexAtomB, 
+   virtual double GetDiatomCoreRepulsion1stDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                      const MolDS_base_atoms::Atom& atomB, 
                                                       MolDS_base::CartesianType axisA) const;
-   virtual double GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
-                                                      int indexAtomB, 
+   virtual double GetDiatomCoreRepulsion2ndDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                      const MolDS_base_atoms::Atom& atomB, 
                                                       MolDS_base::CartesianType axisA1,
                                                       MolDS_base::CartesianType axisA2) const;
    virtual double GetFockDiagElement(const MolDS_base_atoms::Atom& atomA, 

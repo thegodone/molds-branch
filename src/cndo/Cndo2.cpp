@@ -382,12 +382,10 @@ double Cndo2::GetAtomCoreEpcCoulombEnergy(const Atom& atom, const Atom& epc) con
 
 // First derivative of diatomic core repulsion energy.
 // This derivative is related to the coordinate of atomA.
-double Cndo2::GetDiatomCoreRepulsion1stDerivative(int indexAtomA, int indexAtomB, 
+double Cndo2::GetDiatomCoreRepulsion1stDerivative(const Atom& atomA, const Atom& atomB, 
                                                   CartesianType axisA) const{
    double value=0.0;
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+   double distance = this->molecule->GetDistanceAtoms(atomA, atomB);
    value = atomA.GetCoreCharge()*atomB.GetCoreCharge();
    value *= (atomA.GetXyz()[axisA] - atomB.GetXyz()[axisA])/distance;
    value *= -1.0/(distance*distance);
@@ -396,8 +394,8 @@ double Cndo2::GetDiatomCoreRepulsion1stDerivative(int indexAtomA, int indexAtomB
 
 // Second derivative of diatomic core repulsion energy.
 // Both derivatives are related to the coordinate of atomA.
-double Cndo2::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
-                                                  int indexAtomB, 
+double Cndo2::GetDiatomCoreRepulsion2ndDerivative(const Atom& atomA,
+                                                  const Atom& atomB, 
                                                   CartesianType axisA1,
                                                   CartesianType axisA2) const{
    stringstream ss;
@@ -409,10 +407,10 @@ double Cndo2::GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
 void Cndo2::CalcVdWCorrectionEnergy(){
    double value = 0.0;
    for(int i=0; i<this->molecule->GetRealAtomVect().size(); i++){
-      const int indexAtomI = this->molecule->GetRealAtomVect()[i]->GetIndex();
+      const Atom& atomI = *this->molecule->GetAtomVect()[i];
       for(int j=i+1; j<this->molecule->GetRealAtomVect().size(); j++){
-         const int indexAtomJ = this->molecule->GetRealAtomVect()[j]->GetIndex();
-         value += this->GetDiatomVdWCorrectionEnergy(indexAtomI, indexAtomJ);
+         const Atom& atomJ = *this->molecule->GetAtomVect()[j];
+         value += this->GetDiatomVdWCorrectionEnergy(atomI, atomJ);
       }
    }
    this->vdWCorrectionEnergy = value;
@@ -444,10 +442,8 @@ double Cndo2::GetVdwDampingValue2ndDerivative(double vdWDistance, double distanc
 }
 
 // See (2) in [G_2004] ((11) in [G_2006])
-double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const{
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+double Cndo2::GetDiatomVdWCorrectionEnergy(const Atom& atomA, const Atom& atomB) const{
+   double distance = this->molecule->GetDistanceAtoms(atomA, atomB);
    double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
    double tmpSum = atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient();
    if(tmpSum<=0e0){return 0e0;}
@@ -460,11 +456,9 @@ double Cndo2::GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const
 
 // First derivative of the vdW correction related to the coordinate of atom A.
 // See (2) in [G_2004] ((11) in [G_2006]).
-double Cndo2::GetDiatomVdWCorrection1stDerivative(int indexAtomA, int indexAtomB, 
+double Cndo2::GetDiatomVdWCorrection1stDerivative(const Atom& atomA, const Atom& atomB, 
                                                   CartesianType axisA) const{
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+   double distance = this->molecule->GetDistanceAtoms(atomA, atomB);
    double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();
    double tmpSum = atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient();
    if(tmpSum<=0e0){return 0e0;}
@@ -485,13 +479,11 @@ double Cndo2::GetDiatomVdWCorrection1stDerivative(int indexAtomA, int indexAtomB
 // Second derivative of the vdW correction.
 // Both derivative sare related to the coordinate of atom A.
 // See (2) in [G_2004] ((11) in [G_2006]).
-double Cndo2::GetDiatomVdWCorrection2ndDerivative(int indexAtomA, 
-                                                     int indexAtomB, 
-                                                     CartesianType axisA1,
-                                                     CartesianType axisA2) const{
-   const Atom& atomA = *this->molecule->GetAtomVect()[indexAtomA];
-   const Atom& atomB = *this->molecule->GetAtomVect()[indexAtomB];
-   double distance = this->molecule->GetDistanceAtoms(indexAtomA, indexAtomB);
+double Cndo2::GetDiatomVdWCorrection2ndDerivative(const Atom& atomA, 
+                                                  const Atom& atomB, 
+                                                  CartesianType axisA1,
+                                                  CartesianType axisA2) const{
+   double distance = this->molecule->GetDistanceAtoms(atomA, atomB);
    double dCartesian1 = atomA.GetXyz()[axisA1] - atomB.GetXyz()[axisA1];
    double dCartesian2 = atomA.GetXyz()[axisA2] - atomB.GetXyz()[axisA2];
    double vdWDistance = atomA.GetVdWRadii() + atomB.GetVdWRadii();

@@ -136,19 +136,20 @@ protected:
                                                const MolDS_base_atoms::Atom& epc) const;
    virtual double GetDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
                                                const MolDS_base_atoms::Atom& atomB) const;
-   virtual double GetDiatomCoreRepulsion1stDerivative(int indexAtomA, 
-                                                      int indexAtomB, 
+   virtual double GetDiatomCoreRepulsion1stDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                      const MolDS_base_atoms::Atom& atomB, 
                                                       MolDS_base::CartesianType axisA) const;
-   virtual double GetDiatomCoreRepulsion2ndDerivative(int indexAtomA,
-                                                      int indexAtomB, 
+   virtual double GetDiatomCoreRepulsion2ndDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                      const MolDS_base_atoms::Atom& atomB, 
                                                       MolDS_base::CartesianType axisA1,
                                                       MolDS_base::CartesianType axisA2) const;
-   virtual double GetDiatomVdWCorrectionEnergy(int indexAtomA, int indexAtomB) const;
-   virtual double GetDiatomVdWCorrection1stDerivative(int indexAtomA, 
-                                                      int indexAtomB, 
+   virtual double GetDiatomVdWCorrectionEnergy(const MolDS_base_atoms::Atom& atomA, 
+                                               const MolDS_base_atoms::Atom& atomB) const;
+   virtual double GetDiatomVdWCorrection1stDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                      const MolDS_base_atoms::Atom& atomB, 
                                                       MolDS_base::CartesianType axisA) const;
-   virtual double GetDiatomVdWCorrection2ndDerivative(int indexAtomA, 
-                                                      int indexAtomB, 
+   virtual double GetDiatomVdWCorrection2ndDerivative(const MolDS_base_atoms::Atom& atomA, 
+                                                      const MolDS_base_atoms::Atom& atomB, 
                                                       MolDS_base::CartesianType axisA1,
                                                       MolDS_base::CartesianType axisA2) const;
    double GetReducedOverlapAOs                      (int na, int nb, double alpha, double beta) const;
