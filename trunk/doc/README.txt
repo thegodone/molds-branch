@@ -276,12 +276,14 @@ HOW TO WRITE INPUT:
          SCF_END
 
    <GEOMETRY>
-      To set geometry of the system calculated by MolDS should be written in geometry-directive.
+      To set geometry(configurtion) of a system calculated by MolDS, 
+      the configuration should be written in geometry-directive.
       Each line inside the geometry-directive indicates each atom of the system.  
       Namely, each line should containe one character and three doubles.
       The character indicates atomtype and three doubles indicate the cartesian coordinates of
       each atom in angstrom unit.
 
+       E.g.
          GEOMETRY
             C -0.1000 0.1000 0.0000
             C 1.6938 0.0000 -0.1000
