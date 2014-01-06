@@ -230,7 +230,7 @@ HOW TO WRITE INPUT:
        "max_iter", "rms_density", "damping_thresh", "damping_weight", 
        "diis_num_error_vect", "diis_start_error", "diis_end_error",
        "vdW", "vdW_s6", and "vdW_d" are prepared as options.
-       SCF module outputs also the dipole moment arrond the center of cores of the molecule.
+       SCF module outputs also the dipole moment arrond the center of core's mass
        To calculate the dipole moment, STO-6G [DY_1977] is used.
 
        The default value of the "max_iter" is 100.
@@ -456,6 +456,8 @@ HOW TO WRITE INPUT:
        If user set this "all_transition_dipole" as "yes", all transition dipole moments 
        including between excited states would be calculated. 
        Otherwise "no", transition dipole moments from ground state to each excited state are calculated.
+       The center of the transition dipole moments is same with 
+       the center of the dipole moment of the ground state.
 
        "mulliken" is a option of mulliken popultaion analysis of the excited state.
        When "mulliken x" is included in CIS-directive, the mulliken popultaion of xth excited state is calculated.

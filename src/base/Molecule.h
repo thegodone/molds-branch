@@ -54,8 +54,9 @@ public:
    void AddRealAtom(MolDS_base_atoms::Atom* atom);
    void AddGhostAtom(MolDS_base_atoms::Atom* atom);
    void AddEpc(MolDS_base_atoms::Atom* epc);
-   double const* GetXyzCOM() const;
-   double const* GetXyzCOC() const;
+   double const* GetXyzCOM() const; // Get the Cartesian coordinates of the center of atom's mass
+   double const* GetXyzCOC() const; // Get the Cartesian coordinates of the cneter of core's mass
+   double const* GetXyzDipoleCenter() const{return this->GetXyzCOC();}
    void CalcBasics();
    void CalcBasicsConfiguration();
    int GetTotalNumberAOs() const{return this->totalNumberAOs;}
@@ -90,8 +91,8 @@ private:
    std::vector<MolDS_base_atoms::Atom*>* realAtomVect; // Vector of real (=not ghost) atoms
    std::vector<MolDS_base_atoms::Atom*>* ghostAtomVect;   // Vector of ghost atoms
    std::vector<MolDS_base_atoms::Atom*>* epcVect;      // Vector of Environmental Point Charges
-   double*  xyzCOM; // x, y, z coordinates of Center of Mass;
-   double*  xyzCOC; // x, y, z coordinates of Center of Core;
+   double*  xyzCOM; // x, y, z coordinates of the center of atomic mass;
+   double*  xyzCOC; // x, y, z coordinates of the center of core's mass;
    double** distanceAtoms;    // distance between each atom;
    double** distanceEpcs;     // distance between each environmental point charge;
    double** distanceAtomsEpcs;// distance between each atom and environmental point charge;
