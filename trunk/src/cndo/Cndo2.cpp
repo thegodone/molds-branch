@@ -1764,11 +1764,12 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
 void Cndo2::CalcCoreDipoleMoment(double* coreDipoleMoment,
                                  const Molecule& molecule) const{
 
+   double const* dipoleCenter = molecule.GetXyzDipoleCenter();
    for(int i=0; i<CartesianType_end; i++){
       coreDipoleMoment[i] = 0.0;
       for(int A=0; A<molecule.GetAtomVect().size(); A++){
          coreDipoleMoment[i] += molecule.GetAtomVect()[A]->GetCoreCharge()
-                               *(molecule.GetAtomVect()[A]->GetXyz()[i] - molecule.GetXyzCOC()[i]);
+                               *(molecule.GetAtomVect()[A]->GetXyz()[i] - dipoleCenter[i]);
       }
    }
 }
@@ -1802,7 +1803,7 @@ void Cndo2::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment,
                                                  double const* groundStateDipole) const{
    int groundState = 0;
    if(from == groundState && to == groundState){
-      double const* centerOfDipole = molecule.GetXyzCOC();
+      double const* dipoleCenter = molecule.GetXyzDipoleCenter();
       int totalAONumber = molecule.GetTotalNumberAOs();
       transitionDipoleMoment[XAxis] = 0.0;
       transitionDipoleMoment[YAxis] = 0.0;
@@ -1820,9 +1821,9 @@ void Cndo2::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment,
       double temp = MolDS_wrappers::Blas::GetInstance()->Ddot(totalAONumber*totalAONumber,
                                                               &orbitalElectronPopulation[0][0],
                                                               &overlapAOs[0][0]);
-      transitionDipoleMoment[XAxis] += centerOfDipole[XAxis]*temp;
-      transitionDipoleMoment[YAxis] += centerOfDipole[YAxis]*temp;
-      transitionDipoleMoment[ZAxis] += centerOfDipole[ZAxis]*temp;
+      transitionDipoleMoment[XAxis] += dipoleCenter[XAxis]*temp;
+      transitionDipoleMoment[YAxis] += dipoleCenter[YAxis]*temp;
+      transitionDipoleMoment[ZAxis] += dipoleCenter[ZAxis]*temp;
    }
    else{
       stringstream ss;

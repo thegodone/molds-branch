@@ -1132,8 +1132,8 @@ void ZindoS::CalcCISProperties(){
                                                   dipoleMOs[ZAxis],
                                                   tmpMatrixBC);
  
-      double const* centerOfDipole = this->molecule->GetXyzCOC();
       // set orign of dipole
+      double const* dipoleCenter = this->molecule->GetXyzDipoleCenter();
       MolDS_wrappers::Blas::GetInstance()->Dgemmm(false, false, true, totalNumberAOs, totalNumberAOs, totalNumberAOs, totalNumberAOs,
                                                   alpha, 
                                                   this->fockMatrix,
@@ -1143,15 +1143,15 @@ void ZindoS::CalcCISProperties(){
                                                   overlapMOs,
                                                   tmpMatrixBC);
       MolDS_wrappers::Blas::GetInstance()->Daxpy(totalNumberAOs*totalNumberAOs,
-                                                 -centerOfDipole[XAxis], 
+                                                 -dipoleCenter[XAxis], 
                                                  &overlapMOs[0][0],
                                                  &dipoleMOs[XAxis][0][0]);
       MolDS_wrappers::Blas::GetInstance()->Daxpy(totalNumberAOs*totalNumberAOs,
-                                                 -centerOfDipole[YAxis], 
+                                                 -dipoleCenter[YAxis], 
                                                  &overlapMOs[0][0],
                                                  &dipoleMOs[YAxis][0][0]);
       MolDS_wrappers::Blas::GetInstance()->Daxpy(totalNumberAOs*totalNumberAOs,
-                                                 -centerOfDipole[ZAxis], 
+                                                 -dipoleCenter[ZAxis], 
                                                  &overlapMOs[0][0],
                                                  &dipoleMOs[ZAxis][0][0]);
  
@@ -1410,7 +1410,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
    double valueX = 0.0;
    double valueY = 0.0;
    double valueZ = 0.0;
-   double const* xyzCOC = molecule.GetXyzCOC();
+   double const* dipoleCenter = molecule.GetXyzDipoleCenter();
    int groundState = 0;
    int totalNumberAOs = molecule.GetTotalNumberAOs();
    stringstream ompErrors;
@@ -1439,9 +1439,9 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                for(int mu=0; mu<totalNumberAOs; mu++){
                   for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = (-1.0*fockMatrix[moI][mu]*fockMatrix[moI][nu] + fockMatrix[moA][mu]*fockMatrix[moA][nu]);
-                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
-                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
-                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
+                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - dipoleCenter[XAxis]*overlapAOs[mu][nu]);
+                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - dipoleCenter[YAxis]*overlapAOs[mu][nu]);
+                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - dipoleCenter[ZAxis]*overlapAOs[mu][nu]);
                   }
                }
                temp    = matrixCIS[from-1][l]*matrixCIS[to-1][l];
@@ -1477,9 +1477,9 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                for(int mu=0; mu<totalNumberAOs; mu++){
                   for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = fockMatrix[moA][mu]*fockMatrix[moI][nu];
-                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
-                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
-                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
+                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - dipoleCenter[XAxis]*overlapAOs[mu][nu]);
+                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - dipoleCenter[YAxis]*overlapAOs[mu][nu]);
+                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - dipoleCenter[ZAxis]*overlapAOs[mu][nu]);
                   }
                }
                temp    = this->matrixCIS[to-1][l]*sqrt(2.0);
@@ -1515,9 +1515,9 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                for(int mu=0; mu<totalNumberAOs; mu++){
                   for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = fockMatrix[moI][mu]*fockMatrix[moA][nu];
-                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
-                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
-                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
+                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - dipoleCenter[XAxis]*overlapAOs[mu][nu]);
+                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - dipoleCenter[YAxis]*overlapAOs[mu][nu]);
+                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - dipoleCenter[ZAxis]*overlapAOs[mu][nu]);
                   }
                }
                temp    = matrixCIS[from-1][l]*sqrt(2.0);
@@ -1555,9 +1555,9 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                for(int mu=0; mu<totalNumberAOs; mu++){
                   for(int nu=0; nu<totalNumberAOs; nu++){
                      temp   = (-1.0*fockMatrix[moI][mu]*fockMatrix[moI][nu] + fockMatrix[moA][mu]*fockMatrix[moA][nu]);
-                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - xyzCOC[XAxis]*overlapAOs[mu][nu]);
-                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - xyzCOC[YAxis]*overlapAOs[mu][nu]);
-                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - xyzCOC[ZAxis]*overlapAOs[mu][nu]);
+                     tempX += temp*(cartesianMatrix[XAxis][mu][nu] - dipoleCenter[XAxis]*overlapAOs[mu][nu]);
+                     tempY += temp*(cartesianMatrix[YAxis][mu][nu] - dipoleCenter[YAxis]*overlapAOs[mu][nu]);
+                     tempZ += temp*(cartesianMatrix[ZAxis][mu][nu] - dipoleCenter[ZAxis]*overlapAOs[mu][nu]);
                   }
                }
                temp    = matrixCIS[from-1][l]*matrixCIS[to-1][l];
