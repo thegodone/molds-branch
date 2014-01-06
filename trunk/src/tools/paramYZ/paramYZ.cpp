@@ -1,5 +1,5 @@
 //************************************************************************//
-// Copyright (C) 2011-2012 Mikiya Fujii                                   // 
+// Copyright (C) 2011-2014 Mikiya Fujii                                   // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 

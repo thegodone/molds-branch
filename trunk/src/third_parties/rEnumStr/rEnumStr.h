@@ -1,5 +1,5 @@
 //************************************************************************//
-// Copyright (C) 2011-2013 Mikiya Fujii                                   // 
+// Copyright (C) 2011-2014 Mikiya Fujii                                   // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 // This file is a modified version of the original rEnumStr.h.            // 
