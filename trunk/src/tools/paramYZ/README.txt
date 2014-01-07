@@ -16,6 +16,6 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-compile for 32bit OS:
 
-icpc ../../base/MolDSException.cpp ../../base/Enums.cpp ../../base/MathUtilities.cpp paramYZ.cpp -lmkl_intel -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -O0 -openmp -openmp-report2
+compile for 64bit OS with intel mkl:
+mpicxx ../../base/Enums.cpp ../../base/PrintController.cpp ../../base/MolDSException.cpp  ../../base/MathUtilities.cpp ../../base/MallocerFreer.cpp ../../mpi/MpiProcess.cpp ../../wrappers/Blas.cpp ../../wrappers/Lapack.cpp ../../base/EularAngle.cpp ../../base/Parameters.cpp  paramYZ.cpp -lmkl_intel_ilp64 -lmkl_intel_thread -lmkl_core -liomp5 -lpthread -O0 -openmp -DMKL_INT=intptr_t -DMKL_ILP64 -I/usr/local/boost/include -L/usr/local/boost/lib -Wl,-rpath=/usr/local/boost/lib -lboost_serialization -lboost_mpi -lboost_thread -lboost_serialization >& err.dat 
