@@ -133,6 +133,7 @@ void Am1::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(N);
    this->enableAtomTypes.push_back(O);
    this->enableAtomTypes.push_back(S);
+   this->enableAtomTypes.push_back(Zn);
 }
 
 double Am1::GetDiatomCoreRepulsionEnergy(const Atom& atomA, const Atom& atomB) const{

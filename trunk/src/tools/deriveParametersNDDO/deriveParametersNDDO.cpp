@@ -63,6 +63,23 @@ long double GetAForAQ(long double AQ, long double D2){
 int main(){
    // notation is [MOPAC1970]
    // all valuable should be in atomic units.
+
+   // following variables should be set as input
+   double eV2AU = 0.03674903;
+   long double orbitalExponentS=2.0473590;
+   long double orbitalExponentP=1.4609460;
+   long double Gss = 11.800000* eV2AU;
+   long double Gpp = 13.300000* eV2AU;
+   long double Gsp = 11.182018* eV2AU;
+   long double Gpp2= 12.930520* eV2AU;
+   long double Hsp =  0.484606* eV2AU;
+   long double Hpp = 0.5*(Gpp - Gpp2);
+   // n=2 for l-shell (C, N, O and etc.)
+   // n=3 for m-shell (S and etc.)
+   // n=4 for n-shell (Zn and etc.)
+   double n=4;
+
+   // following variables are output
    long double D1=0.0;
    long double D2=0.0;
    long double AM=0.0;
@@ -72,17 +89,6 @@ int main(){
    long double AD_old2=0.0;
    long double AQ_old=0.0;
    long double AQ_old2=0.0;
-
-   long double orbitalExponentS=1.891185;
-   long double orbitalExponentP=1.658972;
-
-   double eV2AU = 0.03674903;
-   long double Gss = 8.964667 * eV2AU;
-   long double Gpp = 9.968164 * eV2AU;
-   long double Gsp = 6.785936 * eV2AU;
-   long double Gpp2= 7.970247 * eV2AU;
-   long double Hsp = 4.041836 * eV2AU;
-   long double Hpp = 0.5*(Gpp - Gpp2);
 
    // output prepared parameters
    printf("=====  NDDO parameters =====\n");
@@ -98,28 +104,13 @@ int main(){
    // calculateion and output derived parameters
    printf("=====  NDDO derived parameters =====\n");
 
-   /*
-   // Calc. D1 for n=2 (C, N, O, and etc.)
-   D1 = 5.0*pow(3.0,-0.5)
-       *pow(4.0*orbitalExponentS*orbitalExponentP,2.5)
-       /pow(orbitalExponentS+orbitalExponentP,6.0);
-   printf("D1 in [a.u.] = %.10lf\n",(double)D1);
-   */
-
-   // Calc. D1 for n=3 (S and etc.)
-   D1 = 7.0*pow(3.0,-0.5)
-       *pow(4.0*orbitalExponentS*orbitalExponentP,3.5)
-       /pow(orbitalExponentS+orbitalExponentP,8.0);
+   D1 = (2.0*n+1)*pow(3.0,-0.5)
+       *pow(4.0*orbitalExponentS*orbitalExponentP,n+0.5)
+       /pow(orbitalExponentS+orbitalExponentP,2*n+2);
    printf("D1 in [a.u.] = %.10lf\n",(double)D1);
 
-   /*
-   // Calc. D2 for n=2  (C, N, O, and etc.)
-   D2 = pow(1.5,0.5)/orbitalExponentP;
-   printf("D2 in [a.u.] = %.10lf\n",(double)D2);
-   */
-
-   // Calc. D2 for n=3  (S and etc.)
-   D2 = pow(2.8,0.5)/orbitalExponentP;
+   double tmp = (4.0*n*n+6.0*n+2.0)/20.0;
+   D2 = pow(tmp,0.5)/orbitalExponentP;
    printf("D2 in [a.u.] = %.10lf\n",(double)D2);
 
    // Calc. AM
@@ -129,7 +120,7 @@ int main(){
    // Calc. AD
    AD_old2 = 1.0;
    AD_old  = pow(Hsp/pow(D1,2.0),1.0/3.0);
-   for(int n=0;n<10;n++){
+   for(int n=0;n<20;n++){
       long double a_old2=GetAForAD(AD_old2,D1);
       long double a_old =GetAForAD(AD_old, D1);
       AD = AD_old2 + (AD_old - AD_old2)*(Hsp-a_old2)/(a_old - a_old2);
@@ -142,7 +133,7 @@ int main(){
    // Calc. AQ
    AQ_old2 = 1.0;
    AQ_old = pow(Hpp/(3.0*pow(D2,2.0)),1.0/5.0);
-   for(int n=0;n<15;n++){
+   for(int n=0;n<20;n++){
       long double a_old2=GetAForAQ(AQ_old2,D2);
       long double a_old =GetAForAQ(AQ_old, D2);
       AQ = AQ_old2 + (AQ_old - AQ_old2)*(Hpp-a_old2)/(a_old - a_old2);

@@ -485,6 +485,9 @@ int InputParser::ParseMolecularConfiguration(Molecule* molecule, vector<string>*
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = S;
       }
+      else if((*inputTerms)[parseIndex] == "zn"){
+         atomType = Zn;
+      }
       int index = molecule->GetRealAtomVect().size() + molecule->GetGhostAtomVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
       molecule->AddRealAtom(atom);
@@ -517,6 +520,9 @@ int InputParser::ParseGhostsConfiguration(Molecule* molecule, vector<string>* in
       }
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = ghostS;
+      }
+      else if((*inputTerms)[parseIndex] == "zn"){
+         atomType = ghostZn;
       }
       int index = molecule->GetRealAtomVect().size() + molecule->GetGhostAtomVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);

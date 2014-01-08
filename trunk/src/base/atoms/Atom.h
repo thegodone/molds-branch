@@ -127,6 +127,7 @@ protected:
    double effectiveNuclearChargeL;      // Table 1.5 in J. A. Pople book or table 1 in [HKLWNZ_1982]
    double effectiveNuclearChargeMsp;    // Table 1.5 in J. A. Pople book
    double effectiveNuclearChargeMd;     // Table 1.5 in J. A. Pople book
+   double effectiveNuclearChargeNsp;    // Table 1.5 in J. A. Pople book
    double indoF2;                   // Table 3.6 in J. A. Pople book
    double indoG1;                   // Table 3.6 in J. A. Pople book
    double indoF0CoefficientS;       // (3.93-3.99) in J. A. Pople book

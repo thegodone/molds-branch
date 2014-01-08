@@ -87,17 +87,21 @@ int main(){
 
 
    // set C
-   if(3 < ShellType_end){
-      cout << "Error in tools/paramYZ/paramYZ.cpp: parameter C is prepared upto M-Shell.\n";
+   if(4 < ShellType_end){
+      cout << "Error in tools/paramYZ/paramYZ.cpp: parameter C is prepared upto N-Shell.\n";
       exit(EXIT_FAILURE);
    }
-   C[0][0][0] = 8.0;
-   C[1][0][1] = 8.0;
-   C[1][1][0] = 4.0;
+   C[0][0][0] =  8.0;
+   C[1][0][1] =  8.0;
+   C[1][1][0] =  4.0;
    C[2][0][0] = -4.0;
    C[2][0][2] = 12.0;
    C[2][1][1] = 12.0;
-   C[2][2][0] = 4.0;
+   C[2][2][0] =  4.0;
+   C[3][1][0] = -6.0;
+   C[3][1][2] = 30.0;
+   C[3][2][1] = 20.0;
+   C[3][3][0] =  5.0;
 
 
    // calculate Z
