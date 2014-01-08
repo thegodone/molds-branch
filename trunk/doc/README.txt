@@ -182,15 +182,15 @@ CAPABILITIES:
       i.e., MD(gs) and MD(es) mean Born-Oppenheimer Molecular Dynamics on ground and excited states, respectively. 
 
    -Elements
-    CNDO2    | H, Li, C, N, O, and S
-    INDO     | H, Li, C, N, and O
-    ZINDO/S  | H, C, N, O, and S
-    MNDO     | H, C, N, O, and S 
-    AM1      | H, C, N, O, and S 
-    AM1-D    | H, C, N, O, and S 
-    PM3      | H, C, N, O, and S 
-    PM3-D    | H, C, N, O, and S 
-    PM3/PDDG | H, C, N, O, and S 
+    CNDO2    | H, Li, C, N, O, S
+    INDO     | H, Li, C, N, O
+    ZINDO/S  | H,     C, N, O, 
+    MNDO     | H,     C, N, O, S, Zn
+    AM1      | H,     C, N, O, S, Zn
+    AM1-D    | H,     C, N, O, S 
+    PM3      | H,     C, N, O, S, Zn
+    PM3-D    | H,     C, N, O, S 
+    PM3/PDDG | H,     C, N, O, S 
 
    -Parallelization
     Open MP parallelization: everywhere in MolDS
