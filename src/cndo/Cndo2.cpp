@@ -610,11 +610,6 @@ void Cndo2::DoSCF(bool requiresGuess){
          }
          else{
             if(!isGuess){ 
-               this->DoDamp(rmsDensity, 
-                            hasAppliedDamping,
-                            this->orbitalElectronPopulation, 
-                            oldOrbitalElectronPopulation, 
-                            *this->molecule);
                this->DoDIIS(this->orbitalElectronPopulation,
                             oldOrbitalElectronPopulation,
                             diisStoredDensityMatrix,
@@ -627,6 +622,11 @@ void Cndo2::DoSCF(bool requiresGuess){
                             Parameters::GetInstance()->GetDiisNumErrorVectSCF(),
                             *this->molecule,
                             iterationStep);
+               this->DoDamp(rmsDensity,
+                            hasAppliedDamping,
+                            this->orbitalElectronPopulation,
+                            oldOrbitalElectronPopulation,
+                            *this->molecule);
             }
          }
 
