@@ -216,6 +216,7 @@ void Mndo::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(N);
    this->enableAtomTypes.push_back(O);
    this->enableAtomTypes.push_back(S);
+   this->enableAtomTypes.push_back(Zn);
 }
 
 double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy(const Atom& atomA, 

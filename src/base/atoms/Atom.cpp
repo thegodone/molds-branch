@@ -339,6 +339,7 @@ double Atom::GetBondingParameter(TheoryType theory, OrbitalType orbital) const{
 
 }
 
+// Table 1.4 in J.A. Pople book
 int Atom::GetEffectivePrincipalQuantumNumber(ShellType shellType) const{
    if(shellType == kShell){
       return 1.0;
@@ -348,6 +349,9 @@ int Atom::GetEffectivePrincipalQuantumNumber(ShellType shellType) const{
    }
    else if(shellType == mShell){
       return 3.0;
+   }
+   else if(shellType == nShell){
+      return 3.7;
    }
    else{
       stringstream ss;
@@ -387,6 +391,13 @@ double Atom::GetOrbitalExponent(ShellType shellType,
                                       orbitalType == dzx ||
                                       orbitalType == dxxyy)){
          return this->effectiveNuclearChargeMd
+               /this->GetEffectivePrincipalQuantumNumber(shellType);
+      }   
+      else if(shellType == nShell && (orbitalType == s  || 
+                                      orbitalType == px || 
+                                      orbitalType == py || 
+                                      orbitalType == pz )){
+         return this->effectiveNuclearChargeNsp
                /this->GetEffectivePrincipalQuantumNumber(shellType);
       }   
       else{
