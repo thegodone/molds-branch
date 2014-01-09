@@ -145,7 +145,9 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
 
          // Store old Force data
          MallocerFreer::GetInstance()->Malloc(&vectorOldForce, dimension);
-         MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension, vectorForce, vectorOldForce);
+         MolDS_wrappers::Blas::GetInstance()->Dcopy(dimension,
+                                                    static_cast<double const*>(vectorForce),
+                                                    vectorOldForce);
 
          this->StoreMolecularGeometry(matrixOldCoordinates, molecule);
 
@@ -194,14 +196,16 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             break;
          }
 
-         if(lineSearchCurrentEnergy > lineSearchInitialEnergy){
+         //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
+         this->CalcDisplacement(matrixDisplacement, matrixOldCoordinates, molecule);
+
+         //Rollback geometry and energy if energy increases
+         bool isHillClimbing = lineSearchCurrentEnergy > lineSearchInitialEnergy;
+         if(isHillClimbing){
             this->OutputLog(this->messageHillClimbing);
             this->RollbackMolecularGeometry(molecule, matrixOldCoordinates);
             lineSearchCurrentEnergy = lineSearchInitialEnergy;
          }
-
-         //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
-         this->CalcDisplacement(matrixDisplacement, matrixOldCoordinates, molecule);
 
          matrixForce = electronicStructure->GetForce(elecState);
          vectorForce = &matrixForce[0][0];
@@ -209,6 +213,10 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          // Update Hessian
          this->UpdateHessian(matrixHessian, dimension, vectorForce, vectorOldForce, &matrixDisplacement[0][0]);
 
+         //Rollback gradient if energy increases
+         if(isHillClimbing){
+            vectorForce = vectorOldForce;
+         }
       }
       *lineSearchedEnergy = lineSearchCurrentEnergy;
    }
