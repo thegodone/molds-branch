@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/12/19(Thu.) 19:52:38  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:59:15  <<<<<
 
 
 **********  START: Parse input  **********
@@ -96,13 +96,13 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 	Mulliken charge(SCF):	0	1	H	1.000000e+00	1.102056e-01
 	Mulliken charge(SCF):	0	2	H	1.000000e+00	1.088959e-01
 
-	Elapsed time(omp) for the SCF = 0.022164[s].
+	Elapsed time(omp) for the SCF = 0.011226[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000382[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000172[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -142,30 +142,30 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 	Electronic dipole moment:	7	-2.621287e+00	-3.328727e+00	2.218018e+00	4.782382e+00		-6.662649e+00	-8.460783e+00	5.637640e+00	1.215560e+01
 	Electronic dipole moment:	8	-2.661283e+00	-3.259423e+00	2.193494e+00	4.745280e+00		-6.764307e+00	-8.284630e+00	5.575308e+00	1.206130e+01
 
-					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Transition dipole moment:	0 -> 1		-1.164712e-02	-2.471751e-02	-5.085907e-02	5.773435e-02		-2.960402e-02	-6.282566e-02	-1.292709e-01	1.467461e-01
-	Transition dipole moment:	0 -> 2		2.499482e-03	5.304401e-03	1.091440e-02	1.238985e-02		6.353050e-03	1.348244e-02	2.774165e-02	3.149185e-02
-	Transition dipole moment:	0 -> 3		6.068627e-02	4.931691e-01	-2.535812e-01	5.578549e-01		1.542491e-01	1.253511e+00	-6.445394e-01	1.417926e+00
-	Transition dipole moment:	0 -> 4		-6.357353e-01	2.704111e-01	1.416991e-02	6.910009e-01		-1.615878e+00	6.873166e-01	3.601631e-02	1.756350e+00
-	Transition dipole moment:	0 -> 5		1.089693e+00	-8.784143e-01	1.773605e-01	1.410851e+00		2.769725e+00	-2.232707e+00	4.508055e-01	3.586026e+00
-	Transition dipole moment:	0 -> 6		-6.039112e-01	-7.247101e-01	4.905005e-01	1.063252e+00		-1.534990e+00	-1.842030e+00	1.246728e+00	2.702517e+00
-	Transition dipole moment:	0 -> 7		-4.235531e-01	5.375870e-01	-1.642739e-01	7.038345e-01		-1.076565e+00	1.366410e+00	-4.175428e-01	1.788969e+00
-	Transition dipole moment:	0 -> 8		-5.520826e-01	-2.952979e-01	2.699533e-01	6.818143e-01		-1.403254e+00	-7.505725e-01	6.861529e-01	1.733000e+00
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		-1.164712e-02	-2.471751e-02	-5.085907e-02	5.773435e-02		-2.960402e-02	-6.282566e-02	-1.292709e-01	1.467461e-01	5.479229e-04
+	Transition dipole moment:	0 -> 2		2.499482e-03	5.304401e-03	1.091440e-02	1.238985e-02		6.353050e-03	1.348244e-02	2.774165e-02	3.149185e-02	2.790498e-05
+	Transition dipole moment:	0 -> 3		6.068627e-02	4.931691e-01	-2.535812e-01	5.578549e-01		1.542491e-01	1.253511e+00	-6.445394e-01	1.417926e+00	7.178181e-02
+	Transition dipole moment:	0 -> 4		-6.357353e-01	2.704111e-01	1.416991e-02	6.910009e-01		-1.615878e+00	6.873166e-01	3.601631e-02	1.756350e+00	1.175911e-01
+	Transition dipole moment:	0 -> 5		1.089693e+00	-8.784143e-01	1.773605e-01	1.410851e+00		2.769725e+00	-2.232707e+00	4.508055e-01	3.586026e+00	6.612496e-01
+	Transition dipole moment:	0 -> 6		-6.039112e-01	-7.247101e-01	4.905005e-01	1.063252e+00		-1.534990e+00	-1.842030e+00	1.246728e+00	2.702517e+00	4.222367e-01
+	Transition dipole moment:	0 -> 7		-4.235531e-01	5.375870e-01	-1.642739e-01	7.038345e-01		-1.076565e+00	1.366410e+00	-4.175428e-01	1.788969e+00	2.754030e-01
+	Transition dipole moment:	0 -> 8		-5.520826e-01	-2.952979e-01	2.699533e-01	6.818143e-01		-1.403254e+00	-7.505725e-01	6.861529e-01	1.733000e+00	2.682311e-01
 
 
-	Elapsed time(omp) for the CIS = 0.002540[s].
+	Elapsed time(omp) for the CIS = 0.001261[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.019012[MB].
+		Max Heap: 0.020480[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.06[s].  <<<<<
+     >>>>>  CPU time: 0.014233[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0569069[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0134079[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

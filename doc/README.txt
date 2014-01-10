@@ -457,7 +457,10 @@ HOW TO WRITE INPUT:
        including between excited states would be calculated. 
        Otherwise "no", transition dipole moments from ground state to each excited state are calculated.
        The center of the transition dipole moments is same with 
-       the center of the dipole moment of the ground state.
+       the center of the dipole moment of the ground state. 
+       The dipole moments and transition dipole moments are calculated 
+       with GTO expansion of STO orbiltals(ST0-6G in [S_1970] is used).
+       Besides, oscillator strength is also shown with each transition dipole moment.
 
        "mulliken" is a option of mulliken popultaion analysis of the excited state.
        When "mulliken x" is included in CIS-directive, the mulliken popultaion of xth excited state is calculated.
