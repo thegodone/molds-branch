@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/11/1(Fri.) 16:15:35  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:58:59  <<<<<
 
 
 **********  START: Parse input  **********
@@ -72,31 +72,30 @@ Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the "limit_h
 
 key value pairs:
 backtrace:
-	./molds(_ZN10MolDS_base14MolDSException12GetBacktraceEi+0x61) [0x4a3cc1]
-	./molds(_ZN10MolDS_base14MolDSExceptionC1ESs+0xb2) [0x4a2d4a]
-	./molds(_ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd+0x2e5) [0x4b2dcf]
-	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m+0x58) [0x4b942c]
-	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm+0xc1) [0x4b8fdd]
-	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm+0xda) [0x51822e]
-	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm+0xf3) [0x517ba7]
-	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm+0x102) [0x58bba2]
-	./molds(_ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm+0x10e) [0x58b47a]
-	./molds(_ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE+0xc1) [0x58dba1]
-	./molds(_ZN8MolDS_md2MD4DoMDEv+0x14c) [0x5d2c72]
-	./molds(_ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb+0x16e) [0x5f0c8c]
-	./molds(_ZN10MolDS_base5MolDS3RunEiPPc+0x394) [0x5f0094]
-	./molds(main+0x6e2) [0x5f2ff6]
-	/lib/x86_64-linux-gnu/libc.so.6(__libc_start_main+0xed) [0x7f234416d76d]
-	./molds() [0x48f4f9]
+	0   molds                               0x000000010ef0b077 _ZN10MolDS_base14MolDSException12GetBacktraceEi + 97
+	1   molds                               0x000000010ef0ae6c _ZN10MolDS_base14MolDSExceptionC1ESs + 180
+	2   molds                               0x000000010ef1c1ef _ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd + 591
+	3   molds                               0x000000010ef5c1c0 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m + 96
+	4   molds                               0x000000010f06d091 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm + 209
+	5   molds                               0x000000010eff8eda _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm + 246
+	6   molds                               0x000000010f044a5f _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm + 279
+	7   molds                               0x000000010f045399 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm + 299
+	8   molds                               0x000000010f045d80 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm + 316
+	9   molds                               0x000000010f00348b _ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE + 287
+	10  molds                               0x000000010f04eaae _ZN8MolDS_md2MD4DoMDEv + 332
+	11  molds                               0x000000010f074287 _ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb + 301
+	12  molds                               0x000000010f073781 _ZN10MolDS_base5MolDS3RunEiPPc + 829
+	13  molds                               0x000000010f076acc main + 1404
+	14  libdyld.dylib                       0x00007fff94a115fd start + 1
 	Summary for memory usage:
 		Max Heap: 0.091712[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished abnormally..............  <<<<<
-     >>>>>  CPU time: 0[s].  <<<<<
+     >>>>>  CPU time: 0.003079[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00606799[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00274396[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

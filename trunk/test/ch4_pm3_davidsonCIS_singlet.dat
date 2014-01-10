@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:54:12  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:59:13  <<<<<
 
 
 **********  START: Parse input  **********
@@ -109,13 +109,13 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	3.244126e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.649410e-02
 
-	Elapsed time(omp) for the SCF = 0.022034[s].
+	Elapsed time(omp) for the SCF = 0.011937[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.002352[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001030[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -138,10 +138,10 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	  4-th excited: norm of the residual = 4.157423e-02
 
 	Davidson iter=3
-	  1-th excited: norm of the residual = 2.991149e-16
-	  2-th excited: norm of the residual = 3.654154e-16
-	  3-th excited: norm of the residual = 4.151579e-16
-	  4-th excited: norm of the residual = 4.045346e-16
+	  1-th excited: norm of the residual = 5.772283e-16
+	  2-th excited: norm of the residual = 3.186774e-16
+	  3-th excited: norm of the residual = 3.220331e-16
+	  4-th excited: norm of the residual = 5.217936e-16
 
 
 
@@ -171,26 +171,26 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Electronic dipole moment:	3	4.980394e-01	-1.696964e-01	-2.028179e-01	5.638929e-01		1.265890e+00	-4.313254e-01	-5.155117e-01	1.433273e+00
 	Electronic dipole moment:	4	-2.147200e-01	1.629234e-03	-1.530018e-02	2.152706e-01		-5.457640e-01	4.141100e-03	-3.888919e-02	5.471634e-01
 
-					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Transition dipole moment:	0 -> 1		9.631903e-03	-6.368507e-03	1.012227e-01	1.018792e-01		2.448186e-02	-1.618713e-02	2.572826e-01	2.589512e-01
-	Transition dipole moment:	0 -> 2		2.335171e-01	-8.610199e-01	-7.636609e-01	1.174335e+00		5.935414e-01	-2.188495e+00	-1.941033e+00	2.984863e+00
-	Transition dipole moment:	0 -> 3		1.192594e+00	3.245526e-01	5.684314e-03	1.235980e+00		3.031271e+00	8.249305e-01	1.444809e-02	3.141548e+00
-	Transition dipole moment:	0 -> 4		-2.256340e-01	8.233474e-01	-9.739749e-01	1.295160e+00		-5.735046e-01	2.092741e+00	-2.475598e+00	3.291968e+00
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		9.631903e-03	-6.368507e-03	1.012227e-01	1.018792e-01		2.448186e-02	-1.618713e-02	2.572826e-01	2.589512e-01	2.016193e-03
+	Transition dipole moment:	0 -> 2		2.335171e-01	-8.610199e-01	-7.636609e-01	1.174335e+00		5.935414e-01	-2.188495e+00	-1.941033e+00	2.984863e+00	2.867839e-01
+	Transition dipole moment:	0 -> 3		1.192594e+00	3.245526e-01	5.684314e-03	1.235980e+00		3.031271e+00	8.249305e-01	1.444809e-02	3.141548e+00	3.238513e-01
+	Transition dipole moment:	0 -> 4		-2.256340e-01	8.233474e-01	-9.739749e-01	1.295160e+00		-5.735046e-01	2.092741e+00	-2.475598e+00	3.291968e+00	3.612326e-01
 
 
-	Elapsed time(omp) for the CIS = 0.006431[s].
+	Elapsed time(omp) for the CIS = 0.002702[s].
 **********  DONE: PM3-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.085976[MB].
+		Max Heap: 0.114344[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.03[s].  <<<<<
+     >>>>>  CPU time: 0.017024[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0310261[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0158751[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

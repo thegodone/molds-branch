@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:53:54  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:58:56  <<<<<
 
 
 **********  START: Parse input  **********
@@ -131,13 +131,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.179242[s].
+	Elapsed time(omp) for the SCF = 0.014998[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.099399[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027120[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -241,14 +241,14 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Electronic dipole moment:	3	6.422312e-02	-7.270683e-03	1.624818e-02	6.664440e-02		1.632389e-01	-1.848024e-02	4.129876e-02	1.693932e-01
 	Electronic dipole moment:	4	6.389365e-02	-9.728068e-03	1.443746e-02	6.622291e-02		1.624015e-01	-2.472629e-02	3.669638e-02	1.683219e-01
 
-					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Transition dipole moment:	0 -> 1		-2.360388e-01	-2.256699e-01	-4.342440e-02	3.294342e-01		-5.999508e-01	-5.735959e-01	-1.103738e-01	8.373384e-01
-	Transition dipole moment:	0 -> 2		-4.875580e-02	-3.176505e-02	-5.235532e-02	7.827660e-02		-1.239249e-01	-8.073871e-02	-1.330740e-01	1.989593e-01
-	Transition dipole moment:	0 -> 3		-2.744886e-01	-2.689793e-01	-7.443261e-01	8.376844e-01		-6.976805e-01	-6.836774e-01	-1.891889e+00	2.129182e+00
-	Transition dipole moment:	0 -> 4		3.996160e-01	5.793969e-01	-5.636634e-01	9.017262e-01		1.015723e+00	1.472680e+00	-1.432690e+00	2.291960e+00
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		-2.360388e-01	-2.256699e-01	-4.342440e-02	3.294342e-01		-5.999508e-01	-5.735959e-01	-1.103738e-01	8.373384e-01	2.178690e-02
+	Transition dipole moment:	0 -> 2		-4.875580e-02	-3.176505e-02	-5.235532e-02	7.827660e-02		-1.239249e-01	-8.073871e-02	-1.330740e-01	1.989593e-01	1.358721e-03
+	Transition dipole moment:	0 -> 3		-2.744886e-01	-2.689793e-01	-7.443261e-01	8.376844e-01		-6.976805e-01	-6.836774e-01	-1.891889e+00	2.129182e+00	1.576301e-01
+	Transition dipole moment:	0 -> 4		3.996160e-01	5.793969e-01	-5.636634e-01	9.017262e-01		1.015723e+00	1.472680e+00	-1.432690e+00	2.291960e+00	1.839622e-01
 
 
-	Elapsed time(omp) for the CIS = 0.340516[s].
+	Elapsed time(omp) for the CIS = 0.125945[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -345,13 +345,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736965e-02	-1.717471e+01
 
-	Elapsed time(omp) for the SCF = 0.045645[s].
+	Elapsed time(omp) for the SCF = 0.004336[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.081142[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027648[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -455,14 +455,14 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Electronic dipole moment:	3	6.421649e-02	-7.273380e-03	1.624620e-02	6.663781e-02		1.632221e-01	-1.848709e-02	4.129373e-02	1.693765e-01
 	Electronic dipole moment:	4	6.399617e-02	-9.717042e-03	1.444977e-02	6.632289e-02		1.626621e-01	-2.469826e-02	3.672766e-02	1.685760e-01
 
-					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Transition dipole moment:	0 -> 1		-2.361569e-01	-2.256353e-01	-4.341545e-02	3.294939e-01		-6.002510e-01	-5.735078e-01	-1.103511e-01	8.374902e-01
-	Transition dipole moment:	0 -> 2		-4.870398e-02	-3.175744e-02	-5.222300e-02	7.815276e-02		-1.237932e-01	-8.071939e-02	-1.327377e-01	1.986446e-01
-	Transition dipole moment:	0 -> 3		-2.742267e-01	-2.689651e-01	-7.445057e-01	8.377537e-01		-6.970149e-01	-6.836411e-01	-1.892345e+00	2.129358e+00
-	Transition dipole moment:	0 -> 4		3.983858e-01	5.788941e-01	-5.638185e-01	9.009556e-01		1.012596e+00	1.471402e+00	-1.433084e+00	2.290001e+00
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		-2.361569e-01	-2.256353e-01	-4.341545e-02	3.294939e-01		-6.002510e-01	-5.735078e-01	-1.103511e-01	8.374902e-01	2.179453e-02
+	Transition dipole moment:	0 -> 2		-4.870398e-02	-3.175744e-02	-5.222300e-02	7.815276e-02		-1.237932e-01	-8.071939e-02	-1.327377e-01	1.986446e-01	1.354415e-03
+	Transition dipole moment:	0 -> 3		-2.742267e-01	-2.689651e-01	-7.445057e-01	8.377537e-01		-6.970149e-01	-6.836411e-01	-1.892345e+00	2.129358e+00	1.576549e-01
+	Transition dipole moment:	0 -> 4		3.983858e-01	5.788941e-01	-5.638185e-01	9.009556e-01		1.012596e+00	1.471402e+00	-1.433084e+00	2.290001e+00	1.836460e-01
 
 
-	Elapsed time(omp) for the CIS = 0.483131[s].
+	Elapsed time(omp) for the CIS = 0.125251[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -473,7 +473,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep.):	-1.225091e+01	-3.333670e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	2.668212e-07	7.260631e-06
+		Error:            	2.668212e-07	7.260632e-06
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	5.629593e-06	3.779274e-02	-1.975684e-07		2.979052e-06	1.999906e-02	-1.045487e-07
@@ -561,13 +561,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737462e-02	-1.717783e+01
 
-	Elapsed time(omp) for the SCF = 0.030728[s].
+	Elapsed time(omp) for the SCF = 0.004560[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.179557[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026907[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -671,14 +671,14 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Electronic dipole moment:	3	6.419240e-02	-7.279818e-03	1.624111e-02	6.661407e-02		1.631609e-01	-1.850345e-02	4.128078e-02	1.693161e-01
 	Electronic dipole moment:	4	6.428278e-02	-9.684337e-03	1.448468e-02	6.660231e-02		1.633906e-01	-2.461513e-02	3.681640e-02	1.692862e-01
 
-					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Transition dipole moment:	0 -> 1		-2.365142e-01	-2.255295e-01	-4.338830e-02	3.296742e-01		-6.011592e-01	-5.732389e-01	-1.102821e-01	8.379483e-01
-	Transition dipole moment:	0 -> 2		-4.854767e-02	-3.173502e-02	-5.181655e-02	7.777495e-02		-1.233959e-01	-8.066240e-02	-1.317046e-01	1.976842e-01
-	Transition dipole moment:	0 -> 3		-2.734493e-01	-2.689363e-01	-7.450899e-01	8.380097e-01		-6.950390e-01	-6.835680e-01	-1.893830e+00	2.130009e+00
-	Transition dipole moment:	0 -> 4		3.948344e-01	5.775133e-01	-5.642286e-01	8.987601e-01		1.003569e+00	1.467893e+00	-1.434126e+00	2.284421e+00
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		-2.365142e-01	-2.255295e-01	-4.338830e-02	3.296742e-01		-6.011592e-01	-5.732389e-01	-1.102821e-01	8.379483e-01	2.181763e-02
+	Transition dipole moment:	0 -> 2		-4.854767e-02	-3.173502e-02	-5.181655e-02	7.777495e-02		-1.233959e-01	-8.066240e-02	-1.317046e-01	1.976842e-01	1.341324e-03
+	Transition dipole moment:	0 -> 3		-2.734493e-01	-2.689363e-01	-7.450899e-01	8.380097e-01		-6.950390e-01	-6.835680e-01	-1.893830e+00	2.130009e+00	1.577478e-01
+	Transition dipole moment:	0 -> 4		3.948344e-01	5.775133e-01	-5.642286e-01	8.987601e-01		1.003569e+00	1.467893e+00	-1.434126e+00	2.284421e+00	1.827467e-01
 
 
-	Elapsed time(omp) for the CIS = 0.658062[s].
+	Elapsed time(omp) for the CIS = 0.124487[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -777,13 +777,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738286e-02	-1.718300e+01
 
-	Elapsed time(omp) for the SCF = 0.042481[s].
+	Elapsed time(omp) for the SCF = 0.004494[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.041594[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026884[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -893,14 +893,14 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Electronic dipole moment:	3	6.415144e-02	-7.289854e-03	1.623281e-02	6.657367e-02		1.630567e-01	-1.852897e-02	4.125968e-02	1.692134e-01
 	Electronic dipole moment:	4	6.473717e-02	-9.631403e-03	1.453993e-02	6.704531e-02		1.645455e-01	-2.448059e-02	3.695682e-02	1.704122e-01
 
-					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Transition dipole moment:	0 -> 1		-2.371075e-01	-2.253536e-01	-4.334318e-02	3.299740e-01		-6.026672e-01	-5.727920e-01	-1.101674e-01	8.387105e-01
-	Transition dipole moment:	0 -> 2		-4.828874e-02	-3.169802e-02	-5.113919e-02	7.714781e-02		-1.227378e-01	-8.056835e-02	-1.299829e-01	1.960902e-01
-	Transition dipole moment:	0 -> 3		-2.721627e-01	-2.688909e-01	-7.460589e-01	8.384383e-01		-6.917688e-01	-6.834527e-01	-1.896293e+00	2.131098e+00
-	Transition dipole moment:	0 -> 4		3.890871e-01	5.752886e-01	-5.648526e-01	8.952118e-01		9.889609e-01	1.462238e+00	-1.435712e+00	2.275402e+00
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		-2.371075e-01	-2.253536e-01	-4.334318e-02	3.299740e-01		-6.026672e-01	-5.727920e-01	-1.101674e-01	8.387105e-01	2.185608e-02
+	Transition dipole moment:	0 -> 2		-4.828874e-02	-3.169802e-02	-5.113919e-02	7.714781e-02		-1.227378e-01	-8.056835e-02	-1.299829e-01	1.960902e-01	1.319734e-03
+	Transition dipole moment:	0 -> 3		-2.721627e-01	-2.688909e-01	-7.460589e-01	8.384383e-01		-6.917688e-01	-6.834527e-01	-1.896293e+00	2.131098e+00	1.579034e-01
+	Transition dipole moment:	0 -> 4		3.890871e-01	5.752886e-01	-5.648526e-01	8.952118e-01		9.889609e-01	1.462238e+00	-1.435712e+00	2.275402e+00	1.812979e-01
 
 
-	Elapsed time(omp) for the CIS = 0.350397[s].
+	Elapsed time(omp) for the CIS = 0.145068[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1000,13 +1000,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739430e-02	-1.719018e+01
 
-	Elapsed time(omp) for the SCF = 0.027733[s].
+	Elapsed time(omp) for the SCF = 0.004876[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.040543[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027862[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1116,14 +1116,14 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Electronic dipole moment:	3	6.409246e-02	-7.304616e-03	1.622072e-02	6.651550e-02		1.629068e-01	-1.856649e-02	4.122897e-02	1.690656e-01
 	Electronic dipole moment:	4	6.532867e-02	-9.562093e-03	1.461092e-02	6.762209e-02		1.660489e-01	-2.430442e-02	3.713725e-02	1.718783e-01
 
-					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Transition dipole moment:	0 -> 1		-2.379397e-01	-2.251065e-01	-4.327978e-02	3.303958e-01		-6.047825e-01	-5.721639e-01	-1.100063e-01	8.397826e-01
-	Transition dipole moment:	0 -> 2		-4.792573e-02	-3.164589e-02	-5.018202e-02	7.626646e-02		-1.218151e-01	-8.043585e-02	-1.275500e-01	1.938501e-01
-	Transition dipole moment:	0 -> 3		-2.703727e-01	-2.688357e-01	-7.474258e-01	8.390586e-01		-6.872190e-01	-6.833122e-01	-1.899767e+00	2.132675e+00
-	Transition dipole moment:	0 -> 4		-3.813573e-01	-5.723361e-01	5.656245e-01	8.904678e-01		-9.693136e-01	-1.454734e+00	1.437674e+00	2.263344e+00
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		-2.379397e-01	-2.251065e-01	-4.327978e-02	3.303958e-01		-6.047825e-01	-5.721639e-01	-1.100063e-01	8.397826e-01	2.191022e-02
+	Transition dipole moment:	0 -> 2		-4.792573e-02	-3.164589e-02	-5.018202e-02	7.626646e-02		-1.218151e-01	-8.043585e-02	-1.275500e-01	1.938501e-01	1.289691e-03
+	Transition dipole moment:	0 -> 3		-2.703727e-01	-2.688357e-01	-7.474258e-01	8.390586e-01		-6.872190e-01	-6.833122e-01	-1.899767e+00	2.132675e+00	1.581290e-01
+	Transition dipole moment:	0 -> 4		-3.813573e-01	-5.723361e-01	5.656245e-01	8.904678e-01		-9.693136e-01	-1.454734e+00	1.437674e+00	2.263344e+00	1.793693e-01
 
 
-	Elapsed time(omp) for the CIS = 0.243290[s].
+	Elapsed time(omp) for the CIS = 0.146349[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1134,7 +1134,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep.):	-1.225099e+01	-3.333690e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	2.970267e-07	8.082573e-06
+		Error:            	2.970267e-07	8.082574e-06
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	9.004197e-05	3.776607e-02	-3.159317e-06		4.764816e-05	1.998495e-02	-1.671838e-06
@@ -1223,13 +1223,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740883e-02	-1.719930e+01
 
-	Elapsed time(omp) for the SCF = 0.024567[s].
+	Elapsed time(omp) for the SCF = 0.004775[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.044449[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026866[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1339,14 +1339,14 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Electronic dipole moment:	3	6.401587e-02	-7.323088e-03	1.620510e-02	6.643993e-02		1.627121e-01	-1.861344e-02	4.118926e-02	1.688735e-01
 	Electronic dipole moment:	4	6.601806e-02	-9.479380e-03	1.469258e-02	6.829433e-02		1.678012e-01	-2.409418e-02	3.734481e-02	1.735869e-01
 
-					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Transition dipole moment:	0 -> 1		-2.390051e-01	-2.247895e-01	-4.319846e-02	3.309378e-01		-6.074905e-01	-5.713580e-01	-1.097996e-01	8.411602e-01
-	Transition dipole moment:	0 -> 2		-4.746319e-02	-3.157918e-02	-4.895199e-02	7.514184e-02		-1.206394e-01	-8.026628e-02	-1.244236e-01	1.909915e-01
-	Transition dipole moment:	0 -> 3		-2.681048e-01	-2.687740e-01	-7.491669e-01	8.398635e-01		-6.814545e-01	-6.831555e-01	-1.904193e+00	2.134720e+00
-	Transition dipole moment:	0 -> 4		-3.719799e-01	-5.688048e-01	5.664620e-01	8.847526e-01		-9.454788e-01	-1.445758e+00	1.439803e+00	2.248817e+00
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		-2.390051e-01	-2.247895e-01	-4.319846e-02	3.309378e-01		-6.074905e-01	-5.713580e-01	-1.097996e-01	8.411602e-01	2.197989e-02
+	Transition dipole moment:	0 -> 2		-4.746319e-02	-3.157918e-02	-4.895199e-02	7.514184e-02		-1.206394e-01	-8.026628e-02	-1.244236e-01	1.909915e-01	1.251858e-03
+	Transition dipole moment:	0 -> 3		-2.681048e-01	-2.687740e-01	-7.491669e-01	8.398635e-01		-6.814545e-01	-6.831555e-01	-1.904193e+00	2.134720e+00	1.584220e-01
+	Transition dipole moment:	0 -> 4		-3.719799e-01	-5.688048e-01	5.664620e-01	8.847526e-01		-9.454788e-01	-1.445758e+00	1.439803e+00	2.248817e+00	1.770586e-01
 
 
-	Elapsed time(omp) for the CIS = 0.237090[s].
+	Elapsed time(omp) for the CIS = 0.144641[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1357,7 +1357,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep.):	-1.225103e+01	-3.333703e+02
 		Total:            	-1.225091e+01	-3.333668e+02
-		Error:            	2.892472e-07	7.870879e-06
+		Error:            	2.892472e-07	7.870880e-06
 
 				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 	Atom coordinates:	0	C	1.406618e-04	3.775010e-02	-4.934796e-06		7.443502e-05	1.997649e-02	-2.611381e-06
@@ -1389,14 +1389,14 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.261504[MB].
+		Max Heap: 0.329184[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 5.68[s].  <<<<<
-     >>>>>  Elapsed time: 6[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 5.87215[s].  <<<<<
+     >>>>>  CPU time: 1.44464[s].  <<<<<
+     >>>>>  Elapsed time: 2[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.4401[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
