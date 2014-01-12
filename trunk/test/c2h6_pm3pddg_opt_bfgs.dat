@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:55:3  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/12(Sun.) 16:9:3  <<<<<
 
 
 **********  START: Parse input  **********
@@ -43,6 +43,8 @@
 		Electronic eigenstate: 0
 		Max gradient: 0.000450
 		Rms gradient: 0.000300
+		Initial trust radius: 0.300000
+		Max size of the optimization step: 0.300000
 		Initial trust radius: 0.300000
 		Max size of the optimization step: 0.300000
 
@@ -120,7 +122,7 @@ h | 1.7519 | -1.0401 | -0.1000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	9.775077e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.088939e-01
 
-	Elapsed time(omp) for the SCF = 0.101077[s].
+	Elapsed time(omp) for the SCF = 0.150620[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -197,8 +199,8 @@ actual/expected energy change = 1.509575
 
 	====== Optimization Logs ======
 	Energy difference:  -3.136514e-02 [a.u.]
-	Max gradient:  1.235168e-01 [a.u.]
-	Rms gradient:  4.246652e-02 [a.u.]
+	Max gradient:  9.653856e-02 [a.u.]
+	Rms gradient:  2.687443e-02 [a.u.]
 
 
 
@@ -274,8 +276,8 @@ actual/expected energy change = 0.970080
 
 	====== Optimization Logs ======
 	Energy difference:  -1.802074e-02 [a.u.]
-	Max gradient:  9.653856e-02 [a.u.]
-	Rms gradient:  2.687443e-02 [a.u.]
+	Max gradient:  3.011362e-02 [a.u.]
+	Rms gradient:  1.379044e-02 [a.u.]
 
 
 
@@ -351,8 +353,8 @@ actual/expected energy change = 1.350483
 
 	====== Optimization Logs ======
 	Energy difference:  -2.222913e-03 [a.u.]
-	Max gradient:  3.011362e-02 [a.u.]
-	Rms gradient:  1.379044e-02 [a.u.]
+	Max gradient:  1.802741e-02 [a.u.]
+	Rms gradient:  9.797423e-03 [a.u.]
 
 
 
@@ -428,8 +430,8 @@ actual/expected energy change = 1.437281
 
 	====== Optimization Logs ======
 	Energy difference:  -2.499199e-03 [a.u.]
-	Max gradient:  1.802741e-02 [a.u.]
-	Rms gradient:  9.797423e-03 [a.u.]
+	Max gradient:  1.211386e-02 [a.u.]
+	Rms gradient:  6.016376e-03 [a.u.]
 
 
 
@@ -505,8 +507,8 @@ actual/expected energy change = 1.229143
 
 	====== Optimization Logs ======
 	Energy difference:  -1.329674e-03 [a.u.]
-	Max gradient:  1.211386e-02 [a.u.]
-	Rms gradient:  6.016376e-03 [a.u.]
+	Max gradient:  1.183922e-02 [a.u.]
+	Rms gradient:  5.151528e-03 [a.u.]
 
 
 
@@ -582,8 +584,8 @@ actual/expected energy change = 1.587160
 
 	====== Optimization Logs ======
 	Energy difference:  -4.952496e-04 [a.u.]
-	Max gradient:  1.183922e-02 [a.u.]
-	Rms gradient:  5.151528e-03 [a.u.]
+	Max gradient:  1.029066e-02 [a.u.]
+	Rms gradient:  4.923371e-03 [a.u.]
 
 
 
@@ -659,8 +661,8 @@ actual/expected energy change = 1.379916
 
 	====== Optimization Logs ======
 	Energy difference:  -7.687431e-04 [a.u.]
-	Max gradient:  1.029066e-02 [a.u.]
-	Rms gradient:  4.923371e-03 [a.u.]
+	Max gradient:  1.108484e-02 [a.u.]
+	Rms gradient:  4.301842e-03 [a.u.]
 
 
 
@@ -736,8 +738,8 @@ actual/expected energy change = 1.375035
 
 	====== Optimization Logs ======
 	Energy difference:  -4.400268e-04 [a.u.]
-	Max gradient:  1.108484e-02 [a.u.]
-	Rms gradient:  4.301842e-03 [a.u.]
+	Max gradient:  8.945952e-03 [a.u.]
+	Rms gradient:  3.004880e-03 [a.u.]
 
 
 
@@ -813,8 +815,8 @@ actual/expected energy change = 1.320710
 
 	====== Optimization Logs ======
 	Energy difference:  -2.107817e-04 [a.u.]
-	Max gradient:  8.945952e-03 [a.u.]
-	Rms gradient:  3.004880e-03 [a.u.]
+	Max gradient:  3.914513e-03 [a.u.]
+	Rms gradient:  1.806713e-03 [a.u.]
 
 
 
@@ -890,8 +892,8 @@ actual/expected energy change = 1.334492
 
 	====== Optimization Logs ======
 	Energy difference:  -7.789505e-05 [a.u.]
-	Max gradient:  3.914513e-03 [a.u.]
-	Rms gradient:  1.806713e-03 [a.u.]
+	Max gradient:  2.348107e-03 [a.u.]
+	Rms gradient:  1.224477e-03 [a.u.]
 
 
 
@@ -967,8 +969,8 @@ actual/expected energy change = 1.345586
 
 	====== Optimization Logs ======
 	Energy difference:  -3.013499e-05 [a.u.]
-	Max gradient:  2.348107e-03 [a.u.]
-	Rms gradient:  1.224477e-03 [a.u.]
+	Max gradient:  2.466850e-03 [a.u.]
+	Rms gradient:  9.633209e-04 [a.u.]
 
 
 
@@ -1044,8 +1046,8 @@ actual/expected energy change = 1.467251
 
 	====== Optimization Logs ======
 	Energy difference:  -1.590690e-05 [a.u.]
-	Max gradient:  2.466850e-03 [a.u.]
-	Rms gradient:  9.633209e-04 [a.u.]
+	Max gradient:  2.510158e-03 [a.u.]
+	Rms gradient:  8.512001e-04 [a.u.]
 
 
 
@@ -1121,8 +1123,8 @@ actual/expected energy change = 1.459857
 
 	====== Optimization Logs ======
 	Energy difference:  -1.578546e-05 [a.u.]
-	Max gradient:  2.510158e-03 [a.u.]
-	Rms gradient:  8.512001e-04 [a.u.]
+	Max gradient:  2.162986e-03 [a.u.]
+	Rms gradient:  8.142333e-04 [a.u.]
 
 
 
@@ -1198,8 +1200,8 @@ actual/expected energy change = 1.449004
 
 	====== Optimization Logs ======
 	Energy difference:  -1.521316e-05 [a.u.]
-	Max gradient:  2.162986e-03 [a.u.]
-	Rms gradient:  8.142333e-04 [a.u.]
+	Max gradient:  1.710260e-03 [a.u.]
+	Rms gradient:  7.745775e-04 [a.u.]
 
 
 
@@ -1275,8 +1277,8 @@ actual/expected energy change = 1.393714
 
 	====== Optimization Logs ======
 	Energy difference:  -1.272556e-05 [a.u.]
-	Max gradient:  1.710260e-03 [a.u.]
-	Rms gradient:  7.745775e-04 [a.u.]
+	Max gradient:  1.492191e-03 [a.u.]
+	Rms gradient:  6.115859e-04 [a.u.]
 
 
 
@@ -1352,8 +1354,8 @@ actual/expected energy change = 1.359431
 
 	====== Optimization Logs ======
 	Energy difference:  -7.530672e-06 [a.u.]
-	Max gradient:  1.492191e-03 [a.u.]
-	Rms gradient:  6.115859e-04 [a.u.]
+	Max gradient:  1.182928e-03 [a.u.]
+	Rms gradient:  3.801578e-04 [a.u.]
 
 
 
@@ -1429,8 +1431,8 @@ actual/expected energy change = 1.384690
 
 	====== Optimization Logs ======
 	Energy difference:  -3.787475e-06 [a.u.]
-	Max gradient:  1.182928e-03 [a.u.]
-	Rms gradient:  3.801578e-04 [a.u.]
+	Max gradient:  6.399565e-04 [a.u.]
+	Rms gradient:  2.601308e-04 [a.u.]
 
 
 
@@ -1506,8 +1508,8 @@ actual/expected energy change = 1.435986
 
 	====== Optimization Logs ======
 	Energy difference:  -2.404721e-06 [a.u.]
-	Max gradient:  6.399565e-04 [a.u.]
-	Rms gradient:  2.601308e-04 [a.u.]
+	Max gradient:  5.021458e-04 [a.u.]
+	Rms gradient:  2.523271e-04 [a.u.]
 
 
 
@@ -1583,8 +1585,8 @@ actual/expected energy change = 1.426738
 
 	====== Optimization Logs ======
 	Energy difference:  -1.972818e-06 [a.u.]
-	Max gradient:  5.021458e-04 [a.u.]
-	Rms gradient:  2.523271e-04 [a.u.]
+	Max gradient:  5.193113e-04 [a.u.]
+	Rms gradient:  2.500944e-04 [a.u.]
 
 
 
@@ -1660,8 +1662,8 @@ actual/expected energy change = 1.407551
 
 	====== Optimization Logs ======
 	Energy difference:  -1.505934e-06 [a.u.]
-	Max gradient:  5.193113e-04 [a.u.]
-	Rms gradient:  2.500944e-04 [a.u.]
+	Max gradient:  4.522702e-04 [a.u.]
+	Rms gradient:  2.104509e-04 [a.u.]
 
 
 
@@ -1737,83 +1739,6 @@ actual/expected energy change = 1.391970
 
 	====== Optimization Logs ======
 	Energy difference:  -1.011309e-06 [a.u.]
-	Max gradient:  4.522702e-04 [a.u.]
-	Rms gradient:  2.104509e-04 [a.u.]
-
-
-
-==========  START: BFGS step 22
-
-Lowest eigenvalue of the augmented Hessian     = -0.000001
-2nd lowest eigenvalue of the augmented Hessian = 0.043287
-3rd lowest eigenvalue of the augmented Hessian = 0.089778
-Calculated RFO step size                       = 0.002218
-Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	2.145595e-02	9.983076e-02	-9.199526e-02		1.135400e-02	5.282816e-02	-4.868179e-02
-	Atom coordinates:	1	C	2.873812e+00	2.387958e-02	-9.697962e-02		1.520756e+00	1.263653e-02	-5.131940e-02
-	Atom coordinates:	2	H	-6.960428e-01	2.041507e+00	-9.268236e-02		-3.683300e-01	1.080319e+00	-4.904539e-02
-	Atom coordinates:	3	H	-7.679994e-01	-8.436859e-01	-1.755560e+00		-4.064078e-01	-4.464593e-01	-9.290022e-01
-	Atom coordinates:	4	H	-7.619906e-01	-8.421400e-01	1.575439e+00		-4.032281e-01	-4.456413e-01	8.336865e-01
-	Atom coordinates:	5	H	3.663427e+00	9.949986e-01	-1.744246e+00		1.938602e+00	5.265306e-01	-9.230152e-01
-	Atom coordinates:	6	H	3.668032e+00	9.317891e-01	1.584399e+00		1.941039e+00	4.930816e-01	8.384277e-01
-	Atom coordinates:	7	H	3.587673e+00	-1.918630e+00	-1.342655e-01		1.898515e+00	-1.015295e+00	-7.105023e-02
-
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	1.447879e+00	6.161074e-02	-9.448714e-02		7.661844e-01	3.260300e-02	-5.000044e-02
-
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.447879e+00	6.161081e-02	-9.448714e-02		7.661843e-01	3.260303e-02	-5.000044e-02
-
-			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
-	Energy of MO:	0	occ	-1.289005e+00	-3.507588e+01
-	Energy of MO:	1	occ	-8.690247e-01	-2.364755e+01
-	Energy of MO:	2	occ	-5.575282e-01	-1.517124e+01
-	Energy of MO:	3	occ	-5.573856e-01	-1.516735e+01
-	Energy of MO:	4	occ	-5.073051e-01	-1.380458e+01
-	Energy of MO:	5	occ	-4.362141e-01	-1.187008e+01
-	Energy of MO:	6	occ	-4.361427e-01	-1.186814e+01
-	Energy of MO:	7	unocc	1.366557e-01	3.718622e+00
-	Energy of MO:	8	unocc	1.573044e-01	4.280505e+00
-	Energy of MO:	9	unocc	1.638606e-01	4.458909e+00
-	Energy of MO:	10	unocc	1.639624e-01	4.461679e+00
-	Energy of MO:	11	unocc	1.844616e-01	5.019494e+00
-	Energy of MO:	12	unocc	1.934591e-01	5.264332e+00
-	Energy of MO:	13	unocc	1.935232e-01	5.266075e+00
-
-				|   [a.u.]   |   [eV]   |
-	Electronic energy(SCF):	-1.230266e+01	-3.347751e+02
-	Note that this electronic energy includes core-repulsions.
-
-				|   [a.u.]   |   [eV]   |
-	Core repulsion energy:	2.177680e+01	5.925818e+02
-
-					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Total Dipole moment(SCF):	-2.651745e-03	2.628576e-03	4.911031e-04	3.765945e-03		-6.740065e-03	6.681174e-03	1.248260e-03	9.572080e-03
-
-					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Electronic Dipole moment(SCF):	-6.524292e-03	6.499504e-03	4.863049e-04	9.222062e-03		-1.658310e-02	1.652009e-02	1.236064e-03	2.344015e-02
-
-					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Core Dipole moment:		3.872547e-03	-3.870928e-03	4.798208e-06	5.475466e-03		9.843034e-03	-9.838921e-03	1.219583e-05	1.391725e-02
-
-				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.559578e-01
-	Mulliken charge(SCF):	0	1	C	4.000000e+00	-2.563503e-01
-	Mulliken charge(SCF):	0	2	H	1.000000e+00	8.559830e-02
-	Mulliken charge(SCF):	0	3	H	1.000000e+00	8.532453e-02
-	Mulliken charge(SCF):	0	4	H	1.000000e+00	8.538347e-02
-	Mulliken charge(SCF):	0	5	H	1.000000e+00	8.534452e-02
-	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.531996e-02
-	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.533725e-02
-
-
-actual energy change          = -6.340346e-07
-expected energy change        = -4.515859e-07
-actual/expected energy change = 1.404018
-
-	====== Optimization Logs ======
-	Energy difference:  -6.340346e-07 [a.u.]
 	Max gradient:  3.002884e-04 [a.u.]
 	Rms gradient:  1.551034e-04 [a.u.]
 
@@ -1823,14 +1748,14 @@ actual/expected energy change = 1.404018
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.220496[MB].
+		Max Heap: 0.440928[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 12.76[s].  <<<<<
-     >>>>>  Elapsed time: 13[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 12.916[s].  <<<<<
+     >>>>>  CPU time: 5.2[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.15049[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
