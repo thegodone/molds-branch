@@ -185,6 +185,9 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
 
          this->UpdateTrustRadius(trustRadius, approximateChange, lineSearchInitialEnergy, lineSearchCurrentEnergy);
 
+         matrixForce = electronicStructure->GetForce(elecState);
+         vectorForce = &matrixForce[0][0];
+
          // check convergence
          if(this->SatisfiesConvergenceCriterion(matrixForce,
                   molecule,
@@ -206,9 +209,6 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
             this->RollbackMolecularGeometry(molecule, matrixOldCoordinates);
             lineSearchCurrentEnergy = lineSearchInitialEnergy;
          }
-
-         matrixForce = electronicStructure->GetForce(elecState);
-         vectorForce = &matrixForce[0][0];
 
          // Update Hessian
          this->UpdateHessian(matrixHessian, dimension, vectorForce, vectorOldForce, &matrixDisplacement[0][0]);
