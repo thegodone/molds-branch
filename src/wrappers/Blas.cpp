@@ -132,6 +132,25 @@ double Blas::Ddot(molds_blas_int n,
    return cblas_ddot(n, x, incrementX, y, incrementY);
 }
 
+// returns sqrt(sum(Xi^2))
+// vectorX: n-vector
+double Blas::Dnrm2(molds_blas_int n,
+                   double const* vectorX) const{
+   molds_blas_int incrementX = 1;
+   return this->Dnrm2(n,vectorX,incrementX);
+}
+// returns sqrt(sum(Xi^2))
+// vectorX: n-vector
+double Blas::Dnrm2(molds_blas_int n,
+                   double const* vectorX,
+                   molds_blas_int incrementX) const{
+   if(n<=0 || vectorX == NULL || incrementX <= 0){
+      return 0.0;
+   }
+   double* x=const_cast<double*>(vectorX);
+   return cblas_dnrm2(n,x,incrementX);
+}
+
 // returns max(abs(vectorX[i]))
 //    vectorX: n-vector
 double Blas::Damax(molds_blas_int n,
