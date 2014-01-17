@@ -610,6 +610,7 @@ double ZindoS::GetNishimotoMatagaTwoEleInt(const Atom& atomA, OrbitalType orbita
       gammaAA = atomA.GetZindoF0ss();
    }
    /*
+   // ToDo: d-orbitals.
    else if(orbitalA == dxy ||
            orbitalA == dyz ||
            orbitalA == dzz ||
@@ -634,6 +635,7 @@ double ZindoS::GetNishimotoMatagaTwoEleInt(const Atom& atomA, OrbitalType orbita
       gammaBB = atomB.GetZindoF0ss();
    }
    /*
+   // ToDo: d-orbitals.
    else if(orbitalB == dxy ||
            orbitalB == dyz ||
            orbitalB == dzz ||
@@ -684,6 +686,7 @@ double ZindoS::GetNishimotoMatagaTwoEleInt1stDerivative(const Atom& atomA,
       gammaAA = atomA.GetZindoF0ss();
    }
    /*
+   // ToDo: d-orbitals.
    else if(orbitalA == dxy ||
            orbitalA == dyz ||
            orbitalA == dzz ||
@@ -708,6 +711,7 @@ double ZindoS::GetNishimotoMatagaTwoEleInt1stDerivative(const Atom& atomA,
       gammaBB = atomB.GetZindoF0ss();
    }
    /*
+   // ToDo: d-orbitals.
    else if(orbitalB == dxy ||
            orbitalB == dyz ||
            orbitalB == dzz ||
