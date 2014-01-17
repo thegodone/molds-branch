@@ -3554,6 +3554,7 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
       throw MolDSException(this->errorMessageCalcTwoElecsTwoAtomCoresNullMatrix);
    }
 #endif
+   OrbitalType twoElecLimit = dxy;
    int totalNumberAtoms = molecule.GetAtomVect().size();
    MallocerFreer::GetInstance()->Initialize<double>(twoElecsTwoAtomCores, 
                                                     totalNumberAtoms,
@@ -3623,7 +3624,6 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
       if(errorStream.str().empty()){
          if(a<totalNumberAtoms-1){
             int b = a+1;
-            OrbitalType twoElecLimit = dxy;
             int numBuff = (twoElecLimit+1)*twoElecLimit/2;
             int num = (totalNumberAtoms-b)*numBuff*numBuff;
             asyncCommunicator.SetBroadcastedMessage(&this->twoElecsTwoAtomCoresMpiBuff[a][b][0][0], num, calcRank);
@@ -3674,6 +3674,7 @@ void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores,
 #endif
    int totalNumberAtoms = molecule.GetAtomVect().size();
    int totalNumberEpcs  = molecule.GetEpcVect().size();
+   OrbitalType twoElecLimit = dxy;
    MallocerFreer::GetInstance()->Initialize<double>(twoElecsAtomEpcCores, 
                                                     totalNumberAtoms,
                                                     totalNumberEpcs,
@@ -3745,7 +3746,6 @@ void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores,
       if(errorStream.str().empty()){
          if(a<totalNumberAtoms-1){
             int b = 0;
-            OrbitalType twoElecLimit = dxy;
             int numBuff = (twoElecLimit+1)*twoElecLimit/2;
             int num = totalNumberEpcs*numBuff*numBuff;
             asyncCommunicator.SetBroadcastedMessage(&this->twoElecsAtomEpcCoresMpiBuff[a][b][0][0], num, calcRank);
@@ -4726,6 +4726,7 @@ void Mndo::RotateDiatomicTwoElecsTwoCores2ndDerivativesToSpaceFrame(
 // See Apendix in [DT_1977]
 // Orbital mu and nu belong atom A, 
 // orbital lambda and sigma belong atomB.
+// d-orbital can not be calculated.
 double Mndo::GetNddoRepulsionIntegral(const Atom& atomA, 
                                       OrbitalType mu, 
                                       OrbitalType nu,
