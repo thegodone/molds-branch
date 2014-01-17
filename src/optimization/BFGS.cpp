@@ -287,11 +287,7 @@ void BFGS::CalcRFOStep(double* vectorStep,
          }
          //
          // Calculate size of the RFO step
-         normStep = 0;
-         for(int i=0;i<dimension;i++){
-            normStep += vectorStep[i] * vectorStep[i];
-         }
-         normStep = sqrt(normStep);
+         normStep = MolDS_wrappers::Blas::GetInstance()->Dnrm2(dimension, vectorStep);
 
          this->OutputLog(boost::format(this->formatLowestHessianEigenvalue)    % vectorEigenValues[0]);
          this->OutputLog(boost::format(this->format2ndLowestHessianEigenvalue) % vectorEigenValues[1]);
