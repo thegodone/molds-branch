@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:59:3  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:13:55  <<<<<
 
 
 **********  START: Parse input  **********
@@ -137,13 +137,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.796538e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.335306e-02
 
-	Elapsed time(omp) for the SCF = 0.006557[s].
+	Elapsed time(omp) for the SCF = 0.006618[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027073[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027626[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -221,11 +221,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.784048e-01	7.575841e+00	-6.052166e-01 (6 -> 9)	
-	Excitation energies:	2	2.786854e-01	7.583475e+00	7.961128e-01 (6 -> 7)	
-	Excitation energies:	3	2.840534e-01	7.729549e+00	8.977023e-01 (5 -> 7)	
-	Excitation energies:	4	2.894151e-01	7.875449e+00	8.658274e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.784048e-01	7.575841e+00	1.636587e+02	-6.052166e-01 (6 -> 9)	
+	Excitation energies:	2	2.786854e-01	7.583475e+00	1.634939e+02	7.961128e-01 (6 -> 7)	
+	Excitation energies:	3	2.840534e-01	7.729549e+00	1.604042e+02	8.977023e-01 (5 -> 7)	
+	Excitation energies:	4	2.894151e-01	7.875449e+00	1.574326e+02	8.658274e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-4.146491e-02	-3.786438e-02	-9.690314e-03	5.698204e-02		-1.053933e-01	-9.624168e-02	-2.463033e-02	1.448339e-01
@@ -248,7 +248,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		9.387913e-03	3.209049e-02	1.259508e-01	1.303132e-01		2.386170e-02	8.156591e-02	3.201349e-01	3.312231e-01	3.276473e-03
 
 
-	Elapsed time(omp) for the CIS = 0.105066[s].
+	Elapsed time(omp) for the CIS = 0.108539[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -314,13 +314,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.975585e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.209450e-02
 
-	Elapsed time(omp) for the SCF = 0.006415[s].
+	Elapsed time(omp) for the SCF = 0.006507[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026874[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.028638[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -392,11 +392,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.777865e-01	7.559017e+00	-6.164769e-01 (6 -> 9)	
-	Excitation energies:	2	2.792249e-01	7.598156e+00	8.903907e-01 (6 -> 7)	
-	Excitation energies:	3	2.825126e-01	7.687622e+00	8.884748e-01 (5 -> 7)	
-	Excitation energies:	4	2.906636e-01	7.909423e+00	8.425806e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.777865e-01	7.559017e+00	1.640229e+02	-6.164769e-01 (6 -> 9)	
+	Excitation energies:	2	2.792249e-01	7.598156e+00	1.631780e+02	8.903907e-01 (6 -> 7)	
+	Excitation energies:	3	2.825126e-01	7.687622e+00	1.612790e+02	8.884748e-01 (5 -> 7)	
+	Excitation energies:	4	2.906636e-01	7.909423e+00	1.567563e+02	8.425806e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-2.919233e-02	-3.833149e-02	-3.166028e-02	5.765300e-02		-7.419951e-02	-9.742894e-02	-8.047242e-02	1.465393e-01
@@ -419,7 +419,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		1.122289e-03	-1.093359e-01	-1.462527e-01	1.826074e-01		2.852575e-03	-2.779042e-01	-3.717374e-01	4.641418e-01	6.461541e-03
 
 
-	Elapsed time(omp) for the CIS = 0.088201[s].
+	Elapsed time(omp) for the CIS = 0.090242[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -484,13 +484,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.763985e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.254781e-02
 
-	Elapsed time(omp) for the SCF = 0.006294[s].
+	Elapsed time(omp) for the SCF = 0.006195[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026955[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027666[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -568,11 +568,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.779770e-01	7.564199e+00	6.419120e-01 (6 -> 9)	
-	Excitation energies:	2	2.786179e-01	7.581641e+00	8.820037e-01 (6 -> 7)	
-	Excitation energies:	3	2.832583e-01	7.707912e+00	8.987327e-01 (5 -> 7)	
-	Excitation energies:	4	2.893216e-01	7.872906e+00	8.724954e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.779770e-01	7.564199e+00	1.639106e+02	6.419120e-01 (6 -> 9)	
+	Excitation energies:	2	2.786179e-01	7.581641e+00	1.635335e+02	8.820037e-01 (6 -> 7)	
+	Excitation energies:	3	2.832583e-01	7.707912e+00	1.608545e+02	8.987327e-01 (5 -> 7)	
+	Excitation energies:	4	2.893216e-01	7.872906e+00	1.574834e+02	8.724954e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	5.489089e-03	-1.377223e-02	-1.816963e-02	2.345080e-02		1.395188e-02	-3.500553e-02	-4.618261e-02	5.960600e-02
@@ -595,7 +595,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		-1.850367e-03	1.975637e-02	3.444704e-02	3.975345e-02		-4.703164e-03	5.021571e-02	8.755566e-02	1.010432e-01	3.048171e-04
 
 
-	Elapsed time(omp) for the CIS = 0.104026[s].
+	Elapsed time(omp) for the CIS = 0.104363[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -674,13 +674,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.796469e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.335261e-02
 
-	Elapsed time(omp) for the SCF = 0.006474[s].
+	Elapsed time(omp) for the SCF = 0.006419[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026900[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027160[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -758,11 +758,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.784036e-01	7.575809e+00	-6.049866e-01 (6 -> 9)	
-	Excitation energies:	2	2.786847e-01	7.583458e+00	7.956469e-01 (6 -> 7)	
-	Excitation energies:	3	2.840524e-01	7.729521e+00	8.977067e-01 (5 -> 7)	
-	Excitation energies:	4	2.894145e-01	7.875432e+00	8.658260e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.784036e-01	7.575809e+00	1.636594e+02	-6.049866e-01 (6 -> 9)	
+	Excitation energies:	2	2.786847e-01	7.583458e+00	1.634943e+02	7.956469e-01 (6 -> 7)	
+	Excitation energies:	3	2.840524e-01	7.729521e+00	1.604048e+02	8.977067e-01 (5 -> 7)	
+	Excitation energies:	4	2.894145e-01	7.875432e+00	1.574329e+02	8.658260e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-4.145596e-02	-3.785323e-02	-9.692350e-03	5.696846e-02		-1.053706e-01	-9.621333e-02	-2.463550e-02	1.447994e-01
@@ -785,7 +785,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		9.384489e-03	3.209791e-02	1.259394e-01	1.303038e-01		2.385300e-02	8.158477e-02	3.201060e-01	3.311992e-01	3.275993e-03
 
 
-	Elapsed time(omp) for the CIS = 0.104554[s].
+	Elapsed time(omp) for the CIS = 0.104452[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -851,13 +851,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.975537e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.209396e-02
 
-	Elapsed time(omp) for the SCF = 0.006476[s].
+	Elapsed time(omp) for the SCF = 0.006287[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026851[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026917[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -929,11 +929,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.777858e-01	7.558996e+00	-6.164759e-01 (6 -> 9)	
-	Excitation energies:	2	2.792241e-01	7.598134e+00	8.903656e-01 (6 -> 7)	
-	Excitation energies:	3	2.825116e-01	7.687593e+00	8.884821e-01 (5 -> 7)	
-	Excitation energies:	4	2.906630e-01	7.909406e+00	8.425856e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.777858e-01	7.558996e+00	1.640234e+02	-6.164759e-01 (6 -> 9)	
+	Excitation energies:	2	2.792241e-01	7.598134e+00	1.631785e+02	8.903656e-01 (6 -> 7)	
+	Excitation energies:	3	2.825116e-01	7.687593e+00	1.612796e+02	8.884821e-01 (5 -> 7)	
+	Excitation energies:	4	2.906630e-01	7.909406e+00	1.567567e+02	8.425856e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-2.918059e-02	-3.832191e-02	-3.165191e-02	5.763609e-02		-7.416968e-02	-9.740460e-02	-8.045115e-02	1.464964e-01
@@ -956,7 +956,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		1.118843e-03	-1.093312e-01	-1.462370e-01	1.825920e-01		2.843815e-03	-2.778922e-01	-3.716975e-01	4.641026e-01	6.460436e-03
 
 
-	Elapsed time(omp) for the CIS = 0.088800[s].
+	Elapsed time(omp) for the CIS = 0.087516[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1021,13 +1021,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.763938e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.254732e-02
 
-	Elapsed time(omp) for the SCF = 0.006143[s].
+	Elapsed time(omp) for the SCF = 0.006220[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027080[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027123[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1105,11 +1105,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.779762e-01	7.564178e+00	6.418890e-01 (6 -> 9)	
-	Excitation energies:	2	2.786173e-01	7.581624e+00	8.819449e-01 (6 -> 7)	
-	Excitation energies:	3	2.832571e-01	7.707880e+00	8.987384e-01 (5 -> 7)	
-	Excitation energies:	4	2.893214e-01	7.872898e+00	8.724943e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.779762e-01	7.564178e+00	1.639110e+02	6.418890e-01 (6 -> 9)	
+	Excitation energies:	2	2.786173e-01	7.581624e+00	1.635338e+02	8.819449e-01 (6 -> 7)	
+	Excitation energies:	3	2.832571e-01	7.707880e+00	1.608551e+02	8.987384e-01 (5 -> 7)	
+	Excitation energies:	4	2.893214e-01	7.872898e+00	1.574836e+02	8.724943e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	5.484051e-03	-1.376863e-02	-1.816611e-02	2.344478e-02		1.393907e-02	-3.499637e-02	-4.617366e-02	5.959069e-02
@@ -1132,7 +1132,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		-1.850264e-03	1.975135e-02	3.445152e-02	3.975483e-02		-4.702904e-03	5.020293e-02	8.756705e-02	1.010467e-01	3.048380e-04
 
 
-	Elapsed time(omp) for the CIS = 0.104198[s].
+	Elapsed time(omp) for the CIS = 0.104321[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1210,13 +1210,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.796261e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.335126e-02
 
-	Elapsed time(omp) for the SCF = 0.006553[s].
+	Elapsed time(omp) for the SCF = 0.006471[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026838[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027578[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1294,11 +1294,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.784002e-01	7.575714e+00	-6.042966e-01 (6 -> 9)	
-	Excitation energies:	2	2.786828e-01	7.583405e+00	7.942513e-01 (6 -> 7)	
-	Excitation energies:	3	2.840493e-01	7.729437e+00	8.977196e-01 (5 -> 7)	
-	Excitation energies:	4	2.894126e-01	7.875381e+00	8.658216e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.784002e-01	7.575714e+00	1.636614e+02	-6.042966e-01 (6 -> 9)	
+	Excitation energies:	2	2.786828e-01	7.583405e+00	1.634954e+02	7.942513e-01 (6 -> 7)	
+	Excitation energies:	3	2.840493e-01	7.729437e+00	1.604065e+02	8.977196e-01 (5 -> 7)	
+	Excitation energies:	4	2.894126e-01	7.875381e+00	1.574339e+02	8.658216e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-4.142911e-02	-3.781978e-02	-9.698461e-03	5.692774e-02		-1.053023e-01	-9.612832e-02	-2.465103e-02	1.446959e-01
@@ -1321,7 +1321,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		9.374227e-03	3.212016e-02	1.259053e-01	1.302756e-01		2.382691e-02	8.164132e-02	3.200194e-01	3.311276e-01	3.274555e-03
 
 
-	Elapsed time(omp) for the CIS = 0.104613[s].
+	Elapsed time(omp) for the CIS = 0.106459[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1387,13 +1387,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.975393e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.209235e-02
 
-	Elapsed time(omp) for the SCF = 0.006465[s].
+	Elapsed time(omp) for the SCF = 0.006472[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027008[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027351[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1465,11 +1465,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.777835e-01	7.558933e+00	-6.164728e-01 (6 -> 9)	
-	Excitation energies:	2	2.792216e-01	7.598068e+00	8.902903e-01 (6 -> 7)	
-	Excitation energies:	3	2.825085e-01	7.687509e+00	8.885039e-01 (5 -> 7)	
-	Excitation energies:	4	2.906611e-01	7.909355e+00	8.426006e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.777835e-01	7.558933e+00	1.640247e+02	-6.164728e-01 (6 -> 9)	
+	Excitation energies:	2	2.792216e-01	7.598068e+00	1.631799e+02	8.902903e-01 (6 -> 7)	
+	Excitation energies:	3	2.825085e-01	7.687509e+00	1.612814e+02	8.885039e-01 (5 -> 7)	
+	Excitation energies:	4	2.906611e-01	7.909355e+00	1.567577e+02	8.426006e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-2.914539e-02	-3.829319e-02	-3.162681e-02	5.758539e-02		-7.408020e-02	-9.733161e-02	-8.038734e-02	1.463675e-01
@@ -1492,7 +1492,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		1.108506e-03	-1.093170e-01	-1.461900e-01	1.825457e-01		2.817542e-03	-2.778561e-01	-3.715780e-01	4.639850e-01	6.457122e-03
 
 
-	Elapsed time(omp) for the CIS = 0.088265[s].
+	Elapsed time(omp) for the CIS = 0.089955[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1557,13 +1557,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.763797e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.254585e-02
 
-	Elapsed time(omp) for the SCF = 0.006193[s].
+	Elapsed time(omp) for the SCF = 0.006164[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026891[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027102[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1641,11 +1641,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.779739e-01	7.564115e+00	6.418197e-01 (6 -> 9)	
-	Excitation energies:	2	2.786154e-01	7.581573e+00	8.817682e-01 (6 -> 7)	
-	Excitation energies:	3	2.832535e-01	7.707783e+00	8.987556e-01 (5 -> 7)	
-	Excitation energies:	4	2.893205e-01	7.872875e+00	8.724910e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.779739e-01	7.564115e+00	1.639124e+02	6.418197e-01 (6 -> 9)	
+	Excitation energies:	2	2.786154e-01	7.581573e+00	1.635349e+02	8.817682e-01 (6 -> 7)	
+	Excitation energies:	3	2.832535e-01	7.707783e+00	1.608572e+02	8.987556e-01 (5 -> 7)	
+	Excitation energies:	4	2.893205e-01	7.872875e+00	1.574840e+02	8.724910e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	5.468940e-03	-1.375783e-02	-1.815555e-02	2.342672e-02		1.390066e-02	-3.496893e-02	-4.614681e-02	5.954480e-02
@@ -1668,7 +1668,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		-1.849959e-03	1.973627e-02	3.446496e-02	3.975898e-02		-4.702129e-03	5.016461e-02	8.760122e-02	1.010573e-01	3.049007e-04
 
 
-	Elapsed time(omp) for the CIS = 0.105370[s].
+	Elapsed time(omp) for the CIS = 0.105551[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1746,13 +1746,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795914e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.334901e-02
 
-	Elapsed time(omp) for the SCF = 0.006477[s].
+	Elapsed time(omp) for the SCF = 0.006415[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027104[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027179[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1830,11 +1830,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.783943e-01	7.575556e+00	-6.031469e-01 (6 -> 9)	
-	Excitation energies:	2	2.786796e-01	7.583318e+00	7.919319e-01 (6 -> 7)	
-	Excitation energies:	3	2.840441e-01	7.729296e+00	8.977411e-01 (5 -> 7)	
-	Excitation energies:	4	2.894095e-01	7.875295e+00	8.658144e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.783943e-01	7.575556e+00	1.636648e+02	-6.031469e-01 (6 -> 9)	
+	Excitation energies:	2	2.786796e-01	7.583318e+00	1.634973e+02	7.919319e-01 (6 -> 7)	
+	Excitation energies:	3	2.840441e-01	7.729296e+00	1.604094e+02	8.977411e-01 (5 -> 7)	
+	Excitation energies:	4	2.894095e-01	7.875295e+00	1.574356e+02	8.658144e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-4.138448e-02	-3.776407e-02	-9.708656e-03	5.685998e-02		-1.051889e-01	-9.598671e-02	-2.467695e-02	1.445237e-01
@@ -1857,7 +1857,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		9.357153e-03	3.215721e-02	1.258488e-01	1.302289e-01		2.378352e-02	8.173550e-02	3.198757e-01	3.310088e-01	3.272171e-03
 
 
-	Elapsed time(omp) for the CIS = 0.105333[s].
+	Elapsed time(omp) for the CIS = 0.104960[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -1923,13 +1923,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.975153e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.208966e-02
 
-	Elapsed time(omp) for the SCF = 0.006488[s].
+	Elapsed time(omp) for the SCF = 0.006383[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026820[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026787[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2001,11 +2001,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.777796e-01	7.558828e+00	-6.164675e-01 (6 -> 9)	
-	Excitation energies:	2	2.792176e-01	7.597958e+00	8.901645e-01 (6 -> 7)	
-	Excitation energies:	3	2.825033e-01	7.687368e+00	8.885402e-01 (5 -> 7)	
-	Excitation energies:	4	2.906579e-01	7.909269e+00	8.426255e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.777796e-01	7.558828e+00	1.640270e+02	-6.164675e-01 (6 -> 9)	
+	Excitation energies:	2	2.792176e-01	7.597958e+00	1.631823e+02	8.901645e-01 (6 -> 7)	
+	Excitation energies:	3	2.825033e-01	7.687368e+00	1.612843e+02	8.885402e-01 (5 -> 7)	
+	Excitation energies:	4	2.906579e-01	7.909269e+00	1.567594e+02	8.426255e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-2.908675e-02	-3.824535e-02	-3.158499e-02	5.750093e-02		-7.393115e-02	-9.721001e-02	-8.028105e-02	1.461528e-01
@@ -2028,7 +2028,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		1.091284e-03	-1.092933e-01	-1.461116e-01	1.824687e-01		2.773768e-03	-2.777959e-01	-3.713788e-01	4.637893e-01	6.451604e-03
 
 
-	Elapsed time(omp) for the CIS = 0.087976[s].
+	Elapsed time(omp) for the CIS = 0.087429[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2093,13 +2093,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.763561e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.254340e-02
 
-	Elapsed time(omp) for the SCF = 0.006171[s].
+	Elapsed time(omp) for the SCF = 0.006145[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026939[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027080[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2177,11 +2177,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.779700e-01	7.564010e+00	6.417036e-01 (6 -> 9)	
-	Excitation energies:	2	2.786123e-01	7.581488e+00	8.814727e-01 (6 -> 7)	
-	Excitation energies:	3	2.832476e-01	7.707621e+00	8.987841e-01 (5 -> 7)	
-	Excitation energies:	4	2.893191e-01	7.872836e+00	8.724856e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.779700e-01	7.564010e+00	1.639147e+02	6.417036e-01 (6 -> 9)	
+	Excitation energies:	2	2.786123e-01	7.581488e+00	1.635368e+02	8.814727e-01 (6 -> 7)	
+	Excitation energies:	3	2.832476e-01	7.707621e+00	1.608605e+02	8.987841e-01 (5 -> 7)	
+	Excitation energies:	4	2.893191e-01	7.872836e+00	1.574848e+02	8.724856e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	5.443769e-03	-1.373984e-02	-1.813795e-02	2.339665e-02		1.383668e-02	-3.492320e-02	-4.610209e-02	5.946837e-02
@@ -2204,7 +2204,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		-1.849455e-03	1.971116e-02	3.448738e-02	3.976594e-02		-4.700846e-03	5.010078e-02	8.765819e-02	1.010749e-01	3.050059e-04
 
 
-	Elapsed time(omp) for the CIS = 0.103566[s].
+	Elapsed time(omp) for the CIS = 0.104190[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2282,13 +2282,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795427e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.334588e-02
 
-	Elapsed time(omp) for the SCF = 0.006551[s].
+	Elapsed time(omp) for the SCF = 0.006334[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027234[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027166[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2366,11 +2366,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.783862e-01	7.575333e+00	-6.015385e-01 (6 -> 9)	
-	Excitation energies:	2	2.786751e-01	7.583195e+00	7.886998e-01 (6 -> 7)	
-	Excitation energies:	3	2.840369e-01	7.729100e+00	8.977710e-01 (5 -> 7)	
-	Excitation energies:	4	2.894050e-01	7.875175e+00	8.658042e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.783862e-01	7.575333e+00	1.636696e+02	-6.015385e-01 (6 -> 9)	
+	Excitation energies:	2	2.786751e-01	7.583195e+00	1.634999e+02	7.886998e-01 (6 -> 7)	
+	Excitation energies:	3	2.840369e-01	7.729100e+00	1.604135e+02	8.977710e-01 (5 -> 7)	
+	Excitation energies:	4	2.894050e-01	7.875175e+00	1.574380e+02	8.658042e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-4.132219e-02	-3.768612e-02	-9.722949e-03	5.676534e-02		-1.050306e-01	-9.578859e-02	-2.471328e-02	1.442831e-01
@@ -2393,7 +2393,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		9.333312e-03	3.220903e-02	1.257701e-01	1.301639e-01		2.372292e-02	8.186719e-02	3.196758e-01	3.308438e-01	3.268860e-03
 
 
-	Elapsed time(omp) for the CIS = 0.105230[s].
+	Elapsed time(omp) for the CIS = 0.105205[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2459,13 +2459,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.974818e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.208590e-02
 
-	Elapsed time(omp) for the SCF = 0.006485[s].
+	Elapsed time(omp) for the SCF = 0.006335[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027178[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027270[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2537,11 +2537,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.777742e-01	7.558680e+00	-6.164600e-01 (6 -> 9)	
-	Excitation energies:	2	2.792119e-01	7.597804e+00	8.899875e-01 (6 -> 7)	
-	Excitation energies:	3	2.824961e-01	7.687171e+00	8.885910e-01 (5 -> 7)	
-	Excitation energies:	4	2.906535e-01	7.909148e+00	8.426603e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.777742e-01	7.558680e+00	1.640302e+02	-6.164600e-01 (6 -> 9)	
+	Excitation energies:	2	2.792119e-01	7.597804e+00	1.631856e+02	8.899875e-01 (6 -> 7)	
+	Excitation energies:	3	2.824961e-01	7.687171e+00	1.612885e+02	8.885910e-01 (5 -> 7)	
+	Excitation energies:	4	2.906535e-01	7.909148e+00	1.567618e+02	8.426603e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-2.900472e-02	-3.817842e-02	-3.152648e-02	5.738279e-02		-7.372267e-02	-9.703988e-02	-8.013233e-02	1.458525e-01
@@ -2564,7 +2564,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		1.067187e-03	-1.092601e-01	-1.460021e-01	1.823610e-01		2.712519e-03	-2.777116e-01	-3.711004e-01	4.635155e-01	6.443891e-03
 
 
-	Elapsed time(omp) for the CIS = 0.088723[s].
+	Elapsed time(omp) for the CIS = 0.088674[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2629,13 +2629,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.763232e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.253998e-02
 
-	Elapsed time(omp) for the SCF = 0.006218[s].
+	Elapsed time(omp) for the SCF = 0.006118[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026906[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026885[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2713,11 +2713,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.779646e-01	7.563863e+00	6.415401e-01 (6 -> 9)	
-	Excitation energies:	2	2.786080e-01	7.581369e+00	8.810569e-01 (6 -> 7)	
-	Excitation energies:	3	2.832393e-01	7.707395e+00	8.988240e-01 (5 -> 7)	
-	Excitation energies:	4	2.893171e-01	7.872782e+00	8.724780e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.779646e-01	7.563863e+00	1.639178e+02	6.415401e-01 (6 -> 9)	
+	Excitation energies:	2	2.786080e-01	7.581369e+00	1.635393e+02	8.810569e-01 (6 -> 7)	
+	Excitation energies:	3	2.832393e-01	7.707395e+00	1.608653e+02	8.988240e-01 (5 -> 7)	
+	Excitation energies:	4	2.893171e-01	7.872782e+00	1.574859e+02	8.724780e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	5.408556e-03	-1.371468e-02	-1.811334e-02	2.335461e-02		1.374718e-02	-3.485924e-02	-4.603952e-02	5.936151e-02
@@ -2740,7 +2740,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		-1.848757e-03	1.967604e-02	3.451878e-02	3.977575e-02		-4.699072e-03	5.001151e-02	8.773800e-02	1.010999e-01	3.051544e-04
 
 
-	Elapsed time(omp) for the CIS = 0.103946[s].
+	Elapsed time(omp) for the CIS = 0.103722[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2818,13 +2818,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.794798e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.334187e-02
 
-	Elapsed time(omp) for the SCF = 0.006586[s].
+	Elapsed time(omp) for the SCF = 0.006406[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026891[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027097[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -2902,11 +2902,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.783756e-01	7.575045e+00	-5.994748e-01 (6 -> 9)	
-	Excitation energies:	2	2.786693e-01	7.583039e+00	7.845725e-01 (6 -> 7)	
-	Excitation energies:	3	2.840277e-01	7.728848e+00	8.978090e-01 (5 -> 7)	
-	Excitation energies:	4	2.893993e-01	7.875020e+00	8.657910e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.783756e-01	7.575045e+00	1.636759e+02	-5.994748e-01 (6 -> 9)	
+	Excitation energies:	2	2.786693e-01	7.583039e+00	1.635033e+02	7.845725e-01 (6 -> 7)	
+	Excitation energies:	3	2.840277e-01	7.728848e+00	1.604187e+02	8.978090e-01 (5 -> 7)	
+	Excitation energies:	4	2.893993e-01	7.875020e+00	1.574411e+02	8.657910e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-4.124248e-02	-3.758600e-02	-9.741358e-03	5.664401e-02		-1.048279e-01	-9.553411e-02	-2.476007e-02	1.439747e-01
@@ -2929,7 +2929,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		9.302770e-03	3.227554e-02	1.256698e-01	1.300813e-01		2.364529e-02	8.203626e-02	3.194208e-01	3.306338e-01	3.264647e-03
 
 
-	Elapsed time(omp) for the CIS = 0.104431[s].
+	Elapsed time(omp) for the CIS = 0.104209[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -2995,13 +2995,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.974386e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.208107e-02
 
-	Elapsed time(omp) for the SCF = 0.006480[s].
+	Elapsed time(omp) for the SCF = 0.006368[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026909[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027065[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -3073,11 +3073,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.777672e-01	7.558491e+00	-6.164498e-01 (6 -> 9)	
-	Excitation energies:	2	2.792046e-01	7.597605e+00	8.897585e-01 (6 -> 7)	
-	Excitation energies:	3	2.824867e-01	7.686917e+00	8.886561e-01 (5 -> 7)	
-	Excitation energies:	4	2.906478e-01	7.908993e+00	8.427050e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.777672e-01	7.558491e+00	1.640343e+02	-6.164498e-01 (6 -> 9)	
+	Excitation energies:	2	2.792046e-01	7.597605e+00	1.631898e+02	8.897585e-01 (6 -> 7)	
+	Excitation energies:	3	2.824867e-01	7.686917e+00	1.612938e+02	8.886561e-01 (5 -> 7)	
+	Excitation energies:	4	2.906478e-01	7.908993e+00	1.567648e+02	8.427050e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-2.889939e-02	-3.809244e-02	-3.145132e-02	5.723106e-02		-7.345493e-02	-9.682135e-02	-7.994129e-02	1.454669e-01
@@ -3100,7 +3100,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		1.036227e-03	-1.092175e-01	-1.458615e-01	1.822227e-01		2.633828e-03	-2.776032e-01	-3.707430e-01	4.631639e-01	6.433993e-03
 
 
-	Elapsed time(omp) for the CIS = 0.087971[s].
+	Elapsed time(omp) for the CIS = 0.088941[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -3165,13 +3165,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.762807e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.253557e-02
 
-	Elapsed time(omp) for the SCF = 0.006179[s].
+	Elapsed time(omp) for the SCF = 0.006186[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026770[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027280[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -3249,11 +3249,11 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.779577e-01	7.563673e+00	6.413281e-01 (6 -> 9)	
-	Excitation energies:	2	2.786024e-01	7.581217e+00	8.805187e-01 (6 -> 7)	
-	Excitation energies:	3	2.832286e-01	7.707104e+00	8.988751e-01 (5 -> 7)	
-	Excitation energies:	4	2.893145e-01	7.872713e+00	8.724682e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.779577e-01	7.563673e+00	1.639219e+02	6.413281e-01 (6 -> 9)	
+	Excitation energies:	2	2.786024e-01	7.581217e+00	1.635426e+02	8.805187e-01 (6 -> 7)	
+	Excitation energies:	3	2.832286e-01	7.707104e+00	1.608713e+02	8.988751e-01 (5 -> 7)	
+	Excitation energies:	4	2.893145e-01	7.872713e+00	1.574873e+02	8.724682e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	5.363328e-03	-1.368236e-02	-1.808171e-02	2.330065e-02		1.363222e-02	-3.477709e-02	-4.595913e-02	5.922437e-02
@@ -3276,7 +3276,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Transition dipole moment:	0 -> 4		-1.847873e-03	1.963093e-02	3.455918e-02	3.978851e-02		-4.696826e-03	4.989687e-02	8.784069e-02	1.011323e-01	3.053474e-04
 
 
-	Elapsed time(omp) for the CIS = 0.103659[s].
+	Elapsed time(omp) for the CIS = 0.104627[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -3297,9 +3297,9 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 7.80669[s].  <<<<<
+     >>>>>  CPU time: 7.79969[s].  <<<<<
      >>>>>  Elapsed time: 8[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 7.77035[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 7.76486[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

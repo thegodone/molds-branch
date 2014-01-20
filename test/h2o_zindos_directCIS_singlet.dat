@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:59:15  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:14:8  <<<<<
 
 
 **********  START: Parse input  **********
@@ -95,13 +95,13 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 	Mulliken charge(SCF):	0	1	H	1.000000e+00	2.567713e-01
 	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.567165e-01
 
-	Elapsed time(omp) for the SCF = 0.010991[s].
+	Elapsed time(omp) for the SCF = 0.006848[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000175[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000164[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -109,15 +109,15 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 	======  DONE: Direct-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	4.335909e-01	1.179870e+01	9.996443e-01 (3 -> 4)	
-	Excitation energies:	2	4.671370e-01	1.271155e+01	9.996443e-01 (3 -> 5)	
-	Excitation energies:	3	5.048253e-01	1.373711e+01	9.905291e-01 (2 -> 4)	
-	Excitation energies:	4	5.496728e-01	1.495748e+01	9.983563e-01 (2 -> 5)	
-	Excitation energies:	5	7.315911e-01	1.990777e+01	9.963703e-01 (1 -> 4)	
-	Excitation energies:	6	8.383193e-01	2.281201e+01	9.874335e-01 (1 -> 5)	
-	Excitation energies:	7	1.512905e+00	4.116856e+01	9.945951e-01 (0 -> 4)	
-	Excitation energies:	8	1.558999e+00	4.242287e+01	9.980336e-01 (0 -> 5)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	4.335909e-01	1.179870e+01	1.050838e+02	9.996443e-01 (3 -> 4)	
+	Excitation energies:	2	4.671370e-01	1.271155e+01	9.753746e+01	9.996443e-01 (3 -> 5)	
+	Excitation energies:	3	5.048253e-01	1.373711e+01	9.025570e+01	9.905291e-01 (2 -> 4)	
+	Excitation energies:	4	5.496728e-01	1.495748e+01	8.289178e+01	9.983563e-01 (2 -> 5)	
+	Excitation energies:	5	7.315911e-01	1.990777e+01	6.227982e+01	9.963703e-01 (1 -> 4)	
+	Excitation energies:	6	8.383193e-01	2.281201e+01	5.435084e+01	9.874335e-01 (1 -> 5)	
+	Excitation energies:	7	1.512905e+00	4.116856e+01	3.011648e+01	9.945951e-01 (0 -> 4)	
+	Excitation energies:	8	1.558999e+00	4.242287e+01	2.922603e+01	9.980336e-01 (0 -> 5)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.933910e-01	-2.609991e-01	-6.249583e-05	3.248394e-01		-4.915509e-01	-6.633938e-01	-1.588486e-04	8.256595e-01
@@ -152,7 +152,7 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 	Transition dipole moment:	0 -> 8		-4.878901e-01	3.146245e-01	-3.700473e-03	5.805506e-01		-1.240093e+00	7.996959e-01	-9.405666e-03	1.475613e+00	3.502957e-01
 
 
-	Elapsed time(omp) for the CIS = 0.001261[s].
+	Elapsed time(omp) for the CIS = 0.001307[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -162,9 +162,9 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.014111[s].  <<<<<
+     >>>>>  CPU time: 0.010032[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0131619[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00908804[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
