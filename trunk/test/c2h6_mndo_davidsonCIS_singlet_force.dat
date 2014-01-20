@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:58:56  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:13:35  <<<<<
 
 
 **********  START: Parse input  **********
@@ -131,13 +131,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.014998[s].
+	Elapsed time(omp) for the SCF = 0.010699[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027120[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.028009[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -221,11 +221,11 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	3.011267e-01	8.194141e+00	6.653826e-01 (6 -> 7)	
-	Excitation energies:	2	3.326270e-01	9.051315e+00	5.822900e-01 (5 -> 7)	
-	Excitation energies:	3	3.369532e-01	9.169038e+00	-3.906344e-01 (6 -> 10)	
-	Excitation energies:	4	3.393677e-01	9.234738e+00	4.965738e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	3.011267e-01	8.194141e+00	1.513096e+02	6.653826e-01 (6 -> 7)	
+	Excitation energies:	2	3.326270e-01	9.051315e+00	1.369803e+02	5.822900e-01 (5 -> 7)	
+	Excitation energies:	3	3.369532e-01	9.169038e+00	1.352216e+02	-3.906344e-01 (6 -> 10)	
+	Excitation energies:	4	3.393677e-01	9.234738e+00	1.342596e+02	4.965738e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.995847e-02	-3.192655e-02	-1.222776e-02	3.958742e-02		-5.072938e-02	-8.114922e-02	-3.107987e-02	1.006212e-01
@@ -248,7 +248,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		3.996160e-01	5.793969e-01	-5.636634e-01	9.017262e-01		1.015723e+00	1.472680e+00	-1.432690e+00	2.291960e+00	1.839622e-01
 
 
-	Elapsed time(omp) for the CIS = 0.125945[s].
+	Elapsed time(omp) for the CIS = 0.126879[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -345,13 +345,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736965e-02	-1.717471e+01
 
-	Elapsed time(omp) for the SCF = 0.004336[s].
+	Elapsed time(omp) for the SCF = 0.004300[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027648[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027312[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -435,11 +435,11 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	3.011230e-01	8.194039e+00	6.653853e-01 (6 -> 7)	
-	Excitation energies:	2	3.326245e-01	9.051245e+00	5.823244e-01 (5 -> 7)	
-	Excitation energies:	3	3.369505e-01	9.168962e+00	-3.905373e-01 (6 -> 10)	
-	Excitation energies:	4	3.393641e-01	9.234642e+00	4.969419e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	3.011230e-01	8.194039e+00	1.513115e+02	6.653853e-01 (6 -> 7)	
+	Excitation energies:	2	3.326245e-01	9.051245e+00	1.369814e+02	5.823244e-01 (5 -> 7)	
+	Excitation energies:	3	3.369505e-01	9.168962e+00	1.352227e+02	-3.905373e-01 (6 -> 10)	
+	Excitation energies:	4	3.393641e-01	9.234642e+00	1.342610e+02	4.969419e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.994820e-02	-3.191752e-02	-1.222404e-02	3.957380e-02		-5.070327e-02	-8.112626e-02	-3.107043e-02	1.005866e-01
@@ -462,7 +462,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		3.983858e-01	5.788941e-01	-5.638185e-01	9.009556e-01		1.012596e+00	1.471402e+00	-1.433084e+00	2.290001e+00	1.836460e-01
 
 
-	Elapsed time(omp) for the CIS = 0.125251[s].
+	Elapsed time(omp) for the CIS = 0.124596[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -561,13 +561,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737462e-02	-1.717783e+01
 
-	Elapsed time(omp) for the SCF = 0.004560[s].
+	Elapsed time(omp) for the SCF = 0.004488[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026907[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027255[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -651,11 +651,11 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	3.011126e-01	8.193756e+00	6.653932e-01 (6 -> 7)	
-	Excitation energies:	2	3.326177e-01	9.051061e+00	5.824287e-01 (5 -> 7)	
-	Excitation energies:	3	3.369430e-01	9.168760e+00	-3.902240e-01 (6 -> 10)	
-	Excitation energies:	4	3.393543e-01	9.234374e+00	4.979675e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	3.011126e-01	8.193756e+00	1.513167e+02	6.653932e-01 (6 -> 7)	
+	Excitation energies:	2	3.326177e-01	9.051061e+00	1.369842e+02	5.824287e-01 (5 -> 7)	
+	Excitation energies:	3	3.369430e-01	9.168760e+00	1.352257e+02	-3.902240e-01 (6 -> 10)	
+	Excitation energies:	4	3.393543e-01	9.234374e+00	1.342649e+02	4.979675e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.991668e-02	-3.188973e-02	-1.221253e-02	3.953195e-02		-5.062317e-02	-8.105562e-02	-3.104116e-02	1.004802e-01
@@ -678,7 +678,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		3.948344e-01	5.775133e-01	-5.642286e-01	8.987601e-01		1.003569e+00	1.467893e+00	-1.434126e+00	2.284421e+00	1.827467e-01
 
 
-	Elapsed time(omp) for the CIS = 0.124487[s].
+	Elapsed time(omp) for the CIS = 0.124641[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -777,13 +777,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738286e-02	-1.718300e+01
 
-	Elapsed time(omp) for the SCF = 0.004494[s].
+	Elapsed time(omp) for the SCF = 0.004454[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026884[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027222[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -873,11 +873,11 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	3.010953e-01	8.193286e+00	6.654064e-01 (6 -> 7)	
-	Excitation energies:	2	3.326064e-01	9.050753e+00	5.826017e-01 (5 -> 7)	
-	Excitation energies:	3	3.369307e-01	9.168424e+00	-3.897017e-01 (6 -> 10)	
-	Excitation energies:	4	3.393379e-01	9.233928e+00	4.995664e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	3.010953e-01	8.193286e+00	1.513254e+02	6.654064e-01 (6 -> 7)	
+	Excitation energies:	2	3.326064e-01	9.050753e+00	1.369888e+02	5.826017e-01 (5 -> 7)	
+	Excitation energies:	3	3.369307e-01	9.168424e+00	1.352307e+02	-3.897017e-01 (6 -> 10)	
+	Excitation energies:	4	3.393379e-01	9.233928e+00	1.342714e+02	4.995664e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.986408e-02	-3.184317e-02	-1.219326e-02	3.946194e-02		-5.048947e-02	-8.093729e-02	-3.099217e-02	1.003023e-01
@@ -900,7 +900,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		3.890871e-01	5.752886e-01	-5.648526e-01	8.952118e-01		9.889609e-01	1.462238e+00	-1.435712e+00	2.275402e+00	1.812979e-01
 
 
-	Elapsed time(omp) for the CIS = 0.145068[s].
+	Elapsed time(omp) for the CIS = 0.144879[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1000,13 +1000,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739430e-02	-1.719018e+01
 
-	Elapsed time(omp) for the SCF = 0.004876[s].
+	Elapsed time(omp) for the SCF = 0.004652[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027862[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027156[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1096,11 +1096,11 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	3.010710e-01	8.192625e+00	6.654249e-01 (6 -> 7)	
-	Excitation energies:	2	3.325904e-01	9.050319e+00	5.828459e-01 (5 -> 7)	
-	Excitation energies:	3	3.369133e-01	9.167951e+00	-3.889665e-01 (6 -> 10)	
-	Excitation energies:	4	3.393148e-01	9.233299e+00	-5.015957e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	3.010710e-01	8.192625e+00	1.513376e+02	6.654249e-01 (6 -> 7)	
+	Excitation energies:	2	3.325904e-01	9.050319e+00	1.369954e+02	5.828459e-01 (5 -> 7)	
+	Excitation energies:	3	3.369133e-01	9.167951e+00	1.352376e+02	-3.889665e-01 (6 -> 10)	
+	Excitation energies:	4	3.393148e-01	9.233299e+00	1.342805e+02	-5.015957e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.979066e-02	-3.177846e-02	-1.216642e-02	3.936449e-02		-5.030286e-02	-8.077281e-02	-3.092396e-02	1.000546e-01
@@ -1123,7 +1123,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		-3.813573e-01	-5.723361e-01	5.656245e-01	8.904678e-01		-9.693136e-01	-1.454734e+00	1.437674e+00	2.263344e+00	1.793693e-01
 
 
-	Elapsed time(omp) for the CIS = 0.146349[s].
+	Elapsed time(omp) for the CIS = 0.144904[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1223,13 +1223,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740883e-02	-1.719930e+01
 
-	Elapsed time(omp) for the SCF = 0.004775[s].
+	Elapsed time(omp) for the SCF = 0.004712[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026866[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027219[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1319,11 +1319,11 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	3.010399e-01	8.191777e+00	6.654482e-01 (6 -> 7)	
-	Excitation energies:	2	3.325698e-01	9.049758e+00	5.831586e-01 (5 -> 7)	
-	Excitation energies:	3	3.368910e-01	9.167345e+00	-3.880238e-01 (6 -> 10)	
-	Excitation energies:	4	3.392850e-01	9.232489e+00	-5.038765e-01 (6 -> 8)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	3.010399e-01	8.191777e+00	1.513532e+02	6.654482e-01 (6 -> 7)	
+	Excitation energies:	2	3.325698e-01	9.049758e+00	1.370039e+02	5.831586e-01 (5 -> 7)	
+	Excitation energies:	3	3.368910e-01	9.167345e+00	1.352466e+02	-3.880238e-01 (6 -> 10)	
+	Excitation energies:	4	3.392850e-01	9.232489e+00	1.342923e+02	-5.038765e-01 (6 -> 8)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.969624e-02	-3.169504e-02	-1.213186e-02	3.923900e-02		-5.006285e-02	-8.056078e-02	-3.083611e-02	9.973562e-02
@@ -1346,7 +1346,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		-3.719799e-01	-5.688048e-01	5.664620e-01	8.847526e-01		-9.454788e-01	-1.445758e+00	1.439803e+00	2.248817e+00	1.770586e-01
 
 
-	Elapsed time(omp) for the CIS = 0.144641[s].
+	Elapsed time(omp) for the CIS = 0.144651[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1394,9 +1394,9 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 1.44464[s].  <<<<<
+     >>>>>  CPU time: 1.4325[s].  <<<<<
      >>>>>  Elapsed time: 2[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.4401[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.42773[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

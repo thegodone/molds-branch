@@ -195,7 +195,7 @@ void ZindoS::SetMessages(){
    this->messageDavidsonReachCISMatrix = "\n\t\tDimension of the expansion vectors reaches to the dimension of the CIS-matrix.\n";
    this->messageDavidsonGoToDirect = "\t\tHence, we go to the Direct-CIS.\n\n";
    this->messageExcitedStatesEnergies = "\tExcitation energies:";
-   this->messageExcitedStatesEnergiesTitle = "\t\t\t\t|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |\n";
+   this->messageExcitedStatesEnergiesTitle = "\t\t\t\t|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |\n";
    this->messageExcitonEnergiesCIS = "\tFree exciton (Ef) and exciton binding (Eb) energies:\n";
    this->messageExcitonEnergiesShortCIS = "\tEf and Eb:";
    this->messageExcitonEnergiesCISTitle = "\t\t\t|   i-th   |   Ef[a.u.]   |   Ef[eV]   |   Eb[a.u.]   |   Eb[eV]   |\n";
@@ -1799,13 +1799,17 @@ void ZindoS::OutputCISResults() const{
 
    // output cis eigen energies
    this->OutputLog(this->messageExcitedStatesEnergiesTitle);
-   double eV2AU = Parameters::GetInstance()->GetEV2AU();
+   double eV2AU   = Parameters::GetInstance()->GetEV2AU();
+   double nmin2AU = Parameters::GetInstance()->GetNmin2AU();
    for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS(); k++){
-      this->OutputLog(boost::format("%s\t%d\t%e\t%e\t") 
+      double eneEv = this->excitedEnergies[k]/eV2AU;
+      double eneNm = 1.0/(this->excitedEnergies[k]/nmin2AU);
+      this->OutputLog(boost::format("%s\t%d\t%e\t%e\t%e\t") 
          % this->messageExcitedStatesEnergies
          % (k+1) 
          % this->excitedEnergies[k]
-         % (this->excitedEnergies[k]/eV2AU));
+         % eneEv
+         % eneNm);
 
       // sort eigen vector coefficeits of CIS and output
       vector<CISEigenVectorCoefficient> cisEigenVectorCoefficients;

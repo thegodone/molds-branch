@@ -48,6 +48,7 @@ const double Parameters::kcalMolin2AU  = 0.00159360175;
 const double Parameters::angstrom2AU   = 1.0/0.5291772;
 const double Parameters::nm2AU         = 10.0*Parameters::angstrom2AU;
 const double Parameters::kayser2AU     = 4.556336e-6;
+const double Parameters::nmin2AU       = 4.556336e01;
 const double Parameters::fs2AU         = 1.0/(2.418884326505e-2);
 const double Parameters::gMolin2AU     = 1.0e5/(6.0221415*9.1095);
 const double Parameters::degree2Radian = M_PI / 180.0;

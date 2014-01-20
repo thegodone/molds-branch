@@ -39,6 +39,7 @@ public:
    inline double GetAngstrom2AU() const  {return this->angstrom2AU;}
    inline double GetNm2AU() const        {return this->nm2AU;}
    inline double GetKayser2AU() const    {return this->kayser2AU;}
+   inline double GetNmin2AU() const      {return this->nmin2AU;}
    inline double GetGMolin2AU() const    {return this->gMolin2AU;}
    inline double GetDegree2Radian() const{return this->degree2Radian;}
    inline double GetFs2AU() const        {return this->fs2AU;}
@@ -230,6 +231,7 @@ private:
    static const double angstrom2AU;
    static const double nm2AU;
    static const double kayser2AU;
+   static const double nmin2AU;
    static const double gMolin2AU;
    static const double degree2Radian;
    static const double fs2AU;

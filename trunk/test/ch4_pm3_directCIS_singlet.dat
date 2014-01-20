@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:59:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:14:7  <<<<<
 
 
 **********  START: Parse input  **********
@@ -106,13 +106,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	3.244126e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.649410e-02
 
-	Elapsed time(omp) for the SCF = 0.012565[s].
+	Elapsed time(omp) for the SCF = 0.008680[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.001007[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001064[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -120,23 +120,23 @@ geometry_end |
 	======  DONE: Direct-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.913751e-01	7.928783e+00	6.180865e-01 (3 -> 5)	
-	Excitation energies:	2	3.119333e-01	8.488205e+00	-8.064884e-01 (3 -> 4)	
-	Excitation energies:	3	3.179904e-01	8.653029e+00	7.959224e-01 (2 -> 4)	
-	Excitation energies:	4	3.230216e-01	8.789935e+00	8.534780e-01 (1 -> 4)	
-	Excitation energies:	5	3.682928e-01	1.002184e+01	-7.454379e-01 (3 -> 6)	
-	Excitation energies:	6	3.739780e-01	1.017654e+01	7.572917e-01 (3 -> 7)	
-	Excitation energies:	7	3.811557e-01	1.037186e+01	7.485343e-01 (2 -> 7)	
-	Excitation energies:	8	3.855238e-01	1.049072e+01	5.709500e-01 (2 -> 5)	
-	Excitation energies:	9	3.958999e-01	1.077307e+01	5.457927e-01 (1 -> 6)	
-	Excitation energies:	10	4.039948e-01	1.099335e+01	4.323351e-01 (3 -> 4)	
-	Excitation energies:	11	4.095557e-01	1.114467e+01	5.292990e-01 (2 -> 6)	
-	Excitation energies:	12	4.142463e-01	1.127230e+01	-4.426891e-01 (1 -> 7)	
-	Excitation energies:	13	9.524866e-01	2.591869e+01	9.766059e-01 (0 -> 4)	
-	Excitation energies:	14	9.624148e-01	2.618885e+01	9.724311e-01 (0 -> 5)	
-	Excitation energies:	15	9.665275e-01	2.630076e+01	9.809125e-01 (0 -> 6)	
-	Excitation energies:	16	9.702363e-01	2.640168e+01	9.854693e-01 (0 -> 7)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.913751e-01	7.928783e+00	1.563736e+02	6.180865e-01 (3 -> 5)	
+	Excitation energies:	2	3.119333e-01	8.488205e+00	1.460676e+02	-8.064884e-01 (3 -> 4)	
+	Excitation energies:	3	3.179904e-01	8.653029e+00	1.432853e+02	7.959224e-01 (2 -> 4)	
+	Excitation energies:	4	3.230216e-01	8.789935e+00	1.410536e+02	8.534780e-01 (1 -> 4)	
+	Excitation energies:	5	3.682928e-01	1.002184e+01	1.237150e+02	-7.454379e-01 (3 -> 6)	
+	Excitation energies:	6	3.739780e-01	1.017654e+01	1.218343e+02	7.572917e-01 (3 -> 7)	
+	Excitation energies:	7	3.811557e-01	1.037186e+01	1.195400e+02	7.485343e-01 (2 -> 7)	
+	Excitation energies:	8	3.855238e-01	1.049072e+01	1.181856e+02	5.709500e-01 (2 -> 5)	
+	Excitation energies:	9	3.958999e-01	1.077307e+01	1.150881e+02	5.457927e-01 (1 -> 6)	
+	Excitation energies:	10	4.039948e-01	1.099335e+01	1.127820e+02	4.323351e-01 (3 -> 4)	
+	Excitation energies:	11	4.095557e-01	1.114467e+01	1.112507e+02	5.292990e-01 (2 -> 6)	
+	Excitation energies:	12	4.142463e-01	1.127230e+01	1.099910e+02	-4.426891e-01 (1 -> 7)	
+	Excitation energies:	13	9.524866e-01	2.591869e+01	4.783622e+01	9.766059e-01 (0 -> 4)	
+	Excitation energies:	14	9.624148e-01	2.618885e+01	4.734275e+01	9.724311e-01 (0 -> 5)	
+	Excitation energies:	15	9.665275e-01	2.630076e+01	4.714129e+01	9.809125e-01 (0 -> 6)	
+	Excitation energies:	16	9.702363e-01	2.640168e+01	4.696110e+01	9.854693e-01 (0 -> 7)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	3.257989e-03	-8.196636e-03	-6.853238e-02	6.909765e-02		8.280984e-03	-2.083378e-02	-1.741920e-01	1.756288e-01
@@ -195,7 +195,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 16		-1.167652e-02	5.795673e-02	-6.328220e-02	8.660231e-02		-2.967875e-02	1.473113e-01	-1.608473e-01	2.201212e-01	4.851156e-03
 
 
-	Elapsed time(omp) for the CIS = 0.002975[s].
+	Elapsed time(omp) for the CIS = 0.003209[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -205,9 +205,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.017734[s].  <<<<<
+     >>>>>  CPU time: 0.014256[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.016633[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.013097[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

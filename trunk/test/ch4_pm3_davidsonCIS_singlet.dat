@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:59:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:14:7  <<<<<
 
 
 **********  START: Parse input  **********
@@ -109,13 +109,13 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	3.244126e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.649410e-02
 
-	Elapsed time(omp) for the SCF = 0.011937[s].
+	Elapsed time(omp) for the SCF = 0.008488[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.001030[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001088[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -151,11 +151,11 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	======  DONE: Davidson-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.913751e-01	7.928783e+00	-6.180865e-01 (3 -> 5)	
-	Excitation energies:	2	3.119333e-01	8.488205e+00	-8.064884e-01 (3 -> 4)	
-	Excitation energies:	3	3.179904e-01	8.653029e+00	7.959224e-01 (2 -> 4)	
-	Excitation energies:	4	3.230216e-01	8.789935e+00	-8.534780e-01 (1 -> 4)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.913751e-01	7.928783e+00	1.563736e+02	-6.180865e-01 (3 -> 5)	
+	Excitation energies:	2	3.119333e-01	8.488205e+00	1.460676e+02	-8.064884e-01 (3 -> 4)	
+	Excitation energies:	3	3.179904e-01	8.653029e+00	1.432853e+02	7.959224e-01 (2 -> 4)	
+	Excitation energies:	4	3.230216e-01	8.789935e+00	1.410536e+02	-8.534780e-01 (1 -> 4)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	3.257989e-03	-8.196636e-03	-6.853238e-02	6.909765e-02		8.280984e-03	-2.083378e-02	-1.741920e-01	1.756288e-01
@@ -178,7 +178,7 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Transition dipole moment:	0 -> 4		-2.256340e-01	8.233474e-01	-9.739749e-01	1.295160e+00		-5.735046e-01	2.092741e+00	-2.475598e+00	3.291968e+00	3.612326e-01
 
 
-	Elapsed time(omp) for the CIS = 0.002702[s].
+	Elapsed time(omp) for the CIS = 0.002823[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -188,9 +188,9 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.017024[s].  <<<<<
+     >>>>>  CPU time: 0.013774[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0158751[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.012547[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

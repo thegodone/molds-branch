@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/10(Fri.) 18:58:55  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:13:32  <<<<<
 
 
 **********  START: Parse input  **********
@@ -125,13 +125,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029984e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579942e-02
 
-	Elapsed time(omp) for the SCF = 0.014327[s].
+	Elapsed time(omp) for the SCF = 0.010964[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027083[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027568[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -139,56 +139,56 @@ geometry_end |
 	======  DONE: Direct-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.909287e-01	7.916637e+00	7.073934e-01 (6 -> 7)	
-	Excitation energies:	2	3.076112e-01	8.370594e+00	6.073493e-01 (6 -> 11)	
-	Excitation energies:	3	3.114698e-01	8.475593e+00	5.187798e-01 (5 -> 11)	
-	Excitation energies:	4	3.126557e-01	8.507863e+00	6.431109e-01 (6 -> 12)	
-	Excitation energies:	5	3.179037e-01	8.650669e+00	5.941376e-01 (5 -> 13)	
-	Excitation energies:	6	3.183356e-01	8.662423e+00	7.450356e-01 (6 -> 8)	
-	Excitation energies:	7	3.240414e-01	8.817687e+00	6.157804e-01 (6 -> 9)	
-	Excitation energies:	8	3.258245e-01	8.866208e+00	7.425220e-01 (5 -> 9)	
-	Excitation energies:	9	3.279780e-01	8.924807e+00	5.153336e-01 (4 -> 11)	
-	Excitation energies:	10	3.316432e-01	9.024543e+00	5.460825e-01 (5 -> 13)	
-	Excitation energies:	11	3.426901e-01	9.325147e+00	-4.964969e-01 (5 -> 8)	
-	Excitation energies:	12	3.447311e-01	9.380685e+00	5.709928e-01 (5 -> 10)	
-	Excitation energies:	13	3.472216e-01	9.448458e+00	-4.827605e-01 (4 -> 7)	
-	Excitation energies:	14	3.617887e-01	9.844851e+00	6.475202e-01 (5 -> 12)	
-	Excitation energies:	15	3.643286e-01	9.913966e+00	8.032850e-01 (6 -> 13)	
-	Excitation energies:	16	3.679833e-01	1.001341e+01	8.140227e-01 (4 -> 7)	
-	Excitation energies:	17	3.757892e-01	1.022583e+01	7.783814e-01 (4 -> 8)	
-	Excitation energies:	18	3.784491e-01	1.029821e+01	8.945274e-01 (4 -> 10)	
-	Excitation energies:	19	3.823116e-01	1.040331e+01	-7.314139e-01 (4 -> 12)	
-	Excitation energies:	20	3.928238e-01	1.068937e+01	-7.011664e-01 (4 -> 9)	
-	Excitation energies:	21	4.089607e-01	1.112848e+01	8.027141e-01 (4 -> 13)	
-	Excitation energies:	22	4.275110e-01	1.163326e+01	7.183329e-01 (3 -> 9)	
-	Excitation energies:	23	4.326336e-01	1.177265e+01	7.219035e-01 (2 -> 9)	
-	Excitation energies:	24	4.607696e-01	1.253828e+01	9.190976e-01 (3 -> 7)	
-	Excitation energies:	25	4.644991e-01	1.263976e+01	7.505044e-01 (3 -> 8)	
-	Excitation energies:	26	4.663036e-01	1.268887e+01	7.810952e-01 (2 -> 7)	
-	Excitation energies:	27	4.715123e-01	1.283061e+01	8.793902e-01 (2 -> 8)	
-	Excitation energies:	28	4.831798e-01	1.314810e+01	8.568970e-01 (3 -> 10)	
-	Excitation energies:	29	4.870596e-01	1.325367e+01	6.561794e-01 (3 -> 12)	
-	Excitation energies:	30	4.898240e-01	1.332890e+01	7.120339e-01 (2 -> 10)	
-	Excitation energies:	31	4.946729e-01	1.346084e+01	5.871618e-01 (3 -> 11)	
-	Excitation energies:	32	4.949313e-01	1.346787e+01	6.735259e-01 (2 -> 12)	
-	Excitation energies:	33	5.002981e-01	1.361391e+01	5.511024e-01 (2 -> 11)	
-	Excitation energies:	34	5.062215e-01	1.377510e+01	9.110930e-01 (3 -> 13)	
-	Excitation energies:	35	5.094220e-01	1.386219e+01	7.971880e-01 (2 -> 13)	
-	Excitation energies:	36	7.535736e-01	2.050595e+01	9.839449e-01 (1 -> 7)	
-	Excitation energies:	37	7.563254e-01	2.058083e+01	9.756615e-01 (1 -> 8)	
-	Excitation energies:	38	7.649023e-01	2.081422e+01	8.708885e-01 (1 -> 9)	
-	Excitation energies:	39	7.833071e-01	2.131504e+01	9.180549e-01 (1 -> 10)	
-	Excitation energies:	40	7.868532e-01	2.141154e+01	-6.447531e-01 (1 -> 12)	
-	Excitation energies:	41	7.887883e-01	2.146419e+01	5.923362e-01 (1 -> 12)	
-	Excitation energies:	42	8.042389e-01	2.188463e+01	8.842835e-01 (1 -> 13)	
-	Excitation energies:	43	1.073255e+00	2.920498e+01	7.704429e-01 (0 -> 9)	
-	Excitation energies:	44	1.118296e+00	3.043062e+01	9.864459e-01 (0 -> 7)	
-	Excitation energies:	45	1.122720e+00	3.055102e+01	9.483079e-01 (0 -> 8)	
-	Excitation energies:	46	1.142700e+00	3.109471e+01	9.230640e-01 (0 -> 10)	
-	Excitation energies:	47	1.147489e+00	3.122502e+01	-7.912852e-01 (0 -> 12)	
-	Excitation energies:	48	1.151917e+00	3.134551e+01	6.449559e-01 (0 -> 11)	
-	Excitation energies:	49	1.166002e+00	3.172879e+01	9.140276e-01 (0 -> 13)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.909287e-01	7.916637e+00	1.566135e+02	7.073934e-01 (6 -> 7)	
+	Excitation energies:	2	3.076112e-01	8.370594e+00	1.481200e+02	6.073493e-01 (6 -> 11)	
+	Excitation energies:	3	3.114698e-01	8.475593e+00	1.462850e+02	5.187798e-01 (5 -> 11)	
+	Excitation energies:	4	3.126557e-01	8.507863e+00	1.457301e+02	6.431109e-01 (6 -> 12)	
+	Excitation energies:	5	3.179037e-01	8.650669e+00	1.433244e+02	5.941376e-01 (5 -> 13)	
+	Excitation energies:	6	3.183356e-01	8.662423e+00	1.431299e+02	7.450356e-01 (6 -> 8)	
+	Excitation energies:	7	3.240414e-01	8.817687e+00	1.406097e+02	6.157804e-01 (6 -> 9)	
+	Excitation energies:	8	3.258245e-01	8.866208e+00	1.398402e+02	7.425220e-01 (5 -> 9)	
+	Excitation energies:	9	3.279780e-01	8.924807e+00	1.389220e+02	5.153336e-01 (4 -> 11)	
+	Excitation energies:	10	3.316432e-01	9.024543e+00	1.373867e+02	5.460825e-01 (5 -> 13)	
+	Excitation energies:	11	3.426901e-01	9.325147e+00	1.329579e+02	-4.964969e-01 (5 -> 8)	
+	Excitation energies:	12	3.447311e-01	9.380685e+00	1.321707e+02	5.709928e-01 (5 -> 10)	
+	Excitation energies:	13	3.472216e-01	9.448458e+00	1.312227e+02	-4.827605e-01 (4 -> 7)	
+	Excitation energies:	14	3.617887e-01	9.844851e+00	1.259391e+02	6.475202e-01 (5 -> 12)	
+	Excitation energies:	15	3.643286e-01	9.913966e+00	1.250612e+02	8.032850e-01 (6 -> 13)	
+	Excitation energies:	16	3.679833e-01	1.001341e+01	1.238191e+02	8.140227e-01 (4 -> 7)	
+	Excitation energies:	17	3.757892e-01	1.022583e+01	1.212471e+02	7.783814e-01 (4 -> 8)	
+	Excitation energies:	18	3.784491e-01	1.029821e+01	1.203949e+02	8.945274e-01 (4 -> 10)	
+	Excitation energies:	19	3.823116e-01	1.040331e+01	1.191786e+02	-7.314139e-01 (4 -> 12)	
+	Excitation energies:	20	3.928238e-01	1.068937e+01	1.159893e+02	-7.011664e-01 (4 -> 9)	
+	Excitation energies:	21	4.089607e-01	1.112848e+01	1.114126e+02	8.027141e-01 (4 -> 13)	
+	Excitation energies:	22	4.275110e-01	1.163326e+01	1.065782e+02	7.183329e-01 (3 -> 9)	
+	Excitation energies:	23	4.326336e-01	1.177265e+01	1.053163e+02	7.219035e-01 (2 -> 9)	
+	Excitation energies:	24	4.607696e-01	1.253828e+01	9.888535e+01	9.190976e-01 (3 -> 7)	
+	Excitation energies:	25	4.644991e-01	1.263976e+01	9.809139e+01	7.505044e-01 (3 -> 8)	
+	Excitation energies:	26	4.663036e-01	1.268887e+01	9.771179e+01	7.810952e-01 (2 -> 7)	
+	Excitation energies:	27	4.715123e-01	1.283061e+01	9.663238e+01	8.793902e-01 (2 -> 8)	
+	Excitation energies:	28	4.831798e-01	1.314810e+01	9.429898e+01	8.568970e-01 (3 -> 10)	
+	Excitation energies:	29	4.870596e-01	1.325367e+01	9.354780e+01	6.561794e-01 (3 -> 12)	
+	Excitation energies:	30	4.898240e-01	1.332890e+01	9.301987e+01	7.120339e-01 (2 -> 10)	
+	Excitation energies:	31	4.946729e-01	1.346084e+01	9.210806e+01	5.871618e-01 (3 -> 11)	
+	Excitation energies:	32	4.949313e-01	1.346787e+01	9.205997e+01	6.735259e-01 (2 -> 12)	
+	Excitation energies:	33	5.002981e-01	1.361391e+01	9.107243e+01	5.511024e-01 (2 -> 11)	
+	Excitation energies:	34	5.062215e-01	1.377510e+01	9.000677e+01	9.110930e-01 (3 -> 13)	
+	Excitation energies:	35	5.094220e-01	1.386219e+01	8.944130e+01	7.971880e-01 (2 -> 13)	
+	Excitation energies:	36	7.535736e-01	2.050595e+01	6.046305e+01	9.839449e-01 (1 -> 7)	
+	Excitation energies:	37	7.563254e-01	2.058083e+01	6.024306e+01	9.756615e-01 (1 -> 8)	
+	Excitation energies:	38	7.649023e-01	2.081422e+01	5.956756e+01	8.708885e-01 (1 -> 9)	
+	Excitation energies:	39	7.833071e-01	2.131504e+01	5.816794e+01	9.180549e-01 (1 -> 10)	
+	Excitation energies:	40	7.868532e-01	2.141154e+01	5.790579e+01	-6.447531e-01 (1 -> 12)	
+	Excitation energies:	41	7.887883e-01	2.146419e+01	5.776373e+01	5.923362e-01 (1 -> 12)	
+	Excitation energies:	42	8.042389e-01	2.188463e+01	5.665401e+01	8.842835e-01 (1 -> 13)	
+	Excitation energies:	43	1.073255e+00	2.920498e+01	4.245344e+01	7.704429e-01 (0 -> 9)	
+	Excitation energies:	44	1.118296e+00	3.043062e+01	4.074357e+01	9.864459e-01 (0 -> 7)	
+	Excitation energies:	45	1.122720e+00	3.055102e+01	4.058300e+01	9.483079e-01 (0 -> 8)	
+	Excitation energies:	46	1.142700e+00	3.109471e+01	3.987341e+01	9.230640e-01 (0 -> 10)	
+	Excitation energies:	47	1.147489e+00	3.122502e+01	3.970701e+01	-7.912852e-01 (0 -> 12)	
+	Excitation energies:	48	1.151917e+00	3.134551e+01	3.955438e+01	6.449559e-01 (0 -> 11)	
+	Excitation energies:	49	1.166002e+00	3.172879e+01	3.907656e+01	9.140276e-01 (0 -> 13)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.973992e-02	-3.318982e-02	-1.358145e-02	4.093513e-02		-5.017387e-02	-8.436013e-02	-3.452062e-02	1.040467e-01
@@ -346,7 +346,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.626166e-03	6.753032e-03	2.285646e-03	9.081925e-03		-1.430029e-02	1.716450e-02	5.809533e-03	2.308396e-02	6.411564e-05
 
 
-	Elapsed time(omp) for the CIS = 0.034110[s].
+	Elapsed time(omp) for the CIS = 0.034098[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -440,13 +440,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029912e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579913e-02
 
-	Elapsed time(omp) for the SCF = 0.004288[s].
+	Elapsed time(omp) for the SCF = 0.004337[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027028[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026862[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -454,56 +454,56 @@ geometry_end |
 	======  DONE: Direct-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.909248e-01	7.916530e+00	7.073931e-01 (6 -> 7)	
-	Excitation energies:	2	3.076085e-01	8.370520e+00	6.074108e-01 (6 -> 11)	
-	Excitation energies:	3	3.114667e-01	8.475508e+00	5.188111e-01 (5 -> 11)	
-	Excitation energies:	4	3.126522e-01	8.507768e+00	6.431621e-01 (6 -> 12)	
-	Excitation energies:	5	3.178997e-01	8.650560e+00	5.942106e-01 (5 -> 13)	
-	Excitation energies:	6	3.183323e-01	8.662332e+00	7.450441e-01 (6 -> 8)	
-	Excitation energies:	7	3.240369e-01	8.817563e+00	6.159964e-01 (6 -> 9)	
-	Excitation energies:	8	3.258226e-01	8.866155e+00	7.430692e-01 (5 -> 9)	
-	Excitation energies:	9	3.279786e-01	8.924822e+00	5.157413e-01 (4 -> 11)	
-	Excitation energies:	10	3.316407e-01	9.024475e+00	5.460444e-01 (5 -> 13)	
-	Excitation energies:	11	3.426855e-01	9.325022e+00	-4.964818e-01 (5 -> 8)	
-	Excitation energies:	12	3.447262e-01	9.380551e+00	5.709542e-01 (5 -> 10)	
-	Excitation energies:	13	3.472158e-01	9.448300e+00	-4.826733e-01 (4 -> 7)	
-	Excitation energies:	14	3.617839e-01	9.844721e+00	6.475738e-01 (5 -> 12)	
-	Excitation energies:	15	3.643230e-01	9.913813e+00	8.032782e-01 (6 -> 13)	
-	Excitation energies:	16	3.679814e-01	1.001336e+01	8.140774e-01 (4 -> 7)	
-	Excitation energies:	17	3.757865e-01	1.022575e+01	7.784503e-01 (4 -> 8)	
-	Excitation energies:	18	3.784485e-01	1.029819e+01	8.945204e-01 (4 -> 10)	
-	Excitation energies:	19	3.823106e-01	1.040328e+01	-7.314736e-01 (4 -> 12)	
-	Excitation energies:	20	3.928222e-01	1.068932e+01	-7.013124e-01 (4 -> 9)	
-	Excitation energies:	21	4.089585e-01	1.112842e+01	8.027076e-01 (4 -> 13)	
-	Excitation energies:	22	4.275101e-01	1.163324e+01	7.182720e-01 (3 -> 9)	
-	Excitation energies:	23	4.326323e-01	1.177262e+01	7.218398e-01 (2 -> 9)	
-	Excitation energies:	24	4.607643e-01	1.253813e+01	9.191027e-01 (3 -> 7)	
-	Excitation energies:	25	4.644930e-01	1.263960e+01	7.505426e-01 (3 -> 8)	
-	Excitation energies:	26	4.662976e-01	1.268871e+01	7.811063e-01 (2 -> 7)	
-	Excitation energies:	27	4.715059e-01	1.283043e+01	8.794277e-01 (2 -> 8)	
-	Excitation energies:	28	4.831753e-01	1.314797e+01	8.568773e-01 (3 -> 10)	
-	Excitation energies:	29	4.870545e-01	1.325353e+01	6.562122e-01 (3 -> 12)	
-	Excitation energies:	30	4.898189e-01	1.332876e+01	7.119936e-01 (2 -> 10)	
-	Excitation energies:	31	4.946665e-01	1.346067e+01	5.871791e-01 (3 -> 11)	
-	Excitation energies:	32	4.949257e-01	1.346772e+01	6.735995e-01 (2 -> 12)	
-	Excitation energies:	33	5.002911e-01	1.361372e+01	5.510830e-01 (2 -> 11)	
-	Excitation energies:	34	5.062152e-01	1.377493e+01	9.110871e-01 (3 -> 13)	
-	Excitation energies:	35	5.094154e-01	1.386201e+01	7.971633e-01 (2 -> 13)	
-	Excitation energies:	36	7.535639e-01	2.050568e+01	9.839454e-01 (1 -> 7)	
-	Excitation energies:	37	7.563157e-01	2.058056e+01	9.756676e-01 (1 -> 8)	
-	Excitation energies:	38	7.648967e-01	2.081407e+01	8.708009e-01 (1 -> 9)	
-	Excitation energies:	39	7.832985e-01	2.131481e+01	9.180361e-01 (1 -> 10)	
-	Excitation energies:	40	7.868443e-01	2.141130e+01	-6.447598e-01 (1 -> 12)	
-	Excitation energies:	41	7.887782e-01	2.146392e+01	5.923024e-01 (1 -> 12)	
-	Excitation energies:	42	8.042292e-01	2.188436e+01	8.842711e-01 (1 -> 13)	
-	Excitation energies:	43	1.073248e+00	2.920481e+01	7.703843e-01 (0 -> 9)	
-	Excitation energies:	44	1.118286e+00	3.043035e+01	9.864491e-01 (0 -> 7)	
-	Excitation energies:	45	1.122710e+00	3.055074e+01	9.483466e-01 (0 -> 8)	
-	Excitation energies:	46	1.142691e+00	3.109446e+01	9.230426e-01 (0 -> 10)	
-	Excitation energies:	47	1.147479e+00	3.122476e+01	-7.913496e-01 (0 -> 12)	
-	Excitation energies:	48	1.151906e+00	3.134521e+01	6.449344e-01 (0 -> 11)	
-	Excitation energies:	49	1.165992e+00	3.172850e+01	9.140126e-01 (0 -> 13)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.909248e-01	7.916530e+00	1.566156e+02	7.073931e-01 (6 -> 7)	
+	Excitation energies:	2	3.076085e-01	8.370520e+00	1.481213e+02	6.074108e-01 (6 -> 11)	
+	Excitation energies:	3	3.114667e-01	8.475508e+00	1.462865e+02	5.188111e-01 (5 -> 11)	
+	Excitation energies:	4	3.126522e-01	8.507768e+00	1.457318e+02	6.431621e-01 (6 -> 12)	
+	Excitation energies:	5	3.178997e-01	8.650560e+00	1.433262e+02	5.942106e-01 (5 -> 13)	
+	Excitation energies:	6	3.183323e-01	8.662332e+00	1.431314e+02	7.450441e-01 (6 -> 8)	
+	Excitation energies:	7	3.240369e-01	8.817563e+00	1.406117e+02	6.159964e-01 (6 -> 9)	
+	Excitation energies:	8	3.258226e-01	8.866155e+00	1.398410e+02	7.430692e-01 (5 -> 9)	
+	Excitation energies:	9	3.279786e-01	8.924822e+00	1.389218e+02	5.157413e-01 (4 -> 11)	
+	Excitation energies:	10	3.316407e-01	9.024475e+00	1.373877e+02	5.460444e-01 (5 -> 13)	
+	Excitation energies:	11	3.426855e-01	9.325022e+00	1.329597e+02	-4.964818e-01 (5 -> 8)	
+	Excitation energies:	12	3.447262e-01	9.380551e+00	1.321726e+02	5.709542e-01 (5 -> 10)	
+	Excitation energies:	13	3.472158e-01	9.448300e+00	1.312249e+02	-4.826733e-01 (4 -> 7)	
+	Excitation energies:	14	3.617839e-01	9.844721e+00	1.259408e+02	6.475738e-01 (5 -> 12)	
+	Excitation energies:	15	3.643230e-01	9.913813e+00	1.250631e+02	8.032782e-01 (6 -> 13)	
+	Excitation energies:	16	3.679814e-01	1.001336e+01	1.238197e+02	8.140774e-01 (4 -> 7)	
+	Excitation energies:	17	3.757865e-01	1.022575e+01	1.212480e+02	7.784503e-01 (4 -> 8)	
+	Excitation energies:	18	3.784485e-01	1.029819e+01	1.203951e+02	8.945204e-01 (4 -> 10)	
+	Excitation energies:	19	3.823106e-01	1.040328e+01	1.191789e+02	-7.314736e-01 (4 -> 12)	
+	Excitation energies:	20	3.928222e-01	1.068932e+01	1.159898e+02	-7.013124e-01 (4 -> 9)	
+	Excitation energies:	21	4.089585e-01	1.112842e+01	1.114132e+02	8.027076e-01 (4 -> 13)	
+	Excitation energies:	22	4.275101e-01	1.163324e+01	1.065784e+02	7.182720e-01 (3 -> 9)	
+	Excitation energies:	23	4.326323e-01	1.177262e+01	1.053166e+02	7.218398e-01 (2 -> 9)	
+	Excitation energies:	24	4.607643e-01	1.253813e+01	9.888649e+01	9.191027e-01 (3 -> 7)	
+	Excitation energies:	25	4.644930e-01	1.263960e+01	9.809267e+01	7.505426e-01 (3 -> 8)	
+	Excitation energies:	26	4.662976e-01	1.268871e+01	9.771305e+01	7.811063e-01 (2 -> 7)	
+	Excitation energies:	27	4.715059e-01	1.283043e+01	9.663370e+01	8.794277e-01 (2 -> 8)	
+	Excitation energies:	28	4.831753e-01	1.314797e+01	9.429986e+01	8.568773e-01 (3 -> 10)	
+	Excitation energies:	29	4.870545e-01	1.325353e+01	9.354879e+01	6.562122e-01 (3 -> 12)	
+	Excitation energies:	30	4.898189e-01	1.332876e+01	9.302084e+01	7.119936e-01 (2 -> 10)	
+	Excitation energies:	31	4.946665e-01	1.346067e+01	9.210925e+01	5.871791e-01 (3 -> 11)	
+	Excitation energies:	32	4.949257e-01	1.346772e+01	9.206100e+01	6.735995e-01 (2 -> 12)	
+	Excitation energies:	33	5.002911e-01	1.361372e+01	9.107369e+01	5.510830e-01 (2 -> 11)	
+	Excitation energies:	34	5.062152e-01	1.377493e+01	9.000789e+01	9.110871e-01 (3 -> 13)	
+	Excitation energies:	35	5.094154e-01	1.386201e+01	8.944245e+01	7.971633e-01 (2 -> 13)	
+	Excitation energies:	36	7.535639e-01	2.050568e+01	6.046383e+01	9.839454e-01 (1 -> 7)	
+	Excitation energies:	37	7.563157e-01	2.058056e+01	6.024384e+01	9.756676e-01 (1 -> 8)	
+	Excitation energies:	38	7.648967e-01	2.081407e+01	5.956799e+01	8.708009e-01 (1 -> 9)	
+	Excitation energies:	39	7.832985e-01	2.131481e+01	5.816858e+01	9.180361e-01 (1 -> 10)	
+	Excitation energies:	40	7.868443e-01	2.141130e+01	5.790645e+01	-6.447598e-01 (1 -> 12)	
+	Excitation energies:	41	7.887782e-01	2.146392e+01	5.776448e+01	5.923024e-01 (1 -> 12)	
+	Excitation energies:	42	8.042292e-01	2.188436e+01	5.665470e+01	8.842711e-01 (1 -> 13)	
+	Excitation energies:	43	1.073248e+00	2.920481e+01	4.245370e+01	7.703843e-01 (0 -> 9)	
+	Excitation energies:	44	1.118286e+00	3.043035e+01	4.074393e+01	9.864491e-01 (0 -> 7)	
+	Excitation energies:	45	1.122710e+00	3.055074e+01	4.058337e+01	9.483466e-01 (0 -> 8)	
+	Excitation energies:	46	1.142691e+00	3.109446e+01	3.987373e+01	9.230426e-01 (0 -> 10)	
+	Excitation energies:	47	1.147479e+00	3.122476e+01	3.970734e+01	-7.913496e-01 (0 -> 12)	
+	Excitation energies:	48	1.151906e+00	3.134521e+01	3.955475e+01	6.449344e-01 (0 -> 11)	
+	Excitation energies:	49	1.165992e+00	3.172850e+01	3.907692e+01	9.140126e-01 (0 -> 13)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.973195e-02	-3.318328e-02	-1.357987e-02	4.092546e-02		-5.015363e-02	-8.434351e-02	-3.451660e-02	1.040222e-01
@@ -661,7 +661,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.630832e-03	6.751657e-03	2.284936e-03	9.083616e-03		-1.431215e-02	1.716100e-02	5.807728e-03	2.308825e-02	6.413893e-05
 
 
-	Elapsed time(omp) for the CIS = 0.033428[s].
+	Elapsed time(omp) for the CIS = 0.033180[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -757,13 +757,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029908e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579965e-02
 
-	Elapsed time(omp) for the SCF = 0.004561[s].
+	Elapsed time(omp) for the SCF = 0.004506[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026871[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027465[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -771,56 +771,56 @@ geometry_end |
 	======  DONE: Direct-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.909139e-01	7.916233e+00	7.073926e-01 (6 -> 7)	
-	Excitation energies:	2	3.076012e-01	8.370323e+00	6.075900e-01 (6 -> 11)	
-	Excitation energies:	3	3.114583e-01	8.475279e+00	5.189233e-01 (5 -> 11)	
-	Excitation energies:	4	3.126429e-01	8.507514e+00	6.433303e-01 (6 -> 12)	
-	Excitation energies:	5	3.178889e-01	8.650267e+00	5.944343e-01 (5 -> 13)	
-	Excitation energies:	6	3.183233e-01	8.662088e+00	7.450706e-01 (6 -> 8)	
-	Excitation energies:	7	3.240241e-01	8.817215e+00	6.166590e-01 (6 -> 9)	
-	Excitation energies:	8	3.258179e-01	8.866027e+00	7.447055e-01 (5 -> 9)	
-	Excitation energies:	9	3.279815e-01	8.924901e+00	5.169671e-01 (4 -> 11)	
-	Excitation energies:	10	3.316346e-01	9.024308e+00	5.459273e-01 (5 -> 13)	
-	Excitation energies:	11	3.426727e-01	9.324672e+00	-4.964447e-01 (5 -> 8)	
-	Excitation energies:	12	3.447128e-01	9.380187e+00	5.708286e-01 (5 -> 10)	
-	Excitation energies:	13	3.471992e-01	9.447847e+00	-4.824037e-01 (4 -> 7)	
-	Excitation energies:	14	3.617709e-01	9.844365e+00	6.477578e-01 (5 -> 12)	
-	Excitation energies:	15	3.643072e-01	9.913383e+00	8.032561e-01 (6 -> 13)	
-	Excitation energies:	16	3.679770e-01	1.001324e+01	8.142453e-01 (4 -> 7)	
-	Excitation energies:	17	3.757796e-01	1.022557e+01	7.786647e-01 (4 -> 8)	
-	Excitation energies:	18	3.784483e-01	1.029818e+01	8.944731e-01 (4 -> 10)	
-	Excitation energies:	19	3.823093e-01	1.040325e+01	-7.316932e-01 (4 -> 12)	
-	Excitation energies:	20	3.928183e-01	1.068922e+01	-7.017550e-01 (4 -> 9)	
-	Excitation energies:	21	4.089533e-01	1.112827e+01	8.026841e-01 (4 -> 13)	
-	Excitation energies:	22	4.275086e-01	1.163319e+01	7.180880e-01 (3 -> 9)	
-	Excitation energies:	23	4.326297e-01	1.177255e+01	7.216475e-01 (2 -> 9)	
-	Excitation energies:	24	4.607491e-01	1.253772e+01	9.191178e-01 (3 -> 7)	
-	Excitation energies:	25	4.644756e-01	1.263913e+01	7.506641e-01 (3 -> 8)	
-	Excitation energies:	26	4.662804e-01	1.268824e+01	7.811443e-01 (2 -> 7)	
-	Excitation energies:	27	4.714874e-01	1.282993e+01	8.795429e-01 (2 -> 8)	
-	Excitation energies:	28	4.831632e-01	1.314765e+01	8.567925e-01 (3 -> 10)	
-	Excitation energies:	29	4.870405e-01	1.325315e+01	6.563575e-01 (3 -> 12)	
-	Excitation energies:	30	4.898048e-01	1.332837e+01	7.118572e-01 (2 -> 10)	
-	Excitation energies:	31	4.946482e-01	1.346017e+01	5.872656e-01 (3 -> 11)	
-	Excitation energies:	32	4.949104e-01	1.346731e+01	6.738796e-01 (2 -> 12)	
-	Excitation energies:	33	5.002712e-01	1.361318e+01	5.510485e-01 (2 -> 11)	
-	Excitation energies:	34	5.061973e-01	1.377444e+01	9.110673e-01 (3 -> 13)	
-	Excitation energies:	35	5.093968e-01	1.386150e+01	7.970821e-01 (2 -> 13)	
-	Excitation energies:	36	7.535353e-01	2.050490e+01	9.839468e-01 (1 -> 7)	
-	Excitation energies:	37	7.562870e-01	2.057978e+01	9.756861e-01 (1 -> 8)	
-	Excitation energies:	38	7.648807e-01	2.081363e+01	8.705312e-01 (1 -> 9)	
-	Excitation energies:	39	7.832738e-01	2.131414e+01	9.179494e-01 (1 -> 10)	
-	Excitation energies:	40	7.868189e-01	2.141060e+01	-6.448150e-01 (1 -> 12)	
-	Excitation energies:	41	7.887483e-01	2.146311e+01	5.921635e-01 (1 -> 12)	
-	Excitation energies:	42	8.042010e-01	2.188360e+01	8.842294e-01 (1 -> 13)	
-	Excitation energies:	43	1.073230e+00	2.920430e+01	7.702083e-01 (0 -> 9)	
-	Excitation energies:	44	1.118257e+00	3.042956e+01	9.864592e-01 (0 -> 7)	
-	Excitation energies:	45	1.122680e+00	3.054991e+01	9.484663e-01 (0 -> 8)	
-	Excitation energies:	46	1.142665e+00	3.109375e+01	9.229475e-01 (0 -> 10)	
-	Excitation energies:	47	1.147452e+00	3.122401e+01	-7.915913e-01 (0 -> 12)	
-	Excitation energies:	48	1.151875e+00	3.134436e+01	6.448906e-01 (0 -> 11)	
-	Excitation energies:	49	1.165961e+00	3.172767e+01	9.139642e-01 (0 -> 13)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.909139e-01	7.916233e+00	1.566215e+02	7.073926e-01 (6 -> 7)	
+	Excitation energies:	2	3.076012e-01	8.370323e+00	1.481248e+02	6.075900e-01 (6 -> 11)	
+	Excitation energies:	3	3.114583e-01	8.475279e+00	1.462904e+02	5.189233e-01 (5 -> 11)	
+	Excitation energies:	4	3.126429e-01	8.507514e+00	1.457361e+02	6.433303e-01 (6 -> 12)	
+	Excitation energies:	5	3.178889e-01	8.650267e+00	1.433311e+02	5.944343e-01 (5 -> 13)	
+	Excitation energies:	6	3.183233e-01	8.662088e+00	1.431355e+02	7.450706e-01 (6 -> 8)	
+	Excitation energies:	7	3.240241e-01	8.817215e+00	1.406172e+02	6.166590e-01 (6 -> 9)	
+	Excitation energies:	8	3.258179e-01	8.866027e+00	1.398430e+02	7.447055e-01 (5 -> 9)	
+	Excitation energies:	9	3.279815e-01	8.924901e+00	1.389205e+02	5.169671e-01 (4 -> 11)	
+	Excitation energies:	10	3.316346e-01	9.024308e+00	1.373903e+02	5.459273e-01 (5 -> 13)	
+	Excitation energies:	11	3.426727e-01	9.324672e+00	1.329647e+02	-4.964447e-01 (5 -> 8)	
+	Excitation energies:	12	3.447128e-01	9.380187e+00	1.321778e+02	5.708286e-01 (5 -> 10)	
+	Excitation energies:	13	3.471992e-01	9.447847e+00	1.312312e+02	-4.824037e-01 (4 -> 7)	
+	Excitation energies:	14	3.617709e-01	9.844365e+00	1.259454e+02	6.477578e-01 (5 -> 12)	
+	Excitation energies:	15	3.643072e-01	9.913383e+00	1.250685e+02	8.032561e-01 (6 -> 13)	
+	Excitation energies:	16	3.679770e-01	1.001324e+01	1.238212e+02	8.142453e-01 (4 -> 7)	
+	Excitation energies:	17	3.757796e-01	1.022557e+01	1.212502e+02	7.786647e-01 (4 -> 8)	
+	Excitation energies:	18	3.784483e-01	1.029818e+01	1.203952e+02	8.944731e-01 (4 -> 10)	
+	Excitation energies:	19	3.823093e-01	1.040325e+01	1.191793e+02	-7.316932e-01 (4 -> 12)	
+	Excitation energies:	20	3.928183e-01	1.068922e+01	1.159909e+02	-7.017550e-01 (4 -> 9)	
+	Excitation energies:	21	4.089533e-01	1.112827e+01	1.114146e+02	8.026841e-01 (4 -> 13)	
+	Excitation energies:	22	4.275086e-01	1.163319e+01	1.065788e+02	7.180880e-01 (3 -> 9)	
+	Excitation energies:	23	4.326297e-01	1.177255e+01	1.053172e+02	7.216475e-01 (2 -> 9)	
+	Excitation energies:	24	4.607491e-01	1.253772e+01	9.888974e+01	9.191178e-01 (3 -> 7)	
+	Excitation energies:	25	4.644756e-01	1.263913e+01	9.809635e+01	7.506641e-01 (3 -> 8)	
+	Excitation energies:	26	4.662804e-01	1.268824e+01	9.771666e+01	7.811443e-01 (2 -> 7)	
+	Excitation energies:	27	4.714874e-01	1.282993e+01	9.663749e+01	8.795429e-01 (2 -> 8)	
+	Excitation energies:	28	4.831632e-01	1.314765e+01	9.430221e+01	8.567925e-01 (3 -> 10)	
+	Excitation energies:	29	4.870405e-01	1.325315e+01	9.355148e+01	6.563575e-01 (3 -> 12)	
+	Excitation energies:	30	4.898048e-01	1.332837e+01	9.302350e+01	7.118572e-01 (2 -> 10)	
+	Excitation energies:	31	4.946482e-01	1.346017e+01	9.211265e+01	5.872656e-01 (3 -> 11)	
+	Excitation energies:	32	4.949104e-01	1.346731e+01	9.206386e+01	6.738796e-01 (2 -> 12)	
+	Excitation energies:	33	5.002712e-01	1.361318e+01	9.107732e+01	5.510485e-01 (2 -> 11)	
+	Excitation energies:	34	5.061973e-01	1.377444e+01	9.001107e+01	9.110673e-01 (3 -> 13)	
+	Excitation energies:	35	5.093968e-01	1.386150e+01	8.944570e+01	7.970821e-01 (2 -> 13)	
+	Excitation energies:	36	7.535353e-01	2.050490e+01	6.046612e+01	9.839468e-01 (1 -> 7)	
+	Excitation energies:	37	7.562870e-01	2.057978e+01	6.024613e+01	9.756861e-01 (1 -> 8)	
+	Excitation energies:	38	7.648807e-01	2.081363e+01	5.956924e+01	8.705312e-01 (1 -> 9)	
+	Excitation energies:	39	7.832738e-01	2.131414e+01	5.817041e+01	9.179494e-01 (1 -> 10)	
+	Excitation energies:	40	7.868189e-01	2.141060e+01	5.790832e+01	-6.448150e-01 (1 -> 12)	
+	Excitation energies:	41	7.887483e-01	2.146311e+01	5.776667e+01	5.921635e-01 (1 -> 12)	
+	Excitation energies:	42	8.042010e-01	2.188360e+01	5.665668e+01	8.842294e-01 (1 -> 13)	
+	Excitation energies:	43	1.073230e+00	2.920430e+01	4.245443e+01	7.702083e-01 (0 -> 9)	
+	Excitation energies:	44	1.118257e+00	3.042956e+01	4.074499e+01	9.864592e-01 (0 -> 7)	
+	Excitation energies:	45	1.122680e+00	3.054991e+01	4.058447e+01	9.484663e-01 (0 -> 8)	
+	Excitation energies:	46	1.142665e+00	3.109375e+01	3.987464e+01	9.229475e-01 (0 -> 10)	
+	Excitation energies:	47	1.147452e+00	3.122401e+01	3.970829e+01	-7.915913e-01 (0 -> 12)	
+	Excitation energies:	48	1.151875e+00	3.134436e+01	3.955583e+01	6.448906e-01 (0 -> 11)	
+	Excitation energies:	49	1.165961e+00	3.172767e+01	3.907794e+01	9.139642e-01 (0 -> 13)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.970305e-02	-3.315693e-02	-1.357095e-02	4.088720e-02		-5.008018e-02	-8.427653e-02	-3.449391e-02	1.039249e-01
@@ -978,7 +978,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.630741e-03	6.748356e-03	2.283548e-03	9.080757e-03		-1.431192e-02	1.715261e-02	5.804200e-03	2.308099e-02	6.409689e-05
 
 
-	Elapsed time(omp) for the CIS = 0.033309[s].
+	Elapsed time(omp) for the CIS = 0.033738[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1074,13 +1074,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029949e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.580089e-02
 
-	Elapsed time(omp) for the SCF = 0.004442[s].
+	Elapsed time(omp) for the SCF = 0.004437[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.029010[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027189[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1088,56 +1088,56 @@ geometry_end |
 	======  DONE: Direct-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.908957e-01	7.915739e+00	7.073918e-01 (6 -> 7)	
-	Excitation energies:	2	3.075892e-01	8.369995e+00	6.078897e-01 (6 -> 11)	
-	Excitation energies:	3	3.114443e-01	8.474897e+00	5.191121e-01 (5 -> 11)	
-	Excitation energies:	4	3.126274e-01	8.507092e+00	6.436070e-01 (6 -> 12)	
-	Excitation energies:	5	3.178710e-01	8.649778e+00	5.948054e-01 (5 -> 13)	
-	Excitation energies:	6	3.183084e-01	8.661682e+00	7.451121e-01 (6 -> 8)	
-	Excitation energies:	7	3.240029e-01	8.816637e+00	6.177533e-01 (6 -> 9)	
-	Excitation energies:	8	3.258100e-01	8.865812e+00	7.473857e-01 (5 -> 9)	
-	Excitation energies:	9	3.279863e-01	8.925034e+00	5.189882e-01 (4 -> 11)	
-	Excitation energies:	10	3.316243e-01	9.024030e+00	5.457300e-01 (5 -> 13)	
-	Excitation energies:	11	3.426513e-01	9.324091e+00	-4.963833e-01 (5 -> 8)	
-	Excitation energies:	12	3.446905e-01	9.379582e+00	5.706248e-01 (5 -> 10)	
-	Excitation energies:	13	3.471716e-01	9.447095e+00	-4.819567e-01 (4 -> 7)	
-	Excitation energies:	14	3.617492e-01	9.843775e+00	6.480616e-01 (5 -> 12)	
-	Excitation energies:	15	3.642810e-01	9.912669e+00	8.032183e-01 (6 -> 13)	
-	Excitation energies:	16	3.679697e-01	1.001304e+01	8.145238e-01 (4 -> 7)	
-	Excitation energies:	17	3.757682e-01	1.022526e+01	7.790193e-01 (4 -> 8)	
-	Excitation energies:	18	3.784480e-01	1.029818e+01	8.943960e-01 (4 -> 10)	
-	Excitation energies:	19	3.823073e-01	1.040319e+01	-7.320612e-01 (4 -> 12)	
-	Excitation energies:	20	3.928118e-01	1.068904e+01	-7.024904e-01 (4 -> 9)	
-	Excitation energies:	21	4.089445e-01	1.112804e+01	8.026463e-01 (4 -> 13)	
-	Excitation energies:	22	4.275059e-01	1.163312e+01	7.177800e-01 (3 -> 9)	
-	Excitation energies:	23	4.326252e-01	1.177243e+01	7.213255e-01 (2 -> 9)	
-	Excitation energies:	24	4.607239e-01	1.253704e+01	9.191427e-01 (3 -> 7)	
-	Excitation energies:	25	4.644466e-01	1.263834e+01	7.508677e-01 (3 -> 8)	
-	Excitation energies:	26	4.662517e-01	1.268746e+01	7.812099e-01 (2 -> 7)	
-	Excitation energies:	27	4.714566e-01	1.282909e+01	8.797335e-01 (2 -> 8)	
-	Excitation energies:	28	4.831431e-01	1.314710e+01	8.566533e-01 (3 -> 10)	
-	Excitation energies:	29	4.870171e-01	1.325252e+01	6.566026e-01 (3 -> 12)	
-	Excitation energies:	30	4.897815e-01	1.332774e+01	7.116340e-01 (2 -> 10)	
-	Excitation energies:	31	4.946178e-01	1.345934e+01	5.874038e-01 (3 -> 11)	
-	Excitation energies:	32	4.948849e-01	1.346661e+01	6.743456e-01 (2 -> 12)	
-	Excitation energies:	33	5.002380e-01	1.361228e+01	5.509949e-01 (2 -> 11)	
-	Excitation energies:	34	5.061674e-01	1.377363e+01	9.110347e-01 (3 -> 13)	
-	Excitation energies:	35	5.093660e-01	1.386066e+01	7.969483e-01 (2 -> 13)	
-	Excitation energies:	36	7.534877e-01	2.050361e+01	9.839492e-01 (1 -> 7)	
-	Excitation energies:	37	7.562392e-01	2.057848e+01	9.757169e-01 (1 -> 8)	
-	Excitation energies:	38	7.648540e-01	2.081290e+01	8.700821e-01 (1 -> 9)	
-	Excitation energies:	39	7.832327e-01	2.131302e+01	9.178070e-01 (1 -> 10)	
-	Excitation energies:	40	7.867764e-01	2.140945e+01	-6.449153e-01 (1 -> 12)	
-	Excitation energies:	41	7.886985e-01	2.146175e+01	5.919259e-01 (1 -> 12)	
-	Excitation energies:	42	8.041540e-01	2.188232e+01	8.841613e-01 (1 -> 13)	
-	Excitation energies:	43	1.073199e+00	2.920347e+01	7.699134e-01 (0 -> 9)	
-	Excitation energies:	44	1.118208e+00	3.042824e+01	9.864759e-01 (0 -> 7)	
-	Excitation energies:	45	1.122629e+00	3.054853e+01	9.486642e-01 (0 -> 8)	
-	Excitation energies:	46	1.142621e+00	3.109256e+01	9.227916e-01 (0 -> 10)	
-	Excitation energies:	47	1.147407e+00	3.122277e+01	-7.919972e-01 (0 -> 12)	
-	Excitation energies:	48	1.151822e+00	3.134293e+01	6.448211e-01 (0 -> 11)	
-	Excitation energies:	49	1.165910e+00	3.172628e+01	9.138845e-01 (0 -> 13)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.908957e-01	7.915739e+00	1.566312e+02	7.073918e-01 (6 -> 7)	
+	Excitation energies:	2	3.075892e-01	8.369995e+00	1.481306e+02	6.078897e-01 (6 -> 11)	
+	Excitation energies:	3	3.114443e-01	8.474897e+00	1.462970e+02	5.191121e-01 (5 -> 11)	
+	Excitation energies:	4	3.126274e-01	8.507092e+00	1.457433e+02	6.436070e-01 (6 -> 12)	
+	Excitation energies:	5	3.178710e-01	8.649778e+00	1.433392e+02	5.948054e-01 (5 -> 13)	
+	Excitation energies:	6	3.183084e-01	8.661682e+00	1.431422e+02	7.451121e-01 (6 -> 8)	
+	Excitation energies:	7	3.240029e-01	8.816637e+00	1.406264e+02	6.177533e-01 (6 -> 9)	
+	Excitation energies:	8	3.258100e-01	8.865812e+00	1.398464e+02	7.473857e-01 (5 -> 9)	
+	Excitation energies:	9	3.279863e-01	8.925034e+00	1.389185e+02	5.189882e-01 (4 -> 11)	
+	Excitation energies:	10	3.316243e-01	9.024030e+00	1.373945e+02	5.457300e-01 (5 -> 13)	
+	Excitation energies:	11	3.426513e-01	9.324091e+00	1.329730e+02	-4.963833e-01 (5 -> 8)	
+	Excitation energies:	12	3.446905e-01	9.379582e+00	1.321863e+02	5.706248e-01 (5 -> 10)	
+	Excitation energies:	13	3.471716e-01	9.447095e+00	1.312416e+02	-4.819567e-01 (4 -> 7)	
+	Excitation energies:	14	3.617492e-01	9.843775e+00	1.259529e+02	6.480616e-01 (5 -> 12)	
+	Excitation energies:	15	3.642810e-01	9.912669e+00	1.250775e+02	8.032183e-01 (6 -> 13)	
+	Excitation energies:	16	3.679697e-01	1.001304e+01	1.238237e+02	8.145238e-01 (4 -> 7)	
+	Excitation energies:	17	3.757682e-01	1.022526e+01	1.212539e+02	7.790193e-01 (4 -> 8)	
+	Excitation energies:	18	3.784480e-01	1.029818e+01	1.203953e+02	8.943960e-01 (4 -> 10)	
+	Excitation energies:	19	3.823073e-01	1.040319e+01	1.191800e+02	-7.320612e-01 (4 -> 12)	
+	Excitation energies:	20	3.928118e-01	1.068904e+01	1.159928e+02	-7.024904e-01 (4 -> 9)	
+	Excitation energies:	21	4.089445e-01	1.112804e+01	1.114170e+02	8.026463e-01 (4 -> 13)	
+	Excitation energies:	22	4.275059e-01	1.163312e+01	1.065795e+02	7.177800e-01 (3 -> 9)	
+	Excitation energies:	23	4.326252e-01	1.177243e+01	1.053183e+02	7.213255e-01 (2 -> 9)	
+	Excitation energies:	24	4.607239e-01	1.253704e+01	9.889514e+01	9.191427e-01 (3 -> 7)	
+	Excitation energies:	25	4.644466e-01	1.263834e+01	9.810248e+01	7.508677e-01 (3 -> 8)	
+	Excitation energies:	26	4.662517e-01	1.268746e+01	9.772267e+01	7.812099e-01 (2 -> 7)	
+	Excitation energies:	27	4.714566e-01	1.282909e+01	9.664380e+01	8.797335e-01 (2 -> 8)	
+	Excitation energies:	28	4.831431e-01	1.314710e+01	9.430613e+01	8.566533e-01 (3 -> 10)	
+	Excitation energies:	29	4.870171e-01	1.325252e+01	9.355597e+01	6.566026e-01 (3 -> 12)	
+	Excitation energies:	30	4.897815e-01	1.332774e+01	9.302793e+01	7.116340e-01 (2 -> 10)	
+	Excitation energies:	31	4.946178e-01	1.345934e+01	9.211832e+01	5.874038e-01 (3 -> 11)	
+	Excitation energies:	32	4.948849e-01	1.346661e+01	9.206860e+01	6.743456e-01 (2 -> 12)	
+	Excitation energies:	33	5.002380e-01	1.361228e+01	9.108337e+01	5.509949e-01 (2 -> 11)	
+	Excitation energies:	34	5.061674e-01	1.377363e+01	9.001638e+01	9.110347e-01 (3 -> 13)	
+	Excitation energies:	35	5.093660e-01	1.386066e+01	8.945113e+01	7.969483e-01 (2 -> 13)	
+	Excitation energies:	36	7.534877e-01	2.050361e+01	6.046994e+01	9.839492e-01 (1 -> 7)	
+	Excitation energies:	37	7.562392e-01	2.057848e+01	6.024993e+01	9.757169e-01 (1 -> 8)	
+	Excitation energies:	38	7.648540e-01	2.081290e+01	5.957132e+01	8.700821e-01 (1 -> 9)	
+	Excitation energies:	39	7.832327e-01	2.131302e+01	5.817346e+01	9.178070e-01 (1 -> 10)	
+	Excitation energies:	40	7.867764e-01	2.140945e+01	5.791144e+01	-6.449153e-01 (1 -> 12)	
+	Excitation energies:	41	7.886985e-01	2.146175e+01	5.777031e+01	5.919259e-01 (1 -> 12)	
+	Excitation energies:	42	8.041540e-01	2.188232e+01	5.665999e+01	8.841613e-01 (1 -> 13)	
+	Excitation energies:	43	1.073199e+00	2.920347e+01	4.245565e+01	7.699134e-01 (0 -> 9)	
+	Excitation energies:	44	1.118208e+00	3.042824e+01	4.074675e+01	9.864759e-01 (0 -> 7)	
+	Excitation energies:	45	1.122629e+00	3.054853e+01	4.058631e+01	9.486642e-01 (0 -> 8)	
+	Excitation energies:	46	1.142621e+00	3.109256e+01	3.987616e+01	9.227916e-01 (0 -> 10)	
+	Excitation energies:	47	1.147407e+00	3.122277e+01	3.970986e+01	-7.919972e-01 (0 -> 12)	
+	Excitation energies:	48	1.151822e+00	3.134293e+01	3.955763e+01	6.448211e-01 (0 -> 11)	
+	Excitation energies:	49	1.165910e+00	3.172628e+01	3.907965e+01	9.138845e-01 (0 -> 13)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.965407e-02	-3.311194e-02	-1.355547e-02	4.082197e-02		-4.995567e-02	-8.416216e-02	-3.445457e-02	1.037591e-01
@@ -1295,7 +1295,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.628017e-03	6.742993e-03	2.281331e-03	9.074525e-03		-1.430500e-02	1.713898e-02	5.798567e-03	2.306515e-02	6.400614e-05
 
 
-	Elapsed time(omp) for the CIS = 0.035411[s].
+	Elapsed time(omp) for the CIS = 0.033520[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1392,13 +1392,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029924e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.580181e-02
 
-	Elapsed time(omp) for the SCF = 0.004793[s].
+	Elapsed time(omp) for the SCF = 0.004735[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026858[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026957[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1406,56 +1406,56 @@ geometry_end |
 	======  DONE: Direct-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.908702e-01	7.915043e+00	7.073907e-01 (6 -> 7)	
-	Excitation energies:	2	3.075722e-01	8.369531e+00	6.083023e-01 (6 -> 11)	
-	Excitation energies:	3	3.114245e-01	8.474359e+00	5.193729e-01 (5 -> 11)	
-	Excitation energies:	4	3.126056e-01	8.506500e+00	6.439963e-01 (6 -> 12)	
-	Excitation energies:	5	3.178457e-01	8.649092e+00	5.953217e-01 (5 -> 13)	
-	Excitation energies:	6	3.182875e-01	8.661112e+00	7.451706e-01 (6 -> 8)	
-	Excitation energies:	7	3.239730e-01	8.815826e+00	6.192891e-01 (6 -> 9)	
-	Excitation energies:	8	3.257989e-01	8.865511e+00	7.510746e-01 (5 -> 9)	
-	Excitation energies:	9	3.279934e-01	8.925227e+00	5.217862e-01 (4 -> 11)	
-	Excitation energies:	10	3.316100e-01	9.023640e+00	5.454561e-01 (5 -> 13)	
-	Excitation energies:	11	3.426212e-01	9.323272e+00	-4.962971e-01 (5 -> 8)	
-	Excitation energies:	12	3.446593e-01	9.378732e+00	5.703317e-01 (5 -> 10)	
-	Excitation energies:	13	3.471327e-01	9.446036e+00	-4.813267e-01 (4 -> 7)	
-	Excitation energies:	14	3.617187e-01	9.842946e+00	6.484912e-01 (5 -> 12)	
-	Excitation energies:	15	3.642442e-01	9.911667e+00	8.031659e-01 (6 -> 13)	
-	Excitation energies:	16	3.679595e-01	1.001277e+01	8.149150e-01 (4 -> 7)	
-	Excitation energies:	17	3.757523e-01	1.022482e+01	7.795173e-01 (4 -> 8)	
-	Excitation energies:	18	3.784478e-01	1.029817e+01	8.942784e-01 (4 -> 10)	
-	Excitation energies:	19	3.823045e-01	1.040312e+01	-7.325780e-01 (4 -> 12)	
-	Excitation energies:	20	3.928029e-01	1.068880e+01	-7.035224e-01 (4 -> 9)	
-	Excitation energies:	21	4.089323e-01	1.112770e+01	8.025914e-01 (4 -> 13)	
-	Excitation energies:	22	4.275023e-01	1.163302e+01	7.173448e-01 (3 -> 9)	
-	Excitation energies:	23	4.326191e-01	1.177226e+01	7.208710e-01 (2 -> 9)	
-	Excitation energies:	24	4.606885e-01	1.253607e+01	9.191776e-01 (3 -> 7)	
-	Excitation energies:	25	4.644058e-01	1.263723e+01	7.511534e-01 (3 -> 8)	
-	Excitation energies:	26	4.662114e-01	1.268636e+01	7.813020e-01 (2 -> 7)	
-	Excitation energies:	27	4.714134e-01	1.282791e+01	8.800006e-01 (2 -> 8)	
-	Excitation energies:	28	4.831151e-01	1.314634e+01	8.564512e-01 (3 -> 10)	
-	Excitation energies:	29	4.869844e-01	1.325163e+01	6.569486e-01 (3 -> 12)	
-	Excitation energies:	30	4.897489e-01	1.332685e+01	7.113149e-01 (2 -> 10)	
-	Excitation energies:	31	4.945751e-01	1.345818e+01	5.875754e-01 (3 -> 11)	
-	Excitation energies:	32	4.948491e-01	1.346564e+01	6.749902e-01 (2 -> 12)	
-	Excitation energies:	33	5.001914e-01	1.361101e+01	5.509139e-01 (2 -> 11)	
-	Excitation energies:	34	5.061256e-01	1.377249e+01	9.109881e-01 (3 -> 13)	
-	Excitation energies:	35	5.093227e-01	1.385949e+01	7.967578e-01 (2 -> 13)	
-	Excitation energies:	36	7.534210e-01	2.050179e+01	9.839525e-01 (1 -> 7)	
-	Excitation energies:	37	7.561722e-01	2.057666e+01	9.757601e-01 (1 -> 8)	
-	Excitation energies:	38	7.648167e-01	2.081189e+01	8.694472e-01 (1 -> 9)	
-	Excitation energies:	39	7.831753e-01	2.131146e+01	9.175991e-01 (1 -> 10)	
-	Excitation energies:	40	7.867171e-01	2.140783e+01	-6.450461e-01 (1 -> 12)	
-	Excitation energies:	41	7.886289e-01	2.145986e+01	5.916002e-01 (1 -> 12)	
-	Excitation energies:	42	8.040884e-01	2.188053e+01	8.840635e-01 (1 -> 13)	
-	Excitation energies:	43	1.073156e+00	2.920230e+01	7.694967e-01 (0 -> 9)	
-	Excitation energies:	44	1.118141e+00	3.042641e+01	9.864994e-01 (0 -> 7)	
-	Excitation energies:	45	1.122558e+00	3.054660e+01	9.489415e-01 (0 -> 8)	
-	Excitation energies:	46	1.142561e+00	3.109091e+01	9.225644e-01 (0 -> 10)	
-	Excitation energies:	47	1.147343e+00	3.122105e+01	-7.925679e-01 (0 -> 12)	
-	Excitation energies:	48	1.151749e+00	3.134093e+01	6.447176e-01 (0 -> 11)	
-	Excitation energies:	49	1.165839e+00	3.172435e+01	9.137710e-01 (0 -> 13)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.908702e-01	7.915043e+00	1.566450e+02	7.073907e-01 (6 -> 7)	
+	Excitation energies:	2	3.075722e-01	8.369531e+00	1.481388e+02	6.083023e-01 (6 -> 11)	
+	Excitation energies:	3	3.114245e-01	8.474359e+00	1.463063e+02	5.193729e-01 (5 -> 11)	
+	Excitation energies:	4	3.126056e-01	8.506500e+00	1.457535e+02	6.439963e-01 (6 -> 12)	
+	Excitation energies:	5	3.178457e-01	8.649092e+00	1.433505e+02	5.953217e-01 (5 -> 13)	
+	Excitation energies:	6	3.182875e-01	8.661112e+00	1.431516e+02	7.451706e-01 (6 -> 8)	
+	Excitation energies:	7	3.239730e-01	8.815826e+00	1.406394e+02	6.192891e-01 (6 -> 9)	
+	Excitation energies:	8	3.257989e-01	8.865511e+00	1.398512e+02	7.510746e-01 (5 -> 9)	
+	Excitation energies:	9	3.279934e-01	8.925227e+00	1.389155e+02	5.217862e-01 (4 -> 11)	
+	Excitation energies:	10	3.316100e-01	9.023640e+00	1.374004e+02	5.454561e-01 (5 -> 13)	
+	Excitation energies:	11	3.426212e-01	9.323272e+00	1.329847e+02	-4.962971e-01 (5 -> 8)	
+	Excitation energies:	12	3.446593e-01	9.378732e+00	1.321983e+02	5.703317e-01 (5 -> 10)	
+	Excitation energies:	13	3.471327e-01	9.446036e+00	1.312563e+02	-4.813267e-01 (4 -> 7)	
+	Excitation energies:	14	3.617187e-01	9.842946e+00	1.259635e+02	6.484912e-01 (5 -> 12)	
+	Excitation energies:	15	3.642442e-01	9.911667e+00	1.250902e+02	8.031659e-01 (6 -> 13)	
+	Excitation energies:	16	3.679595e-01	1.001277e+01	1.238271e+02	8.149150e-01 (4 -> 7)	
+	Excitation energies:	17	3.757523e-01	1.022482e+01	1.212590e+02	7.795173e-01 (4 -> 8)	
+	Excitation energies:	18	3.784478e-01	1.029817e+01	1.203954e+02	8.942784e-01 (4 -> 10)	
+	Excitation energies:	19	3.823045e-01	1.040312e+01	1.191808e+02	-7.325780e-01 (4 -> 12)	
+	Excitation energies:	20	3.928029e-01	1.068880e+01	1.159955e+02	-7.035224e-01 (4 -> 9)	
+	Excitation energies:	21	4.089323e-01	1.112770e+01	1.114203e+02	8.025914e-01 (4 -> 13)	
+	Excitation energies:	22	4.275023e-01	1.163302e+01	1.065804e+02	7.173448e-01 (3 -> 9)	
+	Excitation energies:	23	4.326191e-01	1.177226e+01	1.053198e+02	7.208710e-01 (2 -> 9)	
+	Excitation energies:	24	4.606885e-01	1.253607e+01	9.890275e+01	9.191776e-01 (3 -> 7)	
+	Excitation energies:	25	4.644058e-01	1.263723e+01	9.811109e+01	7.511534e-01 (3 -> 8)	
+	Excitation energies:	26	4.662114e-01	1.268636e+01	9.773112e+01	7.813020e-01 (2 -> 7)	
+	Excitation energies:	27	4.714134e-01	1.282791e+01	9.665267e+01	8.800006e-01 (2 -> 8)	
+	Excitation energies:	28	4.831151e-01	1.314634e+01	9.431161e+01	8.564512e-01 (3 -> 10)	
+	Excitation energies:	29	4.869844e-01	1.325163e+01	9.356226e+01	6.569486e-01 (3 -> 12)	
+	Excitation energies:	30	4.897489e-01	1.332685e+01	9.303413e+01	7.113149e-01 (2 -> 10)	
+	Excitation energies:	31	4.945751e-01	1.345818e+01	9.212627e+01	5.875754e-01 (3 -> 11)	
+	Excitation energies:	32	4.948491e-01	1.346564e+01	9.207525e+01	6.749902e-01 (2 -> 12)	
+	Excitation energies:	33	5.001914e-01	1.361101e+01	9.109184e+01	5.509139e-01 (2 -> 11)	
+	Excitation energies:	34	5.061256e-01	1.377249e+01	9.002382e+01	9.109881e-01 (3 -> 13)	
+	Excitation energies:	35	5.093227e-01	1.385949e+01	8.945872e+01	7.967578e-01 (2 -> 13)	
+	Excitation energies:	36	7.534210e-01	2.050179e+01	6.047530e+01	9.839525e-01 (1 -> 7)	
+	Excitation energies:	37	7.561722e-01	2.057666e+01	6.025527e+01	9.757601e-01 (1 -> 8)	
+	Excitation energies:	38	7.648167e-01	2.081189e+01	5.957422e+01	8.694472e-01 (1 -> 9)	
+	Excitation energies:	39	7.831753e-01	2.131146e+01	5.817773e+01	9.175991e-01 (1 -> 10)	
+	Excitation energies:	40	7.867171e-01	2.140783e+01	5.791581e+01	-6.450461e-01 (1 -> 12)	
+	Excitation energies:	41	7.886289e-01	2.145986e+01	5.777542e+01	5.916002e-01 (1 -> 12)	
+	Excitation energies:	42	8.040884e-01	2.188053e+01	5.666462e+01	8.840635e-01 (1 -> 13)	
+	Excitation energies:	43	1.073156e+00	2.920230e+01	4.245734e+01	7.694967e-01 (0 -> 9)	
+	Excitation energies:	44	1.118141e+00	3.042641e+01	4.074921e+01	9.864994e-01 (0 -> 7)	
+	Excitation energies:	45	1.122558e+00	3.054660e+01	4.058887e+01	9.489415e-01 (0 -> 8)	
+	Excitation energies:	46	1.142561e+00	3.109091e+01	3.987829e+01	9.225644e-01 (0 -> 10)	
+	Excitation energies:	47	1.147343e+00	3.122105e+01	3.971206e+01	-7.925679e-01 (0 -> 12)	
+	Excitation energies:	48	1.151749e+00	3.134093e+01	3.956015e+01	6.447176e-01 (0 -> 11)	
+	Excitation energies:	49	1.165839e+00	3.172435e+01	3.908203e+01	9.137710e-01 (0 -> 13)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.958568e-02	-3.304924e-02	-1.353371e-02	4.073098e-02		-4.978185e-02	-8.400281e-02	-3.439925e-02	1.035278e-01
@@ -1613,7 +1613,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.624017e-03	6.735477e-03	2.278310e-03	9.065700e-03		-1.429483e-02	1.711988e-02	5.790888e-03	2.304272e-02	6.387781e-05
 
 
-	Elapsed time(omp) for the CIS = 0.033180[s].
+	Elapsed time(omp) for the CIS = 0.033247[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1710,13 +1710,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029948e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.580354e-02
 
-	Elapsed time(omp) for the SCF = 0.004745[s].
+	Elapsed time(omp) for the SCF = 0.004677[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026944[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027088[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1724,56 +1724,56 @@ geometry_end |
 	======  DONE: Direct-CIS  =====
 
 
-				|   i-th   |   e[a.u.]   |   e[eV]   | dominant eigenvector coefficients (occ. -> vir.) |
-	Excitation energies:	1	2.908375e-01	7.914153e+00	7.073890e-01 (6 -> 7)	
-	Excitation energies:	2	3.075503e-01	8.368938e+00	6.088301e-01 (6 -> 11)	
-	Excitation energies:	3	3.113991e-01	8.473668e+00	5.197035e-01 (5 -> 11)	
-	Excitation energies:	4	3.125777e-01	8.505740e+00	6.444865e-01 (6 -> 12)	
-	Excitation energies:	5	3.178134e-01	8.648211e+00	5.959760e-01 (5 -> 13)	
-	Excitation energies:	6	3.182606e-01	8.660380e+00	7.452389e-01 (6 -> 8)	
-	Excitation energies:	7	3.239348e-01	8.814786e+00	6.212364e-01 (6 -> 9)	
-	Excitation energies:	8	3.257845e-01	8.865119e+00	7.556661e-01 (5 -> 9)	
-	Excitation energies:	9	3.280027e-01	8.925478e+00	5.253076e-01 (4 -> 11)	
-	Excitation energies:	10	3.315917e-01	9.023140e+00	5.451033e-01 (5 -> 13)	
-	Excitation energies:	11	3.425827e-01	9.322223e+00	-4.961853e-01 (5 -> 8)	
-	Excitation energies:	12	3.446193e-01	9.377642e+00	5.699626e-01 (5 -> 10)	
-	Excitation energies:	13	3.470828e-01	9.444679e+00	-4.805236e-01 (4 -> 7)	
-	Excitation energies:	14	3.616797e-01	9.841883e+00	6.490335e-01 (5 -> 12)	
-	Excitation energies:	15	3.641969e-01	9.910382e+00	8.030976e-01 (6 -> 13)	
-	Excitation energies:	16	3.679465e-01	1.001241e+01	8.154128e-01 (4 -> 7)	
-	Excitation energies:	17	3.757319e-01	1.022427e+01	7.801479e-01 (4 -> 8)	
-	Excitation energies:	18	3.784473e-01	1.029816e+01	8.941314e-01 (4 -> 10)	
-	Excitation energies:	19	3.823009e-01	1.040302e+01	-7.332329e-01 (4 -> 12)	
-	Excitation energies:	20	3.927913e-01	1.068848e+01	-7.048440e-01 (4 -> 9)	
-	Excitation energies:	21	4.089166e-01	1.112728e+01	8.025219e-01 (4 -> 13)	
-	Excitation energies:	22	4.274976e-01	1.163290e+01	7.167785e-01 (3 -> 9)	
-	Excitation energies:	23	4.326111e-01	1.177204e+01	7.202800e-01 (2 -> 9)	
-	Excitation energies:	24	4.606432e-01	1.253484e+01	9.192221e-01 (3 -> 7)	
-	Excitation energies:	25	4.643536e-01	1.263580e+01	7.515164e-01 (3 -> 8)	
-	Excitation energies:	26	4.661597e-01	1.268495e+01	7.814203e-01 (2 -> 7)	
-	Excitation energies:	27	4.713580e-01	1.282641e+01	8.803389e-01 (2 -> 8)	
-	Excitation energies:	28	4.830790e-01	1.314535e+01	8.561978e-01 (3 -> 10)	
-	Excitation energies:	29	4.869424e-01	1.325048e+01	6.573842e-01 (3 -> 12)	
-	Excitation energies:	30	4.897069e-01	1.332571e+01	7.109114e-01 (2 -> 10)	
-	Excitation energies:	31	4.945204e-01	1.345669e+01	5.877607e-01 (3 -> 11)	
-	Excitation energies:	32	4.948033e-01	1.346439e+01	6.757919e-01 (2 -> 12)	
-	Excitation energies:	33	5.001317e-01	1.360939e+01	5.508034e-01 (2 -> 11)	
-	Excitation energies:	34	5.060720e-01	1.377103e+01	9.109286e-01 (3 -> 13)	
-	Excitation energies:	35	5.092672e-01	1.385798e+01	7.965147e-01 (2 -> 13)	
-	Excitation energies:	36	7.533355e-01	2.049947e+01	9.839568e-01 (1 -> 7)	
-	Excitation energies:	37	7.560862e-01	2.057432e+01	9.758149e-01 (1 -> 8)	
-	Excitation energies:	38	7.647688e-01	2.081059e+01	8.686310e-01 (1 -> 9)	
-	Excitation energies:	39	7.831015e-01	2.130945e+01	9.173392e-01 (1 -> 10)	
-	Excitation energies:	40	7.866409e-01	2.140576e+01	-6.452024e-01 (1 -> 12)	
-	Excitation energies:	41	7.885394e-01	2.145742e+01	5.911968e-01 (1 -> 12)	
-	Excitation energies:	42	8.040041e-01	2.187824e+01	8.839392e-01 (1 -> 13)	
-	Excitation energies:	43	1.073101e+00	2.920080e+01	7.689542e-01 (0 -> 9)	
-	Excitation energies:	44	1.118054e+00	3.042405e+01	9.865292e-01 (0 -> 7)	
-	Excitation energies:	45	1.122467e+00	3.054413e+01	9.492926e-01 (0 -> 8)	
-	Excitation energies:	46	1.142483e+00	3.108878e+01	9.222801e-01 (0 -> 10)	
-	Excitation energies:	47	1.147262e+00	3.121883e+01	-7.932912e-01 (0 -> 12)	
-	Excitation energies:	48	1.151655e+00	3.133837e+01	6.445776e-01 (0 -> 11)	
-	Excitation energies:	49	1.165748e+00	3.172186e+01	9.136263e-01 (0 -> 13)	
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	2.908375e-01	7.914153e+00	1.566626e+02	7.073890e-01 (6 -> 7)	
+	Excitation energies:	2	3.075503e-01	8.368938e+00	1.481493e+02	6.088301e-01 (6 -> 11)	
+	Excitation energies:	3	3.113991e-01	8.473668e+00	1.463182e+02	5.197035e-01 (5 -> 11)	
+	Excitation energies:	4	3.125777e-01	8.505740e+00	1.457665e+02	6.444865e-01 (6 -> 12)	
+	Excitation energies:	5	3.178134e-01	8.648211e+00	1.433651e+02	5.959760e-01 (5 -> 13)	
+	Excitation energies:	6	3.182606e-01	8.660380e+00	1.431637e+02	7.452389e-01 (6 -> 8)	
+	Excitation energies:	7	3.239348e-01	8.814786e+00	1.406559e+02	6.212364e-01 (6 -> 9)	
+	Excitation energies:	8	3.257845e-01	8.865119e+00	1.398573e+02	7.556661e-01 (5 -> 9)	
+	Excitation energies:	9	3.280027e-01	8.925478e+00	1.389116e+02	5.253076e-01 (4 -> 11)	
+	Excitation energies:	10	3.315917e-01	9.023140e+00	1.374080e+02	5.451033e-01 (5 -> 13)	
+	Excitation energies:	11	3.425827e-01	9.322223e+00	1.329996e+02	-4.961853e-01 (5 -> 8)	
+	Excitation energies:	12	3.446193e-01	9.377642e+00	1.322136e+02	5.699626e-01 (5 -> 10)	
+	Excitation energies:	13	3.470828e-01	9.444679e+00	1.312752e+02	-4.805236e-01 (4 -> 7)	
+	Excitation energies:	14	3.616797e-01	9.841883e+00	1.259771e+02	6.490335e-01 (5 -> 12)	
+	Excitation energies:	15	3.641969e-01	9.910382e+00	1.251064e+02	8.030976e-01 (6 -> 13)	
+	Excitation energies:	16	3.679465e-01	1.001241e+01	1.238315e+02	8.154128e-01 (4 -> 7)	
+	Excitation energies:	17	3.757319e-01	1.022427e+01	1.212656e+02	7.801479e-01 (4 -> 8)	
+	Excitation energies:	18	3.784473e-01	1.029816e+01	1.203955e+02	8.941314e-01 (4 -> 10)	
+	Excitation energies:	19	3.823009e-01	1.040302e+01	1.191819e+02	-7.332329e-01 (4 -> 12)	
+	Excitation energies:	20	3.927913e-01	1.068848e+01	1.159989e+02	-7.048440e-01 (4 -> 9)	
+	Excitation energies:	21	4.089166e-01	1.112728e+01	1.114246e+02	8.025219e-01 (4 -> 13)	
+	Excitation energies:	22	4.274976e-01	1.163290e+01	1.065816e+02	7.167785e-01 (3 -> 9)	
+	Excitation energies:	23	4.326111e-01	1.177204e+01	1.053218e+02	7.202800e-01 (2 -> 9)	
+	Excitation energies:	24	4.606432e-01	1.253484e+01	9.891249e+01	9.192221e-01 (3 -> 7)	
+	Excitation energies:	25	4.643536e-01	1.263580e+01	9.812213e+01	7.515164e-01 (3 -> 8)	
+	Excitation energies:	26	4.661597e-01	1.268495e+01	9.774195e+01	7.814203e-01 (2 -> 7)	
+	Excitation energies:	27	4.713580e-01	1.282641e+01	9.666403e+01	8.803389e-01 (2 -> 8)	
+	Excitation energies:	28	4.830790e-01	1.314535e+01	9.431865e+01	8.561978e-01 (3 -> 10)	
+	Excitation energies:	29	4.869424e-01	1.325048e+01	9.357033e+01	6.573842e-01 (3 -> 12)	
+	Excitation energies:	30	4.897069e-01	1.332571e+01	9.304209e+01	7.109114e-01 (2 -> 10)	
+	Excitation energies:	31	4.945204e-01	1.345669e+01	9.213646e+01	5.877607e-01 (3 -> 11)	
+	Excitation energies:	32	4.948033e-01	1.346439e+01	9.208379e+01	6.757919e-01 (2 -> 12)	
+	Excitation energies:	33	5.001317e-01	1.360939e+01	9.110272e+01	5.508034e-01 (2 -> 11)	
+	Excitation energies:	34	5.060720e-01	1.377103e+01	9.003336e+01	9.109286e-01 (3 -> 13)	
+	Excitation energies:	35	5.092672e-01	1.385798e+01	8.946847e+01	7.965147e-01 (2 -> 13)	
+	Excitation energies:	36	7.533355e-01	2.049947e+01	6.048216e+01	9.839568e-01 (1 -> 7)	
+	Excitation energies:	37	7.560862e-01	2.057432e+01	6.026213e+01	9.758149e-01 (1 -> 8)	
+	Excitation energies:	38	7.647688e-01	2.081059e+01	5.957795e+01	8.686310e-01 (1 -> 9)	
+	Excitation energies:	39	7.831015e-01	2.130945e+01	5.818321e+01	9.173392e-01 (1 -> 10)	
+	Excitation energies:	40	7.866409e-01	2.140576e+01	5.792142e+01	-6.452024e-01 (1 -> 12)	
+	Excitation energies:	41	7.885394e-01	2.145742e+01	5.778197e+01	5.911968e-01 (1 -> 12)	
+	Excitation energies:	42	8.040041e-01	2.187824e+01	5.667056e+01	8.839392e-01 (1 -> 13)	
+	Excitation energies:	43	1.073101e+00	2.920080e+01	4.245952e+01	7.689542e-01 (0 -> 9)	
+	Excitation energies:	44	1.118054e+00	3.042405e+01	4.075237e+01	9.865292e-01 (0 -> 7)	
+	Excitation energies:	45	1.122467e+00	3.054413e+01	4.059216e+01	9.492926e-01 (0 -> 8)	
+	Excitation energies:	46	1.142483e+00	3.108878e+01	3.988101e+01	9.222801e-01 (0 -> 10)	
+	Excitation energies:	47	1.147262e+00	3.121883e+01	3.971488e+01	-7.932912e-01 (0 -> 12)	
+	Excitation energies:	48	1.151655e+00	3.133837e+01	3.956339e+01	6.445776e-01 (0 -> 11)	
+	Excitation energies:	49	1.165748e+00	3.172186e+01	3.908510e+01	9.136263e-01 (0 -> 13)	
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	-1.949768e-02	-3.296847e-02	-1.350578e-02	4.061386e-02		-4.955818e-02	-8.379751e-02	-3.432827e-02	1.032302e-01
@@ -1931,7 +1931,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.618849e-03	6.725825e-03	2.274381e-03	9.054336e-03		-1.428169e-02	1.709535e-02	5.780901e-03	2.301383e-02	6.371277e-05
 
 
-	Elapsed time(omp) for the CIS = 0.033283[s].
+	Elapsed time(omp) for the CIS = 0.033522[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1979,9 +1979,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.831688[s].  <<<<<
+     >>>>>  CPU time: 0.826428[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.826963[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.823732[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
