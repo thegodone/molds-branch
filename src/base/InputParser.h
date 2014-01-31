@@ -69,6 +69,9 @@ private:
    std::string messageScfDiisNumErrorVect;
    std::string messageScfDiisStartError;
    std::string messageScfDiisEndError;
+   std::string messageScfSumCharges;
+   std::string messageScfSumCharges2;
+   std::string messageScfSumCharges3;
    std::string messageScfVdW;
    std::string messageScfVdWScalingFactor;
    std::string messageScfVdWDampingFactor;
@@ -85,6 +88,9 @@ private:
    std::string messageCisAllTransitionDipoleMoments;
    std::string messageCisNumPrintCoefficients;
    std::string messageCisMulliken;
+   std::string messageCisSumCharges;
+   std::string messageCisSumCharges2;
+   std::string messageCisSumCharges3;
    // Memory
    std::string messageMemoryConditions;
    std::string messageMemoryLimitHeap;
@@ -190,6 +196,7 @@ private:
    std::string stringScfDiisNumErrorVect;
    std::string stringScfDiisStartError;
    std::string stringScfDiisEndError;
+   std::string stringScfSumCharges;
    std::string stringScfVdW;
    std::string stringScfVdWScalingFactor;
    std::string stringScfVdWDampingFactor;
@@ -247,6 +254,7 @@ private:
    std::string stringCISNumPrintCoefficients;
    std::string stringCISMulliken;
    std::string stringCISUnpairedPop;
+   std::string stringCISSumCharges;
    // Memory
    std::string stringMemory;
    std::string stringMemoryEnd;

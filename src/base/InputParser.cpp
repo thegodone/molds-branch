@@ -124,6 +124,9 @@ void InputParser::SetMessages(){
    this->messageScfDiisNumErrorVect = "\t\tDIIS number of error vectors: ";
    this->messageScfDiisStartError   = "\t\tDIIS starting error: ";
    this->messageScfDiisEndError     = "\t\tDIIS ending error: ";
+   this->messageScfSumCharges       = "\t\tSummation of atomic charges from ";
+   this->messageScfSumCharges2      = " to ";
+   this->messageScfSumCharges3      = " atoms.";
    this->messageScfVdW              = "\t\tvan der Waals (vdW) correction: ";
    this->messageScfVdWScalingFactor = "\t\tvdW corr. scaling factor (s6): ";
    this->messageScfVdWDampingFactor = "\t\tvdW corr. damping factor (d): ";
@@ -140,7 +143,10 @@ void InputParser::SetMessages(){
    this->messageCisExcitonEnergies            = "\t\tExciton energies: ";
    this->messageCisAllTransitionDipoleMoments = "\t\tAll transition dipole moments: ";
    this->messageCisNumPrintCoefficients       = "\t\tNumber of printed coefficients of CIS-eigenvector: ";
-   this->messageCisMulliken                   = "\t\tMulliken population of excited states: ";
+   this->messageCisMulliken                   = "\t\tMulliken population in excited state: ";
+   this->messageCisSumCharges                 = "\t\tSummation of atomic charges from ";
+   this->messageCisSumCharges2                = " to ";
+   this->messageCisSumCharges3                = " atoms.";
 
    // memory
    this->messageMemoryConditions = "\tMemory conditions:\n";
@@ -263,6 +269,7 @@ void InputParser::SetMessages(){
    this->stringScfDiisNumErrorVect = "diis_num_error_vect";
    this->stringScfDiisStartError   = "diis_start_error";
    this->stringScfDiisEndError     = "diis_end_error";
+   this->stringScfSumCharges       = "sum_charges";
    this->stringScfVdW              = "vdw";
    this->stringScfVdWScalingFactor = "vdw_s6";
    this->stringScfVdWDampingFactor = "vdw_d";
@@ -327,6 +334,7 @@ void InputParser::SetMessages(){
    this->stringCISNumPrintCoefficients       = "num_print_coefficients";
    this->stringCISMulliken                   = "mulliken";
    this->stringCISUnpairedPop                = "unpaired_electron_population";
+   this->stringCISSumCharges                 = "sum_charges";
 
    // Memory
    this->stringMemory          = "memory";
@@ -599,6 +607,13 @@ int InputParser::ParseConditionsSCF(vector<string>* inputTerms, int parseIndex) 
             Parameters::GetInstance()->SetRequiresVdWSCF(false);
          }
          parseIndex++;
+      }
+      // Summation of atomic charges (sum_charges)
+      if((*inputTerms)[parseIndex].compare(this->stringScfSumCharges) == 0){
+         int firstAtom = atoi((*inputTerms)[parseIndex+1].c_str());
+         int lastAtom  = atoi((*inputTerms)[parseIndex+2].c_str());
+         Parameters::GetInstance()->AddSumChargesIndexPairsSCF(firstAtom, lastAtom);
+         parseIndex += 2;
       }
       // van der Waals (scaling factor) 
       if((*inputTerms)[parseIndex].compare(this->stringScfVdWScalingFactor) == 0){
@@ -909,6 +924,13 @@ int InputParser::ParseConditionsCIS(vector<string>* inputTerms, int parseIndex) 
              Parameters::GetInstance()->SetRequiresUnpairedPopCIS(false);
           }
           parseIndex++;   
+      }
+      // Summation of atomic charges (sum_charges)
+      if((*inputTerms)[parseIndex].compare(this->stringCISSumCharges) == 0){
+         int firstAtom = atoi((*inputTerms)[parseIndex+1].c_str());
+         int lastAtom  = atoi((*inputTerms)[parseIndex+2].c_str());
+         Parameters::GetInstance()->AddSumChargesIndexPairsCIS(firstAtom, lastAtom);
+         parseIndex += 2;
       }
       parseIndex++;   
    }
@@ -1663,6 +1685,16 @@ void InputParser::OutputScfConditions() const{
                                            % Parameters::GetInstance()->GetDiisStartErrorSCF());
    this->OutputLog(boost::format("%s%e\n") % this->messageScfDiisEndError.c_str() 
                                            % Parameters::GetInstance()->GetDiisEndErrorSCF());
+   if(Parameters::GetInstance()->RequiresSumChargesSCF()){
+      const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSumChargesIndexPairsSCF();
+      for(int i=0; i<atomPairs->size(); i++){
+         this->OutputLog(boost::format("%s%d%s%d%s\n") % this->messageScfSumCharges.c_str() 
+                                                       % (*atomPairs)[i].firstAtomIndex
+                                                       % this->messageScfSumCharges2
+                                                       % (*atomPairs)[i].lastAtomIndex
+                                                       % this->messageScfSumCharges3);
+      }
+   }
    this->OutputLog(this->messageScfVdW);
    if(Parameters::GetInstance()->RequiresVdWSCF()){
       this->OutputLog(boost::format("%s\n") % this->stringYES.c_str());
@@ -1734,6 +1766,16 @@ void InputParser::OutputCisConditions() const{
       for(int i=0; i<indeces->size(); i++){
          this->OutputLog(boost::format("%s%d\n") % this->messageCisMulliken.c_str()
                                                  % (*indeces)[i]);
+      }
+   }
+   if(Parameters::GetInstance()->RequiresSumChargesCIS()){
+      const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSumChargesIndexPairsCIS();
+      for(int i=0; i<atomPairs->size(); i++){
+         this->OutputLog(boost::format("%s%d%s%d%s\n") % this->messageCisSumCharges.c_str() 
+                                                       % (*atomPairs)[i].firstAtomIndex
+                                                       % this->messageCisSumCharges2
+                                                       % (*atomPairs)[i].lastAtomIndex
+                                                       % this->messageCisSumCharges3);
       }
       this->OutputLog("\n");
    }

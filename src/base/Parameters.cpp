@@ -95,6 +95,14 @@ Parameters::~Parameters(){
       this->electronicStateIndecesMullikenCIS= NULL;
       //this->OutputLog("electronicStateIndecesMullikenCIS deleted\n");
    }
+   if(this->sumChargesIndexPairsSCF != NULL){
+      delete this->sumChargesIndexPairsSCF;
+      //this->OutputLog("sumChargesIndexPairsSCF deleted\n");
+   }
+   if(this->sumChargesIndexPairsCIS != NULL){
+      delete this->sumChargesIndexPairsCIS;
+      //this->OutputLog("sumChargesIndexPairsCIS deleted\n");
+   }
 }
 
 Parameters* Parameters::GetInstance(){
@@ -220,6 +228,10 @@ void Parameters::SetDefaultValues(){
 void Parameters::SetMessages(){
    this->errorMessageGetIndecesMOPlotNull
       = "Error in base::Parameters::GetIndecesMOPlot: indecesMOPlot is NULL.\n";
+   this->errorMessageGetSumChargesIndexPairsSCFNull
+      = "Error in base::Parameters::GetSumChargesIndexPairsSCF: sumChargesIndexPairsSCF is NULL.\n";
+   this->errorMessageGetSumChargesIndexPairsCISNull
+      = "Error in base::Parameters::GetSumChargesIndexPairsCIS: sumChargesIndexPairsCIS is NULL.\n";
    this->errorMessageGetIndecesHolePlotNull
       = "Error in base::Parameters::GetIndecesHolePlot: elecIndecesHolePlot is NULL.\n";
    this->errorMessageGetIndecesParticlePlotNull
@@ -261,6 +273,27 @@ void Parameters::SetRotatingEularAngles(double alpha, double beta, double gamma)
    this->rotatingEularAngles.SetAlpha(alpha);
    this->rotatingEularAngles.SetBeta(beta);
    this->rotatingEularAngles.SetGamma(gamma);
+}
+
+// methods for SCF
+bool Parameters::RequiresSumChargesSCF() const{
+   return (this->sumChargesIndexPairsSCF!=NULL && 
+           0<this->sumChargesIndexPairsSCF->size());
+}
+
+const vector<AtomIndexPair>* Parameters::GetSumChargesIndexPairsSCF() const{
+#ifdef MOLDS_DBG
+   if(this->sumChargesIndexPairsSCF==NULL) throw MolDSException(this->errorMessageGetSumChargesIndexPairsSCFNull);
+#endif
+   return this->sumChargesIndexPairsSCF;
+}
+
+void Parameters::AddSumChargesIndexPairsSCF(int firstAtomIndex, int lastAtomIndex){
+   if(this->sumChargesIndexPairsSCF==NULL){
+      this->sumChargesIndexPairsSCF = new vector<AtomIndexPair>;
+   }
+   AtomIndexPair atomIndexPair = {firstAtomIndex, lastAtomIndex};
+   this->sumChargesIndexPairsSCF->push_back(atomIndexPair);
 }
 
 // methods for MOPlot
@@ -362,6 +395,26 @@ void Parameters::AddElectronicStateIndexMullikenCIS(int electronicStateIndex){
 bool Parameters::RequiresMullikenCIS() const{
    return (this->electronicStateIndecesMullikenCIS!=NULL && 
            0<this->electronicStateIndecesMullikenCIS->size());
+}
+
+bool Parameters::RequiresSumChargesCIS() const{
+   return (this->sumChargesIndexPairsCIS!=NULL && 
+           0<this->sumChargesIndexPairsCIS->size());
+}
+
+const vector<AtomIndexPair>* Parameters::GetSumChargesIndexPairsCIS() const{
+#ifdef MOLDS_DBG
+   if(this->sumChargesIndexPairsCIS==NULL) throw MolDSException(this->errorMessageGetSumChargesIndexPairsCISNull);
+#endif
+   return this->sumChargesIndexPairsCIS;
+}
+
+void Parameters::AddSumChargesIndexPairsCIS(int firstAtomIndex, int lastAtomIndex){
+   if(this->sumChargesIndexPairsCIS==NULL){
+      this->sumChargesIndexPairsCIS = new vector<AtomIndexPair>;
+   }
+   AtomIndexPair atomIndexPair = {firstAtomIndex, lastAtomIndex};
+   this->sumChargesIndexPairsCIS->push_back(atomIndexPair);
 }
 
 }

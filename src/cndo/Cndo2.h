@@ -89,6 +89,9 @@ protected:
    std::string messageMullikenAtomsTitle;
    std::string messageUnpairedAtoms;
    std::string messageUnpairedAtomsTitle;
+   std::string messageSumCharges;
+   std::string messageSumChargesUEP;
+   std::string messageSumChargesTitle;
    std::string messageUnitSec; 
    std::vector<MolDS_base::AtomType> enableAtomTypes;
    MolDS_base::Molecule* molecule;
@@ -328,6 +331,7 @@ private:
    std::string messageTotalDipoleMomentTitle;
    std::string messageTotalDipoleMoment;
    std::string messageMullikenAtomsSCF;
+   std::string messageSumChargesSCF;
    std::string messageNormalModesTitle;
    std::string messageNormalModesUnitsMassWeighted;
    std::string messageNormalModesUnitsNonMassWeighted;

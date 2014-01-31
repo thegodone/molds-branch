@@ -22,6 +22,7 @@
 #define INCLUDED_PARAMETERS
 
 namespace MolDS_base{
+struct AtomIndexPair{int firstAtomIndex; int lastAtomIndex;};
 
 // Parameters is singleton
 class Parameters: public PrintController, private Uncopyable{
@@ -61,6 +62,9 @@ public:
    inline void   SetDiisStartErrorSCF(double sError)   {this->diisStartErrorSCF = sError;}
    inline double GetDiisEndErrorSCF() const            {return this->diisEndErrorSCF;}
    inline void   SetDiisEndErrorSCF(double eError)     {this->diisEndErrorSCF = eError;}
+   bool          RequiresSumChargesSCF() const;
+   const std::vector<AtomIndexPair>* GetSumChargesIndexPairsSCF() const;
+   void          AddSumChargesIndexPairsSCF(int fistAtomIndex, int lastAtomIndex);
    inline bool   RequiresVdWSCF() const                {return this->requiresVdWSCF;}
    inline void   SetRequiresVdWSCF(bool requires)      {this->requiresVdWSCF = requires;}
    inline double GetVdWScalingFactorSCF() const        {return this->vdWScalingFactorSCF;}
@@ -143,6 +147,9 @@ public:
    void              AddElectronicStateIndexMullikenCIS(int electronicStateIndex);
    bool              RequiresMullikenCIS() const;
    inline bool       RequiresUnpairedPopCIS() const                         {return this->requiresUnpairedPopCIS;}
+   bool              RequiresSumChargesCIS() const;
+   const std::vector<AtomIndexPair>* GetSumChargesIndexPairsCIS() const;
+   void              AddSumChargesIndexPairsCIS(int fistAtomIndex, int lastAtomIndex);
    inline void       SetRequiresUnpairedPopCIS(bool requires)               {this->requiresUnpairedPopCIS = requires;}
    // Memory
    double GetLimitHeapMemory() const          {return this->limitHeapMemory;}
@@ -219,6 +226,8 @@ private:
    Parameters();
    ~Parameters();
    std::string errorMessageGetIndecesMOPlotNull;
+   std::string errorMessageGetSumChargesIndexPairsSCFNull;
+   std::string errorMessageGetSumChargesIndexPairsCISNull;
    std::string errorMessageGetIndecesHolePlotNull;
    std::string errorMessageGetIndecesParticlePlotNull;
    std::string errorMessageGetElectronicStateIndecesMullikenCISNull;
@@ -247,6 +256,7 @@ private:
    double diisStartErrorSCF;
    double diisEndErrorSCF;
    bool   requiresVdWSCF;
+   std::vector<AtomIndexPair>* sumChargesIndexPairsSCF;
    double vdWScalingFactorSCF;
    double vdWDampingFactorSCF;
    static const double vdWScalingFactorSCFPM3DAM1D;
@@ -290,6 +300,7 @@ private:
    bool              requiresAllTransitionDipoleMomentsCIS;
    std::vector<int>* electronicStateIndecesMullikenCIS;
    bool              requiresUnpairedPopCIS;
+   std::vector<AtomIndexPair>* sumChargesIndexPairsCIS;
    // Memory
    double limitHeapMemory; // in [MB]
    // MD
