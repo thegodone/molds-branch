@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:13:42  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/1/31(Fri.) 9:5:31  <<<<<
 
 
 **********  START: Parse input  **********
@@ -45,9 +45,8 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
-		Mulliken population of excited states: 3
-		Mulliken population of excited states: 20
-
+		Mulliken population in excited state: 3
+		Mulliken population in excited state: 20
 
 Input terms:
 theory | pm3 | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
@@ -123,13 +122,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.011255[s].
+	Elapsed time(omp) for the SCF = 0.011326[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027150[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.028024[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -362,27 +361,27 @@ geometry_end |
 	Mulliken charge:	20	6	H	1.000000e+00	6.650413e-02
 	Mulliken charge:	20	7	H	1.000000e+00	-7.729582e-02
 
-				| k-th eigenstate | i-th atom | atom type | Unpaired electron population[a.u.]| 
-	Unpaired electron population:	3	0	C	1.004204e+00
-	Unpaired electron population:	3	1	C	1.265832e+00
-	Unpaired electron population:	3	2	H	2.440941e-01
-	Unpaired electron population:	3	3	H	3.361990e-01
-	Unpaired electron population:	3	4	H	2.099696e-01
-	Unpaired electron population:	3	5	H	3.263558e-01
-	Unpaired electron population:	3	6	H	4.841367e-01
-	Unpaired electron population:	3	7	H	2.469540e-01
+				| k-th eigenstate | i-th atom | atom type | Unpaired electron population[a.u.] | 
+	Unpaired electron population(UEP):	3	0	C	1.004204e+00
+	Unpaired electron population(UEP):	3	1	C	1.265832e+00
+	Unpaired electron population(UEP):	3	2	H	2.440941e-01
+	Unpaired electron population(UEP):	3	3	H	3.361990e-01
+	Unpaired electron population(UEP):	3	4	H	2.099696e-01
+	Unpaired electron population(UEP):	3	5	H	3.263558e-01
+	Unpaired electron population(UEP):	3	6	H	4.841367e-01
+	Unpaired electron population(UEP):	3	7	H	2.469540e-01
 
-	Unpaired electron population:	20	0	C	7.356056e-01
-	Unpaired electron population:	20	1	C	5.615854e-01
-	Unpaired electron population:	20	2	H	2.741914e-01
-	Unpaired electron population:	20	3	H	1.371743e-01
-	Unpaired electron population:	20	4	H	1.535948e-01
-	Unpaired electron population:	20	5	H	1.006008e-01
-	Unpaired electron population:	20	6	H	1.013331e-01
-	Unpaired electron population:	20	7	H	2.323780e-01
+	Unpaired electron population(UEP):	20	0	C	7.356056e-01
+	Unpaired electron population(UEP):	20	1	C	5.615854e-01
+	Unpaired electron population(UEP):	20	2	H	2.741914e-01
+	Unpaired electron population(UEP):	20	3	H	1.371743e-01
+	Unpaired electron population(UEP):	20	4	H	1.535948e-01
+	Unpaired electron population(UEP):	20	5	H	1.006008e-01
+	Unpaired electron population(UEP):	20	6	H	1.013331e-01
+	Unpaired electron population(UEP):	20	7	H	2.323780e-01
 
 
-	Elapsed time(omp) for the CIS = 0.038840[s].
+	Elapsed time(omp) for the CIS = 0.039733[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -392,9 +391,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.053166[s].  <<<<<
+     >>>>>  CPU time: 0.054219[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0515552[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0525088[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
