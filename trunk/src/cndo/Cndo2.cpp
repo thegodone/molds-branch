@@ -227,8 +227,12 @@ void Cndo2::SetMessages(){
    this->messageMullikenAtomsSCF   = "\tMulliken charge(SCF):";
    this->messageMullikenAtoms      = "\tMulliken charge:";
    this->messageMullikenAtomsTitle = "\t\t\t\t| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| \n";
-   this->messageUnpairedAtoms      = "\tUnpaired electron population:";
-   this->messageUnpairedAtomsTitle = "\t\t\t\t| k-th eigenstate | i-th atom | atom type | Unpaired electron population[a.u.]| \n";
+   this->messageUnpairedAtoms      = "\tUnpaired electron population(UEP):";
+   this->messageUnpairedAtomsTitle = "\t\t\t\t| k-th eigenstate | i-th atom | atom type | Unpaired electron population[a.u.] | \n";
+   this->messageSumChargesSCF      = "\tSummation of Mulliken(SCF):";
+   this->messageSumCharges         = "\tSummation of Mulliken:";
+   this->messageSumChargesUEP      = "\tSummation of UEP:";
+   this->messageSumChargesTitle    = "\t\t\t\t| k-th eigenstate | first atom | last atom | sum[a.u.] | \n";
    this->messageElecEnergy = "\tElectronic energy(SCF):";
    this->messageNoteElecEnergy       = "\tNote that this electronic energy includes core-repulsions.\n\n";
    this->messageNoteElecEnergyVdW    = "\tNote that this electronic energy includes core-repulsions and vdW correction.\n\n";
@@ -1110,6 +1114,7 @@ void Cndo2::OutputSCFDipole() const{
 
 void Cndo2::OutputSCFMulliken() const{
    int groundState = 0;
+   // Mulliken charge
    this->OutputLog(this->messageMullikenAtomsTitle);
    for(int a=0; a<this->molecule->GetAtomVect().size(); a++){
       Atom* atom = this->molecule->GetAtomVect()[a];
@@ -1121,6 +1126,26 @@ void Cndo2::OutputSCFMulliken() const{
                                                                 % (atom->GetCoreCharge()-atomicElectronPopulation[a]));
    }
    this->OutputLog("\n");
+   // Sum of Mulliken charges
+   if(Parameters::GetInstance()->RequiresSumChargesSCF()){
+      this->OutputLog(this->messageSumChargesTitle);
+      const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSumChargesIndexPairsSCF();
+      for(int i=0; i<atomPairs->size(); i++){
+         int firstAtomIndex = (*atomPairs)[i].firstAtomIndex;
+         int lastAtomIndex  = (*atomPairs)[i].lastAtomIndex;
+         double sum=0.0;
+         for(int a=firstAtomIndex; a<=lastAtomIndex; a++){
+            Atom* atom = this->molecule->GetAtomVect()[a];
+            sum += atom->GetCoreCharge()-this->atomicElectronPopulation[a];
+         }
+         this->OutputLog(boost::format("%s\t%d\t%d\t%d\t%e\n") % this->messageSumChargesSCF
+                                                               % groundState
+                                                               % firstAtomIndex
+                                                               % lastAtomIndex
+                                                               % sum);
+      }
+      this->OutputLog("\n");
+   }
 }
 
 void Cndo2::OutputNormalModes(double const* const* normalModes, 

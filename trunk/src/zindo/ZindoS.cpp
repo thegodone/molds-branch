@@ -1971,6 +1971,7 @@ void ZindoS::OutputCISMulliken() const{
    if(!Parameters::GetInstance()->RequiresMullikenCIS()){
       return;
    }
+   // Mulliken charge
    int totalNumberAtoms = this->molecule->GetAtomVect().size();
    this->OutputLog(this->messageMullikenAtomsTitle);
    vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
@@ -1985,6 +1986,28 @@ void ZindoS::OutputCISMulliken() const{
                                                                    % (atom.GetCoreCharge()-this->atomicElectronPopulationCIS[k][a]));
       }
       this->OutputLog("\n");
+   }
+   // Sum of Mulliken charges
+   if(Parameters::GetInstance()->RequiresSumChargesCIS()){
+      this->OutputLog(this->messageSumChargesTitle);
+      const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSumChargesIndexPairsCIS();
+      for(int k=0; k<elecStates->size(); k++){
+         for(int i=0; i<atomPairs->size(); i++){
+            int firstAtomIndex = (*atomPairs)[i].firstAtomIndex;
+            int lastAtomIndex  = (*atomPairs)[i].lastAtomIndex;
+            double sum=0.0;
+            for(int a=firstAtomIndex; a<=lastAtomIndex; a++){
+               Atom* atom = this->molecule->GetAtomVect()[a];
+               sum += atom->GetCoreCharge()-this->atomicElectronPopulationCIS[k][a];
+            }
+            this->OutputLog(boost::format("%s\t%d\t%d\t%d\t%e\n") % this->messageSumCharges
+                                                                  % (*elecStates)[k]
+                                                                  % firstAtomIndex
+                                                                  % lastAtomIndex
+                                                                  % sum);
+         }
+         this->OutputLog("\n");
+      }
    }
 }
 
@@ -2008,6 +2031,28 @@ void ZindoS::OutputCISUnpairedPop() const{
                                                                % this->atomicUnpairedPopulationCIS[k][a]);
       }
       this->OutputLog("\n");
+   }
+   // Sum of Mulliken Unpaired electron population
+   if(Parameters::GetInstance()->RequiresSumChargesCIS()){
+      this->OutputLog(this->messageSumChargesTitle);
+      const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSumChargesIndexPairsCIS();
+      for(int k=0; k<elecStates->size(); k++){
+         for(int i=0; i<atomPairs->size(); i++){
+            int firstAtomIndex = (*atomPairs)[i].firstAtomIndex;
+            int lastAtomIndex  = (*atomPairs)[i].lastAtomIndex;
+            double sum=0.0;
+            for(int a=firstAtomIndex; a<=lastAtomIndex; a++){
+               Atom* atom = this->molecule->GetAtomVect()[a];
+               sum += this->atomicUnpairedPopulationCIS[k][a];
+            }
+            this->OutputLog(boost::format("%s\t%d\t%d\t%d\t%e\n") % this->messageSumChargesUEP
+                                                                  % (*elecStates)[k]
+                                                                  % firstAtomIndex
+                                                                  % lastAtomIndex
+                                                                  % sum);
+         }
+         this->OutputLog("\n");
+      }
    }
 }
 

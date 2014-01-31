@@ -773,6 +773,20 @@ mklNumThreads = "4"
 ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
+prefix = "c2h6_pm3_directCIS_singlet_UEP_sumCharges"
+tester = Tester.new(prefix, <<"TITLE")
+\t\t\t>>> C2H6 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
 prefix = "ch4_pm3_davidsonCIS_singlet"
 tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
 ---------------------------------------------------

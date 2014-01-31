@@ -228,7 +228,7 @@ HOW TO WRITE INPUT:
       -options
        Write below options in SCF-directive.
        "max_iter", "rms_density", "damping_thresh", "damping_weight", 
-       "diis_num_error_vect", "diis_start_error", "diis_end_error",
+       "diis_num_error_vect", "diis_start_error", "diis_end_error", "sum_charges"
        "vdW", "vdW_s6", and "vdW_d" are prepared as options.
        SCF module outputs also the dipole moment arrond the center of core's mass
        To calculate the dipole moment, STO-6G [DY_1977] is used.
@@ -253,6 +253,15 @@ HOW TO WRITE INPUT:
        The default value of the "vdW" with the theories except for PM3-D and AM1-D is "no". 
        For PM3-D and AM1-D, this "vdW" is always "yes" whethere user sets or not.
 
+       "sum_charges" is an option to calculate of summation of atomic charges in the ground state.
+       To use this option, write
+       "sum_charges first_atom_index last_atom_index"
+       in the SCF-directive.
+       The index starts from 0 for atoms written in geometry-directive.
+       The atoms indicated with first_atom_index and last_atom_index are also included in the atoms which charge is summed.
+       Multiple setting of this "sum_charges" option is approvable, of course.
+       If you want to calculate summation, same "sum_charges" option is available in CIS-directive.
+
        "vdW_s6" is a scaling factor in the Grimme's van der Waals correction([G_2004]).
        The default value of the "vdW_s6" is 1.4. 
        For PM3-D and AM1-D, this "vdW_s6" is forced to be set as 1.4.
@@ -264,12 +273,14 @@ HOW TO WRITE INPUT:
        E.g.
          SCF
             max_iter 200
-            rms_density 0.00000001
+            rms_density 1e-8
             damping_thresh 0.1
             damping_weight 0.7
             diis_num_error_vect 6
             diis_start_error 0.01
-            diis_end_error 0.00000001
+            diis_end_error 1e-8
+            sum_charges 0 4
+            sum_charges 3 7
             vdW yes
             vdW_s6 0.75
             vdW_d 30
@@ -417,7 +428,7 @@ HOW TO WRITE INPUT:
       -options
        "davidson", "active_occ", "active_vir", "max_iter", "max_dim", "norm_tol", 
        "nstates", "exciton_energies", "all_transition_dipole_moments", 
-       "mulliken", "unpaired_electron_population", and "num_print_coefficients" are prepared as options.
+       "mulliken", "unpaired_electron_population", "sum_charges", and "num_print_coefficients" are prepared as options.
 
        "davidson" should be set as "yes" or "no". 
        The default value of the "davidson" is "yes".
@@ -462,18 +473,22 @@ HOW TO WRITE INPUT:
        with GTO expansion of STO orbiltals(ST0-6G in [S_1970] is used).
        Besides, oscillator strength is also shown with each transition dipole moment.
 
-       "mulliken" is a option of mulliken popultaion analysis of the excited state.
+       "mulliken" is an option of mulliken popultaion analysis of the excited state.
        When "mulliken x" is included in CIS-directive, the mulliken popultaion of xth excited state is calculated.
        Multiple indication of these mulliken options is possible. 
        Note that "mulliken 0" is ignored because 0th excited state is the ground state.
        Default setting of this "mulliken" option is nothing.
 
-       "unpaired_electron_population" is a option of unpaired electron population(UEP) analysis of the excited state.
+       "unpaired_electron_population" is an option of unpaired electron population(UEP) analysis of the excited state.
        When "unpaired electron population yes" and "mulliken x" are included in CIS-directive, 
        the UEP of xth excited state is calculated.
        By multiple indication of these mulliken option, the UEP on multiple excited states are possible.
        Note that the UEP on ground state is ignored. 
        Default setting is "unpaired_electron_population" option is nothing.
+
+       "sum_charges" is an option to calculate of summation of the mulliken charges and unpaired electron population
+       in each excited state which indicated with "mulliken" option.
+       How to set this option is same way with the ground state.
 
        "num_print_coefficients" is a number of the coefficients of CIS-eigenvector shown in output.
        The default value of the "num_print_coefficients" is 1.
@@ -490,6 +505,8 @@ HOW TO WRITE INPUT:
             mulliken 1 
             mulliken 2
 	         unpaired_electron_population yes
+            sum_charges 0 4
+            sum_charges 3 7
          CIS_END
 
    <Hole Plot>
