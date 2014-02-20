@@ -3691,7 +3691,7 @@ void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores,
    for(int a=0; a<totalNumberAtoms; a++){
       int calcRank = a%mpiSize;
       if(mpiRank == calcRank){
-//#pragma omp parallel 
+#pragma omp parallel 
          {
             double**** diatomicTwoElecsTwoCores    = NULL;
             double*    tmpDiatomicTwoElecsTwoCores = NULL;
@@ -3706,7 +3706,7 @@ void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores,
                MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
                MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
                // note that terms with condition a==b are not needed to calculate. 
-//#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
+#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                for(int b=0; b<totalNumberEpcs; b++){
                   const Atom& epc  = *molecule.GetEpcVect()[b];
                   this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
