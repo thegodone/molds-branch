@@ -68,6 +68,8 @@ Parameters::Parameters(){
    this->elecIndecesHolePlot     = NULL;
    this->elecIndecesParticlePlot = NULL;
    this->electronicStateIndecesMullikenCIS = NULL;
+   this->sumChargesIndexPairsSCF = NULL;
+   this->sumChargesIndexPairsCIS = NULL;
 }
 
 Parameters::~Parameters(){
