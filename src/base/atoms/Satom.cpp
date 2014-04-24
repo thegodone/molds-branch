@@ -54,8 +54,7 @@ void Satom::SetAtomicParameters(){
    this->valence.push_back(py);
    this->valence.push_back(pz);
    this->valence.push_back(px);
-   if(Parameters::GetInstance()->GetCurrentTheory() == CNDO2 || 
-      Parameters::GetInstance()->GetCurrentTheory() == INDO){
+   if(Parameters::GetInstance()->GetCurrentTheory() == CNDO2){
       this->valence.push_back(dxy);
       this->valence.push_back(dyz);
       this->valence.push_back(dzz);
@@ -83,8 +82,8 @@ void Satom::SetAtomicParameters(){
       this->effectiveNuclearChargeMsp = 5.45;
       this->effectiveNuclearChargeMd = 5.45;
    }
-   this->indoG1 = 0.267708;
-   this->indoF2 = 0.17372;
+   this->indoG1 = 0.0;
+   this->indoF2 = 0.0;
    this->indoF0CoefficientS = 0.0;
    this->indoF0CoefficientP = 0.0;
    this->indoG1CoefficientS = 0.0;
