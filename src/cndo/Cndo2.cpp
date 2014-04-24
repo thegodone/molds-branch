@@ -1469,12 +1469,12 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int A=0; A<totalNumberAtoms; A++){
+      int calcRank = A%mpiSize;
       const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
-      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-         int calcRank = mu%mpiSize;
-         if(mpiRank == calcRank){
+      if(mpiRank == calcRank){
+         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
             for(int B=A; B<totalNumberAtoms; B++){
                try{
@@ -1519,22 +1519,22 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                   ex.Serialize(errorStream);
                }
             }
+         } // end of loop mu
+      } // end of "mpiRank == calcRank"
+      if(errorStream.str().empty()){
+         int tag                      = A;
+         int source                   = calcRank;
+         int dest                     = mpiHeadRank;
+         double* buff                 = &fockMatrix[firstAOIndexA][0];
+         MolDS_mpi::molds_mpi_int num = totalNumberAOs*(lastAOIndexA-firstAOIndexA+1);
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
          }
-         if(errorStream.str().empty()){
-            int tag                      = mu;
-            int source                   = calcRank;
-            int dest                     = mpiHeadRank;
-            double* buff                 = &fockMatrix[mu][mu];
-            MolDS_mpi::molds_mpi_int num = totalNumberAOs-mu;
-            if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-               asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
-            }
-            if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-               asyncCommunicator.SetSentMessage(buff, num, dest, tag);
-            }
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
          }
       }
-   }
+   } // end of loop A
    asyncCommunicator.Finalize();
    communicationThread.join();
    if(!errorStream.str().empty()){
