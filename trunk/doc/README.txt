@@ -184,7 +184,7 @@ CAPABILITIES:
    -Elements
     CNDO2    | H, Li, C, N, O, S
     INDO     | H, Li, C, N, O
-    ZINDO/S  | H,     C, N, O, 
+    ZINDO/S  | H,     C, N, O, S
     MNDO     | H,     C, N, O, S, Zn
     AM1      | H,     C, N, O, S, Zn
     AM1-D    | H,     C, N, O, S 
