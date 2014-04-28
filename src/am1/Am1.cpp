@@ -40,6 +40,7 @@
 #include"../base/atoms/Catom.h"
 #include"../base/atoms/Natom.h"
 #include"../base/atoms/Oatom.h"
+#include"../base/atoms/Fatom.h"
 #include"../base/atoms/Satom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
@@ -132,6 +133,7 @@ void Am1::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(C);
    this->enableAtomTypes.push_back(N);
    this->enableAtomTypes.push_back(O);
+   this->enableAtomTypes.push_back(F);
    this->enableAtomTypes.push_back(S);
    this->enableAtomTypes.push_back(Zn);
 }

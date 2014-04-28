@@ -66,18 +66,18 @@ int main(){
 
    // following variables should be set as input
    double eV2AU = 0.03674903;
-   long double orbitalExponentS=2.0473590;
-   long double orbitalExponentP=1.4609460;
-   long double Gss = 11.800000* eV2AU;
-   long double Gpp = 13.300000* eV2AU;
-   long double Gsp = 11.182018* eV2AU;
-   long double Gpp2= 12.930520* eV2AU;
-   long double Hsp =  0.484606* eV2AU;
+   long double orbitalExponentS=4.708555;
+   long double orbitalExponentP=2.491178;
+   long double Gss = 10.496667 * eV2AU;
+   long double Gpp = 14.817256 * eV2AU;
+   long double Gsp = 16.073689 * eV2AU;
+   long double Gpp2= 14.418393 * eV2AU;
+   long double Hsp =  0.727763 * eV2AU;
    long double Hpp = 0.5*(Gpp - Gpp2);
    // n=2 for l-shell (C, N, O and etc.)
    // n=3 for m-shell (S and etc.)
    // n=4 for n-shell (Zn and etc.)
-   double n=4;
+   double n=2;
 
    // following variables are output
    long double D1=0.0;

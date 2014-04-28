@@ -52,6 +52,7 @@
 #include"../base/atoms/Catom.h"
 #include"../base/atoms/Natom.h"
 #include"../base/atoms/Oatom.h"
+#include"../base/atoms/Fatom.h"
 #include"../base/atoms/Satom.h"
 #include"../base/Molecule.h"
 #include"../base/GTOExpansionSTO.h"
@@ -269,7 +270,7 @@ void Cndo2::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(C);
    this->enableAtomTypes.push_back(N);
    this->enableAtomTypes.push_back(O);
-   //this->enableAtomTypes.push_back(F);
+   this->enableAtomTypes.push_back(F);
    //this->enableAtomTypes.push_back(Na);
    //this->enableAtomTypes.push_back(Mg);
    //this->enableAtomTypes.push_back(Al);
