@@ -1,0 +1,120 @@
+
+
+     >>>>>  Welcome to the MolDS world at 2014/4/29(Thu.) 0:44:48  <<<<<
+
+
+**********  START: Parse input  **********
+	Total number of atoms: 5
+	Total number of valence AOs: 11
+	Total number of valence electrons: 14
+
+				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Atom coordinates:	0	C	-4.533892e-01	1.142541e+00	0.000000e+00		-2.399232e-01	6.046065e-01	0.000000e+00
+	Atom coordinates:	1	H	2.205900e-01	-7.638339e-01	0.000000e+00		1.167312e-01	-4.042035e-01	0.000000e+00
+	Atom coordinates:	2	H	2.206248e-01	2.095715e+00	-1.650962e+00		1.167496e-01	1.109005e+00	-8.736515e-01
+	Atom coordinates:	3	H	-2.475396e+00	1.142566e+00	0.000000e+00		-1.309923e+00	6.046197e-01	0.000000e+00
+	Atom coordinates:	4	F	3.970023e-01	2.345144e+00	2.082990e+00		2.100846e-01	1.240997e+00	1.102271e+00
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Mass:	1.367960e-03	1.785647e+00	1.113904e+00		7.238933e-04	9.449239e-01	5.894525e-01
+
+			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+	Center of Core:	1.385500e-03	1.785672e+00	1.113947e+00		7.331749e-04	9.449370e-01	5.894753e-01
+
+	SCF conditions:
+		Max iterations: 500
+		RMS density: 1.000000e-08
+		Damping threshold: 1.000000e+00
+		Damping weight: 0.000000e+00
+		DIIS number of error vectors: 5
+		DIIS starting error: 1.000000e-01
+		DIIS ending error: 0.000000e+00
+		van der Waals (vdW) correction: no
+
+	Memory conditions:
+		Heap limit: 2.560000e+02[MB]
+
+Input terms:
+theory | pm3 | theory_end | scf | max_iter | 500 | rms_density | 1e-8 | damping_thresh | 1.0 | 
+damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.0 | scf_end | geometry | 
+c | -0.23992322 | 0.60460652 | 0.00000000 | h | 0.11673121 | -0.40420349 | 0.00000000 | h | 0.11674962 | 
+1.10900471 | -0.87365150 | h | -1.30992322 | 0.60461970 | 0.00000000 | f | 0.21008457 | 1.24099676 | 1.10227059 | 
+geometry_end | 
+
+**********  DONE: Parse input  ***********
+
+
+**********  START: PM3-SCF  **********
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	4.810457e-01	0.000000e+00			
+	SCF iter 1	1.867170e-01	0.000000e+00			
+	SCF iter 2	6.730937e-02	4.641583e-01			
+	SCF iter 3	3.389793e-02	2.377993e-01			
+	SCF iter 4	1.857022e-02	1.407733e-01			
+	SCF iter 5	1.039733e-02	8.234052e-02			
+	SCF iter 6	7.581158e-05	4.696825e-02	on		
+	SCF iter 7	1.723006e-05	1.718827e-04	on		
+	SCF iter 8	6.769747e-06	6.121626e-05	on		
+	SCF iter 9	3.123328e-06	2.309953e-05	on		
+	SCF iter 10	6.924853e-07	1.126421e-05	on		
+	SCF iter 11	8.205988e-08	2.477657e-06	on		
+	SCF iter 12	2.568285e-08	2.749173e-07	on		
+	SCF iter 13	5.739182e-09	1.126507e-07	on		
+
+
+
+		PM3-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.173782e+00	-3.194049e+01
+	Energy of MO:	1	occ	-7.481778e-01	-2.035912e+01
+	Energy of MO:	2	occ	-6.584337e-01	-1.791704e+01
+	Energy of MO:	3	occ	-6.584336e-01	-1.791703e+01
+	Energy of MO:	4	occ	-6.368305e-01	-1.732918e+01
+	Energy of MO:	5	occ	-4.768455e-01	-1.297573e+01
+	Energy of MO:	6	occ	-4.768455e-01	-1.297573e+01
+	Energy of MO:	7	unocc	1.094050e-01	2.977086e+00
+	Energy of MO:	8	unocc	1.428529e-01	3.887258e+00
+	Energy of MO:	9	unocc	1.428530e-01	3.887258e+00
+	Energy of MO:	10	unocc	1.558753e-01	4.241617e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-2.224335e+01	-6.052773e+02
+	Note that this electronic energy includes core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	1.828033e+01	4.974371e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	2.146407e+00	3.035505e+00	5.257579e+00	6.439215e+00		5.455624e+00	7.715485e+00	1.336344e+01	1.636686e+01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	3.234526e+00	4.574297e+00	7.922870e+00	9.703516e+00		8.221347e+00	1.162671e+01	2.013793e+01	2.466388e+01
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-1.088119e+00	-1.538792e+00	-2.665291e+00	3.264301e+00		-2.765723e+00	-3.911221e+00	-6.774495e+00	8.297027e+00
+
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge(SCF):	0	0	C	4.000000e+00	6.107371e-02
+	Mulliken charge(SCF):	0	1	H	1.000000e+00	2.909550e-02
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.909555e-02
+	Mulliken charge(SCF):	0	3	H	1.000000e+00	2.909555e-02
+	Mulliken charge(SCF):	0	4	F	7.000000e+00	-1.483603e-01
+
+	Elapsed time(omp) for the SCF = 0.078902[s].
+**********  DONE: PM3-SCF  **********
+
+
+	Summary for memory usage:
+		Max Heap: 0.121728[MB].
+		Current Heap(Leaked): 0.000000[MB].
+
+
+     >>>>>  The MolDS finished normally!  <<<<<
+     >>>>>  CPU time: 0.025291[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.079946[s].  <<<<<
+     >>>>>  See you.  <<<<<
+
+

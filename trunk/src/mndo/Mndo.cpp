@@ -48,6 +48,7 @@
 #include"../base/atoms/Catom.h"
 #include"../base/atoms/Natom.h"
 #include"../base/atoms/Oatom.h"
+#include"../base/atoms/Fatom.h"
 #include"../base/atoms/Satom.h"
 #include"../base/atoms/mm/EnvironmentalPointCharge.h"
 #include"../base/Molecule.h"
@@ -215,6 +216,7 @@ void Mndo::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(C);
    this->enableAtomTypes.push_back(N);
    this->enableAtomTypes.push_back(O);
+   this->enableAtomTypes.push_back(F);
    this->enableAtomTypes.push_back(S);
    this->enableAtomTypes.push_back(Zn);
 }

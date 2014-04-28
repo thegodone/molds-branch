@@ -65,45 +65,45 @@ public:
                           MolDS_base::TheoryType theory) const;
    inline double GetIndoF2() const{return this->indoF2;}
    inline double GetIndoG1() const{return this->indoG1;}
-   inline double GetZindoF0ss()      const{return this->zindoF0ss;}       // Table 1 in ref. [RZ_1976], Table 1 in [AEZ_1986], or Table 1 in [GD_1972]
+   inline double GetZindoF0ss()      const{return this->zindoF0ss;}       // Table 1 in [RZ_1976], Table 1 in [AEZ_1986], or Table 1 in [GD_1972]
    inline double GetZindoF0sd()      const{return this->zindoF0sd;}       // Table 1 in [AEZ_1986]
    inline double GetZindoF0dd()      const{return this->zindoF0dd;}       // Table 1 in [AEZ_1986]
-   inline double GetZindoG1sp()      const{return this->zindoG1sp;}       // Table 3 in ref. [BZ_1979]
-   inline double GetZindoF2pp()      const{return this->zindoF2pp;}       // Table 3 in ref. [BZ_1979]
-   inline double GetZindoG2sd()      const{return this->zindoG2sd;}       // Table 3 in ref. [BZ_1979]
-   inline double GetZindoG1pd()      const{return this->zindoG1pd;}       // Table 3 in ref. [BZ_1979]
-   inline double GetZindoF2pd()      const{return this->zindoF2pd;}       // Table 3 in ref. [BZ_1979]
-   inline double GetZindoG3pd()      const{return this->zindoG3pd;}       // Table 3 in ref. [BZ_1979]
-   inline double GetZindoF2dd()      const{return this->zindoF2dd;}       // Table 3 in ref. [BZ_1979]
-   inline double GetZindoF4dd()      const{return this->zindoF4dd;}       // Table 3 in ref. [BZ_1979]
-   inline double GetZindoF0ssLower() const{return this->zindoF0ss;}       // Apendix in ref. [BZ_1979] 
-   inline double GetZindoF0sdLower() const{return this->zindoF0sd;}       // Apendix in ref. [BZ_1979]
-   inline double GetZindoF0ddLower() const{return this->zindoF0dd;}       // Apendix in ref. [BZ_1979]
-   inline double GetZindoG1spLower() const{return this->zindoG1sp/3.0;  } // Apendix in ref. [BZ_1979]
-   inline double GetZindoF2ppLower() const{return this->zindoF2pp/25.0; } // Apendix in ref. [BZ_1979]
-   inline double GetZindoG2sdLower() const{return this->zindoG2sd/5.0;  } // Apendix in ref. [BZ_1979]
-   inline double GetZindoG1pdLower() const{return this->zindoG1pd/15.0; } // Apendix in ref. [BZ_1979]
-   inline double GetZindoF2pdLower() const{return this->zindoF2pd/35.0; } // Apendix in ref. [BZ_1979]
-   inline double GetZindoG3pdLower() const{return this->zindoG3pd/245.0;} // Apendix in ref. [BZ_1979]
-   inline double GetZindoF2ddLower() const{return this->zindoF2dd/49.0; } // Apendix in ref. [BZ_1979]
-   inline double GetZindoF4ddLower() const{return this->zindoF4dd/441.0;} // Apendix in ref. [BZ_1979]
+   inline double GetZindoG1sp()      const{return this->zindoG1sp;}       // Table 3 in [BZ_1979]
+   inline double GetZindoF2pp()      const{return this->zindoF2pp;}       // Table 3 in [BZ_1979]
+   inline double GetZindoG2sd()      const{return this->zindoG2sd;}       // Table 3 in [BZ_1979]
+   inline double GetZindoG1pd()      const{return this->zindoG1pd;}       // Table 3 in [BZ_1979]
+   inline double GetZindoF2pd()      const{return this->zindoF2pd;}       // Table 3 in [BZ_1979]
+   inline double GetZindoG3pd()      const{return this->zindoG3pd;}       // Table 3 in [BZ_1979]
+   inline double GetZindoF2dd()      const{return this->zindoF2dd;}       // Table 3 in [BZ_1979]
+   inline double GetZindoF4dd()      const{return this->zindoF4dd;}       // Table 3 in [BZ_1979]
+   inline double GetZindoF0ssLower() const{return this->zindoF0ss;}       // Apendix in [BZ_1979] 
+   inline double GetZindoF0sdLower() const{return this->zindoF0sd;}       // Apendix in [BZ_1979]
+   inline double GetZindoF0ddLower() const{return this->zindoF0dd;}       // Apendix in [BZ_1979]
+   inline double GetZindoG1spLower() const{return this->zindoG1sp/3.0;  } // Apendix in [BZ_1979]
+   inline double GetZindoF2ppLower() const{return this->zindoF2pp/25.0; } // Apendix in [BZ_1979]
+   inline double GetZindoG2sdLower() const{return this->zindoG2sd/5.0;  } // Apendix in [BZ_1979]
+   inline double GetZindoG1pdLower() const{return this->zindoG1pd/15.0; } // Apendix in [BZ_1979]
+   inline double GetZindoF2pdLower() const{return this->zindoF2pd/35.0; } // Apendix in [BZ_1979]
+   inline double GetZindoG3pdLower() const{return this->zindoG3pd/245.0;} // Apendix in [BZ_1979]
+   inline double GetZindoF2ddLower() const{return this->zindoF2dd/49.0; } // Apendix in [BZ_1979]
+   inline double GetZindoF4ddLower() const{return this->zindoF4dd/441.0;} // Apendix in [BZ_1979]
    double GetZindoIonPot(MolDS_base::OrbitalType orbital) const;
-   double GetNddoAlpha(MolDS_base::TheoryType theory) const; // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S for MNDO. Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
+   double GetNddoAlpha(MolDS_base::TheoryType theory) const; // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S for MNDO. Table I in [DZHS_1985] for H, C, N, and O. Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
    double GetNddoDerivedParameterD(MolDS_base::TheoryType theory, 
-                                   MolDS_base::MultipoleType multipole) const;    // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. Or, calculated in tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
+                                   MolDS_base::MultipoleType multipole) const;    // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S. Or, calculated in tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
    double GetNddoDerivedParameterRho(MolDS_base::TheoryType theory, 
-                                     MolDS_base::MultipoleType multipole) const;  // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. Or, calculated in tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
-   double GetMndoElecEnergyAtom() const;        // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double GetMndoHeatsFormAtom() const;         // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
+                                     MolDS_base::MultipoleType multipole) const;  // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S. Or, calculated in tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
+   double GetMndoElecEnergyAtom() const;        // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double GetMndoHeatsFormAtom() const;         // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
    double GetNddoGss(MolDS_base::TheoryType theory) const;
    double GetNddoGpp(MolDS_base::TheoryType theory) const;
    double GetNddoGsp(MolDS_base::TheoryType theory) const;
    double GetNddoGpp2(MolDS_base::TheoryType theory) const;
    double GetNddoHsp(MolDS_base::TheoryType theory) const;
    double GetNddoHpp(MolDS_base::TheoryType theory) const;
-   double GetNddoParameterK(MolDS_base::TheoryType theory, int kIndex) const;//Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
-   double GetNddoParameterL(MolDS_base::TheoryType theory, int lIndex) const;//Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
-   double GetNddoParameterM(MolDS_base::TheoryType theory, int mIndex) const;//Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
+   double GetNddoParameterK(MolDS_base::TheoryType theory, int kIndex) const;//Table I in [DZHS_1985] for H, C, N, and O. Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
+   double GetNddoParameterL(MolDS_base::TheoryType theory, int lIndex) const;//Table I in [DZHS_1985] for H, C, N, and O. Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
+   double GetNddoParameterM(MolDS_base::TheoryType theory, int mIndex) const;//Table I in [DZHS_1985] for H, C, N, and O. Table I in re. [DY_1990] for S for AM1. [S_1989] for PM3.
    double GetPm3PddgParameterPa(int paIndex) const;
    double GetPm3PddgParameterDa(int daIndex) const;
 protected:
@@ -116,8 +116,8 @@ protected:
    MolDS_base::ShellType valenceShellType;
    int firstAOIndex;
    int numberValenceElectrons;
-   double vdWCoefficient;               // Table 1 in [G_2004] and [G_2006]
-   double vdWRadii;                     // Table 1 in [G_2004] and [G_2006]
+   double vdWCoefficient;               // Table 1 in [G_2004] for H, C, N, O, F, and Ne. And also [G_2006]. Table 1 in [MSVHM_2008] for H, C, N, O, and Cl.
+   double vdWRadii;                     // Table 1 in [G_2004] for H, C, N, O, F, and Ne. And also [G_2006]. Table 1 in [MSVHM_2008] for H, C, N, O, and Cl.
    double imuAmuS;                      // Table 3.4 or 3.5 in J. A. Pople book
    double imuAmuP;                      // Table 3.4 or 3.5 in J. A. Pople book
    double imuAmuD;                      // Table 3.4 or 3.5 in J. A. Pople book
@@ -138,97 +138,97 @@ protected:
    double indoF2CoefficientP;       // (3.93-3.99) in J. A. Pople book
    double zindoBondingParameterS;        // Table 1 in [RZ_1976], table 1 in [HKLWNZ_1982], or table 3 in [AEZ_1986]
    double zindoBondingParameterD;        // Table 1 in [RZ_1976], table 1 in [HKLWNZ_1982], or table 3 in [AEZ_1986]
-   double zindoF0ss;                // Table 1 in ref. [RZ_1976], Table 1 in [AEZ_1986], or Table 1 in [GD_1972]
+   double zindoF0ss;                // Table 1 in [RZ_1976], Table 1 in [AEZ_1986], or Table 1 in [GD_1972]
    double zindoF0sd;        // Table 1 in [AEZ_1986]
    double zindoF0dd;        // Table 1 in [AEZ_1986]
-   double zindoG1sp;       // Table 3 in ref. [BZ_1979] or table 1 in [HKLWNZ_1982]
-   double zindoF2pp;       // Table 3 in ref. [BZ_1979] or table 1 in [HKLWNZ_1982]
-   double zindoG2sd;       // Table 3 in ref. [BZ_1979] or table 1 in [HKLWNZ_1982]
-   double zindoG1pd;       // Table 3 in ref. [BZ_1979] or table 1 in [HKLWNZ_1982]
-   double zindoF2pd;       // Table 3 in ref. [BZ_1979] or table 1 in [HKLWNZ_1982]
-   double zindoG3pd;       // Table 3 in ref. [BZ_1979] or table 1 in [HKLWNZ_1982]
-   double zindoF2dd;       // Table 3 in ref. [BZ_1979] or table 1 in [HKLWNZ_1982]
-   double zindoF4dd;       // Table 3 in ref. [BZ_1979] or table 1 in [HKLWNZ_1982]
+   double zindoG1sp;       // Table 3 in [BZ_1979] or table 1 in [HKLWNZ_1982]
+   double zindoF2pp;       // Table 3 in [BZ_1979] or table 1 in [HKLWNZ_1982]
+   double zindoG2sd;       // Table 3 in [BZ_1979] or table 1 in [HKLWNZ_1982]
+   double zindoG1pd;       // Table 3 in [BZ_1979] or table 1 in [HKLWNZ_1982]
+   double zindoF2pd;       // Table 3 in [BZ_1979] or table 1 in [HKLWNZ_1982]
+   double zindoG3pd;       // Table 3 in [BZ_1979] or table 1 in [HKLWNZ_1982]
+   double zindoF2dd;       // Table 3 in [BZ_1979] or table 1 in [HKLWNZ_1982]
+   double zindoF4dd;       // Table 3 in [BZ_1979] or table 1 in [HKLWNZ_1982]
    int zindoL;              // see l of (13) in [BZ_1979]
    int zindoM;              // see m of (13) in [BZ_1979]
    int zindoN;              // see n (13) in [BZ_1979]
    double zindoIonPotS;   // Ionization potential, Table 4 in [BZ_1979]
    double zindoIonPotP;   // Ionization potential, Table 4 in [BZ_1979]
    double zindoIonPotD;   // Ionization potential, Table 4 in [BZ_1979]
-   double mndoCoreintegralS;         // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double mndoCoreintegralP;         // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. 
-   double mndoOrbitalExponentS;      // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double mndoOrbitalExponentP;      // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double mndoBondingParameterS;     // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double mndoBondingParameterP;     // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double mndoAlpha;        // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double mndoDerivedParameterD[3];    // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. Or, calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
-   double mndoDerivedParameterRho[3];  // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S. Or, calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
-   double mndoElecEnergyAtom;        // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double mndoHeatsFormAtom;         // Table III in ref. [DT_1977-2] for H, B, C, N, O, and F. Table I & II in ref. [DMR_1978] and Table I in ref. [DR_1986] for S.
-   double mndoGss;   //Table I in ref. [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
-   double mndoGpp;   //Table I in ref. [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
-   double mndoGsp;   //Table I in ref. [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
-   double mndoGpp2;  //Table I in ref. [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
-   double mndoHsp;   //Table I in ref. [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
-   double am1CoreintegralS; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1CoreintegralP; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1OrbitalExponentS;// Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1OrbitalExponentP;// Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1BondingParameterS; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1BondingParameterP; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1Alpha;// Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1Gss; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1Gpp; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1Gsp; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1Gpp2; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1Hsp; // Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
+   double mndoCoreintegralS;         // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double mndoCoreintegralP;         // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S. 
+   double mndoOrbitalExponentS;      // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double mndoOrbitalExponentP;      // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double mndoBondingParameterS;     // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double mndoBondingParameterP;     // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double mndoAlpha;                 // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double mndoDerivedParameterD[3];  // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S. Or, calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
+   double mndoDerivedParameterRho[3];// Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S. Or, calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
+   double mndoElecEnergyAtom;        // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double mndoHeatsFormAtom;         // Table III in [DT_1977-2] for H, B, C, N, O, and F. Table I & II in [DMR_1978] and Table I in [DR_1986] for S.
+   double mndoGss;   //Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
+   double mndoGpp;   //Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
+   double mndoGsp;   //Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
+   double mndoGpp2;  //Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
+   double mndoHsp;   //Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl.
+   double am1CoreintegralS;     // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1CoreintegralP;     // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1OrbitalExponentS;  // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1OrbitalExponentP;  // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1BondingParameterS; // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1BondingParameterP; // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1Alpha;             // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1Gss;  // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double am1Gpp;  // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double am1Gsp;  // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double am1Gpp2; // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double am1Hsp;  // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
    double am1DerivedParameterD[3];    // Calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
    double am1DerivedParameterRho[3];  // Calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
-   double am1ParameterK[4];// Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1ParameterL[4];// Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1ParameterM[4];// Table I in ref. [DZHS_1985] for H, C, N, O, and Table I in re. [DY_1990] for S.
-   double am1DCoreintegralS; // Table II in ref. [MH_2007] for H, C, N, and O and Table IV in ref. [MMHBV_2007] for S.
-   double am1DCoreintegralP; // Table II in ref. [MH_2007] for H, C, N, and O and Table IV in ref. [MMHBV_2007] for S.
-   double am1DBondingParameterS; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
-   double am1DBondingParameterP; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
-   double am1DAlpha; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
-   double pm3CoreintegralS; // Table II in ref. [S_1989].
-   double pm3CoreintegralP; // Table II in ref. [S_1989].
-   double pm3OrbitalExponentS;// Table II in ref. [S_1989].
-   double pm3OrbitalExponentP;// Table II in ref. [S_1989].
-   double pm3BondingParameterS; // Table II in ref. [S_1989].
-   double pm3BondingParameterP; // Table II in ref. [S_1989].
-   double pm3Alpha;// Table II in ref. [S_1989].
+   double am1ParameterK[4];// Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1ParameterL[4];// Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1ParameterM[4];// Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double am1DCoreintegralS;     // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double am1DCoreintegralP;     // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double am1DBondingParameterS; // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double am1DBondingParameterP; // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double am1DAlpha;             // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double pm3CoreintegralS;     // Table II in [S_1989].
+   double pm3CoreintegralP;     // Table II in [S_1989].
+   double pm3OrbitalExponentS;  // Table II in [S_1989].
+   double pm3OrbitalExponentP;  // Table II in [S_1989].
+   double pm3BondingParameterS; // Table II in [S_1989].
+   double pm3BondingParameterP; // Table II in [S_1989].
+   double pm3Alpha;             // Table II in [S_1989].
    double pm3DerivedParameterD[3];    // Calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
    double pm3DerivedParameterRho[3];  // Calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
-   double pm3ParameterK[4];// Table II in ref. [S_1989].
-   double pm3ParameterL[4];// Table II in ref. [S_1989].
-   double pm3ParameterM[4];// Table II in ref. [S_1989].
-   double pm3Gss; // Table II in ref. [S_1989].
-   double pm3Gpp; // Table II in ref. [S_1989].
-   double pm3Gsp; // Table II in ref. [S_1989].
-   double pm3Gpp2; // Table II in ref. [S_1989].
-   double pm3Hsp; // Table II in ref. [S_1989].
-   double pm3PddgCoreintegralS; // Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgCoreintegralP; // Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgOrbitalExponentS;// Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgOrbitalExponentP;// Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgBondingParameterS; // Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgBondingParameterP; // Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgAlpha;// Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgDerivedParameterD[3];    // Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgDerivedParameterRho[3];  // Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgParameterK[4];// Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgParameterL[4];// Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgParameterM[4];// Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgParameterPa[2];// Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3PddgParameterDa[2];// Table II in ref. [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
-   double pm3DCoreintegralS; // Table II in ref. [MH_2007] for H, C, N, and O and Table IV in ref. [MMHBV_2007] for S.
-   double pm3DCoreintegralP; // Table II in ref. [MH_2007] for H, C, N, and O and Table IV in ref. [MMHBV_2007] for S.
-   double pm3DBondingParameterS; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
-   double pm3DBondingParameterP; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
-   double pm3DAlpha; // Table II in ref. [MH_2007] for H, C, N, O, and Table IV in re. [MMHBV_2007] for S.
+   double pm3ParameterK[4];// Table II in [S_1989].
+   double pm3ParameterL[4];// Table II in [S_1989].
+   double pm3ParameterM[4];// Table II in [S_1989].
+   double pm3Gss; // Table II in [S_1989].
+   double pm3Gpp; // Table II in [S_1989].
+   double pm3Gsp; // Table II in [S_1989].
+   double pm3Gpp2;// Table II in [S_1989].
+   double pm3Hsp; // Table II in [S_1989].
+   double pm3PddgCoreintegralS;         // Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgCoreintegralP;         // Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgOrbitalExponentS;      // Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgOrbitalExponentP;      // Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgBondingParameterS;     // Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgBondingParameterP;     // Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgAlpha;                 // Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgDerivedParameterD[3];  // Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgDerivedParameterRho[3];// Table II in [RCJ_2002] for H, C, N, O, and Table II in re. [BGJ_2003] for S.
+   double pm3PddgParameterK[4]; // Table II in [RCJ_2002] for H, C, N, and O. Table II in re. [BGJ_2003] for S.
+   double pm3PddgParameterL[4]; // Table II in [RCJ_2002] for H, C, N, and O. Table II in re. [BGJ_2003] for S.
+   double pm3PddgParameterM[4]; // Table II in [RCJ_2002] for H, C, N, and O. Table II in re. [BGJ_2003] for S.
+   double pm3PddgParameterPa[2];// Table II in [RCJ_2002] for H, C, N, and O. Table II in re. [BGJ_2003] for S.
+   double pm3PddgParameterDa[2];// Table II in [RCJ_2002] for H, C, N, and O. Table II in re. [BGJ_2003] for S.
+   double pm3DCoreintegralS;     // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double pm3DCoreintegralP;     // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double pm3DBondingParameterS; // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double pm3DBondingParameterP; // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double pm3DAlpha;             // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
    virtual void SetAtomicParameters() = 0;
 private:
    Atom();

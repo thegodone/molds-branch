@@ -38,6 +38,7 @@
 [DZHS_1985] M. J. S. Dewar, E. G. Zoebisch, E. F. Healy, and J. J. P. Stewart, J. Am. Chem. Soc. 107, 3902 (1985)
 [DR_1986] M. J. S. Dewar and C. H. Reynolds, J. Comp. Chem. 7, 140 (1986)
 [AEZ_1986] W. P. Anderson, W. D. Edwards, and M. C. Zerner, Inorg. Chem. 25, 2728 (1986)
+[DZ_1988] M. J. S. Dewar and E. G. Zoebisch, J. Mol. Struc. (Theochem) 180, 1 (1988)
 [S_1989] J. J. P. Stewart, J. Comp. Chem. 10, 209 (1989)
 [S_1989-2] J. J. P. Stewart, J. Comp. Chem. 10, 221 (1989)
 [DL_1990] M. J. S. Dewar and D. A. Liotard, J. Mol. Struc.(Theochem) 206, 123(1990)
@@ -61,5 +62,6 @@
 [S_2007] J. J. P. Stewart, J. Mol. Model. 13, 1173 (2007)
 [MH_2007] J. P. McNamara and I. H. Hillier, Phys. Chem. Chem. Phys. 9, 2362 (2007)
 [MMHBV_2007] C. A. Morgado, J. P. McNamara, I. H. Hillier, N. A. Burton, and M. A. Vincent, J. Chem. Theory Comput. 3, 1656 (2007)
+[MSVHM_2008] J. P. McNamara, R. Sharma, M. A. Vincent, I. H. Hillier, and C. A. Morgado, Phys. Chem. Chem. Phys. 10, 128 (2008)
 [F_2011] M. Fujii, J. Chem. Phys. 135, 114102-1 (2011)
 

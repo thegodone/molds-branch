@@ -490,6 +490,9 @@ int InputParser::ParseMolecularConfiguration(Molecule* molecule, vector<string>*
       else if((*inputTerms)[parseIndex] == "o"){
          atomType = O;
       }
+      else if((*inputTerms)[parseIndex] == "f"){
+         atomType = F;
+      }
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = S;
       }
@@ -525,6 +528,9 @@ int InputParser::ParseGhostsConfiguration(Molecule* molecule, vector<string>* in
       }
       else if((*inputTerms)[parseIndex] == "o"){
          atomType = ghostO;
+      }
+      else if((*inputTerms)[parseIndex] == "f"){
+         atomType = ghostF;
       }
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = ghostS;

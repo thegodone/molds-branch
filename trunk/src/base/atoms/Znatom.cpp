@@ -93,19 +93,19 @@ void Znatom::SetAtomicParameters(){
    this->indoF2CoefficientS = 0.0;
    this->indoF2CoefficientP = -2.0*(this->coreCharge - 2.5)/25.0;
    */
-   this->zindoBondingParameterS = -10.0*Parameters::GetInstance()->GetEV2AU(); // orca 3.1
-   this->zindoBondingParameterD = -34.0*Parameters::GetInstance()->GetEV2AU(); // orca 3.1
+   this->zindoBondingParameterS = -10.0*Parameters::GetInstance()->GetEV2AU(); // orca 3.0.1
+   this->zindoBondingParameterD = -34.0*Parameters::GetInstance()->GetEV2AU(); // orca 3.0.1
    this->zindoF0ss = 7.98  * Parameters::GetInstance()->GetEV2AU();   // ZHKW_1980
    this->zindoF0sd = 9.39  * Parameters::GetInstance()->GetEV2AU();   // ZHKW_1980
    this->zindoF0dd = 14.55 * Parameters::GetInstance()->GetEV2AU();   // ZHKW_1980
    this->zindoG1sp = 20400 * Parameters::GetInstance()->GetKayser2AU(); // BZ_1979
    this->zindoF2pp =  9500 * Parameters::GetInstance()->GetKayser2AU(); // BZ_1979
-   this->zindoG2sd = 0.6199 * Parameters::GetInstance()->GetEV2AU();   // orca 3.1
-   this->zindoG1pd = 0.8679 * Parameters::GetInstance()->GetEV2AU();   // orca 3.1
-   this->zindoF2pd = 1.4878 * Parameters::GetInstance()->GetEV2AU();   // orca 3.1
-   this->zindoG3pd = 0.9919 * Parameters::GetInstance()->GetEV2AU();   // orca 3.1
-   this->zindoF2dd =11.4063 * Parameters::GetInstance()->GetEV2AU();   // orca 3.1
-   this->zindoF4dd = 7.6249 * Parameters::GetInstance()->GetEV2AU();   // orca 3.1
+   this->zindoG2sd = 0.6199 * Parameters::GetInstance()->GetEV2AU();   // orca 3.0.1
+   this->zindoG1pd = 0.8679 * Parameters::GetInstance()->GetEV2AU();   // orca 3.0.1
+   this->zindoF2pd = 1.4878 * Parameters::GetInstance()->GetEV2AU();   // orca 3.0.1
+   this->zindoG3pd = 0.9919 * Parameters::GetInstance()->GetEV2AU();   // orca 3.0.1
+   this->zindoF2dd =11.4063 * Parameters::GetInstance()->GetEV2AU();   // orca 3.0.1
+   this->zindoF4dd = 7.6249 * Parameters::GetInstance()->GetEV2AU();   // orca 3.0.1
    this->zindoL =  2;
    this->zindoM =  0;
    this->zindoN = 10;
