@@ -79,6 +79,8 @@ void Pm3::SetMessages(){
       = "Error in pm3::Pm3::SetMolecule: Total number of valence electrons is odd. totalNumberValenceElectrons=";
    this->errorMessageNotEnebleAtomType  
       = "Error in pm3::Pm3::CheckEnableAtomType: Non available atom is contained.\n";
+   this->errorMessageNotEnebleAtomTypeVdW
+      = "Error in pm3::Pm3::CheckEnableAtomTypeVdW: Non available atom to add VdW correction is contained.\n";
    this->errorMessageCoulombInt = "Error in base_pm3::Pm3::GetCoulombInt: Invalid orbitalType.\n";
    this->errorMessageExchangeInt = "Error in base_pm3::Pm3::GetExchangeInt: Invalid orbitalType.\n";
    this->errorMessageCalcCISMatrix
