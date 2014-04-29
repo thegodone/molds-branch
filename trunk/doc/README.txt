@@ -182,18 +182,18 @@ CAPABILITIES:
       i.e., MD(gs) and MD(es) mean Born-Oppenheimer Molecular Dynamics on ground and excited states, respectively. 
 
    -Elements
-    CNDO2    | H, Li, C, N, O, F, S
+    CNDO2    | H, Li, C, N, O, F, S, Cl
     INDO     | H, Li, C, N, O, F, 
-    ZINDO/S  | H,     C, N, O, F, S
-    MNDO     | H,     C, N, O, F, S, Zn
-    AM1      | H,     C, N, O, F, S, Zn
-    AM1-D    | H,     C, N, O, F, S       *
-    PM3      | H,     C, N, O, F, S, Zn
-    PM3-D    | H,     C, N, O, F, S       *
+    ZINDO/S  | H,     C, N, O, F, S, Cl
+    MNDO     | H,     C, N, O, F, S, Cl, Zn
+    AM1      | H,     C, N, O, F, S, Cl, Zn
+    AM1-D    | H,     C, N, O, F, S, Cl       *
+    PM3      | H,     C, N, O, F, S, Cl, Zn
+    PM3-D    | H,     C, N, O, F, S, Cl       *
     PM3/PDDG | H,     C, N, O,    S 
 
-    * For fluorine, semiempirical parameters used in the SCF of AM1-D and PM3-D are same with 
-      the original semiempirical parameters used in the SCF of AM1 and PM3, respectively.
+    * For fluorine(F) and chlorine(Cl), semiempirical parameters used in SCF of AM1-D and PM3-D are same with 
+      the original semiempirical parameters used in SCF of AM1 and PM3, respectively.
 
    -Parallelization
     Open MP parallelization: everywhere in MolDS

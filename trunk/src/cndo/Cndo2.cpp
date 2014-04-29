@@ -54,6 +54,7 @@
 #include"../base/atoms/Oatom.h"
 #include"../base/atoms/Fatom.h"
 #include"../base/atoms/Satom.h"
+#include"../base/atoms/Clatom.h"
 #include"../base/Molecule.h"
 #include"../base/GTOExpansionSTO.h"
 #include"../base/loggers/MOLogger.h"
@@ -277,7 +278,7 @@ void Cndo2::SetEnableAtomTypes(){
    //this->enableAtomTypes.push_back(Si);
    //this->enableAtomTypes.push_back(P);
    this->enableAtomTypes.push_back(S);
-   //this->enableAtomTypes.push_back(Cl);
+   this->enableAtomTypes.push_back(Cl);
 }
 
 TheoryType Cndo2::GetTheoryType() const{
