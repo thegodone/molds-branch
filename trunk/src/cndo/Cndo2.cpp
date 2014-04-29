@@ -101,6 +101,7 @@ Cndo2::Cndo2(){
    //protected methods
    this->SetMessages();
    this->SetEnableAtomTypes();
+   this->SetEnableAtomTypesVdW();
 
    //private variables
    this->elecSCFEnergy = 0.0;
@@ -152,7 +153,9 @@ void Cndo2::SetMessages(){
    this->errorMessageOddTotalValenceElectrions 
       = "Error in cndo::Cndo2::SetMolecule: Total number of valence electrons is odd. totalNumberValenceElectrons=";
    this->errorMessageNotEnebleAtomType  
-      = "Error in cndo::Cndo2::ChecEnableAtomType: Non available atom is contained.\n";
+      = "Error in cndo::Cndo2::CheckEnableAtomType: Non available atom is contained.\n";
+   this->errorMessageNotEnebleAtomTypeVdW
+      = "Error in cndo::Cndo2::CheckEnableAtomTypeVdW: Non available atom to add VdW correction is contained.\n";
    this->errorMessageAtomA = "Atom A is:\n";
    this->errorMessageAtomB = "Atom B is:\n";
    this->errorMessageAtomType = "\tatom type = ";
@@ -281,6 +284,17 @@ void Cndo2::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(Cl);
 }
 
+void Cndo2::SetEnableAtomTypesVdW(){
+   this->enableAtomTypesVdW.clear();
+   this->enableAtomTypesVdW.push_back(H);
+   this->enableAtomTypesVdW.push_back(C);
+   this->enableAtomTypesVdW.push_back(N);
+   this->enableAtomTypesVdW.push_back(O);
+   this->enableAtomTypesVdW.push_back(F);
+   this->enableAtomTypesVdW.push_back(S);
+   this->enableAtomTypesVdW.push_back(Cl);
+}
+
 TheoryType Cndo2::GetTheoryType() const{
    return this->theory;
 }
@@ -289,6 +303,7 @@ void Cndo2::SetMolecule(Molecule* molecule){
    this->molecule = molecule;
    this->CheckNumberValenceElectrons(*molecule);
    this->CheckEnableAtomType(*molecule);
+   this->CheckEnableAtomTypeVdW(*molecule);
 
    // malloc
    MallocerFreer::GetInstance()->Malloc<double>(&this->fockMatrix,
@@ -346,6 +361,34 @@ void Cndo2::CheckEnableAtomType(const Molecule& molecule) const{
       if(!enable){
          stringstream ss;
          ss << this->errorMessageNotEnebleAtomType;
+         ss << this->errorMessageAtomType << AtomTypeStr(atomType) << endl;
+         throw MolDSException(ss.str());
+      }
+   }
+}
+
+void Cndo2::CheckEnableAtomTypeVdW(const Molecule& molecule) const{
+   if(Parameters::GetInstance()->RequiresVdWSCF()){
+      if(this->theory == AM1D || this->theory == PM3D){
+         return;
+      }
+   }
+   else{
+      return;
+   }
+   
+   for(int i=0; i<molecule.GetAtomVect().size(); i++){
+      AtomType atomType = molecule.GetAtomVect()[i]->GetAtomType();
+      bool enable = false;
+      for(int j=0; j<this->enableAtomTypesVdW.size(); j++){
+         if(atomType == this->enableAtomTypesVdW[j]){
+            enable = true;
+            break;
+         }
+      }
+      if(!enable){
+         stringstream ss;
+         ss << this->errorMessageNotEnebleAtomTypeVdW;
          ss << this->errorMessageAtomType << AtomTypeStr(atomType) << endl;
          throw MolDSException(ss.str());
       }
@@ -423,13 +466,13 @@ void Cndo2::CalcVdWCorrectionEnergy(){
 }
 
 // See damping function in (2) in [G_2004] ((11) in [G_2006])
-double Cndo2::GetVdwDampingValue(double vdWDistance, double distance) const{
+double Cndo2::GetVdWDampingValue(double vdWDistance, double distance) const{
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    return 1.0/(1.0+exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0)));
 }
 
 // See damping function in (2) in [G_2004] ((11) in [G_2006])
-double Cndo2::GetVdwDampingValue1stDerivative(double vdWDistance, double distance) const{
+double Cndo2::GetVdWDampingValue1stDerivative(double vdWDistance, double distance) const{
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    return (dampingFactor/vdWDistance)
          *exp(-1.0*dampingFactor*(distance/vdWDistance - 1.0))
@@ -438,7 +481,7 @@ double Cndo2::GetVdwDampingValue1stDerivative(double vdWDistance, double distanc
 }
 
 // See damping function in (2) in [G_2004] ((11) in [G_2006])
-double Cndo2::GetVdwDampingValue2ndDerivative(double vdWDistance, double distance) const{
+double Cndo2::GetVdWDampingValue2ndDerivative(double vdWDistance, double distance) const{
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
    double exponent = -1.0*dampingFactor*(distance/vdWDistance - 1.0);
    double pre = dampingFactor/vdWDistance;
@@ -454,7 +497,7 @@ double Cndo2::GetDiatomVdWCorrectionEnergy(const Atom& atomA, const Atom& atomB)
    double tmpSum = atomA.GetVdWCoefficient()+atomB.GetVdWCoefficient();
    if(tmpSum<=0e0){return 0e0;}
    double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()/tmpSum;
-   double damping = this->GetVdwDampingValue(vdWDistance, distance);
+   double damping = this->GetVdWDampingValue(vdWDistance, distance);
    double scalingFactor = Parameters::GetInstance()->GetVdWScalingFactorSCF();
    return -1.0*scalingFactor*vdWCoefficients*damping
          /(distance*distance*distance*distance*distance*distance);
@@ -470,8 +513,8 @@ double Cndo2::GetDiatomVdWCorrection1stDerivative(const Atom& atomA, const Atom&
    if(tmpSum<=0e0){return 0e0;}
    double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()/tmpSum;
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
-   double damping = this->GetVdwDampingValue(vdWDistance, distance);
-   double damping1stDerivative = this->GetVdwDampingValue1stDerivative(vdWDistance, distance);
+   double damping = this->GetVdWDampingValue(vdWDistance, distance);
+   double damping1stDerivative = this->GetVdWDampingValue1stDerivative(vdWDistance, distance);
    double value=0.0;
    double tmp = distance*distance*distance*distance*distance*distance;
    value += 6.0*damping/(tmp*distance) 
@@ -498,9 +541,9 @@ double Cndo2::GetDiatomVdWCorrection2ndDerivative(const Atom& atomA,
    if(tmpSum<=0e0){return 0e0;}
    double vdWCoefficients = 2.0*atomA.GetVdWCoefficient()*atomB.GetVdWCoefficient()/tmpSum;
    double dampingFactor = Parameters::GetInstance()->GetVdWDampingFactorSCF();
-   double damping = this->GetVdwDampingValue(vdWDistance, distance);
-   double damping1stDerivative = this->GetVdwDampingValue1stDerivative(vdWDistance, distance);
-   double damping2ndDerivative = this->GetVdwDampingValue2ndDerivative(vdWDistance, distance);
+   double damping = this->GetVdWDampingValue(vdWDistance, distance);
+   double damping1stDerivative = this->GetVdWDampingValue1stDerivative(vdWDistance, distance);
+   double damping2ndDerivative = this->GetVdWDampingValue2ndDerivative(vdWDistance, distance);
 
    double dis6 = distance*distance*distance*distance*distance*distance;
    double tmp1 = -6.0*damping             /(dis6*distance) 

@@ -79,6 +79,8 @@ void Am1D::SetMessages(){
       = "Error in am1::Am1D::SetMolecule: Total number of valence electrons is odd. totalNumberValenceElectrons=";
    this->errorMessageNotEnebleAtomType  
       = "Error in am1::Am1D::CheckEnableAtomType: Non available atom is contained.\n";
+   this->errorMessageNotEnebleAtomTypeVdW
+      = "Error in am1::Am1D::CheckEnableAtomTypeVdW: Non available atom to add VdW correction is contained.\n";
    this->errorMessageCoulombInt = "Error in am1::Am1D::GetCoulombInt: Invalid orbitalType.\n";
    this->errorMessageExchangeInt = "Error in am1::Am1D::GetExchangeInt: Invalid orbitalType.\n";
    this->errorMessageCalcCISMatrix

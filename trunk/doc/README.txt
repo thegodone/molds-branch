@@ -245,9 +245,10 @@ HOW TO WRITE INPUT:
        The default value of the "diis_end_error" is 10**(-8.0).
 
        "vdW" should be set as "yes" or "no". 
-       When "yes" is set, Grimmes's empirical van der Waals correction([G_2004]) is applied.
+       When "yes" is set, Grimmes's empirical van der Waals correction(D1, [G_2004]) is applied.
        Note that this empirical van der Waals correction is applied to the semiempirical theories 
        of which semiempirical parameters are not modified.
+       This "vdw" option can be used for H, C, N, O, F, S, and Cl.
        If user wants to use PM3-D or AM1-D of which semiempirical parameters are modified to be suite for vdW, 
        set theory-directive as "PM3-D" or "AM1-D". 
        When PM3-D or AM1-D is used, users do not need to set "vdW", "vdW_s6", and "vdW_d".
@@ -255,6 +256,14 @@ HOW TO WRITE INPUT:
        than naitive PM3 and AM1 with this empirical vdW, respectively.
        The default value of the "vdW" with the theories except for PM3-D and AM1-D is "no". 
        For PM3-D and AM1-D, this "vdW" is always "yes" whethere user sets or not.
+
+       "vdW_s6" is a scaling factor in the Grimme's van der Waals correction([G_2004]).
+       The default value of the "vdW_s6" is 1.4. 
+       For PM3-D and AM1-D, this "vdW_s6" is forced to be set as 1.4.
+
+       "vdW_d" is a damping factor in the Grimme's van der Waals correction([G_2004]).
+       The default value of the "vdW_d" is 23.0.
+       For PM3-D and AM1-D, this "vdW_s6" is forced to be set as 23.0.
 
        "sum_charges" is an option to calculate of summation of atomic charges in the ground state.
        To use this option, write
@@ -264,14 +273,6 @@ HOW TO WRITE INPUT:
        The atoms indicated with first_atom_index and last_atom_index are also included in the atoms which charge is summed.
        Multiple setting of this "sum_charges" option is approvable, of course.
        If you want to calculate summation, same "sum_charges" option is available in CIS-directive.
-
-       "vdW_s6" is a scaling factor in the Grimme's van der Waals correction([G_2004]).
-       The default value of the "vdW_s6" is 1.4. 
-       For PM3-D and AM1-D, this "vdW_s6" is forced to be set as 1.4.
-
-       "vdW_d" is a damping factor in the Grimme's van der Waals correction([G_2004]).
-       The default value of the "vdW_d" is 23.0.
-       For PM3-D and AM1-D, this "vdW_s6" is forced to be set as 23.0.
 
        E.g.
          SCF

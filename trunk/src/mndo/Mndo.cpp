@@ -154,6 +154,8 @@ void Mndo::SetMessages(){
       = "Error in mndo::Mndo::SetMolecule: Total number of valence electrons is odd. totalNumberValenceElectrons=";
    this->errorMessageNotEnebleAtomType  
       = "Error in mndo::Mndo::CheckEnableAtomType: Non available atom is contained.\n";
+   this->errorMessageNotEnebleAtomTypeVdW
+      = "Error in mndo::Mndo::CheckEnableAtomTypeVdW: Non available atom to add VdW correction is contained.\n";
    this->errorMessageCoulombInt = "Error in base_mndo::Mndo::GetCoulombInt: Invalid orbitalType.\n";
    this->errorMessageExchangeInt = "Error in base_mndo::Mndo::GetExchangeInt: Invalid orbitalType.\n";
    this->errorMessageCalcCISMatrix
