@@ -446,6 +446,20 @@ mklNumThreads = "4"
 ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
+prefix = "ch3cl_mndo"
+tester = Tester.new(prefix, <<"TITLE")
+\t\t\t>>> CH3F <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
 prefix = "ch4_mndo_directCIS_singlet"
 tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
 ---------------------------------------------------
@@ -614,6 +628,20 @@ mklNumThreads = "4"
 ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
+prefix = "ch3cl_am1"
+tester = Tester.new(prefix, <<"TITLE")
+\t\t\t>>> CH3F <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
 prefix = "ch4_am1_directCIS_singlet"
 tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
 ---------------------------------------------------
@@ -769,6 +797,20 @@ ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
 prefix = "ch3f_pm3"
+tester = Tester.new(prefix, <<"TITLE")
+\t\t\t>>> CH3F <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
+prefix = "ch3cl_pm3"
 tester = Tester.new(prefix, <<"TITLE")
 \t\t\t>>> CH3F <<<
 TITLE
