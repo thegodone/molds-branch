@@ -29,7 +29,6 @@ public:
    AsyncCommunicator();
    ~AsyncCommunicator();
    template<typename T> void Run(){
-      int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
       while(true){
          boost::mutex::scoped_lock lk(this->stateGuard);
          try{
