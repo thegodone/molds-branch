@@ -202,6 +202,9 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
 
          this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
 
+         matrixForce = electronicStructure->GetForce(elecState);
+         vectorForce = &matrixForce[0][0];
+
          // check convergence
          if(this->SatisfiesConvergenceCriterion(matrixForce,
                   molecule,
@@ -215,9 +218,6 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
 
          //Calculate displacement (K_k at Eq. (15) in [SJTO_1983])
          this->CalcDisplacement(matrixDisplacement, matrixOldCoordinates, molecule);
-
-         matrixForce = electronicStructure->GetForce(elecState);
-         vectorForce = &matrixForce[0][0];
 
          history.AddEntry(lineSearchCurrentEnergy, molecule, matrixForce);
 
