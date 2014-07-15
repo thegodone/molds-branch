@@ -1,0 +1,37 @@
+// example of the input file
+THEORY
+pm3-d
+THEORY_END
+
+SCF
+ max_iter 50
+ rms_density 0.000001
+ damping_thresh 1.0
+ damping_weight 0.0
+ diis_num_error_vect 5
+ diis_start_error 0.1
+ diis_end_error 0.00000002
+ sum_charges 3 4
+SCF_END
+
+OPTIMIZATION
+   method conjugate_gradient
+   total_steps 1000
+   electronic_state 0
+   max_gradient 0.00045
+   rms_gradient 0.00030
+   dt 50
+   space_fixed_atoms 0 1
+   space_fixed_atom  2
+OPTIMIZATION_END
+
+// h2o-dimer
+GEOMETRY
+O	-6.310830e-01	2.822400e-01	0.000000e+00
+H	3.289170e-01	2.822400e-01	-3.855157e-66
+H	-9.515380e-01	1.187176e+00	-1.130142e-16
+O	-1.733116e+00	-1.070721e+00	-2.057766e+00
+H	-1.278754e+00	-6.231574e-01	-1.404959e+00
+H	-2.535662e+00	-1.865382e+00	-1.661604e+00
+GEOMETRY_END
+
