@@ -1,6 +1,5 @@
 //************************************************************************//
 // Copyright (C) 2011-2014 Mikiya Fujii                                   // 
-// Copyright (C) 2012-2014 Katsuhiko Nishimra                             // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -17,27 +16,22 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_STEEPEST_DESCENT
-#define INCLUDED_STEEPEST_DESCENT
-namespace MolDS_optimization{
+#ifndef INCLUDED_SPACE_FIXED_ATOMS
+#define INCLUDED_SPACE_FIXED_ATOMS
+namespace MolDS_base_constrains{
 
-class SteepestDescent : public MolDS_optimization::Optimizer{
+class SpaceFixedAtoms: public Constrain{
 public:
-   SteepestDescent();
-   ~SteepestDescent();
+   SpaceFixedAtoms(const MolDS_base::Molecule* molecule, 
+                   const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure);
+   ~SpaceFixedAtoms();
+   void SetConstrainCondition();
+   double const* const* GetForce(int elecState);
 protected:
-   void SetMessages();
 private:
-   std::string messageStartSteepestDescentStep;
-   void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
-                      MolDS_base::Molecule& molecule,
-                      boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
-                      double* lineSearchedEnergy,
-                      bool* obainesOptimizedStructure) const;
+   SpaceFixedAtoms(){};
+   std::vector<int> fixedAtomIndeces;
 };
 
 }
 #endif
-
-
-

@@ -42,6 +42,8 @@
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
 #include"../base/factories/ElectronicStructureFactory.h"
+#include"../base/constrains/Constrain.h"
+#include"../base/factories/ConstrainFactory.h"
 #include"Optimizer.h"
 using namespace std;
 using namespace MolDS_base;
@@ -70,10 +72,13 @@ void Optimizer::Optimize(Molecule& molecule){
    electronicStructure->SetCanOutputLogs(this->CanOutputLogs());
    molecule.SetCanOutputLogs(this->CanOutputLogs());
 
+   // create constrain
+   boost::shared_ptr<MolDS_base_constrains::Constrain> constrain(ConstrainFactory::Create(molecule, electronicStructure));
+
    // Search Minimum
    double lineSearchedEnergy = 0.0;
    bool obtainesOptimizedStructure = false;
-   this->SearchMinimum(electronicStructure, molecule, &lineSearchedEnergy, &obtainesOptimizedStructure);
+   this->SearchMinimum(electronicStructure, molecule, constrain, &lineSearchedEnergy, &obtainesOptimizedStructure);
   
    // Not converged
    if(!obtainesOptimizedStructure){
@@ -265,7 +270,6 @@ bool Optimizer::SatisfiesConvergenceCriterion(double const* const* matrixForce,
    }
    return satisfies;
 }
-
 }
 
 

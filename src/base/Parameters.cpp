@@ -70,6 +70,7 @@ Parameters::Parameters(){
    this->electronicStateIndecesMullikenCIS = NULL;
    this->sumChargesIndexPairsSCF = NULL;
    this->sumChargesIndexPairsCIS = NULL;
+   this->spaceFixedAtomsIndexPairsOptimization = NULL;
 }
 
 Parameters::~Parameters(){
@@ -104,6 +105,10 @@ Parameters::~Parameters(){
    if(this->sumChargesIndexPairsCIS != NULL){
       delete this->sumChargesIndexPairsCIS;
       //this->OutputLog("sumChargesIndexPairsCIS deleted\n");
+   }
+   if(this->spaceFixedAtomsIndexPairsOptimization != NULL){
+      delete this->spaceFixedAtomsIndexPairsOptimization;
+      //this->OutputLog("spacefixedatomsindexpairsoptimization deleted\n");
    }
 }
 
@@ -240,6 +245,8 @@ void Parameters::SetMessages(){
       = "Error in base::Parameters::GetIndecesParticlePlot: elecIndecesParticlePlot is NULL.\n";
    this->errorMessageGetElectronicStateIndecesMullikenCISNull
       = "Error in base::Parameters::GetElectronicStateIndecesMullikenCIS: electronicStateIndecesMullikenCIS is NULL.\n";
+   this->errorMessageGetSpaceFixedAtomIndexPairsOptimizationNull
+      = "Error in base::Parameters::GetSpaceFixedAtomIndexPairsOptimization: spacefixedatomsindexpairsoptimization is NULL.\n";
 }
 
 // methods for translation
@@ -417,6 +424,27 @@ void Parameters::AddSumChargesIndexPairsCIS(int firstAtomIndex, int lastAtomInde
    }
    AtomIndexPair atomIndexPair = {firstAtomIndex, lastAtomIndex};
    this->sumChargesIndexPairsCIS->push_back(atomIndexPair);
+}
+
+// methods for Optimization
+bool Parameters::RequiresSpaceFixedAtomsOptimization() const{
+   return (this->spaceFixedAtomsIndexPairsOptimization!=NULL && 
+           0<this->spaceFixedAtomsIndexPairsOptimization->size());
+}
+
+const vector<AtomIndexPair>* Parameters::GetSpaceFixedAtomIndexPairsOptimization() const{
+#ifdef MOLDS_DBG
+   if(this->spaceFixedAtomsIndexPairsOptimization==NULL) throw MolDSException(this->errorMessageGetSpaceFixedAtomIndexPairsOptimizationNull);
+#endif
+   return this->spaceFixedAtomsIndexPairsOptimization;
+}
+
+void Parameters::AddSpaceFixedAtomsIndexPairOptimization(int firstAtomIndex, int lastAtomIndex){
+   if(this->spaceFixedAtomsIndexPairsOptimization==NULL){
+      this->spaceFixedAtomsIndexPairsOptimization = new vector<AtomIndexPair>;
+   }
+   AtomIndexPair atomIndexPair = {firstAtomIndex, lastAtomIndex};
+   this->spaceFixedAtomsIndexPairsOptimization->push_back(atomIndexPair);
 }
 
 }

@@ -45,6 +45,7 @@
 #include"../base/atoms/Atom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
+#include"../base/constrains/Constrain.h"
 #include"Optimizer.h"
 #include"BFGS.h"
 using namespace std;
@@ -103,6 +104,7 @@ void BFGS::SetMessages(){
 
 void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
                          Molecule& molecule,
+                         boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
                          double* lineSearchedEnergy,
                          bool* obtainesOptimizedStructure) const {
    int elecState = Parameters::GetInstance()->GetElectronicStateIndexOptimization();

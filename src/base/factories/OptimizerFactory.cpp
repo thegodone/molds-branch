@@ -38,6 +38,7 @@
 #include"../atoms/Atom.h"
 #include"../Molecule.h"
 #include"../ElectronicStructure.h"
+#include"../constrains/Constrain.h"
 #include"../../optimization/Optimizer.h"
 #include"../../optimization/ConjugateGradient.h"
 #include"../../optimization/BFGS.h"

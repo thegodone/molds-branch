@@ -98,6 +98,12 @@ void InputParser::SetMessages(){
       = "Error in base::InputParser::ValidateOptimizationConditions: heory you set is not supported for optimization.\n";
    this->errorMessageNonValidExcitedStatesOptimization
       = "Error in base::InputParser::ValidateOptimizationConditions: Excited state on which optimization is carried out or CIS condition are wrong.\n";
+   this->errorMessageNonValidSpaceFixedAtomsOptimization 
+      = "Error in base::InputParser::ValidateOptimizationConditions: Specification of space fixed atoms is wrong:\n";
+   this->errorMessageNonValidSpaceFixedFirstAtomOptimization 
+      = "\tfirst atom index: ";
+   this->errorMessageNonValidSpaceFixedLastAtomOptimization  
+      = "\tlast atom index : ";
    this->errorMessageNonValidElectronicStateFrequencies
       = "Error in base::InputParser::ValidateFrequenciesConditions: Excited states are not supported for the frequencies (normal modes) analysis.\n";
    this->errorMessageNonValidTheoryFrequencies
@@ -194,6 +200,9 @@ void InputParser::SetMessages(){
    this->messageOptimizationTimeWidth   = "\t\tFictious time width: ";
    this->messageOptimizationInitialTrustRadius = "\t\tInitial trust radius: ";
    this->messageOptimizationMaxNormStep        = "\t\tMax size of the optimization step: ";
+   this->messageOptimizationSpaceFixedAtoms = "\t\tAtoms fixed in space: from ";
+   this->messageOptimizationSpaceFixedAtoms2 = " to ";
+   this->messageOptimizationSpaceFixedAtoms3 = " atoms.";
 
    // Frequencies (Normal modes)
    this->messageFrequenciesConditions    = "\tFrequencies (Normal modes) analysis conditions:\n";
@@ -392,6 +401,7 @@ void InputParser::SetMessages(){
    this->stringOptimizationTimeWidth         = "dt";
    this->stringOptimizationInitialTrustRadius = "initial_trust_radius";
    this->stringOptimizationMaxNormStep        = "max_norm_step";
+   this->stringOptimizationSpaceFixedAtoms    = "space_fixed_atoms";
 
    // Frequencies (Normal modes)
    this->stringFrequencies          = "frequencies";
@@ -1169,6 +1179,13 @@ int InputParser::ParseConditionsOptimization(vector<string>* inputTerms, int par
          Parameters::GetInstance()->SetMaxNormStepOptimization(maxNormStep);
          parseIndex++;
       }
+      // Atoms fixed in space (space_fixed_atoms)
+      if((*inputTerms)[parseIndex].compare(this->stringOptimizationSpaceFixedAtoms) == 0){
+         int firstAtom = atoi((*inputTerms)[parseIndex+1].c_str());
+         int lastAtom  = atoi((*inputTerms)[parseIndex+2].c_str());
+         Parameters::GetInstance()->AddSpaceFixedAtomsIndexPairOptimization(firstAtom, lastAtom);
+         parseIndex += 2;
+      }
       parseIndex++;   
    }
    return parseIndex;
@@ -1650,7 +1667,37 @@ void InputParser::ValidateOptimizationConditions(const Molecule& molecule) const
       ss << this->errorMessageElecState << targetStateIndex << endl;
       ss << this->errorMessageNumberExcitedStateCIS << numberExcitedStatesCIS << endl;
       throw MolDSException(ss.str());
-   } 
+   }
+   // validate space fixed atoms conditions
+   if(Parameters::GetInstance()->RequiresSpaceFixedAtomsOptimization()){
+      OptimizationMethodType optMethod = Parameters::GetInstance()->GetMethodOptimization();
+      if(optMethod == BFGSMethod || optMethod == GEDIISMethod){
+         stringstream ss;
+         ss << "Error: opt method for space_fixed_atoms is bad.\n";
+         ss << OptimizationMethodTypeStr(optMethod);
+         throw MolDSException(ss.str());
+      }
+      const int totalNumberAtoms = molecule.GetAtomVect().size();
+      const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSpaceFixedAtomIndexPairsOptimization();
+      for(int i=0; i<atomPairs->size(); i++){
+         int firstAtom = (*atomPairs)[i].firstAtomIndex;
+         int lastAtom = (*atomPairs)[i].lastAtomIndex;
+         if(firstAtom < 0 || lastAtom < 0 || totalNumberAtoms <= firstAtom || totalNumberAtoms <= lastAtom || lastAtom < firstAtom){
+            stringstream ss;
+            ss << this->errorMessageNonValidSpaceFixedAtomsOptimization;
+            ss << this->errorMessageNonValidSpaceFixedFirstAtomOptimization << firstAtom << endl;
+            ss << this->errorMessageNonValidSpaceFixedLastAtomOptimization  << lastAtom  << endl;
+            throw MolDSException(ss.str());
+         }
+         /*
+         this->OutputLog(boost::format("%s%d%s%d%s\n") % this->messageOptimizationSpaceFixedAtoms.c_str()
+                                                       % (*atomPairs)[i].firstAtomIndex
+                                                       % this->messageOptimizationSpaceFixedAtoms2.c_str()
+                                                       % (*atomPairs)[i].lastAtomIndex
+                                                       % this->messageOptimizationSpaceFixedAtoms3.c_str());
+         */
+      }
+   }
 }
 
 void InputParser::ValidateFrequenciesConditions() const{
@@ -1883,7 +1930,16 @@ void InputParser::OutputOptimizationConditions() const{
                                             % Parameters::GetInstance()->GetMaxGradientOptimization());
    this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationRmsGradient.c_str() 
                                             % Parameters::GetInstance()->GetRmsGradientOptimization());
-
+   if(Parameters::GetInstance()->RequiresSpaceFixedAtomsOptimization()){
+      const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSpaceFixedAtomIndexPairsOptimization();
+      for(int i=0; i<atomPairs->size(); i++){
+         this->OutputLog(boost::format("%s%d%s%d%s\n") % this->messageOptimizationSpaceFixedAtoms.c_str()
+                                                       % (*atomPairs)[i].firstAtomIndex
+                                                       % this->messageOptimizationSpaceFixedAtoms2.c_str()
+                                                       % (*atomPairs)[i].lastAtomIndex
+                                                       % this->messageOptimizationSpaceFixedAtoms3.c_str());
+      }
+   }
    switch(Parameters::GetInstance()->GetMethodOptimization()){
       case ConjugateGradientMethod:
       case SteepestDescentMethod:
@@ -1891,12 +1947,12 @@ void InputParser::OutputOptimizationConditions() const{
                                                     % (Parameters::GetInstance()->GetTimeWidthOptimization()/Parameters::GetInstance()->GetFs2AU())
                                                     % this->messageFs.c_str());
          break;
-			case BFGSMethod:
+		case BFGSMethod:
          this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationInitialTrustRadius.c_str()
                                                   % Parameters::GetInstance()->GetInitialTrustRadiusOptimization());
          this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationMaxNormStep.c_str()
                                                   % Parameters::GetInstance()->GetMaxNormStepOptimization());
-			case GEDIISMethod:
+		case GEDIISMethod:
          this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationInitialTrustRadius.c_str()
                                                   % Parameters::GetInstance()->GetInitialTrustRadiusOptimization());
          this->OutputLog(boost::format("%s%lf\n") % this->messageOptimizationMaxNormStep.c_str()

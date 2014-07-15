@@ -70,6 +70,7 @@ private:
    void ClearMolecularMomenta(MolDS_base::Molecule& molecule) const;
    virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
                               MolDS_base::Molecule& molecule,
+                              boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
                               double* lineSearchedEnergy,
                               bool* obainesOptimizedStructure) const = 0;
 };

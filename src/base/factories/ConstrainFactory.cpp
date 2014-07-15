@@ -17,27 +17,51 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_STEEPEST_DESCENT
-#define INCLUDED_STEEPEST_DESCENT
-namespace MolDS_optimization{
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<sstream>
+#include<vector>
+#include<stdexcept>
+#include<boost/shared_ptr.hpp>
+#include<boost/format.hpp>
+#include"../Enums.h"
+#include"../Uncopyable.h"
+#include"../PrintController.h"
+#include"../MolDSException.h"
+#include"../MallocerFreer.h"
+#include"../../mpi/MpiInt.h"
+#include"../../mpi/MpiProcess.h"
+#include"../EularAngle.h"
+#include"../Parameters.h"
+#include"../RealSphericalHarmonicsIndex.h"
+#include"../atoms/Atom.h"
+#include"../Molecule.h"
+#include"../ElectronicStructure.h"
+#include"../constrains/Constrain.h"
+#include"../constrains/SpaceFixedAtoms.h"
+#include"../constrains/NonConstrain.h"
+#include"ConstrainFactory.h"
+using namespace std;
+using namespace MolDS_base;
+namespace MolDS_base_factories{
 
-class SteepestDescent : public MolDS_optimization::Optimizer{
-public:
-   SteepestDescent();
-   ~SteepestDescent();
-protected:
-   void SetMessages();
-private:
-   std::string messageStartSteepestDescentStep;
-   void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
-                      MolDS_base::Molecule& molecule,
-                      boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
-                      double* lineSearchedEnergy,
-                      bool* obainesOptimizedStructure) const;
-};
+MolDS_base_constrains::Constrain* ConstrainFactory::Create(const Molecule& molecule,
+                                                           boost::shared_ptr<ElectronicStructure> electronicStructure){
+   MolDS_base_constrains::Constrain* c=NULL;
+   if(Parameters::GetInstance()->RequiresSpaceFixedAtomsOptimization()){
+      c = new MolDS_base_constrains::SpaceFixedAtoms(&molecule, electronicStructure);
+   }
+   else{
+      c = new MolDS_base_constrains::NonConstrain(&molecule, electronicStructure);
+   }
+   c->SetConstrainCondition();
+   return c;
+}
 
 }
-#endif
+
+
 
 
 

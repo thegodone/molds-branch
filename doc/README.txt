@@ -291,7 +291,7 @@ HOW TO WRITE INPUT:
          SCF_END
 
    <GEOMETRY>
-      To set geometry(configurtion) of a system calculated by MolDS, 
+      To set geometry(configuration) of a system calculated by MolDS, 
       the configuration should be written in geometry-directive.
       Each line inside the geometry-directive indicates each atom of the system.  
       Namely, each line should containe one character and three doubles.
@@ -597,7 +597,7 @@ HOW TO WRITE INPUT:
   
       -options
        "method", "total_steps", "electronic_state", "max_gradient", "rms_gradient", 
-        "dt", "initial_trust_radius" and "max_norm_step" are prepared as options.
+        "dt", "initial_trust_radius", "max_norm_step", and "space_fixed_atoms" are prepared as options.
 
        "method" should be set as "conjugate_gradient", "steepest_descent", "bfgs" or "gediis". 
        The default of the "method" is conjugate gradient.
@@ -631,6 +631,17 @@ HOW TO WRITE INPUT:
       The default value of the "max_norm_step" is 0.3.
       This parameter have no effect if method is "steepest_descent" or "conjugate_gradient".
 
+      "space_fixed_atoms" means specification of fixed atoms in space during optimization.
+      The implementation to fix the atoms is putting additional harmonic oscilator of
+      each fixed atom related to the position users specified as initial configuration of optimization.
+      To use this option, write
+      "space_fixed_atoms first_atom_index last_atom_index"
+      in the OPTIMIZATION-directive.
+      The index starts from 0 for atoms written in geometry-directive.
+      The atoms indicated with first_atom_index and last_atom_index are also included in the atoms fixed to space.
+      Multiple setting of this "space_fixed_atoms" option is approvable, of course.
+      This parameter have no effect if method is "bfgs" or "gediis".
+
       E.g.
          OPTIMIZATION
             method steepest_descent
@@ -639,6 +650,8 @@ HOW TO WRITE INPUT:
             max_gradient 0.00045
             rms_gradient 0.00030
             dt 50
+            space_fixed_atoms 2 4 // 2nd 3rd 4th atoms are fixed.
+            space_fixed_atoms 5 5 // Only 5th atom is fixed.
          OPTIMIZATION_END
 
    <MD (Molecular dynamics)>
