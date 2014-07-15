@@ -53,6 +53,7 @@ namespace MolDS_base_constrains{
 NonConstrain::NonConstrain(const MolDS_base::Molecule* molecule,
                            const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure)
                            : Constrain(molecule, electronicStructure){
+   this->type=Non;
 }
 
 NonConstrain::~NonConstrain(){

@@ -1671,12 +1671,6 @@ void InputParser::ValidateOptimizationConditions(const Molecule& molecule) const
    // validate space fixed atoms conditions
    if(Parameters::GetInstance()->RequiresSpaceFixedAtomsOptimization()){
       OptimizationMethodType optMethod = Parameters::GetInstance()->GetMethodOptimization();
-      if(optMethod == BFGSMethod || optMethod == GEDIISMethod){
-         stringstream ss;
-         ss << "Error: opt method for space_fixed_atoms is bad.\n";
-         ss << OptimizationMethodTypeStr(optMethod);
-         throw MolDSException(ss.str());
-      }
       const int totalNumberAtoms = molecule.GetAtomVect().size();
       const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSpaceFixedAtomIndexPairsOptimization();
       for(int i=0; i<atomPairs->size(); i++){
