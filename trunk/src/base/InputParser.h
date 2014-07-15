@@ -46,6 +46,9 @@ private:
    std::string errorMessageNonValidInitialElectronicStateNASCO;
    std::string errorMessageNonValidTheoriesOptimization;
    std::string errorMessageNonValidExcitedStatesOptimization;
+   std::string errorMessageNonValidSpaceFixedAtomsOptimization;
+   std::string errorMessageNonValidSpaceFixedFirstAtomOptimization;
+   std::string errorMessageNonValidSpaceFixedLastAtomOptimization;
    std::string errorMessageNonValidElectronicStateFrequencies;
    std::string errorMessageNonValidTheoryFrequencies;
    std::string errorMessageElecState;
@@ -132,6 +135,9 @@ private:
    std::string messageOptimizationMaxGradient;
    std::string messageOptimizationInitialTrustRadius;
    std::string messageOptimizationMaxNormStep;
+   std::string messageOptimizationSpaceFixedAtoms;
+   std::string messageOptimizationSpaceFixedAtoms2;
+   std::string messageOptimizationSpaceFixedAtoms3;
    // Frequencies (Normal modes)
    std::string messageFrequenciesConditions;
    std::string messageFrequenciesElecState;
@@ -306,6 +312,7 @@ private:
    std::string stringOptimizationTimeWidth;
    std::string stringOptimizationInitialTrustRadius;
    std::string stringOptimizationMaxNormStep;
+   std::string stringOptimizationSpaceFixedAtoms;
    // Frequencies (Normal modes)
    std::string stringFrequencies;
    std::string stringFrequenciesEnd;

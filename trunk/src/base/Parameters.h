@@ -215,6 +215,9 @@ public:
    void                   SetInitialTrustRadiusOptimization(double r)    {this->initialTrustRadiusOptimization = r;}
    double                 GetMaxNormStepOptimization() const             {return this->maxNormStepOptimization;}
    void                   SetMaxNormStepOptimization(double n)           {this->maxNormStepOptimization = n;}
+   bool                   RequiresSpaceFixedAtomsOptimization() const;
+   const std::vector<AtomIndexPair>* GetSpaceFixedAtomIndexPairsOptimization() const;
+   void                   AddSpaceFixedAtomsIndexPairOptimization(int fistAtomIndex, int lastAtomIndex);
    // Frequencies 
    bool RequiresFrequencies() const               {return this->requiresFrequencies;}
    void SetRequiresFrequencies(bool b)            {this->requiresFrequencies = b;}
@@ -231,6 +234,7 @@ private:
    std::string errorMessageGetIndecesHolePlotNull;
    std::string errorMessageGetIndecesParticlePlotNull;
    std::string errorMessageGetElectronicStateIndecesMullikenCISNull;
+   std::string errorMessageGetSpaceFixedAtomIndexPairsOptimizationNull;
    SimulationType currentSimulation;
    TheoryType currentTheory;
    // Physical constants
@@ -336,6 +340,7 @@ private:
    double                 timeWidthOptimization;
    double                 initialTrustRadiusOptimization;
    double                 maxNormStepOptimization;
+   std::vector<AtomIndexPair>* spaceFixedAtomsIndexPairsOptimization;
    // Frequencies
    bool requiresFrequencies;
    int  electronicStateIndexFrequencies;
