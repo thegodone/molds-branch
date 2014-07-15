@@ -139,7 +139,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
       requireGuess = false;
-      matrixForce = electronicStructure->GetForce(elecState);
+      matrixForce = constrain->GetForce(elecState);
       vectorForce = &matrixForce[0][0];
 
       for(int s=0; s<totalSteps; s++){
@@ -154,7 +154,9 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          this->StoreMolecularGeometry(matrixOldCoordinates, molecule);
 
          // Level shift Hessian redundant modes
-         this->ShiftHessianRedundantMode(matrixHessian, molecule);
+         if(constrain->GetType()==Non){
+            this->ShiftHessianRedundantMode(matrixHessian, molecule);
+         }
 
          // Limit the trustRadius to maxNormStep
          trustRadius=min(trustRadius,maxNormStep);
@@ -187,7 +189,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
 
          this->UpdateTrustRadius(trustRadius, approximateChange, lineSearchInitialEnergy, lineSearchCurrentEnergy);
 
-         matrixForce = electronicStructure->GetForce(elecState);
+         matrixForce = constrain->GetForce(elecState);
          vectorForce = &matrixForce[0][0];
 
          // check convergence

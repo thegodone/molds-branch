@@ -118,7 +118,8 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
       lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
       requireGuess = false;
-      matrixForce = electronicStructure->GetForce(elecState);
+      //matrixForce = electronicStructure->GetForce(elecState);
+      matrixForce = constrain->GetForce(elecState);
       vectorForce = &matrixForce[0][0];
 
       // Add initial entry into GEDIIS history
@@ -175,7 +176,9 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
          this->OutputLog(messageTakingRFOStep);
 
          // Level shift Hessian redundant modes
-         this->ShiftHessianRedundantMode(matrixHessian, molecule);
+         if(constrain->GetType()==Non){
+            this->ShiftHessianRedundantMode(matrixHessian, molecule);
+         }
 
          //Calculate RFO step
          MallocerFreer::GetInstance()->Malloc(&matrixStep, molecule.GetAtomVect().size(), CartesianType_end);
@@ -204,7 +207,8 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
 
          this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
 
-         matrixForce = electronicStructure->GetForce(elecState);
+         //matrixForce = electronicStructure->GetForce(elecState);
+         matrixForce = constrain->GetForce(elecState);
          vectorForce = &matrixForce[0][0];
 
          // check convergence

@@ -53,6 +53,7 @@ namespace MolDS_base_constrains{
 SpaceFixedAtoms::SpaceFixedAtoms(const MolDS_base::Molecule* molecule,
                                  const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure)
                                  : Constrain(molecule, electronicStructure){
+   this->type=SpaceFixed;
    //this->OutputLog("SpaceFixedAtoms created\n");
 }
 

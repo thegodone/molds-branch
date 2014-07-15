@@ -27,13 +27,16 @@ public:
    virtual ~Constrain(){};
    virtual void                 SetConstrainCondition() = 0;
    virtual double const* const* GetForce(int elecState) = 0;
+   inline MolDS_base::ConstrainType GetType() const{return this->type;}
 protected:
    Constrain(){};
+   MolDS_base::ConstrainType type;
    const MolDS_base::Molecule* molecule;
    const MolDS_base::Molecule* refMolecule;
    double** constrainedMatrixForce;
    const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure;
 private:
+   
 };
 
 }
