@@ -1,5 +1,6 @@
 //************************************************************************//
 // Copyright (C) 2011-2014 Mikiya Fujii                                   // 
+// Copyright (C) 2012-2014 Katsuhiko Nishimra                             // 
 //                                                                        // 
 // This file is part of MolDS.                                            // 
 //                                                                        // 
@@ -20,16 +21,10 @@
 #include<stdlib.h>
 #include<iostream>
 #include<sstream>
-#include<fstream>
-#include<string>
-#include<string.h>
-#include<math.h>
 #include<vector>
 #include<stdexcept>
-#include<omp.h>
 #include<boost/shared_ptr.hpp>
 #include<boost/format.hpp>
-#include"../../config.h"
 #include"../Enums.h"
 #include"../Uncopyable.h"
 #include"../PrintController.h"
@@ -37,27 +32,36 @@
 #include"../MallocerFreer.h"
 #include"../../mpi/MpiInt.h"
 #include"../../mpi/MpiProcess.h"
-#include"../Utilities.h"
-#include"../MallocerFreer.h"
 #include"../EularAngle.h"
 #include"../Parameters.h"
 #include"../RealSphericalHarmonicsIndex.h"
 #include"../atoms/Atom.h"
 #include"../Molecule.h"
 #include"../ElectronicStructure.h"
-#include"Constrain.h"
+#include"../constraints/Constraint.h"
+#include"../constraints/SpaceFixedAtoms.h"
+#include"../constraints/NonConstraint.h"
+#include"ConstraintFactory.h"
 using namespace std;
 using namespace MolDS_base;
-using namespace MolDS_base_atoms;
-namespace MolDS_base_constrains{
+namespace MolDS_base_factories{
 
-Constrain::Constrain(const MolDS_base::Molecule* molecule,
-                     const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure):
-                     molecule(molecule),
-                     electronicStructure(electronicStructure){
-   this->constrainedMatrixForce=NULL;
-   this->refMolecule=NULL;
-   this->OutputLog("Constrain created\n");
+MolDS_base_constraints::Constraint* ConstraintFactory::Create(const Molecule& molecule,
+                                                             boost::shared_ptr<ElectronicStructure> electronicStructure){
+   MolDS_base_constraints::Constraint* c=NULL;
+   if(Parameters::GetInstance()->RequiresSpaceFixedAtomsOptimization()){
+      c = new MolDS_base_constraints::SpaceFixedAtoms(&molecule, electronicStructure);
+   }
+   else{
+      c = new MolDS_base_constraints::NonConstraint(&molecule, electronicStructure);
+   }
+   c->SetConstraintCondition();
+   return c;
 }
 
 }
+
+
+
+
+

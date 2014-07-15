@@ -200,7 +200,8 @@ void InputParser::SetMessages(){
    this->messageOptimizationTimeWidth   = "\t\tFictious time width: ";
    this->messageOptimizationInitialTrustRadius = "\t\tInitial trust radius: ";
    this->messageOptimizationMaxNormStep        = "\t\tMax size of the optimization step: ";
-   this->messageOptimizationSpaceFixedAtoms = "\t\tAtoms fixed in space: from ";
+   this->messageOptimizationSpaceFixedAtom   = "\t\tAtom fixed in space: ";
+   this->messageOptimizationSpaceFixedAtoms  = "\t\tAtoms fixed in space: from ";
    this->messageOptimizationSpaceFixedAtoms2 = " to ";
    this->messageOptimizationSpaceFixedAtoms3 = " atoms.";
 
@@ -401,6 +402,7 @@ void InputParser::SetMessages(){
    this->stringOptimizationTimeWidth         = "dt";
    this->stringOptimizationInitialTrustRadius = "initial_trust_radius";
    this->stringOptimizationMaxNormStep        = "max_norm_step";
+   this->stringOptimizationSpaceFixedAtom     = "space_fixed_atom";
    this->stringOptimizationSpaceFixedAtoms    = "space_fixed_atoms";
 
    // Frequencies (Normal modes)
@@ -1180,6 +1182,11 @@ int InputParser::ParseConditionsOptimization(vector<string>* inputTerms, int par
          parseIndex++;
       }
       // Atoms fixed in space (space_fixed_atoms)
+      if((*inputTerms)[parseIndex].compare(this->stringOptimizationSpaceFixedAtom) == 0){
+         int firstAtom = atoi((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->AddSpaceFixedAtomsIndexPairOptimization(firstAtom, firstAtom);
+         parseIndex++;
+      }
       if((*inputTerms)[parseIndex].compare(this->stringOptimizationSpaceFixedAtoms) == 0){
          int firstAtom = atoi((*inputTerms)[parseIndex+1].c_str());
          int lastAtom  = atoi((*inputTerms)[parseIndex+2].c_str());
@@ -1683,13 +1690,6 @@ void InputParser::ValidateOptimizationConditions(const Molecule& molecule) const
             ss << this->errorMessageNonValidSpaceFixedLastAtomOptimization  << lastAtom  << endl;
             throw MolDSException(ss.str());
          }
-         /*
-         this->OutputLog(boost::format("%s%d%s%d%s\n") % this->messageOptimizationSpaceFixedAtoms.c_str()
-                                                       % (*atomPairs)[i].firstAtomIndex
-                                                       % this->messageOptimizationSpaceFixedAtoms2.c_str()
-                                                       % (*atomPairs)[i].lastAtomIndex
-                                                       % this->messageOptimizationSpaceFixedAtoms3.c_str());
-         */
       }
    }
 }
@@ -1927,11 +1927,19 @@ void InputParser::OutputOptimizationConditions() const{
    if(Parameters::GetInstance()->RequiresSpaceFixedAtomsOptimization()){
       const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSpaceFixedAtomIndexPairsOptimization();
       for(int i=0; i<atomPairs->size(); i++){
-         this->OutputLog(boost::format("%s%d%s%d%s\n") % this->messageOptimizationSpaceFixedAtoms.c_str()
-                                                       % (*atomPairs)[i].firstAtomIndex
-                                                       % this->messageOptimizationSpaceFixedAtoms2.c_str()
-                                                       % (*atomPairs)[i].lastAtomIndex
-                                                       % this->messageOptimizationSpaceFixedAtoms3.c_str());
+         int fIndex = (*atomPairs)[i].firstAtomIndex;
+         int lIndex = (*atomPairs)[i].lastAtomIndex;
+         if(fIndex != lIndex){
+            this->OutputLog(boost::format("%s%d%s%d%s\n") % this->messageOptimizationSpaceFixedAtoms.c_str()
+                                                          % fIndex
+                                                          % this->messageOptimizationSpaceFixedAtoms2.c_str()
+                                                          % lIndex
+                                                          % this->messageOptimizationSpaceFixedAtoms3.c_str());
+         }
+         else{
+            this->OutputLog(boost::format("%s%d\n") % this->messageOptimizationSpaceFixedAtom.c_str()
+                                                    % fIndex);
+         }
       }
    }
    switch(Parameters::GetInstance()->GetMethodOptimization()){

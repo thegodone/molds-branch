@@ -40,7 +40,7 @@
 #include"../base/atoms/Atom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
-#include"../base/constrains/Constrain.h"
+#include"../base/constraints/Constraint.h"
 #include"Optimizer.h"
 #include"ConjugateGradient.h"
 using namespace std;
@@ -68,7 +68,7 @@ void ConjugateGradient::SetMessages(){
 
 void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
                                       Molecule& molecule,
-                                      boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
+                                      boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
                                       double* lineSearchedEnergy,
                                       bool* obtainesOptimizedStructure) const{
    int    elecState            = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
@@ -88,8 +88,7 @@ void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> ele
    lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
    requireGuess = false;
-   //matrixForce = electronicStructure->GetForce(elecState);
-   matrixForce = constrain->GetForce(elecState);
+   matrixForce = constraint->GetForce(elecState);
    try{
       MallocerFreer::GetInstance()->Malloc<double>(&oldMatrixForce, molecule.GetAtomVect().size(), CartesianType_end);
       MallocerFreer::GetInstance()->Malloc<double>(&matrixSearchDirection, molecule.GetAtomVect().size(), CartesianType_end);
@@ -108,7 +107,7 @@ void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> ele
          this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixSearchDirection, elecState, dt);
 
          // update matrixSearchDirection
-         this->UpdateSearchDirection(&matrixForce, oldMatrixForce, matrixSearchDirection, electronicStructure, molecule, constrain, elecState);
+         this->UpdateSearchDirection(&matrixForce, oldMatrixForce, matrixSearchDirection, electronicStructure, molecule, constraint, elecState);
 
          // check convergence
          if(this->SatisfiesConvergenceCriterion(matrixForce, 
@@ -137,15 +136,14 @@ void ConjugateGradient::UpdateSearchDirection(double const* const** matrixForce,
                                               double** matrixSearchDirection,
                                               boost::shared_ptr<ElectronicStructure> electronicStructure, 
                                               const MolDS_base::Molecule& molecule,
-                                              boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
+                                              boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
                                               int elecState) const{
    for(int a=0;a<molecule.GetAtomVect().size();a++){
       for(int i=0; i<CartesianType_end; i++){
          oldMatrixForce[a][i] = (*matrixForce)[a][i];
       }
    }
-   //*matrixForce = electronicStructure->GetForce(elecState);
-   *matrixForce = constrain->GetForce(elecState);
+   *matrixForce = constraint->GetForce(elecState);
    double beta=0.0;
    double temp=0.0;
    for(int a=0;a<molecule.GetAtomVect().size();a++){

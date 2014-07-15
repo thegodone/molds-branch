@@ -16,31 +16,48 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_CONSTRAIN
-#define INCLUDED_CONSTRAIN
-namespace MolDS_base_constrains{
+#include<stdio.h>
+#include<stdlib.h>
+#include<iostream>
+#include<sstream>
+#include<fstream>
+#include<string>
+#include<string.h>
+#include<math.h>
+#include<vector>
+#include<stdexcept>
+#include<omp.h>
+#include<boost/shared_ptr.hpp>
+#include<boost/format.hpp>
+#include"../../config.h"
+#include"../Enums.h"
+#include"../Uncopyable.h"
+#include"../PrintController.h"
+#include"../MolDSException.h"
+#include"../MallocerFreer.h"
+#include"../../mpi/MpiInt.h"
+#include"../../mpi/MpiProcess.h"
+#include"../Utilities.h"
+#include"../MallocerFreer.h"
+#include"../EularAngle.h"
+#include"../Parameters.h"
+#include"../RealSphericalHarmonicsIndex.h"
+#include"../atoms/Atom.h"
+#include"../Molecule.h"
+#include"../ElectronicStructure.h"
+#include"Constraint.h"
+using namespace std;
+using namespace MolDS_base;
+using namespace MolDS_base_atoms;
+namespace MolDS_base_constraints{
 
-class Constrain : public MolDS_base::PrintController{
-public:
-   Constrain(const MolDS_base::Molecule* molecule,
-             const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure);
-   virtual ~Constrain(){};
-   virtual void                 SetConstrainCondition() = 0;
-   virtual double const* const* GetForce(int elecState) = 0;
-   inline MolDS_base::ConstrainType GetType() const{return this->type;}
-protected:
-   Constrain(){};
-   MolDS_base::ConstrainType type;
-   const MolDS_base::Molecule* molecule;
-   const MolDS_base::Molecule* refMolecule;
-   double** constrainedMatrixForce;
-   const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure;
-private:
-   
-};
+Constraint::Constraint(const MolDS_base::Molecule* molecule,
+                      const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure):
+                      molecule(molecule),
+                      electronicStructure(electronicStructure){
+   this->constrainedMatrixForce=NULL;
+   this->refMolecule=NULL;
+   this->OutputLog("Constraint created\n");
+}
 
 }
-#endif
-
-
-

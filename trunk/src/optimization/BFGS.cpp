@@ -45,7 +45,7 @@
 #include"../base/atoms/Atom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
-#include"../base/constrains/Constrain.h"
+#include"../base/constraints/Constraint.h"
 #include"Optimizer.h"
 #include"BFGS.h"
 using namespace std;
@@ -104,7 +104,7 @@ void BFGS::SetMessages(){
 
 void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
                          Molecule& molecule,
-                         boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
+                         boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
                          double* lineSearchedEnergy,
                          bool* obtainesOptimizedStructure) const {
    int elecState = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
@@ -139,7 +139,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
       lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
 
       requireGuess = false;
-      matrixForce = constrain->GetForce(elecState);
+      matrixForce = constraint->GetForce(elecState);
       vectorForce = &matrixForce[0][0];
 
       for(int s=0; s<totalSteps; s++){
@@ -154,7 +154,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
          this->StoreMolecularGeometry(matrixOldCoordinates, molecule);
 
          // Level shift Hessian redundant modes
-         if(constrain->GetType()==Non){
+         if(constraint->GetType()==Non){
             this->ShiftHessianRedundantMode(matrixHessian, molecule);
          }
 
@@ -189,7 +189,7 @@ void BFGS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStruct
 
          this->UpdateTrustRadius(trustRadius, approximateChange, lineSearchInitialEnergy, lineSearchCurrentEnergy);
 
-         matrixForce = constrain->GetForce(elecState);
+         matrixForce = constraint->GetForce(elecState);
          vectorForce = &matrixForce[0][0];
 
          // check convergence

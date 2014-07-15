@@ -16,21 +16,23 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#ifndef INCLUDED_NON_CONSTRAIN
-#define INCLUDED_NON_CONSTRAIN
-namespace MolDS_base_constrains{
+#ifndef INCLUDED_CONSTRAIN_FACTORY
+#define INCLUDED_CONSTRAIN_FACTORY
+namespace MolDS_base_factories{
 
-class NonConstrain: public Constrain{
+class ConstraintFactory{
 public:
-   NonConstrain(const MolDS_base::Molecule* molecule, 
-                const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure);
-   ~NonConstrain();
-   void SetConstrainCondition();
-   double const* const* GetForce(int elecState);
-protected:
+   static MolDS_base_constraints::Constraint* Create(const MolDS_base::Molecule& molecule,
+                                                     boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure);
 private:
-   NonConstrain();
+   ConstraintFactory();
+   ~ConstraintFactory();
 };
 
 }
 #endif
+
+
+
+
+

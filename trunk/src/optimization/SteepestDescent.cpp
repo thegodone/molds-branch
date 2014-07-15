@@ -40,7 +40,7 @@
 #include"../base/atoms/Atom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
-#include"../base/constrains/Constrain.h"
+#include"../base/constraints/Constraint.h"
 #include"Optimizer.h"
 #include"SteepestDescent.h"
 using namespace std;
@@ -68,7 +68,7 @@ void SteepestDescent::SetMessages(){
 
 void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
                                     Molecule& molecule,
-                                    boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
+                                    boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
                                     double* lineSearchedEnergy,
                                     bool* obtainesOptimizedStructure) const{
    int    elecState            = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
@@ -85,7 +85,7 @@ void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> elect
    this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, this->CanOutputLogs());
 
    requireGuess = false;
-   matrixForce = constrain->GetForce(elecState);
+   matrixForce = constraint->GetForce(elecState);
    lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
    for(int s=0; s<totalSteps; s++){
       this->OutputLog(boost::format("%s%d\n\n") % this->messageStartSteepestDescentStep.c_str() % (s+1));
@@ -95,7 +95,7 @@ void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> elect
       this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixForce, elecState, dt);
 
       // update force
-      matrixForce = constrain->GetForce(elecState);
+      matrixForce = constraint->GetForce(elecState);
 
       // check convergence
       if(this->SatisfiesConvergenceCriterion(matrixForce, 

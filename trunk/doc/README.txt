@@ -631,16 +631,17 @@ HOW TO WRITE INPUT:
       The default value of the "max_norm_step" is 0.3.
       This parameter have no effect if method is "steepest_descent" or "conjugate_gradient".
 
-      "space_fixed_atoms" means specification of fixed atoms in space during optimization.
-      The implementation to fix the atoms is putting additional harmonic oscilator of
-      each fixed atom related to the position users specified as initial configuration of optimization.
+      "space_fixed_atom" or "space_fixed_atoms" mean specification of 
+      fixed atom or atoms in space during optimization.
+      The implementation to fix the atom or atoms is ignoreing force of specified atoms.
       To use this option, write
+      "space_fixed_atom atom_index"
+      or
       "space_fixed_atoms first_atom_index last_atom_index"
       in the OPTIMIZATION-directive.
-      The index starts from 0 for atoms written in geometry-directive.
+      Note that the index starts from 0 for atoms written in geometry-directive.
       The atoms indicated with first_atom_index and last_atom_index are also included in the atoms fixed to space.
-      Multiple setting of this "space_fixed_atoms" option is approvable, of course.
-      This parameter have no effect if method is "bfgs" or "gediis".
+      Multiple setting of this "space_fixed_atom" or "space_fixed_atoms" option is approvable, of course.
 
       E.g.
          OPTIMIZATION
@@ -650,8 +651,9 @@ HOW TO WRITE INPUT:
             max_gradient 0.00045
             rms_gradient 0.00030
             dt 50
-            space_fixed_atoms 2 4 // 2nd 3rd 4th atoms are fixed.
-            space_fixed_atoms 5 5 // Only 5th atom is fixed.
+            space_fixed_atoms 2 4 // 2nd 3rd 4th atoms are fixed. Note that first atom is indexed with 0.
+            space_fixed_atoms 5 5 // Only 5th atom is fixed.      Note that first atom is indexed with 0.
+            space_fixed_atom  6   // Only 6th atom is fixed.      Note that first atom is indexed with 0.
          OPTIMIZATION_END
 
    <MD (Molecular dynamics)>
