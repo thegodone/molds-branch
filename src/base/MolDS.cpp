@@ -50,7 +50,7 @@
 #include"GTOExpansionSTO.h"
 #include"ElectronicStructure.h"
 #include"factories/ElectronicStructureFactory.h"
-#include"constrains/Constrain.h"
+#include"constraints/Constraint.h"
 #include"../md/MD.h"
 #include"../mc/MC.h"
 #include"../rpmd/RPMD.h"

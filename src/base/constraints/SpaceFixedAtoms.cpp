@@ -43,16 +43,16 @@
 #include"../atoms/Atom.h"
 #include"../Molecule.h"
 #include"../ElectronicStructure.h"
-#include"Constrain.h"
+#include"Constraint.h"
 #include"SpaceFixedAtoms.h"
 using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
-namespace MolDS_base_constrains{
+namespace MolDS_base_constraints{
 
 SpaceFixedAtoms::SpaceFixedAtoms(const MolDS_base::Molecule* molecule,
                                  const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure)
-                                 : Constrain(molecule, electronicStructure){
+                                 : Constraint(molecule, electronicStructure){
    this->type=SpaceFixed;
    //this->OutputLog("SpaceFixedAtoms created\n");
 }
@@ -71,7 +71,7 @@ SpaceFixedAtoms::~SpaceFixedAtoms(){
    //this->OutputLog("SpaceFixedAtoms deleted\n");
 }
 
-void SpaceFixedAtoms::SetConstrainCondition(){
+void SpaceFixedAtoms::SetConstraintCondition(){
    int atomNum = this->molecule->GetAtomVect().size();
    MallocerFreer::GetInstance()->Malloc<double>(&this->constrainedMatrixForce, 
                                                 atomNum,

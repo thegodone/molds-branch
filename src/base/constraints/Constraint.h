@@ -16,54 +16,31 @@
 // You should have received a copy of the GNU General Public License      // 
 // along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         // 
 //************************************************************************//
-#include<stdio.h>
-#include<stdlib.h>
-#include<iostream>
-#include<sstream>
-#include<fstream>
-#include<string>
-#include<math.h>
-#include<vector>
-#include<stdexcept>
-#include<omp.h>
-#include<boost/shared_ptr.hpp>
-#include<boost/format.hpp>
-#include"../../config.h"
-#include"../Enums.h"
-#include"../Uncopyable.h"
-#include"../PrintController.h"
-#include"../MolDSException.h"
-#include"../MallocerFreer.h"
-#include"../../mpi/MpiInt.h"
-#include"../../mpi/MpiProcess.h"
-#include"../Utilities.h"
-#include"../EularAngle.h"
-#include"../Parameters.h"
-#include"../RealSphericalHarmonicsIndex.h"
-#include"../atoms/Atom.h"
-#include"../Molecule.h"
-#include"../ElectronicStructure.h"
-#include"Constrain.h"
-#include"NonConstrain.h"
-using namespace std;
-using namespace MolDS_base;
-using namespace MolDS_base_atoms;
-namespace MolDS_base_constrains{
+#ifndef INCLUDED_CONSTRAIN
+#define INCLUDED_CONSTRAIN
+namespace MolDS_base_constraints{
 
-NonConstrain::NonConstrain(const MolDS_base::Molecule* molecule,
-                           const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure)
-                           : Constrain(molecule, electronicStructure){
-   this->type=Non;
-}
-
-NonConstrain::~NonConstrain(){
-}
-
-void NonConstrain::SetConstrainCondition(){
-}
-
-double const* const* NonConstrain::GetForce(int elecState){
-   return this->electronicStructure->GetForce(elecState);
-}
+class Constraint : public MolDS_base::PrintController{
+public:
+   Constraint(const MolDS_base::Molecule* molecule,
+              const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure);
+   virtual ~Constraint(){};
+   virtual void                 SetConstraintCondition() = 0;
+   virtual double const* const* GetForce(int elecState) = 0;
+   inline MolDS_base::ConstraintType GetType() const{return this->type;}
+protected:
+   Constraint(){};
+   MolDS_base::ConstraintType type;
+   const MolDS_base::Molecule* molecule;
+   const MolDS_base::Molecule* refMolecule;
+   double** constrainedMatrixForce;
+   const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure;
+private:
+   
+};
 
 }
+#endif
+
+
+

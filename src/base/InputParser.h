@@ -135,6 +135,7 @@ private:
    std::string messageOptimizationMaxGradient;
    std::string messageOptimizationInitialTrustRadius;
    std::string messageOptimizationMaxNormStep;
+   std::string messageOptimizationSpaceFixedAtom;
    std::string messageOptimizationSpaceFixedAtoms;
    std::string messageOptimizationSpaceFixedAtoms2;
    std::string messageOptimizationSpaceFixedAtoms3;
@@ -312,6 +313,7 @@ private:
    std::string stringOptimizationTimeWidth;
    std::string stringOptimizationInitialTrustRadius;
    std::string stringOptimizationMaxNormStep;
+   std::string stringOptimizationSpaceFixedAtom;
    std::string stringOptimizationSpaceFixedAtoms;
    // Frequencies (Normal modes)
    std::string stringFrequencies;

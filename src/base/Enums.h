@@ -196,10 +196,10 @@ RENUMSTR_BEGIN( GEDIISErrorID, GEDIISErrorStr )
    RENUMSTR( GEDIISErrorID_end,  "GEDIISErrorID_end" )
 RENUMSTR_END()
 
-RENUMSTR_BEGIN( ConstrainType, ConstrainTypeStr )
-   RENUMSTR( Non,               "Non Constrain" )
+RENUMSTR_BEGIN( ConstraintType, ConstraintTypeStr )
+   RENUMSTR( Non,               "Non Constraint" )
    RENUMSTR( SpaceFixed,        "Spae Fixed Atoms" )
-   RENUMSTR( ConstrainType_end, "GEDIISErrorID_end" )
+   RENUMSTR( ConstraintType_end, "GEDIISErrorID_end" )
 RENUMSTR_END()
 
 }

@@ -18,14 +18,14 @@
 //************************************************************************//
 #ifndef INCLUDED_SPACE_FIXED_ATOMS
 #define INCLUDED_SPACE_FIXED_ATOMS
-namespace MolDS_base_constrains{
+namespace MolDS_base_constraints{
 
-class SpaceFixedAtoms: public Constrain{
+class SpaceFixedAtoms: public Constraint{
 public:
    SpaceFixedAtoms(const MolDS_base::Molecule* molecule, 
                    const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure);
    ~SpaceFixedAtoms();
-   void SetConstrainCondition();
+   void SetConstraintCondition();
    double const* const* GetForce(int elecState);
 protected:
 private:

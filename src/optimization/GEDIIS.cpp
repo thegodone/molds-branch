@@ -44,7 +44,7 @@
 #include"../base/atoms/Atom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
-#include"../base/constrains/Constrain.h"
+#include"../base/constraints/Constraint.h"
 #include"Optimizer.h"
 #include"BFGS.h"
 #include"GEDIIS.h"
@@ -79,7 +79,7 @@ void GEDIIS::SetMessages(){
 
 void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
                            Molecule& molecule,
-                           boost::shared_ptr<MolDS_base_constrains::Constrain> constrain,
+                           boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
                            double* lineSearchedEnergy,
                            bool* obtainesOptimizedStructure) const {
    int elecState = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
@@ -119,7 +119,7 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
 
       requireGuess = false;
       //matrixForce = electronicStructure->GetForce(elecState);
-      matrixForce = constrain->GetForce(elecState);
+      matrixForce = constraint->GetForce(elecState);
       vectorForce = &matrixForce[0][0];
 
       // Add initial entry into GEDIIS history
@@ -176,7 +176,7 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
          this->OutputLog(messageTakingRFOStep);
 
          // Level shift Hessian redundant modes
-         if(constrain->GetType()==Non){
+         if(constraint->GetType()==Non){
             this->ShiftHessianRedundantMode(matrixHessian, molecule);
          }
 
@@ -208,7 +208,7 @@ void GEDIIS::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStru
          this->OutputMoleculeElectronicStructure(electronicStructure, molecule, this->CanOutputLogs());
 
          //matrixForce = electronicStructure->GetForce(elecState);
-         matrixForce = constrain->GetForce(elecState);
+         matrixForce = constraint->GetForce(elecState);
          vectorForce = &matrixForce[0][0];
 
          // check convergence
