@@ -59,10 +59,10 @@ public:
             this->stateChange.notify_all();
          }
          catch(MolDS_base::MolDSException ex){
-            if(ex.HasKey(MolDS_base::EmptyQueue && this->hasAllMessagesSet)){
+            if(ex.HasKey(MolDS_base::EmptyQueue) && this->hasAllMessagesSet){
                break;
             }
-            else if(ex.HasKey(MolDS_base::EmptyQueue && !this->hasAllMessagesSet)){
+            else if(ex.HasKey(MolDS_base::EmptyQueue) && !this->hasAllMessagesSet){
                this->stateChange.wait(lk);
                continue;
             }
