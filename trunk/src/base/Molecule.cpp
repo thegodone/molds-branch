@@ -289,19 +289,21 @@ void Molecule::SetMessages(){
    this->errorMessageGetXyzCOCNull = "Error in base::Molecule::GetXyzCOC: xyzCOC is NULL.\n";
    this->errorMessageCalcXyzCOMNull = "Error in base::Molecule::CalcXyzCOM: xyzCOM is NULL.\n";
    this->errorMessageCalcXyzCOCNull = "Error in base::Molecule::CalcXyzCOC: xyzCOC is NULL.\n";
-   this->messageTotalNumberAOs = "\tTotal number of valence AOs: ";
-   this->messageTotalNumberAtoms = "\tTotal number of atoms: ";
-   this->messageTotalNumberValenceElectrons = "\tTotal number of valence electrons: ";
-   this->messageAtomCoordinatesTitle = "\t\t\t\t| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
-   this->messageAtomCoordinates = "\tAtom coordinates:";
-   this->messageAtomMomenta = "\tAtom momenta:";
-   this->messageAtomMomentaTitle = "\t\t\t| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |\t\t|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]\n";
+
+   this->messageTotalNumberAOs = "\t\tTotal number of valence AOs: ";
+   this->messageTotalNumberAtoms = "\t\tTotal number of atoms: ";
+   this->messageTotalNumberValenceElectrons = "\t\tTotal number of valence electrons: ";
+   this->messageAtomCoordinatesTitle = "\t\t\t\t\t| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
+   this->messageAtomCoordinates = "\t\tAtom coordinates:";
+   this->messageAtomMomenta = "\t\tAtom momenta:";
+   this->messageAtomMomentaTitle = "\t\t\t\t| i-th | atom type |   px[a.u.]   |   py[a.u.]   |   pz[a.u.]   |\t\t|   px[u]   |   py[u]   |   pz[u]   | [u] = [(g/Mol)*(angst/fs)]\n";
+   this->messageCOM = "\t\tCenter of Mass:";
+   this->messageCOC = "\t\tCenter of Core:";
+   this->messageCOMTitle = "\t\t\t\t|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
    this->messageEpcConfiguration = "\tEnvironmental Point Charge(EPC) configuration:\n";
    this->messageEpcCoordinates = "\tEPC coordinates:";
    this->messageEpcCoordinatesTitle = "\t\t\t\t| i-th |  charge[a.u.]  |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
-   this->messageCOM = "\tCenter of Mass:";
-   this->messageCOC = "\tCenter of Core:";
-   this->messageCOMTitle = "\t\t\t|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
+
    this->messageStartPrincipalAxes = "**********  START: Principal Axes of Inertia  **********\n";
    this->messageDonePrincipalAxes =  "**********  DONE: Principal Axes of Inertia  ***********\n\n\n";
    this->messagePrincipalAxes = "\tPrincipal Axis:";

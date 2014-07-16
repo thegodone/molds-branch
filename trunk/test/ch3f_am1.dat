@@ -1,25 +1,26 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/4/29(Thu.) 0:48:18  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:37  <<<<<
 
 
 **********  START: Parse input  **********
-	Total number of atoms: 5
-	Total number of valence AOs: 11
-	Total number of valence electrons: 14
+	System conditions:
+		Total number of atoms: 5
+		Total number of valence AOs: 11
+		Total number of valence electrons: 14
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	-4.533892e-01	1.142541e+00	0.000000e+00		-2.399232e-01	6.046065e-01	0.000000e+00
-	Atom coordinates:	1	H	2.205900e-01	-7.638339e-01	0.000000e+00		1.167312e-01	-4.042035e-01	0.000000e+00
-	Atom coordinates:	2	H	2.206248e-01	2.095715e+00	-1.650962e+00		1.167496e-01	1.109005e+00	-8.736515e-01
-	Atom coordinates:	3	H	-2.475396e+00	1.142566e+00	0.000000e+00		-1.309923e+00	6.046197e-01	0.000000e+00
-	Atom coordinates:	4	F	3.970023e-01	2.345144e+00	2.082990e+00		2.100846e-01	1.240997e+00	1.102271e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	C	-4.533892e-01	1.142541e+00	0.000000e+00		-2.399232e-01	6.046065e-01	0.000000e+00
+		Atom coordinates:	1	H	2.205900e-01	-7.638339e-01	0.000000e+00		1.167312e-01	-4.042035e-01	0.000000e+00
+		Atom coordinates:	2	H	2.206248e-01	2.095715e+00	-1.650962e+00		1.167496e-01	1.109005e+00	-8.736515e-01
+		Atom coordinates:	3	H	-2.475396e+00	1.142566e+00	0.000000e+00		-1.309923e+00	6.046197e-01	0.000000e+00
+		Atom coordinates:	4	F	3.970023e-01	2.345144e+00	2.082990e+00		2.100846e-01	1.240997e+00	1.102271e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	1.367960e-03	1.785647e+00	1.113904e+00		7.238933e-04	9.449239e-01	5.894525e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	1.367960e-03	1.785647e+00	1.113904e+00		7.238933e-04	9.449239e-01	5.894525e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.385500e-03	1.785672e+00	1.113947e+00		7.331749e-04	9.449370e-01	5.894753e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.385500e-03	1.785672e+00	1.113947e+00		7.331749e-04	9.449370e-01	5.894753e-01
 
 	SCF conditions:
 		Max iterations: 500
@@ -30,6 +31,7 @@
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 0.000000e+00
 		van der Waals (vdW) correction: no
+		MPI in SCF: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -101,7 +103,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	6.494917e-02
 	Mulliken charge(SCF):	0	4	F	7.000000e+00	-1.766541e-01
 
-	Elapsed time(omp) for the SCF = 0.010500[s].
+	Elapsed time(omp) for the SCF = 0.008176[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -111,9 +113,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.012938[s].  <<<<<
+     >>>>>  CPU time: 0.009824[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0125909[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00905204[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

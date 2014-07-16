@@ -1,23 +1,24 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:14:8  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:39  <<<<<
 
 
 **********  START: Parse input  **********
-	Total number of atoms: 3
-	Total number of valence AOs: 6
-	Total number of valence electrons: 8
+	System conditions:
+		Total number of atoms: 3
+		Total number of valence AOs: 6
+		Total number of valence electrons: 8
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	1.642686e+00	1.436192e+00	3.800050e-02		8.692720e-01	7.600000e-01	2.010900e-02
-	Atom coordinates:	1	H	3.456823e+00	1.451179e+00	4.744913e-02		1.829272e+00	7.679310e-01	2.510900e-02
-	Atom coordinates:	2	H	1.037116e+00	3.161261e+00	2.855187e-02		5.488180e-01	1.672867e+00	1.510900e-02
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	1.642686e+00	1.436192e+00	3.800050e-02		8.692720e-01	7.600000e-01	2.010900e-02
+		Atom coordinates:	1	H	3.456823e+00	1.451179e+00	4.744913e-02		1.829272e+00	7.679310e-01	2.510900e-02
+		Atom coordinates:	2	H	1.037116e+00	3.161261e+00	2.855187e-02		5.488180e-01	1.672867e+00	1.510900e-02
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	1.710304e+00	1.533547e+00	3.800050e-02		9.050541e-01	8.115179e-01	2.010900e-02
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	1.710304e+00	1.533547e+00	3.800050e-02		9.050541e-01	8.115179e-01	2.010900e-02
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.710284e+00	1.533517e+00	3.800050e-02		9.050433e-01	8.115024e-01	2.010900e-02
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.710284e+00	1.533517e+00	3.800050e-02		9.050433e-01	8.115024e-01	2.010900e-02
 
 	SCF conditions:
 		Max iterations: 50
@@ -28,6 +29,7 @@
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
+		MPI in SCF: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -95,13 +97,13 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 	Mulliken charge(SCF):	0	1	H	1.000000e+00	2.567713e-01
 	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.567165e-01
 
-	Elapsed time(omp) for the SCF = 0.006848[s].
+	Elapsed time(omp) for the SCF = 0.006376[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000164[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000107[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -152,7 +154,7 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 	Transition dipole moment:	0 -> 8		-4.878901e-01	3.146245e-01	-3.700473e-03	5.805506e-01		-1.240093e+00	7.996959e-01	-9.405666e-03	1.475613e+00	3.502957e-01
 
 
-	Elapsed time(omp) for the CIS = 0.001307[s].
+	Elapsed time(omp) for the CIS = 0.000775[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -162,9 +164,9 @@ o | 0.869272 | 0.760000 | 0.020109 | h | 1.829272 | 0.767931 | 0.025109 | h | 0.
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.010032[s].  <<<<<
+     >>>>>  CPU time: 0.008671[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00908804[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00791001[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -57,7 +57,7 @@ Constraint::Constraint(const MolDS_base::Molecule* molecule,
                       electronicStructure(electronicStructure){
    this->constrainedMatrixForce=NULL;
    this->refMolecule=NULL;
-   this->OutputLog("Constraint created\n");
+   //this->OutputLog("Constraint created\n");
 }
 
 }

@@ -1,26 +1,27 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/15(Thu.) 20:15:30  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:38  <<<<<
 
 
 **********  START: Parse input  **********
-	Total number of atoms: 6
-	Total number of valence AOs: 12
-	Total number of valence electrons: 16
+	System conditions:
+		Total number of atoms: 6
+		Total number of valence AOs: 12
+		Total number of valence electrons: 16
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.275115e+00	-2.023369e+00	-3.888614e+00		-1.733116e+00	-1.070721e+00	-2.057766e+00
-	Atom coordinates:	4	H	-2.416495e+00	-1.177597e+00	-2.654988e+00		-1.278754e+00	-6.231574e-01	-1.404959e+00
-	Atom coordinates:	5	H	-4.791707e+00	-3.525061e+00	-3.139977e+00		-2.535662e+00	-1.865382e+00	-1.661604e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.275115e+00	-2.023369e+00	-3.888614e+00		-1.733116e+00	-1.070721e+00	-2.057766e+00
+		Atom coordinates:	4	H	-2.416495e+00	-1.177597e+00	-2.654988e+00		-1.278754e+00	-6.231574e-01	-1.404959e+00
+		Atom coordinates:	5	H	-4.791707e+00	-3.525061e+00	-3.139977e+00		-2.535662e+00	-1.865382e+00	-1.661604e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218442e+00	-7.155168e-01	-1.888854e+00		-1.173949e+00	-3.786352e-01	-9.995385e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218442e+00	-7.155168e-01	-1.888854e+00		-1.173949e+00	-3.786352e-01	-9.995385e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218446e+00	-7.155257e-01	-1.888871e+00		-1.173951e+00	-3.786399e-01	-9.995474e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218446e+00	-7.155257e-01	-1.888871e+00		-1.173951e+00	-3.786399e-01	-9.995474e-01
 
 	SCF conditions:
 		Max iterations: 50
@@ -34,6 +35,7 @@
 		van der Waals (vdW) correction: yes
 		vdW corr. scaling factor (s6): 1.400000
 		vdW corr. damping factor (d): 23.000000
+		MPI in SCF: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -64,7 +66,6 @@ h | -2.535662e+00 | -1.865382e+00 | -1.661604e+00 | geometry_end |
 
 
 **********  START: Geometry optimization  **********
-Constraint created
 **********  START: PM3-D-SCF  **********
 			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
 	SCF iter 0	4.714045e-01	0.000000e+00			
@@ -128,7 +129,7 @@ Constraint created
 				| k-th eigenstate | first atom | last atom | sum[a.u.] | 
 	Summation of Mulliken(SCF):	0	3	4	-2.103240e-01
 
-	Elapsed time(omp) for the SCF = 0.006863[s].
+	Elapsed time(omp) for the SCF = 0.004899[s].
 **********  DONE: PM3-D-SCF  **********
 
 
@@ -140,19 +141,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.036518
 3rd lowest eigenvalue of the augmented Hessian = 1.000000
 Calculated RFO step size                       = 0.187701
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.364593e+00	-2.111978e+00	-3.880411e+00		-1.780466e+00	-1.117610e+00	-2.053425e+00
-	Atom coordinates:	4	H	-2.421033e+00	-1.181553e+00	-2.631129e+00		-1.281155e+00	-6.252510e-01	-1.392333e+00
-	Atom coordinates:	5	H	-4.696900e+00	-3.431238e+00	-3.170143e+00		-2.485492e+00	-1.815733e+00	-1.677568e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.364593e+00	-2.111978e+00	-3.880411e+00		-1.780466e+00	-1.117610e+00	-2.053425e+00
+		Atom coordinates:	4	H	-2.421033e+00	-1.181553e+00	-2.631129e+00		-1.281155e+00	-6.252510e-01	-1.392333e+00
+		Atom coordinates:	5	H	-4.696900e+00	-3.431238e+00	-3.170143e+00		-2.485492e+00	-1.815733e+00	-1.677568e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.255649e+00	-7.523494e-01	-1.885388e+00		-1.193638e+00	-3.981262e-01	-9.977043e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.255649e+00	-7.523494e-01	-1.885388e+00		-1.193638e+00	-3.981262e-01	-9.977043e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.255656e+00	-7.523605e-01	-1.885404e+00		-1.193642e+00	-3.981320e-01	-9.977130e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.255656e+00	-7.523605e-01	-1.885404e+00		-1.193642e+00	-3.981320e-01	-9.977130e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.383659e+00	-3.765158e+01
@@ -238,19 +239,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.106613
 3rd lowest eigenvalue of the augmented Hessian = 0.383707
 Calculated RFO step size                       = 0.282096
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.471545e+00	-2.218022e+00	-3.820222e+00		-1.837062e+00	-1.173727e+00	-2.021574e+00
-	Atom coordinates:	4	H	-2.466267e+00	-1.225048e+00	-2.639496e+00		-1.305092e+00	-6.482673e-01	-1.396761e+00
-	Atom coordinates:	5	H	-4.542772e+00	-3.278717e+00	-3.217526e+00		-2.403931e+00	-1.735022e+00	-1.702642e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.471545e+00	-2.218022e+00	-3.820222e+00		-1.837062e+00	-1.173727e+00	-2.021574e+00
+		Atom coordinates:	4	H	-2.466267e+00	-1.225048e+00	-2.639496e+00		-1.305092e+00	-6.482673e-01	-1.396761e+00
+		Atom coordinates:	5	H	-4.542772e+00	-3.278717e+00	-3.217526e+00		-2.403931e+00	-1.735022e+00	-1.702642e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.300095e+00	-7.963885e-01	-1.860220e+00		-1.217158e+00	-4.214306e-01	-9.843863e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.300095e+00	-7.963885e-01	-1.860220e+00		-1.217158e+00	-4.214306e-01	-9.843863e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.300105e+00	-7.964023e-01	-1.860235e+00		-1.217163e+00	-4.214379e-01	-9.843942e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.300105e+00	-7.964023e-01	-1.860235e+00		-1.217163e+00	-4.214379e-01	-9.843942e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.394260e+00	-3.794004e+01
@@ -315,19 +316,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.017355
 3rd lowest eigenvalue of the augmented Hessian = 1.000000
 Calculated RFO step size                       = 0.121110
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.411968e+00	-2.159028e+00	-3.848174e+00		-1.805535e+00	-1.142508e+00	-2.036366e+00
-	Atom coordinates:	4	H	-2.470945e+00	-1.229330e+00	-2.641957e+00		-1.307568e+00	-6.505331e-01	-1.398063e+00
-	Atom coordinates:	5	H	-4.596756e+00	-3.332174e+00	-3.185304e+00		-2.432498e+00	-1.763311e+00	-1.685590e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.411968e+00	-2.159028e+00	-3.848174e+00		-1.805535e+00	-1.142508e+00	-2.036366e+00
+		Atom coordinates:	4	H	-2.470945e+00	-1.229330e+00	-2.641957e+00		-1.307568e+00	-6.505331e-01	-1.398063e+00
+		Atom coordinates:	5	H	-4.596756e+00	-3.332174e+00	-3.185304e+00		-2.432498e+00	-1.763311e+00	-1.685590e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.275281e+00	-7.718072e-01	-1.871800e+00		-1.204027e+00	-4.084228e-01	-9.905140e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.275281e+00	-7.718072e-01	-1.871800e+00		-1.204027e+00	-4.084228e-01	-9.905140e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.275289e+00	-7.718195e-01	-1.871816e+00		-1.204031e+00	-4.084293e-01	-9.905223e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.275289e+00	-7.718195e-01	-1.871816e+00		-1.204031e+00	-4.084293e-01	-9.905223e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.387874e+00	-3.776629e+01
@@ -392,19 +393,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.001482
 3rd lowest eigenvalue of the augmented Hessian = 0.999502
 Calculated RFO step size                       = 0.038777
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.414961e+00	-2.162042e+00	-3.849342e+00		-1.807119e+00	-1.144103e+00	-2.036984e+00
-	Atom coordinates:	4	H	-2.487591e+00	-1.244756e+00	-2.640520e+00		-1.316377e+00	-6.586964e-01	-1.397303e+00
-	Atom coordinates:	5	H	-4.574856e+00	-3.310525e+00	-3.180960e+00		-2.420910e+00	-1.751854e+00	-1.683292e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.414961e+00	-2.162042e+00	-3.849342e+00		-1.807119e+00	-1.144103e+00	-2.036984e+00
+		Atom coordinates:	4	H	-2.487591e+00	-1.244756e+00	-2.640520e+00		-1.316377e+00	-6.586964e-01	-1.397303e+00
+		Atom coordinates:	5	H	-4.574856e+00	-3.310525e+00	-3.180960e+00		-2.420910e+00	-1.751854e+00	-1.683292e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.276463e+00	-7.729718e-01	-1.872157e+00		-1.204652e+00	-4.090390e-01	-9.907027e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.276463e+00	-7.729718e-01	-1.872157e+00		-1.204652e+00	-4.090390e-01	-9.907027e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.276471e+00	-7.729842e-01	-1.872173e+00		-1.204657e+00	-4.090456e-01	-9.907111e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.276471e+00	-7.729842e-01	-1.872173e+00		-1.204657e+00	-4.090456e-01	-9.907111e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.389447e+00	-3.780909e+01
@@ -469,19 +470,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.001127
 3rd lowest eigenvalue of the augmented Hessian = 0.999968
 Calculated RFO step size                       = 0.055271
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.412204e+00	-2.159419e+00	-3.862890e+00		-1.805660e+00	-1.142715e+00	-2.044154e+00
-	Atom coordinates:	4	H	-2.512067e+00	-1.266555e+00	-2.630491e+00		-1.329329e+00	-6.702322e-01	-1.391996e+00
-	Atom coordinates:	5	H	-4.547577e+00	-3.283566e+00	-3.166435e+00		-2.406474e+00	-1.737588e+00	-1.675605e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.412204e+00	-2.159419e+00	-3.862890e+00		-1.805660e+00	-1.142715e+00	-2.044154e+00
+		Atom coordinates:	4	H	-2.512067e+00	-1.266555e+00	-2.630491e+00		-1.329329e+00	-6.702322e-01	-1.391996e+00
+		Atom coordinates:	5	H	-4.547577e+00	-3.283566e+00	-3.166435e+00		-2.406474e+00	-1.737588e+00	-1.675605e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.275160e+00	-7.716627e-01	-1.877486e+00		-1.203963e+00	-4.083463e-01	-9.935229e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.275160e+00	-7.716627e-01	-1.877486e+00		-1.203963e+00	-4.083463e-01	-9.935229e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.275169e+00	-7.716751e-01	-1.877502e+00		-1.203967e+00	-4.083529e-01	-9.935315e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.275169e+00	-7.716751e-01	-1.877502e+00		-1.203967e+00	-4.083529e-01	-9.935315e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.391068e+00	-3.785320e+01
@@ -546,19 +547,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.000344
 3rd lowest eigenvalue of the augmented Hessian = 0.999968
 Calculated RFO step size                       = 0.033067
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.406369e+00	-2.153743e+00	-3.876844e+00		-1.802573e+00	-1.139711e+00	-2.051538e+00
-	Atom coordinates:	4	H	-2.524414e+00	-1.276520e+00	-2.618896e+00		-1.335862e+00	-6.755053e-01	-1.385860e+00
-	Atom coordinates:	5	H	-4.535611e+00	-3.271750e+00	-3.153649e+00		-2.400142e+00	-1.731336e+00	-1.668839e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.406369e+00	-2.153743e+00	-3.876844e+00		-1.802573e+00	-1.139711e+00	-2.051538e+00
+		Atom coordinates:	4	H	-2.524414e+00	-1.276520e+00	-2.618896e+00		-1.335862e+00	-6.755053e-01	-1.385860e+00
+		Atom coordinates:	5	H	-4.535611e+00	-3.271750e+00	-3.153649e+00		-2.400142e+00	-1.731336e+00	-1.668839e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.272580e+00	-7.690902e-01	-1.883001e+00		-1.202598e+00	-4.069850e-01	-9.964410e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.272580e+00	-7.690902e-01	-1.883001e+00		-1.202598e+00	-4.069850e-01	-9.964410e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.272588e+00	-7.691025e-01	-1.883017e+00		-1.202602e+00	-4.069915e-01	-9.964498e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.272588e+00	-7.691025e-01	-1.883017e+00		-1.202602e+00	-4.069915e-01	-9.964498e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.391083e+00	-3.785360e+01
@@ -623,19 +624,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.000140
 3rd lowest eigenvalue of the augmented Hessian = 0.999988
 Calculated RFO step size                       = 0.021222
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.400413e+00	-2.147941e+00	-3.885604e+00		-1.799421e+00	-1.136641e+00	-2.056173e+00
-	Atom coordinates:	4	H	-2.529838e+00	-1.279471e+00	-2.607877e+00		-1.338732e+00	-6.770671e-01	-1.380029e+00
-	Atom coordinates:	5	H	-4.529995e+00	-3.266221e+00	-3.144547e+00		-2.397170e+00	-1.728410e+00	-1.664023e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.400413e+00	-2.147941e+00	-3.885604e+00		-1.799421e+00	-1.136641e+00	-2.056173e+00
+		Atom coordinates:	4	H	-2.529838e+00	-1.279471e+00	-2.607877e+00		-1.338732e+00	-6.770671e-01	-1.380029e+00
+		Atom coordinates:	5	H	-4.529995e+00	-3.266221e+00	-3.144547e+00		-2.397170e+00	-1.728410e+00	-1.664023e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.269930e+00	-7.664418e-01	-1.886327e+00		-1.201195e+00	-4.055835e-01	-9.982014e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.269930e+00	-7.664418e-01	-1.886327e+00		-1.201195e+00	-4.055835e-01	-9.982014e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.269938e+00	-7.664540e-01	-1.886344e+00		-1.201200e+00	-4.055900e-01	-9.982104e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.269938e+00	-7.664540e-01	-1.886344e+00		-1.201200e+00	-4.055900e-01	-9.982104e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.390708e+00	-3.784339e+01
@@ -700,19 +701,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.000028
 3rd lowest eigenvalue of the augmented Hessian = 0.777201
 Calculated RFO step size                       = 0.007326
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.397498e+00	-2.145091e+00	-3.885018e+00		-1.797878e+00	-1.135133e+00	-2.055863e+00
-	Atom coordinates:	4	H	-2.529703e+00	-1.277729e+00	-2.602746e+00		-1.338661e+00	-6.761450e-01	-1.377314e+00
-	Atom coordinates:	5	H	-4.528717e+00	-3.264981e+00	-3.142511e+00		-2.396494e+00	-1.727753e+00	-1.662945e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.397498e+00	-2.145091e+00	-3.885018e+00		-1.797878e+00	-1.135133e+00	-2.055863e+00
+		Atom coordinates:	4	H	-2.529703e+00	-1.277729e+00	-2.602746e+00		-1.338661e+00	-6.761450e-01	-1.377314e+00
+		Atom coordinates:	5	H	-4.528717e+00	-3.264981e+00	-3.142511e+00		-2.396494e+00	-1.727753e+00	-1.662945e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.268596e+00	-7.650929e-01	-1.885867e+00		-1.200489e+00	-4.048697e-01	-9.979576e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.268596e+00	-7.650929e-01	-1.885867e+00		-1.200489e+00	-4.048697e-01	-9.979576e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.268604e+00	-7.651051e-01	-1.885884e+00		-1.200493e+00	-4.048762e-01	-9.979666e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.268604e+00	-7.651051e-01	-1.885884e+00		-1.200493e+00	-4.048762e-01	-9.979666e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.390657e+00	-3.784200e+01
@@ -777,19 +778,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.000129
 3rd lowest eigenvalue of the augmented Hessian = 0.278176
 Calculated RFO step size                       = 0.036043
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.383901e+00	-2.131771e+00	-3.875196e+00		-1.790683e+00	-1.128085e+00	-2.050666e+00
-	Atom coordinates:	4	H	-2.527388e+00	-1.267049e+00	-2.578635e+00		-1.337436e+00	-6.704935e-01	-1.364555e+00
-	Atom coordinates:	5	H	-4.521772e+00	-3.258252e+00	-3.135722e+00		-2.392819e+00	-1.724193e+00	-1.659353e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.383901e+00	-2.131771e+00	-3.875196e+00		-1.790683e+00	-1.128085e+00	-2.050666e+00
+		Atom coordinates:	4	H	-2.527388e+00	-1.267049e+00	-2.578635e+00		-1.337436e+00	-6.704935e-01	-1.364555e+00
+		Atom coordinates:	5	H	-4.521772e+00	-3.258252e+00	-3.135722e+00		-2.392819e+00	-1.724193e+00	-1.659353e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.262299e+00	-7.586913e-01	-1.880641e+00		-1.197157e+00	-4.014821e-01	-9.951923e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.262299e+00	-7.586913e-01	-1.880641e+00		-1.197157e+00	-4.014821e-01	-9.951923e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.262307e+00	-7.587035e-01	-1.880658e+00		-1.197161e+00	-4.014886e-01	-9.952013e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.262307e+00	-7.587035e-01	-1.880658e+00		-1.197161e+00	-4.014886e-01	-9.952013e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.390912e+00	-3.784895e+01
@@ -854,19 +855,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.000144
 3rd lowest eigenvalue of the augmented Hessian = 0.250481
 Calculated RFO step size                       = 0.052210
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.365413e+00	-2.113578e+00	-3.855606e+00		-1.780900e+00	-1.118457e+00	-2.040299e+00
-	Atom coordinates:	4	H	-2.523858e+00	-1.251330e+00	-2.545640e+00		-1.335568e+00	-6.621753e-01	-1.347095e+00
-	Atom coordinates:	5	H	-4.510027e+00	-3.246865e+00	-3.128410e+00		-2.386604e+00	-1.718167e+00	-1.655483e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.365413e+00	-2.113578e+00	-3.855606e+00		-1.780900e+00	-1.118457e+00	-2.040299e+00
+		Atom coordinates:	4	H	-2.523858e+00	-1.251330e+00	-2.545640e+00		-1.335568e+00	-6.621753e-01	-1.347095e+00
+		Atom coordinates:	5	H	-4.510027e+00	-3.246865e+00	-3.128410e+00		-2.386604e+00	-1.718167e+00	-1.655483e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.253662e+00	-7.498544e-01	-1.870814e+00		-1.192587e+00	-3.968059e-01	-9.899923e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.253662e+00	-7.498544e-01	-1.870814e+00		-1.192587e+00	-3.968059e-01	-9.899923e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.253670e+00	-7.498665e-01	-1.870831e+00		-1.192591e+00	-3.968123e-01	-9.900013e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.253670e+00	-7.498665e-01	-1.870831e+00		-1.192591e+00	-3.968123e-01	-9.900013e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.391816e+00	-3.787353e+01
@@ -931,19 +932,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.000152
 3rd lowest eigenvalue of the augmented Hessian = 0.241807
 Calculated RFO step size                       = 0.059779
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.345641e+00	-2.093956e+00	-3.828671e+00		-1.770437e+00	-1.108074e+00	-2.026045e+00
-	Atom coordinates:	4	H	-2.520270e+00	-1.233967e+00	-2.510312e+00		-1.333670e+00	-6.529873e-01	-1.328400e+00
-	Atom coordinates:	5	H	-4.494475e+00	-3.231791e+00	-3.122046e+00		-2.378374e+00	-1.710190e+00	-1.652115e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.345641e+00	-2.093956e+00	-3.828671e+00		-1.770437e+00	-1.108074e+00	-2.026045e+00
+		Atom coordinates:	4	H	-2.520270e+00	-1.233967e+00	-2.510312e+00		-1.333670e+00	-6.529873e-01	-1.328400e+00
+		Atom coordinates:	5	H	-4.494475e+00	-3.231791e+00	-3.122046e+00		-2.378374e+00	-1.710190e+00	-1.652115e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.244347e+00	-7.402339e-01	-1.857687e+00		-1.187657e+00	-3.917149e-01	-9.830458e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.244347e+00	-7.402339e-01	-1.857687e+00		-1.187657e+00	-3.917149e-01	-9.830458e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.244355e+00	-7.402459e-01	-1.857704e+00		-1.187661e+00	-3.917213e-01	-9.830548e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.244355e+00	-7.402459e-01	-1.857704e+00		-1.187661e+00	-3.917213e-01	-9.830548e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.393360e+00	-3.791556e+01
@@ -1008,19 +1009,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.000071
 3rd lowest eigenvalue of the augmented Hessian = 0.240262
 Calculated RFO step size                       = 0.022597
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.339686e+00	-2.087849e+00	-3.815317e+00		-1.767286e+00	-1.104842e+00	-2.018979e+00
-	Atom coordinates:	4	H	-2.519516e+00	-1.228443e+00	-2.499692e+00		-1.333271e+00	-6.500639e-01	-1.322780e+00
-	Atom coordinates:	5	H	-4.486764e+00	-3.224343e+00	-3.121183e+00		-2.374293e+00	-1.706249e+00	-1.651659e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.339686e+00	-2.087849e+00	-3.815317e+00		-1.767286e+00	-1.104842e+00	-2.018979e+00
+		Atom coordinates:	4	H	-2.519516e+00	-1.228443e+00	-2.499692e+00		-1.333271e+00	-6.500639e-01	-1.322780e+00
+		Atom coordinates:	5	H	-4.486764e+00	-3.224343e+00	-3.121183e+00		-2.374293e+00	-1.706249e+00	-1.651659e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.241466e+00	-7.371591e-01	-1.851436e+00		-1.186133e+00	-3.900878e-01	-9.797379e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.241466e+00	-7.371591e-01	-1.851436e+00		-1.186133e+00	-3.900878e-01	-9.797379e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.241474e+00	-7.371711e-01	-1.851453e+00		-1.186137e+00	-3.900942e-01	-9.797469e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.241474e+00	-7.371711e-01	-1.851453e+00		-1.186137e+00	-3.900942e-01	-9.797469e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.394363e+00	-3.794284e+01
@@ -1085,19 +1086,19 @@ Lowest eigenvalue of the augmented Hessian     = -0.000011
 3rd lowest eigenvalue of the augmented Hessian = 0.240693
 Calculated RFO step size                       = 0.004223
 Trust radius is 0.300000
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.341394e+00	-2.089382e+00	-3.814539e+00		-1.768189e+00	-1.105653e+00	-2.018567e+00
-	Atom coordinates:	4	H	-2.519770e+00	-1.229556e+00	-2.502697e+00		-1.333405e+00	-6.506533e-01	-1.324370e+00
-	Atom coordinates:	5	H	-4.486251e+00	-3.223905e+00	-3.122265e+00		-2.374022e+00	-1.706017e+00	-1.652231e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.341394e+00	-2.089382e+00	-3.814539e+00		-1.768189e+00	-1.105653e+00	-2.018567e+00
+		Atom coordinates:	4	H	-2.519770e+00	-1.229556e+00	-2.502697e+00		-1.333405e+00	-6.506533e-01	-1.324370e+00
+		Atom coordinates:	5	H	-4.486251e+00	-3.223905e+00	-3.122265e+00		-2.374022e+00	-1.706017e+00	-1.652231e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.242217e+00	-7.378585e-01	-1.851205e+00		-1.186530e+00	-3.904579e-01	-9.796155e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.242217e+00	-7.378585e-01	-1.851205e+00		-1.186530e+00	-3.904579e-01	-9.796155e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.242225e+00	-7.378706e-01	-1.851222e+00		-1.186534e+00	-3.904643e-01	-9.796244e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.242225e+00	-7.378706e-01	-1.851222e+00		-1.186534e+00	-3.904643e-01	-9.796244e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.394546e+00	-3.794784e+01
@@ -1164,9 +1165,9 @@ actual/expected energy change = 1.046840
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.158696[s].  <<<<<
+     >>>>>  CPU time: 0.088439[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.150333[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0845928[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

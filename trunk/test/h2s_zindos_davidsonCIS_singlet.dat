@@ -1,23 +1,24 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/1/20(Mon.) 10:14:8  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:39  <<<<<
 
 
 **********  START: Parse input  **********
-	Total number of atoms: 3
-	Total number of valence AOs: 6
-	Total number of valence electrons: 8
+	System conditions:
+		Total number of atoms: 3
+		Total number of valence AOs: 6
+		Total number of valence electrons: 8
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	S	-1.056922e+00	8.913801e-01	5.669178e-01		-5.592990e-01	4.716980e-01	3.000000e-01
-	Atom coordinates:	1	H	1.418619e+00	8.913801e-01	0.000000e+00		7.507010e-01	4.716980e-01	0.000000e+00
-	Atom coordinates:	2	H	-1.883275e+00	3.224927e+00	-3.779452e-01		-9.965860e-01	1.706558e+00	-2.000000e-01
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	S	-1.056922e+00	8.913801e-01	5.669178e-01		-5.592990e-01	4.716980e-01	3.000000e-01
+		Atom coordinates:	1	H	1.418619e+00	8.913801e-01	0.000000e+00		7.507010e-01	4.716980e-01	0.000000e+00
+		Atom coordinates:	2	H	-1.883275e+00	3.224927e+00	-3.779452e-01		-9.965860e-01	1.706558e+00	-2.000000e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-1.008149e+00	9.603925e-01	5.222083e-01		-5.334893e-01	5.082178e-01	2.763407e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-1.008149e+00	9.603925e-01	5.222083e-01		-5.334893e-01	5.082178e-01	2.763407e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-1.008169e+00	9.603639e-01	5.222269e-01		-5.335000e-01	5.082027e-01	2.763506e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-1.008169e+00	9.603639e-01	5.222269e-01		-5.335000e-01	5.082027e-01	2.763506e-01
 
 	SCF conditions:
 		Max iterations: 50
@@ -28,6 +29,7 @@
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
+		MPI in SCF: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -99,45 +101,45 @@ h | 0.750701 | 0.471698 | 0.000000 | h | -0.996586 | 1.706558 | -0.200000 | geom
 	Mulliken charge(SCF):	0	1	H	1.000000e+00	1.102056e-01
 	Mulliken charge(SCF):	0	2	H	1.000000e+00	1.088959e-01
 
-	Elapsed time(omp) for the SCF = 0.007310[s].
+	Elapsed time(omp) for the SCF = 0.006367[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000165[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000104[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
 	Davidson iter=0
-	  1-th excited: norm of the residual = 8.868600e-17
-	  2-th excited: norm of the residual = 2.454133e-17
+	  1-th excited: norm of the residual = 3.988614e-17
+	  2-th excited: norm of the residual = 5.675431e-17
 	  3-th excited: norm of the residual = 7.153482e-02
 
 	Davidson iter=1
-	  1-th excited: norm of the residual = 2.179583e-16
-	  2-th excited: norm of the residual = 1.936198e-16
+	  1-th excited: norm of the residual = 4.911963e-17
+	  2-th excited: norm of the residual = 1.249356e-16
 	  3-th excited: norm of the residual = 3.179950e-03
 
 	Davidson iter=2
-	  1-th excited: norm of the residual = 3.330504e-17
-	  2-th excited: norm of the residual = 1.116152e-16
+	  1-th excited: norm of the residual = 8.935738e-17
+	  2-th excited: norm of the residual = 1.911557e-16
 	  3-th excited: norm of the residual = 1.855425e-03
 
 	Davidson iter=3
-	  1-th excited: norm of the residual = 1.292790e-16
-	  2-th excited: norm of the residual = 1.053055e-16
+	  1-th excited: norm of the residual = 4.693191e-17
+	  2-th excited: norm of the residual = 1.741398e-16
 	  3-th excited: norm of the residual = 1.158656e-04
 
 	Davidson iter=4
-	  1-th excited: norm of the residual = 7.614385e-17
-	  2-th excited: norm of the residual = 1.773686e-16
+	  1-th excited: norm of the residual = 1.549245e-16
+	  2-th excited: norm of the residual = 1.991235e-16
 	  3-th excited: norm of the residual = 2.943814e-06
 
 	Davidson iter=5
-	  1-th excited: norm of the residual = 5.504444e-17
-	  2-th excited: norm of the residual = 2.280989e-16
-	  3-th excited: norm of the residual = 1.129068e-16
+	  1-th excited: norm of the residual = 7.902922e-18
+	  2-th excited: norm of the residual = 7.101524e-18
+	  3-th excited: norm of the residual = 1.031167e-16
 
 
 
@@ -170,7 +172,7 @@ h | 0.750701 | 0.471698 | 0.000000 | h | -0.996586 | 1.706558 | -0.200000 | geom
 	Transition dipole moment:	0 -> 3		6.068627e-02	4.931691e-01	-2.535812e-01	5.578549e-01		1.542491e-01	1.253511e+00	-6.445394e-01	1.417926e+00	7.178181e-02
 
 
-	Elapsed time(omp) for the CIS = 0.001181[s].
+	Elapsed time(omp) for the CIS = 0.000757[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -180,9 +182,9 @@ h | 0.750701 | 0.471698 | 0.000000 | h | -0.996586 | 1.706558 | -0.200000 | geom
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.0105[s].  <<<<<
+     >>>>>  CPU time: 0.00857[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00947213[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00792694[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,26 +1,27 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/15(Thu.) 20:14:49  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:38  <<<<<
 
 
 **********  START: Parse input  **********
-	Total number of atoms: 6
-	Total number of valence AOs: 12
-	Total number of valence electrons: 16
+	System conditions:
+		Total number of atoms: 6
+		Total number of valence AOs: 12
+		Total number of valence electrons: 16
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.275115e+00	-2.023369e+00	-3.888614e+00		-1.733116e+00	-1.070721e+00	-2.057766e+00
-	Atom coordinates:	4	H	-2.416495e+00	-1.177597e+00	-2.654988e+00		-1.278754e+00	-6.231574e-01	-1.404959e+00
-	Atom coordinates:	5	H	-4.791707e+00	-3.525061e+00	-3.139977e+00		-2.535662e+00	-1.865382e+00	-1.661604e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.275115e+00	-2.023369e+00	-3.888614e+00		-1.733116e+00	-1.070721e+00	-2.057766e+00
+		Atom coordinates:	4	H	-2.416495e+00	-1.177597e+00	-2.654988e+00		-1.278754e+00	-6.231574e-01	-1.404959e+00
+		Atom coordinates:	5	H	-4.791707e+00	-3.525061e+00	-3.139977e+00		-2.535662e+00	-1.865382e+00	-1.661604e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218442e+00	-7.155168e-01	-1.888854e+00		-1.173949e+00	-3.786352e-01	-9.995385e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218442e+00	-7.155168e-01	-1.888854e+00		-1.173949e+00	-3.786352e-01	-9.995385e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218446e+00	-7.155257e-01	-1.888871e+00		-1.173951e+00	-3.786399e-01	-9.995474e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218446e+00	-7.155257e-01	-1.888871e+00		-1.173951e+00	-3.786399e-01	-9.995474e-01
 
 	SCF conditions:
 		Max iterations: 50
@@ -34,6 +35,7 @@
 		van der Waals (vdW) correction: yes
 		vdW corr. scaling factor (s6): 1.400000
 		vdW corr. damping factor (d): 23.000000
+		MPI in SCF: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -61,7 +63,6 @@ h | -9.515380e-01 | 1.187176e+00 | -1.130142e-16 | o | -1.733116e+00 | -1.070721
 
 
 **********  START: Geometry optimization  **********
-Constraint created
 **********  START: PM3-D-SCF  **********
 			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
 	SCF iter 0	4.714045e-01	0.000000e+00			
@@ -125,7 +126,7 @@ Constraint created
 				| k-th eigenstate | first atom | last atom | sum[a.u.] | 
 	Summation of Mulliken(SCF):	0	3	4	-2.103240e-01
 
-	Elapsed time(omp) for the SCF = 0.010268[s].
+	Elapsed time(omp) for the SCF = 0.008652[s].
 **********  DONE: PM3-D-SCF  **********
 
 
@@ -134,19 +135,19 @@ Constraint created
 
 	Number of Line search steps: 4
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.298126e+00	-2.046157e+00	-3.886505e+00		-1.745293e+00	-1.082780e+00	-2.056650e+00
-	Atom coordinates:	4	H	-2.435025e+00	-1.193753e+00	-2.557556e+00		-1.288560e+00	-6.317068e-01	-1.353400e+00
-	Atom coordinates:	5	H	-4.404549e+00	-3.141922e+00	-3.263167e+00		-2.330787e+00	-1.662634e+00	-1.726794e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.298126e+00	-2.046157e+00	-3.886505e+00		-1.745293e+00	-1.082780e+00	-2.056650e+00
+		Atom coordinates:	4	H	-2.435025e+00	-1.193753e+00	-2.557556e+00		-1.288560e+00	-6.317068e-01	-1.353400e+00
+		Atom coordinates:	5	H	-4.404549e+00	-3.141922e+00	-3.263167e+00		-2.330787e+00	-1.662634e+00	-1.726794e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218348e+00	-7.153697e-01	-1.888638e+00		-1.173899e+00	-3.785573e-01	-9.994241e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218348e+00	-7.153697e-01	-1.888638e+00		-1.173899e+00	-3.785573e-01	-9.994241e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218356e+00	-7.153820e-01	-1.888654e+00		-1.173903e+00	-3.785638e-01	-9.994328e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218356e+00	-7.153820e-01	-1.888654e+00		-1.173903e+00	-3.785638e-01	-9.994328e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.397767e+00	-3.803549e+01
@@ -204,19 +205,19 @@ Constraint created
 
 	Number of Line search steps: 1
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.298474e+00	-2.046506e+00	-3.886686e+00		-1.745477e+00	-1.082964e+00	-2.056746e+00
-	Atom coordinates:	4	H	-2.441011e+00	-1.199407e+00	-2.555881e+00		-1.291727e+00	-6.346989e-01	-1.352514e+00
-	Atom coordinates:	5	H	-4.392813e+00	-3.130328e+00	-3.261489e+00		-2.324577e+00	-1.656498e+00	-1.725905e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.298474e+00	-2.046506e+00	-3.886686e+00		-1.745477e+00	-1.082964e+00	-2.056746e+00
+		Atom coordinates:	4	H	-2.441011e+00	-1.199407e+00	-2.555881e+00		-1.291727e+00	-6.346989e-01	-1.352514e+00
+		Atom coordinates:	5	H	-4.392813e+00	-3.130328e+00	-3.261489e+00		-2.324577e+00	-1.656498e+00	-1.725905e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218342e+00	-7.153581e-01	-1.888625e+00		-1.173896e+00	-3.785512e-01	-9.994171e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218342e+00	-7.153581e-01	-1.888625e+00		-1.173896e+00	-3.785512e-01	-9.994171e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218350e+00	-7.153705e-01	-1.888641e+00		-1.173900e+00	-3.785578e-01	-9.994258e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218350e+00	-7.153705e-01	-1.888641e+00		-1.173900e+00	-3.785578e-01	-9.994258e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.399102e+00	-3.807181e+01
@@ -274,19 +275,19 @@ Constraint created
 
 	Number of Line search steps: 2
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.293817e+00	-2.041906e+00	-3.888312e+00		-1.743013e+00	-1.080530e+00	-2.057606e+00
-	Atom coordinates:	4	H	-2.455037e+00	-1.212768e+00	-2.569988e+00		-1.299150e+00	-6.417693e-01	-1.359979e+00
-	Atom coordinates:	5	H	-4.452508e+00	-3.189484e+00	-3.221338e+00		-2.356166e+00	-1.687802e+00	-1.704658e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.293817e+00	-2.041906e+00	-3.888312e+00		-1.743013e+00	-1.080530e+00	-2.057606e+00
+		Atom coordinates:	4	H	-2.455037e+00	-1.212768e+00	-2.569988e+00		-1.299150e+00	-6.417693e-01	-1.359979e+00
+		Atom coordinates:	5	H	-4.452508e+00	-3.189484e+00	-3.221338e+00		-2.356166e+00	-1.687802e+00	-1.704658e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218336e+00	-7.153443e-01	-1.888618e+00		-1.173893e+00	-3.785439e-01	-9.994138e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218336e+00	-7.153443e-01	-1.888618e+00		-1.173893e+00	-3.785439e-01	-9.994138e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218343e+00	-7.153560e-01	-1.888635e+00		-1.173897e+00	-3.785501e-01	-9.994226e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218343e+00	-7.153560e-01	-1.888635e+00		-1.173897e+00	-3.785501e-01	-9.994226e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.393825e+00	-3.792821e+01
@@ -344,19 +345,19 @@ Constraint created
 
 	Number of Line search steps: 8
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.293573e+00	-2.041715e+00	-3.889080e+00		-1.742884e+00	-1.080429e+00	-2.058013e+00
-	Atom coordinates:	4	H	-2.462516e+00	-1.216935e+00	-2.561288e+00		-1.303108e+00	-6.439742e-01	-1.355375e+00
-	Atom coordinates:	5	H	-4.444509e+00	-3.181657e+00	-3.210815e+00		-2.351933e+00	-1.683660e+00	-1.699090e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.293573e+00	-2.041715e+00	-3.889080e+00		-1.742884e+00	-1.080429e+00	-2.058013e+00
+		Atom coordinates:	4	H	-2.462516e+00	-1.216935e+00	-2.561288e+00		-1.303108e+00	-6.439742e-01	-1.355375e+00
+		Atom coordinates:	5	H	-4.444509e+00	-3.181657e+00	-3.210815e+00		-2.351933e+00	-1.683660e+00	-1.699090e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218213e+00	-7.151570e-01	-1.888421e+00		-1.173828e+00	-3.784448e-01	-9.993096e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218213e+00	-7.151570e-01	-1.888421e+00		-1.173828e+00	-3.784448e-01	-9.993096e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218220e+00	-7.151687e-01	-1.888438e+00		-1.173832e+00	-3.784510e-01	-9.993185e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218220e+00	-7.151687e-01	-1.888438e+00		-1.173832e+00	-3.784510e-01	-9.993185e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.394225e+00	-3.793910e+01
@@ -414,19 +415,19 @@ Constraint created
 
 	Number of Line search steps: 3
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.293732e+00	-2.041884e+00	-3.888908e+00		-1.742968e+00	-1.080518e+00	-2.057921e+00
-	Atom coordinates:	4	H	-2.460391e+00	-1.214072e+00	-2.560119e+00		-1.301983e+00	-6.424590e-01	-1.354757e+00
-	Atom coordinates:	5	H	-4.442920e+00	-3.180112e+00	-3.212999e+00		-2.351092e+00	-1.682843e+00	-1.700246e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.293732e+00	-2.041884e+00	-3.888908e+00		-1.742968e+00	-1.080518e+00	-2.057921e+00
+		Atom coordinates:	4	H	-2.460391e+00	-1.214072e+00	-2.560119e+00		-1.301983e+00	-6.424590e-01	-1.354757e+00
+		Atom coordinates:	5	H	-4.442920e+00	-3.180112e+00	-3.212999e+00		-2.351092e+00	-1.682843e+00	-1.700246e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218179e+00	-7.151086e-01	-1.888373e+00		-1.173810e+00	-3.784192e-01	-9.992840e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218179e+00	-7.151086e-01	-1.888373e+00		-1.173810e+00	-3.784192e-01	-9.992840e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218187e+00	-7.151204e-01	-1.888390e+00		-1.173814e+00	-3.784254e-01	-9.992930e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218187e+00	-7.151204e-01	-1.888390e+00		-1.173814e+00	-3.784254e-01	-9.992930e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.394296e+00	-3.794103e+01
@@ -484,19 +485,19 @@ Constraint created
 
 	Number of Line search steps: 1
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.293738e+00	-2.041896e+00	-3.888812e+00		-1.742971e+00	-1.080525e+00	-2.057870e+00
-	Atom coordinates:	4	H	-2.459939e+00	-1.213225e+00	-2.560212e+00		-1.301744e+00	-6.420112e-01	-1.354806e+00
-	Atom coordinates:	5	H	-4.442653e+00	-3.179863e+00	-3.213556e+00		-2.350951e+00	-1.682711e+00	-1.700540e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.293738e+00	-2.041896e+00	-3.888812e+00		-1.742971e+00	-1.080525e+00	-2.057870e+00
+		Atom coordinates:	4	H	-2.459939e+00	-1.213225e+00	-2.560212e+00		-1.301744e+00	-6.420112e-01	-1.354806e+00
+		Atom coordinates:	5	H	-4.442653e+00	-3.179863e+00	-3.213556e+00		-2.350951e+00	-1.682711e+00	-1.700540e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218162e+00	-7.150837e-01	-1.888349e+00		-1.173801e+00	-3.784060e-01	-9.992711e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218162e+00	-7.150837e-01	-1.888349e+00		-1.173801e+00	-3.784060e-01	-9.992711e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218170e+00	-7.150954e-01	-1.888366e+00		-1.173805e+00	-3.784122e-01	-9.992800e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218170e+00	-7.150954e-01	-1.888366e+00		-1.173805e+00	-3.784122e-01	-9.992800e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.394315e+00	-3.794155e+01
@@ -554,19 +555,19 @@ Constraint created
 
 	Number of Line search steps: 3
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
-	Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
-	Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
-	Atom coordinates:	3	O	-3.293471e+00	-2.041655e+00	-3.888450e+00		-1.742830e+00	-1.080397e+00	-2.057679e+00
-	Atom coordinates:	4	H	-2.460777e+00	-1.212623e+00	-2.563173e+00		-1.302187e+00	-6.416922e-01	-1.356373e+00
-	Atom coordinates:	5	H	-4.443908e+00	-3.181167e+00	-3.213309e+00		-2.351615e+00	-1.683401e+00	-1.700410e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	-1.192574e+00	5.333563e-01	0.000000e+00		-6.310830e-01	2.822400e-01	0.000000e+00
+		Atom coordinates:	1	H	6.215631e-01	5.333563e-01	-7.285191e-66		3.289170e-01	2.822400e-01	-3.855157e-66
+		Atom coordinates:	2	H	-1.798146e+00	2.243438e+00	-2.135659e-16		-9.515380e-01	1.187176e+00	-1.130142e-16
+		Atom coordinates:	3	O	-3.293471e+00	-2.041655e+00	-3.888450e+00		-1.742830e+00	-1.080397e+00	-2.057679e+00
+		Atom coordinates:	4	H	-2.460777e+00	-1.212623e+00	-2.563173e+00		-1.302187e+00	-6.416922e-01	-1.356373e+00
+		Atom coordinates:	5	H	-4.443908e+00	-3.181167e+00	-3.213309e+00		-2.351615e+00	-1.683401e+00	-1.700410e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	-2.218102e+00	-7.149959e-01	-1.888264e+00		-1.173769e+00	-3.783595e-01	-9.992264e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	-2.218102e+00	-7.149959e-01	-1.888264e+00		-1.173769e+00	-3.783595e-01	-9.992264e-01
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	-2.218110e+00	-7.150077e-01	-1.888281e+00		-1.173773e+00	-3.783658e-01	-9.992353e-01
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	-2.218110e+00	-7.150077e-01	-1.888281e+00		-1.173773e+00	-3.783658e-01	-9.992353e-01
 
 			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
 	Energy of MO:	0	occ	-1.394303e+00	-3.794122e+01
@@ -629,9 +630,9 @@ Constraint created
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.193071[s].  <<<<<
+     >>>>>  CPU time: 0.106513[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.177768[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.098572[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
