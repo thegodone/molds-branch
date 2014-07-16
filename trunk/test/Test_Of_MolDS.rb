@@ -45,7 +45,7 @@ class Tester
    @@command = "command: "
    @@mpiCommand = "mpirun -np "
    @@mpiProcesses = "2"
-   @@deleteDiff = " | gawk '{if(($2!=\"SCF\")&&($3!=\"iter\")){print $0}}' | gawk '{if(($4!=\"time:\")){print $0}}' | gawk '{if(($3!=\"Elapsed\")){print $0}}' | gawk '{if(($2!=\"Elapsed\")){print $0}}' | gawk '{if(($3!=\"Welcome\")){print $0}}' | gawk '{if(($7!=\"residual\")){print $0}}' | gawk '{if(($3!=\"mode(nmw):\") ){print $0}}' | gawk '{if( !(($3==\"mode(mw):\")&&($4<6)) ){print $0}}' | gawk '{if(($3!=\"Heap:\")){print $0}}'" 
+   @@deleteDiff = " | gawk '{if(($2!=\"SCF\")&&($3!=\"iter\")){print $0}}' | gawk '{if(($4!=\"time:\")){print $0}}' | gawk '{if(($3!=\"Elapsed\")){print $0}}' | gawk '{if(($2!=\"Elapsed\")){print $0}}' | gawk '{if(($3!=\"Welcome\")){print $0}}' | gawk '{if(($7!=\"residual\")){print $0}}' | gawk '{if(($3!=\"mode(nmw):\") ){print $0}}' | gawk '{if( !(($3==\"mode(mw):\")&&($4<6)) ){print $0}}' | gawk '{if(($3!=\"Heap:\")){print $0}}' | gawk '{if(($2!=\"MPI\")){print $0}}' | gawk '{if(($4!=\"processes:\")){print $0}}' | gawk '{if(($2!=\"OpenMP\")){print $0}}' | gawk '{if(($2!=\"omp_get_num_procs:\")){print $0}}' | gawk '{if(($2!=\"omp_get_max_threads:\")){print $0}}' | gawk '{if(($2!=\"mkl_get_max_threads:\")){print $0}}'" 
    @@printed_section = []
    def doesTestOmp(mklNumThreads, ompNumThreads)
       return unless should_run?

@@ -59,6 +59,12 @@ private:
    std::string errorMessageInitialElectronicStateNASCO;
    std::string messageStartParseInput;
    std::string messageDoneParseInput;
+   std::string messageMpiConditions;
+   std::string messageMpiSize;
+   std::string messageOmpConditions;
+   std::string messageOmpNumProcs;
+   std::string messageOmpMaxThreads;
+   std::string messageMklMaxThreads;
    std::string messageSystemConditions;
    std::string messageInputTerms;
    // SCF
@@ -330,6 +336,8 @@ private:
    void ValidateNascoConditions(const Molecule& molecule) const;
    void ValidateOptimizationConditions(const Molecule& molecule) const;
    void ValidateFrequenciesConditions() const;
+   void OutputMpiConditions() const;
+   void OutputOmpConditions() const;
    void OutputMolecularBasics(Molecule* molecule) const;
    void OutputScfConditions() const;
    void OutputMemoryConditions() const;

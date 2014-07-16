@@ -43,6 +43,11 @@
 #include"factories/AtomFactory.h"
 #include"Molecule.h"
 #include"InputParser.h"
+
+#ifdef __INTEL_COMPILER
+#include"mkl.h"
+#endif
+
 using namespace std;
 using namespace MolDS_base_atoms;
 using namespace MolDS_base_factories;
@@ -114,8 +119,14 @@ void InputParser::SetMessages(){
    this->errorMessageNumberExcitedStateCIS = "Number of CIS excited states: ";
    this->errorMessageNumberElectronicStatesNASCO = "Number of electronic states for NASCO: ";
    this->errorMessageInitialElectronicStateNASCO = "Initial electronic state for NASCO: ";
-   this->messageStartParseInput = "**********  START: Parse input  **********\n";
-   this->messageDoneParseInput =  "**********  DONE: Parse input  ***********\n\n\n";
+   this->messageStartParseInput  = "**********  START: Parse input  **********\n";
+   this->messageDoneParseInput   = "**********  DONE: Parse input  ***********\n\n\n";
+   this->messageMpiConditions    = "\tMPI conditions:\n";
+   this->messageMpiSize          = "\t\tNumber of processes: ";
+   this->messageOmpConditions    = "\tOpenMP conditions:\n";
+   this->messageOmpNumProcs = "\t\tomp_get_num_procs: ";
+   this->messageOmpMaxThreads = "\t\tomp_get_max_threads: ";
+   this->messageMklMaxThreads = "\t\tmkl_get_max_threads: ";
    this->messageSystemConditions = "\tSystem conditions:\n";
    this->messageInputTerms = "Input terms:\n";
 
@@ -1416,6 +1427,8 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
    }
 
    // output conditions
+   this->OutputMpiConditions();
+   this->OutputOmpConditions();
    this->OutputMolecularBasics(molecule);
    this->OutputScfConditions();
    this->OutputMemoryConditions();
@@ -1732,6 +1745,26 @@ void InputParser::ValidateFrequenciesConditions() const{
    } 
 }
 
+void InputParser::OutputMpiConditions() const{
+   this->OutputLog(this->messageMpiConditions);
+   this->OutputLog(boost::format("%s%d\n") % this->messageMpiSize.c_str() 
+                                           % MolDS_mpi::MpiProcess::GetInstance()->GetSize());
+   this->OutputLog("\n");
+}
+
+void InputParser::OutputOmpConditions() const{
+   this->OutputLog(this->messageOmpConditions);
+   this->OutputLog(boost::format("%s%d\n") % this->messageOmpNumProcs.c_str() 
+                                           % omp_get_num_procs());
+   this->OutputLog(boost::format("%s%d\n") % this->messageOmpMaxThreads.c_str() 
+                                           % omp_get_max_threads());
+#ifdef __INTEL_COMPILER
+   this->OutputLog(boost::format("%s%d\n") % this->messageMklMaxThreads.c_str() 
+                                           % mkl_get_max_threads());
+#endif
+   this->OutputLog("\n");
+}
+
 void InputParser::OutputMolecularBasics(Molecule* molecule) const{
    this->OutputLog(this->messageSystemConditions);
    molecule->OutputTotalNumberAtomsAOsValenceelectrons();
@@ -1785,7 +1818,6 @@ void InputParser::OutputScfConditions() const{
    else{
       this->OutputLog(boost::format("%s\n") % this->stringNO.c_str());
    }
-
 
    this->OutputLog("\n");
 }

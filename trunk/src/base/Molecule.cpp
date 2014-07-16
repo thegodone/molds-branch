@@ -289,7 +289,6 @@ void Molecule::SetMessages(){
    this->errorMessageGetXyzCOCNull = "Error in base::Molecule::GetXyzCOC: xyzCOC is NULL.\n";
    this->errorMessageCalcXyzCOMNull = "Error in base::Molecule::CalcXyzCOM: xyzCOM is NULL.\n";
    this->errorMessageCalcXyzCOCNull = "Error in base::Molecule::CalcXyzCOC: xyzCOC is NULL.\n";
-
    this->messageTotalNumberAOs = "\t\tTotal number of valence AOs: ";
    this->messageTotalNumberAtoms = "\t\tTotal number of atoms: ";
    this->messageTotalNumberValenceElectrons = "\t\tTotal number of valence electrons: ";
@@ -303,7 +302,6 @@ void Molecule::SetMessages(){
    this->messageEpcConfiguration = "\tEnvironmental Point Charge(EPC) configuration:\n";
    this->messageEpcCoordinates = "\tEPC coordinates:";
    this->messageEpcCoordinatesTitle = "\t\t\t\t| i-th |  charge[a.u.]  |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
-
    this->messageStartPrincipalAxes = "**********  START: Principal Axes of Inertia  **********\n";
    this->messageDonePrincipalAxes =  "**********  DONE: Principal Axes of Inertia  ***********\n\n\n";
    this->messagePrincipalAxes = "\tPrincipal Axis:";
