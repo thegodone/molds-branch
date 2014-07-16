@@ -600,12 +600,11 @@ void Cndo2::DoSCF(bool requiresGuess){
                                        &tmpDiisErrorProducts,
                                        &diisErrorCoefficients);
       // calculate electron integral
-      this->CalcGammaAB(this->gammaAB, *this->molecule);
-      this->CalcOverlapAOs(this->overlapAOs, *this->molecule);
-      this->CalcCartesianMatrixByGTOExpansion(this->cartesianMatrix, *this->molecule, STO6G);
-      this->CalcTwoElecsTwoCores(this->twoElecsTwoAtomCores, 
-                                 this->twoElecsAtomEpcCores,
-                                 *this->molecule);
+      bool requiresMpi = Parameters::GetInstance()->RequiresMpiSCF();
+      this->CalcGammaAB(this->gammaAB, *this->molecule, requiresMpi);
+      this->CalcOverlapAOs(this->overlapAOs, *this->molecule, requiresMpi);
+      this->CalcCartesianMatrixByGTOExpansion(this->cartesianMatrix, *this->molecule, requiresMpi, STO6G);
+      this->CalcTwoElecsTwoCores(this->twoElecsTwoAtomCores, this->twoElecsAtomEpcCores, *this->molecule, requiresMpi);
 
       // SCF
       double rmsDensity=0.0;
@@ -629,6 +628,7 @@ void Cndo2::DoSCF(bool requiresGuess){
                               this->orbitalElectronPopulation, 
                               this->atomicElectronPopulation,
                               this->twoElecsTwoAtomCores,
+                              requiresMpi,
                               isGuess);
 
          // diagonalization of the Fock matrix
@@ -819,7 +819,8 @@ double const* const* Cndo2::GetForce(int elecState){
 
 void Cndo2::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
                                  double****** twoElecsAtomEpcCores,
-                                 const Molecule& molecule) const{
+                                 const Molecule& molecule,
+                                 bool requiresMpi) const{
    // do nothing for CNDO, INDO, and ZINDO/S.
    // two electron two core integrals are not needed for CNDO, INDO, and ZINDO/S.
 }
@@ -1325,6 +1326,7 @@ void Cndo2::CalcElecSCFEnergy(double* elecSCFEnergy,
                            this->orbitalElectronPopulation, 
                            this->atomicElectronPopulation,
                            this->twoElecsTwoAtomCores,
+                           Parameters::GetInstance()->RequiresMpiSCF(),
                            isGuess);
       this->CalcFockMatrix(hMatrix, 
                            molecule, 
@@ -1333,6 +1335,7 @@ void Cndo2::CalcElecSCFEnergy(double* elecSCFEnergy,
                            dammyOrbitalElectronPopulation, 
                            dammyAtomicElectronPopulation,
                            this->twoElecsTwoAtomCores,
+                           Parameters::GetInstance()->RequiresMpiSCF(),
                            isGuess);
 
       for(int i=0; i<totalNumberAOs; i++){
@@ -1500,15 +1503,16 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
                            double const* const* orbitalElectronPopulation, 
                            double const* atomicElectronPopulation,
                            double const* const* const* const* const* const* twoElecsTwoAtomCores, 
+                           bool requiresMpi,
                            bool isGuess) const{
    int totalNumberAOs   = molecule.GetTotalNumberAOs();
    int totalNumberAtoms = molecule.GetAtomVect().size();
    MallocerFreer::GetInstance()->Initialize<double>(fockMatrix, totalNumberAOs, totalNumberAOs);
 
    // MPI setting of each rank
-   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mpiRank       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetRank() : mpiHeadRank;
+   int mpiSize       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetSize() : 1;
    stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
@@ -1585,9 +1589,11 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
    if(!errorStream.str().empty()){
       throw MolDSException::Deserialize(errorStream);
    }
-   double* buff                 = &fockMatrix[0][0];
-   MolDS_mpi::molds_mpi_int num = totalNumberAOs*totalNumberAOs;
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
+   if(requiresMpi){
+      double* buff                 = &fockMatrix[0][0];
+      MolDS_mpi::molds_mpi_int num = totalNumberAOs*totalNumberAOs;
+      MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
+   }
 
    /*  
    this->OutputLog("fock matrix\n");
@@ -1713,13 +1719,13 @@ void Cndo2::CalcAtomicElectronPopulation(double* atomicElectronPopulation,
 }
 
 // calculate gammaAB matrix. (B.56) and (B.62) in J. A. Pople book.
-void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
+void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule, bool requiresMpi) const{
    int totalAtomNumber = molecule.GetAtomVect().size();
 
    // MPI setting of each rank
-   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mpiRank       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetRank() : mpiHeadRank;
+   int mpiSize       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetSize() : 1;
    stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
@@ -1807,9 +1813,11 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
    if(!errorStream.str().empty()){
       throw MolDSException::Deserialize(errorStream);
    }
-   double* buff                 = &gammaAB[0][0];
-   MolDS_mpi::molds_mpi_int num = totalAtomNumber*totalAtomNumber;
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
+   if(requiresMpi){
+      double* buff                 = &gammaAB[0][0];
+      MolDS_mpi::molds_mpi_int num = totalAtomNumber*totalAtomNumber;
+      MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
+   }
 
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int A=0; A<totalAtomNumber; A++){
@@ -1908,14 +1916,15 @@ void Cndo2::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment,
 // The analytic Cartesian matrix is calculated with Gaussian expansion technique written in [DY_1977]
 void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix, 
                                               const Molecule& molecule, 
+                                              bool requiresMpi,
                                               STOnGType stonG) const{
    int totalAONumber   = molecule.GetTotalNumberAOs();
    int totalAtomNumber = molecule.GetAtomVect().size();
 
    // MPI setting of each rank
-   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mpiRank       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetRank() : mpiHeadRank;
+   int mpiSize       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetSize() : 1;
    stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
@@ -1976,10 +1985,11 @@ void Cndo2::CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
    if(!errorStream.str().empty()){
       throw MolDSException::Deserialize(errorStream);
    }
-   double* buff                 = &cartesianMatrix[0][0][0];
-   MolDS_mpi::molds_mpi_int num = CartesianType_end*totalAONumber*totalAONumber;
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
-
+   if(requiresMpi){
+      double* buff                 = &cartesianMatrix[0][0][0];
+      MolDS_mpi::molds_mpi_int num = CartesianType_end*totalAONumber*totalAONumber;
+      MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
+   }
 /*
    // communication to collect all matrix data on head-rank
    int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
@@ -4006,15 +4016,16 @@ void Cndo2::CalcOverlapESsWithAnotherElectronicStructure(double** overlapESs,
 }
 
 // calculate OverlapAOs matrix. E.g. S_{\mu\nu} in (3.74) in J. A. Pople book.
-void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
+void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule, bool requiresMpi) const{
+                           
    int totalAONumber = molecule.GetTotalNumberAOs();
    int totalAtomNumber = molecule.GetAtomVect().size();
    MallocerFreer::GetInstance()->Initialize<double>(overlapAOs, totalAONumber, totalAONumber);
 
    // MPI setting of each rank
-   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mpiRank       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetRank() : mpiHeadRank;
+   int mpiSize       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetSize() : 1;
    stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
@@ -4097,10 +4108,11 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule) const{
    if(!errorStream.str().empty()){
       throw MolDSException::Deserialize(errorStream);
    }
-   double* buff                 = &overlapAOs[0][0];
-   MolDS_mpi::molds_mpi_int num = totalAONumber*totalAONumber;
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
-
+   if(requiresMpi){
+      double* buff                 = &overlapAOs[0][0];
+      MolDS_mpi::molds_mpi_int num = totalAONumber*totalAONumber;
+      MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
+   }
    #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(int mu=0; mu<totalAONumber; mu++){
       overlapAOs[mu][mu] = 1.0;

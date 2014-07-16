@@ -323,7 +323,7 @@ double ZindoS::GetFockOffDiagElement(const Atom& atomA,
    return value;
 }
 
-void ZindoS::CalcGammaAB(double** gammaAB, const Molecule& molecule) const{
+void ZindoS::CalcGammaAB(double** gammaAB, const Molecule& molecule, bool requiresMpi) const{
    // Do nothing;
 }
 
@@ -593,7 +593,8 @@ double ZindoS::GetExchangeInt(OrbitalType orbital1, OrbitalType orbital2, const 
 
 void ZindoS::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
                                   double****** twoElecsAtomEpcCores,
-                                  const Molecule& molecule) const{
+                                  const Molecule& molecule,
+                                  bool requiresMpi) const{
    this->CalcNishimotoMatagaMatrix(this->nishimotoMatagaMatrix, molecule);
 }
 

@@ -172,7 +172,7 @@ protected:
    void CalcRotatingMatrix(double** rotatingMatrix, 
                            const MolDS_base_atoms::Atom& atomA, 
                            const MolDS_base_atoms::Atom& atomB) const;
-   virtual void CalcGammaAB(double** gammaAB, const MolDS_base::Molecule& molecule) const;
+   virtual void CalcGammaAB(double** gammaAB, const MolDS_base::Molecule& molecule, bool requiresMpi) const;
    virtual double GetFockDiagElement(const MolDS_base_atoms::Atom& atomA, 
                                      int indexAtomA, 
                                      int mu, 
@@ -262,7 +262,8 @@ protected:
                                               double const* const* gammaAB) const;
    virtual void CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
                                      double****** twoElecsAtomEpcCores,
-                                     const MolDS_base::Molecule& molecule) const;
+                                     const MolDS_base::Molecule& molecule,
+                                     bool requiresMpi) const;
    virtual void CalcForce(const std::vector<int>& elecStates);
    void CalcRotatingMatrix1stDerivatives(double*** rotMat1stDerivatives, 
                                          const MolDS_base_atoms::Atom& atomA,
@@ -402,6 +403,7 @@ private:
                        const MolDS_base::Molecule& molecule) const;
    void CalcCartesianMatrixByGTOExpansion(double*** cartesianMatrix,
                                           const MolDS_base::Molecule& molecule, 
+                                          bool requiresMpi,
                                           MolDS_base::STOnGType stonG) const; 
    void CalcCartesianMatrixElementsByGTOExpansion(double& xComponent,
                                                   double& yComponent,
@@ -432,7 +434,7 @@ private:
                                      double rAB,
                                      double ovelapSASB,
                                      MolDS_base::CartesianType axis) const;
-   void CalcOverlapAOs(double** overlapAOs, const MolDS_base::Molecule& molecule) const;
+   void CalcOverlapAOs(double** overlapAOs, const MolDS_base::Molecule& molecule, bool requiresMpi) const;
    void CalcOverlapAOsByGTOExpansion(double** overlapAOs, 
                                      const MolDS_base::Molecule& molecule, 
                                      MolDS_base::STOnGType stonG) const; //See [DY_1977]
@@ -483,6 +485,7 @@ private:
                        double const* const* orbitalElectronPopulation, 
                        double const* atomicElectronPopulation,
                        double const* const* const* const* const* const* twoElecsTwoAtomCores,
+                       bool requiresMpi,
                        bool isGuess) const;
    void RotateDiatmicOverlapAOsToSpaceFrame(double**             diatomicOverlapAOs, 
                                             double const* const* rotatingMatrix,

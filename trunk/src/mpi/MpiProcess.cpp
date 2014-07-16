@@ -56,8 +56,8 @@ MpiProcess::MpiProcess(int argc, char *argv[]){
 }
 
 MpiProcess::~MpiProcess(){
-   /*
    int rank = this->GetRank();
+   /*
    printf("\nrnk:%d mpiconsumingtime          = %e [s]\n",rank, this->mpiConsumingTime);
    printf("\nrnk:%d mpiconsumingtimeSend      = %e [s]\n",rank, this->mpiConsumingTimeSend);
    printf("\nrnk:%d mpiconsumingtimeRecv      = %e [s]\n",rank, this->mpiConsumingTimeRecv);

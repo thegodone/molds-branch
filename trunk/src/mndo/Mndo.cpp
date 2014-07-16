@@ -3548,13 +3548,15 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
 
 void Mndo::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
                                 double****** twoElecsAtomEpcCores,
-                                const Molecule& molecule) const{
-   this->CalcTwoElecsTwoAtomCores(twoElecsTwoAtomCores, molecule);
-   this->CalcTwoElecsAtomEpcCores(twoElecsAtomEpcCores, molecule);
+                                const Molecule& molecule,
+                                bool requiresMpi) const{
+   this->CalcTwoElecsTwoAtomCores(twoElecsTwoAtomCores, molecule, requiresMpi);
+   this->CalcTwoElecsAtomEpcCores(twoElecsAtomEpcCores, molecule, requiresMpi);
 }
 
 void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores, 
-                                    const Molecule& molecule) const{
+                                    const Molecule& molecule,
+                                    bool requiresMpi) const{
 #ifdef MOLDS_DBG
    if(twoElecsTwoAtomCores == NULL){
       throw MolDSException(this->errorMessageCalcTwoElecsTwoAtomCoresNullMatrix);
@@ -3568,9 +3570,9 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
                                                     dxy, dxy, dxy, dxy);
 
    // MPI setting of each rank
-   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mpiRank       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetRank() : mpiHeadRank;
+   int mpiSize       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetSize() : 1;
    stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
@@ -3628,7 +3630,7 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
          }
       }
       if(errorStream.str().empty()){
-         if(a<totalNumberAtoms-1){
+         if(a<totalNumberAtoms-1 && requiresMpi){
             int b = a+1;
             int numBuff = (twoElecLimit+1)*twoElecLimit/2;
             int num = (totalNumberAtoms-b)*numBuff*numBuff;
@@ -3671,7 +3673,8 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
 }
 
 void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores, 
-                                    const Molecule& molecule) const{
+                                    const Molecule& molecule,
+                                    bool requiresMpi) const{
    if(molecule.GetEpcVect().empty()){return;}
 #ifdef MOLDS_DBG
    if(twoElecsAtomEpcCores == NULL){
@@ -3687,9 +3690,9 @@ void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores,
                                                     dxy, dxy, dxy, dxy);
 
    // MPI setting of each rank
-   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mpiRank       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetRank() : mpiHeadRank;
+   int mpiSize       = requiresMpi ? MolDS_mpi::MpiProcess::GetInstance()->GetSize() : 1;
    stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
@@ -3750,7 +3753,7 @@ void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores,
          }
       }
       if(errorStream.str().empty()){
-         if(a<totalNumberAtoms-1){
+         if(a<totalNumberAtoms-1 && requiresMpi){
             int b = 0;
             int numBuff = (twoElecLimit+1)*twoElecLimit/2;
             int num = totalNumberEpcs*numBuff*numBuff;
