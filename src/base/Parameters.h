@@ -73,6 +73,8 @@ public:
    inline double GetVdWDampingFactorSCF() const        {return this->vdWDampingFactorSCF;}
    inline void   SetVdWDampingFactorSCF()              {this->vdWDampingFactorSCF = this->vdWDampingFactorSCFPM3DAM1D;}
    inline void   SetVdWDampingFactorSCF(double vdWDamp){this->vdWDampingFactorSCF = vdWDamp;}
+   inline bool   RequiresMpiSCF() const                {return this->requiresMpiSCF;}
+   inline void   SetRequiresMpiSCF(bool requires)      {this->requiresMpiSCF = requires;}
    // MOPlot
    inline bool          RequiresMOPlot() const                     {return (this->indecesMOPlot!=NULL && 0<this->indecesMOPlot->size());}
    inline std::string   GetFileNamePrefixMOPlot() const            {return this->fileNamePrefixMOPlot;}
@@ -265,6 +267,7 @@ private:
    double vdWDampingFactorSCF;
    static const double vdWScalingFactorSCFPM3DAM1D;
    static const double vdWDampingFactorSCFPM3DAM1D;
+   bool   requiresMpiSCF;
    // MOPlot
    std::string       fileNamePrefixMOPlot;
    int               gridNumberMOPlot[CartesianType_end];

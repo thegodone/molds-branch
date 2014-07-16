@@ -1,28 +1,29 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2013/2/12(Thu.) 4:55:16  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:29  <<<<<
 
 
 **********  START: Parse input  **********
-	Total number of atoms: 8
-	Total number of valence AOs: 14
-	Total number of valence electrons: 14
+	System conditions:
+		Total number of atoms: 8
+		Total number of valence AOs: 14
+		Total number of valence electrons: 14
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	0.000000e+00	3.779452e-02	0.000000e+00		0.000000e+00	2.000000e-02	0.000000e+00
-	Atom coordinates:	1	C	2.822873e+00	-2.834589e-02	3.779452e-03		1.493800e+00	-1.500000e-02	2.000000e-03
-	Atom coordinates:	2	H	-6.614042e-01	1.967394e+00	1.889726e-03		-3.500000e-01	1.041100e+00	1.000000e-03
-	Atom coordinates:	3	H	-6.956082e-01	-9.836025e-01	-1.738548e+00		-3.681000e-01	-5.205000e-01	-9.200000e-01
-	Atom coordinates:	4	H	-6.991987e-01	-9.841694e-01	1.703777e+00		-3.700000e-01	-5.208000e-01	9.016000e-01
-	Atom coordinates:	5	H	3.499584e+00	9.826576e-01	-1.702076e+00		1.851900e+00	5.200000e-01	-9.007000e-01
-	Atom coordinates:	6	H	3.458199e+00	9.902165e-01	1.719651e+00		1.830000e+00	5.240000e-01	9.100000e-01
-	Atom coordinates:	7	H	3.514891e+00	-1.965504e+00	0.000000e+00		1.860000e+00	-1.040100e+00	0.000000e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	C	0.000000e+00	3.779452e-02	0.000000e+00		0.000000e+00	2.000000e-02	0.000000e+00
+		Atom coordinates:	1	C	2.822873e+00	-2.834589e-02	3.779452e-03		1.493800e+00	-1.500000e-02	2.000000e-03
+		Atom coordinates:	2	H	-6.614042e-01	1.967394e+00	1.889726e-03		-3.500000e-01	1.041100e+00	1.000000e-03
+		Atom coordinates:	3	H	-6.956082e-01	-9.836025e-01	-1.738548e+00		-3.681000e-01	-5.205000e-01	-9.200000e-01
+		Atom coordinates:	4	H	-6.991987e-01	-9.841694e-01	1.703777e+00		-3.700000e-01	-5.208000e-01	9.016000e-01
+		Atom coordinates:	5	H	3.499584e+00	9.826576e-01	-1.702076e+00		1.851900e+00	5.200000e-01	-9.007000e-01
+		Atom coordinates:	6	H	3.458199e+00	9.902165e-01	1.719651e+00		1.830000e+00	5.240000e-01	9.100000e-01
+		Atom coordinates:	7	H	3.514891e+00	-1.965504e+00	0.000000e+00		1.860000e+00	-1.040100e+00	0.000000e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Mass:	1.409688e+00	4.008514e-03	9.965583e-04		7.459748e-01	2.121214e-03	5.273559e-04
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	1.409688e+00	4.008514e-03	9.965583e-04		7.459748e-01	2.121214e-03	5.273559e-04
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
 
 	SCF conditions:
 		Max iterations: 50
@@ -33,6 +34,7 @@
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
+		MPI in SCF: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -118,7 +120,7 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.091241[s].
+	Elapsed time(omp) for the SCF = 0.009084[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -130,18 +132,18 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 		Electronic
 		(inc. core rep.):	-1.212596e+01	-3.299667e+02
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	0.000000e+00	3.779452e-02	0.000000e+00		0.000000e+00	2.000000e-02	0.000000e+00
-	Atom coordinates:	1	C	2.822873e+00	-2.834589e-02	3.779452e-03		1.493800e+00	-1.500000e-02	2.000000e-03
-	Atom coordinates:	2	H	-6.614042e-01	1.967394e+00	1.889726e-03		-3.500000e-01	1.041100e+00	1.000000e-03
-	Atom coordinates:	3	H	-6.956082e-01	-9.836025e-01	-1.738548e+00		-3.681000e-01	-5.205000e-01	-9.200000e-01
-	Atom coordinates:	4	H	-6.991987e-01	-9.841694e-01	1.703777e+00		-3.700000e-01	-5.208000e-01	9.016000e-01
-	Atom coordinates:	5	H	3.499584e+00	9.826576e-01	-1.702076e+00		1.851900e+00	5.200000e-01	-9.007000e-01
-	Atom coordinates:	6	H	3.458199e+00	9.902165e-01	1.719651e+00		1.830000e+00	5.240000e-01	9.100000e-01
-	Atom coordinates:	7	H	3.514891e+00	-1.965504e+00	0.000000e+00		1.860000e+00	-1.040100e+00	0.000000e+00
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	C	0.000000e+00	3.779452e-02	0.000000e+00		0.000000e+00	2.000000e-02	0.000000e+00
+		Atom coordinates:	1	C	2.822873e+00	-2.834589e-02	3.779452e-03		1.493800e+00	-1.500000e-02	2.000000e-03
+		Atom coordinates:	2	H	-6.614042e-01	1.967394e+00	1.889726e-03		-3.500000e-01	1.041100e+00	1.000000e-03
+		Atom coordinates:	3	H	-6.956082e-01	-9.836025e-01	-1.738548e+00		-3.681000e-01	-5.205000e-01	-9.200000e-01
+		Atom coordinates:	4	H	-6.991987e-01	-9.841694e-01	1.703777e+00		-3.700000e-01	-5.208000e-01	9.016000e-01
+		Atom coordinates:	5	H	3.499584e+00	9.826576e-01	-1.702076e+00		1.851900e+00	5.200000e-01	-9.007000e-01
+		Atom coordinates:	6	H	3.458199e+00	9.902165e-01	1.719651e+00		1.830000e+00	5.240000e-01	9.100000e-01
+		Atom coordinates:	7	H	3.514891e+00	-1.965504e+00	0.000000e+00		1.860000e+00	-1.040100e+00	0.000000e+00
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
 
 
 	========== START: MC step 1
@@ -207,7 +209,7 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.876352e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.012179e-02
 
-	Elapsed time(omp) for the SCF = 0.079408[s].
+	Elapsed time(omp) for the SCF = 0.003705[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -217,18 +219,18 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 		Electronic
 		(inc. core rep.):	-1.212575e+01	-3.299611e+02
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	1.179654e-04	4.070798e-02	-1.188489e-03		6.242460e-05	2.154173e-02	-6.289213e-04
-	Atom coordinates:	1	C	2.822991e+00	-2.543244e-02	2.590963e-03		1.493862e+00	-1.345827e-02	1.371079e-03
-	Atom coordinates:	2	H	-6.612862e-01	1.970307e+00	7.012371e-04		-3.499376e-01	1.042642e+00	3.710787e-04
-	Atom coordinates:	3	H	-6.954902e-01	-9.806890e-01	-1.739737e+00		-3.680376e-01	-5.189583e-01	-9.206289e-01
-	Atom coordinates:	4	H	-6.990807e-01	-9.812559e-01	1.702589e+00		-3.699376e-01	-5.192583e-01	9.009711e-01
-	Atom coordinates:	5	H	3.496182e+00	8.986313e-01	-1.667799e+00		1.850100e+00	4.755352e-01	-8.825614e-01
-	Atom coordinates:	6	H	3.458317e+00	9.931300e-01	1.718462e+00		1.830062e+00	5.255417e-01	9.093711e-01
-	Atom coordinates:	7	H	3.515009e+00	-1.962591e+00	-1.188489e-03		1.860062e+00	-1.038558e+00	-6.289213e-04
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	C	1.179654e-04	4.070798e-02	-1.188489e-03		6.242460e-05	2.154173e-02	-6.289213e-04
+		Atom coordinates:	1	C	2.822991e+00	-2.543244e-02	2.590963e-03		1.493862e+00	-1.345827e-02	1.371079e-03
+		Atom coordinates:	2	H	-6.612862e-01	1.970307e+00	7.012371e-04		-3.499376e-01	1.042642e+00	3.710787e-04
+		Atom coordinates:	3	H	-6.954902e-01	-9.806890e-01	-1.739737e+00		-3.680376e-01	-5.189583e-01	-9.206289e-01
+		Atom coordinates:	4	H	-6.990807e-01	-9.812559e-01	1.702589e+00		-3.699376e-01	-5.192583e-01	9.009711e-01
+		Atom coordinates:	5	H	3.496182e+00	8.986313e-01	-1.667799e+00		1.850100e+00	4.755352e-01	-8.825614e-01
+		Atom coordinates:	6	H	3.458317e+00	9.931300e-01	1.718462e+00		1.830062e+00	5.255417e-01	9.093711e-01
+		Atom coordinates:	7	H	3.515009e+00	-1.962591e+00	-1.188489e-03		1.860062e+00	-1.038558e+00	-6.289213e-04
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
 
 	========== DONE: MC step 1
 
@@ -292,7 +294,7 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.956620e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.000514e-02
 
-	Elapsed time(omp) for the SCF = 0.074707[s].
+	Elapsed time(omp) for the SCF = 0.002756[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -302,18 +304,18 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 		Electronic
 		(inc. core rep.):	-1.212575e+01	-3.299611e+02
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	1.179654e-04	4.070798e-02	-1.188489e-03		6.242460e-05	2.154173e-02	-6.289213e-04
-	Atom coordinates:	1	C	2.822991e+00	-2.543244e-02	2.590963e-03		1.493862e+00	-1.345827e-02	1.371079e-03
-	Atom coordinates:	2	H	-6.612862e-01	1.970307e+00	7.012371e-04		-3.499376e-01	1.042642e+00	3.710787e-04
-	Atom coordinates:	3	H	-6.954902e-01	-9.806890e-01	-1.739737e+00		-3.680376e-01	-5.189583e-01	-9.206289e-01
-	Atom coordinates:	4	H	-6.990807e-01	-9.812559e-01	1.702589e+00		-3.699376e-01	-5.192583e-01	9.009711e-01
-	Atom coordinates:	5	H	3.496182e+00	8.986313e-01	-1.667799e+00		1.850100e+00	4.755352e-01	-8.825614e-01
-	Atom coordinates:	6	H	3.458317e+00	9.931300e-01	1.718462e+00		1.830062e+00	5.255417e-01	9.093711e-01
-	Atom coordinates:	7	H	3.515009e+00	-1.962591e+00	-1.188489e-03		1.860062e+00	-1.038558e+00	-6.289213e-04
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	C	1.179654e-04	4.070798e-02	-1.188489e-03		6.242460e-05	2.154173e-02	-6.289213e-04
+		Atom coordinates:	1	C	2.822991e+00	-2.543244e-02	2.590963e-03		1.493862e+00	-1.345827e-02	1.371079e-03
+		Atom coordinates:	2	H	-6.612862e-01	1.970307e+00	7.012371e-04		-3.499376e-01	1.042642e+00	3.710787e-04
+		Atom coordinates:	3	H	-6.954902e-01	-9.806890e-01	-1.739737e+00		-3.680376e-01	-5.189583e-01	-9.206289e-01
+		Atom coordinates:	4	H	-6.990807e-01	-9.812559e-01	1.702589e+00		-3.699376e-01	-5.192583e-01	9.009711e-01
+		Atom coordinates:	5	H	3.496182e+00	8.986313e-01	-1.667799e+00		1.850100e+00	4.755352e-01	-8.825614e-01
+		Atom coordinates:	6	H	3.458317e+00	9.931300e-01	1.718462e+00		1.830062e+00	5.255417e-01	9.093711e-01
+		Atom coordinates:	7	H	3.515009e+00	-1.962591e+00	-1.188489e-03		1.860062e+00	-1.038558e+00	-6.289213e-04
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
 
 	========== DONE: MC step 2
 
@@ -377,7 +379,7 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.860356e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.015868e-02
 
-	Elapsed time(omp) for the SCF = 0.076267[s].
+	Elapsed time(omp) for the SCF = 0.002706[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -387,18 +389,18 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 		Electronic
 		(inc. core rep.):	-1.212575e+01	-3.299611e+02
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	1.179654e-04	4.070798e-02	-1.188489e-03		6.242460e-05	2.154173e-02	-6.289213e-04
-	Atom coordinates:	1	C	2.822991e+00	-2.543244e-02	2.590963e-03		1.493862e+00	-1.345827e-02	1.371079e-03
-	Atom coordinates:	2	H	-6.612862e-01	1.970307e+00	7.012371e-04		-3.499376e-01	1.042642e+00	3.710787e-04
-	Atom coordinates:	3	H	-6.954902e-01	-9.806890e-01	-1.739737e+00		-3.680376e-01	-5.189583e-01	-9.206289e-01
-	Atom coordinates:	4	H	-6.990807e-01	-9.812559e-01	1.702589e+00		-3.699376e-01	-5.192583e-01	9.009711e-01
-	Atom coordinates:	5	H	3.496182e+00	8.986313e-01	-1.667799e+00		1.850100e+00	4.755352e-01	-8.825614e-01
-	Atom coordinates:	6	H	3.458317e+00	9.931300e-01	1.718462e+00		1.830062e+00	5.255417e-01	9.093711e-01
-	Atom coordinates:	7	H	3.515009e+00	-1.962591e+00	-1.188489e-03		1.860062e+00	-1.038558e+00	-6.289213e-04
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	C	1.179654e-04	4.070798e-02	-1.188489e-03		6.242460e-05	2.154173e-02	-6.289213e-04
+		Atom coordinates:	1	C	2.822991e+00	-2.543244e-02	2.590963e-03		1.493862e+00	-1.345827e-02	1.371079e-03
+		Atom coordinates:	2	H	-6.612862e-01	1.970307e+00	7.012371e-04		-3.499376e-01	1.042642e+00	3.710787e-04
+		Atom coordinates:	3	H	-6.954902e-01	-9.806890e-01	-1.739737e+00		-3.680376e-01	-5.189583e-01	-9.206289e-01
+		Atom coordinates:	4	H	-6.990807e-01	-9.812559e-01	1.702589e+00		-3.699376e-01	-5.192583e-01	9.009711e-01
+		Atom coordinates:	5	H	3.496182e+00	8.986313e-01	-1.667799e+00		1.850100e+00	4.755352e-01	-8.825614e-01
+		Atom coordinates:	6	H	3.458317e+00	9.931300e-01	1.718462e+00		1.830062e+00	5.255417e-01	9.093711e-01
+		Atom coordinates:	7	H	3.515009e+00	-1.962591e+00	-1.188489e-03		1.860062e+00	-1.038558e+00	-6.289213e-04
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
 
 	========== DONE: MC step 3
 
@@ -462,7 +464,7 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.881105e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.017307e-02
 
-	Elapsed time(omp) for the SCF = 0.084202[s].
+	Elapsed time(omp) for the SCF = 0.002710[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -472,18 +474,18 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 		Electronic
 		(inc. core rep.):	-1.212575e+01	-3.299611e+02
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	1.179654e-04	4.070798e-02	-1.188489e-03		6.242460e-05	2.154173e-02	-6.289213e-04
-	Atom coordinates:	1	C	2.822991e+00	-2.543244e-02	2.590963e-03		1.493862e+00	-1.345827e-02	1.371079e-03
-	Atom coordinates:	2	H	-6.612862e-01	1.970307e+00	7.012371e-04		-3.499376e-01	1.042642e+00	3.710787e-04
-	Atom coordinates:	3	H	-6.954902e-01	-9.806890e-01	-1.739737e+00		-3.680376e-01	-5.189583e-01	-9.206289e-01
-	Atom coordinates:	4	H	-6.990807e-01	-9.812559e-01	1.702589e+00		-3.699376e-01	-5.192583e-01	9.009711e-01
-	Atom coordinates:	5	H	3.496182e+00	8.986313e-01	-1.667799e+00		1.850100e+00	4.755352e-01	-8.825614e-01
-	Atom coordinates:	6	H	3.458317e+00	9.931300e-01	1.718462e+00		1.830062e+00	5.255417e-01	9.093711e-01
-	Atom coordinates:	7	H	3.515009e+00	-1.962591e+00	-1.188489e-03		1.860062e+00	-1.038558e+00	-6.289213e-04
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	C	1.179654e-04	4.070798e-02	-1.188489e-03		6.242460e-05	2.154173e-02	-6.289213e-04
+		Atom coordinates:	1	C	2.822991e+00	-2.543244e-02	2.590963e-03		1.493862e+00	-1.345827e-02	1.371079e-03
+		Atom coordinates:	2	H	-6.612862e-01	1.970307e+00	7.012371e-04		-3.499376e-01	1.042642e+00	3.710787e-04
+		Atom coordinates:	3	H	-6.954902e-01	-9.806890e-01	-1.739737e+00		-3.680376e-01	-5.189583e-01	-9.206289e-01
+		Atom coordinates:	4	H	-6.990807e-01	-9.812559e-01	1.702589e+00		-3.699376e-01	-5.192583e-01	9.009711e-01
+		Atom coordinates:	5	H	3.496182e+00	8.986313e-01	-1.667799e+00		1.850100e+00	4.755352e-01	-8.825614e-01
+		Atom coordinates:	6	H	3.458317e+00	9.931300e-01	1.718462e+00		1.830062e+00	5.255417e-01	9.093711e-01
+		Atom coordinates:	7	H	3.515009e+00	-1.962591e+00	-1.188489e-03		1.860062e+00	-1.038558e+00	-6.289213e-04
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
 
 	========== DONE: MC step 4
 
@@ -547,7 +549,7 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.903540e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	3.977455e-02
 
-	Elapsed time(omp) for the SCF = 0.075581[s].
+	Elapsed time(omp) for the SCF = 0.002906[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -557,18 +559,18 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 		Electronic
 		(inc. core rep.):	-1.212612e+01	-3.299710e+02
 
-				| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Atom coordinates:	0	C	-4.361129e-04	4.062786e-02	-3.499568e-04		-2.307810e-04	2.149934e-02	-1.851892e-04
-	Atom coordinates:	1	C	2.822437e+00	-2.551255e-02	3.429496e-03		1.493569e+00	-1.350066e-02	1.814811e-03
-	Atom coordinates:	2	H	-6.618403e-01	1.970227e+00	1.539769e-03		-3.502308e-01	1.042599e+00	8.148108e-04
-	Atom coordinates:	3	H	-6.960443e-01	-9.807691e-01	-1.738898e+00		-3.683308e-01	-5.190007e-01	-9.201852e-01
-	Atom coordinates:	4	H	-6.996348e-01	-9.813360e-01	1.703427e+00		-3.702308e-01	-5.193007e-01	9.014148e-01
-	Atom coordinates:	5	H	3.512162e+00	9.009419e-01	-1.691983e+00		1.858556e+00	4.767579e-01	-8.953590e-01
-	Atom coordinates:	6	H	3.457763e+00	9.930498e-01	1.719301e+00		1.829769e+00	5.254993e-01	9.098148e-01
-	Atom coordinates:	7	H	3.514455e+00	-1.962671e+00	-3.499568e-04		1.859769e+00	-1.038601e+00	-1.851892e-04
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	C	-4.361129e-04	4.062786e-02	-3.499568e-04		-2.307810e-04	2.149934e-02	-1.851892e-04
+		Atom coordinates:	1	C	2.822437e+00	-2.551255e-02	3.429496e-03		1.493569e+00	-1.350066e-02	1.814811e-03
+		Atom coordinates:	2	H	-6.618403e-01	1.970227e+00	1.539769e-03		-3.502308e-01	1.042599e+00	8.148108e-04
+		Atom coordinates:	3	H	-6.960443e-01	-9.807691e-01	-1.738898e+00		-3.683308e-01	-5.190007e-01	-9.201852e-01
+		Atom coordinates:	4	H	-6.996348e-01	-9.813360e-01	1.703427e+00		-3.702308e-01	-5.193007e-01	9.014148e-01
+		Atom coordinates:	5	H	3.512162e+00	9.009419e-01	-1.691983e+00		1.858556e+00	4.767579e-01	-8.953590e-01
+		Atom coordinates:	6	H	3.457763e+00	9.930498e-01	1.719301e+00		1.829769e+00	5.254993e-01	9.098148e-01
+		Atom coordinates:	7	H	3.514455e+00	-1.962671e+00	-3.499568e-04		1.859769e+00	-1.038601e+00	-1.851892e-04
 
-			|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
-	Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	1.409689e+00	4.008721e-03	9.968163e-04		7.459751e-01	2.121324e-03	5.274925e-04
 
 	========== DONE: MC step 5
 
@@ -577,14 +579,14 @@ h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 **********  DONE: Monte Carlo  **********
 
 	Summary for memory usage:
-		Max Heap: 0.404896[MB].
+		Max Heap: 0.524784[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.48[s].  <<<<<
+     >>>>>  CPU time: 0.028582[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.498761[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0263472[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

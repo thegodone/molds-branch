@@ -232,7 +232,7 @@ HOW TO WRITE INPUT:
        Write below options in SCF-directive.
        "max_iter", "rms_density", "damping_thresh", "damping_weight", 
        "diis_num_error_vect", "diis_start_error", "diis_end_error", "sum_charges"
-       "vdW", "vdW_s6", and "vdW_d" are prepared as options.
+       "vdW", "vdW_s6", "vdW_d", "mpi" are prepared as options.
        SCF module outputs also the dipole moment arrond the center of core's mass
        To calculate the dipole moment, STO-6G [DY_1977] is used.
 
@@ -243,6 +243,7 @@ HOW TO WRITE INPUT:
        The default value of the "diis_num_error_vect" is 5.
        The default value of the "diis_start_error" is 0.01.
        The default value of the "diis_end_error" is 10**(-8.0).
+       The default value of the "mpi" is "yes"
 
        "vdW" should be set as "yes" or "no". 
        When "yes" is set, Grimmes's empirical van der Waals correction(D1, [G_2004]) is applied.
@@ -273,6 +274,13 @@ HOW TO WRITE INPUT:
        The atoms indicated with first_atom_index and last_atom_index are also included in the atoms which charge is summed.
        Multiple setting of this "sum_charges" option is approvable, of course.
        If you want to calculate summation, same "sum_charges" option is available in CIS-directive.
+
+       "mpi" is an option to indeicate wheter the MPI is used or not
+       even if MolDS is carried on multiple processors with command "mpirun(or mpiexec)".
+       "mpi" should be set as "yes" or "no". 
+       if "mpi" is set to "no", SCF module does not use the MPI.
+
+       When 
 
        E.g.
          SCF

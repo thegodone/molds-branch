@@ -140,6 +140,7 @@ void Parameters::SetDefaultValues(){
    this->requiresVdWSCF      = false;
    this->vdWScalingFactorSCF = 1.40;
    this->vdWDampingFactorSCF = 23.0;
+   this->requiresMpiSCF      = true;
    // MOPlot
    this->fileNamePrefixMOPlot     = "MO_";
    this->gridNumberMOPlot[XAxis]  = 25;
