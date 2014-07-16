@@ -275,12 +275,13 @@ HOW TO WRITE INPUT:
        Multiple setting of this "sum_charges" option is approvable, of course.
        If you want to calculate summation, same "sum_charges" option is available in CIS-directive.
 
-       "mpi" is an option to indeicate wheter the MPI is used or not in SCF module
+       "mpi" is an option to indicate wheter the MPI is used or not in SCF module
        even if MolDS is carried on multiple processors with command "mpirun(or mpiexec)".
-       "mpi" should be set as "yes" or "no". 
-       if "mpi" is set to "no", SCF module does not use the MPI.
-       This option can change the setting parallelization of SCF module only. Namely, 
-       this option cannot change the setting parallelization of 1st(2nd) gradients, CIS, etc.
+       This "mpi" should be set as yes or no as. So to use this option, 
+       write "mpi yes" or "mpi no" in SCF-directive.
+       If "mpi" is set to "no", SCF module does not use the MPI.
+       This option can change the setting of parallelization for SCF module only. Namely, 
+       this option cannot change the setting of parallelization for 1st(2nd) gradients, CIS, etc.
 
        E.g.
          SCF
@@ -296,6 +297,7 @@ HOW TO WRITE INPUT:
             vdW yes
             vdW_s6 0.75
             vdW_d 30
+            mpi no
          SCF_END
 
    <GEOMETRY>
