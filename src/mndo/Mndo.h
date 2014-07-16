@@ -100,7 +100,8 @@ protected:
                                  const MolDS_base_atoms::Atom& atom) const; 
    virtual void CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
                                      double****** twoElecsAtomEpcCores,
-                                     const MolDS_base::Molecule& molecule) const;
+                                     const MolDS_base::Molecule& molecule,
+                                     bool requiresMpi) const;
    virtual double GetMolecularIntegralElement(int moI, 
                                               int moJ, 
                                               int moK, 
@@ -124,9 +125,11 @@ private:
    double**** twoElecsAtomEpcCoresMpiBuff;
    double heatsFormation;
    void CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores, 
-                                 const MolDS_base::Molecule& molecule) const;
+                                 const MolDS_base::Molecule& molecule,
+                                 bool requiresMpi) const;
    void CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores, 
-                                 const MolDS_base::Molecule& molecule) const;
+                                 const MolDS_base::Molecule& molecule,
+                                 bool requiresMpi) const;
    double GetAuxiliaryDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,
                                                 const MolDS_base_atoms::Atom& atomB,
                                                 double distanceAB) const;

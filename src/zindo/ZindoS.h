@@ -62,7 +62,7 @@ protected:
                                                      double const* const* orbitalElectronPopulation,
                                                      double const* const* overlapAOs,
                                                      double const* groundStateDipole) const;
-   virtual void CalcGammaAB(double** gammaAB, const MolDS_base::Molecule& molecule) const;
+   virtual void CalcGammaAB(double** gammaAB, const MolDS_base::Molecule& molecule, bool requiresMpi) const;
    virtual double GetFockDiagElement(const MolDS_base_atoms::Atom& atomA, 
                                      int indexAtomA, 
                                      int mu, 
@@ -100,7 +100,8 @@ protected:
                                  const MolDS_base_atoms::Atom& atom) const; // Apendix in [BZ_1979]
    virtual void CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores, 
                                      double****** twoElecsAtomEpcCores,
-                                     const MolDS_base::Molecule& molecule) const;
+                                     const MolDS_base::Molecule& molecule,
+                                     bool requiresMpi) const;
    virtual double GetMolecularIntegralElement(int moI, 
                                               int moJ, 
                                               int moK, 
