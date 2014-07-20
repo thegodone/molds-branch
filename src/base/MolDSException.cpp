@@ -161,7 +161,7 @@ void MolDSException::serialize(Archive& ar, const unsigned int ver){
 
 void MolDSException::Serialize(std::ostream& os){
    boost::archive::text_oarchive oa(os);
-   oa << this;
+   oa << (*this);
 }
 
 MolDSException MolDSException::Deserialize(std::istream& is){
