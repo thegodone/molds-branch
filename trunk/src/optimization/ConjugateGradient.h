@@ -22,6 +22,21 @@
 namespace MolDS_optimization{
 
 class ConjugateGradient : public MolDS_optimization::Optimizer{
+private:
+   class ConjugateGradientState: public OptimizerState{
+   private:
+      double** oldMatrixForce;
+      double** matrixSearchDirection;
+      size_t numAtoms;
+      ConjugateGradientState(const ConjugateGradientState&); // delete default copy constructor
+   public:
+      ConjugateGradientState(MolDS_base::Molecule& molecule,
+                             const boost::shared_ptr<MolDS_base::ElectronicStructure>& electronicStructure,
+                             const boost::shared_ptr<MolDS_base_constraints::Constraint>& constraint);
+      virtual ~ConjugateGradientState();
+      double** GetOldMatrixForce(){return this->oldMatrixForce;}
+      double** GetMatrixSearchDirection(){return this->matrixSearchDirection;}
+   };
 public:
    ConjugateGradient();
    ~ConjugateGradient();
@@ -29,14 +44,26 @@ protected:
    void SetMessages();
 private:
    std::string messageStartConjugateGradientStep;
-   void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
-                      MolDS_base::Molecule& molecule,
-                      boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
-                      double* lineSearchedEnergy,
-                      bool* obainesOptimizedStructure) const;
-   void UpdateSearchDirection(double const* const** matrixForce, 
-                              double** oldMatrixForce, 
-                              double** matrixSearchDirection,
+   const std::string& OptimizationStepMessage() const{
+      return this->messageStartConjugateGradientStep;
+   }
+   OptimizerState* CreateState(MolDS_base::Molecule& molecule,
+                               const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                               const boost::shared_ptr<MolDS_base_constraints::Constraint> constraint) const{
+      return new ConjugateGradientState(molecule, electronicStructure, constraint);
+   }
+   void InitializeState(OptimizerState &state, const MolDS_base::Molecule& molecule) const;
+   virtual void PrepareState(OptimizerState& state,
+                             const MolDS_base::Molecule& molecule,
+                             const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                             const int elecState) const;
+   void CalcNextStepGeometry(MolDS_base::Molecule &molecule,
+                             OptimizerState& state,
+                             boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                             const int elecState,
+                             const double dt) const;
+   void UpdateState(OptimizerState& state) const;
+   void UpdateSearchDirection(OptimizerState& state,
                               boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
                               const MolDS_base::Molecule& molecule,
                               boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
