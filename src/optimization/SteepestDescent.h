@@ -29,11 +29,25 @@ protected:
    void SetMessages();
 private:
    std::string messageStartSteepestDescentStep;
-   void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
-                      MolDS_base::Molecule& molecule,
-                      boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
-                      double* lineSearchedEnergy,
-                      bool* obainesOptimizedStructure) const;
+   const std::string& OptimizationStepMessage() const{
+      return this->messageStartSteepestDescentStep;
+   }
+   void InitializeState(OptimizerState&, const MolDS_base::Molecule&) const{}
+   virtual void PrepareState(OptimizerState& state,
+                             const MolDS_base::Molecule& molecule,
+                             const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                             const int elecState) const{};
+   void CalcNextStepGeometry(MolDS_base::Molecule &molecule,
+                             OptimizerState& state,
+                             boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                             const int elecState,
+                             const double dt) const;
+   void UpdateState(OptimizerState& state) const;
+   void UpdateSearchDirection(OptimizerState& state,
+                              boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                              const MolDS_base::Molecule& molecule,
+                              boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
+                              int elecState) const;
 };
 
 }

@@ -66,52 +66,26 @@ void SteepestDescent::SetMessages(){
    this->messageStartSteepestDescentStep = "\n==========  START: Steepest Descent step ";
 }
 
-void SteepestDescent::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
-                                    Molecule& molecule,
-                                    boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
-                                    double* lineSearchedEnergy,
-                                    bool* obtainesOptimizedStructure) const{
-   int    elecState            = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
-   double dt                   = Parameters::GetInstance()->GetTimeWidthOptimization();
-   int    totalSteps           = Parameters::GetInstance()->GetTotalStepsOptimization();
-   double maxGradientThreshold = Parameters::GetInstance()->GetMaxGradientOptimization();
-   double rmsGradientThreshold = Parameters::GetInstance()->GetRmsGradientOptimization();
-   double lineSearchCurrentEnergy   = 0.0;
-   double lineSearchInitialEnergy   = 0.0;
-   double const* const* matrixForce = NULL;
+void SteepestDescent::CalcNextStepGeometry(Molecule &molecule,
+                                           OptimizerState& state,
+                                           boost::shared_ptr<ElectronicStructure> electronicStructure,
+                                           const int elecState,
+                                           const double dt) const{
+   state.SetInitialEnergy(state.GetCurrentEnergy());
 
-   // initial calculation
-   bool requireGuess = true;
-   this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, this->CanOutputLogs());
+   this->LineSearch(electronicStructure, molecule, state.GetCurrentEnergyRef(), state.GetMatrixForce(), elecState, dt);
+}
 
-   requireGuess = false;
-   matrixForce = constraint->GetForce(elecState);
-   lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
-   for(int s=0; s<totalSteps; s++){
-      this->OutputLog(boost::format("%s%d\n\n") % this->messageStartSteepestDescentStep.c_str() % (s+1));
-      lineSearchInitialEnergy = lineSearchCurrentEnergy;
+void SteepestDescent::UpdateState(OptimizerState& state) const{
+   this->UpdateSearchDirection(state, state.GetElectronicStructure(), state.GetMolecule(), state.GetConstraint(), state.GetElecState());
+}
 
-      // do line search
-      this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixForce, elecState, dt);
-
+void SteepestDescent::UpdateSearchDirection(OptimizerState& state,
+                                            boost::shared_ptr<ElectronicStructure> electronicStructure,
+                                            const MolDS_base::Molecule& molecule,
+                                            boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
+                                            int elecState) const{
       // update force
-      matrixForce = constraint->GetForce(elecState);
-
-      // check convergence
-      if(this->SatisfiesConvergenceCriterion(matrixForce, 
-                                             molecule,
-                                             lineSearchInitialEnergy, 
-                                             lineSearchCurrentEnergy,
-                                             maxGradientThreshold, 
-                                             rmsGradientThreshold)){
-         *obtainesOptimizedStructure = true;
-         break;
-      }
-
-   }
-   *lineSearchedEnergy = lineSearchCurrentEnergy;
+      state.SetMatrixForce(constraint->GetForce(elecState));
 }
 }
-
-
-

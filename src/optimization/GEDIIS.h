@@ -25,17 +25,7 @@
 namespace MolDS_optimization{
 
 class GEDIIS : public MolDS_optimization::BFGS{
-public:
-   GEDIIS();
-   ~GEDIIS();
-protected:
-   void SetMessages();
-
-   std::string messageStartGEDIISStep;
-   std::string messageTakingGEDIISStep;
-   std::string messageTakingRFOStep;
-   std::string messageDiscardHistory;
-
+private:
    class GEDIISHistory{
    public:
       GEDIISHistory();
@@ -71,12 +61,61 @@ protected:
       std::string errorMessageNotSufficientHistory;
    };
 
+   class GEDIISState: public BFGSState{
+   protected:
+      GEDIISHistory history;
+      double   preRFOEnergy;
+      double** matrixGEDIISCoordinates;
+      double** matrixGEDIISForce;
+      bool     isGEDIISStepTaken;
+   public:
+      GEDIISState(MolDS_base::Molecule& molecule,
+                  const boost::shared_ptr<MolDS_base::ElectronicStructure>& electronicStructure,
+                  const boost::shared_ptr<MolDS_base_constraints::Constraint>& constraint);
+      virtual ~GEDIISState();
+      GEDIISHistory& GetHistory(){return this->history;}
+      double** GetMatrixGEDIISCoordinates(){return this->matrixGEDIISCoordinates;}
+      double** GetMatrixGEDIISForce()      {return this->matrixGEDIISForce;}
+      bool     GetIsGEDIISStepTaken()const {return this->isGEDIISStepTaken;}
+      void SetIsGEDIISStepTaken(bool isGEDIISStepTaken){
+         this->isGEDIISStepTaken = isGEDIISStepTaken;
+      }
+      void SetPreRFOEnergy(double preRFOEnergy){this->preRFOEnergy = preRFOEnergy;}
+      double GetPreRFOEnergy() const{
+         return GetIsGEDIISStepTaken() ? this->preRFOEnergy : this->GetInitialEnergy();
+      }
+      double const* GetVectorForceForRFO()const{
+         return GetIsGEDIISStepTaken() ? &this->matrixGEDIISForce[0][0] : this->GetVectorForce();
+      }
+   };
+public:
+   GEDIIS();
+   ~GEDIIS();
+protected:
+   void SetMessages();
+
+   std::string messageStartGEDIISStep;
+   std::string messageTakingGEDIISStep;
+   std::string messageTakingRFOStep;
+   std::string messageDiscardHistory;
+
 private:
-   virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
-                              MolDS_base::Molecule& molecule,
-                              boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
-                              double* lineSearchedEnergy,
-                              bool* obainesOptimizedStructure) const;
+   const std::string& OptimizationStepMessage() const{
+      return this->messageStartGEDIISStep;
+   }
+   virtual OptimizerState* CreateState(MolDS_base::Molecule& molecule,
+                                       const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                                       const boost::shared_ptr<MolDS_base_constraints::Constraint> constraint) const{
+      return new GEDIISState(molecule, electronicStructure, constraint);
+   }
+protected:
+   void InitializeState(OptimizerState &state, const MolDS_base::Molecule& molecule) const;
+   void CalcNextStepGeometry(MolDS_base::Molecule &molecule,
+                             OptimizerState& state,
+                             boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                             const int elecState,
+                             const double dt) const;
+   void UpdateState(OptimizerState& state) const;
 };
 
 }

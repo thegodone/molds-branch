@@ -22,6 +22,48 @@
 namespace MolDS_optimization{
 
 class BFGS : public MolDS_optimization::Optimizer{
+protected:
+   class BFGSState: public OptimizerState{
+   protected:
+      double** matrixHessian;
+      double** matrixOldForce;
+      double** matrixStep;
+      double** matrixOldCoordinates;
+      double*  vectorOldCoordinates;
+      double** matrixDisplacement;
+      double   approximateChange;
+      double   trustRadius;
+      double   maxNormStep;
+      size_t numAtoms;
+   private:
+      template<class vector>
+      vector Matrix2Vector(vector const* matrix)const{return matrix == NULL ? NULL : &matrix[0][0];}
+      BFGSState(const BFGSState&); // delete default copy constructor
+   public:
+      BFGSState(MolDS_base::Molecule& molecule,
+                const boost::shared_ptr<MolDS_base::ElectronicStructure>& electronicStructure,
+                const boost::shared_ptr<MolDS_base_constraints::Constraint>& constraint);
+      virtual ~BFGSState();
+      double const* GetVectorForce()const    {return this->Matrix2Vector(this->matrixForce);}
+      double*       GetVectorOldForce      (){return this->Matrix2Vector(this->matrixOldForce);}
+      double*       GetVectorStep          (){return this->Matrix2Vector(this->matrixStep);}
+      double const* GetVectorOldCoordinates(){return this->Matrix2Vector(this->matrixOldCoordinates);}
+      double**  GetMatrixHessian()          {return this->matrixHessian;}
+      double**  GetMatrixOldForce()         {return this->matrixOldForce;}
+      double**  GetMatrixStep()             {return this->matrixStep;}
+      double**  GetMatrixOldCoordinates()   {return this->matrixOldCoordinates;}
+      double**& GetMatrixOldCoordinatesRef(){return this->matrixOldCoordinates;}
+      double**  GetMatrixDisplacement()     {return this->matrixDisplacement;}
+      double    GetApproximateChange()      {return this->approximateChange;}
+      double    GetTrustRadius()            {return this->trustRadius;}
+      double&   GetTrustRadiusRef()         {return this->trustRadius;}
+      double    GetMaxNormStep()            {return this->maxNormStep;}
+      void      SetApproximateChange(double approximateChange){this->approximateChange = approximateChange;}
+      void      SetTrustRadius(double trustRadius)            {this->trustRadius       = trustRadius;}
+      void      SetMaxNormStep(double maxNormStep)            {this->maxNormStep       = maxNormStep;}
+      virtual double GetPreRFOEnergy()const{return this->GetInitialEnergy();}
+      virtual double const* GetVectorForceForRFO()const{return this->GetVectorForce();}
+   };
 public:
    BFGS();
    ~BFGS();
@@ -45,20 +87,33 @@ protected:
    std::string formatIncreaseScalingFactor;
 
 private:
-   virtual void SearchMinimum(boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
-                              MolDS_base::Molecule& molecule,
-                              boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
-                              double* lineSearchedEnergy,
-                              bool* obainesOptimizedStructure) const;
-
+   const std::string& OptimizationStepMessage() const{
+      return this->messageStartBFGSStep;
+   }
+   virtual OptimizerState* CreateState(MolDS_base::Molecule& molecule,
+                                       const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                                       const boost::shared_ptr<MolDS_base_constraints::Constraint> constraint) const{
+      return new BFGSState(molecule, electronicStructure, constraint);
+   }
 protected:
+   void InitializeState(OptimizerState &state, const MolDS_base::Molecule& molecule) const;
+   void PrepareState(OptimizerState& state,
+                     const MolDS_base::Molecule& molecule,
+                     const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                     const int elecState) const;
+   void CalcNextStepGeometry(MolDS_base::Molecule &molecule,
+                             OptimizerState& state,
+                             boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                             const int elecState,
+                             const double dt) const;
+   void UpdateState(OptimizerState& state) const;
    void CalcRFOStep(double* vectorStep,
                     double const* const* matrixHessian,
                     double const* vectorForce,
                     const double maxNormStep,
                     const int dimension) const;
-   void CalcDisplacement(double      *      *& matrixDisplacement,
-                         double const* const*  matrixOldCoordinates,
+   void CalcDisplacement(double      *      * matrixDisplacement,
+                         double const* const* matrixOldCoordinates,
                          const MolDS_base::Molecule& molecule)const;
    void UpdateHessian(double**      matrixHessian,
                       const int     dimension,

@@ -26,6 +26,7 @@
 #include<vector>
 #include<stdexcept>
 #include<boost/shared_ptr.hpp>
+#include<boost/scoped_ptr.hpp>
 #include<boost/format.hpp>
 #include"../base/Enums.h"
 #include"../base/Uncopyable.h"
@@ -46,8 +47,26 @@
 using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
+using namespace MolDS_base_constraints;
 
 namespace MolDS_optimization{
+
+ConjugateGradient::ConjugateGradientState::ConjugateGradientState(Molecule& molecule,
+                                                                  const boost::shared_ptr<ElectronicStructure>& electronicStructure,
+                                                                  const boost::shared_ptr<Constraint>& constraint):
+   OptimizerState(molecule, electronicStructure, constraint),
+   oldMatrixForce(NULL),
+   matrixSearchDirection(NULL),
+   numAtoms(molecule.GetAtomVect().size()){
+   MallocerFreer::GetInstance()->Malloc<double>(&this->oldMatrixForce       , this->numAtoms, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(&this->matrixSearchDirection, this->numAtoms, CartesianType_end);
+}
+
+ConjugateGradient::ConjugateGradientState::~ConjugateGradientState(){
+   MallocerFreer::GetInstance()->Free<double>(&this->oldMatrixForce       , this->numAtoms, CartesianType_end);
+   MallocerFreer::GetInstance()->Free<double>(&this->matrixSearchDirection, this->numAtoms, CartesianType_end);
+}
+
 ConjugateGradient::ConjugateGradient(){
    this->SetMessages();
    //this->OutputLog("ConjugateGradient created\n");
@@ -66,97 +85,64 @@ void ConjugateGradient::SetMessages(){
    this->messageStartConjugateGradientStep = "\n==========  START: Conjugate gradient step ";
 }
 
-void ConjugateGradient::SearchMinimum(boost::shared_ptr<ElectronicStructure> electronicStructure,
-                                      Molecule& molecule,
-                                      boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
-                                      double* lineSearchedEnergy,
-                                      bool* obtainesOptimizedStructure) const{
-   int    elecState            = Parameters::GetInstance()->GetElectronicStateIndexOptimization();
-   double dt                   = Parameters::GetInstance()->GetTimeWidthOptimization();
-   int    totalSteps           = Parameters::GetInstance()->GetTotalStepsOptimization();
-   double maxGradientThreshold = Parameters::GetInstance()->GetMaxGradientOptimization();
-   double rmsGradientThreshold = Parameters::GetInstance()->GetRmsGradientOptimization();
-   double lineSearchCurrentEnergy = 0.0;
-   double lineSearchInitialEnergy = 0.0;
-   double const* const* matrixForce = NULL;
-   double** oldMatrixForce = NULL;
-   double** matrixSearchDirection = NULL;
-
-   // initial calculation
-   bool requireGuess = true;
-   this->UpdateElectronicStructure(electronicStructure, molecule, requireGuess, this->CanOutputLogs());
-   lineSearchCurrentEnergy = electronicStructure->GetElectronicEnergy(elecState);
-
-   requireGuess = false;
-   matrixForce = constraint->GetForce(elecState);
-   try{
-      MallocerFreer::GetInstance()->Malloc<double>(&oldMatrixForce, molecule.GetAtomVect().size(), CartesianType_end);
-      MallocerFreer::GetInstance()->Malloc<double>(&matrixSearchDirection, molecule.GetAtomVect().size(), CartesianType_end);
-      for(int a=0;a<molecule.GetAtomVect().size();a++){
-         for(int i=0; i<CartesianType_end; i++){
-            matrixSearchDirection[a][i] = matrixForce[a][i];
-         }
-      }
-      
-      // conugate gradient loop
-      for(int s=0; s<totalSteps; s++){
-         this->OutputLog(boost::format("%s%d\n\n") % this->messageStartConjugateGradientStep.c_str() % (s+1));
-         lineSearchInitialEnergy = lineSearchCurrentEnergy;
-
-         // do line search
-         this->LineSearch(electronicStructure, molecule, lineSearchCurrentEnergy, matrixSearchDirection, elecState, dt);
-
-         // update matrixSearchDirection
-         this->UpdateSearchDirection(&matrixForce, oldMatrixForce, matrixSearchDirection, electronicStructure, molecule, constraint, elecState);
-
-         // check convergence
-         if(this->SatisfiesConvergenceCriterion(matrixForce, 
-                                                molecule,
-                                                lineSearchInitialEnergy, 
-                                                lineSearchCurrentEnergy,
-                                                maxGradientThreshold, 
-                                                rmsGradientThreshold)){
-            *obtainesOptimizedStructure = true;
-            break;
-         }
+void ConjugateGradient::InitializeState(OptimizerState &stateOrig, const Molecule& molecule) const{
+   ConjugateGradientState& state = stateOrig.CastRef<ConjugateGradientState>();
+   for(int a=0;a<molecule.GetAtomVect().size();a++){
+      for(int i=0; i<CartesianType_end; i++){
+         state.GetMatrixSearchDirection()[a][i] = state.GetMatrixForce()[a][i];
       }
    }
-   catch(MolDSException ex){
-      MallocerFreer::GetInstance()->Free<double>(&oldMatrixForce, molecule.GetAtomVect().size(), CartesianType_end);
-      MallocerFreer::GetInstance()->Free<double>(&matrixSearchDirection, molecule.GetAtomVect().size(), CartesianType_end);
-      throw ex;
-   }
-   MallocerFreer::GetInstance()->Free<double>(&oldMatrixForce, molecule.GetAtomVect().size(), CartesianType_end);
-   MallocerFreer::GetInstance()->Free<double>(&matrixSearchDirection, molecule.GetAtomVect().size(), CartesianType_end);
-   *lineSearchedEnergy = lineSearchCurrentEnergy;
 }
 
-void ConjugateGradient::UpdateSearchDirection(double const* const** matrixForce, 
-                                              double** oldMatrixForce, 
-                                              double** matrixSearchDirection,
+void ConjugateGradient::PrepareState(OptimizerState& stateOrig,
+                                     const MolDS_base::Molecule& molecule,
+                                     const boost::shared_ptr<MolDS_base::ElectronicStructure> electronicStructure,
+                                     const int elecState) const{
+   ConjugateGradientState& state = stateOrig.CastRef<ConjugateGradientState>();
+
+   for(int a=0;a<molecule.GetAtomVect().size();a++){
+      for(int i=0; i<CartesianType_end; i++){
+         state.GetOldMatrixForce()[a][i] = state.GetMatrixForce()[a][i];
+      }
+   }
+}
+
+void ConjugateGradient::CalcNextStepGeometry(Molecule &molecule,
+                                             OptimizerState& stateOrig,
+                                             boost::shared_ptr<ElectronicStructure> electronicStructure,
+                                             const int elecState,
+                                             const double dt) const{
+   ConjugateGradientState& state = stateOrig.CastRef<ConjugateGradientState>();
+
+   state.SetInitialEnergy(state.GetCurrentEnergy());
+
+   this->LineSearch(electronicStructure, molecule, state.GetCurrentEnergyRef(), state.GetMatrixSearchDirection(), elecState, dt);
+}
+
+void ConjugateGradient::UpdateState(OptimizerState& state) const{
+   this->UpdateSearchDirection(state, state.GetElectronicStructure(), state.GetMolecule(), state.GetConstraint(), state.GetElecState());
+}
+
+
+void ConjugateGradient::UpdateSearchDirection(OptimizerState& stateOrig,
                                               boost::shared_ptr<ElectronicStructure> electronicStructure, 
                                               const MolDS_base::Molecule& molecule,
                                               boost::shared_ptr<MolDS_base_constraints::Constraint> constraint,
                                               int elecState) const{
-   for(int a=0;a<molecule.GetAtomVect().size();a++){
-      for(int i=0; i<CartesianType_end; i++){
-         oldMatrixForce[a][i] = (*matrixForce)[a][i];
-      }
-   }
-   *matrixForce = constraint->GetForce(elecState);
+   ConjugateGradientState& state = stateOrig.CastRef<ConjugateGradientState>();
    double beta=0.0;
    double temp=0.0;
    for(int a=0;a<molecule.GetAtomVect().size();a++){
       for(int i=0; i<CartesianType_end; i++){
-         temp += pow(oldMatrixForce[a][i],2.0);
-         beta += ((*matrixForce)[a][i] - oldMatrixForce[a][i])*(*matrixForce)[a][i];
+         temp += pow(state.GetOldMatrixForce()[a][i],2.0);
+         beta += (state.GetMatrixForce()[a][i] - state.GetOldMatrixForce()[a][i])*state.GetMatrixForce()[a][i];
       }
    }
    beta /= temp;
    for(int a=0;a<molecule.GetAtomVect().size();a++){
       for(int i=0; i<CartesianType_end; i++){
-         matrixSearchDirection[a][i] *= beta;
-         matrixSearchDirection[a][i] += (*matrixForce)[a][i];
+         state.GetMatrixSearchDirection()[a][i] *= beta;
+         state.GetMatrixSearchDirection()[a][i] += state.GetMatrixForce()[a][i];
       }
    }
 }
