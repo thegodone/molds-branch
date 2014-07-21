@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:35  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/7/21(Mon.) 13:4:55  <<<<<
 
 
 **********  START: Parse input  **********
@@ -122,7 +122,7 @@ h | 1.7519 | -1.0401 | -0.1000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	9.775077e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.088939e-01
 
-	Elapsed time(omp) for the SCF = 0.005191[s].
+	Elapsed time(omp) for the SCF = 0.007638[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -136,10 +136,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.041555
 3rd lowest eigenvalue of the augmented Hessian = 1.000000
 Calculated RFO step size                       = 0.199742
 Trust radius is 0.300000
-
-actual energy change          = -3.136514e-02
-expected energy change        = -2.077746e-02
-actual/expected energy change = 1.509575
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-1.018782e-01	1.860706e-01	-5.958541e-02		-5.391159e-02	9.846434e-02	-3.153124e-02
 		Atom coordinates:	1	C	3.082229e+00	-1.058610e-03	-1.291652e-01		1.631045e+00	-5.601924e-04	-6.835128e-02
@@ -199,6 +195,10 @@ actual/expected energy change = 1.509575
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.039041e-01
 
 
+actual energy change          = -3.136514e-02
+expected energy change        = -2.077746e-02
+actual/expected energy change = 1.509575
+
 	====== Optimization Logs ======
 	Energy difference:  -3.136514e-02 [a.u.]
 	Max gradient:  9.653856e-02 [a.u.]
@@ -215,10 +215,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.037153
 3rd lowest eigenvalue of the augmented Hessian = 1.000000
 Calculated RFO step size                       = 0.293261
 Trust radius is 0.300000
-
-actual energy change          = -1.802074e-02
-expected energy change        = -1.857656e-02
-actual/expected energy change = 0.970080
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	5.051054e-02	1.725328e-01	-1.167382e-01		2.672903e-02	9.130042e-02	-6.177521e-02
 		Atom coordinates:	1	C	2.873413e+00	1.743919e-02	-8.401480e-02		1.520545e+00	9.228420e-03	-4.445872e-02
@@ -278,6 +274,10 @@ actual/expected energy change = 0.970080
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.490432e-02
 
 
+actual energy change          = -1.802074e-02
+expected energy change        = -1.857656e-02
+actual/expected energy change = 0.970080
+
 	====== Optimization Logs ======
 	Energy difference:  -1.802074e-02 [a.u.]
 	Max gradient:  3.011362e-02 [a.u.]
@@ -294,10 +294,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.003292
 3rd lowest eigenvalue of the augmented Hessian = 1.000000
 Calculated RFO step size                       = 0.056675
 Trust radius is 0.300000
-
-actual energy change          = -2.222913e-03
-expected energy change        = -1.646013e-03
-actual/expected energy change = 1.350483
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.408469e-02	1.720946e-01	-9.918461e-02		1.274507e-02	9.106852e-02	-5.248623e-02
 		Atom coordinates:	1	C	2.899543e+00	1.772337e-02	-9.478624e-02		1.534372e+00	9.378803e-03	-5.015872e-02
@@ -357,6 +353,10 @@ actual/expected energy change = 1.350483
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.514567e-02
 
 
+actual energy change          = -2.222913e-03
+expected energy change        = -1.646013e-03
+actual/expected energy change = 1.350483
+
 	====== Optimization Logs ======
 	Energy difference:  -2.222913e-03 [a.u.]
 	Max gradient:  1.802741e-02 [a.u.]
@@ -373,10 +373,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.003478
 3rd lowest eigenvalue of the augmented Hessian = 0.826874
 Calculated RFO step size                       = 0.083981
 Trust radius is 0.300000
-
-actual energy change          = -2.499199e-03
-expected energy change        = -1.738839e-03
-actual/expected energy change = 1.437281
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	1.943283e-02	1.638557e-01	-8.119892e-02		1.028341e-02	8.670869e-02	-4.296862e-02
 		Atom coordinates:	1	C	2.889914e+00	2.329138e-02	-1.038870e-01		1.529276e+00	1.232526e-02	-5.497462e-02
@@ -436,6 +432,10 @@ actual/expected energy change = 1.437281
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.297308e-02
 
 
+actual energy change          = -2.499199e-03
+expected energy change        = -1.738839e-03
+actual/expected energy change = 1.437281
+
 	====== Optimization Logs ======
 	Energy difference:  -2.499199e-03 [a.u.]
 	Max gradient:  1.211386e-02 [a.u.]
@@ -452,10 +452,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.002164
 3rd lowest eigenvalue of the augmented Hessian = 0.838349
 Calculated RFO step size                       = 0.089999
 Trust radius is 0.300000
-
-actual energy change          = -1.329674e-03
-expected energy change        = -1.081790e-03
-actual/expected energy change = 1.229143
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.992020e-02	1.498069e-01	-7.553352e-02		1.583309e-02	7.927439e-02	-3.997062e-02
 		Atom coordinates:	1	C	2.865820e+00	2.937736e-02	-1.093529e-01		1.516527e+00	1.554583e-02	-5.786704e-02
@@ -515,6 +511,10 @@ actual/expected energy change = 1.229143
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.005401e-02
 
 
+actual energy change          = -1.329674e-03
+expected energy change        = -1.081790e-03
+actual/expected energy change = 1.229143
+
 	====== Optimization Logs ======
 	Energy difference:  -1.329674e-03 [a.u.]
 	Max gradient:  1.183922e-02 [a.u.]
@@ -531,10 +531,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000626
 3rd lowest eigenvalue of the augmented Hessian = 0.827881
 Calculated RFO step size                       = 0.043007
 Trust radius is 0.300000
-
-actual energy change          = -3.100328e-04
-expected energy change        = -3.633666e-04
-actual/expected energy change = 0.853223
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	3.549388e-02	1.414361e-01	-8.050323e-02		1.878255e-02	7.484478e-02	-4.260048e-02
 		Atom coordinates:	1	C	2.859856e+00	3.062872e-02	-1.085348e-01		1.513371e+00	1.620802e-02	-5.743413e-02
@@ -594,6 +590,10 @@ actual/expected energy change = 0.853223
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.897866e-02
 
 
+actual energy change          = -3.100328e-04
+expected energy change        = -3.633666e-04
+actual/expected energy change = 0.853223
+
 	====== Optimization Logs ======
 	Energy difference:  -4.889739e-04 [a.u.]
 	Max gradient:  8.962959e-03 [a.u.]
@@ -610,10 +610,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.001494
 3rd lowest eigenvalue of the augmented Hessian = 0.584121
 Calculated RFO step size                       = 0.106706
 Trust radius is 0.300000
-
-actual energy change          = -9.428358e-04
-expected energy change        = -7.470878e-04
-actual/expected energy change = 1.262015
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	4.055754e-02	1.148525e-01	-9.306614e-02		2.146212e-02	6.077733e-02	-4.924848e-02
 		Atom coordinates:	1	C	2.856358e+00	3.392242e-02	-1.041180e-01		1.511520e+00	1.795097e-02	-5.509689e-02
@@ -660,7 +656,7 @@ actual/expected energy change = 1.262015
 	Electronic Dipole moment(SCF):	-2.463657e-02	1.019556e-01	-9.746549e-03	1.053418e-01		-6.261993e-02	2.591453e-01	-2.477326e-02	2.677522e-01
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Core Dipole moment:		3.741490e-04	-5.709242e-02	1.743622e-02	5.969679e-02		9.509922e-04	-1.451145e-01	4.431846e-02	1.517341e-01
+	Core Dipole moment:		3.741490e-04	-5.709242e-02	1.743622e-02	5.969679e-02		9.509921e-04	-1.451145e-01	4.431846e-02	1.517341e-01
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
 	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.580745e-01
@@ -672,6 +668,10 @@ actual/expected energy change = 1.262015
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.601583e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.601493e-02
 
+
+actual energy change          = -9.428358e-04
+expected energy change        = -7.470878e-04
+actual/expected energy change = 1.262015
 
 	====== Optimization Logs ======
 	Energy difference:  -9.428358e-04 [a.u.]
@@ -689,10 +689,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000434
 3rd lowest eigenvalue of the augmented Hessian = 0.537440
 Calculated RFO step size                       = 0.052119
 Trust radius is 0.300000
-
-actual energy change          = -3.128443e-04
-expected energy change        = -2.167681e-04
-actual/expected energy change = 1.443221
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	3.504071e-02	1.030442e-01	-9.584641e-02		1.854274e-02	5.452864e-02	-5.071974e-02
 		Atom coordinates:	1	C	2.861555e+00	3.594873e-02	-1.000125e-01		1.514270e+00	1.902325e-02	-5.292434e-02
@@ -752,6 +748,10 @@ actual/expected energy change = 1.443221
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.475921e-02
 
 
+actual energy change          = -3.128443e-04
+expected energy change        = -2.167681e-04
+actual/expected energy change = 1.443221
+
 	====== Optimization Logs ======
 	Energy difference:  -3.128443e-04 [a.u.]
 	Max gradient:  8.189068e-03 [a.u.]
@@ -768,10 +768,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000306
 3rd lowest eigenvalue of the augmented Hessian = 0.445111
 Calculated RFO step size                       = 0.042165
 Trust radius is 0.300000
-
-actual energy change          = -1.967718e-04
-expected energy change        = -1.530912e-04
-actual/expected energy change = 1.285324
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.509456e-02	9.560761e-02	-9.499799e-02		1.327947e-02	5.059337e-02	-5.027077e-02
 		Atom coordinates:	1	C	2.868567e+00	3.796013e-02	-9.613444e-02		1.517980e+00	2.008764e-02	-5.087215e-02
@@ -831,6 +827,10 @@ actual/expected energy change = 1.285324
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.393705e-02
 
 
+actual energy change          = -1.967718e-04
+expected energy change        = -1.530912e-04
+actual/expected energy change = 1.285324
+
 	====== Optimization Logs ======
 	Energy difference:  -1.967718e-04 [a.u.]
 	Max gradient:  3.320527e-03 [a.u.]
@@ -847,10 +847,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000090
 3rd lowest eigenvalue of the augmented Hessian = 0.376901
 Calculated RFO step size                       = 0.016380
 Trust radius is 0.300000
-
-actual energy change          = -6.043489e-05
-expected energy change        = -4.490882e-05
-actual/expected energy change = 1.345724
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	1.966455e-02	9.472739e-02	-9.313386e-02		1.040603e-02	5.012757e-02	-4.928432e-02
 		Atom coordinates:	1	C	2.871632e+00	3.838593e-02	-9.557701e-02		1.519602e+00	2.031296e-02	-5.057717e-02
@@ -910,6 +906,10 @@ actual/expected energy change = 1.345724
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.382964e-02
 
 
+actual energy change          = -6.043489e-05
+expected energy change        = -4.490882e-05
+actual/expected energy change = 1.345724
+
 	====== Optimization Logs ======
 	Energy difference:  -6.043489e-05 [a.u.]
 	Max gradient:  2.185597e-03 [a.u.]
@@ -926,10 +926,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000037
 3rd lowest eigenvalue of the augmented Hessian = 0.302528
 Calculated RFO step size                       = 0.009571
 Trust radius is 0.300000
-
-actual energy change          = -2.504858e-05
-expected energy change        = -1.847688e-05
-actual/expected energy change = 1.355671
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	1.796809e-02	9.557342e-02	-9.196916e-02		9.508304e-03	5.057528e-02	-4.866798e-02
 		Atom coordinates:	1	C	2.872881e+00	3.781762e-02	-9.633046e-02		1.520263e+00	2.001222e-02	-5.097589e-02
@@ -989,6 +985,10 @@ actual/expected energy change = 1.355671
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.394503e-02
 
 
+actual energy change          = -2.504858e-05
+expected energy change        = -1.847688e-05
+actual/expected energy change = 1.355671
+
 	====== Optimization Logs ======
 	Energy difference:  -2.504858e-05 [a.u.]
 	Max gradient:  2.540788e-03 [a.u.]
@@ -1005,10 +1005,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000020
 3rd lowest eigenvalue of the augmented Hessian = 0.245777
 Calculated RFO step size                       = 0.007198
 Trust radius is 0.300000
-
-actual energy change          = -1.476561e-05
-expected energy change        = -9.903022e-06
-actual/expected energy change = 1.491021
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	1.867946e-02	9.659537e-02	-9.161138e-02		9.884742e-03	5.111607e-02	-4.847865e-02
 		Atom coordinates:	1	C	2.873629e+00	3.662663e-02	-9.722712e-02		1.520659e+00	1.938198e-02	-5.145038e-02
@@ -1068,6 +1064,10 @@ actual/expected energy change = 1.491021
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.411458e-02
 
 
+actual energy change          = -1.476561e-05
+expected energy change        = -9.903022e-06
+actual/expected energy change = 1.491021
+
 	====== Optimization Logs ======
 	Energy difference:  -1.476561e-05 [a.u.]
 	Max gradient:  2.432440e-03 [a.u.]
@@ -1084,10 +1084,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000022
 3rd lowest eigenvalue of the augmented Hessian = 0.185482
 Calculated RFO step size                       = 0.009828
 Trust radius is 0.300000
-
-actual energy change          = -1.623468e-05
-expected energy change        = -1.118768e-05
-actual/expected energy change = 1.451121
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.101641e-02	9.793871e-02	-9.162995e-02		1.112141e-02	5.182693e-02	-4.848848e-02
 		Atom coordinates:	1	C	2.874850e+00	3.439247e-02	-9.812021e-02		1.521305e+00	1.819971e-02	-5.192298e-02
@@ -1147,6 +1143,10 @@ actual/expected energy change = 1.451121
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.437638e-02
 
 
+actual energy change          = -1.623468e-05
+expected energy change        = -1.118768e-05
+actual/expected energy change = 1.451121
+
 	====== Optimization Logs ======
 	Energy difference:  -1.623468e-05 [a.u.]
 	Max gradient:  1.931642e-03 [a.u.]
@@ -1163,10 +1163,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000021
 3rd lowest eigenvalue of the augmented Hessian = 0.149565
 Calculated RFO step size                       = 0.011292
 Trust radius is 0.300000
-
-actual energy change          = -1.485371e-05
-expected energy change        = -1.031097e-05
-actual/expected energy change = 1.440574
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.388239e-02	9.932288e-02	-9.189217e-02		1.263802e-02	5.255940e-02	-4.862724e-02
 		Atom coordinates:	1	C	2.876440e+00	3.153110e-02	-9.845487e-02		1.522147e+00	1.668554e-02	-5.210007e-02
@@ -1226,6 +1222,10 @@ actual/expected energy change = 1.440574
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.467347e-02
 
 
+actual energy change          = -1.485371e-05
+expected energy change        = -1.031097e-05
+actual/expected energy change = 1.440574
+
 	====== Optimization Logs ======
 	Energy difference:  -1.485371e-05 [a.u.]
 	Max gradient:  1.705972e-03 [a.u.]
@@ -1242,10 +1242,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000017
 3rd lowest eigenvalue of the augmented Hessian = 0.134921
 Calculated RFO step size                       = 0.010867
 Trust radius is 0.300000
-
-actual energy change          = -1.165772e-05
-expected energy change        = -8.437354e-06
-actual/expected energy change = 1.381680
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.588151e-02	1.005273e-01	-9.217069e-02		1.369591e-02	5.319678e-02	-4.877463e-02
 		Atom coordinates:	1	C	2.877822e+00	2.873394e-02	-9.807239e-02		1.522878e+00	1.520535e-02	-5.189767e-02
@@ -1305,6 +1301,10 @@ actual/expected energy change = 1.381680
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.493851e-02
 
 
+actual energy change          = -1.165772e-05
+expected energy change        = -8.437354e-06
+actual/expected energy change = 1.381680
+
 	====== Optimization Logs ======
 	Energy difference:  -1.165772e-05 [a.u.]
 	Max gradient:  1.321247e-03 [a.u.]
@@ -1321,10 +1321,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000010
 3rd lowest eigenvalue of the augmented Hessian = 0.130268
 Calculated RFO step size                       = 0.007010
 Trust radius is 0.300000
-
-actual energy change          = -6.475279e-06
-expected energy change        = -4.752309e-06
-actual/expected energy change = 1.362554
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.595645e-02	1.011783e-01	-9.228051e-02		1.373556e-02	5.354123e-02	-4.883274e-02
 		Atom coordinates:	1	C	2.878147e+00	2.706821e-02	-9.736563e-02		1.523050e+00	1.432388e-02	-5.152367e-02
@@ -1384,6 +1380,10 @@ actual/expected energy change = 1.362554
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.507957e-02
 
 
+actual energy change          = -6.475279e-06
+expected energy change        = -4.752309e-06
+actual/expected energy change = 1.362554
+
 	====== Optimization Logs ======
 	Energy difference:  -6.475279e-06 [a.u.]
 	Max gradient:  1.089635e-03 [a.u.]
@@ -1400,10 +1400,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000005
 3rd lowest eigenvalue of the augmented Hessian = 0.126686
 Calculated RFO step size                       = 0.004182
 Trust radius is 0.300000
-
-actual energy change          = -3.406810e-06
-expected energy change        = -2.432170e-06
-actual/expected energy change = 1.400728
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.486772e-02	1.013686e-01	-9.226802e-02		1.315943e-02	5.364194e-02	-4.882613e-02
 		Atom coordinates:	1	C	2.877546e+00	2.633034e-02	-9.685016e-02		1.522732e+00	1.393341e-02	-5.125090e-02
@@ -1450,7 +1446,7 @@ actual/expected energy change = 1.400728
 	Electronic Dipole moment(SCF):	1.826352e-02	2.106891e-02	-1.173771e-03	2.790757e-02		4.642124e-02	5.355183e-02	-2.983428e-03	7.093399e-02
 
 					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
-	Core Dipole moment:		-1.130113e-02	-1.234014e-02	3.090909e-04	1.673589e-02		-2.872460e-02	-3.136552e-02	7.856308e-04	4.253841e-02
+	Core Dipole moment:		-1.130113e-02	-1.234014e-02	3.090909e-04	1.673589e-02		-2.872460e-02	-3.136552e-02	7.856307e-04	4.253841e-02
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
 	Mulliken charge(SCF):	0	0	C	4.000000e+00	-2.565249e-01
@@ -1462,6 +1458,10 @@ actual/expected energy change = 1.400728
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.556989e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.513197e-02
 
+
+actual energy change          = -3.406810e-06
+expected energy change        = -2.432170e-06
+actual/expected energy change = 1.400729
 
 	====== Optimization Logs ======
 	Energy difference:  -3.406810e-06 [a.u.]
@@ -1479,10 +1479,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000003
 3rd lowest eigenvalue of the augmented Hessian = 0.119209
 Calculated RFO step size                       = 0.003655
 Trust radius is 0.300000
-
-actual energy change          = -2.357646e-06
-expected energy change        = -1.642783e-06
-actual/expected energy change = 1.435154
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.345076e-02	1.012944e-01	-9.222376e-02		1.240961e-02	5.360268e-02	-4.880271e-02
 		Atom coordinates:	1	C	2.876451e+00	2.587320e-02	-9.662088e-02		1.522152e+00	1.369151e-02	-5.112957e-02
@@ -1542,6 +1538,10 @@ actual/expected energy change = 1.435154
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.516101e-02
 
 
+actual energy change          = -2.357646e-06
+expected energy change        = -1.642783e-06
+actual/expected energy change = 1.435154
+
 	====== Optimization Logs ======
 	Energy difference:  -2.357646e-06 [a.u.]
 	Max gradient:  5.194529e-04 [a.u.]
@@ -1558,10 +1558,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000003
 3rd lowest eigenvalue of the augmented Hessian = 0.104926
 Calculated RFO step size                       = 0.003852
 Trust radius is 0.300000
-
-actual energy change          = -1.910524e-06
-expected energy change        = -1.344828e-06
-actual/expected energy change = 1.420646
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.215488e-02	1.010134e-01	-9.217895e-02		1.172386e-02	5.345400e-02	-4.877900e-02
 		Atom coordinates:	1	C	2.875182e+00	2.537111e-02	-9.664206e-02		1.521481e+00	1.342581e-02	-5.114078e-02
@@ -1621,6 +1617,10 @@ actual/expected energy change = 1.420646
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.519765e-02
 
 
+actual energy change          = -1.910524e-06
+expected energy change        = -1.344828e-06
+actual/expected energy change = 1.420646
+
 	====== Optimization Logs ======
 	Energy difference:  -1.910524e-06 [a.u.]
 	Max gradient:  5.096594e-04 [a.u.]
@@ -1637,10 +1637,6 @@ Lowest eigenvalue of the augmented Hessian     = -0.000002
 3rd lowest eigenvalue of the augmented Hessian = 0.092153
 Calculated RFO step size                       = 0.003565
 Trust radius is 0.300000
-
-actual energy change          = -1.398184e-06
-expected energy change        = -9.980795e-07
-actual/expected energy change = 1.400874
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	2.142356e-02	1.005990e-01	-9.213304e-02		1.133686e-02	5.323469e-02	-4.875471e-02
 		Atom coordinates:	1	C	2.874221e+00	2.478110e-02	-9.680904e-02		1.520972e+00	1.311359e-02	-5.122913e-02
@@ -1700,6 +1696,10 @@ actual/expected energy change = 1.400874
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	8.524853e-02
 
 
+actual energy change          = -1.398184e-06
+expected energy change        = -9.980795e-07
+actual/expected energy change = 1.400874
+
 	====== Optimization Logs ======
 	Energy difference:  -1.398184e-06 [a.u.]
 	Max gradient:  4.356745e-04 [a.u.]
@@ -1711,14 +1711,14 @@ actual/expected energy change = 1.400874
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.304480[MB].
+		Max Heap: 0.305056[MB].
 		Current Heap(Leaked): 0.009728[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.181777[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.17456[s].  <<<<<
+     >>>>>  CPU time: 0.658807[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.645961[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
