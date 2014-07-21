@@ -177,7 +177,9 @@ void BFGS::CalcNextStepGeometry(Molecule &molecule,
    }
 
    //Calculate RFO step
-   this->CalcRFOStep(state.GetVectorStep(), state.GetMatrixHessian(), state.GetVectorForce(), state.GetTrustRadius(), dimension);
+   //   If GEDIIS step has been taken, use GEDIIS superposed force
+   //   to calculate RFO step according to Eq. 7 of LF_2006.
+   this->CalcRFOStep(state.GetVectorStep(), state.GetMatrixHessian(), state.GetVectorForceForRFO(), state.GetTrustRadius(), dimension);
 
    state.SetApproximateChange(this->ApproximateEnergyChange(dimension,
                                                             state.GetMatrixHessian(),
