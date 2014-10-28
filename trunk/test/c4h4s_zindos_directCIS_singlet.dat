@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:37  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:3:1  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 9
 		Total number of valence AOs: 24
@@ -48,6 +56,7 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
+		ScaLapack for digonalization of CIS matrix: no
 
 Input terms:
 theory | zindo/s | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
@@ -133,13 +142,13 @@ h | 0.30123662 | 3.93233336 | 0.01200000 | geometry_end |
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	3.903196e-02
 	Mulliken charge(SCF):	0	8	H	1.000000e+00	5.508287e-02
 
-	Elapsed time(omp) for the SCF = 0.010725[s].
+	Elapsed time(omp) for the SCF = 0.015873[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026994[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.142280[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -730,7 +739,7 @@ h | 0.30123662 | 3.93233336 | 0.01200000 | geometry_end |
 	Transition dipole moment:	0 -> 143		-2.331010e-02	1.350342e-02	-7.574243e-04	2.694952e-02		-5.924837e-02	3.432227e-02	-1.925181e-03	6.849886e-02	8.689075e-04
 
 
-	Elapsed time(omp) for the CIS = 0.040424[s].
+	Elapsed time(omp) for the CIS = 0.174239[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -740,9 +749,9 @@ h | 0.30123662 | 3.93233336 | 0.01200000 | geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.053275[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.05248[s].  <<<<<
+     >>>>>  CPU time: 0.193348[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.191915[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

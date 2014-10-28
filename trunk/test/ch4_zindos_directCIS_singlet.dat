@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:38  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:3:2  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 5
 		Total number of valence AOs: 8
@@ -44,6 +52,7 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
+		ScaLapack for digonalization of CIS matrix: no
 
 Input terms:
 theory | zindo/s | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
@@ -105,13 +114,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	2.583597e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.214567e-02
 
-	Elapsed time(omp) for the SCF = 0.006874[s].
+	Elapsed time(omp) for the SCF = 0.008406[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000162[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000508[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -194,7 +203,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 16		-3.520592e-02	7.388933e-02	-9.573569e-02	1.259540e-01		-8.948453e-02	1.878080e-01	-2.433359e-01	3.201432e-01	1.352006e-02
 
 
-	Elapsed time(omp) for the CIS = 0.001385[s].
+	Elapsed time(omp) for the CIS = 0.002717[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -204,9 +213,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.009788[s].  <<<<<
+     >>>>>  CPU time: 0.01344[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00910306[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0122862[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:30  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:2:49  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -49,6 +57,7 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
+		ScaLapack for digonalization of CIS matrix: no
 		Mulliken population in excited state: 3
 		Mulliken population in excited state: 20
 		Summation of atomic charges from 0 to 3 atoms.
@@ -134,13 +143,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Summation of Mulliken(SCF):	0	0	3	-1.550023e-01
 	Summation of Mulliken(SCF):	0	4	7	1.550023e-01
 
-	Elapsed time(omp) for the SCF = 0.008706[s].
+	Elapsed time(omp) for the SCF = 0.011247[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.009841[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027402[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -407,7 +416,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Summation of UEP:	20	4	7	5.879067e-01
 
 
-	Elapsed time(omp) for the CIS = 0.015501[s].
+	Elapsed time(omp) for the CIS = 0.039334[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -417,9 +426,9 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.026442[s].  <<<<<
+     >>>>>  CPU time: 0.053998[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0254879[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.052634[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

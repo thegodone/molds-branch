@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:29  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:2:47  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -47,6 +55,7 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
+		ScaLapack for digonalization of CIS matrix: no
 
 	MD conditions:
 		Electronic eigenstate: 1
@@ -74,16 +83,31 @@ Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the "limit_h
 
 key value pairs:
 backtrace:
-	0   molds                               0x000000010dbcd10e _ZN10MolDS_base14MolDSExceptionC1ESs + 366
+	0   molds                               0x0000000105bbf59f _ZN10MolDS_base14MolDSException12GetBacktraceEi + 97
+	1   molds                               0x0000000105bbf394 _ZN10MolDS_base14MolDSExceptionC1ESs + 180
+	2   molds                               0x0000000105bd0b27 _ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd + 591
+	3   molds                               0x0000000105c19e00 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m + 96
+	4   molds                               0x0000000105d322c1 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm + 209
+	5   molds                               0x0000000105cba696 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm + 246
+	6   molds                               0x0000000105d0657f _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm + 279
+	7   molds                               0x0000000105d06dd9 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm + 299
+	8   molds                               0x0000000105d07740 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm + 316
+	9   molds                               0x0000000105cc4dbf _ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE + 287
+	10  molds                               0x0000000105d12e5e _ZN8MolDS_md2MD4DoMDEv + 332
+	11  molds                               0x0000000105d3822b _ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb + 301
+	12  molds                               0x0000000105d37725 _ZN10MolDS_base5MolDS3RunEiPPc + 829
+	13  molds                               0x0000000105d3a940 main + 1404
+	14  libdyld.dylib                       0x00007fff926ac5fd start + 1
+	15  ???                                 0x0000000000000002 0x0 + 2
 	Summary for memory usage:
 		Max Heap: 0.091712[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished abnormally..............  <<<<<
-     >>>>>  CPU time: 0.001899[s].  <<<<<
+     >>>>>  CPU time: 0.003431[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0014801[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00302005[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

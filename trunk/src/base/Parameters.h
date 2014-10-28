@@ -153,6 +153,8 @@ public:
    const std::vector<AtomIndexPair>* GetSumChargesIndexPairsCIS() const;
    void              AddSumChargesIndexPairsCIS(int fistAtomIndex, int lastAtomIndex);
    inline void       SetRequiresUnpairedPopCIS(bool requires)               {this->requiresUnpairedPopCIS = requires;}
+   inline bool       RequiresScaLapackCIS() const                           {return this->requiresScaLapackCIS;}
+   inline void       SetRequiresScaLapackCIS(bool requires)                 {this->requiresScaLapackCIS = requires;}
    // Memory
    double GetLimitHeapMemory() const          {return this->limitHeapMemory;}
    void   SetLimitHeapMemory(double limitHeap){this->limitHeapMemory = limitHeap;}
@@ -308,6 +310,7 @@ private:
    std::vector<int>* electronicStateIndecesMullikenCIS;
    bool              requiresUnpairedPopCIS;
    std::vector<AtomIndexPair>* sumChargesIndexPairsCIS;
+   bool              requiresScaLapackCIS;
    // Memory
    double limitHeapMemory; // in [MB]
    // MD

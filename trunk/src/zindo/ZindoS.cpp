@@ -40,6 +40,7 @@
 #include"../mpi/AsyncCommunicator.h"
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
+#include"../wrappers/ScaLapack.h"
 #include"../base/MathUtilities.h"
 #include"../base/EularAngle.h"
 #include"../base/Parameters.h"
@@ -2407,10 +2408,18 @@ void ZindoS::FreeDavidsonRoopCISTemporaryMtrices(double*** interactionMatrix,
 void ZindoS::DoCISDirect(){
    this->OutputLog(this->messageStartDirectCIS);
    bool calcEigenVectors = true;
-   MolDS_wrappers::Lapack::GetInstance()->Dsyevd(this->matrixCIS,
-                                                 this->excitedEnergies, 
-                                                 this->matrixCISdimension, 
-                                                 calcEigenVectors);
+   if(Parameters::GetInstance()->RequiresScaLapackCIS()){
+      MolDS_wrappers::ScaLapack::GetInstance()->Pdsyevd(this->matrixCIS,
+                                                        this->excitedEnergies, 
+                                                        this->matrixCISdimension, 
+                                                        calcEigenVectors);
+   }
+   else{
+      MolDS_wrappers::Lapack::GetInstance()->Dsyevd(this->matrixCIS,
+                                                    this->excitedEnergies, 
+                                                    this->matrixCISdimension, 
+                                                    calcEigenVectors);
+   }
    this->OutputLog(this->messageDoneDirectCIS);
 }
 

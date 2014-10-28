@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:29  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:2:47  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -50,6 +58,7 @@
 		Norm tolerance for the residual of the Davidson: 1.000000e-06
 		Exciton energies: no
 		All transition dipole moments: no
+		ScaLapack for digonalization of CIS matrix: no
 
 Input terms:
 theory | pm3 | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
@@ -124,13 +133,13 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.008979[s].
+	Elapsed time(omp) for the SCF = 0.012346[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.006771[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.029033[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -241,7 +250,7 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Transition dipole moment:	0 -> 4		1.749100e-03	9.050793e-02	1.317183e-01	1.598263e-01		4.445770e-03	2.300483e-01	3.347945e-01	4.062380e-01	4.997051e-03
 
 
-	Elapsed time(omp) for the CIS = 0.042149[s].
+	Elapsed time(omp) for the CIS = 0.125493[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -251,9 +260,9 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.053226[s].  <<<<<
+     >>>>>  CPU time: 0.141678[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0523212[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.140133[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

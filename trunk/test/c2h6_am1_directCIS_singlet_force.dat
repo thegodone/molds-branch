@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:27  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:2:43  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -47,6 +55,7 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
+		ScaLapack for digonalization of CIS matrix: no
 
 	MD conditions:
 		Electronic eigenstate: 1
@@ -127,13 +136,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029984e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579942e-02
 
-	Elapsed time(omp) for the SCF = 0.008815[s].
+	Elapsed time(omp) for the SCF = 0.010652[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.006916[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.032090[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -348,7 +357,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.626166e-03	6.753032e-03	2.285646e-03	9.081925e-03		-1.430029e-02	1.716450e-02	5.809533e-03	2.308396e-02	6.411564e-05
 
 
-	Elapsed time(omp) for the CIS = 0.010622[s].
+	Elapsed time(omp) for the CIS = 0.039316[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -442,13 +451,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029912e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579913e-02
 
-	Elapsed time(omp) for the SCF = 0.002323[s].
+	Elapsed time(omp) for the SCF = 0.004192[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.006862[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027603[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -663,7 +672,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.630832e-03	6.751657e-03	2.284936e-03	9.083616e-03		-1.431215e-02	1.716100e-02	5.807728e-03	2.308825e-02	6.413893e-05
 
 
-	Elapsed time(omp) for the CIS = 0.010493[s].
+	Elapsed time(omp) for the CIS = 0.033906[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -759,13 +768,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029908e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579965e-02
 
-	Elapsed time(omp) for the SCF = 0.002472[s].
+	Elapsed time(omp) for the SCF = 0.004420[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.006696[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027327[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -980,7 +989,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.630741e-03	6.748356e-03	2.283548e-03	9.080757e-03		-1.431192e-02	1.715261e-02	5.804200e-03	2.308099e-02	6.409689e-05
 
 
-	Elapsed time(omp) for the CIS = 0.010135[s].
+	Elapsed time(omp) for the CIS = 0.033690[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -991,7 +1000,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.216945e+01	-3.311501e+02
 		Total:            	-1.216942e+01	-3.311495e+02
-		Error:            	2.946197e-07	8.017075e-06
+		Error:            	2.946198e-07	8.017076e-06
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	3.089896e-05	3.778845e-02	-2.902924e-07		1.635103e-05	1.999679e-02	-1.536161e-07
@@ -1076,13 +1085,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029949e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.580089e-02
 
-	Elapsed time(omp) for the SCF = 0.002451[s].
+	Elapsed time(omp) for the SCF = 0.004377[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.006626[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027396[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1297,7 +1306,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.628017e-03	6.742993e-03	2.281331e-03	9.074525e-03		-1.430500e-02	1.713898e-02	5.798567e-03	2.306515e-02	6.400614e-05
 
 
-	Elapsed time(omp) for the CIS = 0.010091[s].
+	Elapsed time(omp) for the CIS = 0.033752[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1394,13 +1403,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029924e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.580181e-02
 
-	Elapsed time(omp) for the SCF = 0.002656[s].
+	Elapsed time(omp) for the SCF = 0.004635[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.006749[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027155[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1615,7 +1624,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.624017e-03	6.735477e-03	2.278310e-03	9.065700e-03		-1.429483e-02	1.711988e-02	5.790888e-03	2.304272e-02	6.387781e-05
 
 
-	Elapsed time(omp) for the CIS = 0.010242[s].
+	Elapsed time(omp) for the CIS = 0.033475[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1712,13 +1721,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029948e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.580354e-02
 
-	Elapsed time(omp) for the SCF = 0.002749[s].
+	Elapsed time(omp) for the SCF = 0.004733[s].
 **********  DONE: AM1-SCF  **********
 
 
 **********  START: AM1-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.006882[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027110[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1933,7 +1942,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-5.618849e-03	6.725825e-03	2.274381e-03	9.054336e-03		-1.428169e-02	1.709535e-02	5.780901e-03	2.301383e-02	6.371277e-05
 
 
-	Elapsed time(omp) for the CIS = 0.010341[s].
+	Elapsed time(omp) for the CIS = 0.033467[s].
 **********  DONE: AM1-CIS  **********
 
 
@@ -1944,7 +1953,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.216957e+01	-3.311535e+02
 		Total:            	-1.216942e+01	-3.311495e+02
-		Error:            	3.183604e-07	8.663096e-06
+		Error:            	3.183604e-07	8.663097e-06
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	1.930172e-04	3.775662e-02	-1.814071e-06		1.021403e-04	1.997994e-02	-9.599651e-07
@@ -1981,9 +1990,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.246524[s].  <<<<<
+     >>>>>  CPU time: 0.84852[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.243885[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.844779[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

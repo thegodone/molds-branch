@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:38  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:3:2  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 5
 		Total number of valence AOs: 8
@@ -47,6 +55,7 @@
 		Norm tolerance for the residual of the Davidson: 1.000000e-06
 		Exciton energies: no
 		All transition dipole moments: no
+		ScaLapack for digonalization of CIS matrix: no
 
 Input terms:
 theory | pm3 | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
@@ -111,13 +120,13 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	3.244126e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.649410e-02
 
-	Elapsed time(omp) for the SCF = 0.007467[s].
+	Elapsed time(omp) for the SCF = 0.008808[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000313[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.001042[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -140,10 +149,10 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	  4-th excited: norm of the residual = 4.157423e-02
 
 	Davidson iter=3
-	  1-th excited: norm of the residual = 1.971953e-16
-	  2-th excited: norm of the residual = 5.144168e-16
-	  3-th excited: norm of the residual = 4.463468e-16
-	  4-th excited: norm of the residual = 3.849049e-16
+	  1-th excited: norm of the residual = 5.772283e-16
+	  2-th excited: norm of the residual = 3.186774e-16
+	  3-th excited: norm of the residual = 3.220331e-16
+	  4-th excited: norm of the residual = 5.217936e-16
 
 
 
@@ -180,7 +189,7 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Transition dipole moment:	0 -> 4		-2.256340e-01	8.233474e-01	-9.739749e-01	1.295160e+00		-5.735046e-01	2.092741e+00	-2.475598e+00	3.291968e+00	3.612326e-01
 
 
-	Elapsed time(omp) for the CIS = 0.001194[s].
+	Elapsed time(omp) for the CIS = 0.002742[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -190,9 +199,9 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.01028[s].  <<<<<
+     >>>>>  CPU time: 0.013925[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00959086[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0129201[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
