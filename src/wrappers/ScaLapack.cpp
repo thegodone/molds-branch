@@ -146,10 +146,11 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
 
    // initialize blacs and scalapack 
    blacs_pinfo_(&mpiRank, &mpiSize);
-   molds_scalapack_int squareMpiSize = lround(sqrt(static_cast<double>(mpiSize)));
-   molds_scalapack_int npRow=squareMpiSize;
-   molds_scalapack_int npCol=squareMpiSize;
-   molds_scalapack_int blockSize=64; // ToDo: change to dynamical setting
+   molds_scalapack_int squareMpiSize    = lround(sqrt(static_cast<double>(mpiSize)));
+   molds_scalapack_int npRow            = squareMpiSize;
+   molds_scalapack_int npCol            = squareMpiSize;
+   molds_scalapack_int blockSizeDefault = 64; 
+   molds_scalapack_int blockSize        = size < blockSizeDfault ? size/2 : blockSizeDefault;
    sl_init_(&iContext, &npRow, &npCol); 
    blacs_gridinfo_(&iContext, &npRow, &npCol, &myRow, &myCol);
    
