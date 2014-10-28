@@ -99,6 +99,7 @@ private:
    std::string messageCisSumCharges;
    std::string messageCisSumCharges2;
    std::string messageCisSumCharges3;
+   std::string messageCisScaLapack;
    // Memory
    std::string messageMemoryConditions;
    std::string messageMemoryLimitHeap;
@@ -268,6 +269,7 @@ private:
    std::string stringCISMulliken;
    std::string stringCISUnpairedPop;
    std::string stringCISSumCharges;
+   std::string stringCISScalapack;
    // Memory
    std::string stringMemory;
    std::string stringMemoryEnd;

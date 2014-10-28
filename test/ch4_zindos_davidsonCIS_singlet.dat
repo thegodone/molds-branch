@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:38  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:3:2  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 5
 		Total number of valence AOs: 8
@@ -47,6 +55,7 @@
 		Norm tolerance for the residual of the Davidson: 1.000000e-06
 		Exciton energies: no
 		All transition dipole moments: no
+		ScaLapack for digonalization of CIS matrix: no
 
 Input terms:
 theory | zindo/s | theory_end | scf | max_iter | 50 | rms_density | 0.000001 | damping_thresh | 1.0 | 
@@ -108,13 +117,13 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	2.583597e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.214567e-02
 
-	Elapsed time(omp) for the SCF = 0.006862[s].
+	Elapsed time(omp) for the SCF = 0.008552[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000154[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000459[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -137,10 +146,10 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	  4-th excited: norm of the residual = 4.105571e-02
 
 	Davidson iter=3
-	  1-th excited: norm of the residual = 2.482654e-16
-	  2-th excited: norm of the residual = 3.951747e-16
-	  3-th excited: norm of the residual = 2.964691e-16
-	  4-th excited: norm of the residual = 5.995699e-16
+	  1-th excited: norm of the residual = 3.960384e-16
+	  2-th excited: norm of the residual = 3.369871e-16
+	  3-th excited: norm of the residual = 2.502597e-16
+	  4-th excited: norm of the residual = 6.544681e-16
 
 
 
@@ -177,7 +186,7 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Transition dipole moment:	0 -> 4		1.003970e-02	1.724657e-02	4.710944e-02	5.116189e-02		2.551838e-02	4.383642e-02	1.197403e-01	1.300406e-01	1.008163e-03
 
 
-	Elapsed time(omp) for the CIS = 0.001078[s].
+	Elapsed time(omp) for the CIS = 0.002180[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
@@ -187,9 +196,9 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.009464[s].  <<<<<
+     >>>>>  CPU time: 0.013048[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0088222[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.011941[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

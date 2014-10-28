@@ -163,6 +163,7 @@ void InputParser::SetMessages(){
    this->messageCisSumCharges                 = "\t\tSummation of atomic charges from ";
    this->messageCisSumCharges2                = " to ";
    this->messageCisSumCharges3                = " atoms.";
+   this->messageCisScaLapack                  = "\t\tScaLapack for digonalization of the CIS matrix: ";
 
    // memory
    this->messageMemoryConditions = "\tMemory conditions:\n";
@@ -356,6 +357,7 @@ void InputParser::SetMessages(){
    this->stringCISMulliken                   = "mulliken";
    this->stringCISUnpairedPop                = "unpaired_electron_population";
    this->stringCISSumCharges                 = "sum_charges";
+   this->stringCISScalapack                  = "scalapack";
 
    // Memory
    this->stringMemory          = "memory";
@@ -976,6 +978,16 @@ int InputParser::ParseConditionsCIS(vector<string>* inputTerms, int parseIndex) 
          int lastAtom  = atoi((*inputTerms)[parseIndex+2].c_str());
          Parameters::GetInstance()->AddSumChargesIndexPairsCIS(firstAtom, lastAtom);
          parseIndex += 2;
+      }
+      // ScaLapack
+      if((*inputTerms)[parseIndex].compare(this->stringCISScalapack) == 0){
+          if((*inputTerms)[parseIndex+1].compare(this->stringYES) == 0){
+             Parameters::GetInstance()->SetRequiresScaLapackCIS(true);
+          }
+          else {
+             Parameters::GetInstance()->SetRequiresScaLapackCIS(false);
+          }
+          parseIndex++;   
       }
       parseIndex++;   
    }
@@ -1867,6 +1879,15 @@ void InputParser::OutputCisConditions() const{
 
    this->OutputLog(this->messageCisAllTransitionDipoleMoments);
    if(Parameters::GetInstance()->RequiresAllTransitionDipoleMomentsCIS()){
+      this->OutputLog(this->stringYES);
+   }
+   else{
+      this->OutputLog(this->stringNO);
+   }
+   this->OutputLog("\n");
+
+   this->OutputLog(this->messageCisScaLapack);
+   if(Parameters::GetInstance()->RequiresScaLapackCIS()){
       this->OutputLog(this->stringYES);
    }
    else{

@@ -442,7 +442,7 @@ HOW TO WRITE INPUT:
       -options
        "davidson", "active_occ", "active_vir", "max_iter", "max_dim", "norm_tol", 
        "nstates", "exciton_energies", "all_transition_dipole_moments", 
-       "mulliken", "unpaired_electron_population", "sum_charges", and "num_print_coefficients" are prepared as options.
+       "mulliken", "unpaired_electron_population", "sum_charges", "scalapack", and "num_print_coefficients" are prepared as options.
 
        "davidson" should be set as "yes" or "no". 
        The default value of the "davidson" is "yes".
@@ -499,6 +499,11 @@ HOW TO WRITE INPUT:
        By multiple indication of these mulliken option, the UEP on multiple excited states are possible.
        Note that the UEP on ground state is ignored. 
        Default setting is "unpaired_electron_population" option is nothing.
+
+       "scalapack" should be set as "yes" or "no". 
+       When "scalapack yes", the diagonalizing CIS matrix is carried out with ScaLapack.
+       Default setting is "scalapack" option is "NO".
+       Note that "scalapack" is supported on FX10 only.
 
        "sum_charges" is an option to calculate of summation of the mulliken charges and unpaired electron population
        in each excited state which indicated with "mulliken" option.

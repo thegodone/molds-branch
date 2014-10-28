@@ -193,6 +193,7 @@ void Parameters::SetDefaultValues(){
    this->requiresExcitonEnergiesCIS            = false;
    this->requiresAllTransitionDipoleMomentsCIS = false;
    this->requiresUnpairedPopCIS                = false;
+   this->requiresScaLapackCIS                  = false;
    // Memory
    this->limitHeapMemory = 256;
    // MD
