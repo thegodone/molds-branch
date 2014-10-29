@@ -147,6 +147,7 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    // initialize blacs and scalapack 
    blacs_pinfo_(&mpiRank, &mpiSize);
    molds_scalapack_int squareMpiSize    = lround(sqrt(static_cast<double>(mpiSize)));
+   if(mpiSize < squareMpiSize*squareMpiSize){squareMpiSize-=1;}
    molds_scalapack_int npRow            = squareMpiSize;
    molds_scalapack_int npCol            = squareMpiSize;
    molds_scalapack_int blockSizeDefault = 64; 
