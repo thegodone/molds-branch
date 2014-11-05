@@ -150,8 +150,15 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    if(mpiSize < squareMpiSize*squareMpiSize){squareMpiSize-=1;}
    molds_scalapack_int npRow            = squareMpiSize;
    molds_scalapack_int npCol            = squareMpiSize;
-   molds_scalapack_int blockSizeDefault = 64; 
-   molds_scalapack_int blockSize        = size <= blockSizeDefault ? size/2 : blockSizeDefault;
+   molds_scalapack_int blockSizeDefault = 128; 
+   molds_scalapack_int blockSize        = blockSizeDefault;
+   while(size < blockSize*npRow){
+      blockSize /= 2;
+      if(blockSize < 1){
+         blockSize = 1;
+         break;
+      }
+   }
    sl_init_(&iContext, &npRow, &npCol); 
    blacs_gridinfo_(&iContext, &npRow, &npCol, &myRow, &myCol);
    
