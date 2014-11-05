@@ -83,6 +83,7 @@ private:
    std::string messageScfVdWScalingFactor;
    std::string messageScfVdWDampingFactor;
    std::string messageScfMpi;
+   std::string messageScfScaLapack;
    // CIS
    std::string messageCisConditions;
    std::string messageCisNumberActiveOcc;
@@ -214,6 +215,7 @@ private:
    std::string stringScfVdWScalingFactor;
    std::string stringScfVdWDampingFactor;
    std::string stringScfMpi;
+   std::string stringScfScaLapack;
    // MOPlot
    std::string stringMO;
    std::string stringMOPlot;
@@ -269,7 +271,7 @@ private:
    std::string stringCISMulliken;
    std::string stringCISUnpairedPop;
    std::string stringCISSumCharges;
-   std::string stringCISScalapack;
+   std::string stringCISScaLapack;
    // Memory
    std::string stringMemory;
    std::string stringMemoryEnd;

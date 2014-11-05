@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:31  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:4  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -37,6 +45,7 @@
 		vdW corr. scaling factor (s6): 0.880000
 		vdW corr. damping factor (d): 20.000000
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -123,7 +132,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.009032[s].
+	Elapsed time(omp) for the SCF = 0.011099[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -220,7 +229,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744365e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258069e-02
 
-	Elapsed time(omp) for the SCF = 0.002102[s].
+	Elapsed time(omp) for the SCF = 0.003944[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -232,7 +241,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep. and vdW):	-1.212780e+01	-3.300168e+02
 		Total:            	-1.212780e+01	-3.300168e+02
-		Error:            	1.999378e-10	5.440629e-09
+		Error:            	1.999165e-10	5.440049e-09
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-4.719246e-07	3.779167e-02	-6.708922e-07		-2.497317e-07	1.999849e-02	-3.550209e-07
@@ -319,7 +328,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744229e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257883e-02
 
-	Elapsed time(omp) for the SCF = 0.002324[s].
+	Elapsed time(omp) for the SCF = 0.004249[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -331,7 +340,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep. and vdW):	-1.212780e+01	-3.300169e+02
 		Total:            	-1.212780e+01	-3.300168e+02
-		Error:            	7.976553e-10	2.170548e-08
+		Error:            	7.976393e-10	2.170504e-08
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-1.887488e-06	3.778310e-02	-2.683183e-06		-9.988154e-07	1.999395e-02	-1.419879e-06
@@ -418,7 +427,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744067e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257626e-02
 
-	Elapsed time(omp) for the SCF = 0.002320[s].
+	Elapsed time(omp) for the SCF = 0.004473[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -430,7 +439,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep. and vdW):	-1.212781e+01	-3.300171e+02
 		Total:            	-1.212780e+01	-3.300168e+02
-		Error:            	1.806647e-09	4.916177e-08
+		Error:            	1.806626e-09	4.916119e-08
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-4.245968e-06	3.776882e-02	-6.035775e-06		-2.246869e-06	1.998640e-02	-3.193994e-06
@@ -518,7 +527,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.743848e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257166e-02
 
-	Elapsed time(omp) for the SCF = 0.002553[s].
+	Elapsed time(omp) for the SCF = 0.004468[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -530,7 +539,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep. and vdW):	-1.212782e+01	-3.300173e+02
 		Total:            	-1.212780e+01	-3.300168e+02
-		Error:            	3.207894e-09	8.729195e-08
+		Error:            	3.207875e-09	8.729142e-08
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-7.546168e-06	3.774885e-02	-1.072683e-05		-3.993260e-06	1.997583e-02	-5.676394e-06
@@ -618,7 +627,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.743579e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.256647e-02
 
-	Elapsed time(omp) for the SCF = 0.002524[s].
+	Elapsed time(omp) for the SCF = 0.004437[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -630,7 +639,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep. and vdW):	-1.212783e+01	-3.300176e+02
 		Total:            	-1.212780e+01	-3.300168e+02
-		Error:            	4.976565e-09	1.354203e-07
+		Error:            	4.976549e-09	1.354199e-07
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-1.178636e-05	3.772320e-02	-1.675381e-05		-6.237071e-06	1.996226e-02	-8.865734e-06
@@ -667,9 +676,9 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.050833[s].  <<<<<
+     >>>>>  CPU time: 0.092857[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0486588[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0899699[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:28  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:28:57  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -35,6 +43,7 @@
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -117,7 +126,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029984e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579942e-02
 
-	Elapsed time(omp) for the SCF = 0.008827[s].
+	Elapsed time(omp) for the SCF = 0.010880[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -210,7 +219,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029936e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579918e-02
 
-	Elapsed time(omp) for the SCF = 0.002109[s].
+	Elapsed time(omp) for the SCF = 0.004000[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -221,7 +230,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.246035e+01	-3.390662e+02
 		Total:            	-1.246035e+01	-3.390661e+02
-		Error:            	3.503100e-10	9.532497e-09
+		Error:            	3.503313e-10	9.533077e-09
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	1.530186e-07	3.779154e-02	-7.262512e-07		8.097398e-08	1.999842e-02	-3.843156e-07
@@ -305,7 +314,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029935e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579888e-02
 
-	Elapsed time(omp) for the SCF = 0.002416[s].
+	Elapsed time(omp) for the SCF = 0.004255[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -316,7 +325,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.246036e+01	-3.390663e+02
 		Total:            	-1.246035e+01	-3.390661e+02
-		Error:            	1.407150e-09	3.829081e-08
+		Error:            	1.407157e-09	3.829100e-08
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	6.114188e-07	3.778259e-02	-2.904479e-06		3.235489e-07	1.999368e-02	-1.536984e-06
@@ -401,7 +410,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029976e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579789e-02
 
-	Elapsed time(omp) for the SCF = 0.002498[s].
+	Elapsed time(omp) for the SCF = 0.005592[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -497,7 +506,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.030067e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579711e-02
 
-	Elapsed time(omp) for the SCF = 0.002474[s].
+	Elapsed time(omp) for the SCF = 0.005273[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -593,7 +602,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.030185e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579611e-02
 
-	Elapsed time(omp) for the SCF = 0.002444[s].
+	Elapsed time(omp) for the SCF = 0.004502[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -604,7 +613,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.246039e+01	-3.390672e+02
 		Total:            	-1.246035e+01	-3.390661e+02
-		Error:            	8.612325e-09	2.343552e-07
+		Error:            	8.612332e-09	2.343554e-07
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	3.797997e-06	3.772003e-02	-1.813097e-05		2.009814e-06	1.996058e-02	-9.594497e-06
@@ -641,9 +650,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.050716[s].  <<<<<
+     >>>>>  CPU time: 0.102676[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0485661[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0995049[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

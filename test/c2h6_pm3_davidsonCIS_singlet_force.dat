@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:2:47  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:1  <<<<<
 
 
 **********  START: Parse input  **********
@@ -43,6 +43,7 @@
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -58,7 +59,7 @@
 		Norm tolerance for the residual of the Davidson: 1.000000e-06
 		Exciton energies: no
 		All transition dipole moments: no
-		ScaLapack for digonalization of CIS matrix: no
+		ScaLapack for digonalization of the CIS matrix: no
 
 	MD conditions:
 		Electronic eigenstate: 1
@@ -140,13 +141,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.012748[s].
+	Elapsed time(omp) for the SCF = 0.011290[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027374[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027646[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -257,7 +258,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		1.749100e-03	9.050793e-02	1.317183e-01	1.598263e-01		4.445770e-03	2.300483e-01	3.347945e-01	4.062380e-01	4.997051e-03
 
 
-	Elapsed time(omp) for the CIS = 0.123561[s].
+	Elapsed time(omp) for the CIS = 0.125084[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -350,13 +351,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744385e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258093e-02
 
-	Elapsed time(omp) for the SCF = 0.003944[s].
+	Elapsed time(omp) for the SCF = 0.003999[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027114[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027648[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -467,7 +468,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		1.745890e-03	9.046620e-02	1.316832e-01	1.597737e-01		4.437610e-03	2.299422e-01	3.347053e-01	4.061043e-01	4.993763e-03
 
 
-	Elapsed time(omp) for the CIS = 0.122170[s].
+	Elapsed time(omp) for the CIS = 0.124020[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -562,13 +563,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744293e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257983e-02
 
-	Elapsed time(omp) for the SCF = 0.004183[s].
+	Elapsed time(omp) for the SCF = 0.004266[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026963[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027572[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -679,7 +680,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		1.736620e-03	9.034608e-02	1.315873e-01	1.596266e-01		4.414048e-03	2.296369e-01	3.344617e-01	4.057305e-01	4.984567e-03
 
 
-	Elapsed time(omp) for the CIS = 0.121367[s].
+	Elapsed time(omp) for the CIS = 0.123736[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -775,13 +776,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744136e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257749e-02
 
-	Elapsed time(omp) for the SCF = 0.004437[s].
+	Elapsed time(omp) for the SCF = 0.004609[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027175[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027570[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -892,7 +893,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		1.721356e-03	9.014628e-02	1.314297e-01	1.593834e-01		4.375253e-03	2.291290e-01	3.340610e-01	4.051123e-01	4.969377e-03
 
 
-	Elapsed time(omp) for the CIS = 0.121838[s].
+	Elapsed time(omp) for the CIS = 0.128531[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -988,13 +989,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.743958e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257485e-02
 
-	Elapsed time(omp) for the SCF = 0.004523[s].
+	Elapsed time(omp) for the SCF = 0.004485[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027139[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027948[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1105,7 +1106,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		1.700507e-03	8.986808e-02	1.312093e-01	1.590442e-01		4.322258e-03	2.284219e-01	3.335008e-01	4.042500e-01	4.948229e-03
 
 
-	Elapsed time(omp) for the CIS = 0.122275[s].
+	Elapsed time(omp) for the CIS = 0.124008[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -1201,13 +1202,13 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.743732e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257148e-02
 
-	Elapsed time(omp) for the SCF = 0.004624[s].
+	Elapsed time(omp) for the SCF = 0.004475[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.028020[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027596[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -1318,7 +1319,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Transition dipole moment:	0 -> 4		1.674098e-03	8.951248e-02	1.309264e-01	1.586096e-01		4.255134e-03	2.275181e-01	3.327817e-01	4.031454e-01	4.921205e-03
 
 
-	Elapsed time(omp) for the CIS = 0.123204[s].
+	Elapsed time(omp) for the CIS = 0.124318[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -1366,9 +1367,9 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 1.35994[s].  <<<<<
+     >>>>>  CPU time: 1.39333[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.3562[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.3897[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

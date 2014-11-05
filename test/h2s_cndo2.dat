@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:39  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:22  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 3
 		Total number of valence AOs: 11
@@ -30,6 +38,7 @@
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -92,7 +101,7 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 	Mulliken charge(SCF):	0	1	H	1.000000e+00	5.963189e-03
 	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.543555e-03
 
-	Elapsed time(omp) for the SCF = 0.007430[s].
+	Elapsed time(omp) for the SCF = 0.009632[s].
 **********  DONE: CNDO/2-SCF  **********
 
 
@@ -102,9 +111,9 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.008658[s].  <<<<<
+     >>>>>  CPU time: 0.011122[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00814795[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0106211[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

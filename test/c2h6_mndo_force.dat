@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:29  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:0  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -35,6 +43,7 @@
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -120,7 +129,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.008338[s].
+	Elapsed time(omp) for the SCF = 0.011017[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -216,7 +225,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736950e-02	-1.717462e+01
 
-	Elapsed time(omp) for the SCF = 0.002431[s].
+	Elapsed time(omp) for the SCF = 0.003898[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -227,7 +236,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.255204e+01	-3.415610e+02
 		Total:            	-1.255203e+01	-3.415609e+02
-		Error:            	3.074945e-10	8.367417e-09
+		Error:            	3.074732e-10	8.366837e-09
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-1.346438e-06	3.779129e-02	-7.994196e-07		-7.125044e-07	1.999829e-02	-4.230346e-07
@@ -314,7 +323,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737405e-02	-1.717747e+01
 
-	Elapsed time(omp) for the SCF = 0.002288[s].
+	Elapsed time(omp) for the SCF = 0.004216[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -325,7 +334,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.255204e+01	-3.415611e+02
 		Total:            	-1.255203e+01	-3.415609e+02
-		Error:            	1.227439e-09	3.340060e-08
+		Error:            	1.227432e-09	3.340040e-08
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-5.385926e-06	3.778159e-02	-3.197051e-06		-2.850109e-06	1.999316e-02	-1.691806e-06
@@ -413,7 +422,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738162e-02	-1.718222e+01
 
-	Elapsed time(omp) for the SCF = 0.002915[s].
+	Elapsed time(omp) for the SCF = 0.004452[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -424,7 +433,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.255205e+01	-3.415613e+02
 		Total:            	-1.255203e+01	-3.415609e+02
-		Error:            	2.730827e-09	7.431018e-08
+		Error:            	2.730820e-09	7.430999e-08
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-1.211876e-05	3.776543e-02	-7.191113e-06		-6.412970e-06	1.998460e-02	-3.805373e-06
@@ -512,7 +521,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739219e-02	-1.718885e+01
 
-	Elapsed time(omp) for the SCF = 0.002502[s].
+	Elapsed time(omp) for the SCF = 0.004430[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -611,7 +620,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740571e-02	-1.719734e+01
 
-	Elapsed time(omp) for the SCF = 0.002453[s].
+	Elapsed time(omp) for the SCF = 0.004385[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -622,7 +631,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.255207e+01	-3.415620e+02
 		Total:            	-1.255203e+01	-3.415609e+02
-		Error:            	7.500393e-09	2.040977e-07
+		Error:            	7.500386e-09	2.040975e-07
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-3.366638e-05	3.771380e-02	-1.995552e-05		-1.781548e-05	1.995728e-02	-1.056001e-05
@@ -659,9 +668,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.052719[s].  <<<<<
+     >>>>>  CPU time: 0.090005[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0504019[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.087177[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

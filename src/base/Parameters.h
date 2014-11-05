@@ -75,6 +75,8 @@ public:
    inline void   SetVdWDampingFactorSCF(double vdWDamp){this->vdWDampingFactorSCF = vdWDamp;}
    inline bool   RequiresMpiSCF() const                {return this->requiresMpiSCF;}
    inline void   SetRequiresMpiSCF(bool requires)      {this->requiresMpiSCF = requires;}
+   inline bool   RequiresScaLapackSCF() const          {return this->requiresScaLapackSCF;}
+   inline void   SetRequiresScaLapackSCF(bool requires){this->requiresScaLapackSCF = requires;}
    // MOPlot
    inline bool          RequiresMOPlot() const                     {return (this->indecesMOPlot!=NULL && 0<this->indecesMOPlot->size());}
    inline std::string   GetFileNamePrefixMOPlot() const            {return this->fileNamePrefixMOPlot;}
@@ -270,6 +272,7 @@ private:
    static const double vdWScalingFactorSCFPM3DAM1D;
    static const double vdWDampingFactorSCFPM3DAM1D;
    bool   requiresMpiSCF;
+   bool   requiresScaLapackSCF;
    // MOPlot
    std::string       fileNamePrefixMOPlot;
    int               gridNumberMOPlot[CartesianType_end];

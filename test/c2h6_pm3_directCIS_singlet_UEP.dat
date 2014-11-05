@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:2:49  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:2  <<<<<
 
 
 **********  START: Parse input  **********
@@ -43,6 +43,7 @@
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -55,7 +56,7 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
-		ScaLapack for digonalization of CIS matrix: no
+		ScaLapack for digonalization of the CIS matrix: no
 		Mulliken population in excited state: 3
 		Mulliken population in excited state: 20
 
@@ -133,13 +134,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.013000[s].
+	Elapsed time(omp) for the SCF = 0.011196[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027576[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.027925[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -392,7 +393,7 @@ geometry_end |
 	Unpaired electron population(UEP):	20	7	H	2.323780e-01
 
 
-	Elapsed time(omp) for the CIS = 0.039024[s].
+	Elapsed time(omp) for the CIS = 0.039719[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -402,9 +403,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.055099[s].  <<<<<
+     >>>>>  CPU time: 0.053983[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0536921[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0526268[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

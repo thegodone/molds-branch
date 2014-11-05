@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/21(Mon.) 18:40:4  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:21  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 6
 		Total number of valence AOs: 12
@@ -36,6 +44,7 @@
 		vdW corr. scaling factor (s6): 1.400000
 		vdW corr. damping factor (d): 23.000000
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -127,7 +136,7 @@ h | -2.535662e+00 | -1.865382e+00 | -1.661604e+00 | geometry_end |
 				| k-th eigenstate | first atom | last atom | sum[a.u.] | 
 	Summation of Mulliken(SCF):	0	3	4	-2.103240e-01
 
-	Elapsed time(omp) for the SCF = 0.175596[s].
+	Elapsed time(omp) for the SCF = 0.009977[s].
 **********  DONE: PM3-D-SCF  **********
 
 
@@ -1271,12 +1280,12 @@ Trust radius is 0.075000
 	Summation of Mulliken(SCF):	0	3	4	-2.046067e-01
 
 
-actual energy change          = -7.595542e-07
+actual energy change          = -7.595541e-07
 expected energy change        = -7.605016e-07
 actual/expected energy change = 0.998754
 
 	====== Optimization Logs ======
-	Energy difference:  -7.595542e-07 [a.u.]
+	Energy difference:  -7.595541e-07 [a.u.]
 	Max gradient:  1.601133e-03 [a.u.]
 	Rms gradient:  7.215945e-04 [a.u.]
 
@@ -1357,12 +1366,12 @@ Trust radius is 0.150000
 	Summation of Mulliken(SCF):	0	3	4	-2.046142e-01
 
 
-actual energy change          = -8.479564e-07
+actual energy change          = -8.479565e-07
 expected energy change        = -8.478595e-07
 actual/expected energy change = 1.000114
 
 	====== Optimization Logs ======
-	Energy difference:  -8.479564e-07 [a.u.]
+	Energy difference:  -8.479565e-07 [a.u.]
 	Max gradient:  1.446108e-03 [a.u.]
 	Rms gradient:  6.506402e-04 [a.u.]
 
@@ -1787,12 +1796,12 @@ Trust radius is 0.300000
 	Summation of Mulliken(SCF):	0	3	4	-2.046686e-01
 
 
-actual energy change          = -2.854651e-07
+actual energy change          = -2.854650e-07
 expected energy change        = -2.848445e-07
 actual/expected energy change = 1.002179
 
 	====== Optimization Logs ======
-	Energy difference:  -2.854651e-07 [a.u.]
+	Energy difference:  -2.854650e-07 [a.u.]
 	Max gradient:  4.523040e-04 [a.u.]
 	Rms gradient:  1.841557e-04 [a.u.]
 
@@ -1873,12 +1882,12 @@ Trust radius is 0.300000
 	Summation of Mulliken(SCF):	0	3	4	-2.046755e-01
 
 
-actual energy change          = -1.842698e-07
+actual energy change          = -1.842699e-07
 expected energy change        = -1.834395e-07
 actual/expected energy change = 1.004527
 
 	====== Optimization Logs ======
-	Energy difference:  -1.842698e-07 [a.u.]
+	Energy difference:  -1.842699e-07 [a.u.]
 	Max gradient:  3.754382e-04 [a.u.]
 	Rms gradient:  1.358728e-04 [a.u.]
 
@@ -1888,14 +1897,14 @@ actual/expected energy change = 1.004527
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.279616[MB].
+		Max Heap: 0.194752[MB].
 		Current Heap(Leaked): 0.007680[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.99[s].  <<<<<
+     >>>>>  CPU time: 0.364398[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.377001[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.353453[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
