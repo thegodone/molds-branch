@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:38  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:21  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 6
 		Total number of valence AOs: 12
@@ -36,6 +44,7 @@
 		vdW corr. scaling factor (s6): 1.400000
 		vdW corr. damping factor (d): 23.000000
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -126,7 +135,7 @@ h | -9.515380e-01 | 1.187176e+00 | -1.130142e-16 | o | -1.733116e+00 | -1.070721
 				| k-th eigenstate | first atom | last atom | sum[a.u.] | 
 	Summation of Mulliken(SCF):	0	3	4	-2.103240e-01
 
-	Elapsed time(omp) for the SCF = 0.008652[s].
+	Elapsed time(omp) for the SCF = 0.010407[s].
 **********  DONE: PM3-D-SCF  **********
 
 
@@ -630,9 +639,9 @@ h | -9.515380e-01 | 1.187176e+00 | -1.130142e-16 | o | -1.733116e+00 | -1.070721
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.106513[s].  <<<<<
+     >>>>>  CPU time: 0.188354[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.098572[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.176139[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

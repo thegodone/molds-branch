@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:36  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:18  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -35,6 +43,7 @@
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -125,7 +134,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795944e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.365529e-02
 
-	Elapsed time(omp) for the SCF = 0.003308[s].
+	Elapsed time(omp) for the SCF = 0.006328[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -191,7 +200,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.863837e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.460228e-02
 
-	Elapsed time(omp) for the SCF = 0.003286[s].
+	Elapsed time(omp) for the SCF = 0.008957[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -257,7 +266,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.848834e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.308363e-02
 
-	Elapsed time(omp) for the SCF = 0.003288[s].
+	Elapsed time(omp) for the SCF = 0.005999[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -336,7 +345,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795928e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.365473e-02
 
-	Elapsed time(omp) for the SCF = 0.003850[s].
+	Elapsed time(omp) for the SCF = 0.006466[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -402,7 +411,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.863812e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.460159e-02
 
-	Elapsed time(omp) for the SCF = 0.003523[s].
+	Elapsed time(omp) for the SCF = 0.006131[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -468,7 +477,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.848810e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.308311e-02
 
-	Elapsed time(omp) for the SCF = 0.003453[s].
+	Elapsed time(omp) for the SCF = 0.006234[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -479,7 +488,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep.)	-3.689669e+01	-1.004018e+03
 		Total            	-3.689664e+01	-1.004017e+03
-		Error            	5.539533e-10	1.507396e-08
+		Error            	5.539178e-10	1.507299e-08
 
 ==========  DONE: RPMD step 1
 
@@ -546,7 +555,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795882e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.365306e-02
 
-	Elapsed time(omp) for the SCF = 0.003876[s].
+	Elapsed time(omp) for the SCF = 0.006584[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -612,7 +621,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.863737e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.459950e-02
 
-	Elapsed time(omp) for the SCF = 0.003527[s].
+	Elapsed time(omp) for the SCF = 0.006526[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -678,7 +687,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.848737e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.308156e-02
 
-	Elapsed time(omp) for the SCF = 0.003594[s].
+	Elapsed time(omp) for the SCF = 0.006462[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -689,7 +698,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep.)	-3.689670e+01	-1.004018e+03
 		Total            	-3.689664e+01	-1.004017e+03
-		Error            	2.215096e-09	6.027630e-08
+		Error            	2.215046e-09	6.027495e-08
 
 ==========  DONE: RPMD step 2
 
@@ -756,7 +765,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795805e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.365026e-02
 
-	Elapsed time(omp) for the SCF = 0.003892[s].
+	Elapsed time(omp) for the SCF = 0.006510[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -822,7 +831,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.863612e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.459603e-02
 
-	Elapsed time(omp) for the SCF = 0.003665[s].
+	Elapsed time(omp) for the SCF = 0.006307[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -888,7 +897,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.848615e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.307896e-02
 
-	Elapsed time(omp) for the SCF = 0.003725[s].
+	Elapsed time(omp) for the SCF = 0.006621[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -899,7 +908,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep.)	-3.689672e+01	-1.004019e+03
 		Total            	-3.689664e+01	-1.004017e+03
-		Error            	4.979185e-09	1.354916e-07
+		Error            	4.979192e-09	1.354918e-07
 
 ==========  DONE: RPMD step 3
 
@@ -966,7 +975,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795696e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.364635e-02
 
-	Elapsed time(omp) for the SCF = 0.003974[s].
+	Elapsed time(omp) for the SCF = 0.006573[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1032,7 +1041,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.863437e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.459117e-02
 
-	Elapsed time(omp) for the SCF = 0.003500[s].
+	Elapsed time(omp) for the SCF = 0.006562[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1098,7 +1107,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.848445e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.307534e-02
 
-	Elapsed time(omp) for the SCF = 0.003324[s].
+	Elapsed time(omp) for the SCF = 0.006252[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1109,7 +1118,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep.)	-3.689675e+01	-1.004020e+03
 		Total            	-3.689664e+01	-1.004017e+03
-		Error            	8.840033e-09	2.405515e-07
+		Error            	8.840004e-09	2.405507e-07
 
 ==========  DONE: RPMD step 4
 
@@ -1176,7 +1185,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.795557e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.364133e-02
 
-	Elapsed time(omp) for the SCF = 0.003837[s].
+	Elapsed time(omp) for the SCF = 0.006473[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1242,7 +1251,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.863212e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.458493e-02
 
-	Elapsed time(omp) for the SCF = 0.003541[s].
+	Elapsed time(omp) for the SCF = 0.006045[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1308,7 +1317,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.848226e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.307067e-02
 
-	Elapsed time(omp) for the SCF = 0.003553[s].
+	Elapsed time(omp) for the SCF = 0.005938[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1319,7 +1328,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 		Electronic
 		(inc. core rep.)	-3.689678e+01	-1.004021e+03
 		Total            	-3.689664e+01	-1.004017e+03
-		Error            	1.378825e-08	3.752002e-07
+		Error            	1.378825e-08	3.752004e-07
 
 ==========  DONE: RPMD step 5
 **********  DONE: Ring Polymer Molecular dynamics  **********
@@ -1329,9 +1338,9 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.291542[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.275802[s].  <<<<<
+     >>>>>  CPU time: 0.556758[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.533653[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

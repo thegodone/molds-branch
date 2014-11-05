@@ -41,6 +41,7 @@
 #include"../mpi/AsyncCommunicator.h"
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
+#include"../wrappers/ScaLapack.h"
 #include"../base/MathUtilities.h"
 #include"../base/MallocerFreer.h"
 #include"../base/EularAngle.h"
@@ -633,10 +634,19 @@ void Cndo2::DoSCF(bool requiresGuess){
 
          // diagonalization of the Fock matrix
          bool calcEigenVectors = true;
-         MolDS_wrappers::Lapack::GetInstance()->Dsyevd(this->fockMatrix, 
-                                                       this->energiesMO, 
-                                                       this->molecule->GetTotalNumberAOs(), 
-                                                       calcEigenVectors);
+
+         if(Parameters::GetInstance()->RequiresScaLapackSCF()){
+            MolDS_wrappers::ScaLapack::GetInstance()->Pdsyevd(this->fockMatrix, 
+                                                              this->energiesMO, 
+                                                              this->molecule->GetTotalNumberAOs(), 
+                                                              calcEigenVectors);
+         }
+         else{
+            MolDS_wrappers::Lapack::GetInstance()->Dsyevd(this->fockMatrix, 
+                                                          this->energiesMO, 
+                                                          this->molecule->GetTotalNumberAOs(), 
+                                                          calcEigenVectors);
+         }
 
          this->CalcOrbitalElectronPopulation(this->orbitalElectronPopulation, 
                                              *this->molecule, 

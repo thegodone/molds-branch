@@ -146,6 +146,7 @@ void InputParser::SetMessages(){
    this->messageScfVdWScalingFactor = "\t\tvdW corr. scaling factor (s6): ";
    this->messageScfVdWDampingFactor = "\t\tvdW corr. damping factor (d): ";
    this->messageScfMpi              = "\t\tMPI in SCF: ";
+   this->messageScfScaLapack        = "\t\tScaLapack for digonalization of the SCF matrix: ";
 
    // CIS
    this->messageCisConditions                 = "\tCIS conditions:\n";
@@ -295,6 +296,7 @@ void InputParser::SetMessages(){
    this->stringScfVdWScalingFactor = "vdw_s6";
    this->stringScfVdWDampingFactor = "vdw_d";
    this->stringScfMpi              = "mpi";
+   this->stringScfScaLapack        = "scalapack";
 
    // MO plot
    this->stringMO                = "mo";
@@ -357,7 +359,7 @@ void InputParser::SetMessages(){
    this->stringCISMulliken                   = "mulliken";
    this->stringCISUnpairedPop                = "unpaired_electron_population";
    this->stringCISSumCharges                 = "sum_charges";
-   this->stringCISScalapack                  = "scalapack";
+   this->stringCISScaLapack                  = "scalapack";
 
    // Memory
    this->stringMemory          = "memory";
@@ -672,6 +674,16 @@ int InputParser::ParseConditionsSCF(vector<string>* inputTerms, int parseIndex) 
          }
          parseIndex++;
       }
+      // Using ScaLapack
+      if((*inputTerms)[parseIndex].compare(this->stringScfScaLapack) == 0){
+          if((*inputTerms)[parseIndex+1].compare(this->stringYES) == 0){
+             Parameters::GetInstance()->SetRequiresScaLapackSCF(true);
+          }
+          else {
+             Parameters::GetInstance()->SetRequiresScaLapackSCF(false);
+          }
+          parseIndex++;   
+      }
       parseIndex++;   
    }
    return parseIndex;
@@ -980,7 +992,7 @@ int InputParser::ParseConditionsCIS(vector<string>* inputTerms, int parseIndex) 
          parseIndex += 2;
       }
       // ScaLapack
-      if((*inputTerms)[parseIndex].compare(this->stringCISScalapack) == 0){
+      if((*inputTerms)[parseIndex].compare(this->stringCISScaLapack) == 0){
           if((*inputTerms)[parseIndex+1].compare(this->stringYES) == 0){
              Parameters::GetInstance()->SetRequiresScaLapackCIS(true);
           }
@@ -1825,6 +1837,13 @@ void InputParser::OutputScfConditions() const{
    }
    this->OutputLog(this->messageScfMpi);
    if(Parameters::GetInstance()->RequiresMpiSCF()){
+      this->OutputLog(boost::format("%s\n") % this->stringYES.c_str());
+   }
+   else{
+      this->OutputLog(boost::format("%s\n") % this->stringNO.c_str());
+   }
+   this->OutputLog(this->messageScfScaLapack);
+   if(Parameters::GetInstance()->RequiresScaLapackSCF()){
       this->OutputLog(boost::format("%s\n") % this->stringYES.c_str());
    }
    else{

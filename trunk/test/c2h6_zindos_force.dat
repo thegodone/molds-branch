@@ -1,9 +1,17 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/7/16(Wed.) 11:43:37  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:19  <<<<<
 
 
 **********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
 	System conditions:
 		Total number of atoms: 8
 		Total number of valence AOs: 14
@@ -35,6 +43,7 @@
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 2.560000e+02[MB]
@@ -115,7 +124,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.599962e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.221356e-02
 
-	Elapsed time(omp) for the SCF = 0.007855[s].
+	Elapsed time(omp) for the SCF = 0.009791[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -211,7 +220,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.597877e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.219385e-02
 
-	Elapsed time(omp) for the SCF = 0.002384[s].
+	Elapsed time(omp) for the SCF = 0.004074[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -308,7 +317,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.591677e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.213525e-02
 
-	Elapsed time(omp) for the SCF = 0.002251[s].
+	Elapsed time(omp) for the SCF = 0.004013[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -406,7 +415,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.581391e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.203809e-02
 
-	Elapsed time(omp) for the SCF = 0.002435[s].
+	Elapsed time(omp) for the SCF = 0.004318[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -504,7 +513,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.567138e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.190367e-02
 
-	Elapsed time(omp) for the SCF = 0.002457[s].
+	Elapsed time(omp) for the SCF = 0.004237[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -602,7 +611,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.549040e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.173332e-02
 
-	Elapsed time(omp) for the SCF = 0.002488[s].
+	Elapsed time(omp) for the SCF = 0.005166[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -650,9 +659,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.03102[s].  <<<<<
+     >>>>>  CPU time: 0.05392[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0298209[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0515919[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

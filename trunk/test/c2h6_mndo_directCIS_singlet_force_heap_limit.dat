@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/10/28(Thu.) 16:2:47  <<<<<
+     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:0  <<<<<
 
 
 **********  START: Parse input  **********
@@ -43,6 +43,7 @@
 		DIIS ending error: 2.000000e-08
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
 
 	Memory conditions:
 		Heap limit: 1.900000e-01[MB]
@@ -55,7 +56,7 @@
 		CIS-Davidson: no
 		Exciton energies: no
 		All transition dipole moments: no
-		ScaLapack for digonalization of CIS matrix: no
+		ScaLapack for digonalization of the CIS matrix: no
 
 	MD conditions:
 		Electronic eigenstate: 1
@@ -83,20 +84,20 @@ Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the "limit_h
 
 key value pairs:
 backtrace:
-	0   molds                               0x0000000105bbf59f _ZN10MolDS_base14MolDSException12GetBacktraceEi + 97
-	1   molds                               0x0000000105bbf394 _ZN10MolDS_base14MolDSExceptionC1ESs + 180
-	2   molds                               0x0000000105bd0b27 _ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd + 591
-	3   molds                               0x0000000105c19e00 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m + 96
-	4   molds                               0x0000000105d322c1 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm + 209
-	5   molds                               0x0000000105cba696 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm + 246
-	6   molds                               0x0000000105d0657f _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm + 279
-	7   molds                               0x0000000105d06dd9 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm + 299
-	8   molds                               0x0000000105d07740 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm + 316
-	9   molds                               0x0000000105cc4dbf _ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE + 287
-	10  molds                               0x0000000105d12e5e _ZN8MolDS_md2MD4DoMDEv + 332
-	11  molds                               0x0000000105d3822b _ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb + 301
-	12  molds                               0x0000000105d37725 _ZN10MolDS_base5MolDS3RunEiPPc + 829
-	13  molds                               0x0000000105d3a940 main + 1404
+	0   molds                               0x000000010ce76dbf _ZN10MolDS_base14MolDSException12GetBacktraceEi + 97
+	1   molds                               0x000000010ce76bb4 _ZN10MolDS_base14MolDSExceptionC1ESs + 180
+	2   molds                               0x000000010ce88397 _ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd + 591
+	3   molds                               0x000000010ced1840 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m + 96
+	4   molds                               0x000000010cfea0a1 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm + 209
+	5   molds                               0x000000010cf73fd6 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm + 246
+	6   molds                               0x000000010cfbf27f _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm + 279
+	7   molds                               0x000000010cfbfad9 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm + 299
+	8   molds                               0x000000010cfc0440 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm + 316
+	9   molds                               0x000000010cf7db17 _ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE + 287
+	10  molds                               0x000000010cfcbbde _ZN8MolDS_md2MD4DoMDEv + 332
+	11  molds                               0x000000010cfefeeb _ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb + 301
+	12  molds                               0x000000010cfef3e5 _ZN10MolDS_base5MolDS3RunEiPPc + 829
+	13  molds                               0x000000010cff28d0 main + 1404
 	14  libdyld.dylib                       0x00007fff926ac5fd start + 1
 	15  ???                                 0x0000000000000002 0x0 + 2
 	Summary for memory usage:
@@ -105,9 +106,9 @@ backtrace:
 
 
      >>>>>  The MolDS finished abnormally..............  <<<<<
-     >>>>>  CPU time: 0.003431[s].  <<<<<
+     >>>>>  CPU time: 0.003291[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00302005[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00295186[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
