@@ -502,7 +502,7 @@ HOW TO WRITE INPUT:
 
        "scalapack" should be set as "yes" or "no". 
        When "scalapack yes", the diagonalizing CIS matrix is carried out with ScaLapack.
-       Default setting is "scalapack" option is "NO".
+       Default setting of "scalapack" option is "NO".
        Note that "scalapack" is supported on FX10 only.
 
        "sum_charges" is an option to calculate of summation of the mulliken charges and unpaired electron population
