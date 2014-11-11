@@ -185,8 +185,11 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    }
 
    // calculate working array space for pdsyevd
-   molds_scalapack_int  lwork = -1;
-   molds_scalapack_int liwork = -1;
+   molds_scalapack_int  lwork    = -1;
+   molds_scalapack_int  trilwmin = 3*size + std::max(blockSize*(mp+1), 3*blockSize);
+   molds_scalapack_int  lworkMin = std::max(1+6*size+2*mp*nq, trilwmin) + 2*size + 1;
+   molds_scalapack_int liwork    = -1;
+   molds_scalapack_int liworkMin = 7*size + 8*npCol + 3;
    double              tmpWork[3]  = {0.0, 0.0, 0.0};
    molds_scalapack_int tmpIwork[3] = {0, 0, 0};
    molds_scalapack_int ia=intOne;
@@ -198,10 +201,10 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
 
    // cll scalapack (pdsyevd)
    info = 0;
-   double*            work=NULL;
+   double*               work=NULL;
    molds_scalapack_int* iwork=NULL;
-   lwork  = tmpWork[0];
-   liwork = tmpIwork[0];
+   lwork  = std::max(lworkMin,   tmpWork[0]+1);
+   liwork = std::max(liworkMin, tmpIwork[0]+1);
    work = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*lwork, 16 );
    iwork = (molds_scalapack_int*)MOLDS_SCALAPACK_malloc( sizeof(molds_scalapack_int)*liwork, 16 );
    pdsyevd_(&job, &uplo, &size, localMatrix, &ia, &ja, descA, eigenValues, localEigenVector, &iz, &jz ,descZ, work, &lwork, iwork, &liwork, &info);
