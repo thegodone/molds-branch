@@ -73,8 +73,8 @@ extern "C" {
 
 ScaLapack* ScaLapack::scaLapack = NULL;
 ScaLapack::ScaLapack(){
-   this->errorMessagePdsyevdInfo = "Error in wrappers::ScaLapack::Pdsyevd: info != 0: info = ";
-   this->errorMessagePdsyevdSize = "Error in wrappers::ScaLapack::Pdsyevd: size of matirx < 1\n";
+   this->errorMessagePdsyevdInfo         = "Error in wrappers::ScaLapack::Pdsyevd: info != 0: info = ";
+   this->errorMessagePdsyevdSize         = "Error in wrappers::ScaLapack::Pdsyevd: size of matirx < 1\n";
    this->errorMessagePdsyevdNotSupported = "Error in wrappers::ScaLapack::Pdsyevd: ScaLapack is not supported on the current system. ScaLapack is supported only on FX10.\n";
 }
 
