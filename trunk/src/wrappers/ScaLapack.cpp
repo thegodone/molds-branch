@@ -116,7 +116,6 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
 
    char job;
    char uplo = 'U';
-   molds_scalapack_int lda = size;
    double* localMatrix;
    double* localEigenVector;
    double* tempEigenValues;
@@ -127,18 +126,13 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    else{
       job = 'N';
    }
-   char order='R';
 
    //tmporal values
    molds_scalapack_int intOne  = 1;
    molds_scalapack_int intZero = 0;
-   double              dblOne  = 1e0;
-   double              dblZero = 0e0;
    molds_scalapack_int myRow   = intZero;
    molds_scalapack_int myCol   = intZero;
    molds_scalapack_int iContext= intZero;
-   molds_scalapack_int what    = intZero;
-   molds_scalapack_int val     = intZero;
    molds_scalapack_int rsrc    = intZero;
    molds_scalapack_int csrc    = intZero;
    molds_scalapack_int mpiRank = intZero;
@@ -164,7 +158,7 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    
    // calculate size of local matrix on each node
    molds_scalapack_int mp   = numroc_(&size, &blockSize, &myRow, &rsrc, &npRow);
-   molds_scalapack_int nq   = numroc_(&size, &blockSize, &myCol, &rsrc, &npCol);
+   molds_scalapack_int nq   = numroc_(&size, &blockSize, &myCol, &csrc, &npCol);
    localMatrix              = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*mp*nq, 16 );
    localEigenVector         = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*mp*nq, 16 );
    tempEigenValues          = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*size, 16 );
