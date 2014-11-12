@@ -130,19 +130,19 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    char order='R';
 
    //tmporal values
-   molds_scalapack_int intOne=1;
-   molds_scalapack_int intZero=0;
-   double              dblOne =1e0;
-   double              dblZero=0e0;
-   molds_scalapack_int myRow   =intZero;
-   molds_scalapack_int myCol   =intZero;
-   molds_scalapack_int iContext=intZero;
-   molds_scalapack_int what    =intZero;
-   molds_scalapack_int val     =intZero;
-   molds_scalapack_int rsrc    =intZero;
-   molds_scalapack_int csrc    =intZero;
-   molds_scalapack_int mpiRank =intZero;
-   molds_scalapack_int mpiSize =intZero;
+   molds_scalapack_int intOne  = 1;
+   molds_scalapack_int intZero = 0;
+   double              dblOne  = 1e0;
+   double              dblZero = 0e0;
+   molds_scalapack_int myRow   = intZero;
+   molds_scalapack_int myCol   = intZero;
+   molds_scalapack_int iContext= intZero;
+   molds_scalapack_int what    = intZero;
+   molds_scalapack_int val     = intZero;
+   molds_scalapack_int rsrc    = intZero;
+   molds_scalapack_int csrc    = intZero;
+   molds_scalapack_int mpiRank = intZero;
+   molds_scalapack_int mpiSize = intZero;
 
    // initialize blacs and scalapack 
    blacs_pinfo_(&mpiRank, &mpiSize);
@@ -163,13 +163,13 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    blacs_gridinfo_(&iContext, &npRow, &npCol, &myRow, &myCol);
    
    // calculate size of local matrix on each node
-   molds_scalapack_int mp = numroc_(&size, &blockSize, &myRow, &rsrc, &npRow);
-   molds_scalapack_int nq = numroc_(&size, &blockSize, &myCol, &rsrc, &npCol);
-   localMatrix = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*mp*nq, 16 );
-   localEigenVector  = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*mp*nq, 16 );
-   tempEigenValues   = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*size, 16 );
-   molds_scalapack_int lldA=max(intOne,mp);
-   molds_scalapack_int lldZ=max(intOne,mp);
+   molds_scalapack_int mp   = numroc_(&size, &blockSize, &myRow, &rsrc, &npRow);
+   molds_scalapack_int nq   = numroc_(&size, &blockSize, &myCol, &rsrc, &npCol);
+   localMatrix              = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*mp*nq, 16 );
+   localEigenVector         = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*mp*nq, 16 );
+   tempEigenValues          = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*size, 16 );
+   molds_scalapack_int lldA = max(intOne,mp);
+   molds_scalapack_int lldZ = max(intOne,mp);
    molds_scalapack_int descA[9];
    molds_scalapack_int descZ[9];
    descinit_(descA, &size, &size, &blockSize, &blockSize, &intZero, &intZero, &iContext, &lldA,       &info);
@@ -185,28 +185,28 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    }
 
    // calculate working array space for pdsyevd
-   molds_scalapack_int  lwork    = -1;
-   molds_scalapack_int  trilwmin = 3*size + std::max(blockSize*(mp+1), 3*blockSize);
-   molds_scalapack_int  lworkMin = std::max(1+6*size+2*mp*nq, trilwmin) + 2*size + 1;
-   molds_scalapack_int liwork    = 1;
-   molds_scalapack_int liworkMin = 7*size + 8*npCol + 2;
+   molds_scalapack_int lwork       = -1;
+   molds_scalapack_int trilwmin    = 3*size + std::max(blockSize*(mp+1), 3*blockSize);
+   molds_scalapack_int lworkMin    = std::max(1+6*size+2*mp*nq, trilwmin) + 2*size + 1;
+   molds_scalapack_int liwork      = 1;
+   molds_scalapack_int liworkMin   = 7*size + 8*npCol + 2;
    double              tmpWork[3]  = {0.0, 0.0, 0.0};
    molds_scalapack_int tmpIwork[3] = {0, 0, 0};
-   molds_scalapack_int ia=intOne;
-   molds_scalapack_int ja=intOne;
-   molds_scalapack_int iz=intOne;
-   molds_scalapack_int jz=intOne;
+   molds_scalapack_int ia          = intOne;
+   molds_scalapack_int ja          = intOne;
+   molds_scalapack_int iz          = intOne;
+   molds_scalapack_int jz          = intOne;
 
    pdsyevd_(&job, &uplo, &size, localMatrix, &ia, &ja, descA, tempEigenValues, localEigenVector, &iz, &jz ,descZ, tmpWork, &lwork, tmpIwork, &liwork, &info);
 
    // cll scalapack (pdsyevd)
    info = 0;
-   double*               work=NULL;
-   molds_scalapack_int* iwork=NULL;
-   lwork  = std::max(lworkMin,  static_cast<molds_scalapack_int>(tmpWork[0])+1);
-   liwork = std::max(liworkMin, tmpIwork[0]);
-   work = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*lwork, 16 );
-   iwork = (molds_scalapack_int*)MOLDS_SCALAPACK_malloc( sizeof(molds_scalapack_int)*liwork, 16 );
+   double*               work = NULL;
+   molds_scalapack_int* iwork = NULL;
+   lwork                      = std::max(lworkMin,  static_cast<molds_scalapack_int>(tmpWork[0])+1);
+   liwork                     = std::max(liworkMin, tmpIwork[0]);
+   work                       = (double*)MOLDS_SCALAPACK_malloc( sizeof(double)*lwork, 16 );
+   iwork                      = (molds_scalapack_int*)MOLDS_SCALAPACK_malloc( sizeof(molds_scalapack_int)*liwork, 16 );
    pdsyevd_(&job, &uplo, &size, localMatrix, &ia, &ja, descA, eigenValues, localEigenVector, &iz, &jz ,descZ, work, &lwork, iwork, &liwork, &info);
 
    // gathter block cyclic decomposed eigenvector to the global data
