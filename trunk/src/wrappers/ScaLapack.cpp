@@ -152,7 +152,7 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    molds_scalapack_int npCol            = squareMpiSize;
    molds_scalapack_int blockSizeDefault = 128; 
    molds_scalapack_int blockSize        = blockSizeDefault;
-   while(size < blockSize*npRow){
+   while(size/2 < blockSize*npRow){
       blockSize /= 2;
       if(blockSize < 1){
          blockSize = 1;
@@ -188,7 +188,7 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
    molds_scalapack_int  lwork    = -1;
    molds_scalapack_int  trilwmin = 3*size + std::max(blockSize*(mp+1), 3*blockSize);
    molds_scalapack_int  lworkMin = std::max(1+6*size+2*mp*nq, trilwmin) + 2*size + 1;
-   molds_scalapack_int liwork    = -1;
+   molds_scalapack_int liwork    = 1;
    molds_scalapack_int liworkMin = 7*size + 8*npCol + 2;
    double              tmpWork[3]  = {0.0, 0.0, 0.0};
    molds_scalapack_int tmpIwork[3] = {0, 0, 0};
