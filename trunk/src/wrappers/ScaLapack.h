@@ -38,6 +38,7 @@ private:
    std::string errorMessagePdsyevdInfo;
    std::string errorMessagePdsyevdSize;
    std::string errorMessagePdsyevdNotSupported;
+   std::string errorMessagePdsyevdMpiSquare;
 };
 }
 #endif

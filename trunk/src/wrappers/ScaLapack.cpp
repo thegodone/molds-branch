@@ -76,6 +76,7 @@ ScaLapack::ScaLapack(){
    this->errorMessagePdsyevdInfo         = "Error in wrappers::ScaLapack::Pdsyevd: info != 0: info = ";
    this->errorMessagePdsyevdSize         = "Error in wrappers::ScaLapack::Pdsyevd: size of matirx < 1\n";
    this->errorMessagePdsyevdNotSupported = "Error in wrappers::ScaLapack::Pdsyevd: ScaLapack is not supported on the current system. ScaLapack is supported only on FX10.\n";
+   this->errorMessagePdsyevdMpiSquare    = "Error in wrappers::ScaLapack::Pdsyevd: MPI size should be a square number. MPI size = ";
 }
 
 ScaLapack::~ScaLapack(){
@@ -140,10 +141,16 @@ molds_scalapack_int ScaLapack::Pdsyevd(double** matrix, double* eigenValues, mol
 
    // initialize blacs and scalapack 
    blacs_pinfo_(&mpiRank, &mpiSize);
-   molds_scalapack_int squareMpiSize    = lround(sqrt(static_cast<double>(mpiSize)));
-   if(mpiSize < squareMpiSize*squareMpiSize){squareMpiSize-=1;}
-   molds_scalapack_int npRow            = squareMpiSize;
-   molds_scalapack_int npCol            = squareMpiSize;
+   molds_scalapack_int sqrtMpiSize      = lround(sqrt(static_cast<double>(mpiSize)));
+   if(mpiSize != sqrtMpiSize*sqrtMpiSize){
+      stringstream ss;
+      ss << errorMessagePdsyevdMpiSquare;
+      ss << mpiSize << endl;
+      MolDSException ex(ss.str());
+      throw ex;
+   }
+   molds_scalapack_int npRow            = sqrtMpiSize;
+   molds_scalapack_int npCol            = sqrtMpiSize;
    molds_scalapack_int blockSizeDefault = 128; 
    molds_scalapack_int blockSize        = blockSizeDefault;
    while(size/2 < blockSize*npRow){
