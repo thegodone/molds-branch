@@ -193,6 +193,17 @@ public:
    void          SetNumberBeadsRPMD(int b)            {this->numberBeadsRPMD = b;}
    unsigned long GetSeedRPMD() const                  {return this->seedRPMD;}
    void          SetSeedRPMD(unsigned long seed)      {this->seedRPMD = seed;}
+   // Ehrenfest
+   int           GetInitialElectronicStateIndexEhrenfest() const{return this->initialElectronicStateIndexEhrenfest;}
+   void          SetInitialElectronicStateIndexEhrenfest(int i) {this->initialElectronicStateIndexEhrenfest = i;}
+   int           GetHighestElectronicStateIndexEhrenfest() const{return this->highestElectronicStateIndexEhrenfest;}
+   void          SetHighestElectronicStateIndexEhrenfest(int i) {this->highestElectronicStateIndexEhrenfest = i;}
+   int           GetLowestElectronicStateIndexEhrenfest() const {return this->lowestElectronicStateIndexEhrenfest;}
+   void          SetLowestElectronicStateIndexEhrenfest(int i)  {this->lowestElectronicStateIndexEhrenfest = i;}
+   int           GetTotalStepsEhrenfest() const                 {return this->totalStepsEhrenfest;}
+   void          SetTotalStepsEhrenfest(int steps)              {this->totalStepsEhrenfest = steps;}
+   double        GetTimeWidthEhrenfest() const                  {return this->timeWidthEhrenfest;}
+   void          SetTimeWidthEhrenfest(double dt)               {this->timeWidthEhrenfest = dt;}
    // NASCO
    int           GetTotalStepsNASCO() const            {return this->totalStepsNASCO;}
    void          SetTotalStepsNASCO(int steps)         {this->totalStepsNASCO = steps;}
@@ -334,6 +345,12 @@ private:
    double        timeWidthRPMD;
    int           numberBeadsRPMD;
    unsigned long seedRPMD;
+   // Ehrenfest
+   int           initialElectronicStateIndexEhrenfest;
+   int           highestElectronicStateIndexEhrenfest;
+   int           lowestElectronicStateIndexEhrenfest;
+   int           totalStepsEhrenfest;
+   double        timeWidthEhrenfest;
    // NASCO
    int           totalStepsNASCO;
    int           numberElectronicStatesNASCO;

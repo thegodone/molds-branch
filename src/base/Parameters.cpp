@@ -215,6 +215,12 @@ void Parameters::SetDefaultValues(){
    this->temperatureRPMD            = 300;
    this->numberBeadsRPMD            = 10;
    this->seedRPMD                   = static_cast<unsigned long>(time(0));
+   // Ehrenfest
+   this->initialElectronicStateIndexEhrenfest = 1;
+   this->highestElectronicStateIndexEhrenfest = 2;
+   this->lowestElectronicStateIndexEhrenfest  = 0;
+   this->totalStepsEhrenfest = 10;
+   this->timeWidthEhrenfest = 0.1*this->fs2AU;
    // NASCO
    this->numberElectronicStatesNASCO = 3;
    this->initialElectronicStateNASCO = 0;

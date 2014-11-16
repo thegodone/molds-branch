@@ -93,6 +93,12 @@ void InputParser::SetMessages(){
       = "Error in base::InputParser::ValidateRpmdConditions: heory you set is not supported for RMPD.\n";
    this->errorMessageNonValidExcitedStatesRPMD
       = "Error in base::InputParser::ValidateRpmdConditions: Excited state on which RPMD runs or CIS condition are wrong.\n";
+   this->errorMessageNonValidTheoriesEhrenfest
+      = "Error in base::InputParser::ValidateEhrenfestConditions: Theory you set is not supported for Ehrenfest dynamics.\n";
+   this->errorMessageNonValidInitialElectronicStateEhrenfest
+      = "Error in base::InputParser::ValidateEhrenfestConditions: Initial electronic state on which Ehrenfest dynamics starts is wrong.\n";
+   this->errorMessageNonValidNumberExcitedStatesEhrenfest
+      = "Error in base::InputParser::ValidateEhrenfestConditions: Number of excited states used in Ehrenfest dynamics are wrong\n";
    this->errorMessageNonValidTheoriesNASCO
       = "Error in base::InputParser::ValidateNascoConditions: Theory you set is not supported for NASCO.\n";
    this->errorMessageNonValidNumberExcitedStatesNASCO
@@ -117,6 +123,9 @@ void InputParser::SetMessages(){
    this->errorMessageInputFile = "Inputfile: "; 
    this->errorMessageTheory = "Theory: ";
    this->errorMessageNumberExcitedStateCIS = "Number of CIS excited states: ";
+   this->errorMessageInitialElectronicStateEhrenfest = "Initial electronic state: ";
+   this->errorMessageHighestElectronicStateEhrenfest = "Highest electronic state: "; 
+   this->errorMessageLowestElectronicStateEhrenfest  = "Lowest  electronic state: ";
    this->errorMessageNumberElectronicStatesNASCO = "Number of electronic states for NASCO: ";
    this->errorMessageInitialElectronicStateNASCO = "Initial electronic state for NASCO: ";
    this->messageStartParseInput  = "**********  START: Parse input  **********\n";
@@ -193,6 +202,14 @@ void InputParser::SetMessages(){
    this->messageRpmdTemperature   = "\t\tTemperature: ";
    this->messageRpmdNumBeads      = "\t\tNumber of the beads in the Ring Polymer: ";
    this->messageRpmdSeed          = "\t\tSeed: ";
+
+   // Ehrenfest
+   this->messageEhrenfestConditions       = "\tEhrenfest conditions:\n";
+   this->messageEhrenfestIniElecState     = "\t\tInitial electronic eigenstate: ";
+   this->messageEhrenfestHighestElecState = "\t\tHighest electronic eigenstate: ";
+   this->messageEhrenfestLowestElecState  = "\t\tLowest  electronic eigenstate: ";
+   this->messageEhrenfestTotalSteps       = "\t\tTotal steps: ";
+   this->messageEhrenfestTimeWidth        = "\t\tTime width: ";
 
    // NASCO
    this->messageNascoConditions       = "\tNasco conditions:\n";
@@ -392,6 +409,15 @@ void InputParser::SetMessages(){
    this->stringRPMDTemperature   = "temperature";
    this->stringRPMDNumBeads      = "num_beads";
    this->stringRPMDSeed          = "seed";
+
+   // Ehrenfest
+   this->stringEhrenfest                 = "ehrenfest";
+   this->stringEhrenfestEnd              = "ehrenfest_end";
+   this->stringEhrenfestTotalSteps       = "total_steps";
+   this->stringEhrenfestInitialElecState = "initial_electronic_state";
+   this->stringEhrenfestHighestElecState = "highest_electronic_state";
+   this->stringEhrenfestLowestElecState  = "lowest_electronic_state";
+   this->stringEhrenfestTimeWidth        = "dt";
 
    // NASCO
    this->stringNASCO                 = "nasco";
@@ -1076,13 +1102,13 @@ int InputParser::ParseConditionsRPMD(vector<string>* inputTerms, int parseIndex)
    Parameters::GetInstance()->SetCurrentSimulation(RPMD);
    parseIndex++;
    while((*inputTerms)[parseIndex].compare(this->stringRPMDEnd) != 0){
-      // number of total steps 
+      // number of total steps
       if((*inputTerms)[parseIndex].compare(this->stringRPMDTotalSteps) == 0){
          int totalSteps = atoi((*inputTerms)[parseIndex+1].c_str());
          Parameters::GetInstance()->SetTotalStepsRPMD(totalSteps);
          parseIndex++;
       }
-      // index of electronic eigen state on which RPMD runs. 
+      // index of electronic eigen state on which RPMD runs.
       if((*inputTerms)[parseIndex].compare(this->stringRPMDElecState) == 0){
          int elecStateIndex = atoi((*inputTerms)[parseIndex+1].c_str());
          Parameters::GetInstance()->SetElectronicStateIndexRPMD(elecStateIndex);
@@ -1116,6 +1142,45 @@ int InputParser::ParseConditionsRPMD(vector<string>* inputTerms, int parseIndex)
       if((*inputTerms)[parseIndex].compare(this->stringRPMDSeed) == 0){
          unsigned long seed = atol((*inputTerms)[parseIndex+1].c_str());
          Parameters::GetInstance()->SetSeedRPMD(seed);
+         parseIndex++;
+      }
+      parseIndex++;
+   }
+   return parseIndex;
+}
+      
+int InputParser::ParseConditionsEhrenfest(vector<string>* inputTerms, int parseIndex) const{
+   Parameters::GetInstance()->SetCurrentSimulation(Ehrenfest);
+   parseIndex++;
+   while((*inputTerms)[parseIndex].compare(this->stringEhrenfestEnd) != 0){
+      // number of total steps 
+      if((*inputTerms)[parseIndex].compare(this->stringEhrenfestTotalSteps) == 0){
+         int totalSteps = atoi((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetTotalStepsEhrenfest(totalSteps);
+         parseIndex++;
+      }
+      // index of initial electronic eigen state on which Ehrenfest starts. 
+      if((*inputTerms)[parseIndex].compare(this->stringEhrenfestInitialElecState) == 0){
+         int elecStateIndex = atoi((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetInitialElectronicStateIndexEhrenfest(elecStateIndex);
+         parseIndex++;
+      }
+      // index of highest electronic eigen state on which Ehrenfest runss. 
+      if((*inputTerms)[parseIndex].compare(this->stringEhrenfestHighestElecState) == 0){
+         int elecStateIndex = atoi((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetHighestElectronicStateIndexEhrenfest(elecStateIndex);
+         parseIndex++;
+      }
+      // index of lowest electronic eigen state on which Ehrenfest runss. 
+      if((*inputTerms)[parseIndex].compare(this->stringEhrenfestLowestElecState) == 0){
+         int elecStateIndex = atoi((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetLowestElectronicStateIndexEhrenfest(elecStateIndex);
+         parseIndex++;
+      }
+      // time width for Ehrenfest.
+      if((*inputTerms)[parseIndex].compare(this->stringEhrenfestTimeWidth) == 0){
+         double timeWidth = atof((*inputTerms)[parseIndex+1].c_str()) * Parameters::GetInstance()->GetFs2AU();
+         Parameters::GetInstance()->SetTimeWidthEhrenfest(timeWidth);
          parseIndex++;
       }
       parseIndex++;   
@@ -1406,6 +1471,11 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
          i = this->ParseConditionsRPMD(&inputTerms, i);
       }
 
+      // Ehrenfest condition
+      if(inputTerms[i].compare(this->stringEhrenfest) == 0){
+         i = this->ParseConditionsEhrenfest(&inputTerms, i);
+      }
+
       // NASCO condition
       if(inputTerms[i].compare(this->stringNASCO) == 0){
          i = this->ParseConditionsNASCO(&inputTerms, i);
@@ -1443,6 +1513,9 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
    else if(Parameters::GetInstance()->GetCurrentSimulation()==RPMD){
       this->ValidateRpmdConditions(*molecule);
    }
+   else if(Parameters::GetInstance()->GetCurrentSimulation()==Ehrenfest){
+      this->ValidateEhrenfestConditions(*molecule);
+   }
    else if(Parameters::GetInstance()->GetCurrentSimulation()==NASCO){
       this->ValidateNascoConditions(*molecule);
    }
@@ -1479,6 +1552,12 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
    }
    else if(Parameters::GetInstance()->GetCurrentSimulation()==RPMD){
       this->OutputRpmdConditions();
+   }
+   else if(Parameters::GetInstance()->GetCurrentSimulation()==Ehrenfest){
+      this->OutputEhrenfestConditions();
+   }
+   else if(Parameters::GetInstance()->GetCurrentSimulation()==Ehrenfest){
+      this->OutputEhrenfestConditions();
    }
    else if(Parameters::GetInstance()->GetCurrentSimulation()==NASCO){
       this->OutputNascoConditions();
@@ -1666,6 +1745,54 @@ void InputParser::ValidateRpmdConditions(const Molecule& molecule) const{
       ss << this->errorMessageNumberExcitedStateCIS << numberExcitedStatesCIS << endl;
       throw MolDSException(ss.str());
    } 
+}
+
+void InputParser::ValidateEhrenfestConditions(const Molecule& molecule) const{
+   int groundStateIndex = 0;
+   int initialStateIndex  = Parameters::GetInstance()->GetInitialElectronicStateIndexEhrenfest();
+   int highestStatesIndex = Parameters::GetInstance()->GetHighestElectronicStateIndexEhrenfest();
+   int lowestStatesIndex  = Parameters::GetInstance()->GetLowestElectronicStateIndexEhrenfest();
+   TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
+   // Validate theory
+   if(theory == CNDO2 || theory == INDO ){
+      stringstream ss;
+      ss << this->errorMessageNonValidTheoriesEhrenfest;
+      ss << this->errorMessageTheory << TheoryTypeStr(theory) << endl;
+      throw MolDSException(ss.str());
+   }
+   // validate lowest and highest
+   //if(highestStatesIndex < lowestStatesIndex){
+   //   std::swap(highestStatesIndex,lowestStatesIndex);
+   //   Parameters::GetInstance()->SetHighestElectronicStateIndexEhrenfest(highestStatesIndex);
+   //   Parameters::GetInstance()->SetLowestElectronicStateIndexEhrenfest(lowestStatesIndex);
+   //}
+   // Validate for the excited states dynamics
+   if(lowestStatesIndex < groundStateIndex){
+      Parameters::GetInstance()->SetLowestElectronicStateIndexEhrenfest(groundStateIndex);
+      lowestStatesIndex = Parameters::GetInstance()->GetLowestElectronicStateIndexEhrenfest();
+   }
+   if(groundStateIndex < highestStatesIndex){
+      int requiredNumExcitedStates = highestStatesIndex;
+      if(!Parameters::GetInstance()->RequiresCIS()){
+         Parameters::GetInstance()->SetNumberExcitedStatesCIS(requiredNumExcitedStates);
+         Parameters::GetInstance()->SetRequiresCIS(true);
+         this->ValidateCisConditions(molecule);
+      }
+      int numberExcitedStatesCIS = Parameters::GetInstance()->GetNumberExcitedStatesCIS();
+      if(numberExcitedStatesCIS < requiredNumExcitedStates){
+         Parameters::GetInstance()->SetHighestElectronicStateIndexEhrenfest(numberExcitedStatesCIS);
+         highestStatesIndex = Parameters::GetInstance()->GetHighestElectronicStateIndexEhrenfest();
+      } 
+   }
+   // validate initial electronic state
+   if(initialStateIndex < lowestStatesIndex || highestStatesIndex < initialStateIndex){
+      stringstream ss;
+      ss << this->errorMessageNonValidInitialElectronicStateEhrenfest;
+      ss << this->errorMessageInitialElectronicStateEhrenfest << initialStateIndex << endl;
+      ss << this->errorMessageHighestElectronicStateEhrenfest << highestStatesIndex << endl;
+      ss << this->errorMessageLowestElectronicStateEhrenfest  << lowestStatesIndex << endl;
+      throw MolDSException(ss.str());
+   }
 }
 
 void InputParser::ValidateNascoConditions(const Molecule& molecule) const{
@@ -1988,6 +2115,24 @@ void InputParser::OutputRpmdConditions() const{
                                            % Parameters::GetInstance()->GetNumberBeadsRPMD());
    this->OutputLog(boost::format("%s%lu\n") % this->messageRpmdSeed.c_str() 
                                             % Parameters::GetInstance()->GetSeedRPMD());
+
+   this->OutputLog("\n");
+}
+
+void InputParser::OutputEhrenfestConditions() const{
+   this->OutputLog(this->messageEhrenfestConditions);
+
+   this->OutputLog(boost::format("%s%d\n") % this->messageEhrenfestIniElecState.c_str() 
+                                           % Parameters::GetInstance()->GetInitialElectronicStateIndexEhrenfest());
+   this->OutputLog(boost::format("%s%d\n") % this->messageEhrenfestHighestElecState.c_str() 
+                                           % Parameters::GetInstance()->GetHighestElectronicStateIndexEhrenfest());
+   this->OutputLog(boost::format("%s%d\n") % this->messageEhrenfestLowestElecState.c_str() 
+                                           % Parameters::GetInstance()->GetLowestElectronicStateIndexEhrenfest());
+   this->OutputLog(boost::format("%s%d\n") % this->messageEhrenfestTotalSteps.c_str() 
+                                           % Parameters::GetInstance()->GetTotalStepsEhrenfest());
+   this->OutputLog(boost::format("%s%lf%s\n") % this->messageEhrenfestTimeWidth.c_str() 
+                                              % (Parameters::GetInstance()->GetTimeWidthEhrenfest()/Parameters::GetInstance()->GetFs2AU()) 
+                                              % this->messageFs.c_str());
 
    this->OutputLog("\n");
 }

@@ -32,6 +32,7 @@ private:
    void DoMC(Molecule* molecule, bool* runsNormally) const;
    void DoMD(Molecule* molecule, bool* runsNormally) const;
    void DoRPMD(Molecule* molecule, bool* runsNormally) const;
+   void DoEhrenfest(Molecule* molecule, bool* runsNormally) const;
    void DoNASCO(Molecule* molecule, bool* runsNormally) const;
    void OptimizeGeometry(Molecule* molecule, bool* runsNormally) const;
    void DiagonalizePrincipalAxes(Molecule* molecule, bool* runsNormally) const;
