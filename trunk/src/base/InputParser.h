@@ -41,6 +41,9 @@ private:
    std::string errorMessageNonValidExcitedStatesMC;
    std::string errorMessageNonValidTheoriesRPMD;
    std::string errorMessageNonValidExcitedStatesRPMD;
+   std::string errorMessageNonValidTheoriesEhrenfest;
+   std::string errorMessageNonValidInitialElectronicStateEhrenfest;
+   std::string errorMessageNonValidNumberExcitedStatesEhrenfest;
    std::string errorMessageNonValidTheoriesNASCO;
    std::string errorMessageNonValidNumberExcitedStatesNASCO;
    std::string errorMessageNonValidInitialElectronicStateNASCO;
@@ -55,6 +58,9 @@ private:
    std::string errorMessageInputFile; 
    std::string errorMessageTheory;
    std::string errorMessageNumberExcitedStateCIS;
+   std::string errorMessageInitialElectronicStateEhrenfest;
+   std::string errorMessageHighestElectronicStateEhrenfest;
+   std::string errorMessageLowestElectronicStateEhrenfest;
    std::string errorMessageNumberElectronicStatesNASCO;
    std::string errorMessageInitialElectronicStateNASCO;
    std::string messageStartParseInput;
@@ -125,6 +131,13 @@ private:
    std::string messageRpmdTemperature;
    std::string messageRpmdNumBeads;
    std::string messageRpmdSeed;
+   // Ehrenfest
+   std::string messageEhrenfestConditions;    
+   std::string messageEhrenfestTotalSteps;    
+   std::string messageEhrenfestIniElecState;  
+   std::string messageEhrenfestHighestElecState; 
+   std::string messageEhrenfestLowestElecState; 
+   std::string messageEhrenfestTimeWidth;    
    // NASCO
    std::string messageNascoConditions;
    std::string messageNascoTotalSteps;
@@ -300,6 +313,14 @@ private:
    std::string stringRPMDTemperature;
    std::string stringRPMDNumBeads;
    std::string stringRPMDSeed;
+   // Ehrenfest
+   std::string stringEhrenfest;              
+   std::string stringEhrenfestEnd;           
+   std::string stringEhrenfestTotalSteps;    
+   std::string stringEhrenfestInitialElecState;   
+   std::string stringEhrenfestHighestElecState; 
+   std::string stringEhrenfestLowestElecState; 
+   std::string stringEhrenfestTimeWidth;     
    // NASCO
    std::string stringNASCO;
    std::string stringNASCOEnd;
@@ -337,6 +358,7 @@ private:
    void ValidateMdConditions(const Molecule& molecule) const;
    void ValidateMcConditions(const Molecule& molecule) const;
    void ValidateRpmdConditions(const Molecule& molecule) const;
+   void ValidateEhrenfestConditions(const Molecule& molecule) const;
    void ValidateNascoConditions(const Molecule& molecule) const;
    void ValidateOptimizationConditions(const Molecule& molecule) const;
    void ValidateFrequenciesConditions() const;
@@ -349,6 +371,7 @@ private:
    void OutputMdConditions() const;
    void OutputMcConditions() const;
    void OutputRpmdConditions() const;
+   void OutputEhrenfestConditions() const;
    void OutputNascoConditions() const;
    void OutputOptimizationConditions() const;
    void OutputFrequenciesConditions() const;
@@ -376,6 +399,7 @@ private:
    int ParseConditionsMC(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsMD(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsRPMD(std::vector<std::string>* inputTerms, int parseIndex) const;
+   int ParseConditionsEhrenfest(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsNASCO(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsOptimization(std::vector<std::string>* inputTerms, int parseIndex) const;
    int ParseConditionsFrequencies(std::vector<std::string>* inputTerms, int parseIndex) const;

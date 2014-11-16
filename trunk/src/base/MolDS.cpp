@@ -54,6 +54,7 @@
 #include"../md/MD.h"
 #include"../mc/MC.h"
 #include"../rpmd/RPMD.h"
+#include"../ehrenfest/Ehrenfest.h"
 #include"../nasco/NASCO.h"
 #include"../optimization/Optimizer.h"
 #include"factories/OptimizerFactory.h"
@@ -94,6 +95,11 @@ void MolDS::Run(int argc, char *argv[]){
    // RPMD
    else if(runsNormally && Parameters::GetInstance()->GetCurrentSimulation() == RPMD){
       this->DoRPMD(molecule, &runsNormally);
+   }
+
+   // Ehrenfest
+   else if(runsNormally && Parameters::GetInstance()->GetCurrentSimulation() == Ehrenfest){
+      this->DoEhrenfest(molecule, &runsNormally);
    }
 
    // NASCO
@@ -199,6 +205,18 @@ void MolDS::DoRPMD(Molecule* molecule, bool* runsNormally) const{
    try{
       boost::shared_ptr<MolDS_rpmd::RPMD> rpmd(new MolDS_rpmd::RPMD());
       rpmd->DoRPMD(*molecule);
+   }
+   catch(MolDSException ex){
+      this->OutputLog(boost::format("%s\n") % ex.what());
+      *runsNormally = false;
+   }
+}
+
+void MolDS::DoEhrenfest(Molecule* molecule, bool* runsNormally) const{
+   try{
+      boost::shared_ptr<MolDS_ehrenfest::Ehrenfest> ehrenfest(new MolDS_ehrenfest::Ehrenfest());
+      ehrenfest->SetMolecule(molecule);
+      ehrenfest->DoEhrenfest();
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());

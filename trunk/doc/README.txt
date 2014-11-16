@@ -759,7 +759,7 @@ HOW TO WRITE INPUT:
          RPMD_END
   
       -options
-       "total_steps", "electronic_state", "num_electonic_states", "temperature", 
+       "total_steps", "electronic_state", "num_electronic_states", "temperature", 
        "num_beads", "seed", and "dt" are prepared as options.
 
        The default value of the "total_steps" is 10. 
@@ -800,6 +800,48 @@ HOW TO WRITE INPUT:
             num_beads 20
             dt 0.5
          RPMD_END
+
+   <Ehrenfest MD>
+      Write Ehrenfest-directive. Namely, mean-field dyamics for nonadiabatic systems.
+      *Implementation of Ehrenfest in MolDS is based on MF's unpublished algorythm.
+
+      E.g.
+         Ehrenfest 
+            (options)
+         Ehrenfest_END
+  
+      -options
+       "initial_electronic_state","highest_electronic_state",
+       "lowest_electronic_state", "total_steps", and "dt" are prepared as options.
+
+       "initial_electronic_state" means the electronic eigenstate 
+       on which the system start to run.
+       The default value of the "electronic_state" is 1. That is, 
+       the electronic ground state is default.
+
+       "highest_electronic_state" and "lowest_electronic_state" are
+       the highest and lowest adiabatic surfaces, respectively, which are included calculations.
+       Namely, a number of adiabatic surfaces used in the calculations is 
+       "highest_electronic_state - lowest_electronic_state +1".
+       Note that a state indicated by "highest(lowest)_electronic_state 0" means the ground states.
+       The default values of "highest_electronic_state" and "lowest_electronic_state"
+       are 2 and 0, respectively.
+
+       The default value of the "total_steps" is 10. 
+
+       "dt" means the time width of molecular dynamics.
+       "dt" should be set in femto-second.
+       The default value of the "dt" is 0.1[fs].
+
+      E.g.
+         EHRENFEST
+            initial_electronic_state 1   // Ehrenfest start from the first electronic state
+            highest_electronic_state 10
+            lowest_electronic_state  0   // this is the ground state.
+            total_steps 50
+            dt 0.05
+         EHRENFEST_END
+
 
    <Principal Axes (Diagonalizing the inertia tensor)>
       Write inertia-directive.

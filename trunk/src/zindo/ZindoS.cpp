@@ -911,7 +911,7 @@ void ZindoS::CalcOverlapESsWithAnotherElectronicStructure(double** overlapESs,
    double const* const* rhsMatrixCIS = this->matrixCIS;
    double const* const* lhsMatrixCIS = lhsElectronicStructure.GetMatrixCIS();
    int dimOverlapSingletSDs = this->matrixCISdimension + 1;
-   int dimOverlapESs = Parameters::GetInstance()->GetNumberElectronicStatesNASCO();
+   int dimOverlapESs = dimOverlapSingletSDs;
    int groundstate = 0;
    MallocerFreer::GetInstance()->Initialize<double>(overlapESs, dimOverlapESs, dimOverlapESs);
    // extended CIS matrix includes groundstate althoug matrixCIS does not include groundstate.

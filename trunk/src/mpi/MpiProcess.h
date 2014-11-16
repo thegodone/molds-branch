@@ -20,6 +20,7 @@
 #define INCLUDED_MPIPROCESS
 #include<limits.h>
 #include<omp.h>
+#include<boost/serialization/complex.hpp>
 #include<boost/mpi.hpp>
 namespace MolDS_mpi{
 // MpiProcess is singleton
