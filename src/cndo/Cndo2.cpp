@@ -3911,36 +3911,19 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
    MallocerFreer::GetInstance()->Initialize<double>(overlapAOs, totalAONumber, totalAONumber);
 
    stringstream ompErrors;
-#pragma omp parallel 
-   {
-      double** diatomicOverlapAOs = NULL;
-      double** rotatingMatrix = NULL;
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
+   for(int A=0; A<totalAtomNumber; A++){
       try{
-         // malloc
-         MallocerFreer::GetInstance()->Malloc<double>(&diatomicOverlapAOs,
-                                                      OrbitalType_end, 
-                                                      OrbitalType_end);
-         MallocerFreer::GetInstance()->Malloc<double>(&rotatingMatrix,
-                                                      OrbitalType_end, 
-                                                      OrbitalType_end);
-         // calculation overlapAOs matrix
-         for(int mu=0; mu<totalAONumber; mu++){
-            overlapAOs[mu][mu] = 1.0;
-         }
-         bool isSymmetricOverlapAOs = false;
-#pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-         for(int A=0; A<totalAtomNumber; A++){
-            const Atom& lhsAtom = *lhsMolecule.GetAtomVect()[A];
-            const Atom& rhsAtom = *rhsMolecule->GetAtomVect()[A];
-            int firstAOIndexLhsAtom = lhsAtom.GetFirstAOIndex();
-            int firstAOIndexRhsAtom = rhsAtom.GetFirstAOIndex();
-            for(int i=0; i<lhsAtom.GetValenceSize(); i++){
-               for(int j=0; j<rhsAtom.GetValenceSize(); j++){
-                  int mu = firstAOIndexLhsAtom + i;      
-                  int nu = firstAOIndexRhsAtom + j;      
-                  double value = this->GetOverlapAOsElementByGTOExpansion(lhsAtom, i, rhsAtom, j, STO6G);
-                  overlapAOs[mu][nu] = value;
-               }
+         const Atom& lhsAtom = *lhsMolecule.GetAtomVect()[A];
+         const Atom& rhsAtom = *rhsMolecule->GetAtomVect()[A];
+         int firstAOIndexLhsAtom = lhsAtom.GetFirstAOIndex();
+         int firstAOIndexRhsAtom = rhsAtom.GetFirstAOIndex();
+         for(int i=0; i<lhsAtom.GetValenceSize(); i++){
+            for(int j=0; j<rhsAtom.GetValenceSize(); j++){
+               int mu = firstAOIndexLhsAtom + i;      
+               int nu = firstAOIndexRhsAtom + j;      
+               double value = this->GetOverlapAOsElementByGTOExpansion(lhsAtom, i, rhsAtom, j, STO6G);
+               overlapAOs[mu][nu] = value;
             }
          }
       }
@@ -3948,7 +3931,6 @@ void Cndo2::CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
 #pragma omp critical
          ex.Serialize(ompErrors);
       }
-      this->FreeDiatomicOverlapAOsAndRotatingMatrix(&diatomicOverlapAOs, &rotatingMatrix);
    }
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
