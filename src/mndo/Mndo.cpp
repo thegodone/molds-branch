@@ -2664,7 +2664,6 @@ void Mndo::CalcForce(const vector<int>& elecStates){
    try{
       MallocerFreer::GetInstance()->Malloc<bool>(&forceAdded, this->molecule->GetAtomVect().size());
       MallocerFreer::GetInstance()->Malloc<double>(&comMatrixForce, elecStates.size(), this->molecule->GetAtomVect().size(), CartesianType_end);
-
       // this loop is MPI-parallelized
       for(int a=0; a<this->molecule->GetAtomVect().size(); a++){
          int calcRank = a%mpiSize;
@@ -2677,20 +2676,19 @@ void Mndo::CalcForce(const vector<int>& elecStates){
             stringstream ompErrors;
 #pragma omp parallel
             {
-               double***   diatomicOverlapAOs1stDerivs       = NULL;
-               double***** diatomicTwoElecsTwoCores1stDerivs = NULL;
-               double**    tmpRotMat                         = NULL;
-               double***   tmpRotMat1stDerivs                = NULL;
-               double****  tmpDiatomicTwoElecsTwoCores       = NULL;
-
-               double**  tmpDiaOverlapAOsInDiaFrame         = NULL; // diatomic overlapAOs in diatomic frame
-               double**  tmpDiaOverlapAOs1stDerivInDiaFrame = NULL; // first derivative of the diaOverlapAOs. This derivative is related to the distance between two atoms.
-               double**  tmpRotMat1stDeriv                  = NULL;
-               double**  tmpRotatedDiatomicOverlap          = NULL; // used in dgemmm
-               double*   tmpRotatedDiatomicOverlapVec       = NULL; // used in dgemmm
-               double**  tmpMatrixBC                        = NULL; // used in dgemmm
-               double*   tmpVectorBC                        = NULL; // used in dgemmm
-               double*** tmpMatrixForce                     = NULL;
+               double***   diatomicOverlapAOs1stDerivs        = NULL;
+               double***** diatomicTwoElecsTwoCores1stDerivs  = NULL;
+               double**    tmpRotMat                          = NULL;
+               double***   tmpRotMat1stDerivs                 = NULL;
+               double****  tmpDiatomicTwoElecsTwoCores        = NULL;
+               double**    tmpDiaOverlapAOsInDiaFrame         = NULL; // diatomic overlapAOs in diatomic frame
+               double**    tmpDiaOverlapAOs1stDerivInDiaFrame = NULL; // first derivative of the diaOverlapAOs. This derivative is related to the distance between two atoms.
+               double**    tmpRotMat1stDeriv                  = NULL;
+               double**    tmpRotatedDiatomicOverlap          = NULL; // used in dgemmm
+               double*     tmpRotatedDiatomicOverlapVec       = NULL; // used in dgemmm
+               double**    tmpMatrixBC                        = NULL; // used in dgemmm
+               double*     tmpVectorBC                        = NULL; // used in dgemmm
+               double***   tmpMatrixForce                     = NULL;
                try{
                   this->MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
                                                     &diatomicTwoElecsTwoCores1stDerivs,
@@ -2703,11 +2701,9 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                     &tmpRotatedDiatomicOverlapVec,
                                                     &tmpMatrixBC,
                                                     &tmpVectorBC,
-                                                    &tmpDiatomicTwoElecsTwoCores);
-                  MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixForce, 
-                                                               elecStates.size(), 
-                                                               this->molecule->GetAtomVect().size(),
-                                                               CartesianType_end);
+                                                    &tmpDiatomicTwoElecsTwoCores,
+                                                    &tmpMatrixForce,
+                                                    elecStates);
 
 #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                   for(int b=0; b<this->molecule->GetAtomVect().size(); b++){
@@ -2883,11 +2879,9 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                                                &tmpRotatedDiatomicOverlapVec,
                                                &tmpMatrixBC,
                                                &tmpVectorBC,
-                                               &tmpDiatomicTwoElecsTwoCores);
-               MallocerFreer::GetInstance()->Free<double>(&tmpMatrixForce, 
-                                                          elecStates.size(), 
-                                                          this->molecule->GetAtomVect().size(),
-                                                          CartesianType_end);
+                                               &tmpDiatomicTwoElecsTwoCores,
+                                               &tmpMatrixForce,
+                                               elecStates);
             } // end of omp-parallelized region
             // Exception throwing for omp-region
             if(!ompErrors.str().empty()){
@@ -2942,7 +2936,9 @@ void Mndo::MallocTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs,
                                        double**     tmpRotatedDiatomicOverlapVec,
                                        double***    tmpMatrixBC,
                                        double**     tmpVectorBC,
-                                       double*****  tmpDiatomicTwoElecsTwoCores) const{
+                                       double*****  tmpDiatomicTwoElecsTwoCores,
+                                       double****   tmpMatrixForce,
+                                       const vector<int>& elecStates) const{
    MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDerivs, 
                                                 OrbitalType_end,
                                                 OrbitalType_end,
@@ -2984,6 +2980,10 @@ void Mndo::MallocTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs,
                                                 dxy, 
                                                 dxy, 
                                                 dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpMatrixForce, 
+                                                elecStates.size(), 
+                                                this->molecule->GetAtomVect().size(),
+                                                CartesianType_end);
 }
 
 void Mndo::FreeTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs, 
@@ -2997,7 +2997,9 @@ void Mndo::FreeTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs,
                                      double**     tmpRotatedDiatomicOverlapVec,
                                      double***    tmpMatrixBC,
                                      double**     tmpVectorBC,
-                                     double*****  tmpDiatomicTwoElecsTwoCores) const{
+                                     double*****  tmpDiatomicTwoElecsTwoCores,
+                                     double****   tmpMatrixForce,
+                                     const vector<int>& elecStates) const{
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDerivs, 
                                               OrbitalType_end,
                                               OrbitalType_end,
@@ -3039,6 +3041,10 @@ void Mndo::FreeTempMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs,
                                               dxy, 
                                               dxy, 
                                               dxy);
+   MallocerFreer::GetInstance()->Free<double>(tmpMatrixForce, 
+                                              elecStates.size(), 
+                                              this->molecule->GetAtomVect().size(),
+                                              CartesianType_end);
 }
 
 // see (18) in [PT_1997]
