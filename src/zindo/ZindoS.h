@@ -283,7 +283,9 @@ private:
                                     double***  tmpRotatedDiatomicOverlap,
                                     double**   tmpRotatedDiatomicOverlapVec,
                                     double***  tmpMatrixBC,
-                                    double**   tmpVectorBC) const;         
+                                    double**   tmpVectorBC,
+                                    double**** tmpMatrixForce,
+                                    std::vector<int> elecStates) const;         
    void FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
                                   double**** diatomicTwoElecsTwoCores1stDerivs,
                                   double***  tmpDiaOverlapAOsInDiaFrame,       
@@ -294,7 +296,9 @@ private:
                                   double***  tmpRotatedDiatomicOverlap,
                                   double**   tmpRotatedDiatomicOverlapVec,
                                   double***  tmpMatrixBC,
-                                  double**   tmpVectorBC) const;         
+                                  double**   tmpVectorBC,
+                                  double**** tmpMatrixForce,
+                                  std::vector<int> elecStates) const;         
    void CalcForceExcitedStaticPart(double* force, 
                                    int elecStateIndex,
                                    int indexAtomA,
