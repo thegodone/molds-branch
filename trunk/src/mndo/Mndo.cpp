@@ -2693,21 +2693,21 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                double*** tmpMatrixForce                     = NULL;
                try{
                   this->MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
-                        &diatomicTwoElecsTwoCores1stDerivs,
-                        &tmpDiaOverlapAOsInDiaFrame,
-                        &tmpDiaOverlapAOs1stDerivInDiaFrame,
-                        &tmpRotMat,
-                        &tmpRotMat1stDeriv,
-                        &tmpRotMat1stDerivs,
-                        &tmpRotatedDiatomicOverlap,
-                        &tmpRotatedDiatomicOverlapVec,
-                        &tmpMatrixBC,
-                        &tmpVectorBC,
-                        &tmpDiatomicTwoElecsTwoCores);
+                                                    &diatomicTwoElecsTwoCores1stDerivs,
+                                                    &tmpDiaOverlapAOsInDiaFrame,
+                                                    &tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                    &tmpRotMat,
+                                                    &tmpRotMat1stDeriv,
+                                                    &tmpRotMat1stDerivs,
+                                                    &tmpRotatedDiatomicOverlap,
+                                                    &tmpRotatedDiatomicOverlapVec,
+                                                    &tmpMatrixBC,
+                                                    &tmpVectorBC,
+                                                    &tmpDiatomicTwoElecsTwoCores);
                   MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixForce, 
-                        elecStates.size(), 
-                        this->molecule->GetAtomVect().size(),
-                        CartesianType_end);
+                                                               elecStates.size(), 
+                                                               this->molecule->GetAtomVect().size(),
+                                                               CartesianType_end);
 
 #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                   for(int b=0; b<this->molecule->GetAtomVect().size(); b++){
@@ -2717,57 +2717,59 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                      int lastAOIndexB  = atomB.GetLastAOIndex();
 
                      MallocerFreer::GetInstance()->Initialize<double>(tmpMatrixForce, 
-                           elecStates.size(), 
-                           this->molecule->GetAtomVect().size(),
-                           CartesianType_end);
+                                                                      elecStates.size(), 
+                                                                      this->molecule->GetAtomVect().size(),
+                                                                      CartesianType_end);
                      // calc. first derivative of overlapAOs.
                      this->CalcDiatomicOverlapAOs1stDerivatives(diatomicOverlapAOs1stDerivs, 
-                           tmpDiaOverlapAOsInDiaFrame,        
-                           tmpDiaOverlapAOs1stDerivInDiaFrame,
-                           tmpRotMat,                         
-                           tmpRotMat1stDeriv,                 
-                           tmpRotMat1stDerivs,                
-                           tmpRotatedDiatomicOverlap,         
-                           tmpRotatedDiatomicOverlapVec,         
-                           tmpMatrixBC,                         
-                           tmpVectorBC,                         
-                           atomA, 
-                           atomB);
+                                                                tmpDiaOverlapAOsInDiaFrame,        
+                                                                tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                                                tmpRotMat,                         
+                                                                tmpRotMat1stDeriv,                 
+                                                                tmpRotMat1stDerivs,                
+                                                                tmpRotatedDiatomicOverlap,         
+                                                                tmpRotatedDiatomicOverlapVec,         
+                                                                tmpMatrixBC,                         
+                                                                tmpVectorBC,                         
+                                                                atomA, 
+                                                                atomB);
                      // calc. first derivative of two elec two core interaction
                      this->CalcDiatomicTwoElecsTwoCores1stDerivatives(diatomicTwoElecsTwoCores1stDerivs, 
-                           tmpRotMat,
-                           tmpRotMat1stDerivs,
-                           tmpDiatomicTwoElecsTwoCores,
-                           a, b);
+                                                                      tmpRotMat,
+                                                                      tmpRotMat1stDerivs,
+                                                                      tmpDiatomicTwoElecsTwoCores,
+                                                                      a, b);
 
                      // core repulsion part
                      double coreRepulsion[CartesianType_end] = {0.0,0.0,0.0};
                      for(int i=0; i<CartesianType_end; i++){
-                        coreRepulsion[i] += this->GetDiatomCoreRepulsion1stDerivative(
-                              atomA, atomB, (CartesianType)i);
+                        coreRepulsion[i] += this->GetDiatomCoreRepulsion1stDerivative(atomA, 
+                                                                                      atomB, 
+                                                                                      (CartesianType)i);
                         if(Parameters::GetInstance()->RequiresVdWSCF()){
-                           coreRepulsion[i] += this->GetDiatomVdWCorrection1stDerivative(
-                                 atomA, atomB, (CartesianType)i);
+                           coreRepulsion[i] += this->GetDiatomVdWCorrection1stDerivative(atomA, 
+                                                                                         atomB, 
+                                                                                         (CartesianType)i);
                         }
                      }  
                      // electron core attraction part (ground state)
                      double forceElecCoreAttPart[CartesianType_end] = {0.0,0.0,0.0};
                      this->CalcForceSCFElecCoreAttractionPart(forceElecCoreAttPart,
-                           a,
-                           b,
-                           diatomicTwoElecsTwoCores1stDerivs);
+                                                              a,
+                                                              b,
+                                                              diatomicTwoElecsTwoCores1stDerivs);
                      // overlapAOs part (ground state)
                      double forceOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
                      this->CalcForceSCFOverlapAOsPart(forceOverlapAOsPart, 
-                           a,
-                           b,
-                           diatomicOverlapAOs1stDerivs);
+                                                      a,
+                                                      b,
+                                                      diatomicOverlapAOs1stDerivs);
                      // two electron part (ground state)
                      double forceTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
                      this->CalcForceSCFTwoElecPart(forceTwoElecPart,
-                           a,
-                           b,
-                           diatomicTwoElecsTwoCores1stDerivs);
+                                                   a,
+                                                   b,
+                                                   diatomicTwoElecsTwoCores1stDerivs);
 
                      for(int n=0; n<elecStates.size(); n++){
                         for(int i=0; i<CartesianType_end; i++){
@@ -2786,33 +2788,32 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                         // static part
                         double forceExcitedStaticPart[CartesianType_end] = {0.0,0.0,0.0};
                         this->CalcForceExcitedStaticPart(forceExcitedStaticPart,
-                              n,
-                              a,
-                              b,
-                              diatomicTwoElecsTwoCores1stDerivs);
+                                                         n,
+                                                         a,
+                                                         b,
+                                                         diatomicTwoElecsTwoCores1stDerivs);
                         // response part
                         // electron core attraction part (excited states)
                         double forceExcitedElecCoreAttPart[CartesianType_end]={0.0,0.0,0.0};
-                        this->CalcForceExcitedElecCoreAttractionPart(
-                              forceExcitedElecCoreAttPart,
-                              n,
-                              a,
-                              b,
-                              diatomicTwoElecsTwoCores1stDerivs);
+                        this->CalcForceExcitedElecCoreAttractionPart(forceExcitedElecCoreAttPart,
+                                                                     n,
+                                                                     a,
+                                                                     b,
+                                                                     diatomicTwoElecsTwoCores1stDerivs);
                         // overlapAOs part (excited states)
                         double forceExcitedOverlapAOsPart[CartesianType_end] = {0.0,0.0,0.0};
                         this->CalcForceExcitedOverlapAOsPart(forceExcitedOverlapAOsPart, 
-                              n,
-                              a,
-                              b,
-                              diatomicOverlapAOs1stDerivs);
+                                                             n,
+                                                             a,
+                                                             b,
+                                                             diatomicOverlapAOs1stDerivs);
                         // two electron part (excited states)
                         double forceExcitedTwoElecPart[CartesianType_end] = {0.0,0.0,0.0};
                         this->CalcForceExcitedTwoElecPart(forceExcitedTwoElecPart,
-                              n,
-                              a,
-                              b,
-                              diatomicTwoElecsTwoCores1stDerivs);
+                                                          n,
+                                                          a,
+                                                          b,
+                                                          diatomicTwoElecsTwoCores1stDerivs);
                         for(int i=0; i<CartesianType_end; i++){
                            // sum up contributions from static part (excited state)
                            tmpMatrixForce[n][b][i] += forceExcitedStaticPart[i];
@@ -2872,21 +2873,21 @@ void Mndo::CalcForce(const vector<int>& elecStates){
                   ex.Serialize(ompErrors);
                }
                this->FreeTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
-                     &diatomicTwoElecsTwoCores1stDerivs,
-                     &tmpDiaOverlapAOsInDiaFrame,
-                     &tmpDiaOverlapAOs1stDerivInDiaFrame,
-                     &tmpRotMat,
-                     &tmpRotMat1stDeriv,
-                     &tmpRotMat1stDerivs,
-                     &tmpRotatedDiatomicOverlap,
-                     &tmpRotatedDiatomicOverlapVec,
-                     &tmpMatrixBC,
-                     &tmpVectorBC,
-                     &tmpDiatomicTwoElecsTwoCores);
+                                               &diatomicTwoElecsTwoCores1stDerivs,
+                                               &tmpDiaOverlapAOsInDiaFrame,
+                                               &tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                               &tmpRotMat,
+                                               &tmpRotMat1stDeriv,
+                                               &tmpRotMat1stDerivs,
+                                               &tmpRotatedDiatomicOverlap,
+                                               &tmpRotatedDiatomicOverlapVec,
+                                               &tmpMatrixBC,
+                                               &tmpVectorBC,
+                                               &tmpDiatomicTwoElecsTwoCores);
                MallocerFreer::GetInstance()->Free<double>(&tmpMatrixForce, 
-                     elecStates.size(), 
-                     this->molecule->GetAtomVect().size(),
-                     CartesianType_end);
+                                                          elecStates.size(), 
+                                                          this->molecule->GetAtomVect().size(),
+                                                          CartesianType_end);
             } // end of omp-parallelized region
             // Exception throwing for omp-region
             if(!ompErrors.str().empty()){
