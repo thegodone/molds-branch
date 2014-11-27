@@ -70,11 +70,15 @@ private:
                                            double*** overlapMOs, 
                                            double*** overlapSingleSDs,
                                            double*** overlapESs, 
+                                           double*** matrixMeanForce,
+                                           std::complex<double>** tmpSuperpositionCoeff,
                                            const MolDS_base::Molecule& molecule) const;
    void   FreeOverlapsDifferentMolecules(double*** overlapAOs,
                                          double*** overlapMOs, 
                                          double*** overlapSingleSDs,
                                          double*** overlapESs, 
+                                         double*** matrixMeanForce,
+                                         std::complex<double>** tmpSuperpositionCoeff,
                                          const MolDS_base::Molecule& molecule) const;
 };
 
