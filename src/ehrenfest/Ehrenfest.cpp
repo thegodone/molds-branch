@@ -105,135 +105,117 @@ void Ehrenfest::DoEhrenfest(){
    double**                    overlapSDs            = NULL;
    double**                    overlapESs            = NULL;
    std::complex<double>*       tmpSuperpositionCoeff = NULL;
-   MallocerFreer::GetInstance()->Malloc< std::complex<double> >(&tmpSuperpositionCoeff, highestElecState+1);
-   MallocerFreer::GetInstance()->Malloc<double>(&matrixMeanForce, atomNum, CartesianType_end);
-   this->MallocOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapSDs, &overlapESs, *this->molecule);
-   for(int i=lowestElecState; i<=highestElecState; i++){
-      this->elecStates->push_back(i);
-   }
-
-double tmpOverlap[highestElecState+1][highestElecState+1];
-   // prepare trial molecule and electronic structure pointa
-   Molecule trialMolecule(*this->molecule);
-   boost::shared_ptr<ElectronicStructure> electronicStructure2(ElectronicStructureFactory::Create());
-   ElectronicStructure* trialES = electronicStructure2.get();
-   trialES->SetMolecule(&trialMolecule);
-   trialES->SetCanOutputLogs(this->CanOutputLogs());
-   trialMolecule.SetCanOutputLogs(this->CanOutputLogs());
-
-   // malloc electornic structure
-   boost::shared_ptr<ElectronicStructure> electronicStructure1(ElectronicStructureFactory::Create());
-   ElectronicStructure* currentES = electronicStructure1.get();
-   currentES->SetMolecule(this->molecule);
-   currentES->SetCanOutputLogs(this->CanOutputLogs());
-   this->molecule->SetCanOutputLogs(this->CanOutputLogs());
-
-   // initial calculation
-   currentES->DoSCF();
-   if(Parameters::GetInstance()->RequiresCIS()){
-      currentES->DoCIS();
-   }
-   matrixForce = electronicStructure1->GetForce(*this->elecStates);
-   this->superpositionCoeff[iniElecState].real()=1.0;
-   this->superpositionCoeff[iniElecState].imag()=0.0;
-   elecNorm = this->GetElecNorm();
-   this->CalcMeanForce(matrixMeanForce, matrixForce, elecNorm);
-
-   // output initial conditions
-   this->OutputLog(this->messageinitialConditionEhrenfest);
-   initialEnergy = this->OutputEnergies(*currentES, elecNorm);
-   this->OutputLog("\n");
-   this->molecule->OutputConfiguration();
-   this->molecule->OutputXyzCOM();
-   this->molecule->OutputXyzCOC();
-   this->molecule->OutputMomenta();
-
-   for(int s=0; s<totalSteps; s++){
-      this->OutputLog(boost::format("%s%d\n") % this->messageStartStepEhrenfest.c_str() % (s+1) );
-
-      // update momenta & coordinates
-      this->UpdateMomenta    (trialMolecule, matrixMeanForce, dt);
-      this->UpdateCoordinates(trialMolecule, dt);
-
-      // calculate trial electronic structure
-      requireGuess = (s==0) ? true : false;
-      trialES->DoSCF(requireGuess);
-      if(Parameters::GetInstance()->RequiresCIS()){
-         trialES->DoCIS();
+   try{
+      this->MallocOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapSDs, &overlapESs, &matrixMeanForce, &tmpSuperpositionCoeff, *this->molecule);
+      for(int i=lowestElecState; i<=highestElecState; i++){
+         this->elecStates->push_back(i);
       }
 
-      // update force
-      matrixForce = trialES->GetForce(*this->elecStates);
+      // prepare trial molecule and electronic structure pointa
+      Molecule trialMolecule(*this->molecule);
+      boost::shared_ptr<ElectronicStructure> electronicStructure2(ElectronicStructureFactory::Create());
+      ElectronicStructure* trialES = electronicStructure2.get();
+      trialES->SetMolecule(&trialMolecule);
+      trialES->SetCanOutputLogs(this->CanOutputLogs());
+      trialMolecule.SetCanOutputLogs(this->CanOutputLogs());
+
+      // malloc electornic structure
+      boost::shared_ptr<ElectronicStructure> electronicStructure1(ElectronicStructureFactory::Create());
+      ElectronicStructure* currentES = electronicStructure1.get();
+      currentES->SetMolecule(this->molecule);
+      currentES->SetCanOutputLogs(this->CanOutputLogs());
+      this->molecule->SetCanOutputLogs(this->CanOutputLogs());
+
+      // initial calculation
+      currentES->DoSCF();
+      if(Parameters::GetInstance()->RequiresCIS()){
+         currentES->DoCIS();
+      }
+      matrixForce = electronicStructure1->GetForce(*this->elecStates);
+      this->superpositionCoeff[iniElecState] = std::complex<double>(1.0,0.0);
+      elecNorm = this->GetElecNorm();
       this->CalcMeanForce(matrixMeanForce, matrixForce, elecNorm);
 
-      // update momenta
-      this->UpdateMomenta(trialMolecule, matrixMeanForce, dt);
-
-      // update electronic superpositioncoeff
-      currentES->CalcOverlapAOsWithAnotherConfiguration             (overlapAOs, trialMolecule);
-      currentES->CalcOverlapMOsWithAnotherElectronicStructure       (overlapMOs, overlapAOs, *trialES);
-      currentES->CalcOverlapSingletSDsWithAnotherElectronicStructure(overlapSDs, overlapMOs);
-      currentES->CalcOverlapESsWithAnotherElectronicStructure       (overlapESs, overlapSDs, *trialES);
-      for(int es=0; es<dtRatio; es++){
-         for(int lState=lowestElecState; lState<=highestElecState; lState++){
-            double phase = 0.0;
-            tmpSuperpositionCoeff[lState].real()=0.0;
-            tmpSuperpositionCoeff[lState].imag()=0.0;
-            for(int rState=lowestElecState; rState<=highestElecState; rState++){
-/*
-if(0<s){
-   if(tmpOverlap[lState][rState] != overlapESs[lState][rState]){
-      cout << "Different overlaps\n";  
-      printf("\t%.15e\n",tmpOverlap[lState][rState]);
-      printf("\t%.15e\n",overlapESs[lState][rState]);
-      printf("\t%.15e\n",tmpOverlap[lState][rState] - overlapESs[lState][rState]);
-      cout << endl;
-   }
-}
-tmpOverlap[lState][rState] = overlapESs[lState][rState];
-*/
-               phase = -1.0*currentES->GetElectronicEnergy(rState)*dtElec;
-               std::complex<double> timePropagator = std::polar(1.0, phase);
-               tmpSuperpositionCoeff[lState] += overlapESs[lState][rState]
-                                               *timePropagator
-                                               *this->superpositionCoeff[rState];
-               //if(lState == rState){
-               //   tmpSuperpositionCoeff[lState] += timePropagator
-               //                                   *this->superpositionCoeff[rState];
-               //}
-            }
-         }
-         for(int state=lowestElecState; state<=highestElecState; state++){
-            this->superpositionCoeff[state] = tmpSuperpositionCoeff[state];
-         }
-      }
-      elecNorm = this->GetElecNorm();
-
-      // swap electronicstructures
-      this->molecule->SynchronizePhaseSpacePointTo(trialMolecule);
-      swap(currentES, trialES);
-      currentES->SetMolecule(this->molecule);
-      trialES->SetMolecule(&trialMolecule);
-
-      // Broadcast to all processes
-      int root = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
-      this->molecule->BroadcastPhaseSpacePointToAllProcesses(root);
-      MolDS_mpi::MpiProcess::GetInstance()->Broadcast(this->superpositionCoeff, highestElecState+1, root);
-
-      // output results
-      this->OutputEnergies(*currentES, initialEnergy, elecNorm);
+      // output initial conditions
+      this->OutputLog(this->messageinitialConditionEhrenfest);
+      initialEnergy = this->OutputEnergies(*currentES, elecNorm);
+      this->OutputLog("\n");
       this->molecule->OutputConfiguration();
       this->molecule->OutputXyzCOM();
       this->molecule->OutputXyzCOC();
       this->molecule->OutputMomenta();
-      this->OutputLog(boost::format("%s%lf\n") % this->messageTime.c_str() 
-                                               % (dt*static_cast<double>(s+1)/Parameters::GetInstance()->GetFs2AU()));
-      this->OutputLog(boost::format("%s%d\n") % this->messageEndStepEhrenfest.c_str() % (s+1) );
-   }
 
-   MallocerFreer::GetInstance()->Free< std::complex<double> >(&tmpSuperpositionCoeff, highestElecState+1);
-   MallocerFreer::GetInstance()->Free<double>(&matrixMeanForce, atomNum, CartesianType_end);
-   this->FreeOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapSDs, &overlapESs, *this->molecule);
+      for(int s=0; s<totalSteps; s++){
+         this->OutputLog(boost::format("%s%d\n") % this->messageStartStepEhrenfest.c_str() % (s+1) );
+
+         // update momenta & coordinates
+         this->UpdateMomenta    (trialMolecule, matrixMeanForce, dt);
+         this->UpdateCoordinates(trialMolecule, dt);
+
+         // calculate trial electronic structure
+         requireGuess = (s==0) ? true : false;
+         trialES->DoSCF(requireGuess);
+         if(Parameters::GetInstance()->RequiresCIS()){
+            trialES->DoCIS();
+         }
+
+         // update force
+         matrixForce = trialES->GetForce(*this->elecStates);
+         this->CalcMeanForce(matrixMeanForce, matrixForce, elecNorm);
+
+         // update momenta
+         this->UpdateMomenta(trialMolecule, matrixMeanForce, dt);
+
+         // update electronic superpositioncoeff
+         currentES->CalcOverlapAOsWithAnotherConfiguration             (overlapAOs, trialMolecule);
+         currentES->CalcOverlapMOsWithAnotherElectronicStructure       (overlapMOs, overlapAOs, *trialES);
+         currentES->CalcOverlapSingletSDsWithAnotherElectronicStructure(overlapSDs, overlapMOs);
+         currentES->CalcOverlapESsWithAnotherElectronicStructure       (overlapESs, overlapSDs, *trialES);
+         for(int es=0; es<dtRatio; es++){
+            for(int lState=lowestElecState; lState<=highestElecState; lState++){
+               double phase = 0.0;
+               tmpSuperpositionCoeff[lState] = std::complex<double>(0.0,0.0);
+               for(int rState=lowestElecState; rState<=highestElecState; rState++){
+                  phase = -1.0*currentES->GetElectronicEnergy(rState)*dtElec;
+                  std::complex<double> timePropagator = std::polar(1.0, phase);
+                  tmpSuperpositionCoeff[lState] += overlapESs[lState][rState]
+                                                  *timePropagator
+                                                  *this->superpositionCoeff[rState];
+               }
+            }
+            for(int state=lowestElecState; state<=highestElecState; state++){
+               this->superpositionCoeff[state] = tmpSuperpositionCoeff[state];
+            }
+         }
+         elecNorm = this->GetElecNorm();
+
+         // swap electronicstructures
+         this->molecule->SynchronizePhaseSpacePointTo(trialMolecule);
+         swap(currentES, trialES);
+         currentES->SetMolecule(this->molecule);
+         trialES->SetMolecule(&trialMolecule);
+
+         // Broadcast to all processes
+         int root = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+         this->molecule->BroadcastPhaseSpacePointToAllProcesses(root);
+         MolDS_mpi::MpiProcess::GetInstance()->Broadcast(this->superpositionCoeff, highestElecState+1, root);
+
+         // output results
+         this->OutputEnergies(*currentES, initialEnergy, elecNorm);
+         this->molecule->OutputConfiguration();
+         this->molecule->OutputXyzCOM();
+         this->molecule->OutputXyzCOC();
+         this->molecule->OutputMomenta();
+         this->OutputLog(boost::format("%s%lf\n") % this->messageTime.c_str() 
+                                                  % (dt*static_cast<double>(s+1)/Parameters::GetInstance()->GetFs2AU()));
+         this->OutputLog(boost::format("%s%d\n") % this->messageEndStepEhrenfest.c_str() % (s+1) );
+      }
+   }
+   catch(MolDSException ex){
+      this->FreeOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapSDs, &overlapESs, &matrixMeanForce, &tmpSuperpositionCoeff, *this->molecule);
+      throw ex;
+   }
+   this->FreeOverlapsDifferentMolecules(&overlapAOs, &overlapMOs, &overlapSDs, &overlapESs, &matrixMeanForce, &tmpSuperpositionCoeff, *this->molecule);
    this->OutputLog(this->messageEndEhrenfest);
 }
 
@@ -423,34 +405,46 @@ void Ehrenfest::MallocOverlapsDifferentMolecules(double*** overlapAOs,
                                                  double*** overlapMOs, 
                                                  double*** overlapSDs, 
                                                  double*** overlapESs, 
+                                                 double*** matrixMeanForce,
+                                                 complex<double>** tmpSuperpositionCoeff,
                                                  const Molecule& molecule) const{
-   int dimOverlapAOs = molecule.GetTotalNumberAOs();
-   int dimOverlapMOs = dimOverlapAOs;
-   int dimOverlapSDs = Parameters::GetInstance()->GetActiveOccCIS()
-                       *Parameters::GetInstance()->GetActiveVirCIS()
-                       +1;
-   int dimOverlapESs = dimOverlapSDs;
+   int dimOverlapAOs    = molecule.GetTotalNumberAOs();
+   int dimOverlapMOs    = dimOverlapAOs;
+   int dimOverlapSDs    = Parameters::GetInstance()->GetActiveOccCIS()
+                          *Parameters::GetInstance()->GetActiveVirCIS()
+                          +1;
+   int dimOverlapESs    = dimOverlapSDs;
+   int atomNum          = this->molecule->GetAtomVect().size();
+   int highestElecState = Parameters::GetInstance()->GetHighestElectronicStateIndexEhrenfest();
    MallocerFreer::GetInstance()->Malloc<double>(overlapAOs, dimOverlapAOs, dimOverlapAOs);
    MallocerFreer::GetInstance()->Malloc<double>(overlapMOs, dimOverlapMOs, dimOverlapMOs);
    MallocerFreer::GetInstance()->Malloc<double>(overlapSDs, dimOverlapSDs, dimOverlapSDs);
    MallocerFreer::GetInstance()->Malloc<double>(overlapESs, dimOverlapESs, dimOverlapESs);
+   MallocerFreer::GetInstance()->Malloc<double>(matrixMeanForce, atomNum, CartesianType_end);
+   MallocerFreer::GetInstance()->Malloc< std::complex<double> >(tmpSuperpositionCoeff, highestElecState+1);
 }
 
 void Ehrenfest::FreeOverlapsDifferentMolecules(double*** overlapAOs,
                                                double*** overlapMOs, 
                                                double*** overlapSDs, 
                                                double*** overlapESs, 
+                                               double*** matrixMeanForce,
+                                               complex<double>** tmpSuperpositionCoeff,
                                                const MolDS_base::Molecule& molecule) const{
-   int dimOverlapAOs = molecule.GetTotalNumberAOs();
-   int dimOverlapMOs = dimOverlapAOs;
-   int dimOverlapSDs = Parameters::GetInstance()->GetActiveOccCIS()
-                       *Parameters::GetInstance()->GetActiveVirCIS()
-                       +1;
-   int dimOverlapESs = dimOverlapSDs;
+   int dimOverlapAOs    = molecule.GetTotalNumberAOs();
+   int dimOverlapMOs    = dimOverlapAOs;
+   int dimOverlapSDs    = Parameters::GetInstance()->GetActiveOccCIS()
+                          *Parameters::GetInstance()->GetActiveVirCIS()
+                          +1;
+   int dimOverlapESs    = dimOverlapSDs;
+   int atomNum          = this->molecule->GetAtomVect().size();
+   int highestElecState = Parameters::GetInstance()->GetHighestElectronicStateIndexEhrenfest();
    MallocerFreer::GetInstance()->Free<double>(overlapAOs, dimOverlapAOs, dimOverlapAOs);
    MallocerFreer::GetInstance()->Free<double>(overlapMOs, dimOverlapMOs, dimOverlapMOs);
    MallocerFreer::GetInstance()->Free<double>(overlapSDs, dimOverlapSDs, dimOverlapSDs);
    MallocerFreer::GetInstance()->Free<double>(overlapESs, dimOverlapESs, dimOverlapESs);
+   MallocerFreer::GetInstance()->Free<double>(matrixMeanForce, atomNum, CartesianType_end);
+   MallocerFreer::GetInstance()->Free< std::complex<double> >(tmpSuperpositionCoeff, highestElecState+1);
 }
 
 }
