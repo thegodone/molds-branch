@@ -1291,6 +1291,25 @@ mklNumThreads = "4"
 ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
+prefix = "h2o-dimer_am1d_ehrenfest"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+---------------------------------------------------
+---------     Test of AM1D/Ehrenfest      ---------
+---------  Without Davidson for the CIS   ---------
+---------------------------------------------------
+SECTION
+\t\t\t>>> H2O Dimer <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
 prefix = "c2h6_pm3d"
 tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
 -------------------------------------------

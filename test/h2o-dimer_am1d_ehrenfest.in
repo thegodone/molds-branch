@@ -1,0 +1,40 @@
+// example of the input file
+THEORY
+am1-d
+THEORY_END
+
+SCF
+ max_iter 500
+ rms_density 1.0e-14
+ damping_thresh 1.0
+ damping_weight 0.0
+ diis_num_error_vect 5
+ diis_start_error 0.1
+ diis_end_error 0.0000000
+SCF_END
+
+EHRENFEST
+   initial_electronic_state  4   
+   highest_electronic_state  100
+   lowest_electronic_state   0   
+   total_steps 10
+   dt 0.01
+EHRENFEST_END
+
+
+CIS
+   davidson no
+   active_occ 100
+   active_vir 100
+CIS_END
+
+// h2o-dimer
+GEOMETRY
+O	-6.310830e-01	2.822400e-01	0.000000e+00
+H	3.289170e-01	2.822400e-01	-3.855157e-66
+H	-9.515380e-01	1.187176e+00	-1.130142e-16
+O	-1.733116e+00	-1.070721e+00	-2.057766e+00
+H	-1.278754e+00	-6.031574e-01	-1.384959e+00
+H	-2.335662e+00	-1.665382e+00	-1.661604e+00
+GEOMETRY_END
+
