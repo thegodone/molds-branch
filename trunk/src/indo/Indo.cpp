@@ -84,6 +84,8 @@ void Indo::SetMessages(){
       = "Error in indo::Indo::DoCIS: CIS is not implemented for INDO.\n";
    this->errorMessageCalcForceNotImplemented
       = "Error in indo::Indo::CalcForce: Force is not available in INDO.\n";
+   this->errorMessageCalcHessianNotImplemented
+      = "Error in indo::Indo::CalcHessian: Hessian is not available in INDO.\n";
    this->errorMessageGetElectronicEnergyEnergyNotCalculated
       = "Error in indo::Indo::GetElectronicEnergy: Set electronic state is not calculated by CIS.\n";
    this->errorMessageGetElectronicEnergyNULLCISEnergy 
@@ -92,6 +94,8 @@ void Indo::SetMessages(){
       = "Error in indo::Indo::CalcFrequenciesNormalModesBadTheory: INDO is not supported for frequency (normal mode) analysis.\n";
    this->errorMessageNonExcitedStates 
       = "Error in indo::Indo::Excited states can not be calculated with INDO.\n";
+   this->errorMessageCalcHessian
+      = "Error in indo::Indo::CalcHessian::Conditions for calculation are wrong.\n";
    this->messageSCFMetConvergence = "\n\n\n\t\tINDO-SCF met convergence criterion(^^b\n\n\n";
    this->messageStartSCF = "**********  START: INDO-SCF  **********\n";
    this->messageDoneSCF = "**********  DONE: INDO-SCF  **********\n\n\n";

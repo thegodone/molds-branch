@@ -42,6 +42,7 @@ public:
    double GetElectronicEnergy(int elecState) const;
    double GetCoreRepulsionEnergy() const;
    double GetVdWCorrectionEnergy() const;
+   virtual void DoFrequencis();
    void CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs,
                                                const MolDS_base::Molecule& lhsMolecule) const;
    void CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs,
@@ -73,15 +74,20 @@ protected:
    std::string errorMessageGetGaussianOverlapAOs1stDerivativeOrbitalD;
    std::string errorMessageCISNotImplemented;
    std::string errorMessageCalcForceNotImplemented;
+   std::string errorMessageCalcHessianNotImplemented;
    std::string errorMessageGetElectronicEnergyNULLCISEnergy;
    std::string errorMessageGetElectronicEnergyEnergyNotCalculated;
    std::string errorMessageGetElectronicEnergyNumberCISStates;
    std::string errorMessageGetElectronicEnergySetElecState;
    std::string errorMessageCalcElectronicTransitionDipoleMomentBadState;
    std::string errorMessageCalcFrequenciesNormalModesBadTheory;
+   std::string errorMessageCalcHessian;
    std::string errorMessageFromState;
    std::string errorMessageToState;
    std::string errorMessageNonExcitedStates;
+   std::string errorMessageTheory;
+   std::string errorMessageHessianType;
+   std::string errorMessageElecState;
    std::string messageSCFMetConvergence;
    std::string messageStartSCF;
    std::string messageDoneSCF;
@@ -94,6 +100,7 @@ protected:
    std::string messageSumChargesUEP;
    std::string messageSumChargesTitle;
    std::string messageUnitSec; 
+   std::string debugMessageHessianMatrix;
    std::vector<MolDS_base::AtomType> enableAtomTypes;
    MolDS_base::Molecule* molecule;
    MolDS_base::TheoryType theory;
@@ -265,6 +272,7 @@ protected:
                                      const MolDS_base::Molecule& molecule,
                                      bool requiresMpi) const;
    virtual void CalcForce(const std::vector<int>& elecStates);
+   virtual void CalcHessian(double** hessian, bool isMassWeighted, int elecState)const;
    void CalcRotatingMatrix1stDerivatives(double*** rotMat1stDerivatives, 
                                          const MolDS_base_atoms::Atom& atomA,
                                          const MolDS_base_atoms::Atom& atomB) const;

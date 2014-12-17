@@ -27,6 +27,7 @@
 #include<stdexcept>
 #include<algorithm>
 #include<omp.h>
+#include<boost/shared_ptr.hpp>
 #include<boost/format.hpp>
 #include"../config.h"
 #include"../base/Enums.h"
@@ -56,6 +57,7 @@
 #include"../base/atoms/Clatom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
+#include"../base/factories/ElectronicStructureFactory.h"
 #include"../base/loggers/DensityLogger.h"
 #include"../base/loggers/HoleDensityLogger.h"
 #include"../base/loggers/ParticleDensityLogger.h"
@@ -64,6 +66,7 @@
 using namespace std;
 using namespace MolDS_base;
 using namespace MolDS_base_atoms;
+using namespace MolDS_base_factories;
 namespace MolDS_zindo{
 
 /***
@@ -133,6 +136,11 @@ ZindoS::~ZindoS(){
                                                     this->molecule->GetAtomVect().size());
       }
    }
+   MallocerFreer::GetInstance()->Free<double>(&this->normalForceConstants,
+                                              CartesianType_end*molecule->GetAtomVect().size());
+   MallocerFreer::GetInstance()->Free<double>(&this->normalModes,
+                                              CartesianType_end*molecule->GetAtomVect().size(),
+                                              CartesianType_end*molecule->GetAtomVect().size());
    //this->OutputLog("ZindoS deleted\n");
 }
 
@@ -145,6 +153,11 @@ void ZindoS::SetMolecule(Molecule* molecule){
                                                    this->molecule->GetAtomVect().size(), 
                                                    OrbitalType_end);
    }
+   MallocerFreer::GetInstance()->Malloc<double>(&this->normalForceConstants,
+                                                CartesianType_end*molecule->GetAtomVect().size());
+   MallocerFreer::GetInstance()->Malloc<double>(&this->normalModes,
+                                                CartesianType_end*molecule->GetAtomVect().size(),
+                                                CartesianType_end*molecule->GetAtomVect().size());
 }
 
 void ZindoS::SetMessages(){
@@ -170,7 +183,6 @@ void ZindoS::SetMessages(){
    this->errorMessageDavidsonNotConverged =  "Error in zindo::ZindoS::DoCISDavidson: Davidson did not met convergence criterion. \n";
    this->errorMessageDavidsonMaxIter = "Davidson loop reaches max_iter=";
    this->errorMessageDavidsonMaxDim = "Dimension of the expansion vectors reaches max_dim=";
-   this->errorMessageElecState = "Electronic State = ";
    this->errorMessageGetElectronicEnergyEnergyNotCalculated
       = "Error in zindo::ZindoS::GetElectronicEnergy: Set electronic state is not calculated by CIS.\n";
    this->errorMessageGetElectronicEnergyNULLCISEnergy 
@@ -181,6 +193,8 @@ void ZindoS::SetMessages(){
       = "Error in zindo::ZindoS::CalcFrequenciesNormalModesBadTheory: ZINDO/S is not supported for frequency (normal mode) analysis.\n";
    this->errorMessageCalcZMatrixForceEtaNull 
       = "Error in zindo::ZindoS::CalcZMatrixForce: Nndo::etaMatrixForce is NULL. Call Mndo::CalcEtaMatrixForce before calling Mndo::CalcZMatrixForce.\n";
+   this->errorMessageCalcHessian
+      = "Error in zindo::ZindoS::CalcHessian::Conditions for calculation are wrong.\n";
    this->messageSCFMetConvergence = "\n\n\n\t\tZINDO/S-SCF met convergence criterion(^^b\n\n\n";
    this->messageStartSCF = "**********  START: ZINDO/S-SCF  **********\n";
    this->messageDoneSCF = "**********  DONE: ZINDO/S-SCF  **********\n\n\n";
@@ -210,6 +224,8 @@ void ZindoS::SetMessages(){
    this->messageElectronicDipoleMoment = "Electronic dipole moment:";
    this->messageTransitionDipoleMomentsTitle = "\t\t\t\t\t| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |\t\t|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |\n";
    this->messageTransitionDipoleMoment = "Transition dipole moment:";
+   this->debugMessageHessianMatrix 
+      = "Debug in zindo::ZindoS::CalcHessian\n-----  Hessian matrix  --------\n";
 
 }
 
@@ -4235,6 +4251,116 @@ void ZindoS::CalcForceExcitedTwoElecPart(double* force,
    }
 }
 
+void ZindoS::CalcNormalModes(double** normalModes, double* normalForceConstants, const Molecule& molecule) const{
+   bool isMassWeighted = true;
+   int elecState = Parameters::GetInstance()->GetElectronicStateIndexFrequencies();
+   this->CalcHessian(normalModes, isMassWeighted, elecState);
+   bool calcEigenVectors = true;
+   int hessianDim = CartesianType_end*molecule.GetAtomVect().size();
+   MolDS_wrappers::Lapack::GetInstance()->Dsyevd(normalModes,
+                                                 normalForceConstants,
+                                                 hessianDim,
+                                                 calcEigenVectors);
+}
+
+void ZindoS::CalcHessian(double** hessian, bool isMassWeighted, int elecState) const{
+   int groundState = 0;
+   HessianType hType= Parameters::GetInstance()->GetHessianTypeFrequencies();
+   if(hType == Analytic){
+      stringstream ss;
+      ss << this->errorMessageCalcHessian;
+      ss << this->errorMessageTheory      << TheoryTypeStr(this->theory) << endl;
+      ss << this->errorMessageHessianType << HessianTypeStr(hType) << endl;
+      ss << this->errorMessageElecState   << elecState << endl;
+      throw MolDSException(ss.str());
+   }
+   else if(hType == Numerical){
+      this->CalcHessianNumerical(hessian, isMassWeighted, elecState);
+   }
+
+#ifdef MOLDS_DBG
+   this->OutputLog(this->debugMessageHessianMatrix);
+   for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
+      for(int axisA=0; axisA<CartesianType_end; axisA++){
+         int k=A*CartesianType_end+axisA;
+         for(int B=0; B<this->molecule->GetAtomVect().size(); B++){
+            for(int axisB=0; axisB<CartesianType_end; axisB++){
+               int l=B*CartesianType_end+axisB;
+               this->OutputLog(boost::format("%e\t") % hessian[k][l]);
+            }
+         }
+         this->OutputLog("\n");
+      }
+   }
+#endif
+}
+
+void ZindoS::CalcHessianNumerical(double** hessian, bool isMassWeighted, int elecState) const{
+   int groundState = 0;
+   bool outputRefs = false;
+   double dr=Parameters::GetInstance()->GetNumericalDrFrequencies();
+   double const* const* fwdRefMatrixForce = NULL;
+   double const* const* bwdRefMatrixForce = NULL;
+
+   // forward reffrencial molcule
+   Molecule fwdRefMolecule(*this->molecule);
+   fwdRefMolecule.SetCanOutputLogs(outputRefs);
+   boost::shared_ptr<ElectronicStructure> fwdRefES(ElectronicStructureFactory::Create());
+   fwdRefES->SetMolecule(&fwdRefMolecule);
+   fwdRefES->SetCanOutputLogs(outputRefs);
+
+   // bwd reffrencial molcule
+   Molecule bwdRefMolecule(*this->molecule);
+   bwdRefMolecule.SetCanOutputLogs(outputRefs);
+   boost::shared_ptr<ElectronicStructure> bwdRefES(ElectronicStructureFactory::Create());
+   bwdRefES->SetMolecule(&bwdRefMolecule);
+   bwdRefES->SetCanOutputLogs(outputRefs);
+
+   Parameters::GetInstance()->SetRequiresFrequencies(false);
+   int totalNumberAtoms = this->molecule->GetAtomVect().size();
+   for(int a=0; a<totalNumberAtoms; a++){
+      const Atom& atomA = *(this->molecule->GetAtomVect()[a]);
+      const Atom& fwdRefAtomA = *(fwdRefMolecule.GetAtomVect()[a]);
+      const Atom& bwdRefAtomA = *(bwdRefMolecule.GetAtomVect()[a]);
+      for(int axisA=0; axisA<CartesianType_end; axisA++){
+         int k = a*CartesianType_end+axisA;
+         bool requiresGuess = (k==0);
+
+         fwdRefAtomA.GetXyz()[axisA] = atomA.GetXyz()[axisA] + 0.5*dr;
+         bwdRefAtomA.GetXyz()[axisA] = atomA.GetXyz()[axisA] - 0.5*dr;
+         fwdRefMolecule.CalcBasicsConfiguration();
+         bwdRefMolecule.CalcBasicsConfiguration();
+
+         fwdRefES->DoSCF(requiresGuess);
+         if(Parameters::GetInstance()->RequiresCIS() && groundState < elecState){
+            fwdRefES->DoCIS();
+         }
+         fwdRefMatrixForce = fwdRefES->GetForce(elecState);
+
+         bwdRefES->DoSCF(requiresGuess);
+         if(Parameters::GetInstance()->RequiresCIS() && groundState < elecState){
+            bwdRefES->DoCIS();
+         }
+         bwdRefMatrixForce = bwdRefES->GetForce(elecState);
+
+         for(int b=0; b<this->molecule->GetAtomVect().size(); b++){
+            const Atom& fwdRefAtomB = *fwdRefMolecule.GetAtomVect()[b];
+            for(int axisB=0; axisB<CartesianType_end; axisB++){
+               int l = b*CartesianType_end+axisB;
+               double hess = -(fwdRefMatrixForce[b][axisB] - bwdRefMatrixForce[b][axisB])/(dr);
+               if(isMassWeighted){
+                  hess /= sqrt(fwdRefAtomA.GetCoreMass()*fwdRefAtomB.GetCoreMass());
+               }
+               hessian[k][l] = hess;
+            }
+         }
+
+         fwdRefAtomA.GetXyz()[axisA] = atomA.GetXyz()[axisA];
+         bwdRefAtomA.GetXyz()[axisA] = atomA.GetXyz()[axisA];
+      }
+   }
+   Parameters::GetInstance()->SetRequiresFrequencies(true);
+}
 
 }
 

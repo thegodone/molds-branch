@@ -53,10 +53,12 @@ private:
    std::string errorMessageNonValidSpaceFixedFirstAtomOptimization;
    std::string errorMessageNonValidSpaceFixedLastAtomOptimization;
    std::string errorMessageNonValidElectronicStateFrequencies;
+   std::string errorMessageNonValidElectronicStateNumericalFrequencies;
    std::string errorMessageNonValidTheoryFrequencies;
    std::string errorMessageElecState;
    std::string errorMessageInputFile; 
    std::string errorMessageTheory;
+   std::string errorMessageHessianType;
    std::string errorMessageNumberExcitedStateCIS;
    std::string errorMessageInitialElectronicStateEhrenfest;
    std::string errorMessageHighestElectronicStateEhrenfest;
@@ -162,6 +164,8 @@ private:
    // Frequencies (Normal modes)
    std::string messageFrequenciesConditions;
    std::string messageFrequenciesElecState;
+   std::string messageFrequenciesHessianType;
+   std::string messageFrequenciesNumericalDr;
    // MOPlot
    std::string messageMOPlotConditions;
    std::string messageMOPlotIndex;
@@ -350,6 +354,10 @@ private:
    std::string stringFrequencies;
    std::string stringFrequenciesEnd;
    std::string stringFrequenciesElecState;
+   std::string stringFrequenciesHessianType;
+   std::string stringFrequenciesAnalytic;
+   std::string stringFrequenciesNumerical;
+   std::string stringFrequenciesNumericalDr;
    void CalcMolecularBasics(Molecule* molecule) const;
    void ValidateScfConditions() const;
    void ValidateVdWConditions() const;
@@ -361,7 +369,7 @@ private:
    void ValidateEhrenfestConditions(const Molecule& molecule) const;
    void ValidateNascoConditions(const Molecule& molecule) const;
    void ValidateOptimizationConditions(const Molecule& molecule) const;
-   void ValidateFrequenciesConditions() const;
+   void ValidateFrequenciesConditions(const Molecule& molecule) const;
    void OutputMpiConditions() const;
    void OutputOmpConditions() const;
    void OutputMolecularBasics(Molecule* molecule) const;

@@ -240,7 +240,10 @@ public:
    void SetRequiresFrequencies(bool b)            {this->requiresFrequencies = b;}
    int  GetElectronicStateIndexFrequencies() const{return this->electronicStateIndexFrequencies;}
    void SetElectronicStateIndexFrequencies(int i) {this->electronicStateIndexFrequencies = i;}
-
+   HessianType GetHessianTypeFrequencies() const{return this->hessianTypeFrequencies;}
+   void        SetHessianTypeFrequencies(HessianType t){this->hessianTypeFrequencies = t;}
+   void   SetNumericalDrFrequencies(double dr){this->numericalDrFrequencies = dr;}
+   double GetNumericalDrFrequencies(){return this->numericalDrFrequencies;}
 private:
    static Parameters* parameters;
    Parameters();
@@ -370,6 +373,8 @@ private:
    // Frequencies
    bool requiresFrequencies;
    int  electronicStateIndexFrequencies;
+   HessianType hessianTypeFrequencies;
+   double numericalDrFrequencies;
    // Other
    void SetDefaultValues();
    void SetMessages();

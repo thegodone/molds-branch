@@ -239,6 +239,8 @@ void Parameters::SetDefaultValues(){
    // Frequencies
    this->requiresFrequencies             = false;
    this->electronicStateIndexFrequencies = 0;
+   this->hessianTypeFrequencies          = Analytic;
+   this->numericalDrFrequencies          = 1e-4; // [a.u.]
 }
 
 void Parameters::SetMessages(){
