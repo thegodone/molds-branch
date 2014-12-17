@@ -104,11 +104,6 @@ Mndo::~Mndo(){
                                               this->molecule->GetEpcVect().size(),
                                               numBuff,
                                               numBuff);
-   MallocerFreer::GetInstance()->Free<double>(&this->normalForceConstants,
-                                              CartesianType_end*molecule->GetAtomVect().size());
-   MallocerFreer::GetInstance()->Free<double>(&this->normalModes,
-                                              CartesianType_end*molecule->GetAtomVect().size(),
-                                              CartesianType_end*molecule->GetAtomVect().size());
 }
 
 void Mndo::SetMolecule(Molecule* molecule){
@@ -139,11 +134,6 @@ void Mndo::SetMolecule(Molecule* molecule){
                                                 this->molecule->GetEpcVect().size(),
                                                 numBuff,
                                                 numBuff);
-   MallocerFreer::GetInstance()->Malloc<double>(&this->normalForceConstants,
-                                                CartesianType_end*molecule->GetAtomVect().size());
-   MallocerFreer::GetInstance()->Malloc<double>(&this->normalModes,
-                                                CartesianType_end*molecule->GetAtomVect().size(),
-                                                CartesianType_end*molecule->GetAtomVect().size());
 }
 void Mndo::SetMessages(){
    this->errorMessageSCFNotConverged 
@@ -203,6 +193,8 @@ void Mndo::SetMessages(){
       = "Error in mndo::Mndo::GetElectronicEnergy: excitedEnergies is NULL\n";
    this->errorMessageCalcZMatrixForceEtaNull 
       = "Error in mndo::Mndo::CalcZMatrixForce: Nndo::etaMatrixForce is NULL. Call Mndo::CalcEtaMatrixForce before calling Mndo::CalcZMatrixForce.\n";
+   this->errorMessageCalcHessian
+      = "Error in mndo::Mndo::CalcHessian::Conditions for calculation are wrong.\n";
    this->messageSCFMetConvergence = "\n\n\n\t\tMNDO-SCF met convergence criterion(^^b\n\n\n";
    this->messageStartSCF = "**********  START: MNDO-SCF  **********\n";
    this->messageDoneSCF = "**********  DONE: MNDO-SCF  **********\n\n\n";
@@ -211,6 +203,8 @@ void Mndo::SetMessages(){
    this->messageStartCIS = "**********  START: MNDO-CIS  **********\n";
    this->messageDoneCIS = "**********  DONE: MNDO-CIS  **********\n\n\n";
    this->messageDavidsonConverge = "\n\n\t\tDavidson for MNDO-CIS met convergence criterion(^^b\n\n\n";
+   this->debugMessageHessianMatrix 
+      = "Debug in mndo::Mndo::CalcHessian\n-----  Hessian matrix  --------\n";
 }
 
 void Mndo::SetEnableAtomTypes(){
@@ -412,17 +406,6 @@ void Mndo::CalcSCFProperties(){
    MolDS_cndo::Cndo2::CalcSCFProperties();
    this->CalcHeatsFormation(&this->heatsFormation, *this->molecule);
  
-}
-
-void Mndo::CalcNormalModes(double** normalModes, double* normalForceConstants, const Molecule& molecule) const{
-   bool isMassWeighted = true;
-   this->CalcHessianSCF(normalModes, isMassWeighted);
-   bool calcEigenVectors = true;
-   int hessianDim = CartesianType_end*molecule.GetAtomVect().size();
-   MolDS_wrappers::Lapack::GetInstance()->Dsyevd(normalModes,
-                                                 normalForceConstants,
-                                                 hessianDim,
-                                                 calcEigenVectors);
 }
 
 void Mndo::OutputSCFResults() const{
@@ -1774,6 +1757,43 @@ double Mndo::GetHessianElementDifferentAtomsSCF(int indexAtomA,
    }
 
    return value;
+}
+
+void Mndo::CalcHessian(double** hessian, bool isMassWeighted, int elecState) const{
+   int groundState = 0;
+   HessianType hType= Parameters::GetInstance()->GetHessianTypeFrequencies();
+   if(hType == Analytic){
+      if(elecState == groundState){
+         this->CalcHessianSCF(hessian, isMassWeighted);
+      }
+      else{
+         stringstream ss;
+         ss << this->errorMessageCalcHessian;
+         ss << this->errorMessageTheory      << TheoryTypeStr(this->theory) << endl;
+         ss << this->errorMessageHessianType << HessianTypeStr(hType) << endl;
+         ss << this->errorMessageElecState   << elecState << endl;
+         throw MolDSException(ss.str());
+      }
+   }
+   else if(hType == Numerical){
+      this->CalcHessianNumerical(hessian, isMassWeighted, elecState);
+   }
+
+#ifdef MOLDS_DBG
+   this->OutputLog(this->debugMessageHessianMatrix);
+   for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
+      for(int axisA=0; axisA<CartesianType_end; axisA++){
+         int k=A*CartesianType_end+axisA;
+         for(int B=0; B<this->molecule->GetAtomVect().size(); B++){
+            for(int axisB=0; axisB<CartesianType_end; axisB++){
+               int l=B*CartesianType_end+axisB;
+               this->OutputLog(boost::format("%e\t") % hessian[k][l]);
+            }
+         }
+         this->OutputLog("\n");
+      }
+   }
+#endif
 }
 
 void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{

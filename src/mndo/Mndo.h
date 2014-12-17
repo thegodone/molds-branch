@@ -50,8 +50,8 @@ protected:
    virtual void SetMessages();
    virtual void SetEnableAtomTypes();
    virtual void CalcSCFProperties();
-   virtual void CalcNormalModes(double** normalModes, double* normalForceConstants, const MolDS_base::Molecule& molecule) const;
    virtual void CalcForce(const std::vector<int>& elecStates);
+   virtual void CalcHessian(double** hessian,    bool isMassWeighted, int elecState) const;
    virtual double GetAtomCoreEpcCoulombEnergy (const MolDS_base_atoms::Atom& atom, 
                                                const MolDS_base_atoms::Atom& epc) const;
    virtual double GetDiatomCoreRepulsionEnergy(const MolDS_base_atoms::Atom& atomA,

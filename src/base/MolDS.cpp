@@ -170,6 +170,7 @@ void MolDS::CalculateElectronicStructureOnce(Molecule* molecule, bool* runsNorma
       if(Parameters::GetInstance()->RequiresCIS()){
          electronicStructure->DoCIS();
       }
+      electronicStructure->DoFrequencis();
    }
    catch(MolDSException ex){
       this->OutputLog(boost::format("%s\n") % ex.what());

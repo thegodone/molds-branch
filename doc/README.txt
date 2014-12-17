@@ -160,26 +160,26 @@ SAMPLE and TEST
 CAPABILITIES:
 
    -Electronic state and molecular dynamics
-             | HF  | CIS |   MD    |   MC    |  RPMD   | Optimize | Frequencies      |
-             |     |     | (gs,es) | (gs,es) | (gs,es) | (gs,es)  | analytic,(gs,es) |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    CNDO2    | OK  | --  | --,--   | OK,--   | --,--   | --,--    | --,--            |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    INDO     | OK  | --  | --,--   | OK,--   | --,--   | --,--    | --,--            |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    ZINDO/S  | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | --,--            |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    MNDO     | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    AM1      | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    AM1-D    | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    PM3      | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    PM3-D    | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|
-    PM3/PDDG | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            |
+             | HF  | CIS |   MD    |   MC    |  RPMD   | Optimize | Frequencies      | Frequencies       |
+             |     |     | (gs,es) | (gs,es) | (gs,es) | (gs,es)  | analytic (gs,es) | numerical (gs,es) |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    CNDO2    | OK  | --  | --,--   | OK,--   | --,--   | --,--    | --,--            | --,--             |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    INDO     | OK  | --  | --,--   | OK,--   | --,--   | --,--    | --,--            | --,--             |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    ZINDO/S  | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | --,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    MNDO     | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    AM1      | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    AM1-D    | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    PM3      | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    PM3-D    | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
+    PM3/PDDG | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
                                                                       
       "OK", "Sch", and "--" mean available, shceduled, and non-scheduled methods, respectively.
       "gs" and "es" mean ground and excited states, respectively.
@@ -429,15 +429,27 @@ HOW TO WRITE INPUT:
          FREQUENCIES_END
 
       -options
-       "electronic_state" is only prepared.
+       "electronic_state", "derivative", "numerical_dr" are prepared.
+
        "electronic_state" is index of the electronic state used for calculating the normal modes. 
        electronic_state=0 means the electronic ground state.
        electronic_state=1 means, then, first electornic excited state.
        The default value of the "electronic_state" is 0.
 
+       "derivative" is how to calculate the hessian matrix, then
+       "derivative" should be "analytic" or "numerical".
+       Note that the analytic derivative can calcute 
+       the hessian matrix for the grond state only.
+       The default value of the "derivative" is "analytic".
+
+       "numerical_dr" means numerical displacement to calculate the Hessian matrix.
+       "numerical_dr" is valid in the numerical derivative.
+       The default value of the "numerical_dr" is 5.3*10^{-5} angstrom (10^{-4} atomi unit).
+
        E.g. 
          FREQUENCIES
             electronic_state 0
+
          FREQUENCIES_END
 
    <CIS>

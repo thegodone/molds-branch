@@ -38,6 +38,7 @@ public:
    virtual double GetElectronicEnergy(int elecState) const = 0;
    virtual double GetCoreRepulsionEnergy() const = 0;
    virtual double GetVdWCorrectionEnergy() const = 0;
+   virtual void DoFrequencis() = 0;
    virtual void CalcOverlapAOsWithAnotherConfiguration(double** overlapAOs, 
                                                        const MolDS_base::Molecule& lhsMoledule) const = 0;
    virtual void CalcOverlapMOsWithAnotherElectronicStructure(double** overlapMOs, 

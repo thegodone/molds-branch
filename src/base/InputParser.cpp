@@ -116,12 +116,15 @@ void InputParser::SetMessages(){
    this->errorMessageNonValidSpaceFixedLastAtomOptimization  
       = "\tlast atom index : ";
    this->errorMessageNonValidElectronicStateFrequencies
-      = "Error in base::InputParser::ValidateFrequenciesConditions: Excited states are not supported for the frequencies (normal modes) analysis.\n";
+      = "Error in base::InputParser::ValidateFrequenciesConditions: Excited states are not supported for the analytic frequencies (normal modes) analysis.\n";
+   this->errorMessageNonValidElectronicStateNumericalFrequencies
+      = "Error in base::InputParser::ValidateFrequenciesConditions: Excited states for frequencies are wrong.\n";
    this->errorMessageNonValidTheoryFrequencies
       = "Error in base::InputParser::ValidateFrequenciesConditions: CNDO2, INDO, and ZINDO/S are supported for the frequencies (normal modes) analysis.\n";
    this->errorMessageElecState = "Electronic eigenstate: ";
    this->errorMessageInputFile = "Inputfile: "; 
    this->errorMessageTheory = "Theory: ";
+   this->errorMessageHessianType = "Second derivative: ";
    this->errorMessageNumberExcitedStateCIS = "Number of CIS excited states: ";
    this->errorMessageInitialElectronicStateEhrenfest = "Initial electronic state: ";
    this->errorMessageHighestElectronicStateEhrenfest = "Highest electronic state: "; 
@@ -237,6 +240,8 @@ void InputParser::SetMessages(){
    // Frequencies (Normal modes)
    this->messageFrequenciesConditions    = "\tFrequencies (Normal modes) analysis conditions:\n";
    this->messageFrequenciesElecState     = "\t\tElectronic eigenstate: ";
+   this->messageFrequenciesHessianType   = "\t\tSecond derivative: ";
+   this->messageFrequenciesNumericalDr   = "\t\tNumerical dr: ";
 
    // MOPlot
    this->messageMOPlotConditions  = "\tMO plot conditions:\n";
@@ -447,9 +452,13 @@ void InputParser::SetMessages(){
    this->stringOptimizationSpaceFixedAtoms    = "space_fixed_atoms";
 
    // Frequencies (Normal modes)
-   this->stringFrequencies          = "frequencies";
-   this->stringFrequenciesEnd       = "frequencies_end";
-   this->stringFrequenciesElecState = "electronic_state";
+   this->stringFrequencies            = "frequencies";
+   this->stringFrequenciesEnd         = "frequencies_end";
+   this->stringFrequenciesElecState   = "electronic_state";
+   this->stringFrequenciesHessianType = "derivative";
+   this->stringFrequenciesAnalytic    = "analytic";
+   this->stringFrequenciesNumerical   = "numerical";
+   this->stringFrequenciesNumericalDr = "numerical_dr";
 }
 
 vector<string> InputParser::GetInputTerms(int argc, char *argv[]) const{
@@ -1318,6 +1327,22 @@ int InputParser::ParseConditionsFrequencies(vector<string>* inputTerms, int pars
          Parameters::GetInstance()->SetElectronicStateIndexFrequencies(elecIndex);
          parseIndex++;
       }
+      // Type of calculation of Hessian, Analytic or Numerical
+      if((*inputTerms)[parseIndex].compare(this->stringFrequenciesHessianType) == 0){
+         if((*inputTerms)[parseIndex+1].compare(this->stringFrequenciesAnalytic) == 0){
+            Parameters::GetInstance()->SetHessianTypeFrequencies(Analytic);
+         }
+         else if((*inputTerms)[parseIndex+1].compare(this->stringFrequenciesNumerical) == 0){
+            Parameters::GetInstance()->SetHessianTypeFrequencies(Numerical);
+         }
+         parseIndex++;
+      }
+      // Numerical displacement
+      if((*inputTerms)[parseIndex].compare(this->stringFrequenciesNumericalDr) == 0){
+         double dr = atof((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetNumericalDrFrequencies(dr);
+         parseIndex++;
+      }
       parseIndex++;   
    }
    return parseIndex;
@@ -1502,7 +1527,7 @@ void InputParser::Parse(Molecule* molecule, int argc, char *argv[]) const{
       this->ValidateCisConditions(*molecule);
    }
    if(Parameters::GetInstance()->RequiresFrequencies()){
-      this->ValidateFrequenciesConditions();
+      this->ValidateFrequenciesConditions(*molecule);
    }
    if(Parameters::GetInstance()->GetCurrentSimulation()==MD){
       this->ValidateMdConditions(*molecule);
@@ -1876,7 +1901,7 @@ void InputParser::ValidateOptimizationConditions(const Molecule& molecule) const
    }
 }
 
-void InputParser::ValidateFrequenciesConditions() const{
+void InputParser::ValidateFrequenciesConditions(const Molecule& molecule) const{
    // validate theory
    TheoryType theory = Parameters::GetInstance()->GetCurrentTheory();
    if(theory == CNDO2 || theory == INDO || theory == ZINDOS){
@@ -1888,10 +1913,26 @@ void InputParser::ValidateFrequenciesConditions() const{
    // validate electronic state
    int groundStateIndex = 0;
    int targetStateIndex = Parameters::GetInstance()->GetElectronicStateIndexFrequencies();
-   if(groundStateIndex < targetStateIndex){
+   HessianType hessType = Parameters::GetInstance()->GetHessianTypeFrequencies();
+   if(hessType == Analytic && groundStateIndex < targetStateIndex){
       stringstream ss;
       ss << this->errorMessageNonValidElectronicStateFrequencies;
       ss << this->errorMessageElecState << targetStateIndex << endl;
+      ss << this->errorMessageHessianType << HessianTypeStr(hessType) << endl;
+      throw MolDSException(ss.str());
+   } 
+   // Validate for the excited frequencies
+   if(hessType == Numerical && groundStateIndex < targetStateIndex && !Parameters::GetInstance()->RequiresCIS()){
+      Parameters::GetInstance()->SetNumberExcitedStatesCIS(targetStateIndex);
+      Parameters::GetInstance()->SetRequiresCIS(true);
+      this->ValidateCisConditions(molecule);
+   }
+   int numberExcitedStatesCIS = Parameters::GetInstance()->GetNumberExcitedStatesCIS();
+   if(hessType == Numerical && groundStateIndex < targetStateIndex && numberExcitedStatesCIS < targetStateIndex){
+      stringstream ss;
+      ss << this->errorMessageNonValidElectronicStateNumericalFrequencies;
+      ss << this->errorMessageElecState << targetStateIndex << endl;
+      ss << this->errorMessageNumberExcitedStateCIS << numberExcitedStatesCIS << endl;
       throw MolDSException(ss.str());
    } 
 }
@@ -2215,6 +2256,13 @@ void InputParser::OutputFrequenciesConditions() const{
    this->OutputLog(this->messageFrequenciesConditions);
    this->OutputLog(boost::format("%s%d\n") % this->messageFrequenciesElecState.c_str() 
                                            % Parameters::GetInstance()->GetElectronicStateIndexFrequencies());
+   this->OutputLog(boost::format("%s%s\n") % this->messageFrequenciesHessianType.c_str() 
+                                           % HessianTypeStr(Parameters::GetInstance()->GetHessianTypeFrequencies()));
+   if(Parameters::GetInstance()->GetHessianTypeFrequencies() == Numerical){
+      this->OutputLog(boost::format("%s%e%s\n") % this->messageFrequenciesNumericalDr.c_str() 
+                                                % (Parameters::GetInstance()->GetNumericalDrFrequencies()/Parameters::GetInstance()->GetAngstrom2AU())
+                                                % this->messageAngst.c_str());
+   }
    this->OutputLog("\n");
 }
 

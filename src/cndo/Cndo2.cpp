@@ -176,6 +176,8 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2: CIS is not implemented for CNDO2.\n";
    this->errorMessageCalcForceNotImplemented
       = "Error in cndo::Cndo2::CalcForce: Force is not available in CNDO2.\n";
+   this->errorMessageCalcHessianNotImplemented
+      = "Error in cndo::Cndo2::CalcHessian: Hessian is not available in CNDO2.\n";
    this->errorMessageGetElectronicEnergyNumberCISStates 
       = "\tNumber of calculated CIS states (excluding ground state) = ";
    this->errorMessageGetElectronicEnergySetElecState
@@ -214,10 +216,15 @@ void Cndo2::SetMessages(){
       = "Error in cndo::Cndo2::CalcOverlapAOsDifferentConfigurations: ovelrapAOs is NULL.\n";
    this->errorMessageNonExcitedStates 
       = "Error in cndo::CNDO2::Excited states can not be calculated with CNDO2.\n";
+   this->errorMessageCalcHessian
+      = "Error in cndo::CNDO2::CalcHessian::Conditions for calculation are wrong.\n";
    this->errorMessageLhs = "lhs: ";
    this->errorMessageRhs = "rhs: ";
    this->errorMessageFromState = "\tfrom state = ";
    this->errorMessageToState = "\tto state = ";
+   this->errorMessageTheory = "\tTheory: ";
+   this->errorMessageHessianType = "\tSecond derivative: ";
+   this->errorMessageElecState   = "\tElectronic state: ";
    this->messageSCFMetConvergence = "\n\n\n\t\tCNDO/2-SCF met convergence criterion(^^b\n\n\n";
    this->messageStartSCF = "**********  START: CNDO/2-SCF  **********\n";
    this->messageDoneSCF = "**********  DONE: CNDO/2-SCF  **********\n\n\n";
@@ -719,8 +726,8 @@ void Cndo2::DoSCF(bool requiresGuess){
                                                 % (ompEndTime - ompStartTime)
                                                 % this->messageUnitSec.c_str()
                                                 % this->messageDoneSCF.c_str());
-
 }
+
 
 void Cndo2::CalcSCFProperties(){
    this->CalcAtomicElectronPopulation(this->atomicElectronPopulation, 
@@ -744,11 +751,12 @@ void Cndo2::CalcSCFProperties(){
                                                *this->molecule, 
                                                this->orbitalElectronPopulation,
                                                this->overlapAOs);
-   const int groundState = 0;
-   if(Parameters::GetInstance()->RequiresFrequencies() && 
-      Parameters::GetInstance()->GetElectronicStateIndexFrequencies() == groundState){
-      this->CalcNormalModes(this->normalModes, this->normalForceConstants, *this->molecule);
-   }
+}
+
+void Cndo2::DoFrequencis(){
+   if(!Parameters::GetInstance()->RequiresFrequencies()){return;}
+   this->CalcNormalModes(this->normalModes, this->normalForceConstants, *this->molecule);
+   this->OutputNormalModes(this->normalModes, this->normalForceConstants, *this->molecule);
 }
 
 void Cndo2::CalcNormalModes(double** normalModes, double* normalForceConstants, const Molecule& molecule) const{
@@ -838,6 +846,12 @@ void Cndo2::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores,
 void Cndo2::CalcForce(const vector<int>& elecStates){
    stringstream ss;
    ss << this->errorMessageCalcForceNotImplemented;
+   throw MolDSException(ss.str());
+}
+
+void Cndo2::CalcHessian(double** hessian, bool isMassWeighted, int elecState)const{
+   stringstream ss;
+   ss << this->errorMessageCalcHessianNotImplemented;
    throw MolDSException(ss.str());
 }
 
@@ -1288,12 +1302,13 @@ void Cndo2::OutputSCFResults() const{
    // ToDo: output eigen-vectors of the Hartree Fock matrix
 
    // Normal modes and frequencies  
+   /*
    const int groundState = 0;
    if(Parameters::GetInstance()->RequiresFrequencies() && 
       Parameters::GetInstance()->GetElectronicStateIndexFrequencies() == groundState){
       this->OutputNormalModes(this->normalModes, this->normalForceConstants, *this->molecule);
    }
-
+   */
    // output MOs
    if(Parameters::GetInstance()->RequiresMOPlot()){
       MolDS_base_loggers::MOLogger* moLogger = new MolDS_base_loggers::MOLogger(*this->molecule, 

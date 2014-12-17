@@ -203,6 +203,12 @@ RENUMSTR_BEGIN( ConstraintType, ConstraintTypeStr )
    RENUMSTR( ConstraintType_end, "ConstraintType_end" )
 RENUMSTR_END()
 
+RENUMSTR_BEGIN( HessianType, HessianTypeStr )
+   RENUMSTR( Analytic,        "Analytic" )
+   RENUMSTR( Numerical,       "Numerical" )
+   RENUMSTR( HessianType_end, "HessianType_end" )
+RENUMSTR_END()
+
 }
 #endif
 
