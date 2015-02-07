@@ -493,25 +493,28 @@ double Atom::GetOrbitalExponent(ShellType shellType,
 // (3.72) in J. A. Pople book.
 double Atom::GetCndo2CoreIntegral(OrbitalType orbital, double gamma, bool isGuess) const{
    double value = 0.0;
-   if(orbital == s){
-      value = -1.0*this->imuAmuS;
-   }
-   else if(orbital == px || orbital == py || orbital == pz){
-      value = -1.0*this->imuAmuP;
-   }
-   else if(orbital == dxy || 
-           orbital == dyz || 
-           orbital == dzz || 
-           orbital == dzx || 
-           orbital == dxxyy ){
-      value = -1.0*this->imuAmuD;
-   }   
-   else{
-      stringstream ss;
-      ss << this->errorMessageCndo2CoreIntegral;
-      ss << this->errorMessageAtomType << AtomTypeStr(this->atomType) << endl;
-      ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbital) << endl;
-      throw MolDSException(ss.str());
+   switch(orbital){
+      case s:
+         value = -1.0*this->imuAmuS;
+         break;
+      case px:
+      case py:
+      case pz:
+         value = -1.0*this->imuAmuP;
+         break;
+      case dxy:
+      case dyz:
+      case dzz:
+      case dzx:
+      case dxxyy:
+         value = -1.0*this->imuAmuD;
+         break;
+      default:
+         stringstream ss;
+         ss << this->errorMessageCndo2CoreIntegral;
+         ss << this->errorMessageAtomType << AtomTypeStr(this->atomType) << endl;
+         ss << this->errorMessageOrbitalType << OrbitalTypeStr(orbital) << endl;
+         throw MolDSException(ss.str());
    }
    if(!isGuess){
       value -= (this->coreCharge - 0.5)*gamma;
