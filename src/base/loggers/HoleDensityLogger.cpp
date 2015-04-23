@@ -100,7 +100,7 @@ double HoleDensityLogger::GetDensityValue(int elecStateIndex,
          }
       }
    }
-   return density;
+   return -density;
 }
 
 string HoleDensityLogger::GetFileName(int elecStateIndex, int digit) const{
