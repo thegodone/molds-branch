@@ -4463,11 +4463,12 @@ cout << endl;
 */
       
 
+      double sqrtTnaInv = 1.0/sqrt(static_cast<double>(totalNumberAtoms));
       for(int a=0; a<totalNumberAtoms; a++){
          int k=a*CartesianType_end;
-         projectionVectors[0][k+XAxis] = 1.0/sqrt(totalNumberAtoms);
-         projectionVectors[1][k+YAxis] = 1.0/sqrt(totalNumberAtoms);
-         projectionVectors[2][k+ZAxis] = 1.0/sqrt(totalNumberAtoms);
+         projectionVectors[0][k+XAxis] = sqrtTnaInv;
+         projectionVectors[1][k+YAxis] = sqrtTnaInv;
+         projectionVectors[2][k+ZAxis] = sqrtTnaInv;
       }
 
       Molecule rotatedMolecule(*this->molecule);
@@ -4555,11 +4556,12 @@ cout << endl;
          orthoNormAxes[axis][axis] = 1.0;
       }
 
+      double sqrtTnaInv = 1.0/sqrt(static_cast<double>(totalNumberAtoms));
       for(int a=0; a<totalNumberAtoms; a++){
          int k=a*CartesianType_end;
-         projectionVectors[0][k+XAxis] = 1.0/sqrt(totalNumberAtoms);
-         projectionVectors[1][k+YAxis] = 1.0/sqrt(totalNumberAtoms);
-         projectionVectors[2][k+ZAxis] = 1.0/sqrt(totalNumberAtoms);
+         projectionVectors[0][k+XAxis] = sqrtTnaInv;
+         projectionVectors[1][k+YAxis] = sqrtTnaInv;
+         projectionVectors[2][k+ZAxis] = sqrtTnaInv;
       }
 
       Molecule rotatedMolecule(*this->molecule);
