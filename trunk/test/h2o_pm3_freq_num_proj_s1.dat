@@ -1,0 +1,224 @@
+
+
+     >>>>>  Welcome to the MolDS world at 2015/4/24(Fri.) 15:43:2  <<<<<
+
+
+**********  START: Parse input  **********
+	MPI conditions:
+		Number of processes: 1
+
+	OpenMP conditions:
+		omp_get_num_procs: 8
+		omp_get_max_threads: 1
+		mkl_get_max_threads: 1
+
+	System conditions:
+		Total number of atoms: 3
+		Total number of valence AOs: 6
+		Total number of valence electrons: 8
+
+					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Atom coordinates:	0	O	4.896201e-01	2.860324e+00	-4.990871e-12		2.590958e-01	1.513618e+00	-2.641055e-12
+		Atom coordinates:	1	H	2.046146e+00	1.760270e+00	3.962075e-11		1.082774e+00	9.314948e-01	2.096640e-11
+		Atom coordinates:	2	H	-1.066908e+00	3.960375e+00	3.962799e-11		-5.645832e-01	2.095740e+00	2.097023e-11
+
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Mass:	4.896200e-01	2.860323e+00	1.501213e-15		2.590958e-01	1.513618e+00	7.944076e-16
+
+				|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
+		Center of Core:	4.896200e-01	2.860323e+00	-1.388825e-19		2.590958e-01	1.513618e+00	-7.349346e-20
+
+	SCF conditions:
+		Max iterations: 50
+		RMS density: 1.000000e-15
+		Damping threshold: 1.000000e+00
+		Damping weight: 0.000000e+00
+		DIIS number of error vectors: 5
+		DIIS starting error: 1.000000e-01
+		DIIS ending error: 0.000000e+00
+		van der Waals (vdW) correction: no
+		MPI in SCF: no
+		ScaLapack for digonalization of the SCF matrix: no
+
+	Memory conditions:
+		Heap limit: 2.560000e+02[MB]
+
+	CIS conditions:
+		Number of active Occ.: 4
+		Number of active Vir.: 2
+		Number of excited states: 8
+		Number of printed coefficients of CIS-eigenvector: 1
+		CIS-Davidson: no
+		Exciton energies: no
+		All transition dipole moments: no
+		ScaLapack for digonalization of the CIS matrix: no
+
+	Frequencies (Normal modes) analysis conditions:
+		Electronic eigenstate: 1
+		Second derivative: Numerical
+		Numerical dr: 1.000000e-04[a.u.]
+		Projection: yes
+		Projection dphi: 1.000000e-03[Radian]
+
+Input terms:
+theory | pm3 | theory_end | scf | max_iter | 50 | rms_density | 1e-15 | damping_thresh | 1.0 | 
+damping_weight | 0.0 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.0000000 | scf_end | frequencies | 
+electronic_state | 1 | derivative | numerical | frequencies_end | cis | davidson | no | active_occ | 400 | 
+active_vir | 400 | cis_end | geometry | o | 2.590958e-01 | 1.513618e+00 | -2.641055e-12 | h | 1.082774e+00 | 
+9.314948e-01 | 2.096640e-11 | h | -5.645832e-01 | 2.095740e+00 | 2.097023e-11 | geometry_end | 
+
+**********  DONE: Parse input  ***********
+
+
+**********  START: PM3-SCF  **********
+			|  RMS density  | DIIS error | DIIS on/off | damping on/off |
+	SCF iter 0	6.666667e-01	0.000000e+00			
+	SCF iter 1	1.869287e-01	0.000000e+00			
+	SCF iter 2	7.719446e-02	3.353742e-01			
+	SCF iter 3	3.145921e-02	1.766296e-01			
+	SCF iter 4	1.270292e-02	8.023124e-02			
+	SCF iter 5	5.108023e-03	3.339284e-02			
+	SCF iter 6	2.784217e-05	1.357483e-02	on		
+	SCF iter 7	6.709793e-07	7.833692e-05	on		
+	SCF iter 8	1.091691e-07	1.859867e-06	on		
+	SCF iter 9	1.238024e-08	3.002654e-07	on		
+	SCF iter 10	1.736395e-09	3.001345e-08	on		
+	SCF iter 11	4.338308e-12	3.949791e-09	on		
+	SCF iter 12	2.162130e-13	1.331801e-11	on		
+	SCF iter 13	2.478861e-14	5.979661e-13	on		
+	SCF iter 14	1.091993e-15	6.328271e-14	on		
+	SCF iter 15	5.109832e-16	2.775558e-15	on		
+
+
+
+		PM3-SCF met convergence criterion(^^b
+
+
+			| i-th | occ/unocc |  e[a.u.]  |  e[eV]  | 
+	Energy of MO:	0	occ	-1.308101e+00	-3.559552e+01
+	Energy of MO:	1	occ	-6.597049e-01	-1.795163e+01
+	Energy of MO:	2	occ	-4.084250e-01	-1.111390e+01
+	Energy of MO:	3	occ	-4.084250e-01	-1.111390e+01
+	Energy of MO:	4	unocc	6.323657e-02	1.720768e+00
+	Energy of MO:	5	unocc	2.571891e-01	6.998527e+00
+
+				|   [a.u.]   |   [eV]   |
+	Electronic energy(SCF):	-1.185769e+01	-3.226668e+02
+	Note that this electronic energy includes core-repulsions.
+
+				|   [a.u.]   |   [eV]   |
+	Core repulsion energy:	5.225932e+00	1.422060e+02
+
+					|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total Dipole moment(SCF):	1.008834e-04	5.875542e-04	-1.837749e-11	5.961522e-04		2.564201e-04	1.493414e-03	-4.671093e-11	1.515268e-03
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic Dipole moment(SCF):	1.017187e-04	5.888072e-04	-6.768101e-11	5.975288e-04		2.585432e-04	1.496599e-03	-1.720280e-10	1.518767e-03
+
+					|  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Core Dipole moment:		-8.353213e-07	-1.252982e-06	4.930352e-11	1.505897e-06		-2.123175e-06	-3.184763e-06	1.253171e-10	3.827609e-06
+
+				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
+	Mulliken charge(SCF):	0	0	O	6.000000e+00	-7.928840e-01
+	Mulliken charge(SCF):	0	1	H	1.000000e+00	3.964420e-01
+	Mulliken charge(SCF):	0	2	H	1.000000e+00	3.964420e-01
+
+	Elapsed time(omp) for the SCF = 0.008811[s].
+**********  DONE: PM3-SCF  **********
+
+
+**********  START: PM3-CIS  **********
+----------- START: Calculation of the CIS matrix -----------
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000225[s].
+----------- DONE: Calculation of the CIS matrix -----------
+
+	======  START: Direct-CIS  =====
+
+	======  DONE: Direct-CIS  =====
+
+
+				|   i-th   |   e[a.u.]   |   e[eV]   |   e[nm]   | dominant eigenvector coefficients (occ. -> vir.) |
+	Excitation energies:	1	1.079816e-01	2.938351e+00	4.219550e+02	1.000000e+00 (3 -> 4)	
+	Excitation energies:	2	1.079816e-01	2.938351e+00	4.219550e+02	1.000000e+00 (2 -> 4)	
+	Excitation energies:	3	2.799115e-01	7.616839e+00	1.627778e+02	1.000000e+00 (3 -> 5)	
+	Excitation energies:	4	2.799115e-01	7.616839e+00	1.627778e+02	1.000000e+00 (2 -> 5)	
+	Excitation energies:	5	4.133715e-01	1.124850e+01	1.102238e+02	9.994134e-01 (1 -> 4)	
+	Excitation energies:	6	5.395132e-01	1.468102e+01	8.445272e+01	9.935366e-01 (1 -> 5)	
+	Excitation energies:	7	1.023311e+00	2.784595e+01	4.452541e+01	9.935366e-01 (0 -> 4)	
+	Excitation energies:	8	1.193970e+00	3.248983e+01	3.816124e+01	9.994134e-01 (0 -> 5)	
+
+				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Total dipole moment:	0	1.008834e-04	5.875542e-04	-1.837749e-11	5.961522e-04		2.564201e-04	1.493414e-03	-4.671093e-11	1.515268e-03
+	Total dipole moment:	1	1.317822e-04	7.690053e-04	1.676019e-12	7.802151e-04		3.349571e-04	1.954617e-03	4.260015e-12	1.983109e-03
+	Total dipole moment:	2	1.321068e-04	7.694644e-04	-1.674065e-11	7.807226e-04		3.357820e-04	1.955784e-03	-4.255049e-11	1.984399e-03
+	Total dipole moment:	3	1.196702e-04	6.987456e-04	-3.004465e-12	7.089192e-04		3.041714e-04	1.776035e-03	-7.636589e-12	1.801893e-03
+	Total dipole moment:	4	1.199947e-04	6.992048e-04	-2.142113e-11	7.094266e-04		3.049963e-04	1.777202e-03	-5.444709e-11	1.803183e-03
+	Total dipole moment:	5	1.534329e-04	8.940921e-04	-1.843010e-11	9.071617e-04		3.899877e-04	2.272556e-03	-4.684464e-11	2.305776e-03
+	Total dipole moment:	6	1.415797e-04	8.253381e-04	-2.298827e-11	8.373934e-04		3.598598e-04	2.097801e-03	-5.843036e-11	2.128442e-03
+	Total dipole moment:	7	1.607457e-04	9.368637e-04	-1.372749e-11	9.505539e-04		4.085748e-04	2.381271e-03	-3.489179e-11	2.416068e-03
+	Total dipole moment:	8	1.488925e-04	8.681097e-04	-1.828566e-11	8.807856e-04		3.784469e-04	2.206515e-03	-4.647751e-11	2.238734e-03
+
+					| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
+	Electronic dipole moment:	0	1.017187e-04	5.888072e-04	-6.768101e-11	5.975288e-04		2.585432e-04	1.496599e-03	-1.720280e-10	1.518767e-03
+	Electronic dipole moment:	1	1.326176e-04	7.702582e-04	-4.762751e-11	7.815914e-04		3.370803e-04	1.957802e-03	-1.210571e-10	1.986608e-03
+	Electronic dipole moment:	2	1.329421e-04	7.707174e-04	-6.604417e-11	7.820991e-04		3.379052e-04	1.958969e-03	-1.678676e-10	1.987898e-03
+	Electronic dipole moment:	3	1.205055e-04	6.999986e-04	-5.230799e-11	7.102955e-04		3.062946e-04	1.779219e-03	-1.329537e-10	1.805391e-03
+	Electronic dipole moment:	4	1.208301e-04	7.004578e-04	-7.072465e-11	7.108031e-04		3.071194e-04	1.780387e-03	-1.797642e-10	1.806682e-03
+	Electronic dipole moment:	5	1.542682e-04	8.953451e-04	-6.773362e-11	9.085381e-04		3.921108e-04	2.275741e-03	-1.721617e-10	2.309274e-03
+	Electronic dipole moment:	6	1.424150e-04	8.265911e-04	-7.229179e-11	8.387698e-04		3.619830e-04	2.100985e-03	-1.837474e-10	2.131941e-03
+	Electronic dipole moment:	7	1.615810e-04	9.381167e-04	-6.303101e-11	9.519303e-04		4.106980e-04	2.384455e-03	-1.602089e-10	2.419566e-03
+	Electronic dipole moment:	8	1.497278e-04	8.693626e-04	-6.758918e-11	8.821620e-04		3.805701e-04	2.209700e-03	-1.717946e-10	2.242233e-03
+
+					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
+	Transition dipole moment:	0 -> 1		8.667052e-06	1.226351e-05	3.389291e-01	3.389291e-01		2.202945e-05	3.117073e-05	8.614720e-01	8.614720e-01	8.269439e-03
+	Transition dipole moment:	0 -> 2		1.956122e-01	2.767829e-01	-1.501704e-05	3.389291e-01		4.971968e-01	7.035122e-01	-3.816951e-05	8.614720e-01	8.269439e-03
+	Transition dipole moment:	0 -> 3		3.378325e-13	4.782634e-13	1.787761e-08	1.787761e-08		8.586847e-13	1.215625e-12	4.544035e-08	4.544035e-08	5.964144e-17
+	Transition dipole moment:	0 -> 4		6.837863e-07	-4.613641e-07	-5.855336e-13	8.248760e-07		1.738012e-06	-1.172671e-06	-1.488278e-12	2.096626e-06	1.269717e-13
+	Transition dipole moment:	0 -> 5		1.728444e+00	-1.221552e+00	-4.060377e-15	2.116532e+00		4.393268e+00	-3.104877e+00	-1.032045e-14	5.379690e+00	1.234523e+00
+	Transition dipole moment:	0 -> 6		9.937041e-06	5.585372e-05	-2.477710e-11	5.673079e-05		2.525744e-05	1.419660e-04	-6.297711e-11	1.441953e-04	1.157573e-09
+	Transition dipole moment:	0 -> 7		-3.381172e-05	-1.982958e-04	-1.052486e-11	2.011578e-04		-8.594083e-05	-5.040178e-04	-2.675152e-11	5.112922e-04	2.760516e-08
+	Transition dipole moment:	0 -> 8		-2.167459e-01	1.531819e-01	4.927215e-16	2.654119e-01		-5.509132e-01	3.893497e-01	1.252374e-15	6.746099e-01	5.607158e-02
+
+
+	Elapsed time(omp) for the CIS = 0.001375[s].
+**********  DONE: PM3-CIS  **********
+
+
+				       |    normal frequencies          |   normalized normal mode ...
+				| i-th |    [a.u.]    |    [cm-1]       |   [a.u.] in mass-weighted coordinates ...
+	Normal mode(mw):	0	3.642734e-06i	7.994876e-01i		-4.276036e-02	2.005099e-01	2.348753e-02	-2.088630e-01	-2.310498e-01	6.038926e-01	1.874010e-01	3.316873e-01	-5.921031e-01
+	Normal mode(mw):	1	2.754590e-06i	6.045626e-01i		3.325516e-01	5.386465e-01	-6.674985e-01	1.715990e-01	2.600099e-01	-1.531010e-01	-4.688978e-03	1.034009e-02	-1.819201e-01
+	Normal mode(mw):	2	1.965366e-08i	4.313480e-03i		8.116709e-01	-4.042076e-01	-2.235129e-04	9.257165e-02	-2.588306e-01	-1.948211e-03	3.148102e-01	5.595672e-02	1.836027e-03
+	Normal mode(mw):	3	2.289329e-06	5.024495e-01		-7.527041e-02	3.148819e-01	-2.017325e-02	-3.344187e-01	-3.674583e-01	-3.817052e-01	2.966394e-01	5.254996e-01	3.715800e-01
+	Normal mode(mw):	4	2.738594e-06	6.010517e-01		3.335282e-01	5.433752e-01	6.645468e-01	1.696223e-01	2.580888e-01	1.486736e-01	-2.222795e-03	1.463353e-02	1.848661e-01
+	Normal mode(mw):	5	5.922136e-03	1.299758e+03		-1.642704e-01	-2.324356e-01	1.756523e-01	3.272946e-01	4.631057e-01	-3.499697e-01	3.272926e-01	4.631074e-01	-3.499699e-01
+	Normal mode(mw):	6	5.922137e-03	1.299759e+03		-1.013771e-01	-1.434444e-01	-2.846243e-01	2.019851e-01	2.857989e-01	5.670876e-01	2.019837e-01	2.857996e-01	5.670884e-01
+	Normal mode(mw):	7	1.228011e-02	2.695173e+03		-2.731348e-01	1.930339e-01	5.943005e-09	5.441957e-01	-3.846028e-01	6.436268e-09	5.441955e-01	-3.846015e-01	-5.964456e-08
+	Normal mode(mw):	8	1.415080e-02	3.105741e+03		-5.770348e-07	-4.799034e-07	3.956653e-09	-5.776541e-01	4.078173e-01	4.927555e-04	5.776564e-01	-4.078154e-01	-4.928545e-04
+					'i' following the frequency means the imaginary frequency.
+
+				       |    normal frequencies          |   normalized normal mode ...
+				| i-th |    [a.u.]    |    [cm-1]       |   [angst.] in non-mass-weighted coordinates ...
+	Normal mode(nmw):	0	3.642734e-06i	7.994876e-01i		-1.095155e-02	5.135350e-02	6.015499e-03	-2.131591e-01	-2.358022e-01	6.163140e-01	1.912556e-01	3.385097e-01	-6.042820e-01
+	Normal mode(nmw):	1	2.754590e-06i	6.045626e-01i		1.834228e-01	2.970970e-01	-3.681668e-01	3.771526e-01	5.714686e-01	-3.364963e-01	-1.030577e-02	2.272620e-02	-3.998371e-01
+	Normal mode(nmw):	2	1.965366e-08i	4.313480e-03i		4.251079e-01	-2.117014e-01	-1.170636e-04	1.931992e-01	-5.401854e-01	-4.065961e-03	6.570161e-01	1.167830e-01	3.831831e-03
+	Normal mode(nmw):	3	2.289329e-06	5.024495e-01		-1.989558e-02	8.323004e-02	-5.332221e-03	-3.522338e-01	-3.870334e-01	-4.020393e-01	3.124418e-01	5.534938e-01	3.913747e-01
+	Normal mode(nmw):	4	2.738594e-06	6.010517e-01		1.847303e-01	3.009577e-01	3.680707e-01	3.743661e-01	5.696170e-01	3.281313e-01	-4.905836e-03	3.229705e-02	4.080102e-01
+	Normal mode(nmw):	5	5.922136e-03	1.299758e+03		-4.357087e-02	-6.165090e-02	4.658976e-02	3.459264e-01	4.894687e-01	-3.698922e-01	3.459242e-01	4.894704e-01	-3.698924e-01
+	Normal mode(nmw):	6	5.922137e-03	1.299759e+03		-2.688912e-02	-3.804698e-02	-7.549334e-02	2.134834e-01	3.020684e-01	5.993698e-01	2.134819e-01	3.020691e-01	5.993707e-01
+	Normal mode(nmw):	7	1.228011e-02	2.695173e+03		-7.244588e-02	5.120005e-02	1.576314e-09	5.751748e-01	-4.064968e-01	6.802662e-09	5.751746e-01	-4.064955e-01	-6.303992e-08
+	Normal mode(nmw):	8	1.415080e-02	3.105741e+03		-1.448085e-07	-1.204331e-07	9.929329e-10	-5.776541e-01	4.078173e-01	4.927555e-04	5.776564e-01	-4.078154e-01	-4.928545e-04
+					'i' following the frequency means the imaginary frequency.
+
+	Summary for memory usage:
+		Max Heap: 0.158939[MB].
+		Current Heap(Leaked): 0.000000[MB].
+
+
+     >>>>>  The MolDS finished normally!  <<<<<
+     >>>>>  CPU time: 0.144745[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.137669[s].  <<<<<
+     >>>>>  See you.  <<<<<
+
+

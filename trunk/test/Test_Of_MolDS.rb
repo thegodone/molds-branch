@@ -1419,6 +1419,114 @@ mklNumThreads = "4"
 ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
+prefix = "c2h4_pm3_freq_ana_proj"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+-----    Test of PM3/HF/FREQUENCIES    ----
+-------------------------------------------
+SECTION
+\t\t\t>>> C2H4 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
+prefix = "c2h4_pm3_freq_num_proj"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+- Test of PM3/HF/FREQUENCIES (numerical) --
+-------------------------------------------
+SECTION
+\t\t\t>>> C2H4 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
+prefix = "c2h4_pm3_freq_num_proj_s1"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+- Test of PM3/CIS/FREQUENCIES (numerical) -
+-------------------------------------------
+SECTION
+\t\t\t>>> C2H4 (optimized on s1) <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
+prefix = "h2o_pm3_freq_num_proj_s1"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+- Test of PM3/CIS/FREQUENCIES (numerical) -
+-------------------------------------------
+SECTION
+\t\t\t>>> H2O (optimized on s1) <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
+prefix = "ch4_pm3_freq_num_proj_s1"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+- Test of PM3/CIS/FREQUENCIES (numerical) -
+-------------------------------------------
+SECTION
+\t\t\t>>> CH4 (optimized on s1) <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
+prefix = "ch4_pm3_freq_num_proj_s1-2"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+---------------------------------------------
+- Test of PM3/CIS/FREQUENCIES 2 (numerical) -
+---------------------------------------------
+SECTION
+\t\t\t>>> CH4 (optimized on s1) <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
 prefix = "c2h6_mndo_directCIS_singlet_force_heap_limit"
 tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
 ---------------------------------------------------
