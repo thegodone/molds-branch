@@ -128,6 +128,7 @@ protected:
    virtual void CalcNormalModes(double** normalModes, double* normalForceConstants, const MolDS_base::Molecule& molecule) const;
    virtual void CalcHessian(double** hessian, bool isMassWeighted, int elecState)const;
    virtual void CalcHessianNumerical(double** hessian, bool isMassWeighted, int elecState)const;
+   void ProjectOutTransRotHessian(double** hessian, bool isMassWeighted) const;
    int GetSlaterDeterminantIndex(int activeOccIndex, int activeVirIndex) const;
    int GetActiveOccIndex(const MolDS_base::Molecule& molecule, int matrixCISIndex) const;
    int GetActiveVirIndex(const MolDS_base::Molecule& molecule, int matrixCISIndex) const;

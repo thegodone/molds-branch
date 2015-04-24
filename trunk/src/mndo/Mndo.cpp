@@ -39,6 +39,7 @@
 #include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"../base/MallocerFreer.h"
+#include"../base/MathUtilities.h"
 #include"../base/EularAngle.h"
 #include"../base/Parameters.h"
 #include"../base/RealSphericalHarmonicsIndex.h"
@@ -1779,6 +1780,10 @@ void Mndo::CalcHessian(double** hessian, bool isMassWeighted, int elecState) con
       this->CalcHessianNumerical(hessian, isMassWeighted, elecState);
    }
 
+   if(Parameters::GetInstance()->RequiresProjectionFrequencies()){
+      this->ProjectOutTransRotHessian(hessian, isMassWeighted);
+   }
+
 #ifdef MOLDS_DBG
    this->OutputLog(this->debugMessageHessianMatrix);
    for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
@@ -1996,6 +2001,16 @@ void Mndo::CalcHessianSCF(double** hessianSCF, bool isMassWeighted) const{
          hessianSCF[l][k] = hessianSCF[k][l];
       }
    }
+
+
+
+
+
+
+
+
+
+
    /*
    int hessianDim = this->molecule->GetAtomVect().size()*CartesianType_end;
    for(int i=0; i<hessianDim; i++){

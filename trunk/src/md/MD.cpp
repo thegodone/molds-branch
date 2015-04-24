@@ -85,9 +85,7 @@ void MD::DoMD(){
 
    // initial calculation
    electronicStructure->DoSCF();
-   if(Parameters::GetInstance()->RequiresCIS()){
-      electronicStructure->DoCIS();
-   }
+   electronicStructure->DoCIS();
    matrixForce = electronicStructure->GetForce(elecState);
 
    // output initial conditions
@@ -108,9 +106,7 @@ void MD::DoMD(){
 
       // update electronic structure
       electronicStructure->DoSCF(requireGuess);
-      if(Parameters::GetInstance()->RequiresCIS()){
-         electronicStructure->DoCIS();
-      }
+      electronicStructure->DoCIS();
 
       // update force
       matrixForce = electronicStructure->GetForce(elecState);

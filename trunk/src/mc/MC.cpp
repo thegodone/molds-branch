@@ -109,9 +109,7 @@ void MC::DoMC(int totalSteps, int elecState, double temperature, double stepWidt
    currentES->SetCanOutputLogs(this->CanOutputLogs());
    this->molecule->SetCanOutputLogs(this->CanOutputLogs());
    currentES->DoSCF();
-   if(Parameters::GetInstance()->RequiresCIS()){
-      currentES->DoCIS();
-   }
+   currentES->DoCIS();
    this->OutputLog(this->messageinitialConditionMC);
    this->OutputMolecule(*currentES, *this->molecule, elecState);
 
@@ -124,9 +122,7 @@ void MC::DoMC(int totalSteps, int elecState, double temperature, double stepWidt
       // calculate trilal electronic structure
       bool requireGuess = (s==0) ? true : false;
       trialES->DoSCF(requireGuess);
-      if(Parameters::GetInstance()->RequiresCIS()){
-         trialES->DoCIS();
-      }
+      trialES->DoCIS();
 
       // which Electronic Structure is used?
       if(UsesTrial(*currentES, *trialES, elecState, &realRand, temperature)){

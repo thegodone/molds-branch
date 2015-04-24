@@ -236,14 +236,18 @@ public:
    const std::vector<AtomIndexPair>* GetSpaceFixedAtomIndexPairsOptimization() const;
    void                   AddSpaceFixedAtomsIndexPairOptimization(int fistAtomIndex, int lastAtomIndex);
    // Frequencies 
-   bool RequiresFrequencies() const               {return this->requiresFrequencies;}
-   void SetRequiresFrequencies(bool b)            {this->requiresFrequencies = b;}
-   int  GetElectronicStateIndexFrequencies() const{return this->electronicStateIndexFrequencies;}
-   void SetElectronicStateIndexFrequencies(int i) {this->electronicStateIndexFrequencies = i;}
-   HessianType GetHessianTypeFrequencies() const{return this->hessianTypeFrequencies;}
-   void        SetHessianTypeFrequencies(HessianType t){this->hessianTypeFrequencies = t;}
-   void   SetNumericalDrFrequencies(double dr){this->numericalDrFrequencies = dr;}
-   double GetNumericalDrFrequencies(){return this->numericalDrFrequencies;}
+   bool        RequiresFrequencies() const               {return this->requiresFrequencies;}
+   void        SetRequiresFrequencies(bool b)            {this->requiresFrequencies = b;}
+   int         GetElectronicStateIndexFrequencies() const{return this->electronicStateIndexFrequencies;}
+   void        SetElectronicStateIndexFrequencies(int i) {this->electronicStateIndexFrequencies = i;}
+   HessianType GetHessianTypeFrequencies() const         {return this->hessianTypeFrequencies;}
+   void        SetHessianTypeFrequencies(HessianType t)  {this->hessianTypeFrequencies = t;}
+   double      GetNumericalDrFrequencies() const         {return this->numericalDrFrequencies;}
+   void        SetNumericalDrFrequencies(double dr)      {this->numericalDrFrequencies = dr;}
+   bool        RequiresProjectionFrequencies() const     {return this->requiresProjectionFrequencies;}
+   void        SetRequiresProjectionFrequencies(bool b)  {this->requiresProjectionFrequencies = b;}
+   double      GetProjectionDphiFrequencies() const      {return this->projectionDphiFrequencies;}
+   void        SetProjectionDphiFrequencies(double dphi ){this->projectionDphiFrequencies = dphi;}
 private:
    static Parameters* parameters;
    Parameters();
@@ -371,10 +375,12 @@ private:
    double                 maxNormStepOptimization;
    std::vector<AtomIndexPair>* spaceFixedAtomsIndexPairsOptimization;
    // Frequencies
-   bool requiresFrequencies;
-   int  electronicStateIndexFrequencies;
+   bool        requiresFrequencies;
+   int         electronicStateIndexFrequencies;
    HessianType hessianTypeFrequencies;
-   double numericalDrFrequencies;
+   double      numericalDrFrequencies;
+   bool        requiresProjectionFrequencies;
+   double      projectionDphiFrequencies;
    // Other
    void SetDefaultValues();
    void SetMessages();

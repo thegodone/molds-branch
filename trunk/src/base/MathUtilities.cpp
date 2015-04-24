@@ -31,6 +31,7 @@
 #include"MallocerFreer.h"
 #include"../mpi/MpiInt.h"
 #include"../mpi/MpiProcess.h"
+#include"../wrappers/Blas.h"
 #include"../wrappers/Lapack.h"
 #include"MathUtilities.h"
 using namespace std;
@@ -132,5 +133,25 @@ double GetDeterminant(double** matrix, int dim){
    MallocerFreer::GetInstance()->Free<intptr_t>(&ipiv, dim);
    return determinant;
 }
+
+void NormalizeVector(double* vector, int dim){
+   double naiseki = MolDS_wrappers::Blas::GetInstance()->Ddot(dim, vector, vector);
+   double norm = sqrt(naiseki);
+   for(int i=0; i<dim; i++){
+      vector[i] /= norm;
+   }
+}
+
+void OrthoNormalizeSchmidt(double** vectors, int dim, int numVector){
+   NormalizeVector(&vectors[0][0], dim);
+   for(int i=1; i<numVector; i++){
+      for(int j=0; j<i; j++){
+         double naiseki = MolDS_wrappers::Blas::GetInstance()->Ddot(dim, &vectors[i][0], &vectors[j][0]);
+         MolDS_wrappers::Blas::GetInstance()->Daxpy(dim, -naiseki, &vectors[j][0], &vectors[i][0]);
+      }
+      NormalizeVector(&vectors[i][0], dim);
+   }
+}
+
 }
  

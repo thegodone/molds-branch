@@ -774,12 +774,14 @@ double Cndo2::GetBondingAdjustParameterK(ShellType shellA, ShellType shellB) con
 }
 
 void Cndo2::DoCIS(){
+   if(!Parameters::GetInstance()->RequiresCIS()){return;}
    stringstream ss;
    ss << this->errorMessageCISNotImplemented;
    throw MolDSException(ss.str());
 }
 
 void Cndo2::OutputCISResults() const{
+   if(!Parameters::GetInstance()->RequiresCIS()){return;}
    stringstream ss;
    ss << this->errorMessageCISNotImplemented;
    throw MolDSException(ss.str());

@@ -1071,6 +1071,7 @@ double ZindoS::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
 }
 
 void ZindoS::DoCIS(){
+   if(!Parameters::GetInstance()->RequiresCIS()){return;}
    this->OutputLog(this->messageStartCIS);
    double ompStartTime = omp_get_wtime();
 
@@ -1117,6 +1118,7 @@ void ZindoS::DoCIS(){
 }
 
 void ZindoS::CalcCISProperties(){
+   if(!Parameters::GetInstance()->RequiresCIS()){return;}
 //calculate dipole moments and transitiondipolemoment
 {
    int totalNumberAOs = this->molecule->GetTotalNumberAOs();
@@ -1818,6 +1820,7 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
 }
 
 void ZindoS::OutputCISResults() const{
+   if(!Parameters::GetInstance()->RequiresCIS()){return;}
    int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
    int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
 
@@ -4278,6 +4281,10 @@ void ZindoS::CalcHessian(double** hessian, bool isMassWeighted, int elecState) c
       this->CalcHessianNumerical(hessian, isMassWeighted, elecState);
    }
 
+   if(Parameters::GetInstance()->RequiresProjectionFrequencies()){
+      this->ProjectOutTransRotHessian(hessian, isMassWeighted);
+   }
+
 #ifdef MOLDS_DBG
    this->OutputLog(this->debugMessageHessianMatrix);
    for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
@@ -4296,7 +4303,7 @@ void ZindoS::CalcHessian(double** hessian, bool isMassWeighted, int elecState) c
 }
 
 void ZindoS::CalcHessianNumerical(double** hessian, bool isMassWeighted, int elecState) const{
-   int groundState = 0;
+   const int groundState = 0;
    bool outputRefs = false;
    double dr=Parameters::GetInstance()->GetNumericalDrFrequencies();
    double const* const* fwdRefMatrixForce = NULL;
@@ -4316,7 +4323,6 @@ void ZindoS::CalcHessianNumerical(double** hessian, bool isMassWeighted, int ele
    bwdRefES->SetMolecule(&bwdRefMolecule);
    bwdRefES->SetCanOutputLogs(outputRefs);
 
-   Parameters::GetInstance()->SetRequiresFrequencies(false);
    int totalNumberAtoms = this->molecule->GetAtomVect().size();
    for(int a=0; a<totalNumberAtoms; a++){
       const Atom& atomA = *(this->molecule->GetAtomVect()[a]);
@@ -4332,13 +4338,13 @@ void ZindoS::CalcHessianNumerical(double** hessian, bool isMassWeighted, int ele
          bwdRefMolecule.CalcBasicsConfiguration();
 
          fwdRefES->DoSCF(requiresGuess);
-         if(Parameters::GetInstance()->RequiresCIS() && groundState < elecState){
+         if(groundState < elecState){
             fwdRefES->DoCIS();
          }
          fwdRefMatrixForce = fwdRefES->GetForce(elecState);
 
          bwdRefES->DoSCF(requiresGuess);
-         if(Parameters::GetInstance()->RequiresCIS() && groundState < elecState){
+         if(groundState < elecState){
             bwdRefES->DoCIS();
          }
          bwdRefMatrixForce = bwdRefES->GetForce(elecState);
@@ -4359,8 +4365,278 @@ void ZindoS::CalcHessianNumerical(double** hessian, bool isMassWeighted, int ele
          bwdRefAtomA.GetXyz()[axisA] = atomA.GetXyz()[axisA];
       }
    }
-   Parameters::GetInstance()->SetRequiresFrequencies(true);
 }
+
+void ZindoS::ProjectOutTransRotHessian(double** hessian, bool isMassWeighted) const{
+   int totalNumberAtoms = this->molecule->GetAtomVect().size();
+   if(2==totalNumberAtoms){
+      int hessianDim = this->molecule->GetAtomVect().size()*CartesianType_end;
+      int numProjectionVectors = 5;
+      double disp[CartesianType_end];
+      disp[XAxis] = this->molecule->GetAtomVect()[0]->GetXyz()[XAxis] 
+                   -this->molecule->GetAtomVect()[1]->GetXyz()[XAxis];
+      disp[YAxis] = this->molecule->GetAtomVect()[0]->GetXyz()[YAxis] 
+                   -this->molecule->GetAtomVect()[1]->GetXyz()[YAxis];
+      disp[ZAxis] = this->molecule->GetAtomVect()[0]->GetXyz()[ZAxis] 
+                   -this->molecule->GetAtomVect()[1]->GetXyz()[ZAxis];
+
+      NormalizeVector(disp, CartesianType_end);
+      CartesianType order[CartesianType_end];
+printf("hoge 1st %e (%s)\n"  ,disp[0],CartesianTypeStr(0));
+printf("hoge 2nd %e (%s)\n"  ,disp[1],CartesianTypeStr(1));
+printf("hoge 3rd %e (%s)\n\n",disp[2],CartesianTypeStr(2));
+      order[0] = XAxis;
+      if(fabs(disp[XAxis]) <= fabs(disp[YAxis])){
+         order[0] = YAxis;
+      }
+      if(fabs(disp[order[0]]) <= fabs(disp[ZAxis])){
+         order[0] = ZAxis;
+         // maximum is ZAXis
+         if(fabs(disp[XAxis]) <= fabs(disp[YAxis])){
+            order[1] = YAxis;
+            order[2] = XAxis;
+         }
+         else{
+            order[1] = XAxis;
+            order[2] = YAxis;
+         }
+      }
+      else{
+         if(order[0] == XAxis){
+            // maximum is XAxis
+            if(fabs(disp[YAxis]) <= fabs(disp[ZAxis])){
+               order[1] = ZAxis;
+               order[2] = YAxis;
+            }
+            else{
+               order[1] = YAxis;
+               order[2] = ZAxis;
+            }
+         }
+         else{
+            // maximum is YAxis
+            if(fabs(disp[XAxis]) <= fabs(disp[ZAxis])){
+               order[1] = ZAxis;
+               order[2] = XAxis;
+            }
+            else{
+               order[1] = XAxis;
+               order[2] = ZAxis;
+            }
+         }
+      }
+/*
+double norm = sqrt(pow(disp[order[0]],2.0)+pow(disp[order[1]],2.0)+pow(disp[order[2]],2.0));
+printf("hoge 1st %e (%s)\n",disp[order[0]],CartesianTypeStr(order[0]));
+printf("hoge 2nd %e (%s)\n",disp[order[1]],CartesianTypeStr(order[1]));
+printf("hoge 3rd %e (%s)\n",disp[order[2]],CartesianTypeStr(order[2]));
+printf("hoge norm %e\n\n",norm);
+*/
+      double** orthoNormAxes     = NULL;
+      double** projectionVectors = NULL;
+      double** projectionMatrix  = NULL;
+      MallocerFreer::GetInstance()->Malloc<double>(&orthoNormAxes, CartesianType_end, CartesianType_end);
+      MallocerFreer::GetInstance()->Malloc<double>(&projectionVectors, numProjectionVectors, hessianDim);
+      MallocerFreer::GetInstance()->Malloc<double>(&projectionMatrix, hessianDim, hessianDim);
+
+      for(int axis=XAxis; axis<CartesianType_end; axis++){
+         orthoNormAxes[0][axis] = disp[axis];
+      }
+      orthoNormAxes[1][order[0]] = -disp[order[0]];
+      orthoNormAxes[1][order[1]] =  disp[order[1]];
+      swap(orthoNormAxes[1][order[0]],orthoNormAxes[1][order[1]]);
+      orthoNormAxes[2][order[0]] = -disp[order[0]];
+      orthoNormAxes[2][order[2]] =  disp[order[2]];
+      swap(orthoNormAxes[2][order[0]],orthoNormAxes[2][order[2]]);
+/*
+for(int axis=XAxis; axis<CartesianType_end; axis++){
+   printf("%e %e %e \n",orthoNormAxes[0][axis],orthoNormAxes[1][axis],orthoNormAxes[2][axis]);
+}
+cout << endl;
+*/
+      OrthoNormalizeSchmidt(orthoNormAxes, CartesianType_end, CartesianType_end);
+/*
+for(int axis=XAxis; axis<CartesianType_end; axis++){
+   printf("%.14e %.14e %.14e \n",orthoNormAxes[0][axis],orthoNormAxes[1][axis],orthoNormAxes[2][axis]);
+}
+cout << endl;
+*/
+      
+
+      for(int a=0; a<totalNumberAtoms; a++){
+         int k=a*CartesianType_end;
+         projectionVectors[0][k+XAxis] = 1.0/sqrt(totalNumberAtoms);
+         projectionVectors[1][k+YAxis] = 1.0/sqrt(totalNumberAtoms);
+         projectionVectors[2][k+ZAxis] = 1.0/sqrt(totalNumberAtoms);
+      }
+
+      Molecule rotatedMolecule(*this->molecule);
+      double rotatingOrigin[3] = {this->molecule->GetXyzCOC()[0], 
+                                  this->molecule->GetXyzCOC()[1], 
+                                  this->molecule->GetXyzCOC()[2]};
+      double rotatingAngle = Parameters::GetInstance()->GetProjectionDphiFrequencies();
+      EularAngle angleAroundAxis;
+      angleAroundAxis.SetAlpha(rotatingAngle);
+
+      for(int i=1; i<CartesianType_end; i++){
+         EularAngle setZAxisEularAngles(orthoNormAxes[i][XAxis], orthoNormAxes[i][YAxis], orthoNormAxes[i][ZAxis]);
+         rotatedMolecule.Rotate(setZAxisEularAngles, rotatingOrigin, Frame);
+         rotatedMolecule.Rotate(angleAroundAxis,     rotatingOrigin, System);
+         rotatedMolecule.Rotate(setZAxisEularAngles, rotatingOrigin, System);
+
+         for(int a=0; a<totalNumberAtoms; a++){
+            const Atom& rotatedAtom = *(rotatedMolecule.GetAtomVect()[a]);
+            const Atom& presentAtom = *(this->molecule->GetAtomVect()[a]);
+            for(int axis=0; axis<CartesianType_end; axis++){
+               int k=a*CartesianType_end+axis;
+               projectionVectors[2+i][k] = rotatedAtom.GetXyz()[axis] - presentAtom.GetXyz()[axis];
+            }
+         }
+         rotatedMolecule.SynchronizeConfigurationTo(*this->molecule);
+      }
+
+      if(isMassWeighted){
+         for(int a=0; a<totalNumberAtoms; a++){
+            const Atom& atom = *(this->molecule->GetAtomVect()[a]);
+            double sqrtM = sqrt(atom.GetCoreMass());
+            for(int i=0; i<numProjectionVectors; i++){
+               projectionVectors[i][a*CartesianType_end+XAxis] *= sqrtM;
+               projectionVectors[i][a*CartesianType_end+YAxis] *= sqrtM;
+               projectionVectors[i][a*CartesianType_end+ZAxis] *= sqrtM;
+            }
+         }
+      }
+      for(int i=0; i<numProjectionVectors; i++){
+         NormalizeVector(&projectionVectors[i][0], hessianDim);
+      }
+
+      for(int k=0; k<hessianDim; k++){
+         projectionMatrix[k][k] += 1.0;
+         for(int l=0; l<hessianDim; l++){
+            for(int i=0; i<numProjectionVectors; i++){
+               projectionMatrix[k][l] -= projectionVectors[i][k]*projectionVectors[i][l];
+            }
+         }
+      }
+
+      MolDS_wrappers::Blas::GetInstance()->Dgemmm(hessianDim,
+                                                  hessianDim,
+                                                  hessianDim,
+                                                  hessianDim,
+                                                  projectionMatrix,
+                                                  hessian,
+                                                  projectionMatrix,
+                                                  hessian);
+/*
+for(int i=0; i<numProjectionVectors; i++){
+   for(int j=0; j<hessianDim; j++){
+      printf("%e\t",projectionVectors[i][j]);
+   }
+   cout << endl;
+}
+cout << endl;
+*/
+      MallocerFreer::GetInstance()->Free<double>(&projectionMatrix, hessianDim, hessianDim);
+      MallocerFreer::GetInstance()->Free<double>(&projectionVectors, numProjectionVectors, hessianDim);
+      MallocerFreer::GetInstance()->Free<double>(&orthoNormAxes, CartesianType_end, CartesianType_end);
+
+   }// end of if(2==totalNumberAtoms)
+   else if(2<totalNumberAtoms){
+      int hessianDim = this->molecule->GetAtomVect().size()*CartesianType_end;
+      int numProjectionVectors = 6;
+      double** orthoNormAxes     = NULL;
+      double** projectionVectors = NULL;
+      double** projectionMatrix  = NULL;
+      MallocerFreer::GetInstance()->Malloc<double>(&orthoNormAxes, CartesianType_end, CartesianType_end);
+      MallocerFreer::GetInstance()->Malloc<double>(&projectionVectors, numProjectionVectors, hessianDim);
+      MallocerFreer::GetInstance()->Malloc<double>(&projectionMatrix, hessianDim, hessianDim);
+
+      for(int axis=XAxis; axis<CartesianType_end; axis++){
+         orthoNormAxes[axis][axis] = 1.0;
+      }
+
+      for(int a=0; a<totalNumberAtoms; a++){
+         int k=a*CartesianType_end;
+         projectionVectors[0][k+XAxis] = 1.0/sqrt(totalNumberAtoms);
+         projectionVectors[1][k+YAxis] = 1.0/sqrt(totalNumberAtoms);
+         projectionVectors[2][k+ZAxis] = 1.0/sqrt(totalNumberAtoms);
+      }
+
+      Molecule rotatedMolecule(*this->molecule);
+      double rotatingOrigin[3] = {this->molecule->GetXyzCOC()[0], 
+                                  this->molecule->GetXyzCOC()[1], 
+                                  this->molecule->GetXyzCOC()[2]};
+      double rotatingAngle = Parameters::GetInstance()->GetProjectionDphiFrequencies();
+
+      EularAngle angleAroundAxis;
+      angleAroundAxis.SetAlpha(rotatingAngle);
+
+      for(int i=0; i<CartesianType_end; i++){
+         EularAngle setZAxisEularAngles(orthoNormAxes[i][XAxis], orthoNormAxes[i][YAxis], orthoNormAxes[i][ZAxis]);
+         rotatedMolecule.Rotate(setZAxisEularAngles, rotatingOrigin, Frame);
+         rotatedMolecule.Rotate(angleAroundAxis,     rotatingOrigin, System);
+         rotatedMolecule.Rotate(setZAxisEularAngles, rotatingOrigin, System);
+
+         for(int a=0; a<totalNumberAtoms; a++){
+            const Atom& rotatedAtom = *(rotatedMolecule.GetAtomVect()[a]);
+            const Atom& presentAtom = *(this->molecule->GetAtomVect()[a]);
+            for(int axis=0; axis<CartesianType_end; axis++){
+               int k=a*CartesianType_end+axis;
+               projectionVectors[3+i][k] = rotatedAtom.GetXyz()[axis] - presentAtom.GetXyz()[axis];
+            }
+         }
+         rotatedMolecule.SynchronizeConfigurationTo(*this->molecule);
+      }
+
+      if(isMassWeighted){
+         for(int a=0; a<totalNumberAtoms; a++){
+            const Atom& atom = *(this->molecule->GetAtomVect()[a]);
+            double sqrtM = sqrt(atom.GetCoreMass());
+            for(int i=0; i<numProjectionVectors; i++){
+               projectionVectors[i][a*CartesianType_end+XAxis] *= sqrtM;
+               projectionVectors[i][a*CartesianType_end+YAxis] *= sqrtM;
+               projectionVectors[i][a*CartesianType_end+ZAxis] *= sqrtM;
+            }
+         }
+      }
+      for(int i=0; i<numProjectionVectors; i++){
+         NormalizeVector(&projectionVectors[i][0], hessianDim);
+      }
+
+      for(int k=0; k<hessianDim; k++){
+         projectionMatrix[k][k] = 1.0;
+         for(int l=0; l<hessianDim; l++){
+            for(int i=0; i<numProjectionVectors; i++){
+               projectionMatrix[k][l] -= projectionVectors[i][k]*projectionVectors[i][l];
+            }
+         }
+      }
+
+      MolDS_wrappers::Blas::GetInstance()->Dgemmm(hessianDim,
+                                                  hessianDim,
+                                                  hessianDim,
+                                                  hessianDim,
+                                                  projectionMatrix,
+                                                  hessian,
+                                                  projectionMatrix,
+                                                  hessian);
+
+/*
+for(int i=0; i<numProjectionVectors; i++){
+   for(int j=0; j<hessianDim; j++){
+      printf("%e\t",projectionVectors[i][j]);
+   }
+   cout << endl;
+}
+cout << endl;
+*/
+      MallocerFreer::GetInstance()->Free<double>(&projectionMatrix, hessianDim, hessianDim);
+      MallocerFreer::GetInstance()->Free<double>(&projectionVectors, numProjectionVectors, hessianDim);
+      MallocerFreer::GetInstance()->Free<double>(&orthoNormAxes, CartesianType_end, CartesianType_end);
+   }
+
+}
+
 
 }
 

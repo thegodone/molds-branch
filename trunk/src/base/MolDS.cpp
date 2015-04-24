@@ -167,9 +167,7 @@ void MolDS::CalculateElectronicStructureOnce(Molecule* molecule, bool* runsNorma
       boost::shared_ptr<ElectronicStructure> electronicStructure(ElectronicStructureFactory::Create());
       electronicStructure->SetMolecule(molecule);
       electronicStructure->DoSCF();
-      if(Parameters::GetInstance()->RequiresCIS()){
-         electronicStructure->DoCIS();
-      }
+      electronicStructure->DoCIS();
       electronicStructure->DoFrequencis();
    }
    catch(MolDSException ex){

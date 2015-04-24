@@ -429,7 +429,7 @@ HOW TO WRITE INPUT:
          FREQUENCIES_END
 
       -options
-       "electronic_state", "derivative", "numerical_dr" are prepared.
+       "electronic_state", "derivative", "numerical_dr", "projection", "projection_dphi" are prepared.
 
        "electronic_state" is index of the electronic state used for calculating the normal modes. 
        electronic_state=0 means the electronic ground state.
@@ -443,13 +443,24 @@ HOW TO WRITE INPUT:
        The default value of the "derivative" is "analytic".
 
        "numerical_dr" means numerical displacement to calculate the Hessian matrix.
-       "numerical_dr" is valid in the numerical derivative.
-       The default value of the "numerical_dr" is 5.3*10^{-5} angstrom (10^{-4} atomi unit).
+       "numerical_dr" is valid in the numerical derivative only.
+       "numerical_dr" should be set in atomic units (a.u.).
+       The default value of the "numerical_dr" is 0.0001 a.u.(0.00053 angstrom).
+       
+       "projection" means projecting the translational and rotational 
+       modes out from mass-weighted Hessian matrix.
+       "projection" should be set as "yes" or "no". 
+       The default value of the "projection" is "yes".
+
+       "projection_dphi" means rotational angle to make projection vector 
+       for the rotatinal modes.
+       "projection_dphi" should be set in radian units.
+       The default value of the "projection_dphi" is 0.001 radian.
 
        E.g. 
          FREQUENCIES
             electronic_state 0
-
+            derivative numerical
          FREQUENCIES_END
 
    <CIS>
@@ -617,7 +628,7 @@ HOW TO WRITE INPUT:
             electronic_state 8
             grid_number 30 30 30
             frame_length 10 10 10
-            file_prefix HOLEPlot_
+            file_prefix PARTPlot_
          PARTICLEPLOT_END
 
    <OPT (geometry optimization)>

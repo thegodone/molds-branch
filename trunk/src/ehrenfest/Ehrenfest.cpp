@@ -128,9 +128,7 @@ void Ehrenfest::DoEhrenfest(){
 
       // initial calculation
       currentES->DoSCF();
-      if(Parameters::GetInstance()->RequiresCIS()){
-         currentES->DoCIS();
-      }
+      currentES->DoCIS();
       matrixForce = electronicStructure1->GetForce(*this->elecStates);
       this->superpositionCoeff[iniElecState] = std::complex<double>(1.0,0.0);
       elecNorm = this->GetElecNorm();
@@ -155,9 +153,7 @@ void Ehrenfest::DoEhrenfest(){
          // calculate trial electronic structure
          requireGuess = (s==0) ? true : false;
          trialES->DoSCF(requireGuess);
-         if(Parameters::GetInstance()->RequiresCIS()){
-            trialES->DoCIS();
-         }
+         trialES->DoCIS();
 
          // update force
          matrixForce = trialES->GetForce(*this->elecStates);

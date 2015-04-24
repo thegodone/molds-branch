@@ -241,6 +241,8 @@ void Parameters::SetDefaultValues(){
    this->electronicStateIndexFrequencies = 0;
    this->hessianTypeFrequencies          = Analytic;
    this->numericalDrFrequencies          = 1e-4; // [a.u.]
+   this->requiresProjectionFrequencies   = true;
+   this->projectionDphiFrequencies       = 1e-3;
 }
 
 void Parameters::SetMessages(){

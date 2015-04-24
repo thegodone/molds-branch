@@ -27,6 +27,10 @@ int Conbination(int n, int k);
 void CalcRotatingMatrix(double matrix[][3], double theta, CartesianType cartesianType);
 // calculate determinant of the matrix. Note taht the matrix will be destroid
 double GetDeterminant(double** matrix, int dim);
+// Normalization of vector
+void NormalizeVector(double* vector, int dim);
+// Orthonormalization by Schmidt method
+void OrthoNormalizeSchmidt(double** vectors, int dim, int numVector);
 }
 #endif
  

@@ -238,10 +238,12 @@ void InputParser::SetMessages(){
    this->messageOptimizationSpaceFixedAtoms3 = " atoms.";
 
    // Frequencies (Normal modes)
-   this->messageFrequenciesConditions    = "\tFrequencies (Normal modes) analysis conditions:\n";
-   this->messageFrequenciesElecState     = "\t\tElectronic eigenstate: ";
-   this->messageFrequenciesHessianType   = "\t\tSecond derivative: ";
-   this->messageFrequenciesNumericalDr   = "\t\tNumerical dr: ";
+   this->messageFrequenciesConditions     = "\tFrequencies (Normal modes) analysis conditions:\n";
+   this->messageFrequenciesElecState      = "\t\tElectronic eigenstate: ";
+   this->messageFrequenciesHessianType    = "\t\tSecond derivative: ";
+   this->messageFrequenciesNumericalDr    = "\t\tNumerical dr: ";
+   this->messageFrequenciesProjection     = "\t\tProjection: ";
+   this->messageFrequenciesProjectionDphi = "\t\tProjection dphi: ";
 
    // MOPlot
    this->messageMOPlotConditions  = "\tMO plot conditions:\n";
@@ -268,7 +270,9 @@ void InputParser::SetMessages(){
    this->messageFs     = "[fs]";
    this->messageK      = "[K]";
    this->messageAngst  = "[Angst.]";
+   this->messageAU     = "[a.u.]";
    this->messageMB     = "[MB]";
+   this->messageRadian = "[Radian]";
 
    // others
    this->stringYES   = "yes";
@@ -452,13 +456,15 @@ void InputParser::SetMessages(){
    this->stringOptimizationSpaceFixedAtoms    = "space_fixed_atoms";
 
    // Frequencies (Normal modes)
-   this->stringFrequencies            = "frequencies";
-   this->stringFrequenciesEnd         = "frequencies_end";
-   this->stringFrequenciesElecState   = "electronic_state";
-   this->stringFrequenciesHessianType = "derivative";
-   this->stringFrequenciesAnalytic    = "analytic";
-   this->stringFrequenciesNumerical   = "numerical";
-   this->stringFrequenciesNumericalDr = "numerical_dr";
+   this->stringFrequencies               = "frequencies";
+   this->stringFrequenciesEnd            = "frequencies_end";
+   this->stringFrequenciesElecState      = "electronic_state";
+   this->stringFrequenciesHessianType    = "derivative";
+   this->stringFrequenciesAnalytic       = "analytic";
+   this->stringFrequenciesNumerical      = "numerical";
+   this->stringFrequenciesNumericalDr    = "numerical_dr";
+   this->stringFrequenciesProjection     = "projection";
+   this->stringFrequenciesProjectionDphi = "projection_dphi";
 }
 
 vector<string> InputParser::GetInputTerms(int argc, char *argv[]) const{
@@ -1341,6 +1347,22 @@ int InputParser::ParseConditionsFrequencies(vector<string>* inputTerms, int pars
       if((*inputTerms)[parseIndex].compare(this->stringFrequenciesNumericalDr) == 0){
          double dr = atof((*inputTerms)[parseIndex+1].c_str());
          Parameters::GetInstance()->SetNumericalDrFrequencies(dr);
+         parseIndex++;
+      }
+      // Projection
+      if((*inputTerms)[parseIndex].compare(this->stringFrequenciesProjection) == 0){
+         if((*inputTerms)[parseIndex+1].compare(this->stringYES) == 0){
+            Parameters::GetInstance()->SetRequiresProjectionFrequencies(true);
+         }
+         else {
+            Parameters::GetInstance()->SetRequiresProjectionFrequencies(false);
+         }
+         parseIndex++;
+      }
+      // Projection dphi
+      if((*inputTerms)[parseIndex].compare(this->stringFrequenciesProjectionDphi) == 0){
+         double dphi = atof((*inputTerms)[parseIndex+1].c_str());
+         Parameters::GetInstance()->SetProjectionDphiFrequencies(dphi);
          parseIndex++;
       }
       parseIndex++;   
@@ -2260,8 +2282,18 @@ void InputParser::OutputFrequenciesConditions() const{
                                            % HessianTypeStr(Parameters::GetInstance()->GetHessianTypeFrequencies()));
    if(Parameters::GetInstance()->GetHessianTypeFrequencies() == Numerical){
       this->OutputLog(boost::format("%s%e%s\n") % this->messageFrequenciesNumericalDr.c_str() 
-                                                % (Parameters::GetInstance()->GetNumericalDrFrequencies()/Parameters::GetInstance()->GetAngstrom2AU())
-                                                % this->messageAngst.c_str());
+                                                % Parameters::GetInstance()->GetNumericalDrFrequencies()
+                                                % this->messageAU.c_str());
+   }
+   this->OutputLog(this->messageFrequenciesProjection);
+   if(Parameters::GetInstance()->RequiresProjectionFrequencies()){
+      this->OutputLog(boost::format("%s\n") % this->stringYES.c_str());
+      this->OutputLog(boost::format("%s%e%s\n") % this->messageFrequenciesProjectionDphi.c_str() 
+                                                % Parameters::GetInstance()->GetProjectionDphiFrequencies()
+                                                % this->messageRadian.c_str());
+   }
+   else{
+      this->OutputLog(boost::format("%s\n") % this->stringNO.c_str());
    }
    this->OutputLog("\n");
 }

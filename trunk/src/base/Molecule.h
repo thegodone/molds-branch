@@ -70,6 +70,9 @@ public:
    void OutputEpcs() const;
    void CalcPrincipalAxes();
    void Rotate();
+   void Rotate(MolDS_base::EularAngle eularAngle, 
+               const double* rotatingOrigin, 
+               RotatedObjectType rotatedObj);
    void Translate();
    inline double GetDistanceAtoms(int indexAtomA, int indexAtomB) const{return this->distanceAtoms[indexAtomA][indexAtomB];};
    inline double GetDistanceAtoms(const MolDS_base_atoms::Atom& atomA, 
@@ -124,9 +127,6 @@ private:
                           double const* inertiaTensorOrigin);
    void FreeInertiaTensorMoments(double*** inertiaTensor, 
                                  double** inertiaMoments);
-   void Rotate(MolDS_base::EularAngle eularAngle, 
-               const double* rotatingOrigin, 
-               RotatedObjectType rotatedObj);
    void OutputPrincipalAxes(double const* const* inertiaTensor, 
                             double const* inertiaMoments) const;
    void OutputInertiaTensorOrigin(double* inertiaTensorOrigin) const;
