@@ -166,6 +166,8 @@ private:
    std::string messageFrequenciesElecState;
    std::string messageFrequenciesHessianType;
    std::string messageFrequenciesNumericalDr;
+   std::string messageFrequenciesProjection;
+   std::string messageFrequenciesProjectionDphi;
    // MOPlot
    std::string messageMOPlotConditions;
    std::string messageMOPlotIndex;
@@ -188,7 +190,9 @@ private:
    std::string messageFs;
    std::string messageK;
    std::string messageAngst;
+   std::string messageAU;
    std::string messageMB;
+   std::string messageRadian;
    // others
    std::string stringYES;
    std::string stringNO;
@@ -358,6 +362,8 @@ private:
    std::string stringFrequenciesAnalytic;
    std::string stringFrequenciesNumerical;
    std::string stringFrequenciesNumericalDr;
+   std::string stringFrequenciesProjection;
+   std::string stringFrequenciesProjectionDphi;
    void CalcMolecularBasics(Molecule* molecule) const;
    void ValidateScfConditions() const;
    void ValidateVdWConditions() const;

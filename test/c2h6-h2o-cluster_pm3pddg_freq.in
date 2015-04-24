@@ -14,6 +14,7 @@ SCF_END
 
 FREQUENCIES
    electronic_state 0
+   projection no
 FREQUENCIES_END
 
 // c2h6-h2o cluster (optimized with pm3/pddg)

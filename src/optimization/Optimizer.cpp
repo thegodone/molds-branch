@@ -241,9 +241,7 @@ void Optimizer::UpdateElectronicStructure(boost::shared_ptr<ElectronicStructure>
    electronicStructure->SetCanOutputLogs(canOutputLogs);
    molecule.SetCanOutputLogs(canOutputLogs);
    electronicStructure->DoSCF(requireGuess);
-   if(Parameters::GetInstance()->RequiresCIS()){
-      electronicStructure->DoCIS();
-   }
+   electronicStructure->DoCIS();
 }
 
 void Optimizer::OutputMoleculeElectronicStructure(boost::shared_ptr<ElectronicStructure> electronicStructure, 
@@ -258,9 +256,7 @@ void Optimizer::OutputMoleculeElectronicStructure(boost::shared_ptr<ElectronicSt
    // output electornic structure
    electronicStructure->SetCanOutputLogs(canOutputLogs);
    electronicStructure->OutputSCFResults();
-   if(Parameters::GetInstance()->RequiresCIS()){
-      electronicStructure->OutputCISResults();
-   }
+   electronicStructure->OutputCISResults();
 }
 
 void Optimizer::OutputOptimizationStepMessage(int nthStep) const{

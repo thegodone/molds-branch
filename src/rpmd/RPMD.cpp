@@ -80,9 +80,7 @@ void RPMD::UpdateElectronicStructure(const std::vector<boost::shared_ptr<Electro
    for(int b=0; b<numBeads; b++){
       this->OutputLog(boost::format("%s%d\n") % this->messageBeadsNum.c_str() % b);
       electronicStructureBeads[b]->DoSCF();
-      if(Parameters::GetInstance()->RequiresCIS()){
-         electronicStructureBeads[b]->DoCIS();
-      }
+      electronicStructureBeads[b]->DoCIS();
    }
 }
 

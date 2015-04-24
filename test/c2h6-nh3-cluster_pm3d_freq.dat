@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:28:47  <<<<<
+     >>>>>  Welcome to the MolDS world at 2015/4/24(Fri.) 14:21:59  <<<<<
 
 
 **********  START: Parse input  **********
@@ -56,16 +56,18 @@
 
 	Frequencies (Normal modes) analysis conditions:
 		Electronic eigenstate: 0
+		Second derivative: Analytic
+		Projection: no
 
 Input terms:
 theory | pm3-d | theory_end | scf | max_iter | 500 | rms_density | 1e-6 | damping_thresh | 1.0 | 
 damping_weight | 0.9 | diis_num_error_vect | 5 | diis_start_error | 0.1 | diis_end_error | 0.00000002 | scf_end | frequencies | 
-electronic_state | 0 | frequencies_end | geometry | c | 3.355284e-02 | -3.429145e-02 | -6.950791e-02 | c | 1.521010e+00 | 
-3.312518e-02 | 6.794435e-02 | h | -4.186633e-01 | 9.571554e-01 | -4.906945e-02 | h | -2.540791e-01 | -5.072493e-01 | -1.008334e+00 | 
-h | -4.106716e-01 | -6.146940e-01 | 7.389559e-01 | h | 1.966792e+00 | 6.113421e-01 | -7.398448e-01 | h | 1.810317e+00 | 
-5.039846e-01 | 1.006119e+00 | h | 1.976887e+00 | -9.822872e-01 | 4.636385e-02 | n | 2.650863e+00 | -2.658168e+00 | 3.721047e-03 | 
-h | 1.914828e+00 | -3.291358e+00 | -1.010495e-01 | h | 3.266869e+00 | -2.764738e+00 | -7.463073e-01 | h | 3.125594e+00 | 
--2.861722e+00 | 8.323088e-01 | geometry_end | 
+electronic_state | 0 | projection | no | frequencies_end | geometry | c | 3.355284e-02 | -3.429145e-02 | -6.950791e-02 | 
+c | 1.521010e+00 | 3.312518e-02 | 6.794435e-02 | h | -4.186633e-01 | 9.571554e-01 | -4.906945e-02 | h | -2.540791e-01 | 
+-5.072493e-01 | -1.008334e+00 | h | -4.106716e-01 | -6.146940e-01 | 7.389559e-01 | h | 1.966792e+00 | 6.113421e-01 | -7.398448e-01 | 
+h | 1.810317e+00 | 5.039846e-01 | 1.006119e+00 | h | 1.976887e+00 | -9.822872e-01 | 4.636385e-02 | n | 2.650863e+00 | 
+-2.658168e+00 | 3.721047e-03 | h | 1.914828e+00 | -3.291358e+00 | -1.010495e-01 | h | 3.266869e+00 | -2.764738e+00 | -7.463073e-01 | 
+h | 3.125594e+00 | -2.861722e+00 | 8.323088e-01 | geometry_end | 
 
 **********  DONE: Parse input  ***********
 
@@ -145,6 +147,10 @@ h | 1.914828e+00 | -3.291358e+00 | -1.010495e-01 | h | 3.266869e+00 | -2.764738e
 	Mulliken charge(SCF):	0	9	H	1.000000e+00	2.938746e-03
 	Mulliken charge(SCF):	0	10	H	1.000000e+00	1.783816e-03
 	Mulliken charge(SCF):	0	11	H	1.000000e+00	1.783639e-03
+
+	Elapsed time(omp) for the SCF = 0.015881[s].
+**********  DONE: PM3-D-SCF  **********
+
 
 				       |    normal frequencies          |   normalized normal mode ...
 				| i-th |    [a.u.]    |    [cm-1]       |   [a.u.] in mass-weighted coordinates ...
@@ -226,19 +232,15 @@ h | 1.914828e+00 | -3.291358e+00 | -1.010495e-01 | h | 3.266869e+00 | -2.764738e
 	Normal mode(nmw):	35	1.739850e-02	3.818528e+03		-1.217526e-05	4.101128e-06	-8.397652e-07	-2.273568e-04	4.422184e-04	6.815708e-06	-2.591491e-06	2.502091e-05	1.305426e-06	-3.655433e-05	-2.120416e-05	-1.349167e-05	-3.813273e-05	-2.230382e-05	4.133888e-06	1.471383e-04	6.308331e-04	-5.300646e-04	4.403209e-05	5.600846e-04	6.204235e-04	4.742338e-03	-1.164936e-02	-2.912429e-04	1.214873e-02	-3.150965e-02	-8.473519e-04	4.589784e-01	3.393463e-01	6.192405e-02	-3.577799e-01	2.249526e-02	4.538701e-01	-2.720818e-01	8.133858e-02	-5.038772e-01
 					'i' following the frequency means the imaginary frequency.
 
-	Elapsed time(omp) for the SCF = 6.521856[s].
-**********  DONE: PM3-D-SCF  **********
-
-
 	Summary for memory usage:
-		Max Heap: 1.396480[MB].
+		Max Heap: 1.355024[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 6.52543[s].  <<<<<
+     >>>>>  CPU time: 6.40383[s].  <<<<<
      >>>>>  Elapsed time: 7[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 6.52386[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 6.40271[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
