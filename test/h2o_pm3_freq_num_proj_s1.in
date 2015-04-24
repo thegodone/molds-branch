@@ -1,0 +1,43 @@
+THEORY
+   pm3
+THEORY_END
+
+SCF
+   max_iter 50
+   rms_density 1e-15
+   damping_thresh 1.0 
+   damping_weight 0.0
+   diis_num_error_vect 5
+   diis_start_error 0.1
+   diis_end_error 0.0000000
+SCF_END
+
+//OPTIMIZATION
+//   method gediis
+//   total_steps 50
+//   electronic_state 0
+//   max_gradient 0.00045
+//   rms_gradient 0.00030
+//OPTIMIZATION_END
+
+FREQUENCIES
+   electronic_state 1
+   derivative numerical
+//   numerical_dr 1e-05
+//   projection yes
+//   projection_dphi 1e-4
+FREQUENCIES_END
+
+CIS
+   davidson no
+   active_occ 400
+   active_vir 400
+CIS_END
+
+
+GEOMETRY
+O	2.590958e-01	1.513618e+00	-2.641055e-12
+H	1.082774e+00	9.314948e-01	2.096640e-11
+H	-5.645832e-01	2.095740e+00	2.097023e-11
+GEOMETRY_END
+

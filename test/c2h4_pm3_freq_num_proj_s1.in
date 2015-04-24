@@ -1,0 +1,37 @@
+THEORY
+   pm3
+THEORY_END
+
+SCF
+   max_iter 500
+   rms_density 1e-15
+   damping_thresh 1.0 
+   damping_weight 0.0
+   diis_num_error_vect 5
+   diis_start_error 0.1
+   diis_end_error 0.0000000
+SCF_END
+
+CIS
+   davidson no
+   active_occ 400
+   active_vir 400
+CIS_END
+
+FREQUENCIES
+   electronic_state 1
+   derivative numerical
+FREQUENCIES_END
+
+
+GEOMETRY
+C	-1.195459e+00	4.308165e-01	-1.384754e-04
+H	-7.409578e-01	-5.629550e-01	-1.224078e-02
+H	-2.283150e+00	3.254066e-01	1.068322e-02
+C	-5.331717e-01	1.580511e+00	1.200184e-03
+H	-2.061973e-01	2.125158e+00	-8.880394e-01
+H	-2.269558e-01	2.135044e+00	8.917194e-01
+GEOMETRY_END
+
+
+
