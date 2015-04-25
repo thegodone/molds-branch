@@ -333,6 +333,15 @@ void Parameters::AddIndexMOPlot(int moIndex){
    this->indecesMOPlot->push_back(moIndex);
 }
 
+void Parameters::AddIndecesMOPlot(int firstMoIndex, int lastMoIndex){
+   if(this->indecesMOPlot==NULL){
+      this->indecesMOPlot = new vector<int>;
+   }
+   for(int i=firstMoIndex; i<=lastMoIndex; i++){
+      this->indecesMOPlot->push_back(i);
+   }
+}
+
 void Parameters::SetGridNumberMOPlot(int Nx, int Ny, int Nz){
    this->gridNumberMOPlot[XAxis] = Nx;
    this->gridNumberMOPlot[YAxis] = Ny;

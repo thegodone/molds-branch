@@ -87,6 +87,7 @@ public:
    void                 SetFrameLengthMOPlot(double lx, double ly, double lz);
    std::vector<int>*    GetIndecesMOPlot() const;
    void                 AddIndexMOPlot(int moIndex);
+   void                 AddIndecesMOPlot(int firstMoIndex, int lastMoIndex);
    // HoleEPlot
    inline bool          RequiresHolePlot() const                     {return (this->elecIndecesHolePlot!=NULL && 0<this->elecIndecesHolePlot->size());}
    inline std::string   GetFileNamePrefixHolePlot() const            {return this->fileNamePrefixHolePlot;}

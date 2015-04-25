@@ -360,10 +360,15 @@ HOW TO WRITE INPUT:
          MOPLOT_END
 
       -options
-       "mo", "grid_number", "frame_length", and "file_prefix" are prepared.
+       "mo", "mos", "grid_number", "frame_length", and "file_prefix" are prepared.
 
        "mo" is index of the molcular orbital. mo=0 means the lowest energy MO.
        The default value of the "mo" is not set.
+
+       "mos" is indeces of the molcular orbital. 
+       To draw many and sequencial mos, this "mos" is prepared as
+       "mos first_mo_index last_mo_index".
+       The default value of the "mos" is also not set
 
        "grid_number" is the grid number of the frame in xyz-coordinates.
        The default values are 25, 25, and 25 for x, y, and z coordinates, respectively.
@@ -378,6 +383,7 @@ HOW TO WRITE INPUT:
          MOPLOT
             mo 5
             mo 8
+            mos 4 8
             grid_number 30 30 30
             frame_length 10 10 10
             file_prefix MOPlot_

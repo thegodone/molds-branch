@@ -326,6 +326,7 @@ void InputParser::SetMessages(){
 
    // MO plot
    this->stringMO                = "mo";
+   this->stringMOs               = "mos";
    this->stringMOPlot            = "moplot";
    this->stringMOPlotEnd         = "moplot_end";
    this->stringMOPlotGridNumber  = "grid_number";
@@ -840,6 +841,13 @@ int InputParser::ParseConditionsMOPlot(vector<string>* inputTerms, int parseInde
          int moIndex = atoi((*inputTerms)[parseIndex+1].c_str());
          Parameters::GetInstance()->AddIndexMOPlot(moIndex);
          parseIndex++;
+      }
+      // mos indeces
+      if((*inputTerms)[parseIndex].compare(this->stringMOs) == 0){
+         int firstMoIndex = atoi((*inputTerms)[parseIndex+1].c_str());
+         int lastMoIndex  = atoi((*inputTerms)[parseIndex+2].c_str());
+         Parameters::GetInstance()->AddIndecesMOPlot(firstMoIndex, lastMoIndex);
+         parseIndex += 2;
       }
       // file prefix
       if((*inputTerms)[parseIndex].compare(this->stringMOPlotFilePrefix) == 0){

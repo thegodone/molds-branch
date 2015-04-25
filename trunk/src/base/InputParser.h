@@ -239,6 +239,7 @@ private:
    std::string stringScfScaLapack;
    // MOPlot
    std::string stringMO;
+   std::string stringMOs;
    std::string stringMOPlot;
    std::string stringMOPlotEnd;
    std::string stringMOPlotGridNumber;
