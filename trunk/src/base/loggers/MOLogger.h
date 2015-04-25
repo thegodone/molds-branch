@@ -56,6 +56,18 @@ private:
                      double x, 
                      double y, 
                      double z) const;
+   class IsNotWrittenCurrentProcess {
+      public:
+         IsNotWrittenCurrentProcess(int mpiRank, int mpiSize): mpiRank(mpiRank), mpiSize(mpiSize){}
+         ~IsNotWrittenCurrentProcess(){}    
+         bool operator()(int num) const {
+            return num%mpiSize != mpiRank;
+         }
+      private:
+         int mpiRank;
+         int mpiSize;
+   };
+
 };
 
 }

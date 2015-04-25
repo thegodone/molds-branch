@@ -19,6 +19,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
+#include<algorithm>
 #include<sstream>
 #include<fstream>
 #include<string>
@@ -89,6 +90,14 @@ void MOLogger::DrawMO(vector<int> moIndeces){
    double origin[CartesianType_end] = {0.0, 0.0, 0.0};
    this->CalcGridDisplacement(&dx, &dy, &dz);
    this->CalcOrigin(origin);
+
+   // MPI setting of each rank
+   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+
+   // delete MOs which are not written in the current process
+   IsNotWrittenCurrentProcess isNotWrittenCurrentProcess(mpiRank, mpiSize);
+   moIndeces.erase(remove_if(moIndeces.begin(), moIndeces.end(), isNotWrittenCurrentProcess), moIndeces.end());
 
    // MO output 
    stringstream ompErrors;
