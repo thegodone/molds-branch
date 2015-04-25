@@ -349,7 +349,10 @@ HOW TO WRITE INPUT:
          MEMORY_END
 
    <MO Plot>
-      write MO plot directive.
+      Write MO plot directive. Note that All threads draw different MOs. 
+      In the hybrid parallelization with openMP/MPI, each MO is written 
+      to the local disk of a node on which each process are running. 
+      Therefore, staging-out should be carried out for the drawn MOs. 
 
       E.g.
          MOPLOT 
