@@ -34,8 +34,10 @@
 #include"../PrintController.h"
 #include"../MolDSException.h"
 #include"../MallocerFreer.h"
+#include"../containers/ThreadSafeQueue.h"
 #include"../../mpi/MpiInt.h"
 #include"../../mpi/MpiProcess.h"
+#include"../../mpi/AsyncCommunicator.h"
 #include"../Utilities.h"
 #include"../MallocerFreer.h"
 #include"../EularAngle.h"
@@ -191,60 +193,109 @@ void DensityLogger::CalcActiveMOs(double**** activeOccMOs,
                                   const MolDS_base::Molecule& molecule,
                                   double const* const* fockMatrix,
                                   double const* const* cisMatrix) const{
+
+   int gridNum3d = GetGridNumber()[XAxis]*GetGridNumber()[YAxis]*GetGridNumber()[ZAxis];
+   // MPI setting of each rank
+   int mpiRank     = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   stringstream errorStream;
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
+
    // active Occ
-   int numberOcc = molecule.GetTotalNumberValenceElectrons()/2;
-   for(int i=0; i<Parameters::GetInstance()->GetActiveOccCIS(); i++){
-      int moI = numberOcc - (i+1);
-      stringstream ompErrors;
+   int numberOcc       = molecule.GetTotalNumberValenceElectrons()/2;
+   int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
+   for(int i=0; i<numberActiveOcc; i++){
+      int calcRank = i%mpiSize;
+      if(calcRank == mpiRank){
+         int moI = numberOcc - (i+1);
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
-      for(int ix=0; ix<this->GetGridNumber()[XAxis]; ix++){
-         try{
-            double x = origin[XAxis] + dx*static_cast<double>(ix);
-            for(int iy=0; iy<this->GetGridNumber()[YAxis]; iy++){
-               double y = origin[YAxis] + dy*static_cast<double>(iy);
-               for(int iz=0; iz<this->GetGridNumber()[ZAxis]; iz++){
-                  double z = origin[ZAxis] + dz*static_cast<double>(iz);
-                  activeOccMOs[i][ix][iy][iz] = this->GetMOValue(moI, molecule, fockMatrix, x, y, z);
+         for(int ix=0; ix<this->GetGridNumber()[XAxis]; ix++){
+            try{
+               double x = origin[XAxis] + dx*static_cast<double>(ix);
+               for(int iy=0; iy<this->GetGridNumber()[YAxis]; iy++){
+                  double y = origin[YAxis] + dy*static_cast<double>(iy);
+                  for(int iz=0; iz<this->GetGridNumber()[ZAxis]; iz++){
+                     double z = origin[ZAxis] + dz*static_cast<double>(iz);
+                     activeOccMOs[i][ix][iy][iz] = this->GetMOValue(moI, molecule, fockMatrix, x, y, z);
+                  }
                }
             }
-         }
-         catch(MolDSException ex){
+            catch(MolDSException ex){
 #pragma omp critical
-            ex.Serialize(ompErrors);
+               ex.Serialize(errorStream);
+            }
+         }  // end of loop ix (omp-parallelized)
+      }  // end of "calcRank == mpiRank"
+      if(errorStream.str().empty()){
+         int tag                      = i;
+         int source                   = calcRank;
+         int dest                     = mpiHeadRank;
+         double* buff                 = &activeOccMOs[i][0][0][0];
+         MolDS_mpi::molds_mpi_int num = gridNum3d;
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
+         }
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
          }
       }
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
-      }
-   }
+   }  // end of loop of i (MPI-parallelized)
 
    // active Vir
-   for(int a=0; a<Parameters::GetInstance()->GetActiveVirCIS(); a++){
-      int moA = numberOcc + a;
-      stringstream ompErrors;
+   int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
+   for(int a=0; a<numberActiveVir; a++){
+      int calcRank = a%mpiSize;
+      if(calcRank == mpiRank){
+         int moA = numberOcc + a;
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
-      for(int ix=0; ix<this->GetGridNumber()[XAxis]; ix++){
-         try{
-            double x = origin[XAxis] + dx*static_cast<double>(ix);
-            for(int iy=0; iy<this->GetGridNumber()[YAxis]; iy++){
-               double y = origin[YAxis] + dy*static_cast<double>(iy);
-               for(int iz=0; iz<this->GetGridNumber()[ZAxis]; iz++){
-                  double z = origin[ZAxis] + dz*static_cast<double>(iz);
-                  activeVirMOs[a][ix][iy][iz] = this->GetMOValue(moA, molecule, fockMatrix, x, y, z);
+         for(int ix=0; ix<this->GetGridNumber()[XAxis]; ix++){
+            try{
+               double x = origin[XAxis] + dx*static_cast<double>(ix);
+               for(int iy=0; iy<this->GetGridNumber()[YAxis]; iy++){
+                  double y = origin[YAxis] + dy*static_cast<double>(iy);
+                  for(int iz=0; iz<this->GetGridNumber()[ZAxis]; iz++){
+                     double z = origin[ZAxis] + dz*static_cast<double>(iz);
+                     activeVirMOs[a][ix][iy][iz] = this->GetMOValue(moA, molecule, fockMatrix, x, y, z);
+                  }
                }
             }
-         }
-         catch(MolDSException ex){
+            catch(MolDSException ex){
 #pragma omp critical
-            ex.Serialize(ompErrors);
+               ex.Serialize(errorStream);
+            }
+         }  // end of loop ix (omp-parallelized)
+      }  // end of "calcRank == mpiRank"
+      if(errorStream.str().empty()){
+         int tag                      = a;
+         int source                   = calcRank;
+         int dest                     = mpiHeadRank;
+         double* buff                 = &activeVirMOs[a][0][0][0];
+         MolDS_mpi::molds_mpi_int num = gridNum3d;
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
+         }
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
          }
       }
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
-      }
+   }  // end of loop of a (MPI-parallelized)
+
+   asyncCommunicator.Finalize();
+   communicationThread.join();
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
    }
+
+   // Broadcast active OCC & Vir
+   int     numOcc  = numberActiveOcc*gridNum3d;
+   int     numVir  = numberActiveVir*gridNum3d;
+   double* buffOcc = &activeOccMOs[0][0][0][0];
+   double* buffVir = &activeVirMOs[0][0][0][0];
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buffOcc, numOcc, mpiHeadRank);   
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buffVir, numVir, mpiHeadRank);   
+
 }
 
 void DensityLogger::MallocTemporaryActiveMOs(double***** activeOccMOs, double***** activeVirMOs) const{
