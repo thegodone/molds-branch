@@ -473,7 +473,7 @@ HOW TO WRITE INPUT:
          FREQUENCIES_END
 
    <CIS>
-      Write CIS-directive.
+      Write CIS-directive. This module requires at least (active_occ*active_vir)**2 * 8 byte.
 
       E.g.
          CIS
@@ -576,6 +576,7 @@ HOW TO WRITE INPUT:
       In the hybrid parallelization with openMP/MPI, each hole densitis is written 
       to the local disk of a node on which each process are running. 
       Therefore, staging-out should be carried out for the drawn hole deinsities. 
+      This module requires at least (active_occ+active_vir)*(grid_number_x, grid_number_y, grid_number_z) * 8 byte.
 
       E.g.
          HOlEPLOT
@@ -622,6 +623,7 @@ HOW TO WRITE INPUT:
       In the hybrid parallelization with openMP/MPI, each particle densitis is written 
       to the local disk of a node on which each process are running. 
       Therefore, staging-out should be carried out for the drawn particle deinsities. 
+      This module requires at least (active_occ+active_vir)*(grid_number_x, grid_number_y, grid_number_z) * 8 byte.
 
       E.g.
          PARTICLEPLOT
