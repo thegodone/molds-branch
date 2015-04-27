@@ -337,6 +337,7 @@ void InputParser::SetMessages(){
    this->stringHolePlot            = "holeplot";
    this->stringHolePlotEnd         = "holeplot_end";
    this->stringHolePlotElecIndex   = "electronic_state";
+   this->stringHolePlotElecIndeces = "electronic_states";
    this->stringHolePlotGridNumber  = "grid_number";
    this->stringHolePlotFrameLength = "frame_length";
    this->stringHolePlotFilePrefix  = "file_prefix";
@@ -345,6 +346,7 @@ void InputParser::SetMessages(){
    this->stringParticlePlot            = "particleplot";
    this->stringParticlePlotEnd         = "particleplot_end";
    this->stringParticlePlotElecIndex   = "electronic_state";
+   this->stringParticlePlotElecIndeces = "electronic_states";
    this->stringParticlePlotGridNumber  = "grid_number";
    this->stringParticlePlotFrameLength = "frame_length";
    this->stringParticlePlotFilePrefix  = "file_prefix";
@@ -888,6 +890,13 @@ int InputParser::ParseConditionsHolePlot(vector<string>* inputTerms, int parseIn
          Parameters::GetInstance()->AddElecIndexHolePlot(elecIndex);
          parseIndex++;
       }
+      // hole indeces
+      if((*inputTerms)[parseIndex].compare(this->stringHolePlotElecIndeces) == 0){
+         int firstElecIndex = atoi((*inputTerms)[parseIndex+1].c_str());
+         int lastElecIndex  = atoi((*inputTerms)[parseIndex+2].c_str());
+         Parameters::GetInstance()->AddElecIndecesHolePlot(firstElecIndex, lastElecIndex);
+         parseIndex += 2;
+      }
       // file prefix
       if((*inputTerms)[parseIndex].compare(this->stringHolePlotFilePrefix) == 0){
          string filePrefix((*inputTerms)[parseIndex+1].c_str());
@@ -926,6 +935,13 @@ int InputParser::ParseConditionsParticlePlot(vector<string>* inputTerms, int par
          int elecIndex = atoi((*inputTerms)[parseIndex+1].c_str());
          Parameters::GetInstance()->AddElecIndexParticlePlot(elecIndex);
          parseIndex++;
+      }
+      // particle indeces
+      if((*inputTerms)[parseIndex].compare(this->stringParticlePlotElecIndeces) == 0){
+         int firstElecIndex = atoi((*inputTerms)[parseIndex+1].c_str());
+         int lastElecIndex  = atoi((*inputTerms)[parseIndex+2].c_str());
+         Parameters::GetInstance()->AddElecIndecesParticlePlot(firstElecIndex, lastElecIndex);
+         parseIndex += 2;
       }
       // file prefix
       if((*inputTerms)[parseIndex].compare(this->stringParticlePlotFilePrefix) == 0){

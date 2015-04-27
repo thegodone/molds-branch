@@ -98,10 +98,12 @@ public:
    void                 SetFrameLengthHolePlot(double lx, double ly, double lz);
    std::vector<int>*    GetElecIndecesHolePlot() const;
    void                 AddElecIndexHolePlot(int elecIndex);
+   void                 AddElecIndecesHolePlot(int firstElecIndex, int lastElecIndex);
    // ParticlePlot
    inline bool             RequiresParticlePlot() const                     {return (this->elecIndecesParticlePlot!=NULL && 0<this->elecIndecesParticlePlot->size());}
    const std::vector<int>* GetElecIndecesParticlePlot() const;
    void                    AddElecIndexParticlePlot(int elecIndex);
+   void                    AddElecIndecesParticlePlot(int firstElecIndex, int lastElecIndex);
    inline std::string      GetFileNamePrefixParticlePlot() const            {return this->fileNamePrefixParticlePlot;}
    inline void             SetFileNamePrefixParticlePlot(std::string prefix){this->fileNamePrefixParticlePlot = prefix;}
    inline const int*       GetGridNumberParticlePlot() const                {return (int*)this->gridNumberParticlePlot;}
