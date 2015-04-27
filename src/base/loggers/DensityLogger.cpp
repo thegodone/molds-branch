@@ -105,6 +105,14 @@ void DensityLogger::DrawDensity(vector<int> elecStateIndeces) const{
                           this->fockMatrix,
                           this->cisMatrix);
 
+      // MPI setting of each rank
+      int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+      int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+
+      // delete MOs which are not written in the current process
+      IsNotWrittenCurrentProcess isNotWrittenCurrentProcess(mpiRank, mpiSize);
+      elecStateIndeces.erase(remove_if(elecStateIndeces.begin(), elecStateIndeces.end(), isNotWrittenCurrentProcess), elecStateIndeces.end());
+
       // density output 
       stringstream ompErrors;
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
@@ -183,31 +191,58 @@ void DensityLogger::CalcActiveMOs(double**** activeOccMOs,
                                   const MolDS_base::Molecule& molecule,
                                   double const* const* fockMatrix,
                                   double const* const* cisMatrix) const{
+   // active Occ
    int numberOcc = molecule.GetTotalNumberValenceElectrons()/2;
    for(int i=0; i<Parameters::GetInstance()->GetActiveOccCIS(); i++){
       int moI = numberOcc - (i+1);
+      stringstream ompErrors;
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
       for(int ix=0; ix<this->GetGridNumber()[XAxis]; ix++){
-         double x = origin[XAxis] + dx*static_cast<double>(ix);
-         for(int iy=0; iy<this->GetGridNumber()[YAxis]; iy++){
-            double y = origin[YAxis] + dy*static_cast<double>(iy);
-            for(int iz=0; iz<this->GetGridNumber()[ZAxis]; iz++){
-               double z = origin[ZAxis] + dz*static_cast<double>(iz);
-               activeOccMOs[i][ix][iy][iz] = this->GetMOValue(moI, molecule, fockMatrix, x, y, z);
+         try{
+            double x = origin[XAxis] + dx*static_cast<double>(ix);
+            for(int iy=0; iy<this->GetGridNumber()[YAxis]; iy++){
+               double y = origin[YAxis] + dy*static_cast<double>(iy);
+               for(int iz=0; iz<this->GetGridNumber()[ZAxis]; iz++){
+                  double z = origin[ZAxis] + dz*static_cast<double>(iz);
+                  activeOccMOs[i][ix][iy][iz] = this->GetMOValue(moI, molecule, fockMatrix, x, y, z);
+               }
             }
+         }
+         catch(MolDSException ex){
+#pragma omp critical
+            ex.Serialize(ompErrors);
          }
       }
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException::Deserialize(ompErrors);
+      }
    }
+
+   // active Vir
    for(int a=0; a<Parameters::GetInstance()->GetActiveVirCIS(); a++){
       int moA = numberOcc + a;
+      stringstream ompErrors;
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
       for(int ix=0; ix<this->GetGridNumber()[XAxis]; ix++){
-         double x = origin[XAxis] + dx*static_cast<double>(ix);
-         for(int iy=0; iy<this->GetGridNumber()[YAxis]; iy++){
-            double y = origin[YAxis] + dy*static_cast<double>(iy);
-            for(int iz=0; iz<this->GetGridNumber()[ZAxis]; iz++){
-               double z = origin[ZAxis] + dz*static_cast<double>(iz);
-               activeVirMOs[a][ix][iy][iz] = this->GetMOValue(moA, molecule, fockMatrix, x, y, z);
+         try{
+            double x = origin[XAxis] + dx*static_cast<double>(ix);
+            for(int iy=0; iy<this->GetGridNumber()[YAxis]; iy++){
+               double y = origin[YAxis] + dy*static_cast<double>(iy);
+               for(int iz=0; iz<this->GetGridNumber()[ZAxis]; iz++){
+                  double z = origin[ZAxis] + dz*static_cast<double>(iz);
+                  activeVirMOs[a][ix][iy][iz] = this->GetMOValue(moA, molecule, fockMatrix, x, y, z);
+               }
             }
          }
+         catch(MolDSException ex){
+#pragma omp critical
+            ex.Serialize(ompErrors);
+         }
+      }
+      // Exception throwing for omp-region
+      if(!ompErrors.str().empty()){
+         throw MolDSException::Deserialize(ompErrors);
       }
    }
 }

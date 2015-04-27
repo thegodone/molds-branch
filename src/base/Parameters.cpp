@@ -369,6 +369,15 @@ void Parameters::AddElecIndexHolePlot(int elecIndex){
    this->elecIndecesHolePlot->push_back(elecIndex);
 }
 
+void Parameters::AddElecIndecesHolePlot(int firstElecIndex, int lastElecIndex){
+   if(this->elecIndecesHolePlot==NULL){
+      this->elecIndecesHolePlot = new vector<int>;
+   }
+   for(int i=firstElecIndex; i<=lastElecIndex; i++){
+      this->elecIndecesHolePlot->push_back(i);
+   }
+}
+
 void Parameters::SetGridNumberHolePlot(int Nx, int Ny, int Nz){
    this->gridNumberHolePlot[XAxis] = Nx;
    this->gridNumberHolePlot[YAxis] = Ny;
@@ -393,7 +402,16 @@ void Parameters::AddElecIndexParticlePlot(int elecIndex){
    if(this->elecIndecesParticlePlot==NULL){
       this->elecIndecesParticlePlot = new vector<int>;
    }
-   this->elecIndecesParticlePlot->push_back(elecIndex);
+      this->elecIndecesParticlePlot->push_back(elecIndex);
+}
+
+void Parameters::AddElecIndecesParticlePlot(int firstElecIndex, int lastElecIndex){
+   if(this->elecIndecesParticlePlot==NULL){
+      this->elecIndecesParticlePlot = new vector<int>;
+   }
+   for(int i=firstElecIndex; i<=lastElecIndex; i++){
+      this->elecIndecesParticlePlot->push_back(i);
+   }
 }
 
 void Parameters::SetGridNumberParticlePlot(int Nx, int Ny, int Nz){

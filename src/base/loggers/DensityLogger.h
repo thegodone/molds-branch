@@ -81,6 +81,17 @@ private:
                       double const* const* cisMatrix) const;
    void MallocTemporaryActiveMOs(double***** activeOccMOs, double***** activeVirMOs) const;
    void FreeTemporaryActiveMOs(double***** activeOccMOs, double***** activeVirMOs) const;
+   class IsNotWrittenCurrentProcess {
+      public:
+         IsNotWrittenCurrentProcess(int mpiRank, int mpiSize): mpiRank(mpiRank), mpiSize(mpiSize){}
+         ~IsNotWrittenCurrentProcess(){}    
+         bool operator()(int num) const {
+            return num%mpiSize != mpiRank;
+         }
+      private:
+         int mpiRank;
+         int mpiSize;
+   };
 };
 
 }

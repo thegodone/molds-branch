@@ -365,8 +365,8 @@ HOW TO WRITE INPUT:
        "mo" is index of the molcular orbital. mo=0 means the lowest energy MO.
        The default value of the "mo" is not set.
 
-       "mos" is indeces of the molcular orbital. 
-       To draw many and sequencial mos, this "mos" is prepared as
+       "mos" is a set of indeces of the molcular orbital. 
+       To draw many and sequencial MOs, this "mos" is prepared as
        "mos first_mo_index last_mo_index".
        The default value of the "mos" is also not set
 
@@ -571,7 +571,11 @@ HOW TO WRITE INPUT:
 
    <Hole Plot>
       Write hole plot directive for the output of the density of the hole.
-      Note that this hole plot is valid only when CIS is required.
+      This module is valid only when CIS is carried out.
+      Note that All threads draw different hole deinsities. 
+      In the hybrid parallelization with openMP/MPI, each hole densitis is written 
+      to the local disk of a node on which each process are running. 
+      Therefore, staging-out should be carried out for the drawn hole deinsities. 
 
       E.g.
          HOlEPLOT
@@ -579,12 +583,17 @@ HOW TO WRITE INPUT:
          HOLEPLOT_END
 
       -options
-       "electronic_state", "grid_number", "frame_length", and "file_prefix" are prepared.
+       "electronic_state", "electronic_states", "grid_number", "frame_length", and "file_prefix" are prepared.
 
        "electronic_state" is index of the electronic state. 
        electronic_state=0 means the electronic ground state.
        electronic_state=1 means, then, first electornic excited state.
-       The default value of the "hole" is not set.
+       The default value of the "electronic_states" is not set.
+
+       "electronic_states" is a set of indeces of the hole densities. 
+       To draw many and sequencial densities, this "electronic_states" is prepared as
+       "electronic_states first_electronic_index last_electronic_index".
+       The default value of the "electronic_states" is also not set
 
        "grid_number" is the grid number of the frame in xyz-coordinates.
        The default values are 25, 25, and 25 for x, y, and z coordinates, respectively.
@@ -599,6 +608,7 @@ HOW TO WRITE INPUT:
          HOLEPLOT
             electronic_state 5
             electronic_state 8
+            electronic_states 10 12
             grid_number 30 30 30
             frame_length 10 10 10
             file_prefix HOLEPlot_
@@ -607,7 +617,11 @@ HOW TO WRITE INPUT:
    <Particle Plot>
       Write particle plot directive for the output of the density of 
       the particle which lives avobe Fermi's sea.
-      Note that this plot is valid only when CIS is required.
+      This module is valid only when CIS is carried out.
+      Note that All threads draw different particle deinsities. 
+      In the hybrid parallelization with openMP/MPI, each particle densitis is written 
+      to the local disk of a node on which each process are running. 
+      Therefore, staging-out should be carried out for the drawn particle deinsities. 
 
       E.g.
          PARTICLEPLOT
@@ -615,12 +629,17 @@ HOW TO WRITE INPUT:
          PARTICLEPLOT_END
 
       -options
-       "electronic_state", "grid_number", "frame_length", and "file_prefix" are prepared.
+       "electronic_state", "electronic_states", "grid_number", "frame_length", and "file_prefix" are prepared.
 
        "electronic_state" is index of the electronic state. 
        electronic_state=0 means the electronic ground state.
        electronic_state=1 means, then, first electornic excited state.
-       The default value of the "hole" is not set.
+       The default value of the "electronic_state" is not set.
+
+       "electronic_states" is a set of indeces of the particle densities. 
+       To draw many and sequencial densities, this "electronic_states" is prepared as
+       "electronic_states first_electronic_index last_electronic_index".
+       The default value of the "electronic_states" is also not set
 
        "grid_number" is the grid number of the frame in xyz-coordinates.
        The default values are 25, 25, and 25 for x, y, and z coordinates, respectively.
@@ -635,6 +654,7 @@ HOW TO WRITE INPUT:
          PARTICLEPLOT
             electronic_state 5
             electronic_state 8
+            electronic_states 10 12
             grid_number 30 30 30
             frame_length 10 10 10
             file_prefix PARTPlot_

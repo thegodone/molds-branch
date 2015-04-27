@@ -249,6 +249,7 @@ private:
    std::string stringHolePlot;
    std::string stringHolePlotEnd;
    std::string stringHolePlotElecIndex;
+   std::string stringHolePlotElecIndeces;
    std::string stringHolePlotGridNumber;
    std::string stringHolePlotFrameLength;
    std::string stringHolePlotFilePrefix;
@@ -256,6 +257,7 @@ private:
    std::string stringParticlePlot;
    std::string stringParticlePlotEnd;
    std::string stringParticlePlotElecIndex;
+   std::string stringParticlePlotElecIndeces;
    std::string stringParticlePlotGridNumber;
    std::string stringParticlePlotFrameLength;
    std::string stringParticlePlotFilePrefix;
