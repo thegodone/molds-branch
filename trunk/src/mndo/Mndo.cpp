@@ -796,184 +796,190 @@ double Mndo::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
 void Mndo::CalcCISMatrix(double** matrixCIS) const{
    this->OutputLog(this->messageStartCalcCISMatrix);
    double ompStartTime = omp_get_wtime();
-   int mpiRank = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
-   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   // MPI setting of each rank
+   int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   stringstream errorStream;
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int k=0; k<this->matrixCISdimension; k++){
-      if(k%mpiSize != mpiRank){continue;}
-
-      // single excitation from I-th (occupied)MO to A-th (virtual)MO
-      int moI = this->GetActiveOccIndex(*this->molecule, k);
-      int moA = this->GetActiveVirIndex(*this->molecule, k);
-      stringstream ompErrors;
+      int calcRank;
+      if(this->matrixCISdimension <= this->matrixCISdimension/2){
+         calcRank = k%mpiSize;
+      }
+      else{
+         calcRank = (mpiSize-1) - (k%mpiSize);
+      }
+      if(calcRank == mpiRank){
+         // single excitation from I-th (occupied)MO to A-th (virtual)MO
+         int moI = this->GetActiveOccIndex(*this->molecule, k);
+         int moA = this->GetActiveVirIndex(*this->molecule, k);
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
-      for(int l=k; l<this->matrixCISdimension; l++){
-         try{
-            // single excitation from J-th (occupied)MO to B-th (virtual)MO
-            int moJ = this->GetActiveOccIndex(*this->molecule, l);
-            int moB = this->GetActiveVirIndex(*this->molecule, l);
-            double value=0.0;
-             
-            // Fast algorith, but this is not easy to read. 
-            // Slow algorithm is alos written below.
-            for(int A=0; A<molecule->GetAtomVect().size(); A++){
-               const Atom& atomA = *molecule->GetAtomVect()[A];
-               int firstAOIndexA = atomA.GetFirstAOIndex();
-               int lastAOIndexA  = atomA.GetLastAOIndex();
-
-               for(int B=A; B<molecule->GetAtomVect().size(); B++){
-                  const Atom& atomB = *molecule->GetAtomVect()[B];
-                  int firstAOIndexB = atomB.GetFirstAOIndex();
-                  int lastAOIndexB  = atomB.GetLastAOIndex();
-
-                  double gamma = 0.0;
-                  if(A!=B){
-                     for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-                        for(int nu=mu; nu<=lastAOIndexA; nu++){
-                           double tmpMuNu01 = 2.0*fockMatrix[moA][mu]
-                                                 *fockMatrix[moI][nu];
-                           double tmpMuNu02 = 2.0*fockMatrix[moJ][mu]
-                                                 *fockMatrix[moB][nu];
-                           double tmpMuNu03 = fockMatrix[moA][mu]
-                                             *fockMatrix[moB][nu];
-                           double tmpMuNu04 = fockMatrix[moI][mu]
-                                             *fockMatrix[moJ][nu];
-                           double tmpMuNu09 = 2.0*fockMatrix[moI][mu]
-                                                 *fockMatrix[moA][nu];
-                           double tmpMuNu10 = 2.0*fockMatrix[moB][mu]
-                                                 *fockMatrix[moJ][nu];
-                           double tmpMuNu11 = fockMatrix[moB][mu]
-                                             *fockMatrix[moA][nu];
-                           double tmpMuNu12 = fockMatrix[moJ][mu]
-                                             *fockMatrix[moI][nu];
-                           for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                              double tmpMuNuLamda01 = tmpMuNu01*fockMatrix[moJ][lambda];
-                              double tmpMuNuLamda02 = tmpMuNu02*fockMatrix[moA][lambda];
-                              double tmpMuNuLamda03 = tmpMuNu03*fockMatrix[moI][lambda];
-                              double tmpMuNuLamda04 = tmpMuNu04*fockMatrix[moA][lambda];
-                              double tmpMuNuLamda05 = tmpMuNu01*fockMatrix[moB][lambda];
-                              double tmpMuNuLamda06 = tmpMuNu02*fockMatrix[moI][lambda];
-                              double tmpMuNuLamda07 = tmpMuNu03*fockMatrix[moJ][lambda];
-                              double tmpMuNuLamda08 = tmpMuNu04*fockMatrix[moB][lambda];
-                              double tmpMuNuLamda09 = tmpMuNu09*fockMatrix[moJ][lambda];
-                              double tmpMuNuLamda10 = tmpMuNu10*fockMatrix[moA][lambda];
-                              double tmpMuNuLamda11 = tmpMuNu11*fockMatrix[moI][lambda];
-                              double tmpMuNuLamda12 = tmpMuNu12*fockMatrix[moA][lambda];
-                              double tmpMuNuLamda13 = tmpMuNu09*fockMatrix[moB][lambda];
-                              double tmpMuNuLamda14 = tmpMuNu10*fockMatrix[moI][lambda];
-                              double tmpMuNuLamda15 = tmpMuNu11*fockMatrix[moJ][lambda];
-                              double tmpMuNuLamda16 = tmpMuNu12*fockMatrix[moB][lambda];
-                              for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
-                                 OrbitalType orbitalSigma = atomB.GetValence(sigma-firstAOIndexB);
-                                 gamma = this->twoElecsTwoAtomCores[A]
-                                                                   [B]
-                                                                   [mu-firstAOIndexA]
-                                                                   [nu-firstAOIndexA]
-                                                                   [lambda-firstAOIndexB]
-                                                                   [sigma-firstAOIndexB];
+         for(int l=k; l<this->matrixCISdimension; l++){
+            try{
+               // single excitation from J-th (occupied)MO to B-th (virtual)MO
+               int moJ = this->GetActiveOccIndex(*this->molecule, l);
+               int moB = this->GetActiveVirIndex(*this->molecule, l);
+               double value=0.0;
+                
+               // Fast algorith, but this is not easy to read. 
+               // Slow algorithm is alos written below.
+               for(int A=0; A<molecule->GetAtomVect().size(); A++){
+                  const Atom& atomA = *molecule->GetAtomVect()[A];
+                  int firstAOIndexA = atomA.GetFirstAOIndex();
+                  int lastAOIndexA  = atomA.GetLastAOIndex();
+      
+                  for(int B=A; B<molecule->GetAtomVect().size(); B++){
+                     const Atom& atomB = *molecule->GetAtomVect()[B];
+                     int firstAOIndexB = atomB.GetFirstAOIndex();
+                     int lastAOIndexB  = atomB.GetLastAOIndex();
+      
+                     double gamma = 0.0;
+                     if(A!=B){
+                        for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                           for(int nu=mu; nu<=lastAOIndexA; nu++){
+                              double tmpMuNu01 = 2.0*fockMatrix[moA][mu]
+                                                    *fockMatrix[moI][nu];
+                              double tmpMuNu02 = 2.0*fockMatrix[moJ][mu]
+                                                    *fockMatrix[moB][nu];
+                              double tmpMuNu03 = fockMatrix[moA][mu]
+                                                *fockMatrix[moB][nu];
+                              double tmpMuNu04 = fockMatrix[moI][mu]
+                                                *fockMatrix[moJ][nu];
+                              double tmpMuNu09 = 2.0*fockMatrix[moI][mu]
+                                                    *fockMatrix[moA][nu];
+                              double tmpMuNu10 = 2.0*fockMatrix[moB][mu]
+                                                    *fockMatrix[moJ][nu];
+                              double tmpMuNu11 = fockMatrix[moB][mu]
+                                                *fockMatrix[moA][nu];
+                              double tmpMuNu12 = fockMatrix[moJ][mu]
+                                                *fockMatrix[moI][nu];
+                              for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                                 double tmpMuNuLamda01 = tmpMuNu01*fockMatrix[moJ][lambda];
+                                 double tmpMuNuLamda02 = tmpMuNu02*fockMatrix[moA][lambda];
+                                 double tmpMuNuLamda03 = tmpMuNu03*fockMatrix[moI][lambda];
+                                 double tmpMuNuLamda04 = tmpMuNu04*fockMatrix[moA][lambda];
+                                 double tmpMuNuLamda05 = tmpMuNu01*fockMatrix[moB][lambda];
+                                 double tmpMuNuLamda06 = tmpMuNu02*fockMatrix[moI][lambda];
+                                 double tmpMuNuLamda07 = tmpMuNu03*fockMatrix[moJ][lambda];
+                                 double tmpMuNuLamda08 = tmpMuNu04*fockMatrix[moB][lambda];
+                                 double tmpMuNuLamda09 = tmpMuNu09*fockMatrix[moJ][lambda];
+                                 double tmpMuNuLamda10 = tmpMuNu10*fockMatrix[moA][lambda];
+                                 double tmpMuNuLamda11 = tmpMuNu11*fockMatrix[moI][lambda];
+                                 double tmpMuNuLamda12 = tmpMuNu12*fockMatrix[moA][lambda];
+                                 double tmpMuNuLamda13 = tmpMuNu09*fockMatrix[moB][lambda];
+                                 double tmpMuNuLamda14 = tmpMuNu10*fockMatrix[moI][lambda];
+                                 double tmpMuNuLamda15 = tmpMuNu11*fockMatrix[moJ][lambda];
+                                 double tmpMuNuLamda16 = tmpMuNu12*fockMatrix[moB][lambda];
+                                 for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
+                                    OrbitalType orbitalSigma = atomB.GetValence(sigma-firstAOIndexB);
+                                    gamma = this->twoElecsTwoAtomCores[A]
+                                                                      [B]
+                                                                      [mu-firstAOIndexA]
+                                                                      [nu-firstAOIndexA]
+                                                                      [lambda-firstAOIndexB]
+                                                                      [sigma-firstAOIndexB];
    
-                                 value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
-                                 value += gamma*tmpMuNuLamda02*fockMatrix[moI][sigma];
-                                 value -= gamma*tmpMuNuLamda03*fockMatrix[moJ][sigma];
-                                 value -= gamma*tmpMuNuLamda04*fockMatrix[moB][sigma];
-                                 if(lambda != sigma){
-                                    value += gamma*tmpMuNuLamda05*fockMatrix[moJ][sigma];
-                                    value += gamma*tmpMuNuLamda06*fockMatrix[moA][sigma];
-                                    value -= gamma*tmpMuNuLamda07*fockMatrix[moI][sigma];
-                                    value -= gamma*tmpMuNuLamda08*fockMatrix[moA][sigma];
-                                 }
-                                 if(mu != nu){
-                                    value += gamma*tmpMuNuLamda09*fockMatrix[moB][sigma];
-                                    value += gamma*tmpMuNuLamda10*fockMatrix[moI][sigma];
-                                    value -= gamma*tmpMuNuLamda11*fockMatrix[moJ][sigma];
-                                    value -= gamma*tmpMuNuLamda12*fockMatrix[moB][sigma];
-                                 }
-                                 if(mu != nu && lambda != sigma){
-                                    value += gamma*tmpMuNuLamda13*fockMatrix[moJ][sigma];
-                                    value += gamma*tmpMuNuLamda14*fockMatrix[moA][sigma];
-                                    value -= gamma*tmpMuNuLamda15*fockMatrix[moI][sigma];
-                                    value -= gamma*tmpMuNuLamda16*fockMatrix[moA][sigma];
+                                    value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
+                                    value += gamma*tmpMuNuLamda02*fockMatrix[moI][sigma];
+                                    value -= gamma*tmpMuNuLamda03*fockMatrix[moJ][sigma];
+                                    value -= gamma*tmpMuNuLamda04*fockMatrix[moB][sigma];
+                                    if(lambda != sigma){
+                                       value += gamma*tmpMuNuLamda05*fockMatrix[moJ][sigma];
+                                       value += gamma*tmpMuNuLamda06*fockMatrix[moA][sigma];
+                                       value -= gamma*tmpMuNuLamda07*fockMatrix[moI][sigma];
+                                       value -= gamma*tmpMuNuLamda08*fockMatrix[moA][sigma];
+                                    }
+                                    if(mu != nu){
+                                       value += gamma*tmpMuNuLamda09*fockMatrix[moB][sigma];
+                                       value += gamma*tmpMuNuLamda10*fockMatrix[moI][sigma];
+                                       value -= gamma*tmpMuNuLamda11*fockMatrix[moJ][sigma];
+                                       value -= gamma*tmpMuNuLamda12*fockMatrix[moB][sigma];
+                                    }
+                                    if(mu != nu && lambda != sigma){
+                                       value += gamma*tmpMuNuLamda13*fockMatrix[moJ][sigma];
+                                       value += gamma*tmpMuNuLamda14*fockMatrix[moA][sigma];
+                                       value -= gamma*tmpMuNuLamda15*fockMatrix[moI][sigma];
+                                       value -= gamma*tmpMuNuLamda16*fockMatrix[moA][sigma];
+                                    }
                                  }
                               }
                            }
                         }
                      }
-                  }
-                  else{
-                     for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-                        for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                           double tmpMuNu01 = 2.0*fockMatrix[moA][mu]
-                                                 *fockMatrix[moI][nu];
-                           double tmpMuNu02 = fockMatrix[moA][mu]
-                                             *fockMatrix[moB][nu];
-                           for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                              double tmpMuNuLamda01 = tmpMuNu01*fockMatrix[moJ][lambda];
-                              double tmpMuNuLamda02 = tmpMuNu02*fockMatrix[moI][lambda];
-                              for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-                                 if(mu==nu && lambda==sigma){
-                                    OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                                    OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
-                                    gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
-                                 }
-                                 else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
-                                    OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                                    OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
-                                    gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
-                                 }
-                                 else{
-                                    gamma = 0.0;
-                                 }
-                                 value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
-                                 value -= gamma*tmpMuNuLamda02*fockMatrix[moJ][sigma];
-                              }  
+                     else{
+                        for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                           for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                              double tmpMuNu01 = 2.0*fockMatrix[moA][mu]
+                                                    *fockMatrix[moI][nu];
+                              double tmpMuNu02 = fockMatrix[moA][mu]
+                                                *fockMatrix[moB][nu];
+                              for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                                 double tmpMuNuLamda01 = tmpMuNu01*fockMatrix[moJ][lambda];
+                                 double tmpMuNuLamda02 = tmpMuNu02*fockMatrix[moI][lambda];
+                                 for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                                    if(mu==nu && lambda==sigma){
+                                       OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                                       OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
+                                       gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+                                    }
+                                    else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
+                                       OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                                       OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
+                                       gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+                                    }
+                                    else{
+                                       gamma = 0.0;
+                                    }
+                                    value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
+                                    value -= gamma*tmpMuNuLamda02*fockMatrix[moJ][sigma];
+                                 }  
+                              }
                            }
                         }
                      }
                   }
                }
-            }
-            // End of the fast algorith.
-            
-            // Diagonal term
-            if(k==l){
-               value += this->energiesMO[moA] - this->energiesMO[moI];
-            }
-            matrixCIS[k][l] = value;
-         } 
-         catch(MolDSException ex){
+               // End of the fast algorith.
+               
+               // Diagonal term
+               if(k==l){
+                  value += this->energiesMO[moA] - this->energiesMO[moI];
+               }
+               matrixCIS[k][l] = value;
+            } 
+            catch(MolDSException ex){
 #pragma omp critical
-            ex.Serialize(ompErrors);
+               ex.Serialize(errorStream);
+            }
+         }// end of l-loop
+      } // end of if(calcRank == mpiRank)
+      if(errorStream.str().empty()){
+         int tag      = k;
+         int source   = calcRank;
+         int dest     = mpiHeadRank;
+         int num      = this->matrixCISdimension-k;
+         double* buff = &this->matrixCIS[k][k];
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
          }
-      }// end of l-loop
-      // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
+         }
       }
    } // end of k-loop
-
-   // communication to collect all matrix data on head-rank
-   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
-   if(mpiRank == mpiHeadRank){
-      // receive the matrix data from other ranks
-      for(int k=0; k<this->matrixCISdimension; k++){
-         if(k%mpiSize == mpiHeadRank){continue;}
-         int source = k%mpiSize;
-         int tag = k;
-         MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, matrixCIS[k], this->matrixCISdimension);
-      }
+   asyncCommunicator.Finalize();
+   communicationThread.join();
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
    }
-   else{
-      // send the matrix data to head-rank
-      for(int k=0; k<this->matrixCISdimension; k++){
-         if(k%mpiSize != mpiRank){continue;}
-         int dest = mpiHeadRank;
-         int tag = k;
-         MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, matrixCIS[k], this->matrixCISdimension);
-      }
+   for(int k=0; k<this->matrixCISdimension; k++){
+      int     num  = this->matrixCISdimension - k;
+      double* buff = &this->matrixCIS[k][k];
+      MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);   
    }
-   // broadcast all matrix data to all rank
-   int root=mpiHeadRank;
-   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&matrixCIS[0][0], this->matrixCISdimension*this->matrixCISdimension, root);
 
    /*
    // Slow algorith, but this is easy to read. Fast altorithm is also written above.
