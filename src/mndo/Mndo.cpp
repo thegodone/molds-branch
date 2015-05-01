@@ -805,13 +805,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int k=0; k<this->matrixCISdimension; k++){
-      int calcRank;
-      if(this->matrixCISdimension <= this->matrixCISdimension/2){
-         calcRank = k%mpiSize;
-      }
-      else{
-         calcRank = (mpiSize-1) - (k%mpiSize);
-      }
+      int blockIndex = k/mpiSize;
+      int calcRank   = blockIndex%2==0 ? k%mpiSize : (mpiSize-1)-(k%mpiSize);
       if(calcRank == mpiRank){
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
          int moI = this->GetActiveOccIndex(*this->molecule, k);
@@ -3722,13 +3717,8 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int a=0; a<totalNumberAtoms; a++){
-      int calcRank;
-      if(totalNumberAtoms <= totalNumberAtoms/2){
-         calcRank = a%mpiSize;
-      }
-      else{
-         calcRank = (mpiSize-1) - (a%mpiSize);
-      }
+      int blockIndex = a/mpiSize;
+      int calcRank   = blockIndex%2==0 ? a%mpiSize : (mpiSize-1)-(a%mpiSize);
       if(mpiRank == calcRank){
 #pragma omp parallel 
          {
