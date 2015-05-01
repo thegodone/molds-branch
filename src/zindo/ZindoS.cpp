@@ -2488,8 +2488,8 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
 #pragma omp critical
                ex.Serialize(errorStream);
             }
-         }
-      }
+         } // end of l-loop
+      } // end of if(calcRank == mpiRank)
       if(errorStream.str().empty()){
          int tag      = k;
          int source   = calcRank;
@@ -2503,7 +2503,7 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
             asyncCommunicator.SetSentMessage(buff, num, dest, tag);
          }
       }
-   }
+   } // end of k-loop
    asyncCommunicator.Finalize();
    communicationThread.join();
    if(!errorStream.str().empty()){
