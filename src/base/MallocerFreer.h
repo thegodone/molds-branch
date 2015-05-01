@@ -180,7 +180,7 @@ public:
 
    template<typename T> void Free(T***** matrix, size_t size1, size_t size2, size_t size3, size_t size4) const{
       if(*matrix==NULL) return;
-      T *p1d=NULL, **p2d=NULL, ***p3d=NULL,****p4d=NULL;
+      T ***p3d=NULL,****p4d=NULL;
       p4d = *matrix;
       p3d = p4d[0];
       delete [] p4d;
