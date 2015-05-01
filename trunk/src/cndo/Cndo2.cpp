@@ -1545,7 +1545,13 @@ void Cndo2::CalcFockMatrix(double** fockMatrix,
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int A=0; A<totalNumberAtoms; A++){
-      int calcRank = A%mpiSize;
+      int calcRank;
+      if(totalNumberAtoms <= totalNumberAtoms/2){
+         calcRank = A%mpiSize;
+      }
+      else{
+         calcRank = (mpiSize-1) - (A%mpiSize);
+      }
       const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int lastAOIndexA  = atomA.GetLastAOIndex();
@@ -1758,7 +1764,13 @@ void Cndo2::CalcGammaAB(double** gammaAB, const Molecule& molecule, bool require
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int A=0; A<totalAtomNumber; A++){
-      int calcRank = A%mpiSize;
+      int calcRank;
+      if(totalAtomNumber <= totalAtomNumber/2){
+         calcRank = A%mpiSize;
+      }
+      else{
+         calcRank = (mpiSize-1) - (A%mpiSize);
+      }
       if(mpiRank == calcRank){
          const Atom& atomA = *molecule.GetAtomVect()[A];
          int na = atomA.GetValenceShellType() + 1;
@@ -4043,7 +4055,13 @@ void Cndo2::CalcOverlapAOs(double** overlapAOs, const Molecule& molecule, bool r
       const Atom& atomA = *molecule.GetAtomVect()[A];
       int firstAOIndexA = atomA.GetFirstAOIndex();
       int numValenceAOs = atomA.GetValenceSize();
-      int calcRank = A%mpiSize;
+      int calcRank;
+      if(totalAtomNumber <= totalAtomNumber/2){
+         calcRank = A%mpiSize;
+      }
+      else{
+         calcRank = (mpiSize-1) - (A%mpiSize);
+      }
       if(mpiRank == calcRank){
 #pragma omp parallel 
          {
