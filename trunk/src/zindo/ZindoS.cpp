@@ -4293,7 +4293,6 @@ void ZindoS::CalcNormalModes(double** normalModes, double* normalForceConstants,
 }
 
 void ZindoS::CalcHessian(double** hessian, bool isMassWeighted, int elecState) const{
-   int groundState = 0;
    HessianType hType= Parameters::GetInstance()->GetHessianTypeFrequencies();
    if(hType == Analytic){
       stringstream ss;
