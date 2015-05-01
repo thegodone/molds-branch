@@ -934,14 +934,6 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
             }
             // End of the fast algorith.
             
-            /* 
-            // Slow algorith, but this is easy to read. Fast altorithm is also written above.
-            value = 2.0*this->GetMolecularIntegralElement(moA, moI, moJ, moB, 
-                                                          *this->molecule, this->fockMatrix, NULL)
-                       -this->GetMolecularIntegralElement(moA, moB, moI, moJ, 
-                                                          *this->molecule, this->fockMatrix, NULL);
-            // End of the slow algorith.
-            */
             // Diagonal term
             if(k==l){
                value += this->energiesMO[moA] - this->energiesMO[moI];
@@ -983,6 +975,30 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
    int root=mpiHeadRank;
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(&matrixCIS[0][0], this->matrixCISdimension*this->matrixCISdimension, root);
 
+   /*
+   // Slow algorith, but this is easy to read. Fast altorithm is also written above.
+   for(int k=0; k<this->matrixCISdimension; k++){
+      // single excitation from I-th (occupied)MO to A-th (virtual)MO
+      int moI = this->GetActiveOccIndex(*this->molecule, k);
+      int moA = this->GetActiveVirIndex(*this->molecule, k);
+      for(int l=k; l<this->matrixCISdimension; l++){
+         // single excitation from J-th (occupied)MO to B-th (virtual)MO
+         int moJ = this->GetActiveOccIndex(*this->molecule, l);
+         int moB = this->GetActiveVirIndex(*this->molecule, l);
+         double value=0.0;
+         value = 2.0*this->GetMolecularIntegralElement(moA, moI, moJ, moB, 
+                                                       *this->molecule, this->fockMatrix, NULL)
+                    -this->GetMolecularIntegralElement(moA, moB, moI, moJ, 
+                                                       *this->molecule, this->fockMatrix, NULL);
+         // Diagonal term
+         if(k==l){
+            value += this->energiesMO[moA] - this->energiesMO[moI];
+         }
+         matrixCIS[k][l] = value;
+      }
+   }
+   // End of the slow algorith.
+   */
 
    double ompEndTime = omp_get_wtime();
    this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCalcCISMarix.c_str()
@@ -3700,7 +3716,13 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int a=0; a<totalNumberAtoms; a++){
-      int calcRank = a%mpiSize;
+      int calcRank;
+      if(totalNumberAtoms <= totalNumberAtoms/2){
+         calcRank = a%mpiSize;
+      }
+      else{
+         calcRank = (mpiSize-1) - (a%mpiSize);
+      }
       if(mpiRank == calcRank){
 #pragma omp parallel 
          {

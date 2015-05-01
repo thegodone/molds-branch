@@ -2454,7 +2454,13 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int k=0; k<this->matrixCISdimension; k++){
-      int calcRank = k%mpiSize;
+      int calcRank;
+      if(this->matrixCISdimension <= this->matrixCISdimension/2){
+         calcRank = k%mpiSize;
+      }
+      else{
+         calcRank = (mpiSize-1) - (k%mpiSize);
+      }
       if(calcRank == mpiRank){
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
          int moI = this->GetActiveOccIndex(*this->molecule, k);
@@ -2477,21 +2483,6 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
                } 
                // End of the fast algorith.
       
-               /*// Slow algorith, but this is easy to read. Fast altorithm is also written above.
-               double value=0.0;
-               value = 2.0*this->GetMolecularIntegralElement(moA, moI, moJ, moB, 
-                                                             *this->molecule, 
-                                                             this->fockMatrix, 
-                                                             NULL)
-                          -this->GetMolecularIntegralElement(moA, moB, moI, moJ, 
-                                                             *this->molecule, 
-                                                             this->fockMatrix, 
-                                                             NULL);
-               if(k==l){
-                  value += this->energiesMO[moA] - this->energiesMO[moI];
-               }
-               matrixCIS[k][l] = value;
-               // End of the slow algorith. */
             }
             catch(MolDSException ex){
 #pragma omp critical
@@ -2523,6 +2514,35 @@ void ZindoS::CalcCISMatrix(double** matrixCIS) const{
       double* buff = &this->matrixCIS[k][k];
       MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);   
    }
+
+   /*
+   // Slow algorith, but this is easy to read. Fast altorithm is also written above.
+   for(int k=0; k<this->matrixCISdimension; k++){
+      // single excitation from I-th (occupied)MO to A-th (virtual)MO
+      int moI = this->GetActiveOccIndex(*this->molecule, k);
+      int moA = this->GetActiveVirIndex(*this->molecule, k);
+      for(int l=k; l<this->matrixCISdimension; l++){
+         // single excitation from J-th (occupied)MO to B-th (virtual)MO
+         int moJ = this->GetActiveOccIndex(*this->molecule, l);
+         int moB = this->GetActiveVirIndex(*this->molecule, l);
+
+         double value=0.0;
+         value = 2.0*this->GetMolecularIntegralElement(moA, moI, moJ, moB, 
+                                                       *this->molecule, 
+                                                       this->fockMatrix, 
+                                                       NULL)
+                -this->GetMolecularIntegralElement(moA, moB, moI, moJ, 
+                                                   *this->molecule, 
+                                                   this->fockMatrix, 
+                                                   NULL);
+         if(k==l){
+            value += this->energiesMO[moA] - this->energiesMO[moI];
+         }
+         matrixCIS[k][l] = value;
+      }
+   }
+   // end of slow algorithm 
+   */
 
    double ompEndTime = omp_get_wtime();
    this->OutputLog(boost::format("%s%lf%s\n%s") % this->messageOmpElapsedTimeCalcCISMarix.c_str()
@@ -3421,7 +3441,13 @@ void ZindoS::CalcGammaNRMinusKNRMatrix(double** gammaNRMinusKNR, const vector<Mo
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int i=0; i<nonRedundantQIndecesSize; i++){
-      int calcRank = i%mpiSize;
+      int calcRank;
+      if(nonRedundantQIndecesSize <= nonRedundantQIndecesSize/2){
+         calcRank = i%mpiSize;
+      }
+      else{
+         calcRank = (mpiSize-1) - (i%mpiSize);
+      }
       if(mpiRank == calcRank){
          int moI = nonRedundantQIndeces[i].moI;
          int moJ = nonRedundantQIndeces[i].moJ;
