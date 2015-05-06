@@ -226,6 +226,7 @@ HOW TO WRITE INPUT:
 
    <SCF>
       Write SCF-directive. In the SCF-directive, settings(options) of SCF should be written.
+      SCF-module in theories after MNDO requires (number of atoms)**2 * 4**4 * 8 byte for two electron integral.
 
       E.g.
          SCF
