@@ -35,13 +35,13 @@ public:
    ~ThreadSafeQueue(){}
 
    void Push(const T& data){
-      boost::mutex::scoped_lock lk(this->stateGuard);
+      boost::unique_lock<boost::mutex> lk(this->stateGuard);
       this->stdQueue.push(data);
       this->stateChange.notify_all();
    } 
 
    T FrontPop(){
-      boost::mutex::scoped_lock lk(this->stateGuard);
+      boost::unique_lock<boost::mutex> lk(this->stateGuard);
       if(this->stdQueue.empty()){
          std::stringstream ss;
          ss << "naitive queue has no member\n";
@@ -57,13 +57,13 @@ public:
    }
      
    int Size(){
-     boost::mutex::scoped_lock lk(this->stateGuard);
-     return this->stdQueue.size();
+      boost::unique_lock<boost::mutex> lk(this->stateGuard);
+      return this->stdQueue.size();
    }
    
    bool Empty(){
-     boost::mutex::scoped_lock lk(this->stateGuard);
-     return this->stdQueue.empty();
+      boost::unique_lock<boost::mutex> lk(this->stateGuard);
+      return this->stdQueue.empty();
    }
 private:
    std::queue<T> stdQueue;

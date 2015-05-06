@@ -30,7 +30,7 @@ public:
    ~AsyncCommunicator();
    template<typename T> void Run(){
       while(true){
-         boost::mutex::scoped_lock lk(this->stateGuard);
+         boost::unique_lock<boost::mutex> lk(this->stateGuard);
          try{
             MessageInfo mInfo = this->messageQueue.FrontPop();
             if(mInfo.mpiFuncType == MolDS_base::Send){
@@ -72,7 +72,6 @@ public:
          }
       }
    }
-
    template<typename T> void SetSentMessage(T* vector, 
                                             molds_mpi_int num, 
                                             int dest,
@@ -118,7 +117,7 @@ private:
                                         int dest, 
                                         int tag,
                                         MolDS_base::MpiFunctionType mpiFuncType){
-      boost::mutex::scoped_lock lk(this->stateGuard);
+      boost::unique_lock<boost::mutex> lk(this->stateGuard);
       MessageInfo mInfo = {reinterpret_cast<intptr_t>(vector), num, source, dest, tag, mpiFuncType};
       this->messageQueue.Push(mInfo);
       this->stateChange.notify_all();
