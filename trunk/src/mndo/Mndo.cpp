@@ -800,9 +800,6 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
    int mpiHeadRank   = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
    int mpiRank       = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize       = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
-   stringstream errorStream;
-   MolDS_mpi::AsyncCommunicator asyncCommunicator;
-   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
 
    for(int k=0; k<this->matrixCISdimension; k++){
       int blockIndex = k/mpiSize;
@@ -811,6 +808,7 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
          int moI = this->GetActiveOccIndex(*this->molecule, k);
          int moA = this->GetActiveVirIndex(*this->molecule, k);
+         stringstream ompErrors;
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
          for(int l=k; l<this->matrixCISdimension; l++){
             try{
@@ -947,34 +945,40 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
             } 
             catch(MolDSException ex){
 #pragma omp critical
-               ex.Serialize(errorStream);
+               ex.Serialize(ompErrors);
             }
          }// end of l-loop
+         // Exception throwing for omp-region
+         if(!ompErrors.str().empty()){
+            throw MolDSException::Deserialize(ompErrors);
+         }
       } // end of if(calcRank == mpiRank)
-      if(errorStream.str().empty()){
-         int tag      = k;
-         int source   = calcRank;
-         int dest     = mpiHeadRank;
-         int num      = this->matrixCISdimension-k;
-         double* buff = &this->matrixCIS[k][k];
-         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
-            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
-         }
-         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
-            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
-         }
-      }
    } // end of k-loop
-   asyncCommunicator.Finalize();
-   communicationThread.join();
-   if(!errorStream.str().empty()){
-      throw MolDSException::Deserialize(errorStream);
+
+   if(mpiRank == mpiHeadRank){
+      for(int k=0; k<this->matrixCISdimension; k++){
+         int blockIndex = k/mpiSize;
+         int calcRank   = blockIndex%2==0 ? k%mpiSize : (mpiSize-1)-(k%mpiSize);
+         if(calcRank == mpiHeadRank){continue;}
+         int source = calcRank;
+         int tag = k;
+         MolDS_mpi::MpiProcess::GetInstance()->Recv(source, tag, matrixCIS[k], this->matrixCISdimension);
+      }
    }
-   for(int k=0; k<this->matrixCISdimension; k++){
-      int     num  = this->matrixCISdimension - k;
-      double* buff = &this->matrixCIS[k][k];
-      MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);   
+   else{
+      for(int k=0; k<this->matrixCISdimension; k++){
+         int blockIndex = k/mpiSize;
+         int calcRank   = blockIndex%2==0 ? k%mpiSize : (mpiSize-1)-(k%mpiSize);
+         if(calcRank != mpiRank){continue;}
+         int dest = mpiHeadRank;
+         int tag = k;
+         MolDS_mpi::MpiProcess::GetInstance()->Send(dest, tag, matrixCIS[k], this->matrixCISdimension);
+      }
    }
+
+   int     num  = this->matrixCISdimension*this->matrixCISdimension;
+   double* buff = &this->matrixCIS[0][0];
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
 
    /*
    // Slow algorith, but this is easy to read. Fast altorithm is also written above.
