@@ -34,15 +34,17 @@
 #include"Lapack.h"
 
 #ifdef __INTEL_COMPILER
-#include"mkl.h"
-#include"mkl_lapacke.h"
+   #include"mkl.h"
+   #include"mkl_lapacke.h"
+#elif defined __FCC_VERSION
+   #include"lapacke.h"
 #else
-#if ( __WORDSIZE == 32 )
-#else
-#define HAVE_LAPACK_CONFIG_H
-#define LAPACK_ILP64
-#endif
-#include"lapacke.h"
+   #if ( __WORDSIZE == 32 )
+   #else
+      #define HAVE_LAPACK_CONFIG_H
+      #define LAPACK_ILP64
+   #endif
+   #include"lapacke.h"
 #endif
 
 #ifdef __INTEL_COMPILER

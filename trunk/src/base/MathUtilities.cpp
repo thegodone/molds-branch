@@ -121,8 +121,13 @@ void CalcRotatingMatrix(double matrix[][3], double theta, CartesianType cartesia
 // calculate determinant of the matrix
 double GetDeterminant(double** matrix, int dim){
    double determinant=1.0;
+#ifdef __FCC_VERSION
+   int*      ipiv=NULL;
+   MallocerFreer::GetInstance()->Malloc<int>(&ipiv, dim);
+#else
    intptr_t* ipiv=NULL;
    MallocerFreer::GetInstance()->Malloc<intptr_t>(&ipiv, dim);
+#endif
    MolDS_wrappers::Lapack::GetInstance()->Dgetrf(matrix, ipiv, dim, dim);
    for(int i=0; i<dim; i++){
       determinant*=matrix[i][i];
@@ -130,7 +135,11 @@ double GetDeterminant(double** matrix, int dim){
          determinant *= -1.0;
       }
    }
+#ifdef __FCC_VERSION
+   MallocerFreer::GetInstance()->Free<int>(&ipiv, dim);
+#else
    MallocerFreer::GetInstance()->Free<intptr_t>(&ipiv, dim);
+#endif
    return determinant;
 }
 

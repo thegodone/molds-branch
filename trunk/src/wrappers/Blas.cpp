@@ -36,6 +36,8 @@
 
 #ifdef __INTEL_COMPILER
 #include"mkl.h"
+#elif defined __FCC_VERSION
+#include"fj_lapack.h"
 #else
 #include"cblas.h"
 #endif
@@ -86,7 +88,11 @@ void Blas::Dcopy(molds_blas_int n,
                  double const* vectorX, molds_blas_int incrementX,
                  double*       vectorY, molds_blas_int incrementY) const{
    double* x = const_cast<double*>(&vectorX[0]);
+#ifdef __FCC_VERSION
+   dcopy_(&n, x, &incrementX, vectorY, &incrementY);
+#else
    cblas_dcopy(n, x, incrementX, vectorY, incrementY);
+#endif
 }
 
 // vectorY = alpha*vectorX + vectorY
@@ -107,7 +113,11 @@ void Blas::Daxpy(molds_blas_int n, double alpha,
            double const* vectorX, molds_blas_int incrementX,
            double*       vectorY, molds_blas_int incrementY) const{
    double* x = const_cast<double*>(&vectorX[0]);
+#ifdef __FCC_VERSION
+   daxpy_(&n, &alpha, x, &incrementX, vectorY, &incrementY);
+#else
    cblas_daxpy(n, alpha, x, incrementX, vectorY, incrementY);
+#endif
 }
 
 // returns vectorX^T*vectorY
@@ -129,7 +139,11 @@ double Blas::Ddot(molds_blas_int n,
             double const* vectorY, molds_blas_int incrementY)const{
    double* x=const_cast<double*>(vectorX),
          * y=const_cast<double*>(vectorY);
+#ifdef __FCC_VERSION
+   return ddot_(&n, x, &incrementX, y, &incrementY);
+#else
    return cblas_ddot(n, x, incrementX, y, incrementY);
+#endif
 }
 
 // returns sqrt(sum(Xi^2))
@@ -148,7 +162,11 @@ double Blas::Dnrm2(molds_blas_int n,
       return 0.0;
    }
    double* x=const_cast<double*>(vectorX);
+#ifdef __FCC_VERSION
+   return dnrm2_(&n,x,&incrementX);
+#else
    return cblas_dnrm2(n,x,incrementX);
+#endif
 }
 
 // returns max(abs(vectorX[i]))
@@ -164,7 +182,12 @@ double Blas::Damax(molds_blas_int n,
 double Blas::Damax(molds_blas_int n,
                   double const* vectorX, molds_blas_int incrementX)const{
    double* x=const_cast<double*>(vectorX);
-   molds_blas_int i = cblas_idamax(n, x, incrementX);
+   molds_blas_int i = 0;
+#ifdef __FCC_VERSION
+   i = idamax_(&n, x, &incrementX);
+#else
+   i = cblas_idamax(n, x, incrementX);
+#endif
    return abs(vectorX[incrementX*i]);
 }
 
@@ -199,6 +222,19 @@ void Blas::Dgemv(bool isColumnMajorMatrixA,
                  molds_blas_int incrementY) const{
    double* a = const_cast<double*>(&matrixA[0][0]);
    double* x = const_cast<double*>(&vectorX[0]);
+#ifdef __FCC_VERSION
+   char* transA;
+   molds_blas_int transALen=1;
+   if(isColumnMajorMatrixA){
+      transA = "n";
+   }
+   else{
+      transA = "t";
+      swap(m,n);
+   }
+   molds_blas_int lda = m;
+   dgemv_(transA, &m, &n, &alpha, a, &lda, x, &incrementX, &beta, vectorY, &incrementY, transALen);
+#else
    CBLAS_TRANSPOSE transA;
    if(isColumnMajorMatrixA){
       transA = CblasNoTrans;
@@ -209,10 +245,13 @@ void Blas::Dgemv(bool isColumnMajorMatrixA,
    }
    molds_blas_int lda = m;
    cblas_dgemv(CblasColMajor, transA, m, n, alpha, a, lda, x, incrementX, beta, vectorY, incrementY);
+#endif
+
+
 }
 
 // vectorY = matrixA*vectorX
-//    matrixA: n*n-matrix,symmetric (Use the upper triangular part)
+//    matrixA: n*n-matrix,symmetric (Use the upper triangular part in row-major(C/C++ style))
 //    vectorX: n-vector
 //    vectorY: n-vector
 void Blas::Dsymv(molds_blas_int n,
@@ -234,11 +273,25 @@ void Blas::Dsymv(molds_blas_int n, double alpha,
            double const* vectorX, molds_blas_int incrementX,
            double beta,
            double*       vectorY, molds_blas_int incrementY) const{
-   double* a = const_cast<double*>(&matrixA[0][0]);
    double* x = const_cast<double*>(&vectorX[0]);
-   CBLAS_UPLO uploA=CblasUpper;
    molds_blas_int lda = n;
+#ifdef __FCC_VERSION
+   char* uploA  = "u";
+   double* convertedMatrixA=NULL;
+   convertedMatrixA = (double*)malloc(sizeof(double)*n*n);
+   for(molds_blas_int i=0; i<n; i++){
+      for(molds_blas_int j=i; j<n; j++){
+         convertedMatrixA[i+j*n] = matrixA[i][j];
+      }
+   }
+   molds_blas_int uploALen =1;
+   dsymv_(uploA, &n, &alpha, convertedMatrixA, &lda, x, &incrementX, &beta, vectorY, &incrementY, uploALen);
+   free(convertedMatrixA);
+#else
+   double* a = const_cast<double*>(&matrixA[0][0]);
+   CBLAS_UPLO uploA=CblasUpper;
    cblas_dsymv(CblasRowMajor, uploA, n, alpha, a, lda, x, incrementX, beta, vectorY, incrementY);
+#endif
 }
 
 // matrixA = alpha*vectorX*vectorX^T + matrixA
@@ -256,8 +309,25 @@ void Blas::Dsyr(molds_blas_int n, double alpha,
           double ** matrixA)const{
    double* a = &matrixA[0][0];
    double* x = const_cast<double*>(&vectorX[0]);
-   CBLAS_UPLO uploA=CblasUpper;
+
    molds_blas_int lda = n;
+#ifdef __FCC_VERSION
+   char* uploA  = "u";
+   molds_blas_int uploALen =1;
+   for(molds_blas_int i=0; i<n; i++){
+      for(molds_blas_int j=i; j<n; j++){
+         matrixA[j][i] = matrixA[i][j];
+      }
+   }
+   dsyr_(uploA, &n, &alpha, x, &incrementX, a, &lda, uploALen);
+#pragma omp parallel for schedule(auto)
+   for(molds_blas_int i=0;i<n;i++){
+      for(molds_blas_int j=i+1;j<n;j++){
+         matrixA[i][j] = matrixA[j][i]; // Note that output matrixA is column-major(Fortran style) in BLAS
+      }
+   }
+#else
+   CBLAS_UPLO uploA=CblasUpper;
    cblas_dsyr(CblasRowMajor, uploA, n, alpha, x, incrementX, a, lda);
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(molds_blas_int i=0;i<n;i++){
@@ -265,6 +335,7 @@ void Blas::Dsyr(molds_blas_int n, double alpha,
          matrixA[j][i] = matrixA[i][j]; // Note that output matrixA is row-major(C/C++ stype) 
       }
    }
+#endif
 }
 
 // matrixC = matrixA*matrixB
@@ -372,6 +443,18 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
    double* b = const_cast<double*>(&matrixB[0][0]);
 
    molds_blas_int lda;
+#ifdef __FCC_VERSION
+   char* transA;
+   molds_blas_int transALen=1;
+   if(isColumnMajorMatrixA){
+      transA = "n";
+      lda = m;
+   }
+   else{
+      transA = "t";
+      lda = k;
+   }
+#else
    CBLAS_TRANSPOSE transA;
    if(isColumnMajorMatrixA){
       transA = CblasNoTrans;
@@ -381,8 +464,21 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
       transA = CblasTrans;
       lda = k;
    }
+#endif
 
    molds_blas_int ldb;
+#ifdef __FCC_VERSION
+   char* transB;
+   molds_blas_int transBLen=1;
+   if(isColumnMajorMatrixB){
+      transB = "n";
+      ldb = k;
+   }
+   else{
+      transB = "t";
+      ldb = n;
+   }
+#else
    CBLAS_TRANSPOSE transB;
    if(isColumnMajorMatrixB){
       transB = CblasNoTrans;
@@ -392,6 +488,7 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
       transB = CblasTrans;
       ldb = n;
    }
+#endif
 
    molds_blas_int ldc = m;
    if(isColumnMajorMatrixC){
@@ -406,8 +503,11 @@ void Blas::Dgemm(bool isColumnMajorMatrixA,
    }
 
    //call blas
+#ifdef __FCC_VERSION
+   dgemm_(transA, transB, &m, &n, &k, &alpha, a, &lda, b, &ldb, &beta, tmpC, &ldc, transALen, transBLen);
+#else
    cblas_dgemm(CblasColMajor, transA, transB, m, n, k, alpha, a, lda, b, ldb, beta, tmpC, ldc);
-
+#endif
    if(isColumnMajorMatrixC){
       this->Dcopy(m*n, tmpC, &matrixC[0][0]);
    }
@@ -556,11 +656,63 @@ void Blas::Dsyrk(molds_blas_int n, molds_blas_int k,
                  double beta,  double ** matrixC)const{
    double* c = &matrixC[0][0];
    double* a = const_cast<double*>(&matrixA[0][0]);
+   molds_blas_int lda = &matrixA[1][0] - &matrixA[0][0];
+   molds_blas_int ldc = &matrixC[1][0] - &matrixC[0][0];
+#ifdef __FCC_VERSION
+   molds_blas_int uploLen =1;
+   molds_blas_int transLen=1;
+
+   double* convertedMatrixA=NULL;
+   if(!isMatrixAColumnMajor){
+      convertedMatrixA = (double*)malloc(sizeof(double)*n*k);
+      molds_blas_int iSize=0;
+      molds_blas_int jSize=0;
+      if(isMatrixATransposed){
+         iSize=k;
+         jSize=n;
+      }
+      else{
+         iSize=n;
+         jSize=k;
+      }
+      lda=iSize;
+      for(molds_blas_int i=0; i<iSize; i++){
+         for(molds_blas_int j=0; j<jSize; j++){
+            convertedMatrixA[i+j*iSize] = matrixA[i][j];
+         }
+      }
+   }
+   else{
+      convertedMatrixA = a;
+   }
+
+   char* uploC  = "u";
+   if(isLowerTriangularPartMatrixCUsed){
+      uploC = "l";
+   }
+   char* transA = "n";
+   if(isMatrixATransposed){
+      transA = "t";
+   }
+   dsyrk_(uploC, transA, &n, &k, &alpha, convertedMatrixA, &lda, &beta, c, &ldc, uploLen, transLen);
+   if(!isMatrixAColumnMajor){
+      free(convertedMatrixA);
+   }
+#pragma omp parallel for schedule(auto)
+   for(molds_blas_int i=0;i<n;i++){
+      for(molds_blas_int j=i+1;j<n;j++){
+         if(isLowerTriangularPartMatrixCUsed){
+            matrixC[j][i] = matrixC[i][j]; // Note that output matrixC is column-major(Fortran style) in BLAS
+         }
+         else{
+            matrixC[i][j] = matrixC[j][i]; // Note that output matrixC is column-major(Fortran style) in BLAS
+         }
+      }
+   }
+#else
    CBLAS_ORDER orderA = isMatrixAColumnMajor ? CblasColMajor : CblasRowMajor;
    CBLAS_UPLO uploC= isLowerTriangularPartMatrixCUsed ? CblasLower : CblasUpper;
    CBLAS_TRANSPOSE transA= isMatrixATransposed ? CblasTrans : CblasNoTrans;
-   molds_blas_int lda = &matrixA[1][0] - &matrixA[0][0];
-   molds_blas_int ldc = &matrixC[1][0] - &matrixC[0][0];
    cblas_dsyrk(orderA, uploC, transA, n, k, alpha, a, lda, beta, c, ldc);
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
    for(molds_blas_int i=0;i<n;i++){
@@ -583,6 +735,7 @@ void Blas::Dsyrk(molds_blas_int n, molds_blas_int k,
          }
       }
    }
+#endif
 }
 
 }
