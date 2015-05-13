@@ -19,7 +19,7 @@
 #//************************************************************************//
 CC = mpiFCCpx
 CFLAGS = -Kfast,simd=2,optmsg=2,openmp -SCALAPACK -SSL2BLAMP -Xg
-BOOST_TOP_DIR = /home/n0011/n001101/opt/boost/boost1.49.0/
+BOOST_TOP_DIR = /home/user/boost/
 BOOST_INC_DIR = $(BOOST_TOP_DIR)/include/
 BOOST_LIB_DIR = $(BOOST_TOP_DIR)/lib/
 BOOST_LIBS    = -lboost
