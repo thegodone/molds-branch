@@ -867,36 +867,39 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                                  double tmpMuNuLamda15 = tmpMuNu11*fockMatrix[moJ][lambda];
                                  double tmpMuNuLamda16 = tmpMuNu12*fockMatrix[moB][lambda];
                                  for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
-                                    OrbitalType orbitalSigma = atomB.GetValence(sigma-firstAOIndexB);
                                     gamma = this->twoElecsTwoAtomCores[A]
                                                                       [B]
                                                                       [mu-firstAOIndexA]
                                                                       [nu-firstAOIndexA]
                                                                       [lambda-firstAOIndexB]
                                                                       [sigma-firstAOIndexB];
-   
+  
+                                    double c1 = lambda != sigma ? 1.0 : 0.0;
+                                    double c2 = mu     != nu    ? 1.0 : 0.0;
+                                    double c3 = c1*c2;
                                     value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
                                     value += gamma*tmpMuNuLamda02*fockMatrix[moI][sigma];
                                     value -= gamma*tmpMuNuLamda03*fockMatrix[moJ][sigma];
                                     value -= gamma*tmpMuNuLamda04*fockMatrix[moB][sigma];
-                                    if(lambda != sigma){
-                                       value += gamma*tmpMuNuLamda05*fockMatrix[moJ][sigma];
-                                       value += gamma*tmpMuNuLamda06*fockMatrix[moA][sigma];
-                                       value -= gamma*tmpMuNuLamda07*fockMatrix[moI][sigma];
-                                       value -= gamma*tmpMuNuLamda08*fockMatrix[moA][sigma];
-                                    }
-                                    if(mu != nu){
-                                       value += gamma*tmpMuNuLamda09*fockMatrix[moB][sigma];
-                                       value += gamma*tmpMuNuLamda10*fockMatrix[moI][sigma];
-                                       value -= gamma*tmpMuNuLamda11*fockMatrix[moJ][sigma];
-                                       value -= gamma*tmpMuNuLamda12*fockMatrix[moB][sigma];
-                                    }
-                                    if(mu != nu && lambda != sigma){
-                                       value += gamma*tmpMuNuLamda13*fockMatrix[moJ][sigma];
-                                       value += gamma*tmpMuNuLamda14*fockMatrix[moA][sigma];
-                                       value -= gamma*tmpMuNuLamda15*fockMatrix[moI][sigma];
-                                       value -= gamma*tmpMuNuLamda16*fockMatrix[moA][sigma];
-                                    }
+
+                                    //if(lambda != sigma)
+                                    value += c1*gamma*tmpMuNuLamda05*fockMatrix[moJ][sigma];
+                                    value += c1*gamma*tmpMuNuLamda06*fockMatrix[moA][sigma];
+                                    value -= c1*gamma*tmpMuNuLamda07*fockMatrix[moI][sigma];
+                                    value -= c1*gamma*tmpMuNuLamda08*fockMatrix[moA][sigma];
+
+                                    //if(mu != nu)
+                                    value += c2*gamma*tmpMuNuLamda09*fockMatrix[moB][sigma];
+                                    value += c2*gamma*tmpMuNuLamda10*fockMatrix[moI][sigma];
+                                    value -= c2*gamma*tmpMuNuLamda11*fockMatrix[moJ][sigma];
+                                    value -= c2*gamma*tmpMuNuLamda12*fockMatrix[moB][sigma];
+
+                                    //if(mu != nu && lambda != sigma)
+                                    value += c3*gamma*tmpMuNuLamda13*fockMatrix[moJ][sigma];
+                                    value += c3*gamma*tmpMuNuLamda14*fockMatrix[moA][sigma];
+                                    value -= c3*gamma*tmpMuNuLamda15*fockMatrix[moI][sigma];
+                                    value -= c3*gamma*tmpMuNuLamda16*fockMatrix[moA][sigma];
+
                                  }
                               }
                            }
