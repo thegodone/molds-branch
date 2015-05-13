@@ -21,7 +21,11 @@
 #define INCLUDED_BLAS
 namespace MolDS_wrappers{
 //typedef intptr_t molds_blas_int;
+#ifdef __FCC_VERSION
+typedef int molds_blas_int;
+#else
 typedef intptr_t molds_blas_int;
+#endif
 // Blas is singleton
 class Blas: public MolDS_base::PrintController, private MolDS_base::Uncopyable{
 public:

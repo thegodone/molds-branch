@@ -3400,10 +3400,24 @@ void ZindoS::CalcAuxiliaryVector(double* y,
                                               &(q[nonRedundantQIndeces.size()]),
                                               y);
    stringstream ompErrors;
-#pragma omp parallel
-#pragma omp single nowait
+#ifdef __FCC_VERSION
+   #pragma omp parallel for schedule(auto)
    for(int i=0; i<nonRedundantQIndeces.size(); i++){
-#pragma omp task
+      try{
+         int moI = nonRedundantQIndeces[i].moI;
+         int moJ = nonRedundantQIndeces[i].moJ;
+         y[i] += q[i]/this->GetNNRElement(moI, moJ, moI, moJ);
+      }
+      catch(MolDSException ex){
+         #pragma omp critical
+         ex.Serialize(ompErrors);
+      }
+   }
+#else
+   #pragma omp parallel
+   #pragma omp single nowait
+   for(int i=0; i<nonRedundantQIndeces.size(); i++){
+      #pragma omp task
       {
          try{
             int moI = nonRedundantQIndeces[i].moI;
@@ -3411,11 +3425,12 @@ void ZindoS::CalcAuxiliaryVector(double* y,
             y[i] += q[i]/this->GetNNRElement(moI, moJ, moI, moJ);
          }
          catch(MolDSException ex){
-#pragma omp critical
+            #pragma omp critical
             ex.Serialize(ompErrors);
          }
       }
    }
+#endif
    // Exception throwing for omp-region
    if(!ompErrors.str().empty()){
       throw MolDSException::Deserialize(ompErrors);

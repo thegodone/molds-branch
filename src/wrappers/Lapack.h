@@ -20,7 +20,11 @@
 #define INCLUDED_LAPACK
 namespace MolDS_wrappers{
 //typedef intptr_t molds_lapack_int;
+#ifdef __FCC_VERSION
+typedef int molds_lapack_int;
+#else
 typedef intptr_t molds_lapack_int;
+#endif
 // Lapacke is singleton
 class Lapack: public MolDS_base::PrintController, private MolDS_base::Uncopyable{
 public:
