@@ -39,6 +39,7 @@ REQUIREMENTS:
     Valid versions of the mpi compilers are Intel MPI 4.0.2, Open MPI 1.4.5, or later.
     Valid versions of the wrapped c++ compilers are icpc 12.0.4(MkL 10.3 update 4), 
     g++ 4.4, or later because the MolDS is implemented with openMP 3.0. 
+    For the K-computer and FX10, Fujitsu C++ compiler, mpiFCCpx, is available.
 
    -Boost C++ Libraries
     Boost C++ Libraries  builded with MPI is needed.
@@ -95,6 +96,13 @@ COMPILE:
       
       Then, just type: 
       $ make -f Makefile_GNU 
+
+   Case iv) Fujitsu C++ compiler on K-computer of FX10
+      Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
+      Boost C++ Libraries in the K-computer or FX10. 
+
+      Then, just type: 
+      $ make -f Makefile_FX10
 
    For all case, the compile succeeded if you could fine "molds" in the "src" directory. 
    If you want to clean the compilation, type 
