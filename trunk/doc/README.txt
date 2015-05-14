@@ -117,7 +117,7 @@ COMPILE:
    III) Mac OS X
          For mac OS X, the openMPI wrapping Intel compiler is only tested. 
          The dynamic library of boost should be added to your .bashrc,
-         i.e., (write following line to your .bashrc)
+         i.e., write following line to your .bashrc:
             export DYLD_LIBRARY_PATH=/usr/local/boost/lib:$DYLD_LIBRARY_PATH
          so, LDFLAGS in the makefiles should be empty.
          Besides, "-fvisibility=hidden" is needed to be added to CFLAGS in the makefiles.
