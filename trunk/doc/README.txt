@@ -32,6 +32,10 @@
    to run on huge cluster system by using OpenMP/MPI hybrid parallelization technique.
 
 ==============================================================================
+PLATFORMS: 
+   Linux clusters, K-computer, FX10, and Mac OS X.
+
+==============================================================================
 REQUIREMENTS:
    -Compilers:
     MolDS requires C++ mpi compiler (e.g. Intel MPI or Open MPI) 
@@ -63,50 +67,68 @@ REQUIREMENTS:
     An example of manually building of the openBLAS 0.2.5 by M.F. is shown in:
     http://d.hatena.ne.jp/futofuji/20130627/p1
 
+    In the case that you compile molds on the K-computer or FX10, 
+    the linear algebra package builted in K-computer or FX10 should be used.
+    So, you do not need to install BLAS and LAPACK by yourself.
+
 ==============================================================================
 COMPILE:
    GNUMake is used to compile the MolDS in the "src" directory of the MolDS package.
-   MolDS officially suport the following three cases.
+   MolDS officially suport the following cases.
 
-   Case i) The Intel mpi compiler (mpiicpc) wrapping the Intel c++ compiler (icpc)
-      Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
-      Boost C++ Libraries in your systems.
+   I) Linux clusters
+      Case i) The Intel mpi compiler (mpiicpc) wrapping the Intel c++ compiler (icpc)
+         Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
+         Boost C++ Libraries in your systems.
 
-      To compile MolDS on 32 bits machine,
-      $ make INTEL=32
+         To compile MolDS on 32 bits machine,
+         $ make INTEL=32
 
-      To compile MolDS on 64 bits machine,
-      $ make INTEL=64
-   
-   Case ii) The openMPI compiler (mpicxx) wrapping the Intel c++ compiler (icpc)
-      Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
-      Boost C++ Libraries in your systems.
-
-      To compile MolDS on 32 bits machine,
-      $ make INTEL=32 CC=mpicxx
-
-      To compile MolDS on 64 bits machine,
-      $ make INTEL=64 CC=mpicxx
-   
-   Case iii) The openMPI compiler (mpicxx) wrapping the GNU c++ compiler (g++):
-      Change the "BOOST_TOP_DIR" in "Makefile_GNU" to the top directory of the 
-      Boost C++ Libraries in your systems.
-      Change the "OPENBLAS_TOP_DIR" in "Makefile_GNU" to the top directory of the 
-      OpneBLAS in your systems.
+         To compile MolDS on 64 bits machine,
+         $ make INTEL=64
       
-      Then, just type: 
-      $ make -f Makefile_GNU 
+      Case ii) The openMPI compiler (mpicxx) wrapping the Intel c++ compiler (icpc)
+         Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
+         Boost C++ Libraries in your systems.
 
-   Case iv) Fujitsu C++ compiler on K-computer of FX10
-      Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
-      Boost C++ Libraries in the K-computer or FX10. 
+         To compile MolDS on 32 bits machine,
+         $ make INTEL=32 CC=mpicxx
 
-      Then, just type: 
-      $ make -f Makefile_FX10
+         To compile MolDS on 64 bits machine,
+         $ make INTEL=64 CC=mpicxx
+      
+      Case iii) The openMPI compiler (mpicxx) wrapping the GNU c++ compiler (g++):
+         Change the "BOOST_TOP_DIR" in "Makefile_GNU" to the top directory of the 
+         Boost C++ Libraries in your systems.
+         Change the "OPENBLAS_TOP_DIR" in "Makefile_GNU" to the top directory of the 
+         OpneBLAS in your systems.
+         
+         Then, just type: 
+         $ make -f Makefile_GNU 
 
-   For all case, the compile succeeded if you could fine "molds" in the "src" directory. 
+   II) K-computer or FX10
+         Fujitsu C++ compiler on K-computer of FX10
+         Change the "BOOST_TOP_DIR" in Makefile to the top directory of the 
+         Boost C++ Libraries in the K-computer or FX10. 
+
+         Then, just type: 
+         $ make -f Makefile_FX10
+
+   III) Mac OS X
+         For mac OS X, the openMPI wrapping Intel compiler is only tested. 
+         The dynamic library of boost should be added to your .bashrc,
+         i.e., (write following line to your .bashrc)
+            export DYLD_LIBRARY_PATH=/usr/local/boost/lib:$DYLD_LIBRARY_PATH
+         so, LDFLAGS in the makefiles should be empty.
+         Besides, "-fvisibility=hidden" is needed to be added to CFLAGS in the makefiles.
+         
+         e.g., (for openMPI wrapping Intel compiler)
+         $ make INTEL=64 CC=mpicxx CFLAGS="-O2 -fvisibility=hidden" LDFLAGS=""
+
+   For above all cases, the compile succeeded if you could fine "molds" in the "src" directory. 
    If you want to clean the compilation, type 
    $ make clean
+
    If you want to compile MolDS in debug-mode, 
    -g, -rdynamic(for function names in backtrace) and -DMOLDS_DBG should be added to CFLAGS,
    namely, hit the following command:
