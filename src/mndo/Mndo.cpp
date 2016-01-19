@@ -794,6 +794,7 @@ double Mndo::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
 
 // right-upper part is only calculated by this method.
 void Mndo::CalcCISMatrix(double** matrixCIS) const{
+
    this->OutputLog(this->messageStartCalcCISMatrix);
    double ompStartTime = omp_get_wtime();
    // MPI setting of each rank
@@ -808,6 +809,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
          int moI = this->GetActiveOccIndex(*this->molecule, k);
          int moA = this->GetActiveVirIndex(*this->molecule, k);
+	 double *fockMatrix_moI = fockMatrix[moI];
+	 double *fockMatrix_moA = fockMatrix[moA];
          stringstream ompErrors;
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
          for(int l=k; l<this->matrixCISdimension; l++){
@@ -815,6 +818,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                // single excitation from J-th (occupied)MO to B-th (virtual)MO
                int moJ = this->GetActiveOccIndex(*this->molecule, l);
                int moB = this->GetActiveVirIndex(*this->molecule, l);
+	       double *fockMatrix_moJ = fockMatrix[moJ];
+	       double *fockMatrix_moB = fockMatrix[moB];
                double value=0.0;
                 
                // Fast algorith, but this is not easy to read. 
@@ -831,74 +836,73 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
       
                      double gamma = 0.0;
                      if(A!=B){
+		       double**** gamma_AB = this->twoElecsTwoAtomCores[A][B];
                         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+			   double*** gamma_ABm = gamma_AB[mu-firstAOIndexA];
                            for(int nu=mu; nu<=lastAOIndexA; nu++){
-                              double tmpMuNu01 = 2.0*fockMatrix[moA][mu]
-                                                    *fockMatrix[moI][nu];
-                              double tmpMuNu02 = 2.0*fockMatrix[moJ][mu]
-                                                    *fockMatrix[moB][nu];
-                              double tmpMuNu03 = fockMatrix[moA][mu]
-                                                *fockMatrix[moB][nu];
-                              double tmpMuNu04 = fockMatrix[moI][mu]
-                                                *fockMatrix[moJ][nu];
-                              double tmpMuNu09 = 2.0*fockMatrix[moI][mu]
-                                                    *fockMatrix[moA][nu];
-                              double tmpMuNu10 = 2.0*fockMatrix[moB][mu]
-                                                    *fockMatrix[moJ][nu];
-                              double tmpMuNu11 = fockMatrix[moB][mu]
-                                                *fockMatrix[moA][nu];
-                              double tmpMuNu12 = fockMatrix[moJ][mu]
-                                                *fockMatrix[moI][nu];
+			      double** gamma_ABmn = gamma_ABm[nu-firstAOIndexA];
+                              double tmpMuNu01 = 2.0*fockMatrix_moA[mu]
+                                                    *fockMatrix_moI[nu];
+                              double tmpMuNu02 = 2.0*fockMatrix_moJ[mu]
+                                                    *fockMatrix_moB[nu];
+                              double tmpMuNu03 = fockMatrix_moA[mu]
+                                                *fockMatrix_moB[nu];
+                              double tmpMuNu04 = fockMatrix_moI[mu]
+                                                *fockMatrix_moJ[nu];
+                              double tmpMuNu09 = 2.0*fockMatrix_moI[mu]
+                                                    *fockMatrix_moA[nu];
+                              double tmpMuNu10 = 2.0*fockMatrix_moB[mu]
+                                                    *fockMatrix_moJ[nu];
+                              double tmpMuNu11 = fockMatrix_moB[mu]
+                                                *fockMatrix_moA[nu];
+                              double tmpMuNu12 = fockMatrix_moJ[mu]
+                                                *fockMatrix_moI[nu];
                               for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                                 double tmpMuNuLamda01 = tmpMuNu01*fockMatrix[moJ][lambda];
-                                 double tmpMuNuLamda02 = tmpMuNu02*fockMatrix[moA][lambda];
-                                 double tmpMuNuLamda03 = tmpMuNu03*fockMatrix[moI][lambda];
-                                 double tmpMuNuLamda04 = tmpMuNu04*fockMatrix[moA][lambda];
-                                 double tmpMuNuLamda05 = tmpMuNu01*fockMatrix[moB][lambda];
-                                 double tmpMuNuLamda06 = tmpMuNu02*fockMatrix[moI][lambda];
-                                 double tmpMuNuLamda07 = tmpMuNu03*fockMatrix[moJ][lambda];
-                                 double tmpMuNuLamda08 = tmpMuNu04*fockMatrix[moB][lambda];
-                                 double tmpMuNuLamda09 = tmpMuNu09*fockMatrix[moJ][lambda];
-                                 double tmpMuNuLamda10 = tmpMuNu10*fockMatrix[moA][lambda];
-                                 double tmpMuNuLamda11 = tmpMuNu11*fockMatrix[moI][lambda];
-                                 double tmpMuNuLamda12 = tmpMuNu12*fockMatrix[moA][lambda];
-                                 double tmpMuNuLamda13 = tmpMuNu09*fockMatrix[moB][lambda];
-                                 double tmpMuNuLamda14 = tmpMuNu10*fockMatrix[moI][lambda];
-                                 double tmpMuNuLamda15 = tmpMuNu11*fockMatrix[moJ][lambda];
-                                 double tmpMuNuLamda16 = tmpMuNu12*fockMatrix[moB][lambda];
+                                 double tmpMuNuLamda01 = tmpMuNu01*fockMatrix_moJ[lambda];
+                                 double tmpMuNuLamda02 = tmpMuNu02*fockMatrix_moA[lambda];
+                                 double tmpMuNuLamda03 = tmpMuNu03*fockMatrix_moI[lambda];
+                                 double tmpMuNuLamda04 = tmpMuNu04*fockMatrix_moA[lambda];
+                                 double tmpMuNuLamda05 = tmpMuNu01*fockMatrix_moB[lambda];
+                                 double tmpMuNuLamda06 = tmpMuNu02*fockMatrix_moI[lambda];
+                                 double tmpMuNuLamda07 = tmpMuNu03*fockMatrix_moJ[lambda];
+                                 double tmpMuNuLamda08 = tmpMuNu04*fockMatrix_moB[lambda];
+                                 double tmpMuNuLamda09 = tmpMuNu09*fockMatrix_moJ[lambda];
+                                 double tmpMuNuLamda10 = tmpMuNu10*fockMatrix_moA[lambda];
+                                 double tmpMuNuLamda11 = tmpMuNu11*fockMatrix_moI[lambda];
+                                 double tmpMuNuLamda12 = tmpMuNu12*fockMatrix_moA[lambda];
+                                 double tmpMuNuLamda13 = tmpMuNu09*fockMatrix_moB[lambda];
+                                 double tmpMuNuLamda14 = tmpMuNu10*fockMatrix_moI[lambda];
+                                 double tmpMuNuLamda15 = tmpMuNu11*fockMatrix_moJ[lambda];
+                                 double tmpMuNuLamda16 = tmpMuNu12*fockMatrix_moB[lambda];
+				 double* gamma_ABmnl = gamma_ABmn[lambda-firstAOIndexB];
                                  for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
-                                    gamma = this->twoElecsTwoAtomCores[A]
-                                                                      [B]
-                                                                      [mu-firstAOIndexA]
-                                                                      [nu-firstAOIndexA]
-                                                                      [lambda-firstAOIndexB]
-                                                                      [sigma-firstAOIndexB];
+                                    gamma = gamma_ABmnl[sigma-firstAOIndexB];
   
                                     double c1 = lambda != sigma ? 1.0 : 0.0;
                                     double c2 = mu     != nu    ? 1.0 : 0.0;
                                     double c3 = c1*c2;
-                                    value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
-                                    value += gamma*tmpMuNuLamda02*fockMatrix[moI][sigma];
-                                    value -= gamma*tmpMuNuLamda03*fockMatrix[moJ][sigma];
-                                    value -= gamma*tmpMuNuLamda04*fockMatrix[moB][sigma];
+                                    value += gamma*tmpMuNuLamda01*fockMatrix_moB[sigma];
+                                    value += gamma*tmpMuNuLamda02*fockMatrix_moI[sigma];
+                                    value -= gamma*tmpMuNuLamda03*fockMatrix_moJ[sigma];
+                                    value -= gamma*tmpMuNuLamda04*fockMatrix_moB[sigma];
 
                                     //if(lambda != sigma)
-                                    value += c1*gamma*tmpMuNuLamda05*fockMatrix[moJ][sigma];
-                                    value += c1*gamma*tmpMuNuLamda06*fockMatrix[moA][sigma];
-                                    value -= c1*gamma*tmpMuNuLamda07*fockMatrix[moI][sigma];
-                                    value -= c1*gamma*tmpMuNuLamda08*fockMatrix[moA][sigma];
+                                    value += c1*gamma*tmpMuNuLamda05*fockMatrix_moJ[sigma];
+                                    value += c1*gamma*tmpMuNuLamda06*fockMatrix_moA[sigma];
+                                    value -= c1*gamma*tmpMuNuLamda07*fockMatrix_moI[sigma];
+                                    value -= c1*gamma*tmpMuNuLamda08*fockMatrix_moA[sigma];
 
                                     //if(mu != nu)
-                                    value += c2*gamma*tmpMuNuLamda09*fockMatrix[moB][sigma];
-                                    value += c2*gamma*tmpMuNuLamda10*fockMatrix[moI][sigma];
-                                    value -= c2*gamma*tmpMuNuLamda11*fockMatrix[moJ][sigma];
-                                    value -= c2*gamma*tmpMuNuLamda12*fockMatrix[moB][sigma];
+                                    value += c2*gamma*tmpMuNuLamda09*fockMatrix_moB[sigma];
+                                    value += c2*gamma*tmpMuNuLamda10*fockMatrix_moI[sigma];
+                                    value -= c2*gamma*tmpMuNuLamda11*fockMatrix_moJ[sigma];
+                                    value -= c2*gamma*tmpMuNuLamda12*fockMatrix_moB[sigma];
 
                                     //if(mu != nu && lambda != sigma)
-                                    value += c3*gamma*tmpMuNuLamda13*fockMatrix[moJ][sigma];
-                                    value += c3*gamma*tmpMuNuLamda14*fockMatrix[moA][sigma];
-                                    value -= c3*gamma*tmpMuNuLamda15*fockMatrix[moI][sigma];
-                                    value -= c3*gamma*tmpMuNuLamda16*fockMatrix[moA][sigma];
+                                    value += c3*gamma*tmpMuNuLamda13*fockMatrix_moJ[sigma];
+                                    value += c3*gamma*tmpMuNuLamda14*fockMatrix_moA[sigma];
+                                    value -= c3*gamma*tmpMuNuLamda15*fockMatrix_moI[sigma];
+                                    value -= c3*gamma*tmpMuNuLamda16*fockMatrix_moA[sigma];
 
                                  }
                               }
@@ -908,13 +912,13 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                      else{
                         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
                            for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                              double tmpMuNu01 = 2.0*fockMatrix[moA][mu]
-                                                    *fockMatrix[moI][nu];
-                              double tmpMuNu02 = fockMatrix[moA][mu]
-                                                *fockMatrix[moB][nu];
+                              double tmpMuNu01 = 2.0*fockMatrix_moA[mu]
+                                                    *fockMatrix_moI[nu];
+                              double tmpMuNu02 = fockMatrix_moA[mu]
+                                                *fockMatrix_moB[nu];
                               for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                                 double tmpMuNuLamda01 = tmpMuNu01*fockMatrix[moJ][lambda];
-                                 double tmpMuNuLamda02 = tmpMuNu02*fockMatrix[moI][lambda];
+                                 double tmpMuNuLamda01 = tmpMuNu01*fockMatrix_moJ[lambda];
+                                 double tmpMuNuLamda02 = tmpMuNu02*fockMatrix_moI[lambda];
                                  for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
                                     if(mu==nu && lambda==sigma){
                                        OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
@@ -929,8 +933,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                                     else{
                                        gamma = 0.0;
                                     }
-                                    value += gamma*tmpMuNuLamda01*fockMatrix[moB][sigma];
-                                    value -= gamma*tmpMuNuLamda02*fockMatrix[moJ][sigma];
+                                    value += gamma*tmpMuNuLamda01*fockMatrix_moB[sigma];
+                                    value -= gamma*tmpMuNuLamda02*fockMatrix_moJ[sigma];
                                  }  
                               }
                            }
@@ -957,7 +961,7 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
          }
       } // end of if(calcRank == mpiRank)
    } // end of k-loop
-
+   
    if(mpiRank == mpiHeadRank){
       for(int k=0; k<this->matrixCISdimension; k++){
          int blockIndex = k/mpiSize;
@@ -982,7 +986,6 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
    int     num  = this->matrixCISdimension*this->matrixCISdimension;
    double* buff = &this->matrixCIS[0][0];
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
-
    /*
    // Slow algorith, but this is easy to read. Fast altorithm is also written above.
    for(int k=0; k<this->matrixCISdimension; k++){
@@ -1013,6 +1016,7 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                                                 % (ompEndTime - ompStartTime)
                                                 % this->messageUnitSec.c_str()
                                                 % this->messageDoneCalcCISMatrix.c_str());
+
 }
 
 // \epsilon_{r}^{kl} in (1) in [PT_1997].
