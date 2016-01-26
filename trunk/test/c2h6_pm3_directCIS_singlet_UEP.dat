@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:2  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/26(Thu.) 13:28:11  <<<<<
 
 
 **********  START: Parse input  **********
@@ -134,13 +134,13 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.011196[s].
+	Elapsed time(omp) for the SCF = 0.011297[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027925[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026085[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -355,45 +355,45 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-1.126068e-03	5.031786e-03	-3.464105e-03	6.211837e-03		-2.862181e-03	1.278953e-02	-8.804879e-03	1.578892e-02	3.039169e-05
 
 				| k-th eigenstate | i-th atom | atom type | core charge[a.u.] | Mulliken charge[a.u.]| 
-	Mulliken charge:	3	0	C	4.000000e+00	-1.533023e-01
-	Mulliken charge:	3	1	C	4.000000e+00	-2.723753e-02
-	Mulliken charge:	3	2	H	1.000000e+00	-5.589606e-02
-	Mulliken charge:	3	3	H	1.000000e+00	3.053823e-02
-	Mulliken charge:	3	4	H	1.000000e+00	6.428706e-02
-	Mulliken charge:	3	5	H	1.000000e+00	1.309622e-01
-	Mulliken charge:	3	6	H	1.000000e+00	8.314724e-02
-	Mulliken charge:	3	7	H	1.000000e+00	-7.249882e-02
+	Mulliken charge:	3	0	C	4.000000e+00	-1.617911e-01
+	Mulliken charge:	3	1	C	4.000000e+00	-1.605218e-01
+	Mulliken charge:	3	2	H	1.000000e+00	5.160573e-02
+	Mulliken charge:	3	3	H	1.000000e+00	4.479066e-02
+	Mulliken charge:	3	4	H	1.000000e+00	6.369311e-02
+	Mulliken charge:	3	5	H	1.000000e+00	4.441919e-02
+	Mulliken charge:	3	6	H	1.000000e+00	6.930767e-02
+	Mulliken charge:	3	7	H	1.000000e+00	4.849655e-02
 
-	Mulliken charge:	20	0	C	4.000000e+00	-3.360425e-02
-	Mulliken charge:	20	1	C	4.000000e+00	-1.645173e-01
-	Mulliken charge:	20	2	H	1.000000e+00	-3.174176e-02
-	Mulliken charge:	20	3	H	1.000000e+00	9.266745e-02
-	Mulliken charge:	20	4	H	1.000000e+00	8.303053e-02
-	Mulliken charge:	20	5	H	1.000000e+00	6.495705e-02
-	Mulliken charge:	20	6	H	1.000000e+00	6.650413e-02
-	Mulliken charge:	20	7	H	1.000000e+00	-7.729582e-02
+	Mulliken charge:	20	0	C	4.000000e+00	6.784134e-03
+	Mulliken charge:	20	1	C	4.000000e+00	2.725589e-02
+	Mulliken charge:	20	2	H	1.000000e+00	-5.896173e-02
+	Mulliken charge:	20	3	H	1.000000e+00	1.962930e-02
+	Mulliken charge:	20	4	H	1.000000e+00	1.207635e-02
+	Mulliken charge:	20	5	H	1.000000e+00	2.830912e-02
+	Mulliken charge:	20	6	H	1.000000e+00	2.682903e-02
+	Mulliken charge:	20	7	H	1.000000e+00	-6.192209e-02
 
 				| k-th eigenstate | i-th atom | atom type | Unpaired electron population[a.u.] | 
-	Unpaired electron population(UEP):	3	0	C	1.004204e+00
-	Unpaired electron population(UEP):	3	1	C	1.265832e+00
-	Unpaired electron population(UEP):	3	2	H	2.440941e-01
-	Unpaired electron population(UEP):	3	3	H	3.361990e-01
-	Unpaired electron population(UEP):	3	4	H	2.099696e-01
-	Unpaired electron population(UEP):	3	5	H	3.263558e-01
-	Unpaired electron population(UEP):	3	6	H	4.841367e-01
-	Unpaired electron population(UEP):	3	7	H	2.469540e-01
+	Unpaired electron population(UEP):	3	0	C	6.928538e-01
+	Unpaired electron population(UEP):	3	1	C	6.933122e-01
+	Unpaired electron population(UEP):	3	2	H	3.491613e-01
+	Unpaired electron population(UEP):	3	3	H	1.361573e-01
+	Unpaired electron population(UEP):	3	4	H	1.523301e-01
+	Unpaired electron population(UEP):	3	5	H	1.536328e-01
+	Unpaired electron population(UEP):	3	6	H	1.257517e-01
+	Unpaired electron population(UEP):	3	7	H	3.565874e-01
 
-	Unpaired electron population(UEP):	20	0	C	7.356056e-01
-	Unpaired electron population(UEP):	20	1	C	5.615854e-01
-	Unpaired electron population(UEP):	20	2	H	2.741914e-01
-	Unpaired electron population(UEP):	20	3	H	1.371743e-01
-	Unpaired electron population(UEP):	20	4	H	1.535948e-01
-	Unpaired electron population(UEP):	20	5	H	1.006008e-01
-	Unpaired electron population(UEP):	20	6	H	1.013331e-01
-	Unpaired electron population(UEP):	20	7	H	2.323780e-01
+	Unpaired electron population(UEP):	20	0	C	7.448804e-01
+	Unpaired electron population(UEP):	20	1	C	7.237946e-01
+	Unpaired electron population(UEP):	20	2	H	2.486452e-01
+	Unpaired electron population(UEP):	20	3	H	4.160849e-02
+	Unpaired electron population(UEP):	20	4	H	6.131755e-02
+	Unpaired electron population(UEP):	20	5	H	4.086993e-02
+	Unpaired electron population(UEP):	20	6	H	3.893106e-02
+	Unpaired electron population(UEP):	20	7	H	2.514752e-01
 
 
-	Elapsed time(omp) for the CIS = 0.039719[s].
+	Elapsed time(omp) for the CIS = 0.037339[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -403,9 +403,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.053983[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0526268[s].  <<<<<
+     >>>>>  CPU time: 0.051626[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.050504[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

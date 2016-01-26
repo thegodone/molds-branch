@@ -1687,22 +1687,26 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
          try{
             for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
                double value = orbitalElectronPopulation[mu][nu];
-               for(int moI=0; moI<numberActiveOcc; moI++){
-                  for(int moA=numberOcc; moA<numberOcc+numberActiveVir; moA++){
-                     int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(moI,moA);
+               for(int i=0; i<numberActiveOcc; i++){
+                  int moI = numberOcc - (i+1);
+                  for(int a=0; a<numberActiveVir; a++){
+                     int moA = numberOcc + a;
+                     int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(i,a);
                      value += pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
                              *(-fockMatrix[moI][mu]*fockMatrix[moI][nu] 
                                +fockMatrix[moA][mu]*fockMatrix[moA][nu]);
                      double tmpVal1=0.0;
-                     for(int moB=numberOcc; moB<numberOcc+numberActiveVir; moB++){
+                     for(int b=0; b<numberActiveVir; b++){
+                        int moB = numberOcc + b;
                         if(moB==moA) continue;
-                        int tmpSDIndex = this->GetSlaterDeterminantIndex(moI,moB);
+                        int tmpSDIndex = this->GetSlaterDeterminantIndex(i,b);
                         tmpVal1 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][nu];
                      }
                      double tmpVal2=0.0;
-                     for(int moJ=0; moJ<numberActiveOcc; moJ++){
+                     for(int j=0; j<numberActiveOcc; j++){
+                        int moJ = numberOcc - (j+1);
                         if(moJ==moI) continue;
-                        int tmpSDIndex = this->GetSlaterDeterminantIndex(moJ,moA);
+                        int tmpSDIndex = this->GetSlaterDeterminantIndex(j,a);
                         tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
                      }
                      value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
@@ -2439,6 +2443,14 @@ void ZindoS::DoCISDirect(){
                                                     this->matrixCISdimension, 
                                                     calcEigenVectors);
    }
+/*
+   printf("hoge-matrixCIS\n");
+   for(int i=0; i<this->matrixCISdimension; i++){
+      for(int j=0; j<this->matrixCISdimension; j++){
+         printf("\t hoge-mat[%d][%d] %e\n",i,j,this->matrixCIS[i][j]);
+      }
+   }
+*/
    this->OutputLog(this->messageDoneDirectCIS);
 }
 
