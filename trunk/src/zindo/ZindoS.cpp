@@ -1212,6 +1212,10 @@ void ZindoS::CalcCISProperties(){
             tmpY += temp*(-dipoleMOs[YAxis][moI][moI]+dipoleMOs[YAxis][moA][moA]);
             tmpZ += temp*(-dipoleMOs[ZAxis][moI][moI]+dipoleMOs[ZAxis][moA][moA]);
          }
+         // charge of electron
+         tmpX *= -1.0;
+         tmpY *= -1.0;
+         tmpZ *= -1.0;
          this->electronicTransitionDipoleMoments[excitedState][excitedState][XAxis] += tmpX;
          this->electronicTransitionDipoleMoments[excitedState][excitedState][YAxis] += tmpY;
          this->electronicTransitionDipoleMoments[excitedState][excitedState][ZAxis] += tmpZ;
@@ -1244,6 +1248,10 @@ void ZindoS::CalcCISProperties(){
             tmpY += tmp*dipoleMOs[YAxis][moA][moI];
             tmpZ += tmp*dipoleMOs[ZAxis][moA][moI];
          }
+         // charge of electron
+         tmpX *= -1.0;
+         tmpY *= -1.0;
+         tmpZ *= -1.0;
          this->electronicTransitionDipoleMoments[excitedState][groundState][XAxis] += tmpX;
          this->electronicTransitionDipoleMoments[excitedState][groundState][YAxis] += tmpY;
          this->electronicTransitionDipoleMoments[excitedState][groundState][ZAxis] += tmpZ;
@@ -1268,6 +1276,10 @@ void ZindoS::CalcCISProperties(){
                   tmpY += tmp*(-dipoleMOs[YAxis][moI][moI]+dipoleMOs[YAxis][moA][moA]);
                   tmpZ += tmp*(-dipoleMOs[ZAxis][moI][moI]+dipoleMOs[ZAxis][moA][moA]);
                }
+               // charge of electron
+               tmpX *= -1.0;
+               tmpY *= -1.0;
+               tmpZ *= -1.0;
                this->electronicTransitionDipoleMoments[destinationExcitedState][departureExcitedState][XAxis] += tmpX;
                this->electronicTransitionDipoleMoments[destinationExcitedState][departureExcitedState][YAxis] += tmpY;
                this->electronicTransitionDipoleMoments[destinationExcitedState][departureExcitedState][ZAxis] += tmpZ;
@@ -1475,6 +1487,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                   }
                }
                temp    = matrixCIS[from-1][l]*matrixCIS[to-1][l];
+               temp *= -1.0; // charge of electron
                valueX += temp*tempX;
                valueY += temp*tempY;
                valueZ += temp*tempZ;
@@ -1513,6 +1526,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                   }
                }
                temp    = this->matrixCIS[to-1][l]*sqrt(2.0);
+               temp *= -1.0; // charge of electron
                valueX += temp*tempX;
                valueY += temp*tempY;
                valueZ += temp*tempZ;
@@ -1551,6 +1565,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                   }
                }
                temp    = matrixCIS[from-1][l]*sqrt(2.0);
+               temp *= -1.0; // charge of electron
                valueX += temp*tempX;
                valueY += temp*tempY;
                valueZ += temp*tempZ;
@@ -1591,6 +1606,7 @@ void ZindoS::CalcElectronicTransitionDipoleMoment(double* transitionDipoleMoment
                   }
                }
                temp    = matrixCIS[from-1][l]*matrixCIS[to-1][l];
+               temp *= -1.0; // charge of electron
                valueX += temp*tempX;
                valueY += temp*tempY;
                valueZ += temp*tempZ;
