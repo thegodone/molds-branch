@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:0  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:13  <<<<<
 
 
 **********  START: Parse input  **********
@@ -129,7 +129,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.011017[s].
+	Elapsed time(omp) for the SCF = 0.011538[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -225,7 +225,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736950e-02	-1.717462e+01
 
-	Elapsed time(omp) for the SCF = 0.003898[s].
+	Elapsed time(omp) for the SCF = 0.003969[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -323,7 +323,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737405e-02	-1.717747e+01
 
-	Elapsed time(omp) for the SCF = 0.004216[s].
+	Elapsed time(omp) for the SCF = 0.004174[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -422,7 +422,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738162e-02	-1.718222e+01
 
-	Elapsed time(omp) for the SCF = 0.004452[s].
+	Elapsed time(omp) for the SCF = 0.006453[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -521,7 +521,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739219e-02	-1.718885e+01
 
-	Elapsed time(omp) for the SCF = 0.004430[s].
+	Elapsed time(omp) for the SCF = 0.004565[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -620,7 +620,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740571e-02	-1.719734e+01
 
-	Elapsed time(omp) for the SCF = 0.004385[s].
+	Elapsed time(omp) for the SCF = 0.004399[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -663,14 +663,14 @@ geometry_end |
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.287968[MB].
+		Max Heap: 0.288504[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.090005[s].  <<<<<
+     >>>>>  CPU time: 0.097616[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.087177[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0964999[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

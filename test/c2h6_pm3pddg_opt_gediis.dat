@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:16  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:30  <<<<<
 
 
 **********  START: Parse input  **********
@@ -131,7 +131,7 @@ h | 1.7519 | -1.0401 | -0.1000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	9.775077e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.088939e-01
 
-	Elapsed time(omp) for the SCF = 0.011108[s].
+	Elapsed time(omp) for the SCF = 0.011638[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1799,14 +1799,14 @@ actual/expected energy change = 1.390946
 
 **********  DONE: Geometry optimization  **********
 	Summary for memory usage:
-		Max Heap: 0.305568[MB].
+		Max Heap: 0.306104[MB].
 		Current Heap(Leaked): 0.010752[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.534779[s].  <<<<<
-     >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.523027[s].  <<<<<
+     >>>>>  CPU time: 0.538764[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.528734[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

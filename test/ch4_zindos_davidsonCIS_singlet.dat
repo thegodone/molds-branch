@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:21  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:36  <<<<<
 
 
 **********  START: Parse input  **********
@@ -118,13 +118,13 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	2.583597e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.214567e-02
 
-	Elapsed time(omp) for the SCF = 0.007974[s].
+	Elapsed time(omp) for the SCF = 0.008134[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
 **********  START: ZINDO/S-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000479[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000501[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -168,38 +168,38 @@ h | 1.004043 | -0.188679 | 0.100000 | h | 1.004062 | 1.324529 | 0.873652 | h | 1
 
 				| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Total dipole moment:	0	3.877069e-03	-8.426091e-03	-8.480709e-02	8.531280e-02		9.854527e-03	-2.141699e-02	-2.155582e-01	2.168435e-01
-	Total dipole moment:	1	-3.610135e-01	1.220102e-01	-5.678411e-01	6.838572e-01		-9.176049e-01	3.101190e-01	-1.443308e+00	1.738192e+00
-	Total dipole moment:	2	7.518703e-01	-2.205313e-01	-7.964606e-02	7.875827e-01		1.911064e+00	-5.605347e-01	-2.024401e-01	2.001836e+00
-	Total dipole moment:	3	-3.681255e-01	6.375348e-02	3.048316e-01	4.821859e-01		-9.356819e-01	1.620452e-01	7.748049e-01	1.225594e+00
-	Total dipole moment:	4	-1.289029e-01	5.217222e-02	-4.014627e-01	4.248649e-01		-3.276387e-01	1.326086e-01	-1.020417e+00	1.079899e+00
+	Total dipole moment:	1	3.687676e-01	-1.388624e-01	3.982269e-01	5.602294e-01		9.373139e-01	-3.529530e-01	1.012192e+00	1.423961e+00
+	Total dipole moment:	2	-7.441161e-01	2.036791e-01	-8.996812e-02	7.767163e-01		-1.891355e+00	5.177007e-01	-2.286762e-01	1.974216e+00
+	Total dipole moment:	3	3.758797e-01	-8.060566e-02	-4.744458e-01	6.106403e-01		9.553910e-01	-2.048792e-01	-1.205921e+00	1.552093e+00
+	Total dipole moment:	4	1.366571e-01	-6.902440e-02	2.318485e-01	2.778368e-01		3.473477e-01	-1.754426e-01	5.893003e-01	7.061908e-01
 
 					| i-th eigenstate |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |
 	Electronic dipole moment:	0	3.877069e-03	-8.425151e-03	-1.788210e-01	1.790613e-01		9.854527e-03	-2.141460e-02	-4.545176e-01	4.551285e-01
-	Electronic dipole moment:	1	-3.610135e-01	1.220111e-01	-6.618550e-01	7.637208e-01		-9.176049e-01	3.101214e-01	-1.682268e+00	1.941185e+00
-	Electronic dipole moment:	2	7.518703e-01	-2.205303e-01	-1.736599e-01	8.025586e-01		1.911064e+00	-5.605323e-01	-4.413996e-01	2.039901e+00
-	Electronic dipole moment:	3	-3.681255e-01	6.375442e-02	2.108178e-01	4.289815e-01		-9.356819e-01	1.620476e-01	5.358454e-01	1.090362e+00
-	Electronic dipole moment:	4	-1.289029e-01	5.217316e-02	-4.954766e-01	5.146213e-01		-3.276387e-01	1.326110e-01	-1.259376e+00	1.308037e+00
+	Electronic dipole moment:	1	3.687676e-01	-1.388614e-01	3.042130e-01	4.978128e-01		9.373139e-01	-3.529506e-01	7.732325e-01	1.265314e+00
+	Electronic dipole moment:	2	-7.441161e-01	2.036800e-01	-1.839820e-01	7.931228e-01		-1.891355e+00	5.177031e-01	-4.676357e-01	2.015917e+00
+	Electronic dipole moment:	3	3.758797e-01	-8.060472e-02	-5.684597e-01	6.862427e-01		9.553910e-01	-2.048768e-01	-1.444881e+00	1.744255e+00
+	Electronic dipole moment:	4	1.366571e-01	-6.902346e-02	1.378347e-01	2.060043e-01		3.473477e-01	-1.754402e-01	3.503409e-01	5.236109e-01
 
 					| from and to eigenstates |  x[a.u.]  |  y[a.u.]  |  z[a.u.]  |  magnitude[a.u.]  |		|  x[debye]  |  y[debye]  |  z[debye]  |  magnitude[debye]  |  oscillator strength[a.u.]  |
-	Transition dipole moment:	0 -> 1		-1.167033e-01	3.750904e-01	3.501770e-01	5.262474e-01		-2.966302e-01	9.533849e-01	8.900612e-01	1.337588e+00	9.447376e-02
-	Transition dipole moment:	0 -> 2		5.277442e-01	1.178533e-01	-3.904887e-02	5.421514e-01		1.341392e+00	2.995534e-01	-9.925235e-02	1.378012e+00	1.031899e-01
-	Transition dipole moment:	0 -> 3		4.178107e-02	-3.778504e-01	4.029615e-01	5.539806e-01		1.061969e-01	-9.604002e-01	1.024226e+00	1.408079e+00	1.106075e-01
-	Transition dipole moment:	0 -> 4		1.003970e-02	1.724657e-02	4.710944e-02	5.116189e-02		2.551838e-02	4.383642e-02	1.197403e-01	1.300406e-01	1.008163e-03
+	Transition dipole moment:	0 -> 1		1.167033e-01	-3.750904e-01	-3.501770e-01	5.262474e-01		2.966302e-01	-9.533849e-01	-8.900612e-01	1.337588e+00	9.447376e-02
+	Transition dipole moment:	0 -> 2		-5.277442e-01	-1.178533e-01	3.904887e-02	5.421514e-01		-1.341392e+00	-2.995534e-01	9.925235e-02	1.378012e+00	1.031899e-01
+	Transition dipole moment:	0 -> 3		-4.178107e-02	3.778504e-01	-4.029615e-01	5.539806e-01		-1.061969e-01	9.604002e-01	-1.024226e+00	1.408079e+00	1.106075e-01
+	Transition dipole moment:	0 -> 4		-1.003970e-02	-1.724657e-02	-4.710944e-02	5.116189e-02		-2.551838e-02	-4.383642e-02	-1.197403e-01	1.300406e-01	1.008163e-03
 
 
-	Elapsed time(omp) for the CIS = 0.002171[s].
+	Elapsed time(omp) for the CIS = 0.002199[s].
 **********  DONE: ZINDO/S-CIS  **********
 
 
 	Summary for memory usage:
-		Max Heap: 0.034688[MB].
+		Max Heap: 0.036728[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.012594[s].  <<<<<
+     >>>>>  CPU time: 0.012374[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0114851[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0122881[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

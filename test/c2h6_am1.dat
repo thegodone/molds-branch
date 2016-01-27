@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:28:54  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:7  <<<<<
 
 
 **********  START: Parse input  **********
@@ -119,7 +119,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029984e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579942e-02
 
-	Elapsed time(omp) for the SCF = 0.011033[s].
+	Elapsed time(omp) for the SCF = 0.010844[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -129,9 +129,9 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.013972[s].  <<<<<
+     >>>>>  CPU time: 0.013551[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0125461[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.014158[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

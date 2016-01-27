@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:3  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:17  <<<<<
 
 
 **********  START: Parse input  **********
@@ -127,7 +127,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.013793[s].
+	Elapsed time(omp) for the SCF = 0.012641[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -220,7 +220,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744364e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258069e-02
 
-	Elapsed time(omp) for the SCF = 0.004389[s].
+	Elapsed time(omp) for the SCF = 0.003935[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -315,7 +315,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744225e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257880e-02
 
-	Elapsed time(omp) for the SCF = 0.004364[s].
+	Elapsed time(omp) for the SCF = 0.004323[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -410,7 +410,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744057e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257619e-02
 
-	Elapsed time(omp) for the SCF = 0.005582[s].
+	Elapsed time(omp) for the SCF = 0.004239[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -506,7 +506,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.743826e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257150e-02
 
-	Elapsed time(omp) for the SCF = 0.005277[s].
+	Elapsed time(omp) for the SCF = 0.004434[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -602,7 +602,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.743544e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.256621e-02
 
-	Elapsed time(omp) for the SCF = 0.005500[s].
+	Elapsed time(omp) for the SCF = 0.004423[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -613,7 +613,7 @@ geometry_end |
 		Electronic
 		(inc. core rep.):	-1.212599e+01	-3.299676e+02
 		Total:            	-1.212596e+01	-3.299667e+02
-		Error:            	5.011248e-09	1.363641e-07
+		Error:            	5.011241e-09	1.363639e-07
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	C	-1.158961e-05	3.772319e-02	-1.675533e-05		-6.132957e-06	1.996225e-02	-8.866536e-06
@@ -645,14 +645,14 @@ geometry_end |
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.287968[MB].
+		Max Heap: 0.288504[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.100175[s].  <<<<<
-     >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.100348[s].  <<<<<
+     >>>>>  CPU time: 0.093758[s].  <<<<<
+     >>>>>  Elapsed time: 0[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.096452[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
