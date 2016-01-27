@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:22  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:39  <<<<<
 
 
 **********  START: Parse input  **********
@@ -101,7 +101,7 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 	Mulliken charge(SCF):	0	1	H	1.000000e+00	5.963189e-03
 	Mulliken charge(SCF):	0	2	H	1.000000e+00	2.543555e-03
 
-	Elapsed time(omp) for the SCF = 0.009632[s].
+	Elapsed time(omp) for the SCF = 0.009754[s].
 **********  DONE: CNDO/2-SCF  **********
 
 
@@ -111,9 +111,9 @@ s | -0.559299 | 0.471698 | 0.300000 | h | 0.750701 | 0.471698 | 0.000000 | h | -
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.011122[s].  <<<<<
+     >>>>>  CPU time: 0.011243[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0106211[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0112638[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

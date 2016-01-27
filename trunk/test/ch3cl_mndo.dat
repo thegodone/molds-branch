@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:20  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:33  <<<<<
 
 
 **********  START: Parse input  **********
@@ -115,7 +115,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	1.922293e-01	1.206257e+02
 
-	Elapsed time(omp) for the SCF = 0.010231[s].
+	Elapsed time(omp) for the SCF = 0.010523[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -125,9 +125,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.012911[s].  <<<<<
+     >>>>>  CPU time: 0.012933[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0115292[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0123639[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

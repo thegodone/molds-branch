@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:29:19  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:33  <<<<<
 
 
 **********  START: Parse input  **********
@@ -124,7 +124,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.599962e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.221356e-02
 
-	Elapsed time(omp) for the SCF = 0.009791[s].
+	Elapsed time(omp) for the SCF = 0.010485[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -220,7 +220,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.597877e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.219385e-02
 
-	Elapsed time(omp) for the SCF = 0.004074[s].
+	Elapsed time(omp) for the SCF = 0.004041[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -317,7 +317,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.591677e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.213525e-02
 
-	Elapsed time(omp) for the SCF = 0.004013[s].
+	Elapsed time(omp) for the SCF = 0.004030[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -415,7 +415,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.581391e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.203809e-02
 
-	Elapsed time(omp) for the SCF = 0.004318[s].
+	Elapsed time(omp) for the SCF = 0.004435[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -513,7 +513,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.567138e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.190367e-02
 
-	Elapsed time(omp) for the SCF = 0.004237[s].
+	Elapsed time(omp) for the SCF = 0.004258[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -611,7 +611,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	1.549040e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	2.173332e-02
 
-	Elapsed time(omp) for the SCF = 0.005166[s].
+	Elapsed time(omp) for the SCF = 0.004256[s].
 **********  DONE: ZINDO/S-SCF  **********
 
 
@@ -654,14 +654,14 @@ geometry_end |
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.082720[MB].
+		Max Heap: 0.087712[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.05392[s].  <<<<<
+     >>>>>  CPU time: 0.05401[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0515919[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.05703[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

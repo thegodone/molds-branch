@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:28:57  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:10  <<<<<
 
 
 **********  START: Parse input  **********
@@ -126,7 +126,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029984e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579942e-02
 
-	Elapsed time(omp) for the SCF = 0.010880[s].
+	Elapsed time(omp) for the SCF = 0.011184[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -219,7 +219,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029936e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579918e-02
 
-	Elapsed time(omp) for the SCF = 0.004000[s].
+	Elapsed time(omp) for the SCF = 0.003974[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -314,7 +314,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029935e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579888e-02
 
-	Elapsed time(omp) for the SCF = 0.004255[s].
+	Elapsed time(omp) for the SCF = 0.004670[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -410,7 +410,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.029976e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579789e-02
 
-	Elapsed time(omp) for the SCF = 0.005592[s].
+	Elapsed time(omp) for the SCF = 0.004432[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -506,7 +506,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.030067e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579711e-02
 
-	Elapsed time(omp) for the SCF = 0.005273[s].
+	Elapsed time(omp) for the SCF = 0.004486[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -602,7 +602,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	7.030185e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	7.579611e-02
 
-	Elapsed time(omp) for the SCF = 0.004502[s].
+	Elapsed time(omp) for the SCF = 0.004427[s].
 **********  DONE: AM1-SCF  **********
 
 
@@ -645,14 +645,14 @@ geometry_end |
 	========== DONE: MD step 5
 **********  DONE: Molecular dynamics  **********
 	Summary for memory usage:
-		Max Heap: 0.287968[MB].
+		Max Heap: 0.288504[MB].
 		Current Heap(Leaked): 0.000000[MB].
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.102676[s].  <<<<<
+     >>>>>  CPU time: 0.092374[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0995049[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0903358[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

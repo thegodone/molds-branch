@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2014/11/5(Wed.) 16:28:0  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:38:51  <<<<<
 
 
 **********  START: Parse input  **********
@@ -121,9 +121,9 @@ inertia | origin | 1.0 | 2.0 | 3.0 | inertia_end | geometry | c | 0.16025 | 6.24
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.007325[s].  <<<<<
+     >>>>>  CPU time: 0.007278[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.00699496[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00872707[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
