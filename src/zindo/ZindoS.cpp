@@ -3602,6 +3602,9 @@ double ZindoS::GetGammaRElement(int moI, int moJ, int moK, int moL) const{
    double value=0.0;
    if(moI==moK && moJ==moL){
       value = moI==moJ ? 1.0 : this->energiesMO[moJ]-this->energiesMO[moI];
+      if(value==0e0){
+         value = 1.0e-16;
+      }
    }
    return value;
 }
