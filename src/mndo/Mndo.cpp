@@ -2260,25 +2260,27 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                   moI = redundantQIndeces[i-nonRedundantQIndeces.size()].moI;
                   moJ = redundantQIndeces[i-nonRedundantQIndeces.size()].moJ;
                }
+               double *fockMatrix_moI = this->fockMatrix[moI];
+               double *fockMatrix_moJ = this->fockMatrix[moJ];
                // calc. static first order Fock;
                for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
                   for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
                      for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
                         for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
 
-                           double temp1 = this->fockMatrix[moI][mu]
-                                         *this->fockMatrix[moJ][nu]
+                           double temp1 = fockMatrix_moI[mu]
+                                         *fockMatrix_moJ[nu]
                                          *this->orbitalElectronPopulation[lambda][sigma]
-                                         +this->fockMatrix[moI][lambda]
-                                         *this->fockMatrix[moJ][sigma]
+                                         +fockMatrix_moI[lambda]
+                                         *fockMatrix_moJ[sigma]
                                          *this->orbitalElectronPopulation[mu][nu]
                                          -0.5
-                                         *this->fockMatrix[moI][mu]
-                                         *this->fockMatrix[moJ][lambda]
+                                         *fockMatrix_moI[mu]
+                                         *fockMatrix_moJ[lambda]
                                          *this->orbitalElectronPopulation[nu][sigma]
                                          -0.5
-                                         *this->fockMatrix[moI][lambda]
-                                         *this->fockMatrix[moJ][mu]
+                                         *fockMatrix_moI[lambda]
+                                         *fockMatrix_moJ[mu]
                                          *this->orbitalElectronPopulation[nu][sigma];
                            staticFirstOrderFock[i] += temp1*diatomicTwoElecsTwoCores1stDerivs[mu-firstAOIndexA]
                                                                                              [nu-firstAOIndexA]
@@ -2288,8 +2290,8 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                         } //sigma-loop
                      } // lambda-loop
 
-                     double temp2 = this->fockMatrix[moI][mu]
-                                   *this->fockMatrix[moJ][nu]
+                     double temp2 = fockMatrix_moI[mu]
+                                   *fockMatrix_moJ[nu]
                                    *coreChargeB
                                    *diatomicTwoElecsTwoCores1stDerivs[mu-firstAOIndexA]
                                                                      [nu-firstAOIndexA]
@@ -2304,8 +2306,8 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
                   for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
                      
-                     double temp3 = this->fockMatrix[moI][lambda]
-                                   *this->fockMatrix[moJ][sigma]
+                     double temp3 = fockMatrix_moI[lambda]
+                                   *fockMatrix_moJ[sigma]
                                    *coreChargeA
                                    *diatomicTwoElecsTwoCores1stDerivs[s]
                                                                      [s]
@@ -2323,10 +2325,10 @@ void Mndo::CalcStaticFirstOrderFock(double* staticFirstOrderFock,
                                                                            atomA.GetValence(mu-firstAOIndexA)) 
                                                 +atomB.GetBondingParameter(this->theory, 
                                                                            atomB.GetValence(lambda-firstAOIndexB))); 
-                     double temp4 = ( this->fockMatrix[moI][mu]
-                                     *this->fockMatrix[moJ][lambda]
-                                     +this->fockMatrix[moI][lambda]
-                                     *this->fockMatrix[moJ][mu]
+                     double temp4 = ( fockMatrix_moI[mu]
+                                     *fockMatrix_moJ[lambda]
+                                     +fockMatrix_moI[lambda]
+                                     *fockMatrix_moJ[mu]
                                     )
                                     *bondParameter
                                     *diatomicOverlapAOs1stDerivs[mu-firstAOIndexA][lambda-firstAOIndexB][axisA];
@@ -3119,6 +3121,7 @@ double Mndo::GetSmallQElement(int moI,
    double value = 0.0;
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    bool isMoPOcc = moP<numberOcc ? true : false;
+   double *fockMatrix_moI = this->fockMatrix[moI];
    
    for(int A=0; A<molecule->GetAtomVect().size(); A++){
       const Atom& atomA = *molecule->GetAtomVect()[A];
@@ -3148,22 +3151,22 @@ double Mndo::GetSmallQElement(int moI,
                            temp = 4.0*xiOcc[p][nu]*eta[lambda][sigma]
                                  -1.0*xiOcc[p][lambda]*eta[nu][sigma]
                                  -1.0*xiOcc[p][sigma]*eta[nu][lambda];
-                           value += twoElecInt*this->fockMatrix[moI][mu]*temp;
+                           value += twoElecInt*fockMatrix_moI[mu]*temp;
                            temp = 4.0*xiOcc[p][sigma]*eta[mu][nu]
                                  -1.0*xiOcc[p][mu]*eta[sigma][nu]
                                  -1.0*xiOcc[p][nu]*eta[sigma][mu];
-                           value += twoElecInt*this->fockMatrix[moI][lambda]*temp;
+                           value += twoElecInt*fockMatrix_moI[lambda]*temp;
                         }
                         else{
                            int p = moP - numberOcc;
                            temp = 4.0*xiVir[p][nu]*eta[lambda][sigma]
                                  -1.0*xiVir[p][lambda]*eta[sigma][nu]
                                  -1.0*xiVir[p][sigma]*eta[lambda][nu];
-                           value += twoElecInt*this->fockMatrix[moI][mu]*temp;
+                           value += twoElecInt*fockMatrix_moI[mu]*temp;
                            temp = 4.0*xiVir[p][sigma]*eta[mu][nu]
                                  -1.0*xiVir[p][mu]*eta[nu][sigma]
                                  -1.0*xiVir[p][nu]*eta[mu][sigma];
-                           value += twoElecInt*this->fockMatrix[moI][lambda]*temp;
+                           value += twoElecInt*fockMatrix_moI[lambda]*temp;
                         }
                          
                         if(lambda!=sigma){
@@ -3172,22 +3175,22 @@ double Mndo::GetSmallQElement(int moI,
                               temp = 4.0*xiOcc[p][nu]*eta[sigma][lambda]
                                     -1.0*xiOcc[p][sigma]*eta[nu][lambda]
                                     -1.0*xiOcc[p][lambda]*eta[nu][sigma];
-                              value += twoElecInt*this->fockMatrix[moI][mu]*temp;
+                              value += twoElecInt*fockMatrix_moI[mu]*temp;
                               temp = 4.0*xiOcc[p][lambda]*eta[mu][nu]
                                     -1.0*xiOcc[p][mu]*eta[lambda][nu]
                                     -1.0*xiOcc[p][nu]*eta[lambda][mu];
-                              value += twoElecInt*this->fockMatrix[moI][sigma]*temp;
+                              value += twoElecInt*fockMatrix_moI[sigma]*temp;
                            }
                            else{
                               int p = moP - numberOcc;
                               temp = 4.0*xiVir[p][nu]*eta[sigma][lambda]
                                     -1.0*xiVir[p][sigma]*eta[lambda][nu]
                                     -1.0*xiVir[p][lambda]*eta[sigma][nu];
-                              value += twoElecInt*this->fockMatrix[moI][mu]*temp;
+                              value += twoElecInt*fockMatrix_moI[mu]*temp;
                               temp = 4.0*xiVir[p][lambda]*eta[mu][nu]
                                     -1.0*xiVir[p][mu]*eta[nu][lambda]
                                     -1.0*xiVir[p][nu]*eta[mu][lambda];
-                              value += twoElecInt*this->fockMatrix[moI][sigma]*temp;
+                              value += twoElecInt*fockMatrix_moI[sigma]*temp;
                            }
                         }
                         
@@ -3197,22 +3200,22 @@ double Mndo::GetSmallQElement(int moI,
                               temp = 4.0*xiOcc[p][mu]*eta[lambda][sigma]
                                     -1.0*xiOcc[p][lambda]*eta[mu][sigma]
                                     -1.0*xiOcc[p][sigma]*eta[mu][lambda];
-                              value += twoElecInt*this->fockMatrix[moI][nu]*temp;
+                              value += twoElecInt*fockMatrix_moI[nu]*temp;
                               temp = 4.0*xiOcc[p][sigma]*eta[nu][mu]
                                     -1.0*xiOcc[p][nu]*eta[sigma][mu]
                                     -1.0*xiOcc[p][mu]*eta[sigma][nu];
-                              value += twoElecInt*this->fockMatrix[moI][lambda]*temp;
+                              value += twoElecInt*fockMatrix_moI[lambda]*temp;
                            }
                            else{
                               int p = moP - numberOcc;
                               temp = 4.0*xiVir[p][mu]*eta[lambda][sigma]
                                     -1.0*xiVir[p][lambda]*eta[sigma][mu]
                                     -1.0*xiVir[p][sigma]*eta[lambda][mu];
-                              value += twoElecInt*this->fockMatrix[moI][nu]*temp;
+                              value += twoElecInt*fockMatrix_moI[nu]*temp;
                               temp = 4.0*xiVir[p][sigma]*eta[nu][mu]
                                     -1.0*xiVir[p][nu]*eta[mu][sigma]
                                     -1.0*xiVir[p][mu]*eta[nu][sigma];
-                              value += twoElecInt*this->fockMatrix[moI][lambda]*temp;
+                              value += twoElecInt*fockMatrix_moI[lambda]*temp;
                            }
                         }
 
@@ -3222,22 +3225,22 @@ double Mndo::GetSmallQElement(int moI,
                               temp = 4.0*xiOcc[p][mu]*eta[sigma][lambda]
                                     -1.0*xiOcc[p][sigma]*eta[mu][lambda]
                                     -1.0*xiOcc[p][lambda]*eta[mu][sigma];
-                              value += twoElecInt*this->fockMatrix[moI][nu]*temp;
+                              value += twoElecInt*fockMatrix_moI[nu]*temp;
                               temp = 4.0*xiOcc[p][lambda]*eta[nu][mu]
                                     -1.0*xiOcc[p][nu]*eta[lambda][mu]
                                     -1.0*xiOcc[p][mu]*eta[lambda][nu];
-                              value += twoElecInt*this->fockMatrix[moI][sigma]*temp;
+                              value += twoElecInt*fockMatrix_moI[sigma]*temp;
                            }
                            else{
                               int p = moP - numberOcc;
                               temp = 4.0*xiVir[p][mu]*eta[sigma][lambda]
                                     -1.0*xiVir[p][sigma]*eta[lambda][mu]
                                     -1.0*xiVir[p][lambda]*eta[sigma][mu];
-                              value += twoElecInt*this->fockMatrix[moI][nu]*temp;
+                              value += twoElecInt*fockMatrix_moI[nu]*temp;
                               temp = 4.0*xiVir[p][lambda]*eta[nu][mu]
                                     -1.0*xiVir[p][nu]*eta[mu][lambda]
                                     -1.0*xiVir[p][mu]*eta[nu][lambda];
-                              value += twoElecInt*this->fockMatrix[moI][sigma]*temp;
+                              value += twoElecInt*fockMatrix_moI[sigma]*temp;
                            }
                         }
                         
@@ -3283,7 +3286,7 @@ double Mndo::GetSmallQElement(int moI,
                                  -1.0*xiVir[p][lambda]*eta[sigma][nu]
                                  -1.0*xiVir[p][sigma]*eta[lambda][nu];
                         }
-                        value += twoElecInt*this->fockMatrix[moI][mu]*temp;
+                        value += twoElecInt*fockMatrix_moI[mu]*temp;
                      }  
                   }
                }
@@ -3298,6 +3301,11 @@ double Mndo::GetSmallQElement(int moI,
 // that is, 4.0(ij|kl) - (ik|jl) - (il|jk).
 double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
    double value = 0.0;
+
+   double* fockMatrix_moI = this->fockMatrix[moI];
+   double* fockMatrix_moJ = this->fockMatrix[moJ];
+   double* fockMatrix_moK = this->fockMatrix[moK];
+   double* fockMatrix_moL = this->fockMatrix[moL];
 
    // Fast algorith, but this is not easy to read. 
    // Slow algorithm is alos written below.
@@ -3315,34 +3323,34 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
                    tmpMN13 = 0.0, tmpMN14 = 0.0, tmpMN15 = 0.0, 
                    tmpMN16 = 0.0, tmpMN17 = 0.0, tmpMN18 = 0.0;
             tmpMN01 = 4.0
-                     *this->fockMatrix[moI][mu]
-                     *this->fockMatrix[moJ][nu];
+                     *fockMatrix_moI[mu]
+                     *fockMatrix_moJ[nu];
             tmpMN02 = 4.0
-                     *this->fockMatrix[moK][mu]
-                     *this->fockMatrix[moL][nu];
-            tmpMN03 = this->fockMatrix[moI][mu]
-                     *this->fockMatrix[moK][nu];
-            tmpMN04 = this->fockMatrix[moJ][mu]
-                     *this->fockMatrix[moL][nu];
-            tmpMN05 = this->fockMatrix[moI][mu]
-                     *this->fockMatrix[moL][nu];
-            tmpMN06 = this->fockMatrix[moJ][mu]
-                     *this->fockMatrix[moK][nu];
+                     *fockMatrix_moK[mu]
+                     *fockMatrix_moL[nu];
+            tmpMN03 = fockMatrix_moI[mu]
+                     *fockMatrix_moK[nu];
+            tmpMN04 = fockMatrix_moJ[mu]
+                     *fockMatrix_moL[nu];
+            tmpMN05 = fockMatrix_moI[mu]
+                     *fockMatrix_moL[nu];
+            tmpMN06 = fockMatrix_moJ[mu]
+                     *fockMatrix_moK[nu];
             if(mu != nu){
                tmpMN13 = 4.0
-                        *this->fockMatrix[moI][nu]
-                        *this->fockMatrix[moJ][mu];
+                        *fockMatrix_moI[nu]
+                        *fockMatrix_moJ[mu];
                tmpMN14 = 4.0
-                        *this->fockMatrix[moK][nu]
-                        *this->fockMatrix[moL][mu];
-               tmpMN15 = this->fockMatrix[moI][nu]
-                        *this->fockMatrix[moK][mu];
-               tmpMN16 = this->fockMatrix[moJ][nu]
-                        *this->fockMatrix[moL][mu];
-               tmpMN17 = this->fockMatrix[moI][nu]
-                        *this->fockMatrix[moL][mu];
-               tmpMN18 = this->fockMatrix[moJ][nu]
-                        *this->fockMatrix[moK][mu];
+                        *fockMatrix_moK[nu]
+                        *fockMatrix_moL[mu];
+               tmpMN15 = fockMatrix_moI[nu]
+                        *fockMatrix_moK[mu];
+               tmpMN16 = fockMatrix_moJ[nu]
+                        *fockMatrix_moL[mu];
+               tmpMN17 = fockMatrix_moI[nu]
+                        *fockMatrix_moL[mu];
+               tmpMN18 = fockMatrix_moJ[nu]
+                        *fockMatrix_moK[mu];
             }
 
             for(int B=A; B<this->molecule->GetAtomVect().size(); B++){
@@ -3358,35 +3366,35 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
                          tmpMNL13 = 0.0, tmpMNL14 = 0.0, tmpMNL15 = 0.0, tmpMNL16 = 0.0, 
                          tmpMNL17 = 0.0, tmpMNL18 = 0.0, tmpMNL19 = 0.0, tmpMNL20 = 0.0,
                          tmpMNL21 = 0.0, tmpMNL22 = 0.0, tmpMNL23 = 0.0, tmpMNL24 = 0.0;
-                  tmpMNL01 = tmpMN01*this->fockMatrix[moK][lambda];
-                  tmpMNL02 = tmpMN02*this->fockMatrix[moI][lambda];
-                  tmpMNL03 = tmpMN03*this->fockMatrix[moJ][lambda];
-                  tmpMNL04 = tmpMN04*this->fockMatrix[moI][lambda];
-                  tmpMNL05 = tmpMN05*this->fockMatrix[moJ][lambda];
-                  tmpMNL06 = tmpMN06*this->fockMatrix[moI][lambda];
-                  tmpMNL07 = tmpMN01*this->fockMatrix[moL][lambda];
-                  tmpMNL08 = tmpMN02*this->fockMatrix[moJ][lambda];
-                  tmpMNL09 = tmpMN03*this->fockMatrix[moL][lambda];
-                  tmpMNL10 = tmpMN04*this->fockMatrix[moK][lambda];
-                  tmpMNL11 = tmpMN05*this->fockMatrix[moK][lambda];
-                  tmpMNL12 = tmpMN06*this->fockMatrix[moL][lambda];
+                  tmpMNL01 = tmpMN01*fockMatrix_moK[lambda];
+                  tmpMNL02 = tmpMN02*fockMatrix_moI[lambda];
+                  tmpMNL03 = tmpMN03*fockMatrix_moJ[lambda];
+                  tmpMNL04 = tmpMN04*fockMatrix_moI[lambda];
+                  tmpMNL05 = tmpMN05*fockMatrix_moJ[lambda];
+                  tmpMNL06 = tmpMN06*fockMatrix_moI[lambda];
+                  tmpMNL07 = tmpMN01*fockMatrix_moL[lambda];
+                  tmpMNL08 = tmpMN02*fockMatrix_moJ[lambda];
+                  tmpMNL09 = tmpMN03*fockMatrix_moL[lambda];
+                  tmpMNL10 = tmpMN04*fockMatrix_moK[lambda];
+                  tmpMNL11 = tmpMN05*fockMatrix_moK[lambda];
+                  tmpMNL12 = tmpMN06*fockMatrix_moL[lambda];
                   tmpMNL01 -= tmpMNL03 + tmpMNL06;
                   tmpMNL04 += tmpMNL05;
                   tmpMNL08 -= tmpMNL10 + tmpMNL12;
                   tmpMNL09 += tmpMNL11;
                   if(mu != nu){
-                     tmpMNL13 = tmpMN13*this->fockMatrix[moK][lambda];
-                     tmpMNL14 = tmpMN14*this->fockMatrix[moI][lambda];
-                     tmpMNL15 = tmpMN15*this->fockMatrix[moJ][lambda];
-                     tmpMNL16 = tmpMN16*this->fockMatrix[moI][lambda];
-                     tmpMNL17 = tmpMN17*this->fockMatrix[moJ][lambda];
-                     tmpMNL18 = tmpMN18*this->fockMatrix[moI][lambda];
-                     tmpMNL19 = tmpMN13*this->fockMatrix[moL][lambda];
-                     tmpMNL20 = tmpMN14*this->fockMatrix[moJ][lambda];
-                     tmpMNL21 = tmpMN15*this->fockMatrix[moL][lambda];
-                     tmpMNL22 = tmpMN16*this->fockMatrix[moK][lambda];
-                     tmpMNL23 = tmpMN17*this->fockMatrix[moK][lambda];
-                     tmpMNL24 = tmpMN18*this->fockMatrix[moL][lambda];
+                     tmpMNL13 = tmpMN13*fockMatrix_moK[lambda];
+                     tmpMNL14 = tmpMN14*fockMatrix_moI[lambda];
+                     tmpMNL15 = tmpMN15*fockMatrix_moJ[lambda];
+                     tmpMNL16 = tmpMN16*fockMatrix_moI[lambda];
+                     tmpMNL17 = tmpMN17*fockMatrix_moJ[lambda];
+                     tmpMNL18 = tmpMN18*fockMatrix_moI[lambda];
+                     tmpMNL19 = tmpMN13*fockMatrix_moL[lambda];
+                     tmpMNL20 = tmpMN14*fockMatrix_moJ[lambda];
+                     tmpMNL21 = tmpMN15*fockMatrix_moL[lambda];
+                     tmpMNL22 = tmpMN16*fockMatrix_moK[lambda];
+                     tmpMNL23 = tmpMN17*fockMatrix_moK[lambda];
+                     tmpMNL24 = tmpMN18*fockMatrix_moL[lambda];
                      tmpMNL13 -= tmpMNL15 + tmpMNL18;
                      tmpMNL16 += tmpMNL17;
                      tmpMNL20 -= tmpMNL22 + tmpMNL24;
@@ -3401,13 +3409,13 @@ double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
                   for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
                      int sigmaOffSet = sigma - firstAOIndexB;
                      double tmpValue = 0.0;
-                     tmpValue += tmpMNL01*this->fockMatrix[moL][sigma];
-                     tmpValue += tmpMNL02*this->fockMatrix[moJ][sigma];
-                     tmpValue -= tmpMNL04*this->fockMatrix[moK][sigma];
+                     tmpValue += tmpMNL01*fockMatrix_moL[sigma];
+                     tmpValue += tmpMNL02*fockMatrix_moJ[sigma];
+                     tmpValue -= tmpMNL04*fockMatrix_moK[sigma];
                      if(lambda != sigma){
-                        tmpValue += tmpMNL07*this->fockMatrix[moK][sigma];
-                        tmpValue += tmpMNL08*this->fockMatrix[moI][sigma];
-                        tmpValue -= tmpMNL09*this->fockMatrix[moJ][sigma];
+                        tmpValue += tmpMNL07*fockMatrix_moK[sigma];
+                        tmpValue += tmpMNL08*fockMatrix_moI[sigma];
+                        tmpValue -= tmpMNL09*fockMatrix_moJ[sigma];
                      }
                      double gamma = 0.0;
                      if(A!=B){

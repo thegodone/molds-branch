@@ -3257,6 +3257,7 @@ double ZindoS::GetSmallQElement(int moI,
    double value = 0.0;
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    bool isMoPOcc = moP<numberOcc ? true : false;
+   double *fockMatrix_moI = this->fockMatrix[moI];
    
    for(int A=0; A<molecule->GetAtomVect().size(); A++){
       const Atom& atomA = *molecule->GetAtomVect()[A];
@@ -3282,12 +3283,12 @@ double ZindoS::GetSmallQElement(int moI,
                      temp = 4.0*xiOcc[p][mu]    *eta[lambda][lambda]
                            -1.0*xiOcc[p][lambda]*eta[mu][lambda]
                            -1.0*xiOcc[p][lambda]*eta[mu][lambda];
-                     value += twoElecInt*this->fockMatrix[moI][mu]*temp;
+                     value += twoElecInt*fockMatrix_moI[mu]*temp;
                      
                      temp = 4.0*xiOcc[p][lambda]*eta[mu][mu]
                            -1.0*xiOcc[p][mu]    *eta[lambda][mu]
                            -1.0*xiOcc[p][mu]    *eta[lambda][mu];
-                     value += twoElecInt*this->fockMatrix[moI][lambda]*temp;
+                     value += twoElecInt*fockMatrix_moI[lambda]*temp;
                      
                   }
                   else{
@@ -3295,12 +3296,12 @@ double ZindoS::GetSmallQElement(int moI,
                      temp = 4.0*xiVir[p][mu]    *eta[lambda][lambda]
                            -1.0*xiVir[p][lambda]*eta[lambda][mu]
                            -1.0*xiVir[p][lambda]*eta[lambda][mu];
-                     value += twoElecInt*this->fockMatrix[moI][mu]*temp;
+                     value += twoElecInt*fockMatrix_moI[mu]*temp;
                      
                      temp = 4.0*xiVir[p][lambda]*eta[mu][mu]
                            -1.0*xiVir[p][mu]    *eta[mu][lambda]
                            -1.0*xiVir[p][mu]    *eta[mu][lambda];
-                     value += twoElecInt*this->fockMatrix[moI][lambda]*temp;
+                     value += twoElecInt*fockMatrix_moI[lambda]*temp;
                      
                   }
                }
@@ -3343,7 +3344,7 @@ double ZindoS::GetSmallQElement(int moI,
                                  -1.0*xiVir[p][lambda]*eta[sigma][nu]
                                  -1.0*xiVir[p][sigma]*eta[lambda][nu];
                         }
-                        value += twoElecInt*this->fockMatrix[moI][mu]*temp;
+                        value += twoElecInt*fockMatrix_moI[mu]*temp;
                      }  
                   }
                }
@@ -3671,6 +3672,10 @@ double ZindoS::GetKRElement(int moI, int moJ, int moK, int moL) const{
 // that is, 4.0(ij|kl) - (ik|jl) - (il|jk).
 double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
    double value = 0.0;
+   double *fockMatrix_moI = this->fockMatrix[moI];
+   double *fockMatrix_moJ = this->fockMatrix[moJ];
+   double *fockMatrix_moK = this->fockMatrix[moK];
+   double *fockMatrix_moL = this->fockMatrix[moL];
 
    // Fast algorith, but this is not easy to read. 
    // Slow algorithm is alos written below.
@@ -3681,41 +3686,41 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
 
       for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
          OrbitalType orbitalMu = atomA.GetValence(mu - firstAOIndexA);
-         double tmpM01 = this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moJ][mu];
-         double tmpM02 = this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moL][mu];
-         double tmpM03 = this->fockMatrix[moJ][mu]
-                        *this->fockMatrix[moK][mu];
-         double tmpM04 = this->fockMatrix[moI][mu]
-                        *this->fockMatrix[moK][mu];
-         double tmpM05 = this->fockMatrix[moJ][mu]
-                        *this->fockMatrix[moL][mu];
-         double tmpM06 = this->fockMatrix[moK][mu]
-                        *this->fockMatrix[moL][mu];
+         double tmpM01 = fockMatrix_moI[mu]
+                        *fockMatrix_moJ[mu];
+         double tmpM02 = fockMatrix_moI[mu]
+                        *fockMatrix_moL[mu];
+         double tmpM03 = fockMatrix_moJ[mu]
+                        *fockMatrix_moK[mu];
+         double tmpM04 = fockMatrix_moI[mu]
+                        *fockMatrix_moK[mu];
+         double tmpM05 = fockMatrix_moJ[mu]
+                        *fockMatrix_moL[mu];
+         double tmpM06 = fockMatrix_moK[mu]
+                        *fockMatrix_moL[mu];
 
          // A=B && (mu==lambda && nu==sigma for (mu nu|lamba sigma))
          for(int nu=mu+1; nu<=lastAOIndexA; nu++){
             OrbitalType orbitalNu = atomA.GetValence(nu - firstAOIndexA);
             double tmpValue = 0.0;
             tmpValue -= 4.0*tmpM01 
-                       *this->fockMatrix[moK][nu]
-                       *this->fockMatrix[moL][nu];
+                       *fockMatrix_moK[nu]
+                       *fockMatrix_moL[nu];
             tmpValue += 6.0*tmpM02
-                       *this->fockMatrix[moJ][nu]
-                       *this->fockMatrix[moK][nu];
+                       *fockMatrix_moJ[nu]
+                       *fockMatrix_moK[nu];
             tmpValue += 6.0*tmpM03
-                       *this->fockMatrix[moL][nu]
-                       *this->fockMatrix[moI][nu];
+                       *fockMatrix_moL[nu]
+                       *fockMatrix_moI[nu];
             tmpValue += 6.0*tmpM04
-                       *this->fockMatrix[moJ][nu]
-                       *this->fockMatrix[moL][nu];
+                       *fockMatrix_moJ[nu]
+                       *fockMatrix_moL[nu];
             tmpValue += 6.0*tmpM05
-                       *this->fockMatrix[moI][nu]
-                       *this->fockMatrix[moK][nu];
+                       *fockMatrix_moI[nu]
+                       *fockMatrix_moK[nu];
             tmpValue -= 4.0*tmpM06
-                       *this->fockMatrix[moI][nu]
-                       *this->fockMatrix[moJ][nu];
+                       *fockMatrix_moI[nu]
+                       *fockMatrix_moJ[nu];
 
             double gamma = 0.5*this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
             value += tmpValue*gamma;
@@ -3731,23 +3736,23 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
                OrbitalType orbitalLambda = atomB.GetValence(lambda - firstAOIndexB);
                double tmpValue = 0.0;
                tmpValue += 4.0*tmpM01
-                          *this->fockMatrix[moK][lambda]
-                          *this->fockMatrix[moL][lambda];
+                          *fockMatrix_moK[lambda]
+                          *fockMatrix_moL[lambda];
                tmpValue -= tmpM02
-                          *this->fockMatrix[moJ][lambda]
-                          *this->fockMatrix[moK][lambda];
+                          *fockMatrix_moJ[lambda]
+                          *fockMatrix_moK[lambda];
                tmpValue -= tmpM03
-                          *this->fockMatrix[moI][lambda]
-                          *this->fockMatrix[moL][lambda];
+                          *fockMatrix_moI[lambda]
+                          *fockMatrix_moL[lambda];
                tmpValue -= tmpM04
-                          *this->fockMatrix[moJ][lambda]
-                          *this->fockMatrix[moL][lambda];
+                          *fockMatrix_moJ[lambda]
+                          *fockMatrix_moL[lambda];
                tmpValue -= tmpM05
-                          *this->fockMatrix[moI][lambda]
-                          *this->fockMatrix[moK][lambda];
+                          *fockMatrix_moI[lambda]
+                          *fockMatrix_moK[lambda];
                tmpValue += 4.0*tmpM06
-                          *this->fockMatrix[moI][lambda]
-                          *this->fockMatrix[moJ][lambda];
+                          *fockMatrix_moI[lambda]
+                          *fockMatrix_moJ[lambda];
                double gamma = 0.0;
                if(A!=B){
                   gamma = this->nishimotoMatagaMatrix[A][orbitalMu][B][orbitalLambda];
