@@ -809,8 +809,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
          // single excitation from I-th (occupied)MO to A-th (virtual)MO
          int moI = this->GetActiveOccIndex(*this->molecule, k);
          int moA = this->GetActiveVirIndex(*this->molecule, k);
-	 double *fockMatrix_moI = fockMatrix[moI];
-	 double *fockMatrix_moA = fockMatrix[moA];
+         double *fockMatrix_moI = fockMatrix[moI];
+         double *fockMatrix_moA = fockMatrix[moA];
          stringstream ompErrors;
 #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
          for(int l=k; l<this->matrixCISdimension; l++){
@@ -818,8 +818,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                // single excitation from J-th (occupied)MO to B-th (virtual)MO
                int moJ = this->GetActiveOccIndex(*this->molecule, l);
                int moB = this->GetActiveVirIndex(*this->molecule, l);
-	       double *fockMatrix_moJ = fockMatrix[moJ];
-	       double *fockMatrix_moB = fockMatrix[moB];
+               double *fockMatrix_moJ = fockMatrix[moJ];
+               double *fockMatrix_moB = fockMatrix[moB];
                double value=0.0;
                 
                // Fast algorith, but this is not easy to read. 
@@ -836,11 +836,11 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
       
                      double gamma = 0.0;
                      if(A!=B){
-		       double**** gamma_AB = this->twoElecsTwoAtomCores[A][B];
+                        double**** gamma_AB = this->twoElecsTwoAtomCores[A][B];
                         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-			   double*** gamma_ABm = gamma_AB[mu-firstAOIndexA];
+                           double*** gamma_ABm = gamma_AB[mu-firstAOIndexA];
                            for(int nu=mu; nu<=lastAOIndexA; nu++){
-			      double** gamma_ABmn = gamma_ABm[nu-firstAOIndexA];
+                              double** gamma_ABmn = gamma_ABm[nu-firstAOIndexA];
                               double tmpMuNu01 = 2.0*fockMatrix_moA[mu]
                                                     *fockMatrix_moI[nu];
                               double tmpMuNu02 = 2.0*fockMatrix_moJ[mu]
@@ -874,7 +874,7 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
                                  double tmpMuNuLamda14 = tmpMuNu10*fockMatrix_moI[lambda];
                                  double tmpMuNuLamda15 = tmpMuNu11*fockMatrix_moJ[lambda];
                                  double tmpMuNuLamda16 = tmpMuNu12*fockMatrix_moB[lambda];
-				 double* gamma_ABmnl = gamma_ABmn[lambda-firstAOIndexB];
+                                 double* gamma_ABmnl = gamma_ABmn[lambda-firstAOIndexB];
                                  for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
                                     gamma = gamma_ABmnl[sigma-firstAOIndexB];
   
