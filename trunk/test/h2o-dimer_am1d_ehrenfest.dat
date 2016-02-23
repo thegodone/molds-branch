@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/28(Thu.) 22:33:12  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/2/24(Wed.) 2:45:14  <<<<<
 
 
 **********  START: Parse input  **********
@@ -94,14 +94,14 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 11	7.293159e-08	1.033747e-06	on		
 	SCF iter 12	1.171735e-08	2.234646e-07	on		
 	SCF iter 13	1.122748e-09	5.859867e-08	on		
-	SCF iter 14	1.562961e-10	5.360995e-09	on		
-	SCF iter 15	3.581985e-11	6.402285e-10	on		
-	SCF iter 16	5.779758e-12	1.879463e-10	on		
-	SCF iter 17	2.498321e-12	2.829631e-11	on		
-	SCF iter 18	4.436389e-13	1.259305e-11	on		
-	SCF iter 19	7.203691e-14	1.759482e-12	on		
-	SCF iter 20	2.588477e-14	4.232170e-13	on		
-	SCF iter 21	4.905484e-15	1.365574e-13	on		
+	SCF iter 14	1.562960e-10	5.360991e-09	on		
+	SCF iter 15	3.581975e-11	6.402284e-10	on		
+	SCF iter 16	5.779859e-12	1.879458e-10	on		
+	SCF iter 17	2.498266e-12	2.829770e-11	on		
+	SCF iter 18	4.435389e-13	1.259222e-11	on		
+	SCF iter 19	7.210012e-14	1.760201e-12	on		
+	SCF iter 20	2.598277e-14	4.196643e-13	on		
+	SCF iter 21	4.806620e-15	1.414424e-13	on		
 
 
 
@@ -149,13 +149,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489826e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204958e-01
 
-	Elapsed time(omp) for the SCF = 0.013130[s].
+	Elapsed time(omp) for the SCF = 0.010175[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.009209[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008830[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -302,13 +302,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.118528e-02	5.687100e-02	5.508845e-02	9.428139e-02		1.301000e-01	1.445517e-01	1.400209e-01	2.396394e-01	8.588400e-03
 
 
-	Elapsed time(omp) for the CIS = 0.013477[s].
+	Elapsed time(omp) for the CIS = 0.011206[s].
 **********  DONE: AM1-D-CIS  **********
 
 
 
 	========= Initial conditions 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
 		Electronic populations:  1.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	1.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	0.000000e+00	
 
 		Energies:
@@ -365,14 +365,14 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 11	7.293075e-08	1.033724e-06	on		
 	SCF iter 12	1.171720e-08	2.234638e-07	on		
 	SCF iter 13	1.122736e-09	5.859718e-08	on		
-	SCF iter 14	1.562958e-10	5.360979e-09	on		
-	SCF iter 15	3.581998e-11	6.402134e-10	on		
-	SCF iter 16	5.779603e-12	1.879422e-10	on		
-	SCF iter 17	2.498231e-12	2.829354e-11	on		
-	SCF iter 18	4.435018e-13	1.259154e-11	on		
-	SCF iter 19	7.251559e-14	1.761515e-12	on		
-	SCF iter 20	2.566698e-14	4.238832e-13	on		
-	SCF iter 21	5.218939e-15	1.372236e-13	on		
+	SCF iter 14	1.562957e-10	5.360979e-09	on		
+	SCF iter 15	3.581996e-11	6.402124e-10	on		
+	SCF iter 16	5.779527e-12	1.879431e-10	on		
+	SCF iter 17	2.498280e-12	2.829413e-11	on		
+	SCF iter 18	4.434039e-13	1.259230e-11	on		
+	SCF iter 19	7.211823e-14	1.758968e-12	on		
+	SCF iter 20	2.593210e-14	4.218847e-13	on		
+	SCF iter 21	4.855298e-15	1.385558e-13	on		
 
 
 
@@ -420,13 +420,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489823e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204954e-01
 
-	Elapsed time(omp) for the SCF = 0.007701[s].
+	Elapsed time(omp) for the SCF = 0.005418[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.008883[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008697[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -573,12 +573,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.118516e-02	5.687089e-02	5.508837e-02	9.428121e-02		1.300997e-01	1.445514e-01	1.400207e-01	2.396390e-01	8.588378e-03
 
 
-	Elapsed time(omp) for the CIS = 0.012986[s].
+	Elapsed time(omp) for the CIS = 0.010924[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000007e+00	9.776372e-09	1.435951e-08	6.370943e-07	3.260407e-06	1.000000e+00	4.889307e-08	1.358802e-08	2.350929e-06	5.390411e-08	2.742635e-08	3.044274e-09	7.001247e-08	6.463279e-10	1.103682e-08	4.717514e-09	4.737719e-09	1.499302e-08	3.420327e-08	8.664789e-09	2.306464e-08	8.550114e-09	6.275938e-09	5.658399e-09	1.725280e-09	2.795657e-08	1.796141e-09	6.326707e-10	1.133138e-09	3.522803e-09	1.802864e-09	7.547780e-10	1.947295e-11	1.223344e-09	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	9.776307e-09	1.435942e-08	6.370900e-07	3.260386e-06	9.999933e-01	4.889275e-08	1.358792e-08	2.350913e-06	5.390376e-08	2.742616e-08	3.044255e-09	7.001201e-08	6.463238e-10	1.103675e-08	4.717485e-09	4.737688e-09	1.499292e-08	3.420305e-08	8.664732e-09	2.306449e-08	8.550058e-09	6.275897e-09	5.658361e-09	1.725268e-09	2.795639e-08	1.796129e-09	6.326664e-10	1.133130e-09	3.522780e-09	1.802852e-09	7.547728e-10	1.947289e-11	1.223335e-09	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -593,7 +593,7 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 			VdW correction:   	-1.414072e-03	-3.847918e-02
 			Mean electronic:  	-2.569427e+01	-6.991824e+02
 			Total:            	-2.569427e+01	-6.991823e+02
-			Error:            	-2.446205e-07	-6.656516e-06
+			Error:            	-2.446205e-07	-6.656517e-06
 
 					| i-th | atom type |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |		|  x[angst.]  |  y[angst.]  |  z[angst.]  |
 		Atom coordinates:	0	O	-1.192574e+00	5.333566e-01	1.983515e-08		-6.310829e-01	2.822402e-01	1.049631e-08
@@ -628,13 +628,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 2	1.032425e-07	9.912708e-07			
 	SCF iter 3	4.601530e-08	4.446793e-07			
 	SCF iter 4	2.108463e-08	2.014597e-07			
-	SCF iter 5	9.728673e-09	9.173491e-08			
-	SCF iter 6	2.294215e-11	4.189088e-08	on		
-	SCF iter 7	7.295470e-12	1.035811e-10	on		
-	SCF iter 8	1.532692e-12	2.699827e-11	on		
-	SCF iter 9	1.754312e-13	6.098788e-12	on		
-	SCF iter 10	4.014752e-14	6.290565e-13	on		
-	SCF iter 11	6.097419e-15	1.392092e-13	on		
+	SCF iter 5	9.728673e-09	9.173492e-08			
+	SCF iter 6	2.294280e-11	4.189088e-08	on		
+	SCF iter 7	7.295226e-12	1.035949e-10	on		
+	SCF iter 8	1.532916e-12	2.699628e-11	on		
+	SCF iter 9	1.753566e-13	6.099676e-12	on		
+	SCF iter 10	4.001656e-14	6.277112e-13	on		
+	SCF iter 11	6.146562e-15	1.397437e-13	on		
 
 
 
@@ -682,13 +682,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489815e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204944e-01
 
-	Elapsed time(omp) for the SCF = 0.005794[s].
+	Elapsed time(omp) for the SCF = 0.003982[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.009012[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008642[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -835,12 +835,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.118482e-02	5.687055e-02	5.508812e-02	9.428067e-02		1.300989e-01	1.445505e-01	1.400201e-01	2.396376e-01	8.588311e-03
 
 
-	Elapsed time(omp) for the CIS = 0.013019[s].
+	Elapsed time(omp) for the CIS = 0.010880[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000027e+00	3.903630e-08	5.744038e-08	2.548183e-06	1.304867e-05	1.000000e+00	1.955476e-07	5.434745e-08	9.402139e-06	2.153218e-07	1.101901e-07	1.217127e-08	2.799345e-07	2.586561e-09	4.413133e-08	1.885594e-08	1.893775e-08	5.991855e-08	1.366815e-07	3.462473e-08	9.214921e-08	3.414734e-08	2.506274e-08	2.258238e-08	6.884187e-09	1.114265e-07	7.109358e-09	2.503066e-09	4.475218e-09	1.390950e-08	7.104886e-09	2.968901e-09	7.657408e-11	4.796655e-09	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	3.903526e-08	5.743885e-08	2.548116e-06	1.304832e-05	9.999734e-01	1.955424e-07	5.434600e-08	9.401889e-06	2.153161e-07	1.101872e-07	1.217094e-08	2.799270e-07	2.586492e-09	4.413016e-08	1.885544e-08	1.893725e-08	5.991696e-08	1.366778e-07	3.462381e-08	9.214676e-08	3.414643e-08	2.506208e-08	2.258178e-08	6.884004e-09	1.114236e-07	7.109169e-09	2.503000e-09	4.475099e-09	1.390913e-08	7.104698e-09	2.968822e-09	7.657210e-11	4.796525e-09	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -891,13 +891,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 3	9.202990e-08	8.893502e-07			
 	SCF iter 4	4.216884e-08	4.029143e-07			
 	SCF iter 5	1.945711e-08	1.834668e-07			
-	SCF iter 6	4.588376e-11	8.378005e-08	on		
-	SCF iter 7	1.459084e-11	2.071709e-10	on		
-	SCF iter 8	3.065403e-12	5.399357e-11	on		
-	SCF iter 9	3.508029e-13	1.220002e-11	on		
-	SCF iter 10	7.987085e-14	1.257989e-12	on		
-	SCF iter 11	1.207937e-14	2.778540e-13	on		
-	SCF iter 12	3.931137e-15	3.845437e-14	on		
+	SCF iter 6	4.588389e-11	8.378005e-08	on		
+	SCF iter 7	1.459087e-11	2.071663e-10	on		
+	SCF iter 8	3.065286e-12	5.399370e-11	on		
+	SCF iter 9	3.509217e-13	1.219813e-11	on		
+	SCF iter 10	7.997495e-14	1.258502e-12	on		
+	SCF iter 11	1.181514e-14	2.764553e-13	on		
+	SCF iter 12	3.900323e-15	4.056521e-14	on		
 
 
 
@@ -945,13 +945,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489800e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204927e-01
 
-	Elapsed time(omp) for the SCF = 0.005934[s].
+	Elapsed time(omp) for the SCF = 0.004139[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.008761[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008973[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1098,12 +1098,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.118424e-02	5.686998e-02	5.508771e-02	9.427978e-02		1.300974e-01	1.445491e-01	1.400190e-01	2.396354e-01	8.588200e-03
 
 
-	Elapsed time(omp) for the CIS = 0.012936[s].
+	Elapsed time(omp) for the CIS = 0.011223[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000060e+00	8.759844e-08	1.292512e-07	5.732753e-06	2.938587e-05	1.000000e+00	4.398898e-07	1.222648e-07	2.114935e-05	4.833842e-07	2.497429e-07	2.736470e-08	6.294567e-07	5.824699e-09	9.924311e-08	4.237655e-08	4.256622e-08	1.346351e-07	3.070899e-07	7.779001e-08	2.069673e-07	7.665187e-08	5.625305e-08	5.063776e-08	1.543174e-08	2.493630e-07	1.574441e-08	5.539717e-09	9.875306e-09	3.069042e-08	1.563118e-08	6.513459e-09	1.692621e-10	1.047320e-08	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	8.759319e-08	1.292434e-07	5.732410e-06	2.938411e-05	9.999401e-01	4.398634e-07	1.222575e-07	2.114808e-05	4.833552e-07	2.497279e-07	2.736307e-08	6.294190e-07	5.824351e-09	9.923717e-08	4.237401e-08	4.256367e-08	1.346270e-07	3.070715e-07	7.778535e-08	2.069549e-07	7.664728e-08	5.624968e-08	5.063473e-08	1.543081e-08	2.493480e-07	1.574347e-08	5.539385e-09	9.874714e-09	3.068859e-08	1.563025e-08	6.513068e-09	1.692521e-10	1.047258e-08	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -1154,13 +1154,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 3	1.380428e-07	1.334001e-06			
 	SCF iter 4	6.325213e-08	6.043574e-07			
 	SCF iter 5	2.918506e-08	2.751924e-07			
-	SCF iter 6	6.882450e-11	1.256658e-07	on		
-	SCF iter 7	2.188507e-11	3.107511e-10	on		
-	SCF iter 8	4.598122e-12	8.098388e-11	on		
-	SCF iter 9	5.262939e-13	1.830192e-11	on		
-	SCF iter 10	1.197379e-13	1.887800e-12	on		
-	SCF iter 11	1.774777e-14	4.162479e-13	on		
-	SCF iter 12	5.646109e-15	5.746358e-14	on		
+	SCF iter 6	6.882452e-11	1.256658e-07	on		
+	SCF iter 7	2.188529e-11	3.107504e-10	on		
+	SCF iter 8	4.598117e-12	8.098396e-11	on		
+	SCF iter 9	5.262116e-13	1.830092e-11	on		
+	SCF iter 10	1.200962e-13	1.885493e-12	on		
+	SCF iter 11	1.756489e-14	4.172351e-13	on		
+	SCF iter 12	5.771222e-15	5.806466e-14	on		
 
 
 
@@ -1208,13 +1208,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489779e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204904e-01
 
-	Elapsed time(omp) for the SCF = 0.005936[s].
+	Elapsed time(omp) for the SCF = 0.004620[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.009288[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008935[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1361,12 +1361,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.118343e-02	5.686919e-02	5.508714e-02	9.427853e-02		1.300953e-01	1.445471e-01	1.400176e-01	2.396322e-01	8.588044e-03
 
 
-	Elapsed time(omp) for the CIS = 0.013293[s].
+	Elapsed time(omp) for the CIS = 0.012593[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000107e+00	1.551577e-07	2.298057e-07	1.018993e-05	5.230719e-05	1.000000e+00	7.817957e-07	2.173174e-07	3.758532e-05	8.566342e-07	4.484648e-07	4.859722e-08	1.118057e-06	1.036728e-08	1.763035e-07	7.521404e-08	7.556559e-08	2.389033e-07	5.448486e-07	1.380089e-07	3.670355e-07	1.358280e-07	9.966558e-08	8.959871e-08	2.729222e-08	4.400107e-07	2.737938e-08	9.624863e-09	1.708581e-08	5.309578e-08	2.693330e-08	1.117915e-08	2.943073e-10	1.785561e-08	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	1.551412e-07	2.297812e-07	1.018885e-05	5.230162e-05	9.998935e-01	7.817125e-07	2.172942e-07	3.758131e-05	8.565430e-07	4.484171e-07	4.859205e-08	1.117938e-06	1.036618e-08	1.762847e-07	7.520603e-08	7.555754e-08	2.388779e-07	5.447906e-07	1.379942e-07	3.669964e-07	1.358135e-07	9.965497e-08	8.958916e-08	2.728931e-08	4.399638e-07	2.737647e-08	9.623837e-09	1.708399e-08	5.309012e-08	2.693044e-08	1.117796e-08	2.942760e-10	1.785371e-08	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -1417,13 +1417,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 3	1.840528e-07	1.778616e-06			
 	SCF iter 4	8.433389e-08	8.057814e-07			
 	SCF iter 5	3.891220e-08	3.669077e-07			
-	SCF iter 6	9.176257e-11	1.675460e-07	on		
-	SCF iter 7	2.917845e-11	4.143076e-10	on		
-	SCF iter 8	6.130948e-12	1.079713e-10	on		
-	SCF iter 9	7.015447e-13	2.440825e-11	on		
-	SCF iter 10	1.598833e-13	2.516203e-12	on		
-	SCF iter 11	2.346532e-14	5.545362e-13	on		
-	SCF iter 12	7.592022e-15	7.593925e-14	on		
+	SCF iter 6	9.176293e-11	1.675460e-07	on		
+	SCF iter 7	2.917833e-11	4.143130e-10	on		
+	SCF iter 8	6.130593e-12	1.079708e-10	on		
+	SCF iter 9	7.017737e-13	2.440537e-11	on		
+	SCF iter 10	1.599077e-13	2.516447e-12	on		
+	SCF iter 11	2.368573e-14	5.541654e-13	on		
+	SCF iter 12	7.609896e-15	7.869844e-14	on		
 
 
 
@@ -1471,13 +1471,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489753e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204873e-01
 
-	Elapsed time(omp) for the SCF = 0.006076[s].
+	Elapsed time(omp) for the SCF = 0.004146[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.008795[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008612[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1624,12 +1624,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.118239e-02	5.686817e-02	5.508641e-02	9.427693e-02		1.300927e-01	1.445445e-01	1.400157e-01	2.396281e-01	8.587843e-03
 
 
-	Elapsed time(omp) for the CIS = 0.012884[s].
+	Elapsed time(omp) for the CIS = 0.010817[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000167e+00	2.412896e-07	3.591231e-07	1.591851e-05	8.186211e-05	1.000000e+00	1.221092e-06	3.394734e-07	5.869990e-05	1.333023e-06	7.096089e-07	7.583059e-08	1.745006e-06	1.622343e-08	2.752162e-07	1.172770e-07	1.178553e-07	3.723889e-07	8.491493e-07	2.150698e-07	5.716796e-07	2.113473e-07	1.550478e-07	1.391514e-07	4.236047e-08	6.809434e-07	4.158060e-08	1.460011e-08	2.577613e-08	8.009855e-08	4.041736e-08	1.669081e-08	4.474473e-10	2.642814e-08	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	2.412494e-07	3.590633e-07	1.591586e-05	8.184848e-05	9.998335e-01	1.220889e-06	3.394169e-07	5.869013e-05	1.332801e-06	7.094908e-07	7.581797e-08	1.744715e-06	1.622073e-08	2.751704e-07	1.172575e-07	1.178357e-07	3.723269e-07	8.490080e-07	2.150340e-07	5.715844e-07	2.113121e-07	1.550220e-07	1.391283e-07	4.235342e-08	6.808300e-07	4.157368e-08	1.459768e-08	2.577184e-08	8.008521e-08	4.041063e-08	1.668803e-08	4.473729e-10	2.642374e-08	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -1680,13 +1680,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 3	2.300587e-07	2.223182e-06			
 	SCF iter 4	1.054135e-07	1.007179e-06			
 	SCF iter 5	4.863823e-08	4.586088e-07			
-	SCF iter 6	1.146993e-10	2.094189e-07	on		
-	SCF iter 7	3.647028e-11	5.178663e-10	on		
-	SCF iter 8	7.663729e-12	1.349475e-10	on		
-	SCF iter 9	8.770293e-13	3.051148e-11	on		
-	SCF iter 10	2.000627e-13	3.146833e-12	on		
-	SCF iter 11	2.910098e-14	6.923747e-13	on		
-	SCF iter 12	9.485224e-15	9.526527e-14	on		
+	SCF iter 6	1.146994e-10	2.094189e-07	on		
+	SCF iter 7	3.647029e-11	5.178734e-10	on		
+	SCF iter 8	7.663748e-12	1.349476e-10	on		
+	SCF iter 9	8.770201e-13	3.051182e-11	on		
+	SCF iter 10	1.999145e-13	3.146128e-12	on		
+	SCF iter 11	2.933671e-14	6.933315e-13	on		
+	SCF iter 12	9.454252e-15	9.483679e-14	on		
 
 
 
@@ -1734,13 +1734,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489721e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204836e-01
 
-	Elapsed time(omp) for the SCF = 0.005983[s].
+	Elapsed time(omp) for the SCF = 0.004088[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.008893[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008632[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1887,12 +1887,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.118112e-02	5.686693e-02	5.508551e-02	9.427496e-02		1.300895e-01	1.445414e-01	1.400134e-01	2.396231e-01	8.587597e-03
 
 
-	Elapsed time(omp) for the CIS = 0.012897[s].
+	Elapsed time(omp) for the CIS = 0.010837[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000240e+00	3.454536e-07	5.172277e-07	2.291693e-05	1.181146e-04	1.000000e+00	1.757555e-06	4.886921e-07	8.448006e-05	1.909907e-06	1.037219e-06	1.090155e-07	2.509364e-06	2.340458e-08	3.958580e-07	1.684484e-07	1.693322e-07	5.346644e-07	1.218958e-06	3.087019e-07	8.200386e-07	3.027910e-07	2.220777e-07	1.988966e-07	6.050280e-08	9.690946e-07	5.781913e-08	2.027268e-08	3.554817e-08	1.104635e-07	5.537665e-08	2.272431e-08	6.236149e-10	3.559489e-08	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	3.453707e-07	5.171036e-07	2.291143e-05	1.180863e-04	9.997601e-01	1.757133e-06	4.885749e-07	8.445980e-05	1.909449e-06	1.036970e-06	1.089893e-07	2.508763e-06	2.339897e-08	3.957631e-07	1.684080e-07	1.692916e-07	5.345361e-07	1.218666e-06	3.086278e-07	8.198419e-07	3.027184e-07	2.220244e-07	1.988489e-07	6.048829e-08	9.688621e-07	5.780526e-08	2.026781e-08	3.553964e-08	1.104370e-07	5.536337e-08	2.271886e-08	6.234653e-10	3.558635e-08	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -1943,14 +1943,14 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 3	2.760592e-07	2.667684e-06			
 	SCF iter 4	1.264903e-07	1.208542e-06			
 	SCF iter 5	5.836283e-08	5.502920e-07			
-	SCF iter 6	1.376325e-10	2.512824e-07	on		
-	SCF iter 7	4.376103e-11	6.214098e-10	on		
-	SCF iter 8	9.195877e-12	1.619205e-10	on		
-	SCF iter 9	1.052674e-12	3.661615e-11	on		
-	SCF iter 10	2.399679e-13	3.775353e-12	on		
-	SCF iter 11	3.519481e-14	8.317749e-13	on		
-	SCF iter 12	1.134573e-14	1.142567e-13	on		
-	SCF iter 13	2.871955e-15	3.664430e-14	on		
+	SCF iter 6	1.376326e-10	2.512824e-07	on		
+	SCF iter 7	4.376094e-11	6.214106e-10	on		
+	SCF iter 8	9.195821e-12	1.619200e-10	on		
+	SCF iter 9	1.052743e-12	3.661749e-11	on		
+	SCF iter 10	2.400421e-13	3.775515e-12	on		
+	SCF iter 11	3.510404e-14	8.324647e-13	on		
+	SCF iter 12	1.133561e-14	1.150807e-13	on		
+	SCF iter 13	2.863578e-15	3.619327e-14	on		
 
 
 
@@ -1998,13 +1998,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489682e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204792e-01
 
-	Elapsed time(omp) for the SCF = 0.006291[s].
+	Elapsed time(omp) for the SCF = 0.004303[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.008955[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008648[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -2151,12 +2151,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.117962e-02	5.686546e-02	5.508446e-02	9.427264e-02		1.300856e-01	1.445376e-01	1.400107e-01	2.396172e-01	8.587308e-03
 
 
-	Elapsed time(omp) for the CIS = 0.012998[s].
+	Elapsed time(omp) for the CIS = 0.010853[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000327e+00	4.669954e-07	7.041496e-07	3.118328e-05	1.611437e-04	1.000000e+00	2.390912e-06	6.649233e-07	1.149098e-04	2.584048e-06	1.436020e-06	1.480919e-07	3.409989e-06	3.192485e-08	5.380782e-07	2.285851e-07	2.298705e-07	7.252088e-07	1.653020e-06	4.185759e-07	1.111066e-06	4.096515e-07	3.003649e-07	2.683524e-07	8.155815e-08	1.300797e-06	7.549125e-08	2.642321e-08	4.595541e-08	1.428068e-07	7.103135e-08	2.892712e-08	8.173596e-10	4.472557e-08	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	4.668429e-07	7.039196e-07	3.117309e-05	1.610910e-04	9.996733e-01	2.390131e-06	6.647061e-07	1.148723e-04	2.583204e-06	1.435551e-06	1.480436e-07	3.408876e-06	3.191443e-08	5.379024e-07	2.285104e-07	2.297954e-07	7.249719e-07	1.652480e-06	4.184392e-07	1.110703e-06	4.095177e-07	3.002668e-07	2.682647e-07	8.153152e-08	1.300372e-06	7.546659e-08	2.641458e-08	4.594040e-08	1.427601e-07	7.100815e-08	2.891767e-08	8.170927e-10	4.471096e-08	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -2207,14 +2207,14 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 3	3.220532e-07	3.112108e-06			
 	SCF iter 4	1.475637e-07	1.409864e-06			
 	SCF iter 5	6.808571e-08	6.419532e-07			
-	SCF iter 6	1.605619e-10	2.931345e-07	on		
-	SCF iter 7	5.104973e-11	7.249446e-10	on		
-	SCF iter 8	1.072828e-11	1.888797e-10	on		
-	SCF iter 9	1.228392e-12	4.272516e-11	on		
-	SCF iter 10	2.799455e-13	4.405828e-12	on		
-	SCF iter 11	4.110366e-14	9.703179e-13	on		
-	SCF iter 12	1.325225e-14	1.341193e-13	on		
-	SCF iter 13	3.122657e-15	4.313910e-14	on		
+	SCF iter 6	1.605618e-10	2.931345e-07	on		
+	SCF iter 7	5.104993e-11	7.249387e-10	on		
+	SCF iter 8	1.072843e-11	1.888800e-10	on		
+	SCF iter 9	1.228371e-12	4.272838e-11	on		
+	SCF iter 10	2.797659e-13	4.405298e-12	on		
+	SCF iter 11	4.129753e-14	9.706273e-13	on		
+	SCF iter 12	1.325283e-14	1.332810e-13	on		
+	SCF iter 13	3.120106e-15	4.364911e-14	on		
 
 
 
@@ -2262,13 +2262,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489638e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204741e-01
 
-	Elapsed time(omp) for the SCF = 0.006254[s].
+	Elapsed time(omp) for the SCF = 0.004455[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.008817[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008610[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -2415,12 +2415,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.117788e-02	5.686377e-02	5.508323e-02	9.426997e-02		1.300812e-01	1.445333e-01	1.400076e-01	2.396104e-01	8.586973e-03
 
 
-	Elapsed time(omp) for the CIS = 0.012830[s].
+	Elapsed time(omp) for the CIS = 0.010820[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000427e+00	6.051521e-07	9.199248e-07	4.071530e-05	2.110435e-04	9.999999e-01	3.120841e-06	8.681081e-07	1.499704e-04	3.351628e-06	1.911291e-06	1.929893e-07	4.445532e-06	4.180074e-08	7.016987e-07	2.975185e-07	2.993218e-07	9.434106e-07	2.149859e-06	5.443055e-07	1.443536e-06	5.313356e-07	3.894540e-07	3.469585e-07	1.053396e-07	1.671831e-06	9.394240e-08	3.281482e-08	5.652481e-08	1.756660e-07	8.657438e-08	3.494181e-08	1.023518e-09	5.320746e-08	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	6.048937e-07	9.195321e-07	4.069792e-05	2.109534e-04	9.995730e-01	3.119509e-06	8.677375e-07	1.499064e-04	3.350197e-06	1.910475e-06	1.929069e-07	4.443634e-06	4.178290e-08	7.013991e-07	2.973915e-07	2.991940e-07	9.430078e-07	2.148941e-06	5.440731e-07	1.442920e-06	5.311087e-07	3.892877e-07	3.468104e-07	1.052946e-07	1.671117e-06	9.390229e-08	3.280081e-08	5.650068e-08	1.755910e-07	8.653742e-08	3.492690e-08	1.023081e-09	5.318475e-08	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -2471,14 +2471,14 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 3	3.680394e-07	3.556438e-06			
 	SCF iter 4	1.686332e-07	1.611136e-06			
 	SCF iter 5	7.780654e-08	7.335886e-07			
-	SCF iter 6	1.834875e-10	3.349732e-07	on		
-	SCF iter 7	5.833637e-11	8.284554e-10	on		
+	SCF iter 6	1.834869e-10	3.349732e-07	on		
+	SCF iter 7	5.833635e-11	8.284425e-10	on		
 	SCF iter 8	1.226092e-11	2.158295e-10	on		
-	SCF iter 9	1.404307e-12	4.884071e-11	on		
-	SCF iter 10	3.198979e-13	5.036347e-12	on		
-	SCF iter 11	4.673553e-14	1.109171e-12	on		
-	SCF iter 12	1.508109e-14	1.512729e-13	on		
-	SCF iter 13	3.834152e-15	4.796857e-14	on		
+	SCF iter 9	1.404350e-12	4.884082e-11	on		
+	SCF iter 10	3.197000e-13	5.036413e-12	on		
+	SCF iter 11	4.696309e-14	1.106867e-12	on		
+	SCF iter 12	1.510933e-14	1.546569e-13	on		
+	SCF iter 13	3.753669e-15	4.784367e-14	on		
 
 
 
@@ -2526,13 +2526,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489588e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204683e-01
 
-	Elapsed time(omp) for the SCF = 0.006663[s].
+	Elapsed time(omp) for the SCF = 0.004451[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.008880[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008589[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -2679,12 +2679,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.117592e-02	5.686185e-02	5.508185e-02	9.426693e-02		1.300762e-01	1.445284e-01	1.400041e-01	2.396027e-01	8.586594e-03
 
 
-	Elapsed time(omp) for the CIS = 0.012897[s].
+	Elapsed time(omp) for the CIS = 0.010787[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000541e+00	7.590561e-07	1.164595e-06	5.151041e-05	2.679242e-04	9.999999e-01	3.946972e-06	1.098178e-06	1.896401e-04	4.208272e-06	2.468699e-06	2.436266e-07	5.614440e-06	5.305122e-08	8.865145e-07	3.750547e-07	3.775158e-07	1.188569e-06	2.707790e-06	6.854483e-07	1.816047e-06	6.671677e-07	4.888259e-07	4.340804e-07	1.316358e-07	2.077476e-06	1.124939e-07	3.920326e-08	6.678084e-08	2.075770e-07	1.012218e-07	4.043176e-08	1.238174e-09	6.050163e-08	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	7.586457e-07	1.163965e-06	5.148255e-05	2.677794e-04	9.994592e-01	3.944838e-06	1.097584e-06	1.895376e-04	4.205997e-06	2.467364e-06	2.434949e-07	5.611405e-06	5.302253e-08	8.860352e-07	3.748519e-07	3.773117e-07	1.187926e-06	2.706326e-06	6.850777e-07	1.815065e-06	6.668070e-07	4.885616e-07	4.338457e-07	1.315647e-07	2.076352e-06	1.124331e-07	3.918207e-08	6.674473e-08	2.074648e-07	1.011671e-07	4.040990e-08	1.237505e-09	6.046891e-08	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -2736,13 +2736,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	SCF iter 4	1.896980e-07	1.812351e-06			
 	SCF iter 5	8.752501e-08	8.251943e-07			
 	SCF iter 6	2.064076e-10	3.767964e-07	on		
-	SCF iter 7	6.562018e-11	9.319195e-10	on		
-	SCF iter 8	1.379322e-11	2.427700e-10	on		
-	SCF iter 9	1.579877e-12	5.495915e-11	on		
-	SCF iter 10	3.598837e-13	5.664695e-12	on		
-	SCF iter 11	5.270436e-14	1.247551e-12	on		
-	SCF iter 12	1.690498e-14	1.709506e-13	on		
-	SCF iter 13	4.258278e-15	5.455705e-14	on		
+	SCF iter 7	6.562045e-11	9.319297e-10	on		
+	SCF iter 8	1.379283e-11	2.427674e-10	on		
+	SCF iter 9	1.580032e-12	5.495515e-11	on		
+	SCF iter 10	3.599989e-13	5.665968e-12	on		
+	SCF iter 11	5.289955e-14	1.248302e-12	on		
+	SCF iter 12	1.689761e-14	1.725965e-13	on		
+	SCF iter 13	4.111279e-15	5.409562e-14	on		
 
 
 
@@ -2790,13 +2790,13 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	2.489533e-01
 	Mulliken charge(SCF):	0	5	H	1.000000e+00	2.204619e-01
 
-	Elapsed time(omp) for the SCF = 0.006031[s].
+	Elapsed time(omp) for the SCF = 0.004298[s].
 **********  DONE: AM1-D-SCF  **********
 
 
 **********  START: AM1-D-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.008775[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.008669[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -2943,12 +2943,12 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 	Transition dipole moment:	0 -> 32		5.117372e-02	5.685971e-02	5.508030e-02	9.426354e-02		1.300707e-01	1.445230e-01	1.400002e-01	2.395941e-01	8.586170e-03
 
 
-	Elapsed time(omp) for the CIS = 0.012813[s].
+	Elapsed time(omp) for the CIS = 0.010871[s].
 **********  DONE: AM1-D-CIS  **********
 
 
-		|  i-th eigenstate      | total (norm) |      0      |      1      | ...
-		Electronic populations:  1.000669e+00	9.277423e-07	1.438206e-06	6.356567e-05	3.319124e-04	9.999999e-01	4.868888e-06	1.355056e-06	2.338944e-04	5.149100e-06	3.114124e-06	2.999122e-07	6.914962e-06	6.568796e-08	1.092293e-06	4.609747e-07	4.642607e-07	1.459895e-06	3.324918e-06	8.415078e-07	2.227030e-06	8.163939e-07	5.979017e-07	5.290144e-07	1.602133e-07	2.512578e-06	1.304723e-07	4.534783e-08	7.627112e-08	2.371574e-07	1.142670e-07	4.510852e-08	1.459844e-09	6.620247e-08	
+		|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) 
+		Electronic populations:  1.000000e+00	9.271224e-07	1.437245e-06	6.352320e-05	3.316906e-04	9.993317e-01	4.865635e-06	1.354151e-06	2.337381e-04	5.145660e-06	3.112044e-06	2.997118e-07	6.910342e-06	6.564407e-08	1.091563e-06	4.606668e-07	4.639505e-07	1.458920e-06	3.322696e-06	8.409455e-07	2.225542e-06	8.158484e-07	5.975022e-07	5.286609e-07	1.601062e-07	2.510899e-06	1.303851e-07	4.531754e-08	7.622016e-08	2.369989e-07	1.141906e-07	4.507838e-08	1.458869e-09	6.615824e-08	
 
 		Energies:
 		(Note that following electronic energies include core repulsion and VdW energies)
@@ -2996,9 +2996,9 @@ h | -2.335662e+00 | -1.665382e+00 | -1.661604e+00 | geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 1.69487[s].  <<<<<
-     >>>>>  Elapsed time: 2[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 1.68592[s].  <<<<<
+     >>>>>  CPU time: 1.39239[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 1.3855[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
