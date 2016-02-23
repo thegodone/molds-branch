@@ -224,6 +224,14 @@ double Ehrenfest::GetElecNorm(){
       double popu = abs(this->superpositionCoeff[state]);
       elecNorm += popu;
    }
+   for(int state=lowestElecState; state<=highestElecState; state++){
+      this->superpositionCoeff[state]/=elecNorm;
+   }
+   elecNorm = 0.0;
+   for(int state=lowestElecState; state<=highestElecState; state++){
+      double popu = abs(this->superpositionCoeff[state]);
+      elecNorm += popu;
+   }
    return elecNorm;
 }
 
@@ -275,7 +283,7 @@ void Ehrenfest::SetMessages(){
    this->messageEndStepEhrenfest =     "\t========== DONE: Ehrenfest step ";
    this->messageEnergies            = "\t\tEnergies:\n\t\t(Note that following electronic energies include core repulsion energies)\n\n";
    this->messageEnergiesVdW         = "\t\tEnergies:\n\t\t(Note that following electronic energies include core repulsion and VdW energies)\n\n";
-   this->messageElecPopuTitle       = "\t\t|  i-th eigenstate      | total (norm) |      0      |      1      | ...\n";
+   this->messageElecPopuTitle       = "\t\t|  i-th eigenstate      |  total norm  |      0      |      1      | ...  (total norm is normalized to 1) \n";
    this->messageElecPopulations     = "\t\tElectronic populations:  ";
    this->messageElecEigenEnergyTitle= "\t\t\t|       i-th eigenstate          |      0      |      1      | ...\n";
    this->messageElecEigenEnergyAU   = "\t\t\tElectronic eiginenergies [a.u.]:  ";
@@ -310,7 +318,7 @@ double Ehrenfest::OutputEnergies(const MolDS_base::ElectronicStructure& electron
    ssEigenEneInEV << this->messageElecEigenEnergyEV;
    ssPopulations  << this->messageElecPopuTitle;
    ssPopulations  << this->messageElecPopulations;
-      ssPopulations  << (boost::format("%e\t") % elecNorm).str();
+   ssPopulations  << (boost::format("%e\t") % elecNorm).str();
 
    double meanElecEnergy=0.0;
    int    highestElecState = Parameters::GetInstance()->GetHighestElectronicStateIndexEhrenfest();
