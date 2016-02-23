@@ -190,26 +190,26 @@ SAMPLE and TEST
 CAPABILITIES:
 
    -Electronic state and molecular dynamics
-             | HF  | CIS |   MD    |   MC    |  RPMD   | Optimize | Frequencies      | Frequencies       |
-             |     |     | (gs,es) | (gs,es) | (gs,es) | (gs,es)  | analytic (gs,es) | numerical (gs,es) |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    CNDO2    | OK  | --  | --,--   | OK,--   | --,--   | --,--    | --,--            | --,--             |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    INDO     | OK  | --  | --,--   | OK,--   | --,--   | --,--    | --,--            | --,--             |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    ZINDO/S  | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | --,--            | OK,OK             |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    MNDO     | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    AM1      | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    AM1-D    | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    PM3      | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    PM3-D    | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
-    ---------|-----|-----|---------|---------|---------|----------|------------------|-------------------|
-    PM3/PDDG | OK  | OK  | OK,OK   | OK,OK   | OK,OK   | OK,OK    | OK,--            | OK,OK             |
+             | HF  | CIS |   MD    |   MC    |  RPMD   | Nonadiabatic | Optimize | Frequencies      | Frequencies       |
+             |     |     | (gs,es) | (gs,es) | (gs,es) | Ehrenfest    | (gs,es)  | analytic (gs,es) | numerical (gs,es) |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    CNDO2    | OK  | --  | --,--   | OK,--   | --,--   |      --      | --,--    | --,--            | --,--             |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    INDO     | OK  | --  | --,--   | OK,--   | --,--   |      --      | --,--    | --,--            | --,--             |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    ZINDO/S  | OK  | OK  | OK,OK   | OK,OK   | OK,OK   |      OK      | OK,OK    | --,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    MNDO     | OK  | OK  | OK,OK   | OK,OK   | OK,OK   |      OK      | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    AM1      | OK  | OK  | OK,OK   | OK,OK   | OK,OK   |      OK      | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    AM1-D    | OK  | OK  | OK,OK   | OK,OK   | OK,OK   |      OK      | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    PM3      | OK  | OK  | OK,OK   | OK,OK   | OK,OK   |      OK      | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    PM3-D    | OK  | OK  | OK,OK   | OK,OK   | OK,OK   |      OK      | OK,OK    | OK,--            | OK,OK             |
+    ---------|-----|-----|---------|---------|---------|--------------|----------|------------------|-------------------|
+    PM3/PDDG | OK  | OK  | OK,OK   | OK,OK   | OK,OK   |      OK      | OK,OK    | OK,--            | OK,OK             |
                                                                       
       "OK", "Sch", and "--" mean available, shceduled, and non-scheduled methods, respectively.
       "gs" and "es" mean ground and excited states, respectively.
@@ -888,7 +888,8 @@ HOW TO WRITE INPUT:
          RPMD_END
 
    <Ehrenfest MD>
-      Write Ehrenfest-directive. Namely, mean-field dyamics for nonadiabatic systems.
+      Write Ehrenfest-directive to run the Ehrenfest molecular dynamics. 
+      The Ehrenfest MD is a semiclassical treatment known as mean-field dynamics for nonadiabatic systems.
       *Implementation of Ehrenfest in MolDS is based on MF's unpublished algorythm.
 
       E.g.
