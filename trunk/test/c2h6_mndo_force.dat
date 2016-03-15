@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:48:51  <<<<<
 
 
 **********  START: Parse input  **********
@@ -41,6 +41,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -129,7 +130,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.011538[s].
+	Elapsed time(omp) for the SCF = 0.011373[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -225,7 +226,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736950e-02	-1.717462e+01
 
-	Elapsed time(omp) for the SCF = 0.003969[s].
+	Elapsed time(omp) for the SCF = 0.003961[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -323,7 +324,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737405e-02	-1.717747e+01
 
-	Elapsed time(omp) for the SCF = 0.004174[s].
+	Elapsed time(omp) for the SCF = 0.004187[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -422,7 +423,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738162e-02	-1.718222e+01
 
-	Elapsed time(omp) for the SCF = 0.006453[s].
+	Elapsed time(omp) for the SCF = 0.004458[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -521,7 +522,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739219e-02	-1.718885e+01
 
-	Elapsed time(omp) for the SCF = 0.004565[s].
+	Elapsed time(omp) for the SCF = 0.004460[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -620,7 +621,7 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740571e-02	-1.719734e+01
 
-	Elapsed time(omp) for the SCF = 0.004399[s].
+	Elapsed time(omp) for the SCF = 0.004471[s].
 **********  DONE: MNDO-SCF  **********
 
 
@@ -668,9 +669,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.097616[s].  <<<<<
+     >>>>>  CPU time: 0.090728[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0964999[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.0881131[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

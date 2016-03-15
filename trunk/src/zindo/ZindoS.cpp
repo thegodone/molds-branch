@@ -95,7 +95,7 @@ ZindoS::ZindoS() : MolDS_cndo::Cndo2(){
 }
 
 ZindoS::~ZindoS(){
-   if(this->theory==ZINDOS){
+   if(this->theory==ZINDOS && this->twoElecInt==OnNode){
       MallocerFreer::GetInstance()->Free<double>(&this->nishimotoMatagaMatrix, 
                                                  this->molecule->GetAtomVect().size(), 
                                                  OrbitalType_end, 
@@ -146,7 +146,7 @@ ZindoS::~ZindoS(){
 
 void ZindoS::SetMolecule(Molecule* molecule){
    Cndo2::SetMolecule(molecule);
-   if(this->theory==ZINDOS){
+   if(this->theory==ZINDOS && this->twoElecInt==OnNode){
       MallocerFreer::GetInstance()->Malloc<double>(&this->nishimotoMatagaMatrix, 
                                                    this->molecule->GetAtomVect().size(), 
                                                    OrbitalType_end, 
@@ -173,6 +173,7 @@ void ZindoS::SetMessages(){
       = "Error in zindo::ZindoS::CheckEnableAtomTypeVdW: Non available atom to add VdW correction is contained.\n";
    this->errorMessageCoulombInt = "Error in zindo::ZindoS::GetCoulombInt: Invalid orbitalType.\n";
    this->errorMessageExchangeInt = "Error in zindo::ZindoS::GetExchangeInt: Invalid orbitalType.\n";
+   this->errorMessageNishimotoMatagaDistributed = "Error in zindo::ZindoS::GetNishimotoMatagaTwoEleInt: Distributed storeing of Nishimoto-Mataga matrix is not implemented.\n";
    this->errorMessageNishimotoMataga = "Error in zindo::ZindoS::GetNishimotoMatagaTwoEleInt: Invalid orbitalType.\n";
    this->errorMessageMolecularIntegralElement
       = "Error in zindo::ZindoS::GetMolecularIntegralElement: Non available orbital is contained.\n";
@@ -289,11 +290,11 @@ double ZindoS::GetFockDiagElement(const Atom& atomA,
             for(int i=0; i<atomBNumberValence; i++){
                sigma = i + atomB.GetFirstAOIndex();
                orbitalSigma = atomB.GetValence(i);
-               temp += orbitalElectronPopulationDiagPart[sigma]
-                      *this->nishimotoMatagaMatrix[indexAtomA][orbitalMu][B][orbitalSigma];
+               double tei=this->GetNishimotoMatagaTwoEleInt(indexAtomA, atomA, orbitalMu, B, atomB, orbitalSigma, rAB);
+               temp += orbitalElectronPopulationDiagPart[sigma]*tei;
             }
-            temp -= atomB.GetCoreCharge() 
-                   *this->nishimotoMatagaMatrix[indexAtomA][s][B][s];
+            double tei=this->GetNishimotoMatagaTwoEleInt(indexAtomA, atomA, s, B, atomB, s, rAB);
+            temp -= atomB.GetCoreCharge()*tei;
          }
       }
       value += temp;
@@ -333,8 +334,8 @@ double ZindoS::GetFockOffDiagElement(const Atom& atomA,
       }
       else{
          value = bondParameter*overlapAOs[mu][nu];
-         value -= 0.5*orbitalElectronPopulation[mu][nu]
-                  *this->nishimotoMatagaMatrix[indexAtomA][orbitalMu][indexAtomB][orbitalNu];
+         double tei=this->GetNishimotoMatagaTwoEleInt(indexAtomA, atomA, orbitalMu, indexAtomB, atomB, orbitalNu);
+         value -= 0.5*orbitalElectronPopulation[mu][nu]*tei;
       }
    }
    return value;
@@ -612,7 +613,35 @@ void ZindoS::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores,
                                   double****** twoElecsAtomEpcCores,
                                   const Molecule& molecule,
                                   bool requiresMpi) const{
-   this->CalcNishimotoMatagaMatrix(this->nishimotoMatagaMatrix, molecule);
+   if(this->twoElecInt==OnNode){
+      this->CalcNishimotoMatagaMatrix(this->nishimotoMatagaMatrix, molecule);
+   }
+}
+
+// ref. [MN_1957] and (5a) in [AEZ_1986]
+double ZindoS::GetNishimotoMatagaTwoEleInt(const int indexAtomA, const Atom& atomA, OrbitalType orbitalA, 
+                                           const int indexAtomB, const Atom& atomB, OrbitalType orbitalB) const{
+   double r = this->molecule->GetDistanceAtoms(atomA, atomB);
+   return this->GetNishimotoMatagaTwoEleInt(indexAtomA, atomA, orbitalA, indexAtomB, atomB, orbitalB,r);
+}
+
+// ref. [MN_1957] and (5a) in [AEZ_1986]
+double ZindoS::GetNishimotoMatagaTwoEleInt(const int indexAtomA, const Atom& atomA, OrbitalType orbitalA, 
+                                           const int indexAtomB, const Atom& atomB, OrbitalType orbitalB,
+                                           const double rAB) const{
+   double tei=0.0;
+   if(this->twoElecInt==OnNode){
+      tei = this->nishimotoMatagaMatrix[indexAtomA][orbitalA][indexAtomB][orbitalB];
+   }
+   else if(this->twoElecInt==Direct){
+      tei = this->GetNishimotoMatagaTwoEleInt(atomA, orbitalA, atomB, orbitalB, rAB);
+   }
+   else{
+      stringstream ss;
+      ss << this->errorMessageNishimotoMatagaDistributed;
+      throw MolDSException(ss.str());
+   }   
+   return tei;
 }
 
 // ref. [MN_1957] and (5a) in [AEZ_1986]
@@ -1002,7 +1031,7 @@ double ZindoS::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
                OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
 
                if(A<B){
-                  gamma = this->nishimotoMatagaMatrix[A][orbitalMu][B][orbitalNu];
+                  gamma = this->GetNishimotoMatagaTwoEleInt(A, atomA, orbitalMu, B, atomB, orbitalNu);
                   value += gamma
                           *fockMatrix[moI][mu]
                           *fockMatrix[moJ][mu]
@@ -2606,7 +2635,7 @@ double ZindoS::GetCISDiagElement(double const* energiesMO,
                OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
 
                if(A<B){
-                  gamma = nishimotoMatagaMatrix[A][orbitalMu][B][orbitalNu];
+                  gamma = this->GetNishimotoMatagaTwoEleInt(A, atomA, orbitalMu, B, atomB, orbitalNu);
                   value += 4.0*gamma*tmp1
                                     *fockMatrix[moA][nu]
                                     *fockMatrix[moI][nu];
@@ -2699,7 +2728,7 @@ double ZindoS::GetCISOffDiagElement(double const* const* const* const* nishimoto
                OrbitalType orbitalNu = atomB.GetValence(nu-firstAOIndexB);
                
                if(A<B){
-                  gamma = nishimotoMatagaMatrix[A][orbitalMu][B][orbitalNu];
+                  gamma = this->GetNishimotoMatagaTwoEleInt(A, atomA, orbitalMu, B, atomB, orbitalNu);
                   value += 2.0*gamma*tmp1
                                     *fockMatrix[moJ][nu]
                                     *fockMatrix[moB][nu];
@@ -3275,8 +3304,7 @@ double ZindoS::GetSmallQElement(int moI,
                const OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
                for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
                   const OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
-                  double twoElecInt = 0.0;
-                  twoElecInt = this->nishimotoMatagaMatrix[A][orbitalMu][B][orbitalLambda];
+                  double twoElecInt = this->GetNishimotoMatagaTwoEleInt(A, atomA, orbitalMu, B, atomB, orbitalLambda, rAB);
                   double temp = 0.0;
                   if(isMoPOcc){
                      int p = numberOcc - (moP+1);
@@ -3755,7 +3783,7 @@ double ZindoS::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) cons
                           *fockMatrix_moJ[lambda];
                double gamma = 0.0;
                if(A!=B){
-                  gamma = this->nishimotoMatagaMatrix[A][orbitalMu][B][orbitalLambda];
+                  gamma = this->GetNishimotoMatagaTwoEleInt(A, atomA, orbitalMu, B, atomB, orbitalLambda);
                }
                else{
                   gamma = 0.5*this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);

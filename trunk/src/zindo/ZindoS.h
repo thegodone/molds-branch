@@ -157,6 +157,7 @@ protected:
                                        int indexAtomB,
                                        double const* const* const* diatomicOverlapAOs1stDerivs) const;
 private:
+   std::string errorMessageNishimotoMatagaDistributed;
    std::string errorMessageNishimotoMataga;
    std::string errorMessageDavidsonMaxIter;
    std::string errorMessageDavidsonMaxDim;
@@ -223,6 +224,19 @@ private:
                                               const MolDS_base::Molecule& molecule, 
                                               double const* const* orbitalElectronPopulation,
                                               double const* const* overlapAOs) const;
+   double GetNishimotoMatagaTwoEleInt(const int indexAtomA,
+                                      const MolDS_base_atoms::Atom& atomA, 
+                                      MolDS_base::OrbitalType orbitalA, 
+                                      const int indexAtomB,
+                                      const MolDS_base_atoms::Atom& atomB, 
+                                      MolDS_base::OrbitalType orbitalB) const; // ref. [MN_1957] and (5a) in [AEZ_1986]
+   double GetNishimotoMatagaTwoEleInt(const int indexAtomA,
+                                      const MolDS_base_atoms::Atom& atomA, 
+                                      MolDS_base::OrbitalType orbitalA, 
+                                      const int indexAtomB,
+                                      const MolDS_base_atoms::Atom& atomB, 
+                                      MolDS_base::OrbitalType orbitalB,
+                                      const double rAB) const; // ref. [MN_1957] and (5a) in [AEZ_1986]
    double GetNishimotoMatagaTwoEleInt(const MolDS_base_atoms::Atom& atomA, 
                                       MolDS_base::OrbitalType orbitalA, 
                                       const MolDS_base_atoms::Atom& atomB, 

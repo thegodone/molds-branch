@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:17  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:48:55  <<<<<
 
 
 **********  START: Parse input  **********
@@ -41,6 +41,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: yes
 		vdW corr. scaling factor (s6): 0.880000
 		vdW corr. damping factor (d): 20.000000
@@ -132,7 +133,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744436e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258139e-02
 
-	Elapsed time(omp) for the SCF = 0.011199[s].
+	Elapsed time(omp) for the SCF = 0.011397[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -229,7 +230,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744365e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.258069e-02
 
-	Elapsed time(omp) for the SCF = 0.003909[s].
+	Elapsed time(omp) for the SCF = 0.004027[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -328,7 +329,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744229e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257883e-02
 
-	Elapsed time(omp) for the SCF = 0.004202[s].
+	Elapsed time(omp) for the SCF = 0.004207[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -427,7 +428,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.744067e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257626e-02
 
-	Elapsed time(omp) for the SCF = 0.004251[s].
+	Elapsed time(omp) for the SCF = 0.004174[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -527,7 +528,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.743848e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.257166e-02
 
-	Elapsed time(omp) for the SCF = 0.006046[s].
+	Elapsed time(omp) for the SCF = 0.004392[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -627,7 +628,7 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	3.743579e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	4.256647e-02
 
-	Elapsed time(omp) for the SCF = 0.004433[s].
+	Elapsed time(omp) for the SCF = 0.004457[s].
 **********  DONE: PM3-SCF  **********
 
 
@@ -676,9 +677,9 @@ h | -0.3700 | -0.5208 | 0.9016 | h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.09368[s].  <<<<<
+     >>>>>  CPU time: 0.09228[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0914891[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.089457[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

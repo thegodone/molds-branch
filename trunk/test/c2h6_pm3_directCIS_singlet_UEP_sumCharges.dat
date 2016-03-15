@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:16  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:48:53  <<<<<
 
 
 **********  START: Parse input  **********
@@ -41,6 +41,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		Summation of atomic charges from 0 to 3 atoms.
 		Summation of atomic charges from 4 to 7 atoms.
 		van der Waals (vdW) correction: no
@@ -144,13 +145,13 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Summation of Mulliken(SCF):	0	0	3	-1.550023e-01
 	Summation of Mulliken(SCF):	0	4	7	1.550023e-01
 
-	Elapsed time(omp) for the SCF = 0.011036[s].
+	Elapsed time(omp) for the SCF = 0.011202[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026592[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.030277[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -417,7 +418,7 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 	Summation of UEP:	20	4	7	3.925938e-01
 
 
-	Elapsed time(omp) for the CIS = 0.038225[s].
+	Elapsed time(omp) for the CIS = 0.042205[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -427,9 +428,9 @@ h | 1.8519 | 0.5200 | -0.9007 | h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.052259[s].  <<<<<
+     >>>>>  CPU time: 0.056454[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0516019[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.055254[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
