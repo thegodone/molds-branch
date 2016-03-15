@@ -35,6 +35,7 @@ private:
    void SetMessages();
    std::string errorMessageInputFileEmpty;
    std::string errorMessageNotFoundInputFile; 
+   std::string errorMessageTwoElecIntDistri;
    std::string errorMessageNonValidTheoriesEpc;
    std::string errorMessageNonValidTheoriesMD;
    std::string errorMessageNonValidExcitedStatesMD;
@@ -84,6 +85,7 @@ private:
    std::string messageScfDiisNumErrorVect;
    std::string messageScfDiisStartError;
    std::string messageScfDiisEndError;
+   std::string messageScfTwoElecInt;
    std::string messageScfSumCharges;
    std::string messageScfSumCharges2;
    std::string messageScfSumCharges3;
@@ -231,6 +233,10 @@ private:
    std::string stringScfDiisNumErrorVect;
    std::string stringScfDiisStartError;
    std::string stringScfDiisEndError;
+   std::string stringScfTwoElecInt;
+   std::string stringScfTwoElecIntOnNode;
+   std::string stringScfTwoElecIntDirect;
+   std::string stringScfTwoElecIntDistri;
    std::string stringScfSumCharges;
    std::string stringScfVdW;
    std::string stringScfVdWScalingFactor;

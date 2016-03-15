@@ -137,6 +137,7 @@ void Parameters::SetDefaultValues(){
    this->diisNumErrorVectSCF = 5;
    this->diisStartErrorSCF   = 1.0e-2;
    this->diisEndErrorSCF     = 1.0e-8;
+   this->twoElecIntSCF       = OnNode;
    this->requiresVdWSCF      = false;
    this->vdWScalingFactorSCF = 1.40;
    this->vdWDampingFactorSCF = 23.0;

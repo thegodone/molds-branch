@@ -81,8 +81,10 @@ void InputParser::SetMessages(){
       = "Error in base::InputParser::GetInputTerms: Input file is empty.\n"; 
    this->errorMessageNotFoundInputFile
       = "Error in base::InputParser::StoreInputTermsFromFile: Not found.\n"; 
+   this->errorMessageTwoElecIntDistri
+      = "Error in base::InputParser::ValidateScfConditions: Distributed storing of two electron integrals on multiplie node is not implemented.\n";
    this->errorMessageNonValidTheoriesEpc
-      = "Error in base::InputParser::ValidateEpcConditions: Theory you set is not supported for EPC. The supported theories are MNDO-sefies(MNDO, AM1, AM1D, PM3, PM3D, PDDG/PM3) only.\n";
+      = "Error in base::InputParser::ValidateScfConditions: Theory you set is not supported for EPC. The supported theories are MNDO-sefies(MNDO, AM1, AM1D, PM3, PM3D, PDDG/PM3) only.\n";
    this->errorMessageNonValidTheoriesMD
       = "Error in base::InputParser::ValidateMdConditions: Theory you set is not supported for MD.\n";
    this->errorMessageNonValidExcitedStatesMD
@@ -90,7 +92,7 @@ void InputParser::SetMessages(){
    this->errorMessageNonValidExcitedStatesMC
       = "Error in base::InputParser::ValidateMcConditions: Excited state on which MC runs or CIS condition are wrong.\n";
    this->errorMessageNonValidTheoriesRPMD
-      = "Error in base::InputParser::ValidateRpmdConditions: heory you set is not supported for RMPD.\n";
+      = "Error in base::InputParser::ValidateRpmdConditions: Theory you set is not supported for RMPD.\n";
    this->errorMessageNonValidExcitedStatesRPMD
       = "Error in base::InputParser::ValidateRpmdConditions: Excited state on which RPMD runs or CIS condition are wrong.\n";
    this->errorMessageNonValidTheoriesEhrenfest
@@ -151,6 +153,7 @@ void InputParser::SetMessages(){
    this->messageScfDiisNumErrorVect = "\t\tDIIS number of error vectors: ";
    this->messageScfDiisStartError   = "\t\tDIIS starting error: ";
    this->messageScfDiisEndError     = "\t\tDIIS ending error: ";
+   this->messageScfTwoElecInt       = "\t\tTwo electron integral: ";
    this->messageScfSumCharges       = "\t\tSummation of atomic charges from ";
    this->messageScfSumCharges2      = " to ";
    this->messageScfSumCharges3      = " atoms.";
@@ -317,6 +320,10 @@ void InputParser::SetMessages(){
    this->stringScfDiisNumErrorVect = "diis_num_error_vect";
    this->stringScfDiisStartError   = "diis_start_error";
    this->stringScfDiisEndError     = "diis_end_error";
+   this->stringScfTwoElecInt       = "two_elec_int";
+   this->stringScfTwoElecIntOnNode = "on_node";
+   this->stringScfTwoElecIntDirect = "direct";
+   this->stringScfTwoElecIntDistri = "distri";
    this->stringScfSumCharges       = "sum_charges";
    this->stringScfVdW              = "vdw";
    this->stringScfVdWScalingFactor = "vdw_s6";
@@ -679,6 +686,19 @@ int InputParser::ParseConditionsSCF(vector<string>* inputTerms, int parseIndex) 
       // DIIS ending error
       if((*inputTerms)[parseIndex].compare(this->stringScfDiisEndError) == 0){
          Parameters::GetInstance()->SetDiisEndErrorSCF(atof((*inputTerms)[parseIndex+1].c_str()));
+         parseIndex++;
+      }
+      // Two Electron Integral
+      if((*inputTerms)[parseIndex].compare(this->stringScfTwoElecInt) == 0){
+         if((*inputTerms)[parseIndex+1].compare(this->stringScfTwoElecIntOnNode) == 0){
+            Parameters::GetInstance()->SetTwoElecIntSCF(OnNode);
+         }
+         else if((*inputTerms)[parseIndex+1].compare(this->stringScfTwoElecIntDirect) == 0){
+            Parameters::GetInstance()->SetTwoElecIntSCF(Direct);
+         }
+         else if((*inputTerms)[parseIndex+1].compare(this->stringScfTwoElecIntDistri) == 0){
+            Parameters::GetInstance()->SetTwoElecIntSCF(Distri);
+         }
          parseIndex++;
       }
       // van der Waals correction 
@@ -1648,10 +1668,18 @@ void InputParser::CalcMolecularBasics(Molecule* molecule) const{
 }
 
 void InputParser::ValidateScfConditions() const{
-   int  mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   // mpi size
+   int mpiSize = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
    if(1==mpiSize){
       Parameters::GetInstance()->SetRequiresMpiSCF(false);
    } 
+   //two electron integrals
+   TwoElecIntType tei = Parameters::GetInstance()->GetTwoElecIntSCF();
+   if(tei == Distri){
+      stringstream ss;
+      ss << this->errorMessageTwoElecIntDistri;
+      throw MolDSException(ss.str());
+   }
 }
 
 void InputParser::ValidateVdWConditions() const{
@@ -2028,6 +2056,8 @@ void InputParser::OutputScfConditions() const{
                                            % Parameters::GetInstance()->GetDiisStartErrorSCF());
    this->OutputLog(boost::format("%s%e\n") % this->messageScfDiisEndError.c_str() 
                                            % Parameters::GetInstance()->GetDiisEndErrorSCF());
+   this->OutputLog(boost::format("%s%s\n") % this->messageScfTwoElecInt.c_str() 
+                                           % TwoElecIntTypeStr(Parameters::GetInstance()->GetTwoElecIntSCF()));
    if(Parameters::GetInstance()->RequiresSumChargesSCF()){
       const vector<AtomIndexPair>* atomPairs = Parameters::GetInstance()->GetSumChargesIndexPairsSCF();
       for(int i=0; i<atomPairs->size(); i++){

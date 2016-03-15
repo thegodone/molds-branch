@@ -62,9 +62,8 @@ public:
    inline void   SetDiisStartErrorSCF(double sError)   {this->diisStartErrorSCF = sError;}
    inline double GetDiisEndErrorSCF() const            {return this->diisEndErrorSCF;}
    inline void   SetDiisEndErrorSCF(double eError)     {this->diisEndErrorSCF = eError;}
-   bool          RequiresSumChargesSCF() const;
-   const std::vector<AtomIndexPair>* GetSumChargesIndexPairsSCF() const;
-   void          AddSumChargesIndexPairsSCF(int fistAtomIndex, int lastAtomIndex);
+   inline TwoElecIntType GetTwoElecIntSCF() const      {return this->twoElecIntSCF;}
+   inline void   SetTwoElecIntSCF(TwoElecIntType i)    {this->twoElecIntSCF = i;}
    inline bool   RequiresVdWSCF() const                {return this->requiresVdWSCF;}
    inline void   SetRequiresVdWSCF(bool requires)      {this->requiresVdWSCF = requires;}
    inline double GetVdWScalingFactorSCF() const        {return this->vdWScalingFactorSCF;}
@@ -73,6 +72,9 @@ public:
    inline double GetVdWDampingFactorSCF() const        {return this->vdWDampingFactorSCF;}
    inline void   SetVdWDampingFactorSCF()              {this->vdWDampingFactorSCF = this->vdWDampingFactorSCFPM3DAM1D;}
    inline void   SetVdWDampingFactorSCF(double vdWDamp){this->vdWDampingFactorSCF = vdWDamp;}
+   bool          RequiresSumChargesSCF() const;
+   const std::vector<AtomIndexPair>* GetSumChargesIndexPairsSCF() const;
+   void          AddSumChargesIndexPairsSCF(int fistAtomIndex, int lastAtomIndex);
    inline bool   RequiresMpiSCF() const                {return this->requiresMpiSCF;}
    inline void   SetRequiresMpiSCF(bool requires)      {this->requiresMpiSCF = requires;}
    inline bool   RequiresScaLapackSCF() const          {return this->requiresScaLapackSCF;}
@@ -286,12 +288,13 @@ private:
    int    diisNumErrorVectSCF;
    double diisStartErrorSCF;
    double diisEndErrorSCF;
+   TwoElecIntType twoElecIntSCF;
    bool   requiresVdWSCF;
-   std::vector<AtomIndexPair>* sumChargesIndexPairsSCF;
    double vdWScalingFactorSCF;
    double vdWDampingFactorSCF;
    static const double vdWScalingFactorSCFPM3DAM1D;
    static const double vdWDampingFactorSCFPM3DAM1D;
+   std::vector<AtomIndexPair>* sumChargesIndexPairsSCF;
    bool   requiresMpiSCF;
    bool   requiresScaLapackSCF;
    // MOPlot
