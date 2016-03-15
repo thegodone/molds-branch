@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:38:51  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:47:48  <<<<<
 
 
 **********  START: Parse input  **********
@@ -73,6 +73,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-02
 		DIIS ending error: 1.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -163,9 +164,9 @@ translate | difference | 10 | 20 | 30 | translate_end | geometry | c | 0.16025 |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.005364[s].  <<<<<
+     >>>>>  CPU time: 0.003905[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0115969[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00367713[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

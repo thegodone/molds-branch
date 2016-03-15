@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:18  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:48:55  <<<<<
 
 
 **********  START: Parse input  **********
@@ -41,6 +41,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -134,13 +135,13 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	8.849500e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	9.338696e-02
 
-	Elapsed time(omp) for the SCF = 0.011517[s].
+	Elapsed time(omp) for the SCF = 0.011515[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
 **********  START: PM3/PDDG-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.027383[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026620[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -245,7 +246,7 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Transition dipole moment:	0 -> 4		4.556120e-03	4.980080e-02	8.575460e-02	9.927099e-02		1.158051e-02	1.265810e-01	2.179665e-01	2.523217e-01	1.905964e-03
 
 
-	Elapsed time(omp) for the CIS = 0.110847[s].
+	Elapsed time(omp) for the CIS = 0.103286[s].
 **********  DONE: PM3/PDDG-CIS  **********
 
 
@@ -255,9 +256,9 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.123595[s].  <<<<<
+     >>>>>  CPU time: 0.117647[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.125894[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.116529[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

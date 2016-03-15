@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:39  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:49:16  <<<<<
 
 
 **********  START: Parse input  **********
@@ -36,6 +36,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 0.000000e+00
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -123,13 +124,13 @@ active_vir | 400 | cis_end | geometry | o | 2.590958e-01 | 1.513618e+00 | -2.641
 	Mulliken charge(SCF):	0	1	H	1.000000e+00	3.964420e-01
 	Mulliken charge(SCF):	0	2	H	1.000000e+00	3.964420e-01
 
-	Elapsed time(omp) for the SCF = 0.009293[s].
+	Elapsed time(omp) for the SCF = 0.009010[s].
 **********  DONE: PM3-SCF  **********
 
 
 **********  START: PM3-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.000211[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.000209[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -180,7 +181,7 @@ active_vir | 400 | cis_end | geometry | o | 2.590958e-01 | 1.513618e+00 | -2.641
 	Transition dipole moment:	0 -> 8		2.167459e-01	-1.531819e-01	-4.927215e-16	2.654119e-01		5.509132e-01	-3.893497e-01	-1.252374e-15	6.746099e-01	5.607158e-02
 
 
-	Elapsed time(omp) for the CIS = 0.001389[s].
+	Elapsed time(omp) for the CIS = 0.001358[s].
 **********  DONE: PM3-CIS  **********
 
 
@@ -216,9 +217,9 @@ active_vir | 400 | cis_end | geometry | o | 2.590958e-01 | 1.513618e+00 | -2.641
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.145745[s].  <<<<<
+     >>>>>  CPU time: 0.144051[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.138864[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.137217[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

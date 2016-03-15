@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:13  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:48:51  <<<<<
 
 
 **********  START: Parse input  **********
@@ -41,6 +41,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -84,21 +85,21 @@ Error in base::MallocerFreer::Malloc: Reaches limit of heap. Change the "limit_h
 
 key value pairs:
 backtrace:
-	0   molds                               0x0000000100210b33 _ZN10MolDS_base14MolDSException12GetBacktraceEi + 97
-	1   molds                               0x0000000100210928 _ZN10MolDS_base14MolDSExceptionC1ESs + 180
-	2   molds                               0x000000010022200f _ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd + 591
-	3   molds                               0x000000010026aae0 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m + 96
-	4   molds                               0x0000000100398561 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm + 209
-	5   molds                               0x00000001003628a6 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm + 246
-	6   molds                               0x000000010036313f _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm + 279
-	7   molds                               0x00000001003637a7 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm + 299
-	8   molds                               0x0000000100363fc0 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm + 316
-	9   molds                               0x0000000100320b65 _ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE + 287
-	10  molds                               0x000000010036f326 _ZN8MolDS_md2MD4DoMDEv + 332
-	11  molds                               0x000000010039dea7 _ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb + 301
-	12  molds                               0x000000010039d334 _ZN10MolDS_base5MolDS3RunEiPPc + 844
-	13  molds                               0x00000001003a2384 main + 1404
-	14  libdyld.dylib                       0x00007fff8e0885fd start + 1
+	0   molds                               0x000000010902658b _ZN10MolDS_base14MolDSException12GetBacktraceEi + 97
+	1   molds                               0x0000000109026380 _ZN10MolDS_base14MolDSExceptionC1ESs + 180
+	2   molds                               0x0000000109037a67 _ZNK10MolDS_base13MallocerFreer14CheckLimitHeapEd + 591
+	3   molds                               0x0000000109080700 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPT_m + 96
+	4   molds                               0x00000001091afba1 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPT_mm + 209
+	5   molds                               0x0000000109179a46 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPT_mmm + 246
+	6   molds                               0x000000010917ac7f _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPT_mmmm + 279
+	7   molds                               0x000000010917b367 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPT_mmmmm + 299
+	8   molds                               0x000000010917bbe0 _ZNK10MolDS_base13MallocerFreer6MallocIdEEvPPPPPPPT_mmmmmm + 316
+	9   molds                               0x00000001091381c5 _ZN10MolDS_mndo4Mndo11SetMoleculeEPN10MolDS_base8MoleculeE + 287
+	10  molds                               0x0000000109187052 _ZN8MolDS_md2MD4DoMDEv + 332
+	11  molds                               0x00000001091b5387 _ZNK10MolDS_base5MolDS4DoMDEPNS_8MoleculeEPb + 301
+	12  molds                               0x00000001091b4814 _ZN10MolDS_base5MolDS3RunEiPPc + 844
+	13  molds                               0x00000001091b8004 main + 1404
+	14  libdyld.dylib                       0x00007fff8eedd5fd start + 1
 	15  ???                                 0x0000000000000002 0x0 + 2
 	Summary for memory usage:
 		Max Heap: 0.096704[MB].
@@ -106,9 +107,9 @@ backtrace:
 
 
      >>>>>  The MolDS finished abnormally..............  <<<<<
-     >>>>>  CPU time: 0.003494[s].  <<<<<
+     >>>>>  CPU time: 0.003614[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.004812[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00342703[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

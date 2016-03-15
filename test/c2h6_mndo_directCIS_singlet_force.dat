@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:12  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:48:50  <<<<<
 
 
 **********  START: Parse input  **********
@@ -41,6 +41,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -140,13 +141,13 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.010890[s].
+	Elapsed time(omp) for the SCF = 0.010743[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026596[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026553[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -361,7 +362,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-7.232074e-03	-6.059602e-03	-2.367865e-03	9.727716e-03		-1.838210e-02	-1.540197e-02	-6.018514e-03	2.472539e-02	7.977229e-05
 
 
-	Elapsed time(omp) for the CIS = 0.033758[s].
+	Elapsed time(omp) for the CIS = 0.033343[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -458,13 +459,13 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736965e-02	-1.717471e+01
 
-	Elapsed time(omp) for the SCF = 0.004220[s].
+	Elapsed time(omp) for the SCF = 0.004276[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.025805[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.030026[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -679,7 +680,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-7.216681e-03	-6.058670e-03	-2.367342e-03	9.715569e-03		-1.834298e-02	-1.539961e-02	-6.017185e-03	2.469452e-02	7.957248e-05
 
 
-	Elapsed time(omp) for the CIS = 0.032359[s].
+	Elapsed time(omp) for the CIS = 0.036499[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -778,13 +779,13 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.737462e-02	-1.717783e+01
 
-	Elapsed time(omp) for the SCF = 0.004410[s].
+	Elapsed time(omp) for the SCF = 0.004413[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026289[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026270[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -999,7 +1000,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-7.197465e-03	-6.055348e-03	-2.365784e-03	9.698849e-03		-1.829414e-02	-1.539116e-02	-6.013224e-03	2.465202e-02	7.929679e-05
 
 
-	Elapsed time(omp) for the CIS = 0.032947[s].
+	Elapsed time(omp) for the CIS = 0.036409[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1098,13 +1099,13 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.738286e-02	-1.718300e+01
 
-	Elapsed time(omp) for the SCF = 0.004430[s].
+	Elapsed time(omp) for the SCF = 0.004494[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026548[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026474[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1319,7 +1320,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-7.170507e-03	-6.049792e-03	-2.363207e-03	9.674756e-03		-1.822562e-02	-1.537704e-02	-6.006674e-03	2.459078e-02	7.889988e-05
 
 
-	Elapsed time(omp) for the CIS = 0.033131[s].
+	Elapsed time(omp) for the CIS = 0.033322[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1419,13 +1420,13 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.739430e-02	-1.719018e+01
 
-	Elapsed time(omp) for the SCF = 0.004577[s].
+	Elapsed time(omp) for the SCF = 0.004681[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.025762[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026128[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1640,7 +1641,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-7.133059e-03	-6.041911e-03	-2.359589e-03	9.641207e-03		-1.813043e-02	-1.535701e-02	-5.997479e-03	2.450551e-02	7.834888e-05
 
 
-	Elapsed time(omp) for the CIS = 0.032303[s].
+	Elapsed time(omp) for the CIS = 0.032811[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -1740,13 +1741,13 @@ geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.740883e-02	-1.719930e+01
 
-	Elapsed time(omp) for the SCF = 0.004647[s].
+	Elapsed time(omp) for the SCF = 0.004699[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.030549[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026054[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Direct-CIS  =====
@@ -1961,7 +1962,7 @@ geometry_end |
 	Transition dipole moment:	0 -> 49		-7.085180e-03	-6.031855e-03	-2.354952e-03	9.598378e-03		-1.800874e-02	-1.533145e-02	-5.985692e-03	2.439665e-02	7.764828e-05
 
 
-	Elapsed time(omp) for the CIS = 0.037046[s].
+	Elapsed time(omp) for the CIS = 0.032543[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -2009,9 +2010,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.836402[s].  <<<<<
+     >>>>>  CPU time: 0.766543[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.833541[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.763337[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:34  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:49:10  <<<<<
 
 
 **********  START: Parse input  **********
@@ -38,6 +38,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -103,7 +104,7 @@ geometry_end |
 	Mulliken charge(SCF):	0	3	H	1.000000e+00	1.665194e-02
 	Mulliken charge(SCF):	0	4	H	1.000000e+00	1.383112e-02
 
-	Elapsed time(omp) for the SCF = 0.008284[s].
+	Elapsed time(omp) for the SCF = 0.008075[s].
 **********  DONE: CNDO/2-SCF  **********
 
 
@@ -113,9 +114,9 @@ geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.009844[s].  <<<<<
-     >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.0100429[s].  <<<<<
+     >>>>>  CPU time: 0.009638[s].  <<<<<
+     >>>>>  Elapsed time: 1[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.00926399[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

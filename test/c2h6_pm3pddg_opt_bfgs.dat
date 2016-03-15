@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:28  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:49:5  <<<<<
 
 
 **********  START: Parse input  **********
@@ -41,6 +41,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -133,7 +134,7 @@ h | 1.7519 | -1.0401 | -0.1000 | geometry_end |
 	Mulliken charge(SCF):	0	6	H	1.000000e+00	9.775077e-02
 	Mulliken charge(SCF):	0	7	H	1.000000e+00	1.088939e-01
 
-	Elapsed time(omp) for the SCF = 0.011147[s].
+	Elapsed time(omp) for the SCF = 0.011828[s].
 **********  DONE: PM3/PDDG-SCF  **********
 
 
@@ -1592,7 +1593,7 @@ Trust radius is 0.300000
 
 actual energy change          = -1.972818e-06
 expected energy change        = -1.382747e-06
-actual/expected energy change = 1.426739
+actual/expected energy change = 1.426738
 
 	====== Optimization Logs ======
 	Energy difference:  -1.972818e-06 [a.u.]
@@ -1764,9 +1765,9 @@ actual/expected energy change = 1.391970
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.530352[s].  <<<<<
+     >>>>>  CPU time: 0.534711[s].  <<<<<
      >>>>>  Elapsed time: 1[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.523051[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.523152[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 

@@ -1,6 +1,6 @@
 
 
-     >>>>>  Welcome to the MolDS world at 2016/1/27(Wed.) 21:39:11  <<<<<
+     >>>>>  Welcome to the MolDS world at 2016/3/15(Thu.) 16:48:48  <<<<<
 
 
 **********  START: Parse input  **********
@@ -41,6 +41,7 @@
 		DIIS number of error vectors: 5
 		DIIS starting error: 1.000000e-01
 		DIIS ending error: 2.000000e-08
+		Two electron integral: On node
 		van der Waals (vdW) correction: no
 		MPI in SCF: no
 		ScaLapack for digonalization of the SCF matrix: no
@@ -136,13 +137,13 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 				|  [a.u.]  |  [Kcal/mol]  | 
 	Heats of formation:	-2.736798e-02	-1.717367e+01
 
-	Elapsed time(omp) for the SCF = 0.011001[s].
+	Elapsed time(omp) for the SCF = 0.010894[s].
 **********  DONE: MNDO-SCF  **********
 
 
 **********  START: MNDO-CIS  **********
 ----------- START: Calculation of the CIS matrix -----------
-	Elapsed time(omp) for the calc. of the CIS matrix = 0.026413[s].
+	Elapsed time(omp) for the calc. of the CIS matrix = 0.026425[s].
 ----------- DONE: Calculation of the CIS matrix -----------
 
 	======  START: Davidson-CIS  =====
@@ -253,7 +254,7 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 	Transition dipole moment:	0 -> 4		-3.996160e-01	-5.793969e-01	5.636634e-01	9.017262e-01		-1.015723e+00	-1.472680e+00	1.432690e+00	2.291960e+00	1.839622e-01
 
 
-	Elapsed time(omp) for the CIS = 0.129319[s].
+	Elapsed time(omp) for the CIS = 0.123439[s].
 **********  DONE: MNDO-CIS  **********
 
 
@@ -263,9 +264,9 @@ h | 1.8300 | 0.5240 | 0.9100 | h | 1.8600 | -1.0401 | 0.0000 | geometry_end |
 
 
      >>>>>  The MolDS finished normally!  <<<<<
-     >>>>>  CPU time: 0.143559[s].  <<<<<
+     >>>>>  CPU time: 0.137215[s].  <<<<<
      >>>>>  Elapsed time: 0[s].  <<<<<
-     >>>>>  Elapsed time(OMP): 0.143816[s].  <<<<<
+     >>>>>  Elapsed time(OMP): 0.13606[s].  <<<<<
      >>>>>  See you.  <<<<<
 
 
