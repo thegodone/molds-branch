@@ -40,6 +40,13 @@ RENUMSTR_BEGIN( SimulationType, SimulationTypeStr )
    RENUMSTR( SimulationType_end,  "SimulationType_end" )
 RENUMSTR_END()
 
+RENUMSTR_BEGIN( TwoElecIntType, TwoElecIntTypeStr )
+   RENUMSTR( OnNode, "On node" )
+   RENUMSTR( Direct, "Direct" )
+   RENUMSTR( Distri, "Distributed" )
+   RENUMSTR( TwoElecIntType_end,  "TwoElecIntType_end" )
+RENUMSTR_END()
+
 RENUMSTR_BEGIN( TheoryType, TheoryTypeStr )
    RENUMSTR( CNDO2,  "CNDO/2" )
    RENUMSTR( INDO,   "INDO" )

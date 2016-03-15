@@ -266,8 +266,8 @@ HOW TO WRITE INPUT:
       -options
        Write below options in SCF-directive.
        "max_iter", "rms_density", "damping_thresh", "damping_weight", 
-       "diis_num_error_vect", "diis_start_error", "diis_end_error", "sum_charges"
-       "vdW", "vdW_s6", "vdW_d", "mpi", and "scalapack" are prepared as options.
+       "diis_num_error_vect", "diis_start_error", "diis_end_error", "two_elec_int", 
+       "vdW", "vdW_s6", "vdW_d", "sum_charges", "mpi", and "scalapack" are prepared as options.
        SCF module outputs also the dipole moment arrond the center of core's mass
        To calculate the dipole moment, STO-6G [DY_1977] is used.
 
@@ -278,6 +278,14 @@ HOW TO WRITE INPUT:
        The default value of the "diis_num_error_vect" is 5.
        The default value of the "diis_start_error" is 0.01.
        The default value of the "diis_end_error" is 10**(-8.0).
+
+       "two_elec_int" should be set as "on_node" or "direct". When the "on_node" is specifed, 
+       all two-core two-electron (2C2E) integrals are stored on every node. Namely, all node have all 2C2E integrals.
+       So, the "on_node" consumes a large amount of memory, but the "on_node" is fast. 
+       On the otherhand, when "direct" is specifed, no 2C2E element is stored on memory nor disk.
+       Namely the 2C2E integrals are calulated every time when they are required. 
+       The distributed storing of 2C2E integrals on multiple nodes is not implemented, unfortunately. 
+       The default value of the "two_elec_int" is "on_node"
 
        "vdW" should be set as "yes" or "no". 
        When "yes" is set, Grimmes's empirical van der Waals correction(D1, [G_2004]) is applied.
@@ -301,10 +309,8 @@ HOW TO WRITE INPUT:
        For PM3-D and AM1-D, this "vdW_s6" is forced to be set as 23.0.
 
        "sum_charges" is an option to calculate of summation of atomic charges in the ground state.
-       To use this option, write
-       "sum_charges first_atom_index last_atom_index"
-       in the SCF-directive.
-       The index starts from 0 for atoms written in geometry-directive.
+       To use this option, write "sum_charges first_atom_index last_atom_index"
+       in the SCF-directive. The index starts from 0 for atoms written in geometry-directive.
        The atoms indicated with first_atom_index and last_atom_index are also included in the atoms which charge is summed.
        Multiple setting of this "sum_charges" option is approvable, of course.
        If you want to calculate summation, same "sum_charges" option is available in CIS-directive.
@@ -327,6 +333,7 @@ HOW TO WRITE INPUT:
          SCF
             max_iter 200
             rms_density 1e-8
+            two_elec_int on_node
             damping_thresh 0.1
             damping_weight 0.7
             diis_num_error_vect 6

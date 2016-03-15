@@ -75,6 +75,7 @@ Cndo2::Cndo2(){
    //protected variables
    this->molecule = NULL;
    this->theory = CNDO2;
+   this->twoElecInt = OnNode;
    this->coreRepulsionEnergy  = 0.0;
    this->coreEpcCoulombEnergy = 0.0;
    this->vdWCorrectionEnergy  = 0.0;
@@ -312,6 +313,7 @@ void Cndo2::SetMolecule(Molecule* molecule){
    this->CheckNumberValenceElectrons(*molecule);
    this->CheckEnableAtomType(*molecule);
    this->CheckEnableAtomTypeVdW(*molecule);
+   this->twoElecInt = Parameters::GetInstance()->GetTwoElecIntSCF();
 
    // malloc
    MallocerFreer::GetInstance()->Malloc<double>(&this->fockMatrix,

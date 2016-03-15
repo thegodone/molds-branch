@@ -104,6 +104,7 @@ protected:
    std::vector<MolDS_base::AtomType> enableAtomTypes;
    MolDS_base::Molecule* molecule;
    MolDS_base::TheoryType theory;
+   MolDS_base::TwoElecIntType twoElecInt;
    double       coreRepulsionEnergy;
    double       coreEpcCoulombEnergy;
    double       vdWCorrectionEnergy;
