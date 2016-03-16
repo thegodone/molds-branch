@@ -119,6 +119,8 @@ protected:
 private:
    std::string errorMessageMultipoleA;
    std::string errorMessageMultipoleB;
+   std::string errorMessageGetFockDiagElementDistri;
+   std::string errorMessageGetFockOffDiagElementDistri;
    std::string messageHeatsFormation;
    std::string messageHeatsFormationTitle;
    double**** twoElecsTwoAtomCoresMpiBuff;
@@ -310,13 +312,21 @@ private:
                                     int indexAtomB, 
                                     int mu, 
                                     int nu, 
-                                    double const* const* const* const* const* const* twoElecsTwoAtomCores) const;
+                                    double const* const* const* const* diatomicTwoElecsTwoAtomCores) const;
    double GetElectronCoreAttraction1stDerivative(int indexAtomA, 
                                                  int indexAtomB, 
                                                  int mu, 
                                                  int nu, 
                                                  double const* const* const* const* const* diatomicTwoElecsTwoCores1stDerivatives,
                                                  MolDS_base::CartesianType axisA) const;
+   void CalcDiatomicTwoElecsTwoCores(double**** matrix, 
+                                     double*    tmpVec,
+                                     double**   tmpRotMat,
+                                     double**   tmpMatrixBC,
+                                     double*    tmpVectorBC,
+                                     const MolDS_base_atoms::Atom& atomA,
+                                     const MolDS_base_atoms::Atom& atomB,
+                                     bool  ssssOnly) const;
    void CalcDiatomicTwoElecsTwoCores(double**** matrix, 
                                      double*    tmpVec,
                                      double**   tmpRotMat,
