@@ -129,6 +129,16 @@ private:
    void CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores, 
                                  const MolDS_base::Molecule& molecule,
                                  bool requiresMpi) const;
+   void MallocTmpMatricesCalcTwoElecsTwoAtomCores(double***** diatomicTwoElecsTwoCores, 
+                                                  double**    tmpDiatomicTwoElecsTwoCores,
+                                                  double***   tmpRotMat,
+                                                  double***   tmpMatrixBC,
+                                                  double**    tmpVectorBC) const;
+   void FreeTmpMatricesCalcTwoElecsTwoAtomCores(double***** diatomicTwoElecsTwoCores, 
+                                                double**    tmpDiatomicTwoElecsTwoCores,
+                                                double***   tmpRotMat,
+                                                double***   tmpMatrixBC,
+                                                double**    tmpVectorBC) const;
    void CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores, 
                                  const MolDS_base::Molecule& molecule,
                                  bool requiresMpi) const;
