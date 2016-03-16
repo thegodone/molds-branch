@@ -547,18 +547,18 @@ private:
                                double*** hMatrix, 
                                double*** dammyOrbitalElectronPopulation, 
                                double**  dammyAtomicElectronPopulation ) const;
-   void FreeSCFTemporaryMatrices(double***  oldOrbitalElectronPopulation,
-                                 double**** diisStoredDensityMatrix,
-                                 double**** diisStoredErrorVect,
-                                 double***  diisErrorProducts,
-                                 double***  tmpDiisErrorProducts,
-                                 double**   diisErrorCoefficients) const;
-   void MallocSCFTemporaryMatrices(double***  oldOrbitalElectronPopulation,
-                                   double**** diisStoredDensityMatrix,
-                                   double**** diisStoredErrorVect,
-                                   double***  diisErrorProducts,
-                                   double***  tmpDiisErrorProducts,
-                                   double**   diisErrorCoefficients);
+   void FreeSCFTmpMatrices(double***  oldOrbitalElectronPopulation,
+                           double**** diisStoredDensityMatrix,
+                           double**** diisStoredErrorVect,
+                           double***  diisErrorProducts,
+                           double***  tmpDiisErrorProducts,
+                           double**   diisErrorCoefficients) const;
+   void MallocSCFTmpMatrices(double***  oldOrbitalElectronPopulation,
+                             double**** diisStoredDensityMatrix,
+                             double**** diisStoredErrorVect,
+                             double***  diisErrorProducts,
+                             double***  tmpDiisErrorProducts,
+                             double**   diisErrorCoefficients);
 };
 
 }
