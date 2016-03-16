@@ -88,27 +88,25 @@ Mndo::~Mndo(){
                                                  twoElecLimit,
                                                  twoElecLimit,
                                                  twoElecLimit);
-   }
-   MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCores, 
-                                              this->molecule->GetAtomVect().size(),
-                                              this->molecule->GetEpcVect().size(),
-                                              twoElecLimit,
-                                              twoElecLimit,
-                                              twoElecLimit,
-                                              twoElecLimit);
-   int numBuff = (twoElecLimit+1)*twoElecLimit/2;
-   if(this->twoElecInt==OnNode){
+      MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCores, 
+                                                 this->molecule->GetAtomVect().size(),
+                                                 this->molecule->GetEpcVect().size(),
+                                                 twoElecLimit,
+                                                 twoElecLimit,
+                                                 twoElecLimit,
+                                                 twoElecLimit);
+      int numBuff = (twoElecLimit+1)*twoElecLimit/2;
       MallocerFreer::GetInstance()->Free<double>(&this->twoElecsTwoAtomCoresMpiBuff, 
                                                  this->molecule->GetAtomVect().size(),
                                                  this->molecule->GetAtomVect().size(),
                                                  numBuff,
                                                  numBuff);
+      MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
+                                                 this->molecule->GetAtomVect().size(),
+                                                 this->molecule->GetEpcVect().size(),
+                                                 numBuff,
+                                                 numBuff);
    }
-   MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
-                                              this->molecule->GetAtomVect().size(),
-                                              this->molecule->GetEpcVect().size(),
-                                              numBuff,
-                                              numBuff);
 }
 
 void Mndo::SetMolecule(Molecule* molecule){
@@ -122,27 +120,25 @@ void Mndo::SetMolecule(Molecule* molecule){
                                                    twoElecLimit,
                                                    twoElecLimit,
                                                    twoElecLimit);
-   }
-   MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCores,
-                                                molecule->GetAtomVect().size(),
-                                                molecule->GetEpcVect().size(),
-                                                twoElecLimit,
-                                                twoElecLimit,
-                                                twoElecLimit,
-                                                twoElecLimit);
-   int numBuff = (twoElecLimit+1)*twoElecLimit/2;
-   if(this->twoElecInt==OnNode){
+      MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCores,
+                                                   molecule->GetAtomVect().size(),
+                                                   molecule->GetEpcVect().size(),
+                                                   twoElecLimit,
+                                                   twoElecLimit,
+                                                   twoElecLimit,
+                                                   twoElecLimit);
+      int numBuff = (twoElecLimit+1)*twoElecLimit/2;
       MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsTwoAtomCoresMpiBuff, 
                                                    this->molecule->GetAtomVect().size(),
                                                    this->molecule->GetAtomVect().size(),
                                                    numBuff,
                                                    numBuff);
+      MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
+                                                   this->molecule->GetAtomVect().size(),
+                                                   this->molecule->GetEpcVect().size(),
+                                                   numBuff,
+                                                   numBuff);
    }
-   MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
-                                                this->molecule->GetAtomVect().size(),
-                                                this->molecule->GetEpcVect().size(),
-                                                numBuff,
-                                                numBuff);
 }
 void Mndo::SetMessages(){
    this->errorMessageSCFNotConverged 
@@ -535,8 +531,22 @@ double Mndo::GetFockDiagElement(const Atom& atomA,
          if(0<numEpcs){
             double elecCharge = -1.0;
             for(int i=0; i<numEpcs; i++){
-               double epcCharge = molecule.GetEpcVect()[i]->GetCoreCharge();
-               value += elecCharge*epcCharge*twoElecsAtomEpcCores[indexAtomA][i][mu][mu][s][s];
+               const Atom& epc  = *molecule.GetEpcVect()[i];
+               double **** diaTetec = NULL;
+               if(this->twoElecInt==OnNode){
+                  diaTetec = twoElecsAtomEpcCores[indexAtomA][i];
+               }
+               if(this->twoElecInt==Direct){
+                  this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                     tmpDiatomicTwoElecsTwoCores,
+                                                     tmpRotMat, 
+                                                     tmpMatrixBC, 
+                                                     tmpVectorBC, 
+                                                     atomA, epc);
+                  diaTetec = diatomicTwoElecsTwoCores;
+               }
+               double epcCharge = epc.GetCoreCharge();
+               value += elecCharge*epcCharge*diaTetec[mu][mu][s][s];
             }
          }
       } // end of try block
@@ -650,8 +660,22 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
             if(0<numEpcs){
                double elecCharge = -1.0;
                for(int i=0; i<numEpcs; i++){
-                  double epcCharge = molecule.GetEpcVect()[i]->GetCoreCharge();
-                  value += elecCharge*epcCharge*twoElecsAtomEpcCores[indexAtomA][i][mu][nu][s][s];
+                  const Atom& epc  = *molecule.GetEpcVect()[i];
+                  double **** diaTetec = NULL;
+                  if(this->twoElecInt==OnNode){
+                     diaTetec = twoElecsAtomEpcCores[indexAtomA][i];
+                  }
+                  if(this->twoElecInt==Direct){
+                     this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                        tmpDiatomicTwoElecsTwoCores,
+                                                        tmpRotMat, 
+                                                        tmpMatrixBC, 
+                                                        tmpVectorBC, 
+                                                        atomA, epc);
+                     diaTetec = diatomicTwoElecsTwoCores;
+                  }
+                  double epcCharge = epc.GetCoreCharge();
+                  value += elecCharge*epcCharge*diaTetec[mu][nu][s][s];
                }
             }
             value += tmp;
@@ -4024,8 +4048,8 @@ void Mndo::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores,
                                 bool requiresMpi) const{
    if(this->twoElecInt==OnNode){
       this->CalcTwoElecsTwoAtomCores(twoElecsTwoAtomCores, molecule, requiresMpi);
+      this->CalcTwoElecsAtomEpcCores(twoElecsAtomEpcCores, molecule, requiresMpi);
    }
-   this->CalcTwoElecsAtomEpcCores(twoElecsAtomEpcCores, molecule, requiresMpi);
 }
 
 void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores, 
@@ -4208,11 +4232,11 @@ void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores,
             double*    tmpVectorBC                 = NULL;
             const Atom& atom = *molecule.GetAtomVect()[a];
             try{
-               MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+               this->MallocTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                               &tmpDiatomicTwoElecsTwoCores,
+                                                               &tmpRotMat, 
+                                                               &tmpMatrixBC, 
+                                                               &tmpVectorBC);
                // note that terms with condition a==b are not needed to calculate. 
 #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                for(int b=0; b<totalNumberEpcs; b++){
@@ -4244,15 +4268,15 @@ void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores,
 #pragma omp critical
                ex.Serialize(errorStream);
             }
-            MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-            MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+            this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                          &tmpDiatomicTwoElecsTwoCores,
+                                                          &tmpRotMat, 
+                                                          &tmpMatrixBC, 
+                                                          &tmpVectorBC);
          }
       }
       if(errorStream.str().empty()){
-         if(a<totalNumberAtoms-1 && requiresMpi){
+         if(a<totalNumberAtoms && requiresMpi){
             int b = 0;
             int numBuff = (twoElecLimit+1)*twoElecLimit/2;
             int num = totalNumberEpcs*numBuff*numBuff;

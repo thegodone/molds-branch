@@ -300,8 +300,8 @@ void Molecule::SetMessages(){
    this->messageCOC = "\t\tCenter of Core:";
    this->messageCOMTitle = "\t\t\t\t|   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
    this->messageEpcConfiguration = "\tEnvironmental Point Charge(EPC) configuration:\n";
-   this->messageEpcCoordinates = "\tEPC coordinates:";
-   this->messageEpcCoordinatesTitle = "\t\t\t\t| i-th |  charge[a.u.]  |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
+   this->messageEpcCoordinates = "\t\tEPC coordinates:";
+   this->messageEpcCoordinatesTitle = "\t\t\t\t\t| i-th |  charge[a.u.]  |   x[a.u.]   |   y[a.u.]   |   z[a.u.]   |\t\t|  x[angst.]  |  y[angst.]  |  z[angst.]  |\n";
    this->messageStartPrincipalAxes = "**********  START: Principal Axes of Inertia  **********\n";
    this->messageDonePrincipalAxes =  "**********  DONE: Principal Axes of Inertia  ***********\n\n\n";
    this->messagePrincipalAxes = "\tPrincipal Axis:";
