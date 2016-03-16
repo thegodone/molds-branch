@@ -95,13 +95,13 @@ Mndo::~Mndo(){
                                               twoElecLimit,
                                               twoElecLimit);
    int numBuff = (twoElecLimit+1)*twoElecLimit/2;
-   if(this->twoElecInt==OnNode){
+   //if(this->twoElecInt==OnNode){
       MallocerFreer::GetInstance()->Free<double>(&this->twoElecsTwoAtomCoresMpiBuff, 
                                                  this->molecule->GetAtomVect().size(),
                                                  this->molecule->GetAtomVect().size(),
                                                  numBuff,
                                                  numBuff);
-   }
+   //}
    MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
                                               this->molecule->GetAtomVect().size(),
                                               this->molecule->GetEpcVect().size(),
@@ -127,13 +127,13 @@ void Mndo::SetMolecule(Molecule* molecule){
                                                 twoElecLimit,
                                                 twoElecLimit);
    int numBuff = (twoElecLimit+1)*twoElecLimit/2;
-   if(this->twoElecInt==OnNode){
+   //if(this->twoElecInt==OnNode){
       MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsTwoAtomCoresMpiBuff, 
                                                    this->molecule->GetAtomVect().size(),
                                                    this->molecule->GetAtomVect().size(),
                                                    numBuff,
                                                    numBuff);
-   }
+   //}
    MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
                                                 this->molecule->GetAtomVect().size(),
                                                 this->molecule->GetEpcVect().size(),
@@ -472,11 +472,11 @@ double Mndo::GetFockDiagElement(const Atom& atomA,
       double*    tmpVectorBC                 = NULL;
       try{
          if(this->twoElecInt==Direct){
-            MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+            this->MallocTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                            &tmpDiatomicTwoElecsTwoCores,
+                                                            &tmpRotMat, 
+                                                            &tmpMatrixBC, 
+                                                            &tmpVectorBC);
          }
          double tmp = 0.0;
          OrbitalType orbitalMu = atomA.GetValence(mu);
@@ -535,20 +535,20 @@ double Mndo::GetFockDiagElement(const Atom& atomA,
       } // end of try block
       catch(MolDSException ex){
          if(this->twoElecInt==Direct){
-            MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-            MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+            this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                          &tmpDiatomicTwoElecsTwoCores,
+                                                          &tmpRotMat, 
+                                                          &tmpMatrixBC, 
+                                                          &tmpVectorBC);
          }
          throw ex;
       }
       if(this->twoElecInt==Direct){
-         MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-         MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+         this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                       &tmpDiatomicTwoElecsTwoCores,
+                                                       &tmpRotMat, 
+                                                       &tmpMatrixBC, 
+                                                       &tmpVectorBC);
       }
    } // end of if(!isGuess)
 
@@ -594,11 +594,11 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
       double*    tmpVectorBC                 = NULL;
       try{
          if(this->twoElecInt==Direct){
-            MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-            MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+            this->MallocTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                            &tmpDiatomicTwoElecsTwoCores,
+                                                            &tmpRotMat, 
+                                                            &tmpMatrixBC, 
+                                                            &tmpVectorBC);
          }
          if(indexAtomA == indexAtomB){
             coulomb  = this->GetCoulombInt(orbitalMu, orbitalNu, atomA); 
@@ -672,20 +672,20 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
       } // end of try block
       catch(MolDSException ex){
          if(this->twoElecInt==Direct){
-            MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-            MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+            this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                          &tmpDiatomicTwoElecsTwoCores,
+                                                          &tmpRotMat, 
+                                                          &tmpMatrixBC, 
+                                                          &tmpVectorBC);
          }
          throw ex;
       }
       if(this->twoElecInt==Direct){
-         MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-         MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-         MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+         this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                       &tmpDiatomicTwoElecsTwoCores,
+                                                       &tmpRotMat, 
+                                                       &tmpMatrixBC, 
+                                                       &tmpVectorBC);
       }
    } // end of else
 
@@ -3864,11 +3864,11 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
             double**   tmpMatrixBC                 = NULL;
             double*    tmpVectorBC                 = NULL;
             try{
-               MallocerFreer::GetInstance()->Malloc<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-               MallocerFreer::GetInstance()->Malloc<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+               this->MallocTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                               &tmpDiatomicTwoElecsTwoCores,
+                                                               &tmpRotMat, 
+                                                               &tmpMatrixBC, 
+                                                               &tmpVectorBC);
                // note that terms with condition a==b are not needed to calculate. 
 #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                for(int b=a+1; b<totalNumberAtoms; b++){
@@ -3898,11 +3898,11 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
 #pragma omp critical
                ex.Serialize(errorStream);
             }
-            MallocerFreer::GetInstance()->Free<double>(&diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpRotMat,                   OrbitalType_end, OrbitalType_end);
-            MallocerFreer::GetInstance()->Free<double>(&tmpMatrixBC,                 dxy*dxy, dxy*dxy);
-            MallocerFreer::GetInstance()->Free<double>(&tmpVectorBC,                 dxy*dxy*dxy*dxy);
+            this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                          &tmpDiatomicTwoElecsTwoCores,
+                                                          &tmpRotMat, 
+                                                          &tmpMatrixBC, 
+                                                          &tmpVectorBC);
          }
       }
       if(errorStream.str().empty()){
@@ -3946,6 +3946,30 @@ void Mndo::CalcTwoElecsTwoAtomCores(double****** twoElecsTwoAtomCores,
          }
       }
    }
+}
+
+void Mndo::MallocTmpMatricesCalcTwoElecsTwoAtomCores(double***** diatomicTwoElecsTwoCores, 
+                                                     double**    tmpDiatomicTwoElecsTwoCores,
+                                                     double***   tmpRotMat,
+                                                     double***   tmpMatrixBC,
+                                                     double**    tmpVectorBC) const{
+   MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpRotMat,                   OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpMatrixBC,                 dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Malloc<double>(tmpVectorBC,                 dxy*dxy*dxy*dxy);
+}
+
+void Mndo::FreeTmpMatricesCalcTwoElecsTwoAtomCores(double***** diatomicTwoElecsTwoCores, 
+                                                   double**    tmpDiatomicTwoElecsTwoCores,
+                                                   double***   tmpRotMat,
+                                                   double***   tmpMatrixBC,
+                                                   double**    tmpVectorBC) const{
+   MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecsTwoCores,    dxy, dxy, dxy, dxy);
+   MallocerFreer::GetInstance()->Free<double>(tmpDiatomicTwoElecsTwoCores, dxy*dxy*dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(tmpRotMat,                   OrbitalType_end, OrbitalType_end);
+   MallocerFreer::GetInstance()->Free<double>(tmpMatrixBC,                 dxy*dxy, dxy*dxy);
+   MallocerFreer::GetInstance()->Free<double>(tmpVectorBC,                 dxy*dxy*dxy*dxy);
 }
 
 void Mndo::CalcTwoElecsAtomEpcCores(double****** twoElecsAtomEpcCores, 
