@@ -80,13 +80,15 @@ Mndo::Mndo() : MolDS_zindo::ZindoS(){
 
 Mndo::~Mndo(){
    OrbitalType twoElecLimit = dxy;
-   MallocerFreer::GetInstance()->Free<double>(&this->twoElecsTwoAtomCores, 
-                                              this->molecule->GetAtomVect().size(),
-                                              this->molecule->GetAtomVect().size(),
-                                              twoElecLimit,
-                                              twoElecLimit,
-                                              twoElecLimit,
-                                              twoElecLimit);
+   if(this->twoElecInt==OnNode){
+      MallocerFreer::GetInstance()->Free<double>(&this->twoElecsTwoAtomCores, 
+                                                 this->molecule->GetAtomVect().size(),
+                                                 this->molecule->GetAtomVect().size(),
+                                                 twoElecLimit,
+                                                 twoElecLimit,
+                                                 twoElecLimit,
+                                                 twoElecLimit);
+   }
    MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCores, 
                                               this->molecule->GetAtomVect().size(),
                                               this->molecule->GetEpcVect().size(),
@@ -95,13 +97,13 @@ Mndo::~Mndo(){
                                               twoElecLimit,
                                               twoElecLimit);
    int numBuff = (twoElecLimit+1)*twoElecLimit/2;
-   //if(this->twoElecInt==OnNode){
+   if(this->twoElecInt==OnNode){
       MallocerFreer::GetInstance()->Free<double>(&this->twoElecsTwoAtomCoresMpiBuff, 
                                                  this->molecule->GetAtomVect().size(),
                                                  this->molecule->GetAtomVect().size(),
                                                  numBuff,
                                                  numBuff);
-   //}
+   }
    MallocerFreer::GetInstance()->Free<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
                                               this->molecule->GetAtomVect().size(),
                                               this->molecule->GetEpcVect().size(),
@@ -112,13 +114,15 @@ Mndo::~Mndo(){
 void Mndo::SetMolecule(Molecule* molecule){
    ZindoS::SetMolecule(molecule);
    OrbitalType twoElecLimit = dxy;
-   MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsTwoAtomCores,
-                                                molecule->GetAtomVect().size(),
-                                                molecule->GetAtomVect().size(),
-                                                twoElecLimit,
-                                                twoElecLimit,
-                                                twoElecLimit,
-                                                twoElecLimit);
+   if(this->twoElecInt==OnNode){
+      MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsTwoAtomCores,
+                                                   molecule->GetAtomVect().size(),
+                                                   molecule->GetAtomVect().size(),
+                                                   twoElecLimit,
+                                                   twoElecLimit,
+                                                   twoElecLimit,
+                                                   twoElecLimit);
+   }
    MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCores,
                                                 molecule->GetAtomVect().size(),
                                                 molecule->GetEpcVect().size(),
@@ -127,13 +131,13 @@ void Mndo::SetMolecule(Molecule* molecule){
                                                 twoElecLimit,
                                                 twoElecLimit);
    int numBuff = (twoElecLimit+1)*twoElecLimit/2;
-   //if(this->twoElecInt==OnNode){
+   if(this->twoElecInt==OnNode){
       MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsTwoAtomCoresMpiBuff, 
                                                    this->molecule->GetAtomVect().size(),
                                                    this->molecule->GetAtomVect().size(),
                                                    numBuff,
                                                    numBuff);
-   //}
+   }
    MallocerFreer::GetInstance()->Malloc<double>(&this->twoElecsAtomEpcCoresMpiBuff, 
                                                 this->molecule->GetAtomVect().size(),
                                                 this->molecule->GetEpcVect().size(),
@@ -497,7 +501,10 @@ double Mndo::GetFockDiagElement(const Atom& atomA,
                const Atom& atomB = *molecule.GetAtomVect()[B];
                int firstAOIndexB = atomB.GetFirstAOIndex();
                int valenceSizeB = atomB.GetValenceSize();
-               double const* const* const* const* diaTetac = twoElecsTwoAtomCores[indexAtomA][B];
+               double const* const* const* const* diaTetac = NULL;
+               if(this->twoElecInt==OnNode){
+                  diaTetac = twoElecsTwoAtomCores[indexAtomA][B];
+               }
                if(this->twoElecInt==Direct){
                   this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
                                                      tmpDiatomicTwoElecsTwoCores,
@@ -611,7 +618,10 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
                   const Atom& atomBB = *molecule.GetAtomVect()[BB];
                   int firstAOIndexBB = atomBB.GetFirstAOIndex();
                   int valenceSizeBB = atomBB.GetValenceSize();
-                  double const* const* const* const* diaTetac = twoElecsTwoAtomCores[indexAtomA][BB];
+                  double const* const* const* const* diaTetac = NULL;
+                  if(this->twoElecInt==OnNode){
+                     diaTetac = twoElecsTwoAtomCores[indexAtomA][BB];
+                  }
                   if(this->twoElecInt==Direct){
                      this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
                                                         tmpDiatomicTwoElecsTwoCores,
@@ -632,7 +642,7 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
                                                          BB, 
                                                          mu, 
                                                          nu, 
-                                                         twoElecsTwoAtomCores[indexAtomA][BB]);
+                                                         diaTetac);
                }
             }
             // coulomb repulsion with point charge *
@@ -650,7 +660,10 @@ double Mndo::GetFockOffDiagElement(const Atom& atomA,
             double tmp = bondParameter*overlapAOs[mu+firstAOIndexA][nu+firstAOIndexB];
             for(int sigma=0; sigma<atomA.GetValenceSize(); sigma++){
                int valenceSizeB = atomB.GetValenceSize();
-               double const* const* const* const* diaTetac = twoElecsTwoAtomCores[indexAtomA][indexAtomB];
+               double const* const* const* const* diaTetac = NULL;
+               if(this->twoElecInt==OnNode){
+                  diaTetac = twoElecsTwoAtomCores[indexAtomA][indexAtomB];
+               }
                if(this->twoElecInt==Direct){
                   this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
                                                      tmpDiatomicTwoElecsTwoCores,
@@ -807,101 +820,144 @@ double Mndo::GetMolecularIntegralElement(int moI, int moJ, int moK, int moL,
                                          double const* const* fockMatrix, 
                                          double const* const* gammaAB) const{
    double value = 0.0;
-   for(int A=0; A<molecule.GetAtomVect().size(); A++){
-      const Atom& atomA = *molecule.GetAtomVect()[A];
-      int firstAOIndexA = atomA.GetFirstAOIndex();
-      int lastAOIndexA  = atomA.GetLastAOIndex();
+   double**** diatomicTwoElecsTwoCores    = NULL;
+   double*    tmpDiatomicTwoElecsTwoCores = NULL;
+   double**   tmpRotMat                   = NULL;
+   double**   tmpMatrixBC                 = NULL;
+   double*    tmpVectorBC                 = NULL;
+   try{
+      if(this->twoElecInt==Direct){
+         this->MallocTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                         &tmpDiatomicTwoElecsTwoCores,
+                                                         &tmpRotMat, 
+                                                         &tmpMatrixBC, 
+                                                         &tmpVectorBC);
+      }
+     
+      for(int A=0; A<molecule.GetAtomVect().size(); A++){
+         const Atom& atomA = *molecule.GetAtomVect()[A];
+         int firstAOIndexA = atomA.GetFirstAOIndex();
+         int lastAOIndexA  = atomA.GetLastAOIndex();
 
-      for(int B=A; B<molecule.GetAtomVect().size(); B++){
-         const Atom& atomB = *molecule.GetAtomVect()[B];
-         int firstAOIndexB = atomB.GetFirstAOIndex();
-         int lastAOIndexB  = atomB.GetLastAOIndex();
+         for(int B=A; B<molecule.GetAtomVect().size(); B++){
+            const Atom& atomB = *molecule.GetAtomVect()[B];
+            int firstAOIndexB = atomB.GetFirstAOIndex();
+            int lastAOIndexB  = atomB.GetLastAOIndex();
 
-         double gamma = 0.0;
-         if(A!=B){
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=mu; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
-                        OrbitalType orbitalSigma = atomB.GetValence(sigma-firstAOIndexB);
-                        gamma = this->twoElecsTwoAtomCores[A]
-                                                          [B]
-                                                          [mu-firstAOIndexA]
-                                                          [nu-firstAOIndexA]
-                                                          [lambda-firstAOIndexB]
-                                                          [sigma-firstAOIndexB];
+            double gamma = 0.0;
+            if(A!=B){
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  for(int nu=mu; nu<=lastAOIndexA; nu++){
+                     for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                        for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
+                           double**** diaTetac = NULL;
+                           if(this->twoElecInt==OnNode){
+                              diaTetac = twoElecsTwoAtomCores[A][B];
+                           }
+                           if(this->twoElecInt==Direct){
+                              this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                                 tmpDiatomicTwoElecsTwoCores,
+                                                                 tmpRotMat, 
+                                                                 tmpMatrixBC, 
+                                                                 tmpVectorBC, 
+                                                                 A, B);
+                              diaTetac = diatomicTwoElecsTwoCores;
+                           }
+                           OrbitalType orbitalSigma = atomB.GetValence(sigma-firstAOIndexB);
+                           gamma = diaTetac[mu-firstAOIndexA]
+                                           [nu-firstAOIndexA]
+                                           [lambda-firstAOIndexB]
+                                           [sigma-firstAOIndexB];
 
-                        value += gamma*fockMatrix[moI][mu]
-                                      *fockMatrix[moJ][nu]
-                                      *fockMatrix[moK][lambda]
-                                      *fockMatrix[moL][sigma];
-                        value += gamma*fockMatrix[moI][lambda]
-                                      *fockMatrix[moJ][sigma]
-                                      *fockMatrix[moK][mu]
-                                      *fockMatrix[moL][nu];
-                        if(lambda != sigma){
                            value += gamma*fockMatrix[moI][mu]
                                          *fockMatrix[moJ][nu]
-                                         *fockMatrix[moK][sigma]
-                                         *fockMatrix[moL][lambda];
-                           value += gamma*fockMatrix[moI][sigma]
-                                         *fockMatrix[moJ][lambda]
-                                         *fockMatrix[moK][mu]
-                                         *fockMatrix[moL][nu];
-                        }
-                        if(mu != nu){
-                           value += gamma*fockMatrix[moI][nu]
-                                         *fockMatrix[moJ][mu]
                                          *fockMatrix[moK][lambda]
                                          *fockMatrix[moL][sigma];
                            value += gamma*fockMatrix[moI][lambda]
                                          *fockMatrix[moJ][sigma]
-                                         *fockMatrix[moK][nu]
-                                         *fockMatrix[moL][mu];
-                        }
-                        if(mu != nu && lambda != sigma){
-                           value += gamma*fockMatrix[moI][nu]
-                                         *fockMatrix[moJ][mu]
-                                         *fockMatrix[moK][sigma]
-                                         *fockMatrix[moL][lambda];
-                           value += gamma*fockMatrix[moI][sigma]
-                                         *fockMatrix[moJ][lambda]
-                                         *fockMatrix[moK][nu]
-                                         *fockMatrix[moL][mu];
+                                         *fockMatrix[moK][mu]
+                                         *fockMatrix[moL][nu];
+                           if(lambda != sigma){
+                              value += gamma*fockMatrix[moI][mu]
+                                            *fockMatrix[moJ][nu]
+                                            *fockMatrix[moK][sigma]
+                                            *fockMatrix[moL][lambda];
+                              value += gamma*fockMatrix[moI][sigma]
+                                            *fockMatrix[moJ][lambda]
+                                            *fockMatrix[moK][mu]
+                                            *fockMatrix[moL][nu];
+                           }
+                           if(mu != nu){
+                              value += gamma*fockMatrix[moI][nu]
+                                            *fockMatrix[moJ][mu]
+                                            *fockMatrix[moK][lambda]
+                                            *fockMatrix[moL][sigma];
+                              value += gamma*fockMatrix[moI][lambda]
+                                            *fockMatrix[moJ][sigma]
+                                            *fockMatrix[moK][nu]
+                                            *fockMatrix[moL][mu];
+                           }
+                           if(mu != nu && lambda != sigma){
+                              value += gamma*fockMatrix[moI][nu]
+                                            *fockMatrix[moJ][mu]
+                                            *fockMatrix[moK][sigma]
+                                            *fockMatrix[moL][lambda];
+                              value += gamma*fockMatrix[moI][sigma]
+                                            *fockMatrix[moJ][lambda]
+                                            *fockMatrix[moK][nu]
+                                            *fockMatrix[moL][mu];
+                           }
                         }
                      }
                   }
                }
             }
-         }
-         else{
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-                        if(mu==nu && lambda==sigma){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
-                           gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
-                        }
-                        else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
-                           gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
-                        }
-                        else{
-                           gamma = 0.0;
-                        }
-                        value += gamma*fockMatrix[moI][mu]
-                                      *fockMatrix[moJ][nu]
-                                      *fockMatrix[moK][lambda]
-                                      *fockMatrix[moL][sigma];
-                     }  
+            else{
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                     for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                        for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                           if(mu==nu && lambda==sigma){
+                              OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                              OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
+                              gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+                           }
+                           else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
+                              OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                              OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
+                              gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+                           }
+                           else{
+                              gamma = 0.0;
+                           }
+                           value += gamma*fockMatrix[moI][mu]
+                                         *fockMatrix[moJ][nu]
+                                         *fockMatrix[moK][lambda]
+                                         *fockMatrix[moL][sigma];
+                        }  
+                     }
                   }
                }
             }
-         }
+         }  // end of loop B
+      }  // endd of loop A
+   } // end of try block
+   catch(MolDSException ex){
+      if(this->twoElecInt==Direct){
+         this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                       &tmpDiatomicTwoElecsTwoCores,
+                                                       &tmpRotMat, 
+                                                       &tmpMatrixBC, 
+                                                       &tmpVectorBC);
       }
+      throw ex;
+   }
+   if(this->twoElecInt==Direct){
+      this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                    &tmpDiatomicTwoElecsTwoCores,
+                                                    &tmpRotMat, 
+                                                    &tmpMatrixBC, 
+                                                    &tmpVectorBC);
    }
    return value;
 }
@@ -928,146 +984,180 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
          double *fockMatrix_moI = fockMatrix[moI];
          double *fockMatrix_moA = fockMatrix[moA];
          stringstream ompErrors;
-#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
-         for(int l=k; l<this->matrixCISdimension; l++){
+         #pragma omp parallel
+         {
+            double**** diatomicTwoElecsTwoCores    = NULL;
+            double*    tmpDiatomicTwoElecsTwoCores = NULL;
+            double**   tmpRotMat                   = NULL;
+            double**   tmpMatrixBC                 = NULL;
+            double*    tmpVectorBC                 = NULL;
             try{
-               // single excitation from J-th (occupied)MO to B-th (virtual)MO
-               int moJ = this->GetActiveOccIndex(*this->molecule, l);
-               int moB = this->GetActiveVirIndex(*this->molecule, l);
-               double *fockMatrix_moJ = fockMatrix[moJ];
-               double *fockMatrix_moB = fockMatrix[moB];
-               double value=0.0;
-                
-               for(int A=0; A<molecule->GetAtomVect().size(); A++){
-                  const Atom& atomA = *molecule->GetAtomVect()[A];
-                  int firstAOIndexA = atomA.GetFirstAOIndex();
-                  int lastAOIndexA  = atomA.GetLastAOIndex();
-      
-                  for(int B=A; B<molecule->GetAtomVect().size(); B++){
-                     const Atom& atomB = *molecule->GetAtomVect()[B];
-                     int firstAOIndexB = atomB.GetFirstAOIndex();
-                     int lastAOIndexB  = atomB.GetLastAOIndex();
-      
-                     double gamma = 0.0;
-                     if(A!=B){
-                        double**** gamma_AB = this->twoElecsTwoAtomCores[A][B];
-                        for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-                           double*** gamma_ABm = gamma_AB[mu-firstAOIndexA];
-                           for(int nu=mu; nu<=lastAOIndexA; nu++){
-                              double** gamma_ABmn = gamma_ABm[nu-firstAOIndexA];
-                              double tmpMuNu01 = 2.0*fockMatrix_moA[mu]
-                                                    *fockMatrix_moI[nu];
-                              double tmpMuNu02 = 2.0*fockMatrix_moJ[mu]
-                                                    *fockMatrix_moB[nu];
-                              double tmpMuNu03 = fockMatrix_moA[mu]
-                                                *fockMatrix_moB[nu];
-                              double tmpMuNu04 = fockMatrix_moI[mu]
-                                                *fockMatrix_moJ[nu];
-                              double tmpMuNu09 = 2.0*fockMatrix_moI[mu]
-                                                    *fockMatrix_moA[nu];
-                              double tmpMuNu10 = 2.0*fockMatrix_moB[mu]
-                                                    *fockMatrix_moJ[nu];
-                              double tmpMuNu11 = fockMatrix_moB[mu]
-                                                *fockMatrix_moA[nu];
-                              double tmpMuNu12 = fockMatrix_moJ[mu]
-                                                *fockMatrix_moI[nu];
-                              for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                                 double tmpMuNuLamda01 = tmpMuNu01*fockMatrix_moJ[lambda];
-                                 double tmpMuNuLamda02 = tmpMuNu02*fockMatrix_moA[lambda];
-                                 double tmpMuNuLamda03 = tmpMuNu03*fockMatrix_moI[lambda];
-                                 double tmpMuNuLamda04 = tmpMuNu04*fockMatrix_moA[lambda];
-                                 double tmpMuNuLamda05 = tmpMuNu01*fockMatrix_moB[lambda];
-                                 double tmpMuNuLamda06 = tmpMuNu02*fockMatrix_moI[lambda];
-                                 double tmpMuNuLamda07 = tmpMuNu03*fockMatrix_moJ[lambda];
-                                 double tmpMuNuLamda08 = tmpMuNu04*fockMatrix_moB[lambda];
-                                 double tmpMuNuLamda09 = tmpMuNu09*fockMatrix_moJ[lambda];
-                                 double tmpMuNuLamda10 = tmpMuNu10*fockMatrix_moA[lambda];
-                                 double tmpMuNuLamda11 = tmpMuNu11*fockMatrix_moI[lambda];
-                                 double tmpMuNuLamda12 = tmpMuNu12*fockMatrix_moA[lambda];
-                                 double tmpMuNuLamda13 = tmpMuNu09*fockMatrix_moB[lambda];
-                                 double tmpMuNuLamda14 = tmpMuNu10*fockMatrix_moI[lambda];
-                                 double tmpMuNuLamda15 = tmpMuNu11*fockMatrix_moJ[lambda];
-                                 double tmpMuNuLamda16 = tmpMuNu12*fockMatrix_moB[lambda];
-                                 double* gamma_ABmnl = gamma_ABmn[lambda-firstAOIndexB];
-                                 for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
-                                    gamma = gamma_ABmnl[sigma-firstAOIndexB];
-  
-                                    double c1 = lambda != sigma ? 1.0 : 0.0;
-                                    double c2 = mu     != nu    ? 1.0 : 0.0;
-                                    double c3 = c1*c2;
-                                    value += gamma*tmpMuNuLamda01*fockMatrix_moB[sigma];
-                                    value += gamma*tmpMuNuLamda02*fockMatrix_moI[sigma];
-                                    value -= gamma*tmpMuNuLamda03*fockMatrix_moJ[sigma];
-                                    value -= gamma*tmpMuNuLamda04*fockMatrix_moB[sigma];
-
-                                    //if(lambda != sigma)
-                                    value += c1*gamma*tmpMuNuLamda05*fockMatrix_moJ[sigma];
-                                    value += c1*gamma*tmpMuNuLamda06*fockMatrix_moA[sigma];
-                                    value -= c1*gamma*tmpMuNuLamda07*fockMatrix_moI[sigma];
-                                    value -= c1*gamma*tmpMuNuLamda08*fockMatrix_moA[sigma];
-
-                                    //if(mu != nu)
-                                    value += c2*gamma*tmpMuNuLamda09*fockMatrix_moB[sigma];
-                                    value += c2*gamma*tmpMuNuLamda10*fockMatrix_moI[sigma];
-                                    value -= c2*gamma*tmpMuNuLamda11*fockMatrix_moJ[sigma];
-                                    value -= c2*gamma*tmpMuNuLamda12*fockMatrix_moB[sigma];
-
-                                    //if(mu != nu && lambda != sigma)
-                                    value += c3*gamma*tmpMuNuLamda13*fockMatrix_moJ[sigma];
-                                    value += c3*gamma*tmpMuNuLamda14*fockMatrix_moA[sigma];
-                                    value -= c3*gamma*tmpMuNuLamda15*fockMatrix_moI[sigma];
-                                    value -= c3*gamma*tmpMuNuLamda16*fockMatrix_moA[sigma];
-
+               if(this->twoElecInt==Direct){
+                  this->MallocTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                                  &tmpDiatomicTwoElecsTwoCores,
+                                                                  &tmpRotMat, 
+                                                                  &tmpMatrixBC, 
+                                                                  &tmpVectorBC);
+               }
+               #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE) 
+               for(int l=k; l<this->matrixCISdimension; l++){
+                  // single excitation from J-th (occupied)MO to B-th (virtual)MO
+                  int moJ = this->GetActiveOccIndex(*this->molecule, l);
+                  int moB = this->GetActiveVirIndex(*this->molecule, l);
+                  double *fockMatrix_moJ = fockMatrix[moJ];
+                  double *fockMatrix_moB = fockMatrix[moB];
+                  double value=0.0;
+                   
+                  for(int A=0; A<molecule->GetAtomVect().size(); A++){
+                     const Atom& atomA = *molecule->GetAtomVect()[A];
+                     int firstAOIndexA = atomA.GetFirstAOIndex();
+                     int lastAOIndexA  = atomA.GetLastAOIndex();
+            
+                     for(int B=A; B<molecule->GetAtomVect().size(); B++){
+                        const Atom& atomB = *molecule->GetAtomVect()[B];
+                        int firstAOIndexB = atomB.GetFirstAOIndex();
+                        int lastAOIndexB  = atomB.GetLastAOIndex();
+            
+                        double gamma = 0.0;
+                        if(A!=B){
+                           double**** gamma_AB = NULL;
+                           if(this->twoElecInt==OnNode){
+                              gamma_AB = this->twoElecsTwoAtomCores[A][B];
+                           }
+                           if(this->twoElecInt==Direct){
+                              this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                                 tmpDiatomicTwoElecsTwoCores,
+                                                                 tmpRotMat, 
+                                                                 tmpMatrixBC, 
+                                                                 tmpVectorBC, 
+                                                                 A, B);
+                              gamma_AB = diatomicTwoElecsTwoCores;
+                           }
+                           for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                              double*** gamma_ABm = gamma_AB[mu-firstAOIndexA];
+                              for(int nu=mu; nu<=lastAOIndexA; nu++){
+                                 double** gamma_ABmn = gamma_ABm[nu-firstAOIndexA];
+                                 double tmpMuNu01 = 2.0*fockMatrix_moA[mu]
+                                                       *fockMatrix_moI[nu];
+                                 double tmpMuNu02 = 2.0*fockMatrix_moJ[mu]
+                                                       *fockMatrix_moB[nu];
+                                 double tmpMuNu03 = fockMatrix_moA[mu]
+                                                   *fockMatrix_moB[nu];
+                                 double tmpMuNu04 = fockMatrix_moI[mu]
+                                                   *fockMatrix_moJ[nu];
+                                 double tmpMuNu09 = 2.0*fockMatrix_moI[mu]
+                                                       *fockMatrix_moA[nu];
+                                 double tmpMuNu10 = 2.0*fockMatrix_moB[mu]
+                                                       *fockMatrix_moJ[nu];
+                                 double tmpMuNu11 = fockMatrix_moB[mu]
+                                                   *fockMatrix_moA[nu];
+                                 double tmpMuNu12 = fockMatrix_moJ[mu]
+                                                   *fockMatrix_moI[nu];
+                                 for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                                    double tmpMuNuLamda01 = tmpMuNu01*fockMatrix_moJ[lambda];
+                                    double tmpMuNuLamda02 = tmpMuNu02*fockMatrix_moA[lambda];
+                                    double tmpMuNuLamda03 = tmpMuNu03*fockMatrix_moI[lambda];
+                                    double tmpMuNuLamda04 = tmpMuNu04*fockMatrix_moA[lambda];
+                                    double tmpMuNuLamda05 = tmpMuNu01*fockMatrix_moB[lambda];
+                                    double tmpMuNuLamda06 = tmpMuNu02*fockMatrix_moI[lambda];
+                                    double tmpMuNuLamda07 = tmpMuNu03*fockMatrix_moJ[lambda];
+                                    double tmpMuNuLamda08 = tmpMuNu04*fockMatrix_moB[lambda];
+                                    double tmpMuNuLamda09 = tmpMuNu09*fockMatrix_moJ[lambda];
+                                    double tmpMuNuLamda10 = tmpMuNu10*fockMatrix_moA[lambda];
+                                    double tmpMuNuLamda11 = tmpMuNu11*fockMatrix_moI[lambda];
+                                    double tmpMuNuLamda12 = tmpMuNu12*fockMatrix_moA[lambda];
+                                    double tmpMuNuLamda13 = tmpMuNu09*fockMatrix_moB[lambda];
+                                    double tmpMuNuLamda14 = tmpMuNu10*fockMatrix_moI[lambda];
+                                    double tmpMuNuLamda15 = tmpMuNu11*fockMatrix_moJ[lambda];
+                                    double tmpMuNuLamda16 = tmpMuNu12*fockMatrix_moB[lambda];
+                                    double* gamma_ABmnl = gamma_ABmn[lambda-firstAOIndexB];
+                                    for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
+                                       gamma = gamma_ABmnl[sigma-firstAOIndexB];
+            
+                                       double c1 = lambda != sigma ? 1.0 : 0.0;
+                                       double c2 = mu     != nu    ? 1.0 : 0.0;
+                                       double c3 = c1*c2;
+                                       value += gamma*tmpMuNuLamda01*fockMatrix_moB[sigma];
+                                       value += gamma*tmpMuNuLamda02*fockMatrix_moI[sigma];
+                                       value -= gamma*tmpMuNuLamda03*fockMatrix_moJ[sigma];
+                                       value -= gamma*tmpMuNuLamda04*fockMatrix_moB[sigma];
+            
+                                       //if(lambda != sigma)
+                                       value += c1*gamma*tmpMuNuLamda05*fockMatrix_moJ[sigma];
+                                       value += c1*gamma*tmpMuNuLamda06*fockMatrix_moA[sigma];
+                                       value -= c1*gamma*tmpMuNuLamda07*fockMatrix_moI[sigma];
+                                       value -= c1*gamma*tmpMuNuLamda08*fockMatrix_moA[sigma];
+            
+                                       //if(mu != nu)
+                                       value += c2*gamma*tmpMuNuLamda09*fockMatrix_moB[sigma];
+                                       value += c2*gamma*tmpMuNuLamda10*fockMatrix_moI[sigma];
+                                       value -= c2*gamma*tmpMuNuLamda11*fockMatrix_moJ[sigma];
+                                       value -= c2*gamma*tmpMuNuLamda12*fockMatrix_moB[sigma];
+            
+                                       //if(mu != nu && lambda != sigma)
+                                       value += c3*gamma*tmpMuNuLamda13*fockMatrix_moJ[sigma];
+                                       value += c3*gamma*tmpMuNuLamda14*fockMatrix_moA[sigma];
+                                       value -= c3*gamma*tmpMuNuLamda15*fockMatrix_moI[sigma];
+                                       value -= c3*gamma*tmpMuNuLamda16*fockMatrix_moA[sigma];
+            
+                                    }
+                                 }
+                              }
+                           }
+                        }
+                        else{
+                           for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                              for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                                 double tmpMuNu01 = 2.0*fockMatrix_moA[mu]
+                                                       *fockMatrix_moI[nu];
+                                 double tmpMuNu02 = fockMatrix_moA[mu]
+                                                   *fockMatrix_moB[nu];
+                                 for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                                    double tmpMuNuLamda01 = tmpMuNu01*fockMatrix_moJ[lambda];
+                                    double tmpMuNuLamda02 = tmpMuNu02*fockMatrix_moI[lambda];
+                                    for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                                       if(mu==nu && lambda==sigma){
+                                          OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                                          OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
+                                          gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+                                       }
+                                       else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
+                                          OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                                          OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
+                                          gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+                                       }
+                                       else{
+                                          gamma = 0.0;
+                                       }
+                                       value += gamma*tmpMuNuLamda01*fockMatrix_moB[sigma];
+                                       value -= gamma*tmpMuNuLamda02*fockMatrix_moJ[sigma];
+                                    }  
                                  }
                               }
                            }
                         }
                      }
-                     else{
-                        for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-                           for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                              double tmpMuNu01 = 2.0*fockMatrix_moA[mu]
-                                                    *fockMatrix_moI[nu];
-                              double tmpMuNu02 = fockMatrix_moA[mu]
-                                                *fockMatrix_moB[nu];
-                              for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                                 double tmpMuNuLamda01 = tmpMuNu01*fockMatrix_moJ[lambda];
-                                 double tmpMuNuLamda02 = tmpMuNu02*fockMatrix_moI[lambda];
-                                 for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-                                    if(mu==nu && lambda==sigma){
-                                       OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                                       OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
-                                       gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
-                                    }
-                                    else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
-                                       OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                                       OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
-                                       gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
-                                    }
-                                    else{
-                                       gamma = 0.0;
-                                    }
-                                    value += gamma*tmpMuNuLamda01*fockMatrix_moB[sigma];
-                                    value -= gamma*tmpMuNuLamda02*fockMatrix_moJ[sigma];
-                                 }  
-                              }
-                           }
-                        }
-                     }
                   }
-               }
-               
-               // Diagonal term
-               if(k==l){
-                  value += this->energiesMO[moA] - this->energiesMO[moI];
-               }
-               matrixCIS[k][l] = value;
-            } 
+                  
+                  // Diagonal term
+                  if(k==l){
+                     value += this->energiesMO[moA] - this->energiesMO[moI];
+                  }
+                  matrixCIS[k][l] = value;
+               }// end of l-loop
+            }// end of try
             catch(MolDSException ex){
-#pragma omp critical
+               #pragma omp critical
                ex.Serialize(ompErrors);
             }
-         }// end of l-loop
+            if(this->twoElecInt==Direct){
+               this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                             &tmpDiatomicTwoElecsTwoCores,
+                                                             &tmpRotMat, 
+                                                             &tmpMatrixBC, 
+                                                             &tmpVectorBC);
+            }
+         }// end of omp-region
          // Exception throwing for omp-region
          if(!ompErrors.str().empty()){
             throw MolDSException::Deserialize(ompErrors);
@@ -1100,8 +1190,8 @@ void Mndo::CalcCISMatrix(double** matrixCIS) const{
    double* buff = &this->matrixCIS[0][0];
    MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);
    // End of the fast and parallelized algorith.
-   //
-   /*
+   
+   /* 
    // Slow algorith, but this is easy to read. Fast altorithm is also written above.
    for(int k=0; k<this->matrixCISdimension; k++){
       // single excitation from I-th (occupied)MO to A-th (virtual)MO
@@ -3227,6 +3317,7 @@ void Mndo::FreeTmpMatricesCalcForce(double****   diatomicOverlapAOs1stDerivs,
                                               CartesianType_end);
 }
 
+
 // see (18) in [PT_1997]
 double Mndo::GetSmallQElement(int moI, 
                               int moP, 
@@ -3238,176 +3329,218 @@ double Mndo::GetSmallQElement(int moI,
    bool isMoPOcc = moP<numberOcc ? true : false;
    double *fockMatrix_moI = this->fockMatrix[moI];
    
-   for(int A=0; A<molecule->GetAtomVect().size(); A++){
-      const Atom& atomA = *molecule->GetAtomVect()[A];
-      int firstAOIndexA = atomA.GetFirstAOIndex();
-      int lastAOIndexA  = atomA.GetLastAOIndex();
+   double**** diatomicTwoElecsTwoCores    = NULL;
+   double*    tmpDiatomicTwoElecsTwoCores = NULL;
+   double**   tmpRotMat                   = NULL;
+   double**   tmpMatrixBC                 = NULL;
+   double*    tmpVectorBC                 = NULL;
+   try{
+      if(this->twoElecInt==Direct){
+         this->MallocTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                         &tmpDiatomicTwoElecsTwoCores,
+                                                         &tmpRotMat, 
+                                                         &tmpMatrixBC, 
+                                                         &tmpVectorBC);
+      }
 
-      for(int B=A; B<molecule->GetAtomVect().size(); B++){
-         const Atom& atomB = *molecule->GetAtomVect()[B];
-         int firstAOIndexB = atomB.GetFirstAOIndex();
-         int lastAOIndexB  = atomB.GetLastAOIndex();
+      for(int A=0; A<molecule->GetAtomVect().size(); A++){
+         const Atom& atomA = *molecule->GetAtomVect()[A];
+         int firstAOIndexA = atomA.GetFirstAOIndex();
+         int lastAOIndexA  = atomA.GetLastAOIndex();
 
-         if(A!=B){
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=mu; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
-                        double tetacValue = 0.0;
-                        tetacValue = this->twoElecsTwoAtomCores[A]
-                                                               [B]
-                                                               [mu-firstAOIndexA]
-                                                               [nu-firstAOIndexA]
-                                                               [lambda-firstAOIndexB]
-                                                               [sigma-firstAOIndexB];
-                        double temp = 0.0;
-                        if(isMoPOcc){
-                           int p = numberOcc - (moP+1);
-                           temp = 4.0*xiOcc[p][nu]*eta[lambda][sigma]
-                                 -1.0*xiOcc[p][lambda]*eta[nu][sigma]
-                                 -1.0*xiOcc[p][sigma]*eta[nu][lambda];
-                           value += tetacValue*fockMatrix_moI[mu]*temp;
-                           temp = 4.0*xiOcc[p][sigma]*eta[mu][nu]
-                                 -1.0*xiOcc[p][mu]*eta[sigma][nu]
-                                 -1.0*xiOcc[p][nu]*eta[sigma][mu];
-                           value += tetacValue*fockMatrix_moI[lambda]*temp;
-                        }
-                        else{
-                           int p = moP - numberOcc;
-                           temp = 4.0*xiVir[p][nu]*eta[lambda][sigma]
-                                 -1.0*xiVir[p][lambda]*eta[sigma][nu]
-                                 -1.0*xiVir[p][sigma]*eta[lambda][nu];
-                           value += tetacValue*fockMatrix_moI[mu]*temp;
-                           temp = 4.0*xiVir[p][sigma]*eta[mu][nu]
-                                 -1.0*xiVir[p][mu]*eta[nu][sigma]
-                                 -1.0*xiVir[p][nu]*eta[mu][sigma];
-                           value += tetacValue*fockMatrix_moI[lambda]*temp;
-                        }
-                         
-                        if(lambda!=sigma){
+         for(int B=A; B<molecule->GetAtomVect().size(); B++){
+            const Atom& atomB = *molecule->GetAtomVect()[B];
+            int firstAOIndexB = atomB.GetFirstAOIndex();
+            int lastAOIndexB  = atomB.GetLastAOIndex();
+
+            if(A!=B){
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  for(int nu=mu; nu<=lastAOIndexA; nu++){
+                     for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                        for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
+                           double**** diaTetac = NULL;
+                           if(this->twoElecInt==OnNode){
+                              diaTetac = this->twoElecsTwoAtomCores[A][B];
+                           }
+                           if(this->twoElecInt==Direct){
+                              this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                                 tmpDiatomicTwoElecsTwoCores,
+                                                                 tmpRotMat, 
+                                                                 tmpMatrixBC, 
+                                                                 tmpVectorBC, 
+                                                                 A, B);
+                              diaTetac = diatomicTwoElecsTwoCores;
+                           }
+                           double tetacValue = diaTetac[mu-firstAOIndexA]
+                                                       [nu-firstAOIndexA]
+                                                       [lambda-firstAOIndexB]
+                                                       [sigma-firstAOIndexB];
+                           double temp = 0.0;
                            if(isMoPOcc){
                               int p = numberOcc - (moP+1);
-                              temp = 4.0*xiOcc[p][nu]*eta[sigma][lambda]
-                                    -1.0*xiOcc[p][sigma]*eta[nu][lambda]
-                                    -1.0*xiOcc[p][lambda]*eta[nu][sigma];
+                              temp = 4.0*xiOcc[p][nu]*eta[lambda][sigma]
+                                    -1.0*xiOcc[p][lambda]*eta[nu][sigma]
+                                    -1.0*xiOcc[p][sigma]*eta[nu][lambda];
                               value += tetacValue*fockMatrix_moI[mu]*temp;
-                              temp = 4.0*xiOcc[p][lambda]*eta[mu][nu]
-                                    -1.0*xiOcc[p][mu]*eta[lambda][nu]
-                                    -1.0*xiOcc[p][nu]*eta[lambda][mu];
-                              value += tetacValue*fockMatrix_moI[sigma]*temp;
-                           }
-                           else{
-                              int p = moP - numberOcc;
-                              temp = 4.0*xiVir[p][nu]*eta[sigma][lambda]
-                                    -1.0*xiVir[p][sigma]*eta[lambda][nu]
-                                    -1.0*xiVir[p][lambda]*eta[sigma][nu];
-                              value += tetacValue*fockMatrix_moI[mu]*temp;
-                              temp = 4.0*xiVir[p][lambda]*eta[mu][nu]
-                                    -1.0*xiVir[p][mu]*eta[nu][lambda]
-                                    -1.0*xiVir[p][nu]*eta[mu][lambda];
-                              value += tetacValue*fockMatrix_moI[sigma]*temp;
-                           }
-                        }
-                        
-                        if(mu!=nu){
-                           if(isMoPOcc){
-                              int p = numberOcc - (moP+1);
-                              temp = 4.0*xiOcc[p][mu]*eta[lambda][sigma]
-                                    -1.0*xiOcc[p][lambda]*eta[mu][sigma]
-                                    -1.0*xiOcc[p][sigma]*eta[mu][lambda];
-                              value += tetacValue*fockMatrix_moI[nu]*temp;
-                              temp = 4.0*xiOcc[p][sigma]*eta[nu][mu]
-                                    -1.0*xiOcc[p][nu]*eta[sigma][mu]
-                                    -1.0*xiOcc[p][mu]*eta[sigma][nu];
+                              temp = 4.0*xiOcc[p][sigma]*eta[mu][nu]
+                                    -1.0*xiOcc[p][mu]*eta[sigma][nu]
+                                    -1.0*xiOcc[p][nu]*eta[sigma][mu];
                               value += tetacValue*fockMatrix_moI[lambda]*temp;
                            }
                            else{
                               int p = moP - numberOcc;
-                              temp = 4.0*xiVir[p][mu]*eta[lambda][sigma]
-                                    -1.0*xiVir[p][lambda]*eta[sigma][mu]
-                                    -1.0*xiVir[p][sigma]*eta[lambda][mu];
-                              value += tetacValue*fockMatrix_moI[nu]*temp;
-                              temp = 4.0*xiVir[p][sigma]*eta[nu][mu]
-                                    -1.0*xiVir[p][nu]*eta[mu][sigma]
-                                    -1.0*xiVir[p][mu]*eta[nu][sigma];
+                              temp = 4.0*xiVir[p][nu]*eta[lambda][sigma]
+                                    -1.0*xiVir[p][lambda]*eta[sigma][nu]
+                                    -1.0*xiVir[p][sigma]*eta[lambda][nu];
+                              value += tetacValue*fockMatrix_moI[mu]*temp;
+                              temp = 4.0*xiVir[p][sigma]*eta[mu][nu]
+                                    -1.0*xiVir[p][mu]*eta[nu][sigma]
+                                    -1.0*xiVir[p][nu]*eta[mu][sigma];
                               value += tetacValue*fockMatrix_moI[lambda]*temp;
                            }
-                        }
+                            
+                           if(lambda!=sigma){
+                              if(isMoPOcc){
+                                 int p = numberOcc - (moP+1);
+                                 temp = 4.0*xiOcc[p][nu]*eta[sigma][lambda]
+                                       -1.0*xiOcc[p][sigma]*eta[nu][lambda]
+                                       -1.0*xiOcc[p][lambda]*eta[nu][sigma];
+                                 value += tetacValue*fockMatrix_moI[mu]*temp;
+                                 temp = 4.0*xiOcc[p][lambda]*eta[mu][nu]
+                                       -1.0*xiOcc[p][mu]*eta[lambda][nu]
+                                       -1.0*xiOcc[p][nu]*eta[lambda][mu];
+                                 value += tetacValue*fockMatrix_moI[sigma]*temp;
+                              }
+                              else{
+                                 int p = moP - numberOcc;
+                                 temp = 4.0*xiVir[p][nu]*eta[sigma][lambda]
+                                       -1.0*xiVir[p][sigma]*eta[lambda][nu]
+                                       -1.0*xiVir[p][lambda]*eta[sigma][nu];
+                                 value += tetacValue*fockMatrix_moI[mu]*temp;
+                                 temp = 4.0*xiVir[p][lambda]*eta[mu][nu]
+                                       -1.0*xiVir[p][mu]*eta[nu][lambda]
+                                       -1.0*xiVir[p][nu]*eta[mu][lambda];
+                                 value += tetacValue*fockMatrix_moI[sigma]*temp;
+                              }
+                           }
+                           
+                           if(mu!=nu){
+                              if(isMoPOcc){
+                                 int p = numberOcc - (moP+1);
+                                 temp = 4.0*xiOcc[p][mu]*eta[lambda][sigma]
+                                       -1.0*xiOcc[p][lambda]*eta[mu][sigma]
+                                       -1.0*xiOcc[p][sigma]*eta[mu][lambda];
+                                 value += tetacValue*fockMatrix_moI[nu]*temp;
+                                 temp = 4.0*xiOcc[p][sigma]*eta[nu][mu]
+                                       -1.0*xiOcc[p][nu]*eta[sigma][mu]
+                                       -1.0*xiOcc[p][mu]*eta[sigma][nu];
+                                 value += tetacValue*fockMatrix_moI[lambda]*temp;
+                              }
+                              else{
+                                 int p = moP - numberOcc;
+                                 temp = 4.0*xiVir[p][mu]*eta[lambda][sigma]
+                                       -1.0*xiVir[p][lambda]*eta[sigma][mu]
+                                       -1.0*xiVir[p][sigma]*eta[lambda][mu];
+                                 value += tetacValue*fockMatrix_moI[nu]*temp;
+                                 temp = 4.0*xiVir[p][sigma]*eta[nu][mu]
+                                       -1.0*xiVir[p][nu]*eta[mu][sigma]
+                                       -1.0*xiVir[p][mu]*eta[nu][sigma];
+                                 value += tetacValue*fockMatrix_moI[lambda]*temp;
+                              }
+                           }
 
-                        if(mu!=nu && lambda!=sigma){
+                           if(mu!=nu && lambda!=sigma){
+                              if(isMoPOcc){
+                                 int p = numberOcc - (moP+1);
+                                 temp = 4.0*xiOcc[p][mu]*eta[sigma][lambda]
+                                       -1.0*xiOcc[p][sigma]*eta[mu][lambda]
+                                       -1.0*xiOcc[p][lambda]*eta[mu][sigma];
+                                 value += tetacValue*fockMatrix_moI[nu]*temp;
+                                 temp = 4.0*xiOcc[p][lambda]*eta[nu][mu]
+                                       -1.0*xiOcc[p][nu]*eta[lambda][mu]
+                                       -1.0*xiOcc[p][mu]*eta[lambda][nu];
+                                 value += tetacValue*fockMatrix_moI[sigma]*temp;
+                              }
+                              else{
+                                 int p = moP - numberOcc;
+                                 temp = 4.0*xiVir[p][mu]*eta[sigma][lambda]
+                                       -1.0*xiVir[p][sigma]*eta[lambda][mu]
+                                       -1.0*xiVir[p][lambda]*eta[sigma][mu];
+                                 value += tetacValue*fockMatrix_moI[nu]*temp;
+                                 temp = 4.0*xiVir[p][lambda]*eta[nu][mu]
+                                       -1.0*xiVir[p][nu]*eta[mu][lambda]
+                                       -1.0*xiVir[p][mu]*eta[nu][lambda];
+                                 value += tetacValue*fockMatrix_moI[sigma]*temp;
+                              }
+                           }
+                           
+                        }
+                     }
+                  }
+               }
+            }
+            else{
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                     for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                        for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                           double tetacValue = 0.0;
+                           if(mu==nu && lambda==sigma){
+                              OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                              OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
+                              tetacValue = this->GetCoulombInt(orbitalMu, 
+                                                               orbitalLambda, 
+                                                               atomA);
+                           }
+                           else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
+                              OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                              OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
+                              tetacValue = this->GetExchangeInt(orbitalMu, 
+                                                                orbitalNu, 
+                                                                atomA);
+                           }
+                           else{
+                              tetacValue = 0.0;
+                           }
+
+                           double temp = 0.0;
                            if(isMoPOcc){
                               int p = numberOcc - (moP+1);
-                              temp = 4.0*xiOcc[p][mu]*eta[sigma][lambda]
-                                    -1.0*xiOcc[p][sigma]*eta[mu][lambda]
-                                    -1.0*xiOcc[p][lambda]*eta[mu][sigma];
-                              value += tetacValue*fockMatrix_moI[nu]*temp;
-                              temp = 4.0*xiOcc[p][lambda]*eta[nu][mu]
-                                    -1.0*xiOcc[p][nu]*eta[lambda][mu]
-                                    -1.0*xiOcc[p][mu]*eta[lambda][nu];
-                              value += tetacValue*fockMatrix_moI[sigma]*temp;
+                              temp = 4.0*xiOcc[p][nu]*eta[lambda][sigma]
+                                    -1.0*xiOcc[p][lambda]*eta[nu][sigma]
+                                    -1.0*xiOcc[p][sigma]*eta[nu][lambda];
                            }
                            else{
                               int p = moP - numberOcc;
-                              temp = 4.0*xiVir[p][mu]*eta[sigma][lambda]
-                                    -1.0*xiVir[p][sigma]*eta[lambda][mu]
-                                    -1.0*xiVir[p][lambda]*eta[sigma][mu];
-                              value += tetacValue*fockMatrix_moI[nu]*temp;
-                              temp = 4.0*xiVir[p][lambda]*eta[nu][mu]
-                                    -1.0*xiVir[p][nu]*eta[mu][lambda]
-                                    -1.0*xiVir[p][mu]*eta[nu][lambda];
-                              value += tetacValue*fockMatrix_moI[sigma]*temp;
+                              temp = 4.0*xiVir[p][nu]*eta[lambda][sigma]
+                                    -1.0*xiVir[p][lambda]*eta[sigma][nu]
+                                    -1.0*xiVir[p][sigma]*eta[lambda][nu];
                            }
-                        }
-                        
+                           value += tetacValue*fockMatrix_moI[mu]*temp;
+                        }  
                      }
                   }
                }
             }
          }
-         else{
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-                        double tetacValue = 0.0;
-                        if(mu==nu && lambda==sigma){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
-                           tetacValue = this->GetCoulombInt(orbitalMu, 
-                                                            orbitalLambda, 
-                                                            atomA);
-                        }
-                        else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
-                           tetacValue = this->GetExchangeInt(orbitalMu, 
-                                                             orbitalNu, 
-                                                             atomA);
-                        }
-                        else{
-                           tetacValue = 0.0;
-                        }
-
-                        double temp = 0.0;
-                        if(isMoPOcc){
-                           int p = numberOcc - (moP+1);
-                           temp = 4.0*xiOcc[p][nu]*eta[lambda][sigma]
-                                 -1.0*xiOcc[p][lambda]*eta[nu][sigma]
-                                 -1.0*xiOcc[p][sigma]*eta[nu][lambda];
-                        }
-                        else{
-                           int p = moP - numberOcc;
-                           temp = 4.0*xiVir[p][nu]*eta[lambda][sigma]
-                                 -1.0*xiVir[p][lambda]*eta[sigma][nu]
-                                 -1.0*xiVir[p][sigma]*eta[lambda][nu];
-                        }
-                        value += tetacValue*fockMatrix_moI[mu]*temp;
-                     }  
-                  }
-               }
-            }
-         }
+      } // end of loop A
+   } // end of try block
+   catch(MolDSException ex){
+      if(this->twoElecInt==Direct){
+         this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                       &tmpDiatomicTwoElecsTwoCores,
+                                                       &tmpRotMat, 
+                                                       &tmpMatrixBC, 
+                                                       &tmpVectorBC);
       }
+      throw ex;
+   }
+   if(this->twoElecInt==Direct){
+      this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                    &tmpDiatomicTwoElecsTwoCores,
+                                                    &tmpRotMat, 
+                                                    &tmpMatrixBC, 
+                                                    &tmpVectorBC);
    }
    return value;
 }
@@ -3416,406 +3549,472 @@ double Mndo::GetSmallQElement(int moI,
 // that is, 4.0(ij|kl) - (ik|jl) - (il|jk).
 double Mndo::GetAuxiliaryKNRKRElement(int moI, int moJ, int moK, int moL) const{
    double value = 0.0;
+   double**** diatomicTwoElecsTwoCores    = NULL;
+   double*    tmpDiatomicTwoElecsTwoCores = NULL;
+   double**   tmpRotMat                   = NULL;
+   double**   tmpMatrixBC                 = NULL;
+   double*    tmpVectorBC                 = NULL;
+   try{
+      if(this->twoElecInt==Direct){
+         this->MallocTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                         &tmpDiatomicTwoElecsTwoCores,
+                                                         &tmpRotMat, 
+                                                         &tmpMatrixBC, 
+                                                         &tmpVectorBC);
+      }
 
-   double* fockMatrix_moI = this->fockMatrix[moI];
-   double* fockMatrix_moJ = this->fockMatrix[moJ];
-   double* fockMatrix_moK = this->fockMatrix[moK];
-   double* fockMatrix_moL = this->fockMatrix[moL];
+      // Fast algorith, but this is not easy to read. 
+      // Slow algorithm is alos written below.
+      double* fockMatrix_moI = this->fockMatrix[moI];
+      double* fockMatrix_moJ = this->fockMatrix[moJ];
+      double* fockMatrix_moK = this->fockMatrix[moK];
+      double* fockMatrix_moL = this->fockMatrix[moL];
+      for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
+         const Atom& atomA = *this->molecule->GetAtomVect()[A];
+         int firstAOIndexA = atomA.GetFirstAOIndex();
+         int lastAOIndexA  = atomA.GetLastAOIndex();
 
-   // Fast algorith, but this is not easy to read. 
-   // Slow algorithm is alos written below.
-   for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
-      const Atom& atomA = *this->molecule->GetAtomVect()[A];
-      int firstAOIndexA = atomA.GetFirstAOIndex();
-      int lastAOIndexA  = atomA.GetLastAOIndex();
+         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+            int muOffSet = mu - firstAOIndexA;
+            for(int nu=mu; nu<=lastAOIndexA; nu++){
+               int nuOffSet = nu - firstAOIndexA;
+               double tmpMN01 = 0.0, tmpMN02 = 0.0, tmpMN03 = 0.0, 
+                      tmpMN04 = 0.0, tmpMN05 = 0.0, tmpMN06 = 0.0, 
+                      tmpMN13 = 0.0, tmpMN14 = 0.0, tmpMN15 = 0.0, 
+                      tmpMN16 = 0.0, tmpMN17 = 0.0, tmpMN18 = 0.0;
+               tmpMN01 = 4.0
+                        *fockMatrix_moI[mu]
+                        *fockMatrix_moJ[nu];
+               tmpMN02 = 4.0
+                        *fockMatrix_moK[mu]
+                        *fockMatrix_moL[nu];
+               tmpMN03 = fockMatrix_moI[mu]
+                        *fockMatrix_moK[nu];
+               tmpMN04 = fockMatrix_moJ[mu]
+                        *fockMatrix_moL[nu];
+               tmpMN05 = fockMatrix_moI[mu]
+                        *fockMatrix_moL[nu];
+               tmpMN06 = fockMatrix_moJ[mu]
+                        *fockMatrix_moK[nu];
+               if(mu != nu){
+                  tmpMN13 = 4.0
+                           *fockMatrix_moI[nu]
+                           *fockMatrix_moJ[mu];
+                  tmpMN14 = 4.0
+                           *fockMatrix_moK[nu]
+                           *fockMatrix_moL[mu];
+                  tmpMN15 = fockMatrix_moI[nu]
+                           *fockMatrix_moK[mu];
+                  tmpMN16 = fockMatrix_moJ[nu]
+                           *fockMatrix_moL[mu];
+                  tmpMN17 = fockMatrix_moI[nu]
+                           *fockMatrix_moL[mu];
+                  tmpMN18 = fockMatrix_moJ[nu]
+                           *fockMatrix_moK[mu];
+               }
 
-      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-         int muOffSet = mu - firstAOIndexA;
-         for(int nu=mu; nu<=lastAOIndexA; nu++){
-            int nuOffSet = nu - firstAOIndexA;
-            double tmpMN01 = 0.0, tmpMN02 = 0.0, tmpMN03 = 0.0, 
-                   tmpMN04 = 0.0, tmpMN05 = 0.0, tmpMN06 = 0.0, 
-                   tmpMN13 = 0.0, tmpMN14 = 0.0, tmpMN15 = 0.0, 
-                   tmpMN16 = 0.0, tmpMN17 = 0.0, tmpMN18 = 0.0;
-            tmpMN01 = 4.0
-                     *fockMatrix_moI[mu]
-                     *fockMatrix_moJ[nu];
-            tmpMN02 = 4.0
-                     *fockMatrix_moK[mu]
-                     *fockMatrix_moL[nu];
-            tmpMN03 = fockMatrix_moI[mu]
-                     *fockMatrix_moK[nu];
-            tmpMN04 = fockMatrix_moJ[mu]
-                     *fockMatrix_moL[nu];
-            tmpMN05 = fockMatrix_moI[mu]
-                     *fockMatrix_moL[nu];
-            tmpMN06 = fockMatrix_moJ[mu]
-                     *fockMatrix_moK[nu];
-            if(mu != nu){
-               tmpMN13 = 4.0
-                        *fockMatrix_moI[nu]
-                        *fockMatrix_moJ[mu];
-               tmpMN14 = 4.0
-                        *fockMatrix_moK[nu]
-                        *fockMatrix_moL[mu];
-               tmpMN15 = fockMatrix_moI[nu]
-                        *fockMatrix_moK[mu];
-               tmpMN16 = fockMatrix_moJ[nu]
-                        *fockMatrix_moL[mu];
-               tmpMN17 = fockMatrix_moI[nu]
-                        *fockMatrix_moL[mu];
-               tmpMN18 = fockMatrix_moJ[nu]
-                        *fockMatrix_moK[mu];
-            }
+               for(int B=A; B<this->molecule->GetAtomVect().size(); B++){
+                  const Atom& atomB = *this->molecule->GetAtomVect()[B];
+                  int firstAOIndexB = atomB.GetFirstAOIndex();
+                  int lastAOIndexB  = atomB.GetLastAOIndex();
 
-            for(int B=A; B<this->molecule->GetAtomVect().size(); B++){
-               const Atom& atomB = *this->molecule->GetAtomVect()[B];
-               int firstAOIndexB = atomB.GetFirstAOIndex();
-               int lastAOIndexB  = atomB.GetLastAOIndex();
-
-               for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                  int lambdaOffSet = lambda - firstAOIndexB;
-                  double tmpMNL01 = 0.0, tmpMNL02 = 0.0, tmpMNL03 = 0.0, tmpMNL04 = 0.0, 
-                         tmpMNL05 = 0.0, tmpMNL06 = 0.0, tmpMNL07 = 0.0, tmpMNL08 = 0.0, 
-                         tmpMNL09 = 0.0, tmpMNL10 = 0.0, tmpMNL11 = 0.0, tmpMNL12 = 0.0, 
-                         tmpMNL13 = 0.0, tmpMNL14 = 0.0, tmpMNL15 = 0.0, tmpMNL16 = 0.0, 
-                         tmpMNL17 = 0.0, tmpMNL18 = 0.0, tmpMNL19 = 0.0, tmpMNL20 = 0.0,
-                         tmpMNL21 = 0.0, tmpMNL22 = 0.0, tmpMNL23 = 0.0, tmpMNL24 = 0.0;
-                  tmpMNL01 = tmpMN01*fockMatrix_moK[lambda];
-                  tmpMNL02 = tmpMN02*fockMatrix_moI[lambda];
-                  tmpMNL03 = tmpMN03*fockMatrix_moJ[lambda];
-                  tmpMNL04 = tmpMN04*fockMatrix_moI[lambda];
-                  tmpMNL05 = tmpMN05*fockMatrix_moJ[lambda];
-                  tmpMNL06 = tmpMN06*fockMatrix_moI[lambda];
-                  tmpMNL07 = tmpMN01*fockMatrix_moL[lambda];
-                  tmpMNL08 = tmpMN02*fockMatrix_moJ[lambda];
-                  tmpMNL09 = tmpMN03*fockMatrix_moL[lambda];
-                  tmpMNL10 = tmpMN04*fockMatrix_moK[lambda];
-                  tmpMNL11 = tmpMN05*fockMatrix_moK[lambda];
-                  tmpMNL12 = tmpMN06*fockMatrix_moL[lambda];
-                  tmpMNL01 -= tmpMNL03 + tmpMNL06;
-                  tmpMNL04 += tmpMNL05;
-                  tmpMNL08 -= tmpMNL10 + tmpMNL12;
-                  tmpMNL09 += tmpMNL11;
-                  if(mu != nu){
-                     tmpMNL13 = tmpMN13*fockMatrix_moK[lambda];
-                     tmpMNL14 = tmpMN14*fockMatrix_moI[lambda];
-                     tmpMNL15 = tmpMN15*fockMatrix_moJ[lambda];
-                     tmpMNL16 = tmpMN16*fockMatrix_moI[lambda];
-                     tmpMNL17 = tmpMN17*fockMatrix_moJ[lambda];
-                     tmpMNL18 = tmpMN18*fockMatrix_moI[lambda];
-                     tmpMNL19 = tmpMN13*fockMatrix_moL[lambda];
-                     tmpMNL20 = tmpMN14*fockMatrix_moJ[lambda];
-                     tmpMNL21 = tmpMN15*fockMatrix_moL[lambda];
-                     tmpMNL22 = tmpMN16*fockMatrix_moK[lambda];
-                     tmpMNL23 = tmpMN17*fockMatrix_moK[lambda];
-                     tmpMNL24 = tmpMN18*fockMatrix_moL[lambda];
-                     tmpMNL13 -= tmpMNL15 + tmpMNL18;
-                     tmpMNL16 += tmpMNL17;
-                     tmpMNL20 -= tmpMNL22 + tmpMNL24;
-                     tmpMNL21 += tmpMNL23;
-                     tmpMNL01 += tmpMNL13;
-                     tmpMNL02 += tmpMNL14;
-                     tmpMNL04 += tmpMNL16;
-                     tmpMNL07 += tmpMNL19;
-                     tmpMNL08 += tmpMNL20;
-                     tmpMNL09 += tmpMNL21;
-                  }
-                  for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
-                     int sigmaOffSet = sigma - firstAOIndexB;
-                     double tmpValue = 0.0;
-                     tmpValue += tmpMNL01*fockMatrix_moL[sigma];
-                     tmpValue += tmpMNL02*fockMatrix_moJ[sigma];
-                     tmpValue -= tmpMNL04*fockMatrix_moK[sigma];
-                     if(lambda != sigma){
-                        tmpValue += tmpMNL07*fockMatrix_moK[sigma];
-                        tmpValue += tmpMNL08*fockMatrix_moI[sigma];
-                        tmpValue -= tmpMNL09*fockMatrix_moJ[sigma];
+                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                     int lambdaOffSet = lambda - firstAOIndexB;
+                     double tmpMNL01 = 0.0, tmpMNL02 = 0.0, tmpMNL03 = 0.0, tmpMNL04 = 0.0, 
+                            tmpMNL05 = 0.0, tmpMNL06 = 0.0, tmpMNL07 = 0.0, tmpMNL08 = 0.0, 
+                            tmpMNL09 = 0.0, tmpMNL10 = 0.0, tmpMNL11 = 0.0, tmpMNL12 = 0.0, 
+                            tmpMNL13 = 0.0, tmpMNL14 = 0.0, tmpMNL15 = 0.0, tmpMNL16 = 0.0, 
+                            tmpMNL17 = 0.0, tmpMNL18 = 0.0, tmpMNL19 = 0.0, tmpMNL20 = 0.0,
+                            tmpMNL21 = 0.0, tmpMNL22 = 0.0, tmpMNL23 = 0.0, tmpMNL24 = 0.0;
+                     tmpMNL01 = tmpMN01*fockMatrix_moK[lambda];
+                     tmpMNL02 = tmpMN02*fockMatrix_moI[lambda];
+                     tmpMNL03 = tmpMN03*fockMatrix_moJ[lambda];
+                     tmpMNL04 = tmpMN04*fockMatrix_moI[lambda];
+                     tmpMNL05 = tmpMN05*fockMatrix_moJ[lambda];
+                     tmpMNL06 = tmpMN06*fockMatrix_moI[lambda];
+                     tmpMNL07 = tmpMN01*fockMatrix_moL[lambda];
+                     tmpMNL08 = tmpMN02*fockMatrix_moJ[lambda];
+                     tmpMNL09 = tmpMN03*fockMatrix_moL[lambda];
+                     tmpMNL10 = tmpMN04*fockMatrix_moK[lambda];
+                     tmpMNL11 = tmpMN05*fockMatrix_moK[lambda];
+                     tmpMNL12 = tmpMN06*fockMatrix_moL[lambda];
+                     tmpMNL01 -= tmpMNL03 + tmpMNL06;
+                     tmpMNL04 += tmpMNL05;
+                     tmpMNL08 -= tmpMNL10 + tmpMNL12;
+                     tmpMNL09 += tmpMNL11;
+                     if(mu != nu){
+                        tmpMNL13 = tmpMN13*fockMatrix_moK[lambda];
+                        tmpMNL14 = tmpMN14*fockMatrix_moI[lambda];
+                        tmpMNL15 = tmpMN15*fockMatrix_moJ[lambda];
+                        tmpMNL16 = tmpMN16*fockMatrix_moI[lambda];
+                        tmpMNL17 = tmpMN17*fockMatrix_moJ[lambda];
+                        tmpMNL18 = tmpMN18*fockMatrix_moI[lambda];
+                        tmpMNL19 = tmpMN13*fockMatrix_moL[lambda];
+                        tmpMNL20 = tmpMN14*fockMatrix_moJ[lambda];
+                        tmpMNL21 = tmpMN15*fockMatrix_moL[lambda];
+                        tmpMNL22 = tmpMN16*fockMatrix_moK[lambda];
+                        tmpMNL23 = tmpMN17*fockMatrix_moK[lambda];
+                        tmpMNL24 = tmpMN18*fockMatrix_moL[lambda];
+                        tmpMNL13 -= tmpMNL15 + tmpMNL18;
+                        tmpMNL16 += tmpMNL17;
+                        tmpMNL20 -= tmpMNL22 + tmpMNL24;
+                        tmpMNL21 += tmpMNL23;
+                        tmpMNL01 += tmpMNL13;
+                        tmpMNL02 += tmpMNL14;
+                        tmpMNL04 += tmpMNL16;
+                        tmpMNL07 += tmpMNL19;
+                        tmpMNL08 += tmpMNL20;
+                        tmpMNL09 += tmpMNL21;
                      }
-                     double gamma = 0.0;
-                     if(A!=B){
-                        gamma = this->twoElecsTwoAtomCores[A][B][muOffSet][nuOffSet][lambdaOffSet][sigmaOffSet];
-                     }
-                     else{
-                        if(mu==nu && lambda==sigma){
-                           OrbitalType orbitalMu     = atomA.GetValence(muOffSet);
-                           OrbitalType orbitalLambda = atomA.GetValence(lambdaOffSet);
-                           gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+                     for(int sigma=lambda; sigma<=lastAOIndexB; sigma++){
+                        int sigmaOffSet = sigma - firstAOIndexB;
+                        double tmpValue = 0.0;
+                        tmpValue += tmpMNL01*fockMatrix_moL[sigma];
+                        tmpValue += tmpMNL02*fockMatrix_moJ[sigma];
+                        tmpValue -= tmpMNL04*fockMatrix_moK[sigma];
+                        if(lambda != sigma){
+                           tmpValue += tmpMNL07*fockMatrix_moK[sigma];
+                           tmpValue += tmpMNL08*fockMatrix_moI[sigma];
+                           tmpValue -= tmpMNL09*fockMatrix_moJ[sigma];
                         }
-                        else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
-                           OrbitalType orbitalMu = atomA.GetValence(muOffSet);
-                           OrbitalType orbitalNu = atomA.GetValence(nuOffSet);
-                           gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+                        double gamma = 0.0;
+                        if(A!=B){
+                           double**** diaTetac = NULL;
+                           if(this->twoElecInt==OnNode){
+                              diaTetac = this->twoElecsTwoAtomCores[A][B];
+                           }
+                           if(this->twoElecInt==Direct){
+                              this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                                 tmpDiatomicTwoElecsTwoCores,
+                                                                 tmpRotMat, 
+                                                                 tmpMatrixBC, 
+                                                                 tmpVectorBC, 
+                                                                 A, B);
+                              diaTetac = diatomicTwoElecsTwoCores;
+                           }
+                           gamma = diaTetac[muOffSet][nuOffSet][lambdaOffSet][sigmaOffSet];
                         }
                         else{
-                           gamma = 0.0;
+                           if(mu==nu && lambda==sigma){
+                              OrbitalType orbitalMu     = atomA.GetValence(muOffSet);
+                              OrbitalType orbitalLambda = atomA.GetValence(lambdaOffSet);
+                              gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+                           }
+                           else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
+                              OrbitalType orbitalMu = atomA.GetValence(muOffSet);
+                              OrbitalType orbitalNu = atomA.GetValence(nuOffSet);
+                              gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+                           }
+                           else{
+                              gamma = 0.0;
+                           }
+                           gamma *= 0.5;
                         }
-                        gamma *= 0.5;
-                     }
-                     value += tmpValue*gamma;
-                  }
-               }
+                        value += tmpValue*gamma;
+                     }// end of loop sigma
+                  }// end of loop lambda
+               }// end of loop B
+            }// end of loop nu
+         }// end of loop mu
+      }// end of loop A
+      // End of the fast algorith.
+
+      /*
+      // Algorithm using blas
+      double** twoElec = NULL;
+      double*  twiceMoIJ = NULL;
+      double*  twiceMoIK = NULL;
+      double*  twiceMoIL = NULL;
+      double*  twiceMoKL = NULL;
+      double*  twiceMoJL = NULL;
+      double*  twiceMoJK = NULL;
+      double*  tmpVector = NULL;
+      int numAOs = this->molecule->GetTotalNumberAOs();
+      MallocerFreer::GetInstance()->Malloc<double>(&twoElec,   this->molecule->GetAtomVect().size()*dxy*dxy, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIJ, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIK, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIL, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoKL, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoJL, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoJK, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpVector, this->molecule->GetAtomVect().size()*dxy*dxy);
+      for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
+         const Atom& atomA = *this->molecule->GetAtomVect()[A];
+         int firstAOIndexA = atomA.GetFirstAOIndex();
+         int lastAOIndexA  = atomA.GetLastAOIndex();
+         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+            for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+               twiceMoIJ[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moJ][nu   ];
+               twiceMoIK[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moK][nu   ];
+               twiceMoIL[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moL][nu   ];
             }
          }
       }
-   }
-   // End of the fast algorith.
 
-   /*
-   // Algorithm using blas
-   double** twoElec = NULL;
-   double*  twiceMoIJ = NULL;
-   double*  twiceMoIK = NULL;
-   double*  twiceMoIL = NULL;
-   double*  twiceMoKL = NULL;
-   double*  twiceMoJL = NULL;
-   double*  twiceMoJK = NULL;
-   double*  tmpVector = NULL;
-   int numAOs = this->molecule->GetTotalNumberAOs();
-   MallocerFreer::GetInstance()->Malloc<double>(&twoElec,   this->molecule->GetAtomVect().size()*dxy*dxy, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIJ, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIK, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIL, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoKL, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoJL, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoJK, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&tmpVector, this->molecule->GetAtomVect().size()*dxy*dxy);
-   for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
-      const Atom& atomA = *this->molecule->GetAtomVect()[A];
-      int firstAOIndexA = atomA.GetFirstAOIndex();
-      int lastAOIndexA  = atomA.GetLastAOIndex();
-      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-         for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-            twiceMoIJ[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moJ][nu   ];
-            twiceMoIK[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moK][nu   ];
-            twiceMoIL[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moL][nu   ];
-         }
-      }
-   }
-
-   for(int B=0; B<this->molecule->GetAtomVect().size(); B++){
-      const Atom& atomB = *this->molecule->GetAtomVect()[B];
-      int firstAOIndexB = atomB.GetFirstAOIndex();
-      int lastAOIndexB  = atomB.GetLastAOIndex();
-      for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-         for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-            twiceMoKL[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moK][lambda]*fockMatrix[moL][sigma];
-            twiceMoJL[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moL][sigma];
-            twiceMoJK[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moK][sigma];
-         }
-      }
-   }
-
-   for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
-      const Atom& atomA = *this->molecule->GetAtomVect()[A];
-      int firstAOIndexA = atomA.GetFirstAOIndex();
-      int lastAOIndexA  = atomA.GetLastAOIndex();
-      for(int B=A; B<this->molecule->GetAtomVect().size(); B++){
-         const Atom& atomB = *this->molecule->GetAtomVect()[B];
-         int firstAOIndexB = atomB.GetFirstAOIndex();
-         int lastAOIndexB  = atomB.GetLastAOIndex();
-         double gamma = 0.0;
-         if(A!=B){
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-                        twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
-                               [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)] = 
-                            this->twoElecsTwoAtomCores[A]
-                                                      [B]
-                                                      [mu-firstAOIndexA]
-                                                      [nu-firstAOIndexA]
-                                                      [lambda-firstAOIndexB]
-                                                      [sigma-firstAOIndexB];
-                     }
-                  }
-               }
-            }
-         }
-         else{
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-                        if(mu==nu && lambda==sigma){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
-                           gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
-                        }
-                        else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
-                           gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
-                        }
-                        else{
-                           gamma = 0.0;
-                        }
-                        twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
-                               [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)] = gamma;
-                     }  
-                  }
-               }
-            }
-         }
-      }
-   }
-   MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetAtomVect().size()*dxy*dxy, 
-                                              twoElec, 
-                                              twiceMoKL,
-                                              tmpVector);
-   value = 4.0*MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIJ, tmpVector);
-   MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetAtomVect().size()*dxy*dxy, 
-                                              twoElec, 
-                                              twiceMoJL,
-                                              tmpVector);
-   value -= MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIK, tmpVector);
-   MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetAtomVect().size()*dxy*dxy, 
-                                              twoElec, 
-                                              twiceMoJK,
-                                              tmpVector);
-   value -= MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIL, tmpVector);
-   MallocerFreer::GetInstance()->Free<double>(&twoElec,   this->molecule->GetAtomVect().size()*dxy*dxy, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoIJ, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoIK, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoIL, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoKL, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoJL, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoJK, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&tmpVector, this->molecule->GetAtomVect().size()*dxy*dxy);
-   // End of algorithm using blas
-   */
-
-   /*
-   // Second algorithm using blas.
-   // This algorithm uses DGEMM.
-   double** twoElec = NULL;
-   double*  twiceMoIJ = NULL;
-   double*  twiceMoIK = NULL;
-   double*  twiceMoIL = NULL;
-   double** twiceMoB  = NULL;
-   double** tmpMatrix = NULL;
-   int numAOs = this->molecule->GetTotalNumberAOs();
-   MallocerFreer::GetInstance()->Malloc<double>(&twoElec,   this->molecule->GetAtomVect().size()*dxy*dxy, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIJ, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIK, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIL, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&twiceMoB, 3, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix,3, this->molecule->GetAtomVect().size()*dxy*dxy);
-   for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
-      const Atom& atomA = *this->molecule->GetAtomVect()[A];
-      int firstAOIndexA = atomA.GetFirstAOIndex();
-      int lastAOIndexA  = atomA.GetLastAOIndex();
-      for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-         for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-            twiceMoIJ[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moJ][nu   ];
-            twiceMoIK[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moK][nu   ];
-            twiceMoIL[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moL][nu   ];
-         }
-      }
-   }
-
-   for(int B=0; B<this->molecule->GetAtomVect().size(); B++){
-      const Atom& atomB = *this->molecule->GetAtomVect()[B];
-      int firstAOIndexB = atomB.GetFirstAOIndex();
-      int lastAOIndexB  = atomB.GetLastAOIndex();
-      for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-         for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-            twiceMoB[0][B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moK][lambda]*fockMatrix[moL][sigma];
-            twiceMoB[1][B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moL][sigma];
-            twiceMoB[2][B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moK][sigma];
-         }
-      }
-   }
-
-   for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
-      const Atom& atomA = *this->molecule->GetAtomVect()[A];
-      int firstAOIndexA = atomA.GetFirstAOIndex();
-      int lastAOIndexA  = atomA.GetLastAOIndex();
       for(int B=0; B<this->molecule->GetAtomVect().size(); B++){
          const Atom& atomB = *this->molecule->GetAtomVect()[B];
          int firstAOIndexB = atomB.GetFirstAOIndex();
          int lastAOIndexB  = atomB.GetLastAOIndex();
-         double gamma = 0.0;
-         if(A!=B){
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-                        twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
-                               [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)] = 
-                            this->twoElecsTwoAtomCores[A]
-                                                      [B]
-                                                      [mu-firstAOIndexA]
-                                                      [nu-firstAOIndexA]
-                                                      [lambda-firstAOIndexB]
-                                                      [sigma-firstAOIndexB];
+         for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+            for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+               twiceMoKL[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moK][lambda]*fockMatrix[moL][sigma];
+               twiceMoJL[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moL][sigma];
+               twiceMoJK[B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moK][sigma];
+            }
+         }
+      }
+
+      for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
+         const Atom& atomA = *this->molecule->GetAtomVect()[A];
+         int firstAOIndexA = atomA.GetFirstAOIndex();
+         int lastAOIndexA  = atomA.GetLastAOIndex();
+         for(int B=A; B<this->molecule->GetAtomVect().size(); B++){
+            const Atom& atomB = *this->molecule->GetAtomVect()[B];
+            int firstAOIndexB = atomB.GetFirstAOIndex();
+            int lastAOIndexB  = atomB.GetLastAOIndex();
+            double gamma = 0.0;
+            if(A!=B){
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                     for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                        for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                           double**** diaTetac = NULL;
+                           if(this->twoElecInt==OnNode){
+                              diaTetac = this->twoElecsTwoAtomCores[A][B];
+                           }
+                           if(this->twoElecInt==Direct){
+                              this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                                 tmpDiatomicTwoElecsTwoCores,
+                                                                 tmpRotMat, 
+                                                                 tmpMatrixBC, 
+                                                                 tmpVectorBC, 
+                                                                 A, B);
+                              diaTetac = diatomicTwoElecsTwoCores;
+                           }
+                           twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
+                                  [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]
+                              = diaTetac[mu-firstAOIndexA]
+                                        [nu-firstAOIndexA]
+                                        [lambda-firstAOIndexB]
+                                        [sigma-firstAOIndexB];
+                        }
+                     }
+                  }
+               }
+            }
+            else{
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                     for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                        for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                           if(mu==nu && lambda==sigma){
+                              OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                              OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
+                              gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+                           }
+                           else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
+                              OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                              OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
+                              gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+                           }
+                           else{
+                              gamma = 0.0;
+                           }
+                           twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
+                                  [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)] = gamma;
+                        }  
                      }
                   }
                }
             }
          }
-         else{
-            for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
-               for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
-                  for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
-                     for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
-                        if(mu==nu && lambda==sigma){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
-                           gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+      }
+      MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetAtomVect().size()*dxy*dxy, 
+                                                 twoElec, 
+                                                 twiceMoKL,
+                                                 tmpVector);
+      value = 4.0*MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIJ, tmpVector);
+      MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetAtomVect().size()*dxy*dxy, 
+                                                 twoElec, 
+                                                 twiceMoJL,
+                                                 tmpVector);
+      value -= MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIK, tmpVector);
+      MolDS_wrappers::Blas::GetInstance()->Dsymv(this->molecule->GetAtomVect().size()*dxy*dxy, 
+                                                 twoElec, 
+                                                 twiceMoJK,
+                                                 tmpVector);
+      value -= MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIL, tmpVector);
+      MallocerFreer::GetInstance()->Free<double>(&twoElec,   this->molecule->GetAtomVect().size()*dxy*dxy, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoIJ, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoIK, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoIL, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoKL, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoJL, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoJK, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&tmpVector, this->molecule->GetAtomVect().size()*dxy*dxy);
+      // End of algorithm using blas
+      */
+
+      /*
+      // Second algorithm using blas.
+      // This algorithm uses DGEMM.
+      double** twoElec = NULL;
+      double*  twiceMoIJ = NULL;
+      double*  twiceMoIK = NULL;
+      double*  twiceMoIL = NULL;
+      double** twiceMoB  = NULL;
+      double** tmpMatrix = NULL;
+      int numAOs = this->molecule->GetTotalNumberAOs();
+      MallocerFreer::GetInstance()->Malloc<double>(&twoElec,   this->molecule->GetAtomVect().size()*dxy*dxy, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIJ, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIK, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoIL, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&twiceMoB, 3, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrix,3, this->molecule->GetAtomVect().size()*dxy*dxy);
+      for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
+         const Atom& atomA = *this->molecule->GetAtomVect()[A];
+         int firstAOIndexA = atomA.GetFirstAOIndex();
+         int lastAOIndexA  = atomA.GetLastAOIndex();
+         for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+            for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+               twiceMoIJ[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moJ][nu   ];
+               twiceMoIK[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moK][nu   ];
+               twiceMoIL[A*dxy*dxy+(mu    -firstAOIndexA)*dxy+(nu   -firstAOIndexA)]=fockMatrix[moI][mu    ]*fockMatrix[moL][nu   ];
+            }
+         }
+      }
+
+      for(int B=0; B<this->molecule->GetAtomVect().size(); B++){
+         const Atom& atomB = *this->molecule->GetAtomVect()[B];
+         int firstAOIndexB = atomB.GetFirstAOIndex();
+         int lastAOIndexB  = atomB.GetLastAOIndex();
+         for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+            for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+               twiceMoB[0][B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moK][lambda]*fockMatrix[moL][sigma];
+               twiceMoB[1][B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moL][sigma];
+               twiceMoB[2][B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]=fockMatrix[moJ][lambda]*fockMatrix[moK][sigma];
+            }
+         }
+      }
+
+      for(int A=0; A<this->molecule->GetAtomVect().size(); A++){
+         const Atom& atomA = *this->molecule->GetAtomVect()[A];
+         int firstAOIndexA = atomA.GetFirstAOIndex();
+         int lastAOIndexA  = atomA.GetLastAOIndex();
+         for(int B=0; B<this->molecule->GetAtomVect().size(); B++){
+            const Atom& atomB = *this->molecule->GetAtomVect()[B];
+            int firstAOIndexB = atomB.GetFirstAOIndex();
+            int lastAOIndexB  = atomB.GetLastAOIndex();
+            double gamma = 0.0;
+            if(A!=B){
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                     for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                        for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                           double**** diaTetac = NULL;
+                           if(this->twoElecInt==OnNode){
+                              diaTetac = this->twoElecsTwoAtomCores[A][B];
+                           }
+                           if(this->twoElecInt==Direct){
+                              this->CalcDiatomicTwoElecsTwoCores(diatomicTwoElecsTwoCores, 
+                                                                 tmpDiatomicTwoElecsTwoCores,
+                                                                 tmpRotMat, 
+                                                                 tmpMatrixBC, 
+                                                                 tmpVectorBC, 
+                                                                 A, B);
+                              diaTetac = diatomicTwoElecsTwoCores;
+                           }
+                           twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
+                                  [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)]
+                              = diaTetac[mu-firstAOIndexA]
+                                        [nu-firstAOIndexA]
+                                        [lambda-firstAOIndexB]
+                                        [sigma-firstAOIndexB];
+
                         }
-                        else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
-                           OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
-                           OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
-                           gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
-                        }
-                        else{
-                           gamma = 0.0;
-                        }
-                        twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
-                               [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)] = gamma;
-                     }  
+                     }
+                  }
+               }
+            }
+            else{
+               for(int mu=firstAOIndexA; mu<=lastAOIndexA; mu++){
+                  for(int nu=firstAOIndexA; nu<=lastAOIndexA; nu++){
+                     for(int lambda=firstAOIndexB; lambda<=lastAOIndexB; lambda++){
+                        for(int sigma=firstAOIndexB; sigma<=lastAOIndexB; sigma++){
+                           if(mu==nu && lambda==sigma){
+                              OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                              OrbitalType orbitalLambda = atomB.GetValence(lambda-firstAOIndexB);
+                              gamma = this->GetCoulombInt(orbitalMu, orbitalLambda, atomA);
+                           }
+                           else if((mu==lambda && nu==sigma) || (nu==lambda && mu==sigma) ){
+                              OrbitalType orbitalMu = atomA.GetValence(mu-firstAOIndexA);
+                              OrbitalType orbitalNu = atomA.GetValence(nu-firstAOIndexA);
+                              gamma = this->GetExchangeInt(orbitalMu, orbitalNu, atomA);
+                           }
+                           else{
+                              gamma = 0.0;
+                           }
+                           twoElec[A*dxy*dxy+(mu-firstAOIndexA)*dxy+(nu-firstAOIndexA)]
+                                  [B*dxy*dxy+(lambda-firstAOIndexB)*dxy+(sigma-firstAOIndexB)] = gamma;
+                        }  
+                     }
                   }
                }
             }
          }
       }
+
+      MolDS_wrappers::Blas::GetInstance()->Dgemm(false, true, true,
+                                                 this->molecule->GetAtomVect().size()*dxy*dxy,
+                                                 3,
+                                                 this->molecule->GetAtomVect().size()*dxy*dxy,
+                                                 1.0,
+                                                 twoElec,
+                                                 twiceMoB,
+                                                 0.0,
+                                                 tmpMatrix);
+      value = 4.0*MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIJ, &tmpMatrix[0][0]);
+      value -=    MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIK, &tmpMatrix[1][0]);
+      value -=    MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIL, &tmpMatrix[2][0]);
+      MallocerFreer::GetInstance()->Free<double>(&twoElec,   this->molecule->GetAtomVect().size()*dxy*dxy, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoIJ, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoIK, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoIL, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&twiceMoB, 3, this->molecule->GetAtomVect().size()*dxy*dxy);
+      MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,3, this->molecule->GetAtomVect().size()*dxy*dxy);
+      // End of second algorithm using blas
+      */
+
+      /*
+      // slow algorithm
+      value = 4.0*this->GetMolecularIntegralElement(moI, moJ, moK, moL, 
+                                                    *this->molecule, 
+                                                    this->fockMatrix, NULL)
+             -1.0*this->GetMolecularIntegralElement(moI, moK, moJ, moL, 
+                                                    *this->molecule, 
+                                                    this->fockMatrix, NULL)
+             -1.0*this->GetMolecularIntegralElement(moI, moL, moJ, moK, 
+                                                    *this->molecule, 
+                                                    this->fockMatrix, NULL);
+      */
+   } // end of try block
+   catch(MolDSException ex){
+      if(this->twoElecInt==Direct){
+         this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                       &tmpDiatomicTwoElecsTwoCores,
+                                                       &tmpRotMat, 
+                                                       &tmpMatrixBC, 
+                                                       &tmpVectorBC);
+      }
+      throw ex;
    }
-
-   MolDS_wrappers::Blas::GetInstance()->Dgemm(false, true, true,
-                                              this->molecule->GetAtomVect().size()*dxy*dxy,
-                                              3,
-                                              this->molecule->GetAtomVect().size()*dxy*dxy,
-                                              1.0,
-                                              twoElec,
-                                              twiceMoB,
-                                              0.0,
-                                              tmpMatrix);
-   value = 4.0*MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIJ, &tmpMatrix[0][0]);
-   value -=    MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIK, &tmpMatrix[1][0]);
-   value -=    MolDS_wrappers::Blas::GetInstance()->Ddot(this->molecule->GetAtomVect().size()*dxy*dxy,twiceMoIL, &tmpMatrix[2][0]);
-   MallocerFreer::GetInstance()->Free<double>(&twoElec,   this->molecule->GetAtomVect().size()*dxy*dxy, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoIJ, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoIK, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoIL, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&twiceMoB, 3, this->molecule->GetAtomVect().size()*dxy*dxy);
-   MallocerFreer::GetInstance()->Free<double>(&tmpMatrix,3, this->molecule->GetAtomVect().size()*dxy*dxy);
-   // End of second algorithm using blas
-   */
-
-   /*
-   // slow algorithm
-   value = 4.0*this->GetMolecularIntegralElement(moI, moJ, moK, moL, 
-                                                 *this->molecule, 
-                                                 this->fockMatrix, NULL)
-          -1.0*this->GetMolecularIntegralElement(moI, moK, moJ, moL, 
-                                                 *this->molecule, 
-                                                 this->fockMatrix, NULL)
-          -1.0*this->GetMolecularIntegralElement(moI, moL, moJ, moK, 
-                                                 *this->molecule, 
-                                                 this->fockMatrix, NULL);
-   */
+   if(this->twoElecInt==Direct){
+      this->FreeTmpMatricesCalcTwoElecsTwoAtomCores(&diatomicTwoElecsTwoCores, 
+                                                    &tmpDiatomicTwoElecsTwoCores,
+                                                    &tmpRotMat, 
+                                                    &tmpMatrixBC, 
+                                                    &tmpVectorBC);
+   }
    return value;
 }
 
@@ -3823,9 +4022,9 @@ void Mndo::CalcTwoElecsTwoCores(double****** twoElecsTwoAtomCores,
                                 double****** twoElecsAtomEpcCores,
                                 const Molecule& molecule,
                                 bool requiresMpi) const{
-   //if(this->twoElecInt==OnNode){
+   if(this->twoElecInt==OnNode){
       this->CalcTwoElecsTwoAtomCores(twoElecsTwoAtomCores, molecule, requiresMpi);
-   //}
+   }
    this->CalcTwoElecsAtomEpcCores(twoElecsAtomEpcCores, molecule, requiresMpi);
 }
 
