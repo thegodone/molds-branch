@@ -2401,14 +2401,14 @@ void ZindoS::DoCISDavidson(){
             }
          }
          catch(MolDSException ex){
-            this->FreeDavidsonRoopCISTemporaryMtrices(&interactionMatrix, 
-                                                      interactionMatrixDimension, 
-                                                      &interactionEigenEnergies);
+            this->FreeDavidsonRoopCISTmpMatrices(&interactionMatrix, 
+                                                 interactionMatrixDimension, 
+                                                 &interactionEigenEnergies);
             throw ex;
          }
-         this->FreeDavidsonRoopCISTemporaryMtrices(&interactionMatrix, 
-                                                   interactionMatrixDimension, 
-                                                   &interactionEigenEnergies);
+         this->FreeDavidsonRoopCISTmpMatrices(&interactionMatrix, 
+                                              interactionMatrixDimension, 
+                                              &interactionEigenEnergies);
 
          // stop the Davidson loop
          if(allConverged){
@@ -2437,14 +2437,14 @@ void ZindoS::DoCISDavidson(){
       }// end Davidson loop
    }
    catch(MolDSException ex){
-      this->FreeDavidsonCISTemporaryMtrices(&expansionVectors, 
-                                            &residualVector, 
-                                            &ritzVector);
+      this->FreeDavidsonCISTmpMatrices(&expansionVectors, 
+                                       &residualVector, 
+                                       &ritzVector);
       throw ex;
    }
-   this->FreeDavidsonCISTemporaryMtrices(&expansionVectors, 
-                                         &residualVector, 
-                                         &ritzVector);
+   this->FreeDavidsonCISTmpMatrices(&expansionVectors, 
+                                    &residualVector, 
+                                    &ritzVector);
 
    this->OutputLog(this->messageDoneDavidsonCIS);
    // change algorithm from Davidso to direct
@@ -2453,9 +2453,9 @@ void ZindoS::DoCISDavidson(){
    }
 }
 
-void ZindoS::FreeDavidsonCISTemporaryMtrices(double*** expansionVectors, 
-                                             double** residualVector, 
-                                             double** ritzVector) const{
+void ZindoS::FreeDavidsonCISTmpMatrices(double*** expansionVectors, 
+                                        double** residualVector, 
+                                        double** ritzVector) const{
    int maxDim  = Parameters::GetInstance()->GetMaxDimensionsCIS();
    MallocerFreer::GetInstance()->Free<double>(expansionVectors, 
                                               this->matrixCISdimension,
@@ -2464,9 +2464,9 @@ void ZindoS::FreeDavidsonCISTemporaryMtrices(double*** expansionVectors,
    MallocerFreer::GetInstance()->Free<double>(ritzVector, this->matrixCISdimension);
 }
 
-void ZindoS::FreeDavidsonRoopCISTemporaryMtrices(double*** interactionMatrix, 
-                                                 int interactionMatrixDimension, 
-                                                 double** interactionEigenEnergies) const{
+void ZindoS::FreeDavidsonRoopCISTmpMatrices(double*** interactionMatrix, 
+                                            int interactionMatrixDimension, 
+                                            double** interactionEigenEnergies) const{
    MallocerFreer::GetInstance()->Free<double>(interactionMatrix, 
                                               interactionMatrixDimension,
                                               interactionMatrixDimension);
@@ -2963,16 +2963,16 @@ void ZindoS::CalcZMatrixForce(const vector<int>& elecStates){
    double** xiOcc = NULL;
    double** xiVir = NULL;
    try{
-      this->MallocTempMatrixForZMatrix(&delta,
-                                       &q,
-                                       &gammaNRMinusKNR,
-                                       &kRDagerGammaRInv,
-                                       &y,
-                                       &transposedFockMatrix,
-                                       &xiOcc,
-                                       &xiVir,
-                                       nonRedundantQIndeces.size(),
-                                       redundantQIndeces.size());
+      this->MallocTmpMatrixForZMatrix(&delta,
+                                      &q,
+                                      &gammaNRMinusKNR,
+                                      &kRDagerGammaRInv,
+                                      &y,
+                                      &transposedFockMatrix,
+                                      &xiOcc,
+                                      &xiVir,
+                                      nonRedundantQIndeces.size(),
+                                      redundantQIndeces.size());
       this->TransposeFockMatrixMatrix(transposedFockMatrix);
       this->CalcGammaNRMinusKNRMatrix(gammaNRMinusKNR, nonRedundantQIndeces);
       this->CalcKRDagerGammaRInvMatrix(kRDagerGammaRInv, nonRedundantQIndeces,redundantQIndeces);
@@ -3022,28 +3022,28 @@ void ZindoS::CalcZMatrixForce(const vector<int>& elecStates){
       }
    }
    catch(MolDSException ex){
-      this->FreeTempMatrixForZMatrix(&delta,
-                                     &q,
-                                     &gammaNRMinusKNR,
-                                     &kRDagerGammaRInv,
-                                     &y,
-                                     &transposedFockMatrix,
-                                     &xiOcc,
-                                     &xiVir,
-                                     nonRedundantQIndeces.size(),
-                                     redundantQIndeces.size());
+      this->FreeTmpMatrixForZMatrix(&delta,
+                                    &q,
+                                    &gammaNRMinusKNR,
+                                    &kRDagerGammaRInv,
+                                    &y,
+                                    &transposedFockMatrix,
+                                    &xiOcc,
+                                    &xiVir,
+                                    nonRedundantQIndeces.size(),
+                                    redundantQIndeces.size());
       throw ex;
    }
-   this->FreeTempMatrixForZMatrix(&delta,
-                                  &q,
-                                  &gammaNRMinusKNR,
-                                  &kRDagerGammaRInv,
-                                  &y,
-                                  &transposedFockMatrix,
-                                  &xiOcc,
-                                  &xiVir,
-                                  nonRedundantQIndeces.size(),
-                                  redundantQIndeces.size());
+   this->FreeTmpMatrixForZMatrix(&delta,
+                                 &q,
+                                 &gammaNRMinusKNR,
+                                 &kRDagerGammaRInv,
+                                 &y,
+                                 &transposedFockMatrix,
+                                 &xiOcc,
+                                 &xiVir,
+                                 nonRedundantQIndeces.size(),
+                                 redundantQIndeces.size());
 }
 
 // each element (mu, nu) of z matrix.
@@ -3074,16 +3074,16 @@ double ZindoS::GetZMatrixForceElement(double const* y,
    return value;
 }
 
-void ZindoS::MallocTempMatrixForZMatrix(double** delta,
-                                      double** q,
-                                      double*** gammaNRMinusKNR,
-                                      double*** kRDag,
-                                      double** y,
-                                      double*** transposedFockMatrix,
-                                      double*** xiOcc,
-                                      double*** xiVir,
-                                      int sizeQNR,
-                                      int sizeQR) const{
+void ZindoS::MallocTmpMatrixForZMatrix(double** delta,
+                                       double** q,
+                                       double*** gammaNRMinusKNR,
+                                       double*** kRDag,
+                                       double** y,
+                                       double*** transposedFockMatrix,
+                                       double*** xiOcc,
+                                       double*** xiVir,
+                                       int sizeQNR,
+                                       int sizeQR) const{
    int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
    int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
    int numberActiveMO = numberActiveOcc + numberActiveVir;
@@ -3100,7 +3100,7 @@ void ZindoS::MallocTempMatrixForZMatrix(double** delta,
    MallocerFreer::GetInstance()->Malloc<double>(xiVir,numberActiveVir,numberAOs);
 }
 
-void ZindoS::FreeTempMatrixForZMatrix(double** delta,
+void ZindoS::FreeTmpMatrixForZMatrix(double** delta,
                                     double** q,
                                     double*** gammaNRMinusKNR,
                                     double*** kRDag,
@@ -3876,19 +3876,19 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
                double*   tmpVectorBC                        = NULL; // used in dgemmm
                double*** tmpMatrixForce                     = NULL;
                try{
-                  MallocTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
-                        &diatomicTwoElecsTwoCores1stDerivs,
-                        &tmpDiaOverlapAOsInDiaFrame,       
-                        &tmpDiaOverlapAOs1stDerivInDiaFrame,
-                        &tmpRotMat,
-                        &tmpRotMat1stDeriv,
-                        &tmpRotMat1stDerivs,
-                        &tmpRotatedDiatomicOverlap,
-                        &tmpRotatedDiatomicOverlapVec,
-                        &tmpMatrixBC,
-                        &tmpVectorBC,
-                        &tmpMatrixForce,
-                        elecStates);
+                  MallocTmpMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
+                                             &diatomicTwoElecsTwoCores1stDerivs,
+                                             &tmpDiaOverlapAOsInDiaFrame,       
+                                             &tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                             &tmpRotMat,
+                                             &tmpRotMat1stDeriv,
+                                             &tmpRotMat1stDerivs,
+                                             &tmpRotatedDiatomicOverlap,
+                                             &tmpRotatedDiatomicOverlapVec,
+                                             &tmpMatrixBC,
+                                             &tmpVectorBC,
+                                             &tmpMatrixForce,
+                                             elecStates);
 #pragma omp for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
                   for(int b=0; b<this->molecule->GetAtomVect().size(); b++){
                      if(a == b){continue;}
@@ -4052,19 +4052,19 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
 #pragma omp critical
                   ex.Serialize(ompErrors);
                }
-               FreeTempMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
-                     &diatomicTwoElecsTwoCores1stDerivs,
-                     &tmpDiaOverlapAOsInDiaFrame,       
-                     &tmpDiaOverlapAOs1stDerivInDiaFrame,
-                     &tmpRotMat,
-                     &tmpRotMat1stDeriv,
-                     &tmpRotMat1stDerivs,
-                     &tmpRotatedDiatomicOverlap,
-                     &tmpRotatedDiatomicOverlapVec,
-                     &tmpMatrixBC,
-                     &tmpVectorBC,
-                     &tmpMatrixForce,
-                     elecStates);
+               FreeTmpMatricesCalcForce(&diatomicOverlapAOs1stDerivs, 
+                                        &diatomicTwoElecsTwoCores1stDerivs,
+                                        &tmpDiaOverlapAOsInDiaFrame,       
+                                        &tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                        &tmpRotMat,
+                                        &tmpRotMat1stDeriv,
+                                        &tmpRotMat1stDerivs,
+                                        &tmpRotatedDiatomicOverlap,
+                                        &tmpRotatedDiatomicOverlapVec,
+                                        &tmpMatrixBC,
+                                        &tmpVectorBC,
+                                        &tmpMatrixForce,
+                                        elecStates);
             } //end of omp-parallelized region
             // Exception throwing for omp-region
             if(!ompErrors.str().empty()){
@@ -4190,19 +4190,19 @@ void ZindoS::CalcForce(const vector<int>& elecStates){
    */
 }
 
-void ZindoS::MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
-                                         double**** diatomicTwoElecsTwoCores1stDerivs,
-                                         double***  tmpDiaOverlapAOsInDiaFrame,       
-                                         double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
-                                         double***  tmpRotMat,
-                                         double***  tmpRotMat1stDeriv,
-                                         double**** tmpRotMat1stDerivs,
-                                         double***  tmpRotatedDiatomicOverlap,
-                                         double**   tmpRotatedDiatomicOverlapVec,
-                                         double***  tmpMatrixBC,
-                                         double**   tmpVectorBC,
-                                         double**** tmpMatrixForce,
-                                         vector<int> elecStates) const{
+void ZindoS::MallocTmpMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
+                                        double**** diatomicTwoElecsTwoCores1stDerivs,
+                                        double***  tmpDiaOverlapAOsInDiaFrame,       
+                                        double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                        double***  tmpRotMat,
+                                        double***  tmpRotMat1stDeriv,
+                                        double**** tmpRotMat1stDerivs,
+                                        double***  tmpRotatedDiatomicOverlap,
+                                        double**   tmpRotatedDiatomicOverlapVec,
+                                        double***  tmpMatrixBC,
+                                        double**   tmpVectorBC,
+                                        double**** tmpMatrixForce,
+                                        vector<int> elecStates) const{
    MallocerFreer::GetInstance()->Malloc<double>(diatomicOverlapAOs1stDerivs,        OrbitalType_end, OrbitalType_end, CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(diatomicTwoElecsTwoCores1stDerivs,  OrbitalType_end, OrbitalType_end, CartesianType_end);
    MallocerFreer::GetInstance()->Malloc<double>(tmpDiaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
@@ -4217,19 +4217,19 @@ void ZindoS::MallocTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs,
    MallocerFreer::GetInstance()->Malloc<double>(tmpMatrixForce,                     elecStates.size(), this->molecule->GetAtomVect().size(), CartesianType_end);
 }
 
-void ZindoS::FreeTempMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
-                                       double**** diatomicTwoElecsTwoCores1stDerivs,
-                                       double***  tmpDiaOverlapAOsInDiaFrame,       
-                                       double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
-                                       double***  tmpRotMat,
-                                       double***  tmpRotMat1stDeriv,
-                                       double**** tmpRotMat1stDerivs,
-                                       double***  tmpRotatedDiatomicOverlap,
-                                       double**   tmpRotatedDiatomicOverlapVec,
-                                       double***  tmpMatrixBC,
-                                       double**   tmpVectorBC,
-                                       double**** tmpMatrixForce,
-                                       vector<int> elecStates) const{
+void ZindoS::FreeTmpMatricesCalcForce(double**** diatomicOverlapAOs1stDerivs, 
+                                      double**** diatomicTwoElecsTwoCores1stDerivs,
+                                      double***  tmpDiaOverlapAOsInDiaFrame,       
+                                      double***  tmpDiaOverlapAOs1stDerivInDiaFrame,
+                                      double***  tmpRotMat,
+                                      double***  tmpRotMat1stDeriv,
+                                      double**** tmpRotMat1stDerivs,
+                                      double***  tmpRotatedDiatomicOverlap,
+                                      double**   tmpRotatedDiatomicOverlapVec,
+                                      double***  tmpMatrixBC,
+                                      double**   tmpVectorBC,
+                                      double**** tmpMatrixForce,
+                                      vector<int> elecStates) const{
    MallocerFreer::GetInstance()->Free<double>(diatomicOverlapAOs1stDerivs,        OrbitalType_end, OrbitalType_end, CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(diatomicTwoElecsTwoCores1stDerivs,  OrbitalType_end, OrbitalType_end, CartesianType_end);
    MallocerFreer::GetInstance()->Free<double>(tmpDiaOverlapAOsInDiaFrame,         OrbitalType_end, OrbitalType_end);
