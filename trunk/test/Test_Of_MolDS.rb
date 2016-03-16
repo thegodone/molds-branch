@@ -864,6 +864,43 @@ mklNumThreads = "4"
 ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
+prefix = "c2h6_pm3_epc"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+-------------------------------------------
+----------  Test of PM3/HF/EPC  -----------
+-------------------------------------------
+SECTION
+\t\t\t>>> CH4 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
+prefix = "c2h6_pm3_epc_direct"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+---------------------------------------------------
+----------  Test of PM3/HF/EPC  -------------------
+----------  Two electron integral is direct -------
+---------------------------------------------------
+SECTION
+\t\t\t>>> CH4 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
 prefix = "ch4_pm3_directCIS_singlet"
 tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
 ---------------------------------------------------
