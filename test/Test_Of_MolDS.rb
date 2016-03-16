@@ -981,6 +981,26 @@ mklNumThreads = "4"
 ompNumThreads = "2"
 tester.doesTestMpi(mklNumThreads,ompNumThreads)
 
+prefix = "c2h6_pm3_directCIS_singlet_force_direct"
+tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
+---------------------------------------------------
+----------  Test of PM3/CIS-singlet-force  --------
+----------  Without Davidson for the CIS   --------
+----------  Two electron integral is direct -------
+---------------------------------------------------
+SECTION
+\t\t\t>>> C2H6 <<<
+TITLE
+mklNumThreads = "1"
+ompNumThreads = "1"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "2"
+ompNumThreads = "2"
+tester.doesTestOmp(mklNumThreads,ompNumThreads)
+mklNumThreads = "4"
+ompNumThreads = "2"
+tester.doesTestMpi(mklNumThreads,ompNumThreads)
+
 prefix = "c2h6_pm3_davidsonCIS_singlet_force"
 tester = Tester.new(prefix, <<"SECTION", <<"TITLE")
 ---------------------------------------------------
