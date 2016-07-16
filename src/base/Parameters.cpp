@@ -435,11 +435,20 @@ vector<int>* Parameters::GetElectronicStateIndecesMullikenCIS() const{
    return this->electronicStateIndecesMullikenCIS;
 }
 
-void Parameters::AddElectronicStateIndexMullikenCIS(int electronicStateIndex){
+void Parameters::AddElectronicStateIndexMullikenCIS(int elecIndex){
    if(this->electronicStateIndecesMullikenCIS==NULL){
       this->electronicStateIndecesMullikenCIS = new vector<int>;
    }
-   this->electronicStateIndecesMullikenCIS->push_back(electronicStateIndex);
+   this->electronicStateIndecesMullikenCIS->push_back(elecIndex);
+}
+
+void Parameters::AddElectronicStateIndecesMullikenCIS(int firstElecIndex, int lastElecIndex){
+   if(this->electronicStateIndecesMullikenCIS==NULL){
+      this->electronicStateIndecesMullikenCIS = new vector<int>;
+   }
+   for(int elecIndex=firstElecIndex; elecIndex<=lastElecIndex; elecIndex++){
+      this->electronicStateIndecesMullikenCIS->push_back(elecIndex);
+   }
 }
 
 bool Parameters::RequiresMullikenCIS() const{

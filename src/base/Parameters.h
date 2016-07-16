@@ -153,7 +153,8 @@ public:
    inline bool       RequiresAllTransitionDipoleMomentsCIS() const          {return this->requiresAllTransitionDipoleMomentsCIS;}
    inline void       SetRequiresAllTransitionDipoleMomentsCIS(bool requires){this->requiresAllTransitionDipoleMomentsCIS = requires;}
    std::vector<int>* GetElectronicStateIndecesMullikenCIS() const;
-   void              AddElectronicStateIndexMullikenCIS(int electronicStateIndex);
+   void              AddElectronicStateIndexMullikenCIS(int elecIndex);
+   void              AddElectronicStateIndecesMullikenCIS(int firstElecIndex, int lastElecIndex);
    bool              RequiresMullikenCIS() const;
    inline bool       RequiresUnpairedPopCIS() const                         {return this->requiresUnpairedPopCIS;}
    bool              RequiresSumChargesCIS() const;

@@ -299,6 +299,7 @@ private:
    std::string stringCISAllTransitionDipoleMoments;
    std::string stringCISNumPrintCoefficients;
    std::string stringCISMulliken;
+   std::string stringCISMullikens;
    std::string stringCISUnpairedPop;
    std::string stringCISSumCharges;
    std::string stringCISScaLapack;
