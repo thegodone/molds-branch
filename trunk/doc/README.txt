@@ -572,8 +572,14 @@ HOW TO WRITE INPUT:
        Note that "mulliken 0" is ignored because 0th excited state is the ground state.
        The default setting of this "mulliken" option is nothing.
 
+       "mullikens" is a set of indeces of the mulliken population analysis in the excites states.
+       To calculate mulliken population for many and sequencial excited states, 
+       this "mullikens" is prepared as
+       "mullikens first_elec_index last_elec_index".
+       The default value of the "mullikens" is also not set
+
        "unpaired_electron_population" is an option of unpaired electron population(UEP) analysis of the excited state.
-       When "unpaired electron population yes" and "mulliken x" are included in CIS-directive, 
+       When "unpaired electron population yes" and "mulliken x" (amd/or "mullikens x y") are included in CIS-directive, 
        the UEP of xth excited state is calculated.
        By multiple indication of these mulliken option, the UEP on multiple excited states are possible.
        Note that the UEP on ground state is ignored. 
@@ -602,6 +608,7 @@ HOW TO WRITE INPUT:
             norm_tol 0.000001
             mulliken 1 
             mulliken 2
+            mullikens 1 3
 	         unpaired_electron_population yes
             sum_charges 0 4
             sum_charges 3 7
