@@ -1200,7 +1200,7 @@ void ZindoS::CalcElectronicTransitionDipoleMomentMatrix(double*** electronicTran
    double**  overlapMOs = NULL;
    double**  tmpMatrixBC = NULL;
    try{
-      MallocerFreer::GetInstance()->Malloc<double>(&dipoleMOs,       CartesianType_end, totalNumberAOs, totalNumberAOs);
+      MallocerFreer::GetInstance()->Malloc<double>(&dipoleMOs,  CartesianType_end, totalNumberAOs, totalNumberAOs);
       MallocerFreer::GetInstance()->Malloc<double>(&overlapMOs, totalNumberAOs, totalNumberAOs);
       MallocerFreer::GetInstance()->Malloc<double>(&tmpMatrixBC, totalNumberAOs, totalNumberAOs);
       double alpha=1.0;
@@ -1736,55 +1736,88 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
                                                        molecule.GetTotalNumberAOs());
    }
    // clac orbital electron population
+   int numberAOs = this->molecule->GetTotalNumberAOs();
    int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
    int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
    int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
+   // MPI setting of each rank
+   int mpiRank     = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   stringstream errorStream;
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
    for(int k=0; k<elecStates->size(); k++){
       int excitedStateIndex = (*elecStates)[k]-1;
-      stringstream ompErrors;
-#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-      for(int mu=0; mu<molecule.GetTotalNumberAOs(); mu++){
-         try{
-            for(int nu=0; nu<molecule.GetTotalNumberAOs(); nu++){
-               double value = orbitalElectronPopulation[mu][nu];
-               for(int i=0; i<numberActiveOcc; i++){
-                  int moI = numberOcc - (i+1);
-                  for(int a=0; a<numberActiveVir; a++){
-                     int moA = numberOcc + a;
-                     int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(i,a);
-                     value += pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
-                             *(-fockMatrix[moI][mu]*fockMatrix[moI][nu] 
-                               +fockMatrix[moA][mu]*fockMatrix[moA][nu]);
-                     double tmpVal1=0.0;
-                     for(int b=0; b<numberActiveVir; b++){
-                        int moB = numberOcc + b;
-                        if(moB==moA) continue;
-                        int tmpSDIndex = this->GetSlaterDeterminantIndex(i,b);
-                        tmpVal1 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][nu];
+      int calcRank = k/mpiSize;
+      if(calcRank == mpiRank){
+         #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
+         for(int mu=0; mu<numberAOs; mu++){
+            try{
+               for(int nu=0; nu<numberAOs; nu++){
+                  double value = orbitalElectronPopulation[mu][nu];
+                  for(int i=0; i<numberActiveOcc; i++){
+                     int moI = numberOcc - (i+1);
+                     for(int a=0; a<numberActiveVir; a++){
+                        int moA = numberOcc + a;
+                        int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(i,a);
+                        value += pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
+                                *(-fockMatrix[moI][mu]*fockMatrix[moI][nu] 
+                                  +fockMatrix[moA][mu]*fockMatrix[moA][nu]);
+                        double tmpVal1=0.0;
+                        for(int b=0; b<numberActiveVir; b++){
+                           int moB = numberOcc + b;
+                           if(moB==moA) continue;
+                           int tmpSDIndex = this->GetSlaterDeterminantIndex(i,b);
+                           tmpVal1 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][nu];
+                        }
+                        double tmpVal2=0.0;
+                        for(int j=0; j<numberActiveOcc; j++){
+                           int moJ = numberOcc - (j+1);
+                           if(moJ==moI) continue;
+                           int tmpSDIndex = this->GetSlaterDeterminantIndex(j,a);
+                           tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
+                        }
+                        value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
+                                *(fockMatrix[moA][mu]*tmpVal1 + fockMatrix[moI][nu]*tmpVal2);
                      }
-                     double tmpVal2=0.0;
-                     for(int j=0; j<numberActiveOcc; j++){
-                        int moJ = numberOcc - (j+1);
-                        if(moJ==moI) continue;
-                        int tmpSDIndex = this->GetSlaterDeterminantIndex(j,a);
-                        tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
-                     }
-                     value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
-                             *(fockMatrix[moA][mu]*tmpVal1 + fockMatrix[moI][nu]*tmpVal2);
                   }
+                  (*orbitalElectronPopulationCIS)[k][mu][nu] = value;
                }
-               (*orbitalElectronPopulationCIS)[k][mu][nu] = value;
+            } //end of try-loop
+            catch(MolDSException ex){
+               #pragma omp critical
+               ex.Serialize(errorStream);
             }
+         } // end of mu-loop
+      } // end of if(calcRank == mpiRank)
+      if(errorStream.str().empty()){
+         int tag      = k;
+         int source   = calcRank;
+         int dest     = mpiHeadRank;
+         int num      = numberAOs*numberAOs;
+         double* buff = &(*orbitalElectronPopulationCIS)[k][0][0];
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
          }
-         catch(MolDSException ex){
-#pragma omp critical
-            ex.Serialize(ompErrors);
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
          }
       }
       // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
+      if(!errorStream.str().empty()){
+         throw MolDSException::Deserialize(errorStream);
       }
+   } // end of k-loop
+   asyncCommunicator.Finalize();
+   communicationThread.join();
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
+   }
+   for(int k=0; k<elecStates->size(); k++){
+      int     num  = numberAOs*numberAOs;
+      double* buff = &(*orbitalElectronPopulationCIS)[k][0][0];
+      MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);   
    }
 }
 
