@@ -1735,11 +1735,6 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
                                                        molecule.GetTotalNumberAOs(),
                                                        molecule.GetTotalNumberAOs());
    }
-   // clac orbital electron population
-   int numberAOs = this->molecule->GetTotalNumberAOs();
-   int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
-   int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
-   int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
    // MPI setting of each rank
    int mpiRank     = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
    int mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
@@ -1747,6 +1742,11 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
    stringstream errorStream;
    MolDS_mpi::AsyncCommunicator asyncCommunicator;
    boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
+   // clac orbital electron population
+   int numberAOs = this->molecule->GetTotalNumberAOs();
+   int numberOcc = this->molecule->GetTotalNumberValenceElectrons()/2;
+   int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
+   int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
    for(int k=0; k<elecStates->size(); k++){
       int excitedStateIndex = (*elecStates)[k]-1;
       int calcRank = k/mpiSize;
@@ -1840,28 +1840,61 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
                                                        elecStates->size(),
                                                        totalNumberAtoms);
    }
+
+   // MPI setting of each rank
+   int mpiRank     = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   stringstream errorStream;
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
+
    // clac atomic electron population
    for(int k=0; k<elecStates->size(); k++){
-      stringstream ompErrors;
-#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-      for(int a=0; a<totalNumberAtoms; a++){
-         try{
-            int firstAOIndex = molecule.GetAtomVect()[a]->GetFirstAOIndex();
-            int numberAOs = molecule.GetAtomVect()[a]->GetValenceSize();
-            for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
-               (*atomicElectronPopulationCIS)[k][a] += orbitalElectronPopulationCIS[k][i][i];
+      int excitedStateIndex = (*elecStates)[k]-1;
+      int calcRank = k/mpiSize;
+      if(calcRank == mpiRank){
+         #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
+         for(int a=0; a<totalNumberAtoms; a++){
+            try{
+               int firstAOIndex = molecule.GetAtomVect()[a]->GetFirstAOIndex();
+               int numberAOs = molecule.GetAtomVect()[a]->GetValenceSize();
+               for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
+                  (*atomicElectronPopulationCIS)[k][a] += orbitalElectronPopulationCIS[k][i][i];
+               }
+            }// end of try-region
+            catch(MolDSException ex){
+               #pragma omp critical
+               ex.Serialize(errorStream);
             }
+         } // end of a-loop
+      } // end of if(calcRank == mpiRank)
+      if(errorStream.str().empty()){
+         int tag      = k;
+         int source   = calcRank;
+         int dest     = mpiHeadRank;
+         int num      = totalNumberAtoms;
+         double* buff = &(*atomicElectronPopulationCIS)[k][0];
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
          }
-         catch(MolDSException ex){
-#pragma omp critical
-            ex.Serialize(ompErrors);
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
          }
       }
       // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
+      if(!errorStream.str().empty()){
+         throw MolDSException::Deserialize(errorStream);
       }
+   } // end of k-loop
+   asyncCommunicator.Finalize();
+   communicationThread.join();
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
    }
+   int     num  = elecStates->size()*totalNumberAtoms;
+   double* buff = &(*atomicElectronPopulationCIS)[0][0];
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);   
 }
 
 void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationCIS,
@@ -1886,34 +1919,67 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
                                                        elecStates->size(),
                                                        totalNumberAtoms);
    }
+
+   // MPI setting of each rank
+   int mpiRank     = MolDS_mpi::MpiProcess::GetInstance()->GetRank();
+   int mpiSize     = MolDS_mpi::MpiProcess::GetInstance()->GetSize();
+   int mpiHeadRank = MolDS_mpi::MpiProcess::GetInstance()->GetHeadRank();
+   stringstream errorStream;
+   MolDS_mpi::AsyncCommunicator asyncCommunicator;
+   boost::thread communicationThread( boost::bind(&MolDS_mpi::AsyncCommunicator::Run<double>, &asyncCommunicator) );
+
    // calc atomic electron population
    for(int k=0; k<elecStates->size(); k++){
-      stringstream ompErrors;
-#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-      for(int a=0; a<totalNumberAtoms; a++){
-         try{
-            int firstAOIndex = molecule.GetAtomVect()[a]->GetFirstAOIndex();
-            int numberAOs = molecule.GetAtomVect()[a]->GetValenceSize();
-            (*atomicUnpairedPopulationCIS)[k][a] = 0.0; 
-            for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
-               double orbitalSquarePopulation = 0.0; 
-               int    totalNumberAOs = molecule.GetTotalNumberAOs(); 
-               for(int j=0; j<totalNumberAOs; j++) {
-                  orbitalSquarePopulation += orbitalElectronPopulationCIS[k][i][j] * orbitalElectronPopulationCIS[k][j][i]; 
+      int excitedStateIndex = (*elecStates)[k]-1;
+      int calcRank = k/mpiSize;
+      if(calcRank == mpiRank){
+         #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
+         for(int a=0; a<totalNumberAtoms; a++){
+            try{
+               int firstAOIndex = molecule.GetAtomVect()[a]->GetFirstAOIndex();
+               int numberAOs = molecule.GetAtomVect()[a]->GetValenceSize();
+               (*atomicUnpairedPopulationCIS)[k][a] = 0.0; 
+               for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
+                  double orbitalSquarePopulation = 0.0; 
+                  int    totalNumberAOs = molecule.GetTotalNumberAOs(); 
+                  for(int j=0; j<totalNumberAOs; j++) {
+                     orbitalSquarePopulation += orbitalElectronPopulationCIS[k][i][j] * orbitalElectronPopulationCIS[k][j][i]; 
+                  }
+                  (*atomicUnpairedPopulationCIS)[k][a] += 2.0 * orbitalElectronPopulationCIS[k][i][i] - orbitalSquarePopulation;
                }
-               (*atomicUnpairedPopulationCIS)[k][a] += 2.0 * orbitalElectronPopulationCIS[k][i][i] - orbitalSquarePopulation;
+            } // end of try-region
+            catch(MolDSException ex){
+               #pragma omp critical
+               ex.Serialize(errorStream);
             }
+         } // end of a-loop 
+      } // end of if(calcRank == mpiRank)
+      if(errorStream.str().empty()){
+         int tag      = k;
+         int source   = calcRank;
+         int dest     = mpiHeadRank;
+         int num      = totalNumberAtoms;
+         double* buff = &(*atomicUnpairedPopulationCIS)[k][0];
+         if(mpiRank == mpiHeadRank && mpiRank != calcRank){
+            asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
          }
-         catch(MolDSException ex){
-#pragma omp critical
-            ex.Serialize(ompErrors);
+         if(mpiRank != mpiHeadRank && mpiRank == calcRank){
+            asyncCommunicator.SetSentMessage(buff, num, dest, tag);
          }
       }
       // Exception throwing for omp-region
-      if(!ompErrors.str().empty()){
-         throw MolDSException::Deserialize(ompErrors);
+      if(!errorStream.str().empty()){
+         throw MolDSException::Deserialize(errorStream);
       }
+   } // end of k-loop
+   asyncCommunicator.Finalize();
+   communicationThread.join();
+   if(!errorStream.str().empty()){
+      throw MolDSException::Deserialize(errorStream);
    }
+   int     num  = elecStates->size()*totalNumberAtoms;
+   double* buff = &(*atomicUnpairedPopulationCIS)[0][0];
+   MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);   
 }
 
 void ZindoS::OutputCISResults() const{
