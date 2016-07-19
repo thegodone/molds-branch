@@ -1749,7 +1749,7 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
    int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
    for(int k=0; k<elecStates->size(); k++){
       int excitedStateIndex = (*elecStates)[k]-1;
-      int calcRank = k/mpiSize;
+      int calcRank = k%mpiSize;
       if(calcRank == mpiRank){
          #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int mu=0; mu<numberAOs; mu++){
@@ -1852,7 +1852,7 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
    // clac atomic electron population
    for(int k=0; k<elecStates->size(); k++){
       int excitedStateIndex = (*elecStates)[k]-1;
-      int calcRank = k/mpiSize;
+      int calcRank = k%mpiSize;
       if(calcRank == mpiRank){
          #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int a=0; a<totalNumberAtoms; a++){
@@ -1931,7 +1931,7 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
    // calc atomic electron population
    for(int k=0; k<elecStates->size(); k++){
       int excitedStateIndex = (*elecStates)[k]-1;
-      int calcRank = k/mpiSize;
+      int calcRank = k%mpiSize;
       if(calcRank == mpiRank){
          #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int a=0; a<totalNumberAtoms; a++){
