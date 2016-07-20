@@ -123,9 +123,8 @@ ZindoS::~ZindoS(){
                                               this->molecule->GetTotalNumberAOs());
    if(Parameters::GetInstance()->RequiresMullikenCIS()){
       vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
-      MallocerFreer::GetInstance()->Free<double>(&this->orbitalElectronPopulationCIS, 
+      MallocerFreer::GetInstance()->Free<double>(&this->orbitalElectronPopulationDiagCIS, 
                                                  elecStates->size(),
-                                                 this->molecule->GetTotalNumberAOs(),
                                                  this->molecule->GetTotalNumberAOs());
       MallocerFreer::GetInstance()->Free<double>(&this->atomicElectronPopulationCIS, 
                                                  elecStates->size(),
@@ -1166,7 +1165,7 @@ void ZindoS::CalcCISProperties(){
                                  this->matrixCISdimension);
    
    // orbital electron population
-   this->CalcOrbitalElectronPopulationCIS(&this->orbitalElectronPopulationCIS, 
+   this->CalcOrbitalElectronPopulationCIS(&this->orbitalElectronPopulationDiagCIS, 
                                           this->orbitalElectronPopulation,
                                           *this->molecule, 
                                           this->fockMatrix,
@@ -1174,12 +1173,15 @@ void ZindoS::CalcCISProperties(){
 
    // atomic electron population
    this->CalcAtomicElectronPopulationCIS(&this->atomicElectronPopulationCIS,
-                                         this->orbitalElectronPopulationCIS, 
+                                         this->orbitalElectronPopulationDiagCIS, 
                                          *this->molecule);
    // atomic unpaired electron population
    this->CalcAtomicUnpairedPopulationCIS(&this->atomicUnpairedPopulationCIS,
-                                         this->orbitalElectronPopulationCIS, 
-                                         *this->molecule);
+                                         this->orbitalElectronPopulationDiagCIS, 
+                                         this->orbitalElectronPopulation,
+                                         *this->molecule, 
+                                         this->fockMatrix,
+                                         this->matrixCIS);
 }
 
 void ZindoS::CalcElectronicTransitionDipoleMomentMatrix(double*** electronicTransitionDipoleMoments,
@@ -1713,7 +1715,7 @@ void ZindoS::CalcFreeExcitonEnergies(double** freeExcitonEnergiesCIS,
    }
 }
 
-void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulationCIS, 
+void ZindoS::CalcOrbitalElectronPopulationCIS(double*** orbitalElectronPopulationDiagCIS, 
                                               double const* const* orbitalElectronPopulation, 
                                               const MolDS_base::Molecule& molecule, 
                                               double const* const* fockMatrix,
@@ -1723,16 +1725,14 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
    }
    vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
    // malloc or initialize free exciton energies
-   if(*orbitalElectronPopulationCIS == NULL){
-      MallocerFreer::GetInstance()->Malloc<double>(orbitalElectronPopulationCIS, 
+   if(*orbitalElectronPopulationDiagCIS == NULL){
+      MallocerFreer::GetInstance()->Malloc<double>(orbitalElectronPopulationDiagCIS, 
                                                    elecStates->size(),
-                                                   molecule.GetTotalNumberAOs(),
                                                    molecule.GetTotalNumberAOs());
    }
    else{
-      MallocerFreer::GetInstance()->Initialize<double>(*orbitalElectronPopulationCIS, 
+      MallocerFreer::GetInstance()->Initialize<double>(*orbitalElectronPopulationDiagCIS, 
                                                        elecStates->size(),
-                                                       molecule.GetTotalNumberAOs(),
                                                        molecule.GetTotalNumberAOs());
    }
    // MPI setting of each rank
@@ -1754,39 +1754,37 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
          #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int mu=0; mu<numberAOs; mu++){
             try{
-               for(int nu=0; nu<numberAOs; nu++){
-                  double value = orbitalElectronPopulation[mu][nu];
-                  for(int i=0; i<numberActiveOcc; i++){
-                     int moI = numberOcc - (i+1);
-                     for(int a=0; a<numberActiveVir; a++){
-                        int moA = numberOcc + a;
-                        int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(i,a);
-                        value += pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
-                                *(-fockMatrix[moI][mu]*fockMatrix[moI][nu] 
-                                  +fockMatrix[moA][mu]*fockMatrix[moA][nu]);
-                        double tmpVal1=0.0;
-                        for(int b=0; b<numberActiveVir; b++){
-                           int moB = numberOcc + b;
-                           if(moB==moA) continue;
-                           int tmpSDIndex = this->GetSlaterDeterminantIndex(i,b);
-                           tmpVal1 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][nu];
-                        }
-                        double tmpVal2=0.0;
-                        for(int j=0; j<numberActiveOcc; j++){
-                           int moJ = numberOcc - (j+1);
-                           if(moJ==moI) continue;
-                           int tmpSDIndex = this->GetSlaterDeterminantIndex(j,a);
-                           tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
-                        }
-                        value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
-                                *(fockMatrix[moA][mu]*tmpVal1 + fockMatrix[moI][nu]*tmpVal2);
+               double value = orbitalElectronPopulation[mu][mu];
+               for(int i=0; i<numberActiveOcc; i++){
+                  int moI = numberOcc - (i+1);
+                  for(int a=0; a<numberActiveVir; a++){
+                     int moA = numberOcc + a;
+                     int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(i,a);
+                     value += pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
+                        *(-fockMatrix[moI][mu]*fockMatrix[moI][mu] 
+                              +fockMatrix[moA][mu]*fockMatrix[moA][mu]);
+                     double tmpVal1=0.0;
+                     for(int b=0; b<numberActiveVir; b++){
+                        int moB = numberOcc + b;
+                        if(moB==moA) continue;
+                        int tmpSDIndex = this->GetSlaterDeterminantIndex(i,b);
+                        tmpVal1 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][mu];
                      }
+                     double tmpVal2=0.0;
+                     for(int j=0; j<numberActiveOcc; j++){
+                        int moJ = numberOcc - (j+1);
+                        if(moJ==moI) continue;
+                        int tmpSDIndex = this->GetSlaterDeterminantIndex(j,a);
+                        tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
+                     }
+                     value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
+                        *(fockMatrix[moA][mu]*tmpVal1 + fockMatrix[moI][mu]*tmpVal2);
                   }
-                  (*orbitalElectronPopulationCIS)[k][mu][nu] = value;
                }
+               (*orbitalElectronPopulationDiagCIS)[k][mu] = value;
             } //end of try-loop
             catch(MolDSException ex){
-               #pragma omp critical
+#pragma omp critical
                ex.Serialize(errorStream);
             }
          } // end of mu-loop
@@ -1795,8 +1793,8 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
          int tag      = k;
          int source   = calcRank;
          int dest     = mpiHeadRank;
-         int num      = numberAOs*numberAOs;
-         double* buff = &(*orbitalElectronPopulationCIS)[k][0][0];
+         int num      = numberAOs;
+         double* buff = &(*orbitalElectronPopulationDiagCIS)[k][0];
          if(mpiRank == mpiHeadRank && mpiRank != calcRank){
             asyncCommunicator.SetRecvedMessage(buff, num, source, tag);
          }
@@ -1815,15 +1813,15 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulati
       throw MolDSException::Deserialize(errorStream);
    }
    for(int k=0; k<elecStates->size(); k++){
-      int     num  = numberAOs*numberAOs;
-      double* buff = &(*orbitalElectronPopulationCIS)[k][0][0];
+      int     num  = numberAOs;
+      double* buff = &(*orbitalElectronPopulationDiagCIS)[k][0];
       MolDS_mpi::MpiProcess::GetInstance()->Broadcast(buff, num, mpiHeadRank);   
    }
 }
 
 void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationCIS,
-                                             double const* const* const* orbitalElectronPopulationCIS, 
-                                             const Molecule& molecule) const{
+      double const* const* orbitalElectronPopulationDiagCIS, 
+      const Molecule& molecule) const{
    if(!Parameters::GetInstance()->RequiresMullikenCIS()){
       return;
    }
@@ -1832,13 +1830,13 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
    // malloc or initialize free exciton energies
    if(*atomicElectronPopulationCIS == NULL){
       MallocerFreer::GetInstance()->Malloc<double>(atomicElectronPopulationCIS, 
-                                                   elecStates->size(),
-                                                   totalNumberAtoms);
+            elecStates->size(),
+            totalNumberAtoms);
    }
    else{
       MallocerFreer::GetInstance()->Initialize<double>(*atomicElectronPopulationCIS,
-                                                       elecStates->size(),
-                                                       totalNumberAtoms);
+            elecStates->size(),
+            totalNumberAtoms);
    }
 
    // MPI setting of each rank
@@ -1854,13 +1852,13 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
       int excitedStateIndex = (*elecStates)[k]-1;
       int calcRank = k%mpiSize;
       if(calcRank == mpiRank){
-         #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
+#pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
          for(int a=0; a<totalNumberAtoms; a++){
             try{
                int firstAOIndex = molecule.GetAtomVect()[a]->GetFirstAOIndex();
                int numberAOs = molecule.GetAtomVect()[a]->GetValenceSize();
                for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
-                  (*atomicElectronPopulationCIS)[k][a] += orbitalElectronPopulationCIS[k][i][i];
+                  (*atomicElectronPopulationCIS)[k][a] += orbitalElectronPopulationDiagCIS[k][i];
                }
             }// end of try-region
             catch(MolDSException ex){
@@ -1898,8 +1896,11 @@ void ZindoS::CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationC
 }
 
 void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationCIS,
-                                             double const* const* const* orbitalElectronPopulationCIS, 
-                                             const Molecule& molecule) const{
+                                             double const* const* orbitalElectronPopulationDiagCIS, 
+                                             double const* const* orbitalElectronPopulation, 
+                                             const MolDS_base::Molecule& molecule, 
+                                             double const* const* fockMatrix,
+                                             double const* const* matrixCIS) const{
    if(!Parameters::GetInstance()->RequiresMullikenCIS()){
       return;
    }
@@ -1907,6 +1908,10 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
       return;
    }
    int totalNumberAtoms = molecule.GetAtomVect().size();
+   int numberAOs = molecule.GetTotalNumberAOs();
+   int numberOcc = molecule.GetTotalNumberValenceElectrons()/2;
+   int numberActiveOcc = Parameters::GetInstance()->GetActiveOccCIS();
+   int numberActiveVir = Parameters::GetInstance()->GetActiveVirCIS();
    vector<int>* elecStates = Parameters::GetInstance()->GetElectronicStateIndecesMullikenCIS();
    // malloc or initialize free exciton energies
    if(*atomicUnpairedPopulationCIS == NULL){
@@ -1934,22 +1939,65 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
       int calcRank = k%mpiSize;
       if(calcRank == mpiRank){
          #pragma omp parallel for schedule(dynamic, MOLDS_OMP_DYNAMIC_CHUNK_SIZE)
-         for(int a=0; a<totalNumberAtoms; a++){
+         for(int atom=0; atom<totalNumberAtoms; atom++){
             try{
-               int firstAOIndex = molecule.GetAtomVect()[a]->GetFirstAOIndex();
-               int numberAOs = molecule.GetAtomVect()[a]->GetValenceSize();
-               (*atomicUnpairedPopulationCIS)[k][a] = 0.0; 
-               for(int i=firstAOIndex; i<firstAOIndex+numberAOs; i++){
+               int firstAOIndex = molecule.GetAtomVect()[atom]->GetFirstAOIndex();
+               int numberAOs = molecule.GetAtomVect()[atom]->GetValenceSize();
+               (*atomicUnpairedPopulationCIS)[k][atom] = 0.0; 
+               for(int mu=firstAOIndex; mu<firstAOIndex+numberAOs; mu++){
                   double orbitalSquarePopulation = 0.0; 
                   int    totalNumberAOs = molecule.GetTotalNumberAOs(); 
-                  for(int j=0; j<totalNumberAOs; j++) {
-                     orbitalSquarePopulation += orbitalElectronPopulationCIS[k][i][j] * orbitalElectronPopulationCIS[k][j][i]; 
+                  for(int nu=0; nu<totalNumberAOs; nu++) {
+
+                     // calculation of off-diag of orbitalElectronPopulationCIS
+                     double oepMuNu=0.0;
+                     double oepNuMu=0.0;
+                     oepMuNu = orbitalElectronPopulation[mu][nu];
+                     oepNuMu = orbitalElectronPopulation[nu][mu];
+                     for(int i=0; i<numberActiveOcc; i++){
+                        int moI = numberOcc - (i+1);
+                        for(int a=0; a<numberActiveVir; a++){
+                           int moA = numberOcc + a;
+                           int slaterDeterminantIndex = this->GetSlaterDeterminantIndex(i,a);
+                           double tmp = 0.0;
+                           tmp = pow(matrixCIS[excitedStateIndex][slaterDeterminantIndex],2.0)
+                              *(-fockMatrix[moI][mu]*fockMatrix[moI][nu] 
+                                    +fockMatrix[moA][mu]*fockMatrix[moA][nu]);
+                           oepMuNu += tmp;
+                           oepNuMu += tmp;
+                           double tmpVal1MuNu=0.0;
+                           double tmpVal1NuMu=0.0;
+                           for(int b=0; b<numberActiveVir; b++){
+                              int moB = numberOcc + b;
+                              if(moB==moA) continue;
+                              int tmpSDIndex = this->GetSlaterDeterminantIndex(i,b);
+                              tmpVal1MuNu += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][nu];
+                              tmpVal1NuMu += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moB][mu];
+                           }
+                           double tmpVal2MuNu=0.0;
+                           double tmpVal2NuMu=0.0;
+                           for(int j=0; j<numberActiveOcc; j++){
+                              int moJ = numberOcc - (j+1);
+                              if(moJ==moI) continue;
+                              int tmpSDIndex = this->GetSlaterDeterminantIndex(j,a);
+                              tmpVal2MuNu += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
+                              tmpVal2NuMu += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][nu];
+                           }
+                           oepMuNu += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
+                              *(fockMatrix[moA][mu]*tmpVal1MuNu + fockMatrix[moI][nu]*tmpVal2MuNu);
+                           oepNuMu += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
+                              *(fockMatrix[moA][nu]*tmpVal1NuMu + fockMatrix[moI][mu]*tmpVal2NuMu);
+                        }
+                     }
+                     orbitalSquarePopulation += oepNuMu * oepNuMu; 
+
                   }
-                  (*atomicUnpairedPopulationCIS)[k][a] += 2.0 * orbitalElectronPopulationCIS[k][i][i] - orbitalSquarePopulation;
+                  (*atomicUnpairedPopulationCIS)[k][atom] += 2.0 * orbitalElectronPopulationDiagCIS[k][mu] 
+                                                          - orbitalSquarePopulation;
                }
             } // end of try-region
             catch(MolDSException ex){
-               #pragma omp critical
+#pragma omp critical
                ex.Serialize(errorStream);
             }
          } // end of a-loop 
@@ -1995,19 +2043,19 @@ void ZindoS::OutputCISResults() const{
       double eneEv = this->excitedEnergies[k]/eV2AU;
       double eneNm = 1.0/(this->excitedEnergies[k]/nmin2AU);
       this->OutputLog(boost::format("%s\t%d\t%e\t%e\t%e\t") 
-         % this->messageExcitedStatesEnergies
-         % (k+1) 
-         % this->excitedEnergies[k]
-         % eneEv
-         % eneNm);
+            % this->messageExcitedStatesEnergies
+            % (k+1) 
+            % this->excitedEnergies[k]
+            % eneEv
+            % eneNm);
 
       // sort eigen vector coefficeits of CIS and output
       vector<CISEigenVectorCoefficient> cisEigenVectorCoefficients;
       this->SortCISEigenVectorCoefficients(&cisEigenVectorCoefficients, this->matrixCIS[k]);
       for(int l=0; l<Parameters::GetInstance()->GetNumberPrintCoefficientsCIS(); l++){
          this->OutputLog(boost::format("%e (%d -> %d)\t") % cisEigenVectorCoefficients[l].coefficient
-                                                          % cisEigenVectorCoefficients[l].occIndex
-                                                          % cisEigenVectorCoefficients[l].virIndex);
+               % cisEigenVectorCoefficients[l].occIndex
+               % cisEigenVectorCoefficients[l].virIndex);
       }
       this->OutputLog("\n");
    }
@@ -2031,12 +2079,12 @@ void ZindoS::OutputCISResults() const{
       this->OutputLog(this->messageExcitonEnergiesCISTitle);
       for(int k=0; k<Parameters::GetInstance()->GetNumberExcitedStatesCIS(); k++){
          this->OutputLog(boost::format("%s\t%d\t%e\t%e\t%e\t%e\n") 
-                           % this->messageExcitonEnergiesShortCIS
-                           % (k+1) 
-                           %  this->freeExcitonEnergiesCIS[k]
-                           % (this->freeExcitonEnergiesCIS[k]/eV2AU)
-                           % (this->excitedEnergies[k]-this->freeExcitonEnergiesCIS[k])
-                           %((this->excitedEnergies[k]-this->freeExcitonEnergiesCIS[k])/eV2AU));
+               % this->messageExcitonEnergiesShortCIS
+               % (k+1) 
+               %  this->freeExcitonEnergiesCIS[k]
+               % (this->freeExcitonEnergiesCIS[k]/eV2AU)
+               % (this->excitedEnergies[k]-this->freeExcitonEnergiesCIS[k])
+               %((this->excitedEnergies[k]-this->freeExcitonEnergiesCIS[k])/eV2AU));
       }
    }
    this->OutputLog("\n");
@@ -2044,10 +2092,10 @@ void ZindoS::OutputCISResults() const{
    // output Hole density
    if(Parameters::GetInstance()->RequiresHolePlot()){
       MolDS_base_loggers::DensityLogger* holeDensityLogger = new MolDS_base_loggers::HoleDensityLogger(
-                                                                                     *this->molecule, 
-                                                                                     this->fockMatrix, 
-                                                                                     this->matrixCIS, 
-                                                                                     this->theory);
+            *this->molecule, 
+            this->fockMatrix, 
+            this->matrixCIS, 
+            this->theory);
       holeDensityLogger->DrawDensity(*(Parameters::GetInstance()->GetElecIndecesHolePlot()));
       delete holeDensityLogger;
    }
@@ -2055,10 +2103,10 @@ void ZindoS::OutputCISResults() const{
    // output particle density
    if(Parameters::GetInstance()->RequiresParticlePlot()){
       MolDS_base_loggers::DensityLogger* particleDensityLogger = new MolDS_base_loggers::ParticleDensityLogger(
-                                                                                         *this->molecule, 
-                                                                                         this->fockMatrix, 
-                                                                                         this->matrixCIS, 
-                                                                                         this->theory);
+            *this->molecule, 
+            this->fockMatrix, 
+            this->matrixCIS, 
+            this->theory);
       particleDensityLogger->DrawDensity(*(Parameters::GetInstance()->GetElecIndecesParticlePlot()));
       delete particleDensityLogger;
    }
@@ -2078,16 +2126,16 @@ void ZindoS::OutputCISDipole() const{
       temp += pow(this->electronicTransitionDipoleMoments[k][k][ZAxis]+this->coreDipoleMoment[ZAxis],2.0);
       magnitude = sqrt(temp);
       this->OutputLog(boost::format("\t%s\t%d\t%e\t%e\t%e\t%e\t\t%e\t%e\t%e\t%e\n") 
-         % this->messageTotalDipoleMoment
-         % k
-         % (this->electronicTransitionDipoleMoments[k][k][XAxis]+this->coreDipoleMoment[XAxis])
-         % (this->electronicTransitionDipoleMoments[k][k][YAxis]+this->coreDipoleMoment[YAxis])
-         % (this->electronicTransitionDipoleMoments[k][k][ZAxis]+this->coreDipoleMoment[ZAxis])
-         % magnitude
-         % ((this->electronicTransitionDipoleMoments[k][k][XAxis]+this->coreDipoleMoment[XAxis])/debye2AU)
-         % ((this->electronicTransitionDipoleMoments[k][k][YAxis]+this->coreDipoleMoment[YAxis])/debye2AU)
-         % ((this->electronicTransitionDipoleMoments[k][k][ZAxis]+this->coreDipoleMoment[ZAxis])/debye2AU)
-         % (magnitude/debye2AU));
+            % this->messageTotalDipoleMoment
+            % k
+            % (this->electronicTransitionDipoleMoments[k][k][XAxis]+this->coreDipoleMoment[XAxis])
+            % (this->electronicTransitionDipoleMoments[k][k][YAxis]+this->coreDipoleMoment[YAxis])
+            % (this->electronicTransitionDipoleMoments[k][k][ZAxis]+this->coreDipoleMoment[ZAxis])
+            % magnitude
+            % ((this->electronicTransitionDipoleMoments[k][k][XAxis]+this->coreDipoleMoment[XAxis])/debye2AU)
+            % ((this->electronicTransitionDipoleMoments[k][k][YAxis]+this->coreDipoleMoment[YAxis])/debye2AU)
+            % ((this->electronicTransitionDipoleMoments[k][k][ZAxis]+this->coreDipoleMoment[ZAxis])/debye2AU)
+            % (magnitude/debye2AU));
    }
    this->OutputLog("\n");
 
