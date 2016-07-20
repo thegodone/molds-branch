@@ -199,17 +199,20 @@ private:
                                 double const* energiesMO, 
                                 double const* const* matrixCIS,
                                 int matrixCISdimension) const;
-   void CalcOrbitalElectronPopulationCIS(double**** orbitalElectronPopulationCIS, 
+   void CalcOrbitalElectronPopulationCIS(double*** orbitalElectronPopulationDiagCIS, 
                                          double const* const* orbitalElectronPopulation, 
                                          const MolDS_base::Molecule& molecule, 
                                          double const* const* fockMatrix,
                                          double const* const* matrixCIS) const;
    void CalcAtomicElectronPopulationCIS(double*** atomicElectronPopulationCIS,
-                                        double const* const* const* orbitalElectronPopulationCIS, 
+                                        double const* const* orbitalElectronPopulationDiagCIS, 
                                         const MolDS_base::Molecule& molecule) const;
    void CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationCIS,
-                                        double const* const* const* orbitalElectronPopulationCIS, 
-                                        const MolDS_base::Molecule& molecule) const; 
+                                        double const* const* orbitalElectronPopulationDiagCIS, 
+                                        double const* const* orbitalElectronPopulation, 
+                                        const MolDS_base::Molecule& molecule,
+                                        double const* const* fockMatrix,
+                                        double const* const* matrixCIS) const;
    void CalcElectronicTransitionDipoleMomentMatrix(double*** electronicTransitionDipoleMoments,
                                                    double const* const* fockMatrix,
                                                    double const* const* matrixCIS,

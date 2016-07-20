@@ -112,7 +112,7 @@ protected:
    double**     fockMatrix;
    double*      energiesMO;
    double**     orbitalElectronPopulation; //P_{\mu\nu} of (2.50) in J. A. Pople book.
-   double***    orbitalElectronPopulationCIS; 
+   double**     orbitalElectronPopulationDiagCIS; 
    double*      atomicElectronPopulation; //P_{AB} of (3.21) in J. A. Pople book.
    double**     atomicElectronPopulationCIS; 
    double**     atomicUnpairedPopulationCIS; 
