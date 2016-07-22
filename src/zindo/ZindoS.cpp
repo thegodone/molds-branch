@@ -1778,7 +1778,7 @@ void ZindoS::CalcOrbitalElectronPopulationCIS(double*** orbitalElectronPopulatio
                         tmpVal2 += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][mu];
                      }
                      value += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
-                        *(fockMatrix[moA][mu]*tmpVal1 + fockMatrix[moI][mu]*tmpVal2);
+                        *(fockMatrix[moA][mu]*tmpVal1 - fockMatrix[moI][mu]*tmpVal2);
                   }
                }
                (*orbitalElectronPopulationDiagCIS)[k][mu] = value;
@@ -1984,9 +1984,9 @@ void ZindoS::CalcAtomicUnpairedPopulationCIS(double*** atomicUnpairedPopulationC
                               tmpVal2NuMu += matrixCIS[excitedStateIndex][tmpSDIndex]*fockMatrix[moJ][nu];
                            }
                            oepMuNu += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
-                              *(fockMatrix[moA][mu]*tmpVal1MuNu + fockMatrix[moI][nu]*tmpVal2MuNu);
+                              *(fockMatrix[moA][mu]*tmpVal1MuNu - fockMatrix[moI][nu]*tmpVal2MuNu);
                            oepNuMu += matrixCIS[excitedStateIndex][slaterDeterminantIndex]
-                              *(fockMatrix[moA][nu]*tmpVal1NuMu + fockMatrix[moI][mu]*tmpVal2NuMu);
+                              *(fockMatrix[moA][nu]*tmpVal1NuMu - fockMatrix[moI][mu]*tmpVal2NuMu);
                         }
                      }
                      orbitalSquarePopulation += oepNuMu * oepNuMu; 
