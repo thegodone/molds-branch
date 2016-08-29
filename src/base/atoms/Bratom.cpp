@@ -46,7 +46,7 @@ Bratom::~Bratom(){}
 
 void Bratom::SetAtomicParameters(){
    this->atomType = Br;
-   this->atomicMass = 79.9035*Parameters::GetInstance()->GetGMolin2AU();
+   this->atomicMass = 79.90400*Parameters::GetInstance()->GetGMolin2AU();
    this->coreCharge = 7.0;
    this->numberValenceElectrons = 7;
    this->valenceShellType = lShell;
