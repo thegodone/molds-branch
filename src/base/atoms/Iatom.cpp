@@ -46,7 +46,7 @@ Iatom::~Iatom(){}
 
 void Iatom::SetAtomicParameters(){
    this->atomType = I;
-   this->atomicMass = 100*Parameters::GetInstance()->GetGMolin2AU();
+   this->atomicMass = 126.904473*Parameters::GetInstance()->GetGMolin2AU();
    this->coreCharge = 7.0;
    this->numberValenceElectrons = 7;
    this->valenceShellType = lShell;
