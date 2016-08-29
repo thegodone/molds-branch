@@ -193,6 +193,30 @@ protected:
    double am1DBondingParameterS; // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
    double am1DBondingParameterP; // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
    double am1DAlpha;             // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+
+   double rm1CoreintegralS;     // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1CoreintegralP;     // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1OrbitalExponentS;  // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1OrbitalExponentP;  // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1BondingParameterS; // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1BondingParameterP; // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1Alpha;             // Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1Gss;  // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double rm1Gpp;  // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double rm1Gsp;  // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double rm1Gpp2; // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double rm1Hsp;  // See the section "Parameters" in [DZHS_1985]. Table I in [BDL_1975] for H, B, C, N, O, F, Si, P, S, and Cl. Table I in re. [DY_1990] for S.
+   double rm1DerivedParameterD[3];    // Calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
+   double rm1DerivedParameterRho[3];  // Calculated by tools/deriveParametersNDDO/deriveParametersNDDO.cpp.
+   double rm1ParameterK[4];// Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1ParameterL[4];// Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1ParameterM[4];// Table I in [DZHS_1985] for H, C, N, and O. Table I in [DZ_1988] for F, Cl, Br, and I. Table I in re. [DY_1990] for S.
+   double rm1DCoreintegralS;     // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double rm1DCoreintegralP;     // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double rm1DBondingParameterS; // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double rm1DBondingParameterP; // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+   double rm1DAlpha;             // Table II in [MH_2007] for H, C, N, and O. Table IV in [MMHBV_2007] for S.
+
    double pm3CoreintegralS;     // Table II in [S_1989].
    double pm3CoreintegralP;     // Table II in [S_1989].
    double pm3OrbitalExponentS;  // Table II in [S_1989].
@@ -304,6 +328,7 @@ private:
    double GetZindoCoreIntegral(MolDS_base::OrbitalType orbital) const; // Eq. (13) in [BZ_1979]
    double GetMndoCoreIntegral(MolDS_base::OrbitalType orbital) const; 
    double GetAm1CoreIntegral(MolDS_base::OrbitalType orbital) const; 
+   double GetRm1CoreIntegral(MolDS_base::OrbitalType orbital) const; 
    double GetAm1DCoreIntegral(MolDS_base::OrbitalType orbital) const; 
    double GetPm3CoreIntegral(MolDS_base::OrbitalType orbital) const; 
    double GetPm3DCoreIntegral(MolDS_base::OrbitalType orbital) const; 
