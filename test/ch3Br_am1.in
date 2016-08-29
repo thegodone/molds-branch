@@ -12,6 +12,15 @@ SCF
    diis_end_error 0.0
 SCF_END
 
+OPTIMIZATION
+   method conjugate_gradient
+   total_steps 50
+   electronic_state 0
+   max_gradient 0.00045
+   rms_gradient 0.00030
+   dt 50
+OPTIMIZATION_END
+
 GEOMETRY
   C                 -0.23992322    0.60460652    0.00000000
   H                  0.11673121   -0.40420349    0.00000000
