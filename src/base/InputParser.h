@@ -210,6 +210,7 @@ private:
    std::string stringTheoryMNDO;
    std::string stringTheoryAM1;
    std::string stringTheoryAM1D;
+   std::string stringTheoryRM1;
    std::string stringTheoryPM3;
    std::string stringTheoryPM3D;
    std::string stringTheoryPM3PDDG;

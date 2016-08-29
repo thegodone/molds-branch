@@ -290,6 +290,7 @@ void InputParser::SetMessages(){
    this->stringTheoryZINDOS  = "zindo/s";
    this->stringTheoryMNDO    = "mndo";
    this->stringTheoryAM1     = "am1";
+   this->stringTheoryRM1     = "rm1";
    this->stringTheoryAM1D    = "am1-d";
    this->stringTheoryPM3     = "pm3";
    this->stringTheoryPM3D    = "pm3-d";
@@ -581,6 +582,12 @@ int InputParser::ParseMolecularConfiguration(Molecule* molecule, vector<string>*
       else if((*inputTerms)[parseIndex] == "zn"){
          atomType = Zn;
       }
+      else if((*inputTerms)[parseIndex] == "br"){
+         atomType = Br;
+      }
+      else if((*inputTerms)[parseIndex] == "i"){
+         atomType = I;
+      }
       int index = molecule->GetRealAtomVect().size() + molecule->GetGhostAtomVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
       molecule->AddRealAtom(atom);
@@ -622,6 +629,12 @@ int InputParser::ParseGhostsConfiguration(Molecule* molecule, vector<string>* in
       }
       else if((*inputTerms)[parseIndex] == "zn"){
          atomType = ghostZn;
+      }
+      else if((*inputTerms)[parseIndex] == "br"){
+         atomType = ghostBr;
+      }
+      else if((*inputTerms)[parseIndex] == "i"){
+         atomType = ghostI;
       }
       int index = molecule->GetRealAtomVect().size() + molecule->GetGhostAtomVect().size();
       Atom* atom = AtomFactory::Create(atomType, index, x, y, z);
@@ -1449,6 +1462,10 @@ int InputParser::ParseTheory(vector<string>* inputTerms, int parseIndex) const{
       else if((*inputTerms)[parseIndex].compare(this->stringTheoryAM1) == 0){
          Parameters::GetInstance()->SetCurrentTheory(AM1);
       }
+      // RM1
+      else if((*inputTerms)[parseIndex].compare(this->stringTheoryRM1) == 0){
+         Parameters::GetInstance()->SetCurrentTheory(RM1);
+      }
       // AM1-D
       else if((*inputTerms)[parseIndex].compare(this->stringTheoryAM1D) == 0){
          Parameters::GetInstance()->SetCurrentTheory(AM1D);
@@ -1710,6 +1727,7 @@ void InputParser::ValidateEpcConditions(const Molecule& molecule) const{
    // Validate theory
    if(theory == MNDO || 
       theory == AM1  || 
+      theory == RM1  || 
       theory == AM1D || 
       theory == PM3  || 
       theory == PM3D || 
