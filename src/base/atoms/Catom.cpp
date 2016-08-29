@@ -115,13 +115,7 @@ void Catom::SetAtomicParameters(){
    this->mndoDerivedParameterD[2] =   0.6851577737;    
    this->mndoDerivedParameterRho[0] = 0.5/0.4494406369;  
    this->mndoDerivedParameterRho[1] = 0.5/0.6149309919;
-   this->mndoDerivedParameterRho[2] = 0.5/0.6685771472;  
-   //this->mndoDerivedParameterD[0] =   0.0;
-   //this->mndoDerivedParameterD[1] =   0.427284 * Parameters::GetInstance()->GetAngstrom2AU();    
-   //this->mndoDerivedParameterD[2] =   0.362563 * Parameters::GetInstance()->GetAngstrom2AU();    
-   //this->mndoDerivedParameterRho[0] = 0.588660 * Parameters::GetInstance()->GetAngstrom2AU();  
-   //this->mndoDerivedParameterRho[1] = 0.430254 * Parameters::GetInstance()->GetAngstrom2AU();  
-   //this->mndoDerivedParameterRho[2] = 0.395734 * Parameters::GetInstance()->GetAngstrom2AU();  
+   this->mndoDerivedParameterRho[2] = 0.5/0.6685771472;
    this->am1CoreintegralS = -52.028658 * Parameters::GetInstance()->GetEV2AU();         
    this->am1CoreintegralP = -39.614239 * Parameters::GetInstance()->GetEV2AU();         
    this->am1OrbitalExponentS = 1.808665;      
