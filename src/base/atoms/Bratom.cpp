@@ -76,6 +76,7 @@ void Bratom::SetAtomicParameters(){
    this->imuAmuP = 11.080*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.0;
    // END ????
+   this->mndoHeatsFormAtom =  26.735 * Parameters::GetInstance()->GetKcalMolin2AU(); //Handbook of Bond Dissociation Energies in Organic Compounds
    // from MOPAC 7 ok
    this->mndoGss = 15.03643948 * Parameters::GetInstance()->GetEV2AU();   
    this->mndoGpp = 11.27632539 * Parameters::GetInstance()->GetEV2AU();   

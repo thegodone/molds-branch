@@ -83,6 +83,7 @@ void Iatom::SetAtomicParameters(){
    this->mndoGpp2 =  9.9140907 * Parameters::GetInstance()->GetEV2AU();  
    this->mndoHsp =   2.4563820 * Parameters::GetInstance()->GetEV2AU();   
    // END OK MOPAC
+   this->mndoHeatsFormAtom =  25.516 * Parameters::GetInstance()->GetKcalMolin2AU(); //Handbook of Bond Dissociation Energies in Organic Compounds
    // what about this ? in ORCA it's look like
    this->effectiveNuclearChargeK = 8.7;
    this->effectiveNuclearChargeL = 5.20;
