@@ -43,6 +43,9 @@
 #include"../base/atoms/Fatom.h"
 #include"../base/atoms/Satom.h"
 #include"../base/atoms/Clatom.h"
+#include"../base/atoms/Bratom.h"
+#include"../base/atoms/Iatom.h"
+#include"../base/atoms/Patom.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
 #include"../cndo/Cndo2.h"
@@ -141,6 +144,11 @@ void Am1D::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(F);
    this->enableAtomTypes.push_back(S);
    this->enableAtomTypes.push_back(Cl);
+   this->enableAtomTypes.push_back(Br);
+   this->enableAtomTypes.push_back(I);
+   this->enableAtomTypes.push_back(P);
+
+
 }
 
 
