@@ -76,21 +76,38 @@ void Iatom::SetAtomicParameters(){
    this->imuAmuP = 11.080*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.0;
    // END ????
-   // from MOPAC 7 ok not sure!!!
-   this->mndoGss =  15.0404486 * Parameters::GetInstance()->GetEV2AU();   
-   this->mndoGpp =  11.1477837 * Parameters::GetInstance()->GetEV2AU();   
-   this->mndoGsp =  13.0565580 * Parameters::GetInstance()->GetEV2AU();   
-   this->mndoGpp2 =  9.9140907 * Parameters::GetInstance()->GetEV2AU();  
-   this->mndoHsp =   2.4563820 * Parameters::GetInstance()->GetEV2AU();   
-   // END OK MOPAC
-   this->mndoHeatsFormAtom =  25.516 * Parameters::GetInstance()->GetKcalMolin2AU(); //Handbook of Bond Dissociation Energies in Organic Compounds
    // what about this ? in ORCA it's look like
    this->effectiveNuclearChargeK = 8.7;
    this->effectiveNuclearChargeL = 5.20;
    this->effectiveNuclearChargeMsp = 0.0;
    this->effectiveNuclearChargeMd = 0.0;
    // END what about this ? in ORCA it's look like
+   // from MOPAC 7 + Extension of the PDDG/PM3 and PDDG/MNDO Semiempirical Molecular Orbital Methods to the Halogens
+   // J Comput Chem 25: 138 –150, 2004
+   this->mndoCoreintegralS = -100.003054 * Parameters::GetInstance()->GetEV2AU();
+   this->mndoCoreintegralP = -74.611469 * Parameters::GetInstance()->GetEV2AU();
+   this->mndoOrbitalExponentS = 2.272961;
+   this->mndoOrbitalExponentP = 2.169498;
+   this->mndoBondingParameterS = -7.414451 * Parameters::GetInstance()->GetEV2AU();
+   this->mndoBondingParameterP = -6.196781 * Parameters::GetInstance()->GetEV2AU();     
+   this->mndoAlpha = 2.445705 / Parameters::GetInstance()->GetAngstrom2AU();        
+   this->mndoElecEnergyAtom = -340.598360 * Parameters::GetInstance()->GetEV2AU();        
+   this->mndoHeatsFormAtom =  25.516 * Parameters::GetInstance()->GetKcalMolin2AU(); //Handbook of Bond Dissociation Energies in Organic Compounds
+   this->mndoGss =  15.0404486 * Parameters::GetInstance()->GetEV2AU();   
+   this->mndoGpp =  11.1477837 * Parameters::GetInstance()->GetEV2AU();   
+   this->mndoGsp =  13.0565580 * Parameters::GetInstance()->GetEV2AU();   
+   this->mndoGpp2 =  9.9140907 * Parameters::GetInstance()->GetEV2AU();  
+   this->mndoHsp =   2.4563820 * Parameters::GetInstance()->GetEV2AU();   
+   this->mndoDerivedParameterD[0] =   0;
+   this->mndoDerivedParameterD[1] =   0;
+   this->mndoDerivedParameterD[2] =   0;
+   this->mndoDerivedParameterRho[0] = 0.5/1;
+   this->mndoDerivedParameterRho[1] = 0.5/1;
+   this->mndoDerivedParameterRho[2] = 0.5/1;
+   // END OK MOPAC & J Comput Chem 25: 138 –150, 2004
    // OK came from MOPAC 7 & ORIGINAL PUBLICATION
+
+
    this->am1CoreintegralS = -103.589663 * Parameters::GetInstance()->GetEV2AU();         
    this->am1CoreintegralP = -74.429997 * Parameters::GetInstance()->GetEV2AU();         
    this->am1OrbitalExponentS = 2.102858;
