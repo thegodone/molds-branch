@@ -56,6 +56,10 @@
 #include"../base/atoms/Fatom.h"
 #include"../base/atoms/Satom.h"
 #include"../base/atoms/Clatom.h"
+#include"../base/atoms/Bratom.h"
+#include"../base/atoms/Iatom.h"
+#include"../base/atoms/Patom.h"
+
 #include"../base/Molecule.h"
 #include"../base/GTOExpansionSTO.h"
 #include"../base/loggers/MOLogger.h"
@@ -288,9 +292,12 @@ void Cndo2::SetEnableAtomTypes(){
    //this->enableAtomTypes.push_back(Mg);
    //this->enableAtomTypes.push_back(Al);
    //this->enableAtomTypes.push_back(Si);
-   //this->enableAtomTypes.push_back(P);
+   this->enableAtomTypes.push_back(P);
    this->enableAtomTypes.push_back(S);
    this->enableAtomTypes.push_back(Cl);
+   this->enableAtomTypes.push_back(Br);
+   this->enableAtomTypes.push_back(I);
+
 }
 
 void Cndo2::SetEnableAtomTypesVdW(){
@@ -302,6 +309,10 @@ void Cndo2::SetEnableAtomTypesVdW(){
    this->enableAtomTypesVdW.push_back(F);
    this->enableAtomTypesVdW.push_back(S);
    this->enableAtomTypesVdW.push_back(Cl);
+   this->enableAtomTypesVdW.push_back(Br);
+   this->enableAtomTypesVdW.push_back(I);
+   this->enableAtomTypesVdW.push_back(P);
+
 }
 
 TheoryType Cndo2::GetTheoryType() const{
