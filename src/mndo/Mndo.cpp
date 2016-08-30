@@ -52,6 +52,8 @@
 #include"../base/atoms/Fatom.h"
 #include"../base/atoms/Satom.h"
 #include"../base/atoms/Clatom.h"
+#include"../base/atoms/Bratom.h"
+#include"../base/atoms/Iatom.h"
 #include"../base/atoms/mm/EnvironmentalPointCharge.h"
 #include"../base/Molecule.h"
 #include"../base/ElectronicStructure.h"
@@ -226,6 +228,9 @@ void Mndo::SetEnableAtomTypes(){
    this->enableAtomTypes.push_back(S);
    this->enableAtomTypes.push_back(Cl);
    this->enableAtomTypes.push_back(Zn);
+   this->enableAtomTypes.push_back(Br);
+   this->enableAtomTypes.push_back(I);
+
 }
 
 double Mndo::GetAuxiliaryDiatomCoreRepulsionEnergy(const Atom& atomA, 
