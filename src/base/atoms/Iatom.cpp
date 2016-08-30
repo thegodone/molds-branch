@@ -107,7 +107,6 @@ void Iatom::SetAtomicParameters(){
    // END OK MOPAC & J Comput Chem 25: 138 –150, 2004
    // OK came from MOPAC 7 & ORIGINAL PUBLICATION
 
-
    this->am1CoreintegralS = -103.589663 * Parameters::GetInstance()->GetEV2AU();         
    this->am1CoreintegralP = -74.429997 * Parameters::GetInstance()->GetEV2AU();         
    this->am1OrbitalExponentS = 2.102858;
