@@ -1,0 +1,57 @@
+=====  NDDO parameters =====
+orbital exponent S in [a.u.] = 5.3484600000
+orbital exponent P in [a.u.] = 2.1275900000
+Gss in [a.u.] = 0.5859054036
+Gpp in [a.u.] = 0.3043835060
+Gsp in [a.u.] = 0.5902511602
+Gpp2 in [a.u.] = 0.2872616184
+Hsp in [a.u.] = 0.0212728742
+Hpp = 0.5*(Gpp - Gpp2)
+
+
+=====  NDDO derived parameters =====
+D1 in [a.u.] = 0.2759020877
+D2 in [a.u.] = 0.9970531651
+AM in [a.u.] = 0.5859054036
+
+iter=0	AD in [a.u.] = 0.6689419044
+iter=1	AD in [a.u.] = 0.6757101770
+iter=2	AD in [a.u.] = 0.6755232249
+iter=3	AD in [a.u.] = 0.6755247693
+iter=4	AD in [a.u.] = 0.6755247696
+iter=5	AD in [a.u.] = 0.6755247696
+iter=6	AD in [a.u.] = 0.6755247696
+iter=7	AD in [a.u.] = 0.6755247696
+iter=8	AD in [a.u.] = 0.6755247696
+iter=9	AD in [a.u.] = 0.6755247696
+iter=10	AD in [a.u.] = 0.6755247696
+iter=11	AD in [a.u.] = 0.6755247696
+iter=12	AD in [a.u.] = 0.6755247696
+iter=13	AD in [a.u.] = 0.6755247696
+iter=14	AD in [a.u.] = 0.6755247696
+iter=15	AD in [a.u.] = 0.6755247696
+iter=16	AD in [a.u.] = 0.6755247696
+iter=17	AD in [a.u.] = 0.6755247696
+iter=18	AD in [a.u.] = 0.6755247696
+iter=19	AD in [a.u.] = nan
+
+iter=0	AQ in [a.u.] = 0.3399335307
+iter=1	AQ in [a.u.] = 0.3932942189
+iter=2	AQ in [a.u.] = 0.3810782878
+iter=3	AQ in [a.u.] = 0.3823303692
+iter=4	AQ in [a.u.] = 0.3823654607
+iter=5	AQ in [a.u.] = 0.3823653455
+iter=6	AQ in [a.u.] = 0.3823653455
+iter=7	AQ in [a.u.] = 0.3823653455
+iter=8	AQ in [a.u.] = 0.3823653455
+iter=9	AQ in [a.u.] = 0.3823653455
+iter=10	AQ in [a.u.] = nan
+iter=11	AQ in [a.u.] = nan
+iter=12	AQ in [a.u.] = nan
+iter=13	AQ in [a.u.] = nan
+iter=14	AQ in [a.u.] = nan
+iter=15	AQ in [a.u.] = nan
+iter=16	AQ in [a.u.] = nan
+iter=17	AQ in [a.u.] = nan
+iter=18	AQ in [a.u.] = nan
+iter=19	AQ in [a.u.] = nan
