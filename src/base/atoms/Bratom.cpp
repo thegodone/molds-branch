@@ -219,6 +219,10 @@ void Bratom::SetAtomicParameters(){
    this->pm3PddgParameterPa[1] = 0.008849 * Parameters::GetInstance()->GetEV2AU();
    this->pm3PddgParameterDa[0] = 1.852030 * Parameters::GetInstance()->GetAngstrom2AU();
    this->pm3PddgParameterDa[1] = 2.338958 * Parameters::GetInstance()->GetAngstrom2AU();
-
+   this->pm3DCoreintegralS = this->pm3CoreintegralS;
+   this->pm3DCoreintegralP = this->pm3CoreintegralP;
+   this->pm3DBondingParameterS = this->pm3BondingParameterS;
+   this->pm3DBondingParameterP = this->pm3BondingParameterP;
+   this->pm3DAlpha = this->pm3Alpha;
 }
 }
