@@ -43,6 +43,7 @@
 #include"../atoms/Bratom.h"
 #include"../atoms/Znatom.h"
 #include"../atoms/Iatom.h"
+#include"../atoms/Patom.h"
 #include"../atoms/ghost/Ghost.h"
 #include"../atoms/ghost/GhostHatom.h"
 #include"../atoms/ghost/GhostLiatom.h"
@@ -55,6 +56,7 @@
 #include"../atoms/ghost/GhostBratom.h"
 #include"../atoms/ghost/GhostZnatom.h"
 #include"../atoms/ghost/GhostIatom.h"
+#include"../atoms/ghost/GhostPatom.h"
 #include"../atoms/mm/EnvironmentalPointCharge.h"
 #include"AtomFactory.h"
 using namespace std;
@@ -103,6 +105,9 @@ Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, doub
    else if(atomType == I){
       atom = new Iatom(index);
    }
+   else if(atomType == P){
+      atom = new Iatom(index);
+   }
    else if(atomType == ghostH){
       atom = new GhostHatom(index);
    }
@@ -134,6 +139,9 @@ Atom* AtomFactory::Create(AtomType atomType, int index, double x, double y, doub
       atom = new GhostZnatom(index);
    }
    else if(atomType == ghostI){
+      atom = new GhostIatom(index);
+   }
+   else if(atomType == ghostP){
       atom = new GhostIatom(index);
    }
    else{
