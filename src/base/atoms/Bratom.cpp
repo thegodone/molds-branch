@@ -136,6 +136,11 @@ void Bratom::SetAtomicParameters(){
    this->am1ParameterM[1] = 2.30 * Parameters::GetInstance()->GetAngstrom2AU();
    this->am1ParameterM[2] = 0.00 * Parameters::GetInstance()->GetAngstrom2AU();
    this->am1ParameterM[3] = 0.00 * Parameters::GetInstance()->GetAngstrom2AU();
+   this->am1DCoreintegralS = this->am1CoreintegralS;
+   this->am1DCoreintegralP = this->am1CoreintegralP;
+   this->am1DBondingParameterS = this->am1BondingParameterS;
+   this->am1DBondingParameterP = this->am1BondingParameterP;
+   this->am1DAlpha = this->am1DAlpha;
    this->rm1CoreintegralS = -113.4839818 * Parameters::GetInstance()->GetEV2AU();    
    this->rm1CoreintegralP = -76.18720023 * Parameters::GetInstance()->GetEV2AU();    
    this->rm1OrbitalExponentS = 5.73157215;

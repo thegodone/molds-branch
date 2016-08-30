@@ -139,7 +139,11 @@ void Iatom::SetAtomicParameters(){
    this->am1ParameterM[1] = 2.24 * Parameters::GetInstance()->GetAngstrom2AU();
    this->am1ParameterM[2] = 0.00 * Parameters::GetInstance()->GetAngstrom2AU();
    this->am1ParameterM[3] = 0.00 * Parameters::GetInstance()->GetAngstrom2AU();
-
+   this->am1DCoreintegralS = this->am1CoreintegralS;
+   this->am1DCoreintegralP = this->am1CoreintegralP;
+   this->am1DBondingParameterS = this->am1BondingParameterS;
+   this->am1DBondingParameterP = this->am1BondingParameterP;
+   this->am1DAlpha = this->am1DAlpha;
    this->rm1CoreintegralS = -74.89997837 * Parameters::GetInstance()->GetEV2AU();    
    this->rm1CoreintegralP = -51.41023805 * Parameters::GetInstance()->GetEV2AU();    
    this->rm1OrbitalExponentS =  2.53003753;
