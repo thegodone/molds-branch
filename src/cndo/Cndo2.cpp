@@ -59,7 +59,6 @@
 #include"../base/atoms/Bratom.h"
 #include"../base/atoms/Iatom.h"
 #include"../base/atoms/Patom.h"
-
 #include"../base/Molecule.h"
 #include"../base/GTOExpansionSTO.h"
 #include"../base/loggers/MOLogger.h"
