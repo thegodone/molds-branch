@@ -1,0 +1,29 @@
+=====  NDDO parameters =====
+orbital exponent S in [a.u.] = 1.9812800000
+orbital exponent P in [a.u.] = 1.8751500000
+Gss in [a.u.] = 0.4248189705
+Gpp in [a.u.] = 0.2159956945
+Gsp in [a.u.] = 0.1924711704
+Gpp2 in [a.u.] = 0.2685489756
+Hsp in [a.u.] = 0.0286362406
+Hpp = 0.5*(Gpp - Gpp2)
+
+
+=====  NDDO derived parameters =====
+D1 in [a.u.] = 1.0452021761
+D2 in [a.u.] = 0.8923659724
+AM in [a.u.] = 0.4248189705
+
+iter=0	AD in [a.u.] = 0.3139340731
+iter=1	AD in [a.u.] = 0.3283927407
+iter=2	AD in [a.u.] = 0.3275013880
+iter=3	AD in [a.u.] = 0.3275241843
+iter=4	AD in [a.u.] = 0.3275242214
+iter=5	AD in [a.u.] = 0.3275242214
+iter=6	AD in [a.u.] = 0.3275242214
+iter=7	AD in [a.u.] = 0.3275242214
+iter=8	AD in [a.u.] = 0.3275242214
+iter=9	AD in [a.u.] = 0.3275242214
+iter=10	AD in [a.u.] = nan
+
+iter=0	AQ in [a.u.] = nan
