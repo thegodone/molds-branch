@@ -116,12 +116,6 @@ void Oatom::SetAtomicParameters(){
    this->mndoDerivedParameterRho[0] = 0.5/0.5666700426;
    this->mndoDerivedParameterRho[1] = 0.5/0.9592303457;  
    this->mndoDerivedParameterRho[2] = 0.5/0.9495760934;  
-   //this->mndoDerivedParameterD[0] =   0.0;
-   //this->mndoDerivedParameterD[1] =   0.282894 * Parameters::GetInstance()->GetAngstrom2AU();    
-   //this->mndoDerivedParameterD[2] =   0.240043 * Parameters::GetInstance()->GetAngstrom2AU();    
-   //this->mndoDerivedParameterRho[0] = 0.466882 * Parameters::GetInstance()->GetAngstrom2AU();  
-   //this->mndoDerivedParameterRho[1] = 0.275822 * Parameters::GetInstance()->GetAngstrom2AU();  
-   //this->mndoDerivedParameterRho[2] = 0.278628 * Parameters::GetInstance()->GetAngstrom2AU();  
    this->am1CoreintegralS = -97.830000 * Parameters::GetInstance()->GetEV2AU();         
    this->am1CoreintegralP = -78.262380 * Parameters::GetInstance()->GetEV2AU();         
    this->am1OrbitalExponentS = 3.108032;      

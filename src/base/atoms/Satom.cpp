@@ -64,6 +64,7 @@ void Satom::SetAtomicParameters(){
    for(int i=0; i<this->valence.size();i++){
       this->realSphericalHarmonicsIndeces.push_back(new RealSphericalHarmonicsIndex(this->valence[i]));
    }
+   // not in the references list ???
    this->vdWCoefficient = 10.3*Parameters::GetInstance()->GetJ2AU()
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();

@@ -57,10 +57,12 @@ void Catom::SetAtomicParameters(){
    for(int i=0; i<this->valence.size();i++){
       this->realSphericalHarmonicsIndeces.push_back(new RealSphericalHarmonicsIndex(this->valence[i]));
    }
+   // computed using those parameters alpha =23 & s6 = 1.4!
    this->vdWCoefficient = 1.65*Parameters::GetInstance()->GetJ2AU()
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();
    this->vdWRadii = 1.610*Parameters::GetInstance()->GetAngstrom2AU();
+   // 
    this->bondingParameter = -21.0*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuS = 14.051*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuP = 5.572*Parameters::GetInstance()->GetEV2AU();
