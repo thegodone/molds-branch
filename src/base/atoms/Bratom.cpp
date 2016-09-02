@@ -71,24 +71,22 @@ void Bratom::SetAtomicParameters(){
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();
    this->vdWRadii = 1.749*Parameters::GetInstance()->GetAngstrom2AU();
-   /// ???
-   this->bondingParameter = -1*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuS = 1*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuP = 1*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuD = 0.0;
-   // END ????
+
+   /// found in H. L. Hase and A. Schweig  Theoret. chim. Acta 31,215--220 (1973)
+   this->bondingParameter = -22*Parameters::GetInstance()->GetEV2AU(); // see paragraph 2.4
+   this->imuAmuS = 19.630*Parameters::GetInstance()->GetEV2AU(); // see paragraph 2.3
+   this->imuAmuP = 8.400*Parameters::GetInstance()->GetEV2AU(); // see paragraph 2.3
+   this->imuAmuD = 0.0; // see paragraph 2.3
+
    // from http://scientificsentence.net/Equations/Quantum/index.php?key=yes&Integer=slater
    this->effectiveNuclearChargeK   = 34.70;
    this->effectiveNuclearChargeL   = 30.85;
    this->effectiveNuclearChargeMsp = 23.75;
-   this->effectiveNuclearChargeMd  =  13.85;
-   this->effectiveNuclearChargeNsp =  7.6;
+   this->effectiveNuclearChargeMd  = 13.85;
+   this->effectiveNuclearChargeNsp =   7.6;
 
-   // END what about this ? in ORCA it's look like
    // from MOPAC 7 + Extension of the PDDG/PM3 and PDDG/MNDO Semiempirical Molecular Orbital Methods to the Halogens
    // J Comput Chem 25: 138 –150, 2004
-
-
    // ORCA parameter 3.0.1 set
    // see "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
    this->zindoBondingParameterS = -8.0*Parameters::GetInstance()->GetEV2AU();
