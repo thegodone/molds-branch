@@ -66,25 +66,51 @@ void Bratom::SetAtomicParameters(){
       this->realSphericalHarmonicsIndeces.push_back(new RealSphericalHarmonicsIndex(this->valence[i]));
    }
 
-   // values from Grimme 2006!
+   // values from Grimme 2006! computed using those parameters alpha = 20 & s6 = 1.11!
    this->vdWCoefficient = 1.47*Parameters::GetInstance()->GetJ2AU()
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();
    this->vdWRadii = 1.749*Parameters::GetInstance()->GetAngstrom2AU();
    /// ???
-   this->bondingParameter = -39.0*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuS = 32.272*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuP = 11.080*Parameters::GetInstance()->GetEV2AU();
+   this->bondingParameter = -1*Parameters::GetInstance()->GetEV2AU();
+   this->imuAmuS = 1*Parameters::GetInstance()->GetEV2AU();
+   this->imuAmuP = 1*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.0;
    // END ????
    // what about this ? in ORCA it's look like
-   this->effectiveNuclearChargeK = 8.7;
-   this->effectiveNuclearChargeL = 5.20;
+   this->effectiveNuclearChargeK = 1;
+   this->effectiveNuclearChargeL = 1;
    this->effectiveNuclearChargeMsp = 0.0;
    this->effectiveNuclearChargeMd = 0.0;
    // END what about this ? in ORCA it's look like
    // from MOPAC 7 + Extension of the PDDG/PM3 and PDDG/MNDO Semiempirical Molecular Orbital Methods to the Halogens
    // J Comput Chem 25: 138 –150, 2004
+
+
+   // ORCA parameter 3.0.1 set
+   // see "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
+   this->zindoBondingParameterS = -8.0*Parameters::GetInstance()->GetEV2AU();
+   this->zindoBondingParameterD =   0.0*Parameters::GetInstance()->GetEV2AU();
+   this->zindoF0ss = 9.08 * Parameters::GetInstance()->GetEV2AU(); 
+   this->zindoF0sd = 0.0;                   
+   this->zindoF0dd = 0.0;                 
+   this->zindoG1sp = 8.4035 * Parameters::GetInstance()->GetEV2AU();                 
+   this->zindoF2pp = 6.0446 * Parameters::GetInstance()->GetEV2AU();
+   this->zindoG2sd = 0.0;
+   this->zindoG1pd = 0.0;        
+   this->zindoF2pd = 0.0;
+   this->zindoG3pd = 0.0;
+   this->zindoF2dd = 0.0;
+   this->zindoF4dd = 0.0;
+   // end (ORCA 2.8 parameter set)
+
+   this->zindoL = 2;
+   this->zindoM = 5;
+   this->zindoN = 0;
+   this->zindoIonPotS = 1 * Parameters::GetInstance()->GetEV2AU();
+   this->zindoIonPotP = 1 * Parameters::GetInstance()->GetEV2AU();
+   this->zindoIonPotD = 1 * Parameters::GetInstance()->GetEV2AU();
+
    this->mndoCoreintegralS = -99.986441 * Parameters::GetInstance()->GetEV2AU();
    this->mndoCoreintegralP = -75.671308 * Parameters::GetInstance()->GetEV2AU();
    this->mndoOrbitalExponentS = 3.854302;

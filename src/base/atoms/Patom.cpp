@@ -79,6 +79,32 @@ void Patom::SetAtomicParameters(){
    this->imuAmuP = 11.080*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.0;
    // END ????
+   
+
+// ORCA parameter 3.0.1 set
+   // see "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
+   this->zindoBondingParameterS = -15.0*Parameters::GetInstance()->GetEV2AU();
+   this->zindoBondingParameterD =   0.0*Parameters::GetInstance()->GetEV2AU();
+   this->zindoF0ss = 8.86 * Parameters::GetInstance()->GetEV2AU(); 
+   this->zindoF0sd = 0.0;                   
+   this->zindoF0dd = 0.0;                 
+   this->zindoG1sp = 1.0556 * Parameters::GetInstance()->GetEV2AU();                 
+   this->zindoF2pp = 2.9477 * Parameters::GetInstance()->GetEV2AU();
+   this->zindoG2sd = 0.0;
+   this->zindoG1pd = 0.0;        
+   this->zindoF2pd = 0.0;
+   this->zindoG3pd = 0.0;
+   this->zindoF2dd = 0.0;
+   this->zindoF4dd = 0.0;
+   // end (ORCA 2.8 parameter set)
+
+   this->zindoL = 2;
+   this->zindoM = 3;
+   this->zindoN = 0;
+   this->zindoIonPotS = 1 * Parameters::GetInstance()->GetEV2AU();
+   this->zindoIonPotP = 1 * Parameters::GetInstance()->GetEV2AU();
+   this->zindoIonPotD = 1 * Parameters::GetInstance()->GetEV2AU();
+
    this->mndoHeatsFormAtom =  75.57 * Parameters::GetInstance()->GetKcalMolin2AU(); //Handbook of Bond Dissociation Energies in Organic Compounds
    // from MOPAC 7 ok
    this->mndoGss = 11.5600050 * Parameters::GetInstance()->GetEV2AU();   
