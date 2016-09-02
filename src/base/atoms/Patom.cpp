@@ -72,14 +72,13 @@ void Patom::SetAtomicParameters(){
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();
    this->vdWRadii = 1.705*Parameters::GetInstance()->GetAngstrom2AU();
-   // ????
+   // found in pople paper IV table III
+   this->bondingParameter = -15.070*Parameters::GetInstance()->GetEV2AU();
+   ///  found in pople paper IV table II
+   this->imuAmuS = 14.033*Parameters::GetInstance()->GetEV2AU();
+   this->imuAmuP = 5.464*Parameters::GetInstance()->GetEV2AU();
+   this->imuAmuD = 0.5;
 
-   this->bondingParameter = -39.0*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuS = 32.272*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuP = 11.080*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuD = 0.0;
-   // END ????
-   
 
 // ORCA parameter 3.0.1 set
    // see "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
