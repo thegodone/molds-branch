@@ -139,7 +139,7 @@ void Bratom::SetAtomicParameters(){
    this->am1OrbitalExponentP = 2.038333;
    this->am1BondingParameterS = -19.399880 * Parameters::GetInstance()->GetEV2AU();     
    this->am1BondingParameterP = -8.957195 * Parameters::GetInstance()->GetEV2AU();     
-   this->am1Alpha = 2.576546/ Parameters::GetInstance()->GetAngstrom2AU();        
+   this->am1Alpha = 2.576546 / Parameters::GetInstance()->GetAngstrom2AU();        
    this->am1Gss = this->mndoGss;
    this->am1Gpp = this->mndoGpp;
    this->am1Gsp = this->mndoGsp;
