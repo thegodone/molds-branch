@@ -72,9 +72,9 @@ void Iatom::SetAtomicParameters(){
                               /Parameters::GetInstance()->GetAvogadro();
    this->vdWRadii = 1.892*Parameters::GetInstance()->GetAngstrom2AU();
    /// ????
-   this->bondingParameter = -39.0*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuS = 32.272*Parameters::GetInstance()->GetEV2AU();
-   this->imuAmuP = 11.080*Parameters::GetInstance()->GetEV2AU();
+   this->bondingParameter = -1*Parameters::GetInstance()->GetEV2AU();
+   this->imuAmuS = 1*Parameters::GetInstance()->GetEV2AU();
+   this->imuAmuP = 1*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.0;
    // END ????
 
