@@ -73,6 +73,7 @@ void Satom::SetAtomicParameters(){
    this->imuAmuS = 17.650*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuP = 6.989*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.713*Parameters::GetInstance()->GetEV2AU();
+   
    this->effectiveNuclearChargeK = 15.70;
    this->effectiveNuclearChargeL = 11.85;
    if(Parameters::GetInstance()->GetCurrentTheory() == ZINDOS){
@@ -81,8 +82,9 @@ void Satom::SetAtomicParameters(){
    }
    else{
       this->effectiveNuclearChargeMsp = 5.45;
-      this->effectiveNuclearChargeMd = 5.45;
+      this->effectiveNuclearChargeMd = 5.45; // why not zero?
    }
+
    this->indoG1 = 0.0;
    this->indoF2 = 0.0;
    this->indoF0CoefficientS = 0.0;

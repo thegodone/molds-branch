@@ -66,21 +66,28 @@ void Iatom::SetAtomicParameters(){
       this->realSphericalHarmonicsIndeces.push_back(new RealSphericalHarmonicsIndex(this->valence[i]));
    }
 
-   // ????
+   // values from Grimme 2006! computed using those parameters alpha = 20 & s6 = 1.11!
    this->vdWCoefficient = 31.5*Parameters::GetInstance()->GetJ2AU()
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();
    this->vdWRadii = 1.892*Parameters::GetInstance()->GetAngstrom2AU();
+   /// ????
    this->bondingParameter = -39.0*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuS = 32.272*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuP = 11.080*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.0;
    // END ????
-   // what about this ? in ORCA it's look like
-   this->effectiveNuclearChargeK = 8.7;
-   this->effectiveNuclearChargeL = 5.20;
-   this->effectiveNuclearChargeMsp = 0.0;
-   this->effectiveNuclearChargeMd = 0.0;
+
+   // from http://scientificsentence.net/Equations/Quantum/index.php?key=yes&Integer=slater
+   this->effectiveNuclearChargeK   = 52.7;
+   this->effectiveNuclearChargeL   = 48.85;
+   this->effectiveNuclearChargeMsp = 41.75;
+   this->effectiveNuclearChargeMd  = 31.85;
+   this->effectiveNuclearChargeNsp = 25.25;
+   //this->effectiveNuclearChargeNd =  13.85;
+   //this->effectiveNuclearChargePsp = 7.6;
+
+
    // END what about this ? in ORCA it's look like
    // from MOPAC 7 + Extension of the PDDG/PM3 and PDDG/MNDO Semiempirical Molecular Orbital Methods to the Halogens
    // J Comput Chem 25: 138 –150, 2004

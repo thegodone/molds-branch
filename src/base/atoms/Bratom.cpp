@@ -77,11 +77,13 @@ void Bratom::SetAtomicParameters(){
    this->imuAmuP = 1*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.0;
    // END ????
-   // what about this ? in ORCA it's look like
-   this->effectiveNuclearChargeK = 1;
-   this->effectiveNuclearChargeL = 1;
-   this->effectiveNuclearChargeMsp = 0.0;
-   this->effectiveNuclearChargeMd = 0.0;
+   // from http://scientificsentence.net/Equations/Quantum/index.php?key=yes&Integer=slater
+   this->effectiveNuclearChargeK   = 34.70;
+   this->effectiveNuclearChargeL   = 30.85;
+   this->effectiveNuclearChargeMsp = 23.75;
+   this->effectiveNuclearChargeMd  =  13.85;
+   this->effectiveNuclearChargeNsp =  7.6;
+
    // END what about this ? in ORCA it's look like
    // from MOPAC 7 + Extension of the PDDG/PM3 and PDDG/MNDO Semiempirical Molecular Orbital Methods to the Halogens
    // J Comput Chem 25: 138 –150, 2004

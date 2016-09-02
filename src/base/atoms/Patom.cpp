@@ -78,7 +78,11 @@ void Patom::SetAtomicParameters(){
    this->imuAmuS = 14.033*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuP = 5.464*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuD = 0.5;
-
+   // from http://scientificsentence.net/Equations/Quantum/index.php?key=yes&Integer=slater
+   this->effectiveNuclearChargeK = 14.70;
+   this->effectiveNuclearChargeL = 10.85;
+   this->effectiveNuclearChargeMsp = 4.8;
+   this->effectiveNuclearChargeMd = 0.0;
 
 // ORCA parameter 3.0.1 set
    // see "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
