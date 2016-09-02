@@ -126,11 +126,11 @@ void Bratom::SetAtomicParameters(){
    this->mndoGpp2 = 9.85442552 * Parameters::GetInstance()->GetEV2AU();  
    this->mndoHsp =  2.45586832 * Parameters::GetInstance()->GetEV2AU();   
    this->mndoDerivedParameterD[0] =   0;
-   this->mndoDerivedParameterD[1] =   0;
-   this->mndoDerivedParameterD[2] =   0;    
-   this->mndoDerivedParameterRho[0] = 0.5/1;  
-   this->mndoDerivedParameterRho[1] = 0.5/1;
-   this->mndoDerivedParameterRho[2] = 0.5/1;
+   this->mndoDerivedParameterD[1] =   0.6051089606;
+   this->mndoDerivedParameterD[2] =   0.9645833314;    
+   this->mndoDerivedParameterRho[0] = 0.5/0.5525745655;  
+   this->mndoDerivedParameterRho[1] = 0.5/0.7258144984;
+   this->mndoDerivedParameterRho[2] = 0.5/0.5574516009;
    // END OK MOPAC & J Comput Chem 25: 138 –150, 2004
    // OK came from MOPAC 7 & ORIGINAL PUBLICATION
    this->am1CoreintegralS = -104.656063 * Parameters::GetInstance()->GetEV2AU();         

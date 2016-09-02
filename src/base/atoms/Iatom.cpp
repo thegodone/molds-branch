@@ -71,7 +71,7 @@ void Iatom::SetAtomicParameters(){
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();
    this->vdWRadii = 1.892*Parameters::GetInstance()->GetAngstrom2AU();
-   /// ????
+   ///   B. M. Deb and C. A. Coulson J. Chem. SOC. (A), 1971 p 958 not clear how to use the data!
    this->bondingParameter = -1*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuS = 1*Parameters::GetInstance()->GetEV2AU();
    this->imuAmuP = 1*Parameters::GetInstance()->GetEV2AU();
@@ -84,6 +84,7 @@ void Iatom::SetAtomicParameters(){
    this->effectiveNuclearChargeMsp = 41.75;
    this->effectiveNuclearChargeMd  = 31.85;
    this->effectiveNuclearChargeNsp = 25.25;
+   // what to do with Nd and Psp values ???
    //this->effectiveNuclearChargeNd =  13.85;
    //this->effectiveNuclearChargePsp = 7.6;
 
@@ -114,13 +115,13 @@ void Iatom::SetAtomicParameters(){
    // END OK MOPAC & J Comput Chem 25: 138 –150, 2004
    // OK came from MOPAC 7 & ORIGINAL PUBLICATION
 
-   this->am1CoreintegralS = -103.589663 * Parameters::GetInstance()->GetEV2AU();         
-   this->am1CoreintegralP = -74.429997 * Parameters::GetInstance()->GetEV2AU();         
+   this->am1CoreintegralS = -103.589663 * Parameters::GetInstance()->GetEV2AU();
+   this->am1CoreintegralP = -74.429997 * Parameters::GetInstance()->GetEV2AU();
    this->am1OrbitalExponentS = 2.102858;
    this->am1OrbitalExponentP = 2.161153;
-   this->am1BondingParameterS = -8.443327 * Parameters::GetInstance()->GetEV2AU();     
-   this->am1BondingParameterP = -6.323405 * Parameters::GetInstance()->GetEV2AU();     
-   this->am1Alpha = 2.299424/ Parameters::GetInstance()->GetAngstrom2AU();        
+   this->am1BondingParameterS = -8.443327 * Parameters::GetInstance()->GetEV2AU();
+   this->am1BondingParameterP = -6.323405 * Parameters::GetInstance()->GetEV2AU();
+   this->am1Alpha = 2.299424/ Parameters::GetInstance()->GetAngstrom2AU();
    this->am1Gss = this->mndoGss;
    this->am1Gpp = this->mndoGpp;
    this->am1Gsp = this->mndoGsp;
