@@ -64,6 +64,7 @@ void Clatom::SetAtomicParameters(){
    for(int i=0; i<this->valence.size();i++){
       this->realSphericalHarmonicsIndeces.push_back(new RealSphericalHarmonicsIndex(this->valence[i]));
    }
+   // MSVHM_2008 computed using those parameters alpha =23 & s6 = 1.4!
    this->vdWCoefficient = 8.00*Parameters::GetInstance()->GetJ2AU()
                               *pow(Parameters::GetInstance()->GetNm2AU(),6.0)
                               /Parameters::GetInstance()->GetAvogadro();
@@ -74,13 +75,14 @@ void Clatom::SetAtomicParameters(){
    this->imuAmuD = 0.977*Parameters::GetInstance()->GetEV2AU();
    this->effectiveNuclearChargeK = 16.70;
    this->effectiveNuclearChargeL = 12.85;
+   // why this in ZINDOS 2.13*3 ?
    if(Parameters::GetInstance()->GetCurrentTheory() == ZINDOS){
       this->effectiveNuclearChargeMsp = 2.130*3.0; // from orca 3.0.1
       this->effectiveNuclearChargeMd  = 0.0;       // not used
    }
    else{
       this->effectiveNuclearChargeMsp = 6.10;
-      this->effectiveNuclearChargeMd  = 6.10;
+      this->effectiveNuclearChargeMd  = 6.10;  // should be 2.82 not 6.1 ?
    }
    //this->indoG1 = 0.0;
    //this->indoF2 = 0.0;
