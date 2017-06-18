@@ -15,9 +15,10 @@
 #// GNU General Public License for more details.                           // 
 #//                                                                        // 
 #// You should have received a copy of the GNU General Public License      // 
-#// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.  
+#// along with MolDS.  If not, see <http://www.gnu.org/licenses/>.         //
+# compilation need to complie gcc5, boost, openblas, pthread, omp libs     //
 #//************************************************************************//
-CC = mpic++
+CC = g++
 CFLAGS = -m64 -O0
 override CFLAGS += -fopenmp
 BOOST_TOP_DIR = /usr/local/gcc

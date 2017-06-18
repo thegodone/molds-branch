@@ -1,0 +1,8 @@
+../../wrappers/Blas.cpp:42:9: fatal error: 'cblas.h' file not found
+#include"cblas.h"
+        ^
+1 error generated.
+../../wrappers/Lapack.cpp:47:12: fatal error: 'lapacke.h' file not found
+   #include"lapacke.h"
+           ^
+1 error generated.

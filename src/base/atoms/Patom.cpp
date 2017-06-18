@@ -84,7 +84,7 @@ void Patom::SetAtomicParameters(){
    this->effectiveNuclearChargeMsp = 4.8;
    this->effectiveNuclearChargeMd = 0.0;
 
-// ORCA parameter 3.0.1 set
+   // ORCA parameter 3.0.1 set
    // see "ORCA 2.8"( http://www.thch.uni-bonn.de/tc/orca/ ).
    this->zindoBondingParameterS = -15.0*Parameters::GetInstance()->GetEV2AU();
    this->zindoBondingParameterD =   0.0*Parameters::GetInstance()->GetEV2AU();

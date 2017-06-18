@@ -14,7 +14,7 @@ SCF_END
 
 OPTIMIZATION
    method gediis
-   total_steps 50
+   total_steps 500
    electronic_state 0
    max_gradient 0.00045
    rms_gradient 0.00030
@@ -22,10 +22,6 @@ OPTIMIZATION
 OPTIMIZATION_END
 
 GEOMETRY
- C    -0.183823    -0.002558    -0.003722
-Br     1.750510     0.024363     0.035444
- H    -0.497363    -0.766120    -0.717070
- H    -0.529872     0.984253    -0.314612
- H    -0.539452    -0.239938     0.999960
+H        0.000000    0.000000    0.040853
+Br       0.000000    0.000000   -1.429872
 GEOMETRY_END
-

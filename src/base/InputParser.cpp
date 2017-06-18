@@ -555,11 +555,15 @@ int InputParser::ParseMolecularConfiguration(Molecule* molecule, vector<string>*
       double y = atof((*inputTerms)[parseIndex+2].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
       double z = atof((*inputTerms)[parseIndex+3].c_str()) * Parameters::GetInstance()->GetAngstrom2AU();
       AtomType atomType = H;
+      std::cout << (*inputTerms)[parseIndex] << "\n";
       if((*inputTerms)[parseIndex] == "h"){
         atomType = H;
       }
       else if((*inputTerms)[parseIndex] == "li"){
          atomType = Li;
+      }
+      else if((*inputTerms)[parseIndex] == "cl"){
+         atomType = Cl;
       }
       else if((*inputTerms)[parseIndex] == "c"){
          atomType = C;
@@ -575,9 +579,6 @@ int InputParser::ParseMolecularConfiguration(Molecule* molecule, vector<string>*
       }
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = S;
-      }
-      else if((*inputTerms)[parseIndex] == "cl"){
-         atomType = Cl;
       }
       else if((*inputTerms)[parseIndex] == "zn"){
          atomType = Zn;
@@ -609,6 +610,9 @@ int InputParser::ParseGhostsConfiguration(Molecule* molecule, vector<string>* in
       else if((*inputTerms)[parseIndex] == "li"){
          atomType = ghostLi;
       }
+      else if((*inputTerms)[parseIndex] == "cl"){
+         atomType = ghostCl;
+      }
       else if((*inputTerms)[parseIndex] == "c"){
          atomType = ghostC;
       }
@@ -623,9 +627,6 @@ int InputParser::ParseGhostsConfiguration(Molecule* molecule, vector<string>* in
       }
       else if((*inputTerms)[parseIndex] == "s"){
          atomType = ghostS;
-      }
-      else if((*inputTerms)[parseIndex] == "cl"){
-         atomType = ghostCl;
       }
       else if((*inputTerms)[parseIndex] == "zn"){
          atomType = ghostZn;

@@ -19,3 +19,5 @@
 compile for 32bit OS:
 
 icpc deriveParametersNDDO.cpp -lm
+or
+gcc-5 -o NNDO deriveParametersNDDO.cpp -lm -lstdc++ -m32

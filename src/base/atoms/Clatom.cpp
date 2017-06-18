@@ -35,6 +35,7 @@
 #include"../RealSphericalHarmonicsIndex.h"
 #include"Atom.h"
 #include"Clatom.h"
+
 using namespace std;
 using namespace MolDS_base;
 namespace MolDS_base_atoms{

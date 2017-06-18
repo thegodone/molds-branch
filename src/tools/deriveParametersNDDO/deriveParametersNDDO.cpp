@@ -19,8 +19,11 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<iostream>
+#include<fstream>
+
 #include<sstream>
 #include<math.h>
+#include<cmath>
 #include<string>
 #include<time.h>
 #include<list>
@@ -60,24 +63,67 @@ long double GetAForAQ(long double AQ, long double D2){
    return a;
 }
 
-int main(){
+
+long double SetorbitalExponentS(string line){
+   long double orbitalExponentS; //= (Double)line;
+   return orbitalExponentS;
+}
+
+bool isNumeric( const char* pszInput, int nNumberBase )
+{
+   string base = "-0123456789ABCDEF";
+   string input = pszInput;
+
+   return (input.find_first_not_of(base.substr(0, nNumberBase)) == string::npos);
+}
+
+int main(int argc, char **argv){
+
+/*
+    fstream in;
+    string line;
+    in.open(argv[1]);
+    string theory = argv[2].c_str();
+    string OES = theory+"OrbitalExponentS";
+    while(!in.eof())
+    {
+        in >> line;
+        string sline =line.c_str();
+        std::size_t found = sline.find(OES);
+        if (found!=std::string::npos) {
+               bool lt=true;
+               while(lt) {
+                  in >> line;
+                  lt=isNumeric(line);
+                  cout << "found!" << '\n';
+                  cout << line << '\n';
+               }
+         }
+
+    }
+    in.close();
+   */
+
    // notation is [MOPAC1970]
    // all valuable should be in atomic units.
 
    // following variables should be set as input
    double eV2AU = 0.03674903;
-   long double orbitalExponentS=2.246210;
-   long double orbitalExponentP=2.151010;
-   long double Gss = 16.013601  * eV2AU;
-   long double Gpp =  7.522215  * eV2AU;
-   long double Gsp =  8.048115  * eV2AU;
-   long double Gpp2=  7.504154  * eV2AU;
-   long double Hsp =  3.481153  * eV2AU;
+   long double orbitalExponentS=3.064133;
+   long double orbitalExponentP= 2.038333;
+   long double Gss =15.03643948  * eV2AU;
+   long double Gpp = 11.27632539    * eV2AU;
+   long double Gsp =  13.03468242  * eV2AU;
+   long double Gpp2= 9.85442552  * eV2AU;
+   long double Hsp = 2.45586832    * eV2AU;
    long double Hpp = 0.5*(Gpp - Gpp2);
+
    // n=2 for l-shell (C, N, O and etc.)
    // n=3 for m-shell (S and etc.)
-   // n=4 for n-shell (Zn and etc.)
-   double n=3;
+   // n=4 for n-shell (Zn Brand etc.)
+   // n=5 for I (I Brand etc.)
+
+   double n=4;
 
    // following variables are output
    long double D1=0.0;
@@ -126,7 +172,14 @@ int main(){
       AD = AD_old2 + (AD_old - AD_old2)*(Hsp-a_old2)/(a_old - a_old2);
       AD_old2 = AD_old;
       AD_old = AD;
+
       printf("iter=%d\tAD in [a.u.] = %.10lf\n",n,(double)AD);
+      if (std::isnan((double)AD)) {
+         n=20;
+      }
+      if (std::isinf((double)AD)) {
+         n=20;
+      }
    }
    cout <<endl;
 
@@ -140,6 +193,12 @@ int main(){
       AQ_old2 = AQ_old;
       AQ_old = AQ;
       printf("iter=%d\tAQ in [a.u.] = %.10lf\n",n,(double)AQ);
+      if (std::isnan((double)AQ)) {
+         n=20;
+      }
+      if (std::isinf((double)AQ)) {
+         n=20;
+      }
    }
    return 0;
 }
