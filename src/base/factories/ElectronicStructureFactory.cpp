@@ -44,7 +44,7 @@
 #include"../../mndo/Mndo.h"
 #include"../../am1/Am1.h"
 #include"../../am1/Am1D.h"
-#include"../../rm1/rm1.h"
+#include"../../rm1/Rm1.h"
 #include"../../pm3/Pm3.h"
 #include"../../pm3/Pm3D.h"
 #include"../../pm3/Pm3Pddg.h"
