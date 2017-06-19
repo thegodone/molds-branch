@@ -20,7 +20,7 @@ Docker file is also added in order to simplify the compilation step:
 5. docker run -i -t molds /bin/bash
 
 6. int the docker image you can do:
-  cd molds-branch/src 
+  cd molds-branch/src &&
   ./molds ../test/ch3I_am1_geo.in
   
 7. close the docker image by doing:
