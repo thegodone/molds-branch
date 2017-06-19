@@ -4,7 +4,7 @@ FROM ubuntu:16.04
 RUN apt-get -q update
 RUN apt-get install -qy \
  gfortran g++ libopenmpi-dev openmpi-bin make wget \
- libboost-mpi-dev  libboost-serialization-dev  libboost-thread-dev libboost-system-dev git
+ libboost-mpi-dev  libboost-serialization-dev  libboost-thread-dev libboost-system-dev git vim
 
 # this command work to build openblas with lapack header & include files!
 RUN wget https://github.com/xianyi/OpenBLAS/archive/v0.2.19.tar.gz
