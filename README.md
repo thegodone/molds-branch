@@ -27,4 +27,8 @@ Docker file is also added in order to simplify the compilation step:
   exit
 
 
+# generator of input file
+You need rdkit to convert a smile to a input file using the following code:
 
+# other instructions are available in 
+doc/readme.md file
