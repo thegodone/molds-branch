@@ -28,7 +28,8 @@ Docker file is also added in order to simplify the compilation step:
 
 
 # generator of input file
-You need rdkit to convert a smile to a input file using the following code:
+You need rdkit to convert a smile to a input file using the following code
+rdkit2molds.py
 
-# other instructions are available in 
+# advanced instructions  
 doc/readme.md file
