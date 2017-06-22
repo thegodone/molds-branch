@@ -819,8 +819,6 @@ double Atom::GetNddoDerivedParameterD(TheoryType theory, MultipoleType multipole
          return this->am1DerivedParameterD[dIndex];
          break;
       case RM1:
-         return this->rm1DerivedParameterD[dIndex];
-         break;
       case PM3:
       case PM3D:
          return this->pm3DerivedParameterD[dIndex];
@@ -871,8 +869,6 @@ double Atom::GetNddoDerivedParameterRho(TheoryType theory, MultipoleType multipo
          return this->am1DerivedParameterRho[rhoIndex];
          break;
       case RM1:
-         return this->rm1DerivedParameterRho[rhoIndex];
-         break;
       case PM3:
       case PM3D:
          return this->pm3DerivedParameterRho[rhoIndex];
