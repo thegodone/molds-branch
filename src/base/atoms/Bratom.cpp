@@ -186,8 +186,8 @@ void Bratom::SetAtomicParameters(){
    this->rm1DerivedParameterRho[0] = 0.5 / 0.6289828275;     
    this->rm1DerivedParameterRho[1] = 0.5 / 1.3165461497;     
    this->rm1DerivedParameterRho[2] = 0.5 / 1.0457055880;     
-   this->rm1ParameterK[1] = -0.92731247 * Parameters::GetInstance()->GetEV2AU();
-   this->rm1ParameterK[2] = 0.0 * Parameters::GetInstance()->GetEV2AU();
+   this->rm1ParameterK[1] = 0.98689937 * Parameters::GetInstance()->GetEV2AU();
+   this->rm1ParameterK[2] = -0.92731247 * Parameters::GetInstance()->GetEV2AU();
    this->rm1ParameterK[3] = 0.0 * Parameters::GetInstance()->GetEV2AU();
    this->rm1ParameterL[0] = 4.28484191 / pow(Parameters::GetInstance()->GetAngstrom2AU(),2.0);
    this->rm1ParameterL[1] = 4.5400591  / pow(Parameters::GetInstance()->GetAngstrom2AU(),2.0);
