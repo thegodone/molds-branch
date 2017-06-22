@@ -1,12 +1,14 @@
 # molds-branch
 
-This is a clone of the original projet in subversion:
+original copy v0.4 is located in SVN https://osdn.jp/projects/molds/releases/
 
-https://osdn.jp/projects/molds/releases/
+MolDS ("Mol"ecular "D"ynamics simulation package with "S"emiempirical quantum chemistry) Under developement
+Developers: Mikiya Fujii, Ph.D.(project lead), Katsuhiko Nishimra, and Michihiro Okuyama, Ph.D..
+Other contributors: Michael Banck, Guillaume Godin
 
-the goal is to add more atoms in the computation
+I add new atoms parameters : I, Br, P and we add RM1 support
 
-Docker file is also added in order to simplify the compilation step:
+To simplify compilation step all is available via a Docker file is also added in order to simplify the compilation step:
 
 
 1.install Docker on your computer from there https://www.docker.com/
